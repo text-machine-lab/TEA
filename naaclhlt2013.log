@@ -1,0 +1,141 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=latex 2015.9.3)  30 SEP 2015 13:58
+entering extended mode
+**naaclhlt2013.tex
+(naaclhlt2013.tex
+LaTeX2e <2015/01/01> patch level 2
+Babel <3.9m> and hyphenation patterns for 69 languages loaded.
+(D:\Programs\MiKTeX\tex\latex\base\article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(D:\Programs\MiKTeX\tex\latex\base\size11.clo
+File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (naaclhlt2013.sty
+Conference Style for NAACL-HLT 2012 -- released August 30, 2011
+\titlebox=\skip43
+) (D:\Programs\MiKTeX\tex\latex\psnfss\times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+) (D:\Programs\MiKTeX\tex\latex\base\latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 52.
+) (naaclhlt2013.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 40.
+
+(D:\Programs\MiKTeX\tex\latex\psnfss\ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 41.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 41.
+ (D:\Programs\MiKTeX\tex\latex\base\ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 41.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 41.
+
+Underfull \hbox (badness 1077) in paragraph at lines 41--41
+\OT1/ptm/m/n/9 NAACL-HLT-10 by Clau-dia Lea-cock and Richard Wi-cen-
+ []
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 62.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 63.
+(D:\Programs\MiKTeX\tex\latex\psnfss\omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 63.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 96.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 96.
+ (D:\Programs\MiKTeX\tex\latex\psnfss\ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 96--104
+[]\OT1/ptm/m/n/10.95 NAACL HLT pro-vides this de-scrip-tion in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--104
+\OT1/ptm/m/n/10.95 L[]T[]X2e (\OT1/pcr/m/n/10.95 naaclhlt2013.tex\OT1/ptm/m/n/10.95 ) and PDF
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--104
+\OT1/ptm/m/n/10.95 for-mat (\OT1/pcr/m/n/10.95 naaclhlt2013.pdf\OT1/ptm/m/n/10.95 ), along with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--104
+\OT1/ptm/m/n/10.95 the L[]T[]X2e style file used to for-mat it
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--104
+\OT1/ptm/m/n/10.95 A Mi-crosoft Word tem-plate file
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--104
+\OT1/ptm/m/n/10.95 (\OT1/pcr/m/n/10.95 naaclhlt2013.dot\OT1/ptm/m/n/10.95 ) is also avail-able at
+ []
+
+[1
+
+
+
+
+] [2]
+Underfull \hbox (badness 3058) in paragraph at lines 244--247
+[][]\OT1/ptm/m/n/10.95 The L[]T[]X and BibT[]X style files pro-vided
+ []
+
+[3] [4] (naaclhlt2013.aux) ) 
+Here is how much of TeX's memory you used:
+ 414 strings out of 493674
+ 5168 string characters out of 3147655
+ 62515 words of memory out of 3000000
+ 3807 multiletter control sequences out of 15000+200000
+ 17037 words of font info for 55 fonts, out of 3000000 for 9000
+ 1025 hyphenation exceptions out of 8191
+ 25i,10n,19p,508b,233s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on naaclhlt2013.dvi (4 pages, 22572 bytes).
