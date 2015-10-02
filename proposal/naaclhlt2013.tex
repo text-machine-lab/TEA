@@ -51,19 +51,27 @@
   but remove author-identifying information.
 \end{abstract}
 
-\section{Outline}
+\section{Problem Overview}
 
-\subsection{Tools}
+The goal of this project is to implement a baseline that performs as well as the best competitors for the SemEval 2015 challenge titled QA TempEval. This problem is defined within the task description by the organizers \cite{Llorens:15}. This challenge involves annotating input documents with the TimeML format. Our system is required to annotate tokens within a document as temporal entities: event or temporal expression and to specify temporal relations between the entities. 
 
-The majority of the code base will be created in python using NLTK for preprocessing and numpy/scipy for mathematical functions. However, the paper our system will be based on uses newsreader, in java, for preprocessing. Should any we encounter any features that NLTK cannot extract, we will use Py4J to execute the appropriate java code and access those features. 
+\section{Relevant Literature}
+
+TimeML is a markup specification that is used to represent temporal entities with the aims of providing a rich and informative representation to allow for accurate automatic recognition of temporal relations between entities by software systems \cite{Pustejovsky:03}. According to the TimeML specification, temporal entities are broken down into temporal expressions and events. Events are described as occurrences of situations and states and temporal expressions represent moments in time or durations. Temporal relations are described as the link between related entities that places them in a relative time frame to one another, such as preceding or occurring after.
+
+Part of the challenge of this SemEval task is to create meaningful annotations that allow the QA system provided by the organisers to answer questions accurately. In the proceedings from SemEval 2015 \cite{Chambers:15}, a list of the systems that perform the best annotations was provided, some abstracts were also written describing the methods used to participate in this challenge. HLT-FBK was the system with the best general performance, as described in the SemEval-2015 Task 5 proceedings, because it achieved on average the highest F-measure of all of the systems.
+
+\section{System Overview}
+
+This challenge is a classification problem because it requires us to create a model that will assign specific taggings to tokens. We will be using a Support Vector Machine(SVM) with a polynomial kernel, following the specifications of the winners of the QA TempEval challenge \cite{Mirza:15}. The HLT-FBK  system was divided into three main components: pre-processing, temporal expression extraction, event extraction and temporal relation extraction. For pre-processing the system performed tokenization, parts of speech tagging, event coreference and several other standard pre-processing methods using NewsReader. Our system will be built with Python, so we will use NLTK to perform these functions instead where reasonable. The system utilized one-vs-one multi classification to label temporal expressions and temporal entity pairs. For event extraction, the system used a one-vs-rest multi classification strategy. We will leverage scikit to perform these functions. Any features specified by the HLT-FBK system which cannot be accomplished easily using Python can be built in Java with necessary dependencies and accessed through Py4J.
 
 \section{Evaluation}
 
-Our evaluations will be similar to those used by other participants in the SemEval task. News, blog, and Wikipedia articles will be tagged by our system, and then tested by the question answering system distributed with the test data. The task winner reached a recall score of .30 across all domains, with F1 scores between .25 and .46, depending on the domain. Our goal is to come close to matching this.
+In accordance with the task description \cite{Llorens:15}, we will be using news, blog, and Wikipedia articles to test our system. The corpus will be tagged and then tested by the question answering system distributed with the test data. The task winner reached a recall score of .30 across all domains, with F1 scores between .25 and .46, depending on the domain \cite{Mirza:15}. Our goal is to come close to matching this.
 
 \section{Data Sets}
 
-We will be testing and evaluating on the data distributed for the 2015 SemEval competition, task 5. A QA kit is also distributed for testing our annotations. Test data comes from three domains: news, wiki, and informal blog. 
+We will be testing and evaluating on the data distributed for the 2015 SemEval competition, task 5. A QA kit is also distributed for testing our annotations. Test data comes from three domains: news, wiki, and informal blog. Our training data also comes from the distributed training set for the SemEval Task.
 
 %\section{Introduction}
 %
@@ -342,35 +350,27 @@ We will be testing and evaluating on the data distributed for the 2015 SemEval c
 
 \begin{thebibliography}{}
 
-\bibitem[\protect\citename{Aho and Ullman}1972]{Aho:72}
-Alfred~V. Aho and Jeffrey~D. Ullman.
-\newblock 1972.
-\newblock {\em The Theory of Parsing, Translation and Compiling}, volume~1.
-\newblock Prentice-{Hall}, Englewood Cliffs, NJ.
+%TODO: FIX THE NAME REPRESENTATION AND ORDERING, CHECK INTEXT CITATIONS
 
-\bibitem[\protect\citename{{American Psychological Association}}1983]{APA:83}
-{American Psychological Association}.
-\newblock 1983.
-\newblock {\em Publications Manual}.
-\newblock American Psychological Association, Washington, DC.
+\bibitem[\protect\citename{Llorens \bgroup et al.\egroup}2015]{Llorens:15}
+Hector Llorens, Nate Chambers, Mostafazadeh, N., Allen, J., \& Pustejovsky, J. QA
+\newblock 2015.
+\newblock {\em TempEval: Evaluating Temporal Information Understanding with QA}.
 
-\bibitem[\protect\citename{{Association for Computing Machinery}}1983]{ACM:83}
-{Association for Computing Machinery}.
-\newblock 1983.
-\newblock {\em Computing Reviews}, 24(11):503--512.
+\bibitem[\protect\citename{{Mirza, Minard}}2015]{Mirza:15}
+Mirza, P., \& Minard, A. L.
+\newblock 2015.
+\newblock {\em HLT-FBK: a Complete Temporal Processing System for QA TempEval}.
 
-\bibitem[\protect\citename{Chandra \bgroup et al.\egroup }1981]{Chandra:81}
-Ashok~K. Chandra, Dexter~C. Kozen, and Larry~J. Stockmeyer.
-\newblock 1981.
-\newblock Alternation.
-\newblock {\em Journal of the Association for Computing Machinery},
-  28(1):114--133.
+\bibitem[\protect\citename{{Llorens \bgroup et al.\egroup}}2015]{Chambers:15}
+Llorens, H., Chambers, N., UzZaman, N., Mostafazadeh, N., Allen, J., \& Pustejovsky, J.
+\newblock 2015.
+\newblock {\em SemEval-2015 Task 5: QA TEMPEVAL-Evaluating Temporal Information Understanding with Question Answering}.
 
-\bibitem[\protect\citename{Gusfield}1997]{Gusfield:97}
-Dan Gusfield.
-\newblock 1997.
-\newblock {\em Algorithms on Strings, Trees and Sequences}.
-\newblock Cambridge University Press, Cambridge, UK.
+\bibitem[\protect\citename{Pustejovsky \bgroup et al.\egroup}2003]{Pustejovsky:03}
+Pustejovsky, J., Castano, J. M., Ingria, R., Sauri, R., Gaizauskas, R. J., Setzer, A., ... \& Radev, D. R. 
+\newblock 2003.
+\newblock {\em  TimeML: Robust specification of event and temporal expressions in text. New directions in question answering, 3, 28-34}.
 
 \end{thebibliography}
 
