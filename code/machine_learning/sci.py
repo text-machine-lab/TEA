@@ -9,6 +9,7 @@ def train( featsDict, Y ):
 	vec = DictVectorizer()
 	X = vec.fit_transform(featsDict).toarray()
 
+	#create classifier
 	clf = LinearSVC()
 	clf.fit(X, Y)
 
@@ -18,4 +19,4 @@ def train( featsDict, Y ):
 	if(testval == Y):
 		print 'yes'
 
-	return clf
+	return clf, vec

@@ -43,7 +43,7 @@ def get_tagged_entities(timeml_doc):
         if element.tag in elements:
             elements[element.tag].append(element)
         else:
-            elements[element.tag] = []
+            elements[element.tag] = [element]
 
     return elements
 
