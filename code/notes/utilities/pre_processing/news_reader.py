@@ -18,8 +18,6 @@ def pre_process(text):
     tokenized_text = _tokenize(text)
     pos_tagged_text = _pos_tag(tokenized_text)
 
-    print pos_tagged_text
-
     # TODO: add more processing steps
 
     naf_marked_up_text = pos_tagged_text

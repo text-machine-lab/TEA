@@ -36,7 +36,7 @@ def _get_naf_tokens(ixa_tok_output):
     return naf_tokens
 
 
-def _get_tokens(ixa_tok_output):
+def get_tokens(ixa_tok_output):
 
     tokens = []
 
@@ -52,7 +52,7 @@ def _get_tokens(ixa_tok_output):
 
 
 if __name__ == "__main__":
-    print _get_tokens(news_reader.pre_process(open("test.txt", "rb").read()))
+    print get_tokens(news_reader.pre_process(open("test.txt", "rb").read()))
     pass
 # EOF
 

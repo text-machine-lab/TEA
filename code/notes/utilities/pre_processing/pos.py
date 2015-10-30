@@ -37,7 +37,7 @@ def _get_naf_pos_terms(ixa_tok_output):
     return naf_pos_terms
 
 
-def _get_pos_tags(ixa_tok_output):
+def get_pos_tags(ixa_tok_output):
 
     """
     look here for interpreting pos taggings:
@@ -54,13 +54,13 @@ def _get_pos_tags(ixa_tok_output):
         # I think I can just change t1 to w1, seems like one to one mapping.
         id_str       = naf_term.attrib["id"].replace('t','w')
 
-        pos_tags.append({"pos_tag":pos_tag, "tok_id":id_str})
+        pos_tags.append({"pos_tag":pos_tag, "id":id_str})
 
     return pos_tags
 
 
 if __name__ == "__main__":
-    print _get_pos_tags(news_reader.pre_process(open("test.txt", "rb").read()))
+    print get_pos_tags(news_reader.pre_process(open("test.txt", "rb").read()))
     pass
 # EOF
 
