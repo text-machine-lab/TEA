@@ -2,8 +2,12 @@
 import subprocess
 import os
 import re
+import sys
 
-"/code/notes/NewsReader/tokenization/ixa-pipes-1.1.0-jars/ixa-pipe-tok-1.8.2.jar"
+xml_utilities_path = os.environ["TEA_PATH"] + "/code/notes/utilities"
+sys.path.insert(0, xml_utilities_path)
+
+import xml_utilities
 
 class Tokenizer:
 
@@ -11,28 +15,27 @@ class Tokenizer:
         pass
 
     @staticmethod
-    def tokenizeFile(fPath):
-        # TODO: verify fpath
+    def tokenize(text):
         """ takes in path to a file and then tokenizes it """
         tok = subprocess.Popen(["java",
                                 "-jar",
-                                os.environ["TEA_PATH"] + "/code/notes/NewsReader/tokenization/ixa-pipes-1.1.0-jars/ixa-pipe-tok-1.8.2.jar",
+                                os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-tok-1.8.2.jar",
                                 "tok",
                                 "-l",       # language
-                                "en",
-                                "-o",       # output formatting
-                                "conll"],
+                                "en"],
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE)
 
-        output, _ = tok.communicate(open(fPath, "rb").read())
+        output, _ = tok.communicate(text)
 
-        return Tokenizer._processOutput(output)
+        return Tokenizer._process_output(output)
 
     @staticmethod
-    def _processOutput(conllText):
-        """ process conll output into list of list of tokens """
+    def _process_output(ixa_tok_output):
 
+        root = xml_utilities.get_root_from_str(ixa_tok_output)
+
+        """
         conllText = re.sub("\*\<P\>\*", "\n", conllText)
 
         conllText = conllText.split("\n")
@@ -54,9 +57,11 @@ class Tokenizer:
         groupings = [grouping for grouping in groupings if len(grouping) > 0]
 
         return groupings
+        """
+
 
 if __name__ == "__main__":
-    print Tokenizer.tokenizeFile("test.txt")
+    print Tokenizer.tokenize(open("test.txt", "rb").read())
     pass
 # EOF
 

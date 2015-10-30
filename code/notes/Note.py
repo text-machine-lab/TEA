@@ -1,5 +1,5 @@
 
-import nltk.data
+mport nltk.data
 
 from utilities.note_utils import valid_path
 from utilities.note_utils import load_sentenizer

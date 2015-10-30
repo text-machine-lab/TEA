@@ -2,9 +2,11 @@
 import xml.etree.ElementTree as ET
 from note_utils import valid_path
 
+import xml_utilities
+
 def get_text_element(timeml_doc):
 
-    root = get_root(timeml_doc)
+    root = xml_utilities.get_root(timeml_doc)
 
     text_element = None
 
@@ -14,15 +16,6 @@ def get_text_element(timeml_doc):
             break
 
     return text_element
-
-def get_root(timeml_doc):
-
-    valid_path(timeml_doc)
-
-    tree = ET.parse(timeml_doc)
-    root = tree.getroot()
-
-    return root
 
 def get_raw_text(timeml_doc):
     """ gets raw text of document, xml tags removed """
