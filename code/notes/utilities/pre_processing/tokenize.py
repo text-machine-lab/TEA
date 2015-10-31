@@ -8,6 +8,7 @@ xml_utilities_path = os.environ["TEA_PATH"] + "/code/notes/utilities"
 sys.path.insert(0, xml_utilities_path)
 
 import xml_utilities
+import timeml_utilities
 import news_reader
 
 def _get_text_element(ixa_tok_output):
@@ -44,15 +45,21 @@ def get_tokens(ixa_tok_output):
 
         sentence_num = int(naf_token.attrib["sent"])
         id_string    = naf_token.attrib["id"]
+
+        tok_start    = int(naf_token.attrib["offset"])
+        token_end    = tok_start + int(naf_token.attrib["length"]) - 1
+
         token_text   = naf_token.text
 
-        tokens.append({"token":token_text, "id":id_string, "sentence_num":sentence_num})
+        tokens.append({"token":token_text, "id":id_string, "sentence_num":sentence_num, "start_offset":tok_start, "end_offset":token_end})
 
     return tokens
 
 
 if __name__ == "__main__":
-    print get_tokens(news_reader.pre_process(open("test.txt", "rb").read()))
+    text = timeml_utilities.get_text("APW19980219.0476.tml")
+    print text
+    print get_tokens(news_reader.pre_process(text))
     pass
 # EOF
 

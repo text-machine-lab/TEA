@@ -23,7 +23,19 @@ def get_text(timeml_doc):
 
     text_e = get_text_element(timeml_doc)
 
-    return ET.tostring(text_e, encoding='utf8', method='text')
+    text_e = text_e
+
+    string = list(ET.tostring(text_e, encoding='utf8', method='text'))
+
+    # retains a newline after <TEXT> tag...
+    if string[0] == '\n':
+        string.pop(0)
+
+    if string[-1] == '\n':
+        string.pop(len(string) - 1)
+
+    return "".join(string)
+
 
 def get_tagged_entities(timeml_doc):
     """ gets tagged entities within timeml text """

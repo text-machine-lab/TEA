@@ -28,7 +28,7 @@ def pre_process(text):
     return sentences
 
 if __name__ == "__main__":
-    print pre_process(""" One reason people lie is to achieve personal power. Achieving personal power is helpful for someone who pretends to be more confident than he really is. """)
+#    print pre_process(""" One reason people lie is to achieve personal power. Achieving personal power is helpful for someone who pretends to be more confident than he really is. """)
 
-
+    print pre_process("I wrote a complete sentence. I got a good grade on it")
 
