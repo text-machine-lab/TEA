@@ -17,6 +17,12 @@ def get_root_from_str(xml_doc_contents):
 
     return root
 
+def get_raw_text(xml_tree_element):
+    """ get raw text with xml encodings a string """
+
+    return ET.tostring(xml_tree_element)
+
+
 if __name__ == "__main__":
     print "nothing to do here"
 

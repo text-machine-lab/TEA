@@ -12,12 +12,13 @@ def get_text_element(timeml_doc):
 
     for e in root:
         if e.tag == "TEXT":
+
             text_element = e
             break
 
     return text_element
 
-def get_raw_text(timeml_doc):
+def get_text(timeml_doc):
     """ gets raw text of document, xml tags removed """
 
     text_e = get_text_element(timeml_doc)
@@ -29,14 +30,11 @@ def get_tagged_entities(timeml_doc):
 
     text_element = get_text_element(timeml_doc)
 
-    elements = {}
+    elements = []
 
     for element in text_element:
 
-        if element.tag in elements:
-            elements[element.tag].append(element)
-        else:
-            elements[element.tag] = []
+        elements.append(element)
 
     return elements
 
