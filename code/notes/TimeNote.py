@@ -218,7 +218,7 @@ class TimeNote(Note, Features):
                 if labeled_entity.tag != type and type is not None:
                     break
 
-                label = 'B_' + labeled_entity.tag
+                label = 'B_' + labeled_entity.attrib["type"]
 
                 break
 
@@ -229,7 +229,7 @@ class TimeNote(Note, Features):
                 if labeled_entity.tag != type and type is not None:
                     break
 
-                label = 'I_' + labeled_entity.tag
+                label = 'I_' + labeled_entity.attrib["type"]
 
                 break
 
@@ -253,7 +253,7 @@ class TimeNote(Note, Features):
 if __name__ == "__main__":
 
 #    TimeNote("APW19980219.0476.tml.TE3input")
-#    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_timex_entities()
+    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_timex_entities()
 #    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_event_entities()
     print "nothing to do"
 
