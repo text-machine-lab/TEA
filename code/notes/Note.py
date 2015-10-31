@@ -7,14 +7,14 @@ from utilities.pre_processing.pre_processing import pre_process
 class Note(object):
 
 
-    def __init__(self, n_path, debug=False):
+    def __init__(self, n_path, annotated_n_path=None, debug=False):
 
         self.debug = debug
 
         if self.debug: print "Note class: calling __init__"
 
         # will terminate
-        self._set_note_path(n_path)
+        self._set_note_path(n_path, annotated_n_path)
 
 
     def __del__(self):
@@ -22,12 +22,15 @@ class Note(object):
         if self.debug: print "Note class: calling destructor"
 
 
-    def _set_note_path(self, n_path):
+    def _set_note_path(self, n_path, annotated_n_path):
 
         if self.debug: print "Note class: setting note path"
 
         valid_path(n_path)
+        if annotated_n_path is not None:
+            valid_path(annotated_n_path)
         self.note_path = n_path
+        self.annotated_note_path = annotated_n_path
 
 
     def _read(self):

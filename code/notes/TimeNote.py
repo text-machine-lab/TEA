@@ -21,44 +21,54 @@ from Features import Features
 
 class TimeNote(Note, Features):
 
+    # TODO: code is pretty bad. I will refactor it later.
 
-    def __init__(self, timeml_note, annotated_timeml=None):
+    def __init__(self, timeml_note_path, annotated_timeml_path=None):
 
         print "called TimeNote constructor"
-        _Note = Note.__init__(self, timeml_note)
+        _Note = Note.__init__(self, timeml_note_path, annotated_timeml_path)
         _Features = Features.__init__(self)
 
-        self._read(timeml_note, annotated_timeml)
+
+    def get_labeled_timex_entities(self):
+
+        return self._process(self.note_path, self.annotated_note_path, "TIMEX3")
 
 
-    def _read(self, timeml_note, annotated_timeml=None):
+    def get_labeled_tlinked_entities(self):
+
+        # TODO: implement. this is going to require different logic than just reading
+        #       because the taggings are annotated outside of the text body.
+        pass
+
+
+    def get_labeled_event_entities(self):
+
+        return self._process(self.note_path, self.annotated_note_path, "EVENT")
+
+
+    def write(self):
+        # TODO: will do after we have results to display.
+        pass
+
+
+    def _process(self, timeml_note, annotated_timeml=None, entities_to_read=None):
 
         """
-        authors use 9 labels:
+            _read gets the tokenized representation of a timeml note and sets
+            the appropriate IOB labeling to only the specific entitie to read
 
-            TODO: i only B, I and O. need to add more
-            and I need to filter based on what we are doing.
-
-            B-DATE
-            I-DATE
-
-            B-TIME
-            I-TIME
-
-            B-DURATION
-            I-DURATION
-
-            B-SET
-            I-SET
-
-            O
-
-            second pass:
-               need to merge the BIO tagged tokens together, relatively easy
+            the logic behind this is that we will only want to markup
+            specific timeml entitiy types in each pass, we can just disregard all the
+            other taggings.
         """
 
+        if entities_to_read is not None and entities_to_read not in ("TIMEX3", "EVENT"):
+            exit("ERROR: invalid entity type to filter by")
 
-        tokenized_text = self._process()
+        data = get_text(self.note_path)
+
+        tokenized_text = pre_processing.pre_process(data)
 
         if annotated_timeml is not None:
 
@@ -127,7 +137,7 @@ class TimeNote(Note, Features):
                             end   = labeled_char_offset+len(tagged_element.text) - 1
 
                             # spans should be unique?
-                            offsets[(start, end)] = tagged_element.text
+                            offsets[(start, end)] = {"tagged_xml_element":tagged_element, "text":tagged_element.text}
                             assert raw_text[start:end + 1] == tagged_element.text, "\'{}\' != \'{}\'".format( raw_text[start:end + 1], tagged_element.text)
                             tagged_element = None
 
@@ -170,10 +180,9 @@ class TimeNote(Note, Features):
 
                 if annotated_timeml is not None:
                     # set proper iob label to token
-                    label = TimeNote.get_iob_label(token, offsets)
 
-                    if label == 'B':
-                        start_tokens += 1
+                    # TODO: make a more thorough test of correctness
+                    label = TimeNote.get_iob_label(token, offsets, entities_to_read)
 
                     token.update({"IOB_label":label})
 
@@ -181,23 +190,7 @@ class TimeNote(Note, Features):
 
             processed_data.append(tmp)
 
-        if annotated_timeml is not None:
-
-            # TODO: need to ensure I can get my spans back just for more verification
-            assert start_tokens == len(_tagged_entities), "{} != {}".format(start_tokens, len(_tagged_entities))
-
-        self.processed_data = processed_data
-
-
-    def _process(self):
-
-        self.note_path
-
-        data = get_text(self.note_path)
-
-        self.tokenized_data = pre_processing.pre_process(data)
-
-        return self.tokenized_data
+        return processed_data
 
 
     def vectorize(self):
@@ -208,10 +201,9 @@ class TimeNote(Note, Features):
 
 
     @staticmethod
-    def get_iob_label(token, offsets):
+    def get_iob_label(token, offsets, type):
 
-        # TODO: need to add label filtering. ex: if we are only looking at timexes we
-        # would just label EVENTS are just O's
+        # NOTE: never call this directly. input is tested within _read
 
         tok_span = (token["start_offset"], token["end_offset"])
 
@@ -220,9 +212,26 @@ class TimeNote(Note, Features):
         for span in offsets:
 
             if TimeNote.same_start_offset(span, tok_span):
-                label = 'B'
+
+                labeled_entity = offsets[span]["tagged_xml_element"]
+
+                if labeled_entity.tag != type and type is not None:
+                    break
+
+                label = 'B_' + labeled_entity.tag
+
+                break
+
             elif TimeNote.subsumes(span, tok_span):
-                label = 'I'
+
+                labeled_entity = offsets[span]["tagged_xml_element"]
+
+                if labeled_entity.tag != type and type is not None:
+                    break
+
+                label = 'I_' + labeled_entity.tag
+
+                break
 
         return label
 
@@ -243,8 +252,9 @@ class TimeNote(Note, Features):
 
 if __name__ == "__main__":
 
-    TimeNote("APW19980219.0476.tml.TE3input")
-    TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml")
+#    TimeNote("APW19980219.0476.tml.TE3input")
+#    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_timex_entities()
+#    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_event_entities()
     print "nothing to do"
 
 
