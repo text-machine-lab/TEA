@@ -5,6 +5,7 @@ class Features(object):
         print "called Features constructor"
 
     def get_features_vect(self):
+        # TODO: redo this. my changes broke it.
 
         vectors = []
 
