@@ -198,7 +198,7 @@ class TimeNote(Note, Features):
         return processed_data
 
 
-    def vectorize(self, entity_filter=None):
+    def vectorize(self, entity_filter):
 
         # TODO: i guess the iob label may notm atter at this stage.
 
@@ -211,10 +211,19 @@ class TimeNote(Note, Features):
             processed_data = self.get_tokenized_data_label_timex()
 
         else:
-            # label all IOB's as O
-            processed_data = self.get_tokenized_data_label_all()
+            exit("not EVENT or TIMEX3")
 
-        return self.get_features_vect(processed_data)
+        labels = []
+
+        for line in processed_data:
+
+            for token in line:
+
+                # training data may not be provided?
+                if "IOB_label" in token:
+                    labels.append(token["IOB_label"])
+
+        return self.get_features_vect(processed_data), labels
 
 
     @staticmethod
@@ -286,30 +295,6 @@ class TimeNote(Note, Features):
 
         return vectors
 
-    def get_labels(self, entity_filter):
-
-        processed_data = None
-
-        if entity_filter == "EVENT":
-            processed_data = self.get_tokenized_data_label_event()
-
-        elif entity_filter == "TIMEX3":
-            processed_data = self.get_tokenized_data_label_timex()
-
-        else:
-            # label all IOB's as O
-            processed_data = self.get_tokenized_data_label_all()
-
-        labels = []
-
-        for line in processed_data:
-
-            for token in line:
-
-                labels.append(token["IOB_label"])
-
-        return labels
-
 if __name__ == "__main__":
 
 #    TimeNote("APW19980219.0476.tml.TE3input")
@@ -317,7 +302,7 @@ if __name__ == "__main__":
     t =  TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml")
 #    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_event_entities()
 
-    print t.get_labels("TIMEX3")
+    print t.vectorize("EVENT")
 
     print "nothing to do"
 
