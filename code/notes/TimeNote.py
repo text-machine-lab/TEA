@@ -286,6 +286,29 @@ class TimeNote(Note, Features):
 
         return vectors
 
+    def get_labels(self, entity_filter):
+
+        processed_data = None
+
+        if entity_filter == "EVENT":
+            processed_data = self.get_tokenized_data_label_event()
+
+        elif entity_filter == "TIMEX3":
+            processed_data = self.get_tokenized_data_label_timex()
+
+        else:
+            # label all IOB's as O
+            processed_data = self.get_tokenized_data_label_all()
+
+        labels = []
+
+        for line in processed_data:
+
+            for token in line:
+
+                labels.append(token["IOB_label"])
+
+        return labels
 
 if __name__ == "__main__":
 
@@ -294,7 +317,7 @@ if __name__ == "__main__":
     t =  TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml")
 #    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_event_entities()
 
-    print t.vectorize()
+    print t.get_labels("TIMEX3")
 
     print "nothing to do"
 
