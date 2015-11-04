@@ -30,9 +30,14 @@ class TimeNote(Note, Features):
         _Features = Features.__init__(self)
 
 
-    def get_labeled_timex_entities(self):
+    def get_tokenized_data_label_timex(self):
 
-        return self._process(self.note_path, self.annotated_note_path, "TIMEX3")
+        return self._process(self.note_path, self.annotated_note_path, iob_filter=set(["TIMEX3"]))
+
+
+    def get_tokenized_data_label_all(self):
+
+        return self._process(self.note_path, self.annotated_note_path, iob_filter=set(["TIMEX3", "EVENT"]))
 
 
     def get_labeled_tlinked_entities(self):
@@ -42,9 +47,9 @@ class TimeNote(Note, Features):
         pass
 
 
-    def get_labeled_event_entities(self):
+    def get_tokenized_data_label_event(self):
 
-        return self._process(self.note_path, self.annotated_note_path, "EVENT")
+        return self._process(self.note_path, self.annotated_note_path, iob_filter=set(["EVENT"]))
 
 
     def write(self):
@@ -52,7 +57,7 @@ class TimeNote(Note, Features):
         pass
 
 
-    def _process(self, timeml_note, annotated_timeml=None, entities_to_read=None):
+    def _process(self, timeml_note, annotated_timeml=None, iob_filter=set(["EVENT", "TIMEX3"])):
 
         """
             _read gets the tokenized representation of a timeml note and sets
@@ -63,7 +68,7 @@ class TimeNote(Note, Features):
             other taggings.
         """
 
-        if entities_to_read is not None and entities_to_read not in ("TIMEX3", "EVENT"):
+        if len(iob_filter.difference(set(["TIMEX3", "EVENT"]))) > 0 :
             exit("ERROR: invalid entity type to filter by")
 
         data = get_text(self.note_path)
@@ -182,7 +187,7 @@ class TimeNote(Note, Features):
                     # set proper iob label to token
 
                     # TODO: make a more thorough test of correctness
-                    label = TimeNote.get_iob_label(token, offsets, entities_to_read)
+                    label = TimeNote.get_iob_label(token, offsets, iob_filter)
 
                     token.update({"IOB_label":label})
 
@@ -193,15 +198,27 @@ class TimeNote(Note, Features):
         return processed_data
 
 
-    def vectorize(self):
+    def vectorize(self, entity_filter=None):
 
-        self._process()
+        # TODO: i guess the iob label may notm atter at this stage.
 
-        return self.get_features_vect()
+        processed_data = None
+
+        if entity_filter == "EVENT":
+            processed_data = self.get_tokenized_data_label_event()
+
+        elif entity_filter == "TIMEX3":
+            processed_data = self.get_tokenized_data_label_timex()
+
+        else:
+            # label all IOB's as O
+            processed_data = self.get_tokenized_data_label_all()
+
+        return self.get_features_vect(processed_data)
 
 
     @staticmethod
-    def get_iob_label(token, offsets, type):
+    def get_iob_label(token, offsets, iob_filter):
 
         # NOTE: never call this directly. input is tested within _read
 
@@ -215,10 +232,13 @@ class TimeNote(Note, Features):
 
                 labeled_entity = offsets[span]["tagged_xml_element"]
 
-                if labeled_entity.tag != type and type is not None:
+                if labeled_entity.tag not in iob_filter:
                     break
 
-                label = 'B_' + labeled_entity.attrib["type"]
+                if 'class' in labeled_entity.attrib:
+                    label = 'B_' + labeled_entity.attrib["class"]
+                else:
+                    label = 'B_' + labeled_entity.attrib["type"]
 
                 break
 
@@ -226,10 +246,13 @@ class TimeNote(Note, Features):
 
                 labeled_entity = offsets[span]["tagged_xml_element"]
 
-                if labeled_entity.tag != type and type is not None:
+                if labeled_entity.tag not in iob_filter:
                     break
 
-                label = 'I_' + labeled_entity.attrib["type"]
+                if 'class' in labeled_entity.attrib:
+                    label = 'I_' + labeled_entity.attrib["class"]
+                else:
+                    label = 'I_' + labeled_entity.attrib["type"]
 
                 break
 
@@ -249,12 +272,30 @@ class TimeNote(Note, Features):
         """
         return span1[0] < span2[0] and span2[1] <= span1[1]
 
+    def get_features_vect(self, processed_data):
+
+        # TODO: generate feature set
+
+        vectors = []
+
+        for line in processed_data:
+
+            for token in line:
+
+                vectors.append({"dummy":1})
+
+        return vectors
+
 
 if __name__ == "__main__":
 
 #    TimeNote("APW19980219.0476.tml.TE3input")
-    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_timex_entities()
+
+    t =  TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml")
 #    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_event_entities()
+
+    print t.vectorize()
+
     print "nothing to do"
 
 
