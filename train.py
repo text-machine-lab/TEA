@@ -1,6 +1,6 @@
-import subprocess
 import os
 import cPickle
+import argparse
 
 os.environ["TEA_PATH"] = os.getcwd()
 os.environ["PUNKT_PATH"] = os.environ["TEA_PATH"] + "/data/nltk_data/tokenizers/punkt/english.pickle"
@@ -11,7 +11,14 @@ from code import model
 
 def main():
 
-	model = trainModel(["wsj_1025.tml"])
+	parser = argparse.ArgumentParser()
+	parser.add_argument("trainList", metavar='Training List', nargs='+', 
+		help="The list of .tml files to train data on. It is assumed that every .tml file has a coresponding .tml.TE3input file clean of annotations.")
+	args = parser.parse_args()
+	
+	files = args.trainList
+
+	model = trainModel(files)
 
 	with open("models/test.mod", "wb") as modFile:
 		cPickle.dump(model, modFile)
@@ -33,13 +40,12 @@ def trainModel( training_list ):
 	notes = []
 
 	for tml in training_list:
-		tmp_note = TimeNote(tml)
+		tmp_note = TimeNote(tml + '.TE3input', tml)
 		notes.append(tmp_note)
 
 	mod = model.Model()
 	mod.train(notes)
 
-	print mod
 	return mod
 
 if __name__ == "__main__":

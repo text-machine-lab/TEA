@@ -13,32 +13,31 @@ class Model:
 		@param notes. A list of TimeNote objects containing annotated data
 		'''
 
-		#TODO: add extraction methods that actually get features from annotated data
-		
-		tokenVectors = []
-		timexLabels = []
-		eventLabels = []
-		relationLabels = []
+		timexFeats		= []
+		timexLabels		= []
+		eventFeats		= []
+		eventLabels		= []
+		relationFeats	= []
+		relationLabels	= []
 
-		#create flat list of token vectors
+		#populate feature and label lists
 		for note in notes:
-			tmpVecs = note.vectorize()
-			for sent in tmpVecs:
-				for vec in sent:
-					tokenVectors.append(vec)
-					if(vec["word"] == 'a'):
-						timexLabels.append("NONE")
-					elif(vec["word"] == 'the'):
-						timexLabels.append("CATS")
-					else:
-						timexLabels.append("TEST")
+			
+			tmpFeats, tmpLabels = note.vectorize("TIMEX3")
+			timexFeats = timexFeats + tmpFeats
+			timexLabels = timexLabels + tmpLabels
 
+			tmpFeats, tmpLabels = note.vectorize("EVENT")
+			eventFeats = eventFeats + tmpFeats
+			eventLabels = eventLabels + tmpLabels
 
-		# print tokenVectors
 		#train classifiers
-		self._trainTimex(tokenVectors, timexLabels)
-		# self._trainEvent(tokenVectors, eventLabels)
-		# self._trainRelation(tokenVectors, timexLabels, eventLabels, relationLabels)
+		self._trainTimex(timexFeats, timexLabels)
+		self._trainEvent(eventFeats, eventLabels)
+		# self._trainRelation(relationFeats, relationLabels)
+
+		tmpnote = TimeNote('wsj_1025.tml')
+		self.predict([tmpnote])
 
 	def predict(self, notes):
 		'''
@@ -49,7 +48,33 @@ class Model:
 		@param notes: A list of TimeNote objects
 		@return classes: The temporal relations identified by the classifiers
 		'''
-		return
+
+		timexFeats		= []
+		timexLabels		= []
+		eventFeats		= []
+		eventLabels		= []
+		relationFeats	= []
+		relationLabels	= []
+
+		#populate feature lists
+		for note in notes:
+			
+			tmpFeats, tmpLabels = note.vectorize("TIMEX3")
+			timexFeats = timexFeats + tmpFeats
+
+			tmpFeats, tmpLabels = note.vectorize("EVENT")
+			eventFeats = eventFeats + tmpFeats
+
+		#vectorize
+		timexVec = self.timexVectorizer.transform(timexFeats).toarray()
+		eventVec = self.eventVectorizer.transform(eventFeats).toarray()
+
+		#classify
+		timexLabels = list(self.timexClassifier.predict(timexVec))
+		eventLabels = list(self.eventClassifier.predict(eventVec))
+
+		print timexLabels
+		print eventLabels
 
 
 	def _trainTimex(self, tokenVectors, Y):
@@ -58,7 +83,7 @@ class Model:
 
 		Purpose: Train a classifer for Timex3 expressions
 
-		@param tokenVectors: A list of tokenized sentences
+		@param tokenVectors: A list of tokens represented as feature dictionaries
 		@param Y: A list of lists of Timex3 classifications for each token in each sentence
 		'''
 
@@ -73,7 +98,7 @@ class Model:
 
 		Purpose: Train a classifer for event identification
 
-		@param tokenVectors: A list of tokenized sentences
+		@param tokenVectors: A list of tokens represented as feature dictionaries
 		@param Y: A list of lists of event classifications for each token, with one list per sentence
 		'''
 
@@ -82,19 +107,18 @@ class Model:
 		self.eventVectorizer = vec
 
 
-	def _trainRelation(self, tokenVectors, timexes, events, Y):
+	def _trainRelation(self, tokenVectors, Y):
 		'''
 		Model::_trainRelation()
 
 		Purpose: Train a classifer for temporal relations between events and timex3 labels
 
-		@param tokenVectors: a list of tokenized sentences
-		@param timexes: a list of Timex3 labels
-		@param events: a list of event labels
+		@param tokenVectors: A list of tokens represented as feature dictionaries
 		@param Y: A list of relation classifications for each pair of timexes and events.
 		'''
-		return
-
-
+		
+		clf, vec = train_classifier(tokenVectors, Y)
+		self.tlinkClassifier = clf
+		self.tlinkVectorizer = vec
 	
 
