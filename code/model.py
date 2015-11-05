@@ -36,9 +36,6 @@ class Model:
 		self._trainEvent(eventFeats, eventLabels)
 		# self._trainRelation(relationFeats, relationLabels)
 
-		tmpnote = TimeNote('wsj_1025.tml')
-		self.predict([tmpnote])
-
 	def predict(self, notes):
 		'''
 		Model::predict()
