@@ -17,10 +17,10 @@ def pre_process(text):
     """
     tokenized_text = _tokenize(text)
     pos_tagged_text = _pos_tag(tokenized_text)
+    constituency_parsed_text = _constituencey_parse(pos_tagged_text)
 
     # TODO: add more processing steps
-
-    naf_marked_up_text = pos_tagged_text
+    naf_marked_up_text = constituency_parsed_text
 
     return naf_marked_up_text
 
@@ -51,6 +51,21 @@ def _pos_tag(naf_tokenized_text):
                             stdout=subprocess.PIPE)
 
     output, _ = tag.communicate(naf_tokenized_text)
+
+    return output
+
+def _constituencey_parse(naf_tokenized_pos_tagged_text):
+
+    parse = subprocess.Popen(["java",
+                              "-jar",
+                              os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-parse-1.1.0.jar",
+                              "parse",
+                              "-m",
+                              os.environ["TEA_PATH"] + "/code/notes/NewsReader/models/parse-models/en-parser-chunking.bin"],
+                              stdin=subprocess.PIPE,
+                              stdout=subprocess.PIPE)
+
+    output, _ = parse.communicate(naf_tokenized_pos_tagged_text)
 
     return output
 

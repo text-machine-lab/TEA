@@ -2,6 +2,7 @@
 import news_reader
 import tokenize
 import pos
+import parse
 
 def pre_process(text):
 
@@ -9,6 +10,7 @@ def pre_process(text):
 
     tokens = tokenize.get_tokens(naf_tagged_doc)
     pos_tags = pos.get_pos_tags(naf_tagged_doc)
+    constituency_tree = parse.ConstituencyTree(naf_tagged_doc)
 
     sentences = {}
 
@@ -29,6 +31,5 @@ def pre_process(text):
 
 if __name__ == "__main__":
 #    print pre_process(""" One reason people lie is to achieve personal power. Achieving personal power is helpful for someone who pretends to be more confident than he really is. """)
-
-    print pre_process("I wrote a complete sentence. I got a good grade on it")
+    pre_process("I wrote a complete sentence. I got a good grade on it")
 
