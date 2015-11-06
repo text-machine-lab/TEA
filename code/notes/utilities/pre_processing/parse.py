@@ -109,10 +109,12 @@ class ConstituencyNode(object):
 
         return self.label
 
+    """
     def __repr__(self):
 
         # for debugging purposes
         return "terminal?: {}, id: {}, label: {}, target id: {}\n".format(self.is_terminal_node(), self.get_id(), self.get_label(), self.get_target_ids())
+    """
 
     def set_child(self, node):
         # can have multiple parents
@@ -131,6 +133,10 @@ class ConstituencyNode(object):
     def is_child(self):
 
         return self.parent_node is not None
+
+    def is_root(self):
+
+        return self.parent_node is None
 
     def get_parent(self):
 
@@ -201,7 +207,7 @@ class ConstituencyTree(object):
         assert( node is not None )
 
         # want to get labels of all non terminal nodes.
-        while node.get_label() != 'S':
+        while node.is_root() is False:
             grammar_category[level] = node.get_label()
             level += 1
             node = node.get_parent()
