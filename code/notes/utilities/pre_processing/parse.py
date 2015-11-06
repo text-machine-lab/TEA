@@ -24,19 +24,31 @@ def _get_constituency_element(naf_tagged_doc):
    return constituency_element
 
 
-def _get_constituency_tree_element(naf_tagged_doc):
+def get_constituency_trees(naf_tagged_doc):
+
+    trees = {}
+
+    sentence_num = 1
+
+    for tree in _get_constituency_tree_elements(naf_tagged_doc):
+
+        trees[sentence_num]= ConstituencyTree(tree)
+        sentence_num += 1
+
+    return trees
+
+def _get_constituency_tree_elements(naf_tagged_doc):
 
     constituency_element = _get_constituency_element(naf_tagged_doc)
 
-    tree_element = None
+    tree_elements = []
 
     for e in constituency_element:
 
         if e.tag == "tree":
-            tree_element = e
-            break
+            tree_elements.append(e)
 
-    return tree_element
+    return tree_elements
 
 
 def _create_edge(constituency_parent, constituency_child):
@@ -50,13 +62,12 @@ class ConstituencyNode(object):
      # TODO: refactor this.
 
     def __init__(self, xml_node):
-        print "constructor"
 
         self.parent_node = None
         self.child_node = None
 
         self.node_id = xml_node.attrib["id"]
-        self.target_ids = None
+        self.target_id = None
 
         if 'label' in xml_node.attrib:
             self.terminal = False
@@ -70,22 +81,25 @@ class ConstituencyNode(object):
             self.terminal = True
             self.label = None
 
-            # TODO: not really sure the structure of the span element.
-            self.target_ids = []
+            i = 1
 
             # terminal node
             for span in xml_node:
                 for target in span:
-                    self.target_ids.append(target.attrib["id"].replace('t', 'w'))
-
+                    # TODO: assumption
+                    # I am assuming there is only one target. if i'm wrong all the code
+                    # i have writen is wrong and it will be good to know this in the future.
+                    assert( i < 2 )
+                    self.target_id = target.attrib["id"].replace('t', 'w')
+                    i += 1
 
     def is_terminal_node(self):
 
         return self.terminal
 
-    def get_target_ids(self):
+    def get_target_id(self):
 
-        return self.target_ids
+        return self.target_id
 
     def get_id(self):
 
@@ -114,22 +128,31 @@ class ConstituencyNode(object):
         else:
             exit( "more than one parent? something bad has happened" )
 
+    def is_child(self):
+
+        return self.parent_node is not None
+
+    def get_parent(self):
+
+        return self.parent_node
+
 class ConstituencyTree(object):
 
 
-    def __init__(self, naf_tagged_doc):
+    def __init__(self, xml_constituency_tree_element):
 
-        xml_constituency_tree_element = _get_constituency_tree_element(naf_tagged_doc)
-        self.tree = self.process_constituency_tree_element(xml_constituency_tree_element)
+        self.terminal_nodes = self.process_constituency_tree_element(xml_constituency_tree_element)
 
 
     def process_constituency_tree_element(self, xml_constituency_tree_element):
-        """ generates and connects proper nodes within ConstituencyTree """
+        """ generates a tree structure to determine the categories each token belongs in. """
 
         print "called create_constituency_nodes"
         constituency_nodes = {}
+        terminal_nodes = {}
 
-        root = None
+        # used to assert if there can be same target id in different nodes
+        target_ids_seen = set()
 
         """ the elements within the xml tree element is sequential, i think. just proces them in order """
         for element in xml_constituency_tree_element:
@@ -138,8 +161,13 @@ class ConstituencyTree(object):
                 node = ConstituencyNode( element )
                 constituency_nodes[node.get_id()] = node
 
-                if node.label == "TOP":
-                    root = node
+                if node.is_terminal_node():
+                    terminal_nodes[node.get_target_id()] = node
+                    if node.get_target_id() in target_ids_seen:
+                        # TODO: im making an assumption. if this comes back to bite me then i need to redo this.
+                        exit("error: target already seen...")
+                    else:
+                        target_ids_seen.add(node.get_target_id())
 
             elif element.tag == 'edge':
                 #print "TODO: handle edge"
@@ -153,7 +181,32 @@ class ConstituencyTree(object):
                 # update fields of each node to create edge.
                 _create_edge(parent_node, child_node)
 
-        return root
+        return terminal_nodes
+
+
+    def get_phrase_memberships(self, node_id):
+
+        assert( node_id in self.terminal_nodes )
+
+        terminal_node = self.terminal_nodes[node_id]
+
+        level = 0
+
+        grammar_category = {}
+
+        # skip first node, terminal node, no labels available
+        node = terminal_node.get_parent()
+
+        # a terminal node should always have a parent.
+        assert( node is not None )
+
+        # want to get labels of all non terminal nodes.
+        while node.get_label() != 'S':
+            grammar_category[level] = node.get_label()
+            level += 1
+            node = node.get_parent()
+
+        return grammar_category
 
 if __name__ == "__main__":
     pass

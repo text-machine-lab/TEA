@@ -17,7 +17,7 @@ def pre_process(text):
     """
     tokenized_text = _tokenize(text)
     pos_tagged_text = _pos_tag(tokenized_text)
-    constituency_parsed_text = _constituencey_parse(pos_tagged_text)
+    constituency_parsed_text = _constituency_parse(pos_tagged_text)
 
     # TODO: add more processing steps
     naf_marked_up_text = constituency_parsed_text
@@ -54,7 +54,7 @@ def _pos_tag(naf_tokenized_text):
 
     return output
 
-def _constituencey_parse(naf_tokenized_pos_tagged_text):
+def _constituency_parse(naf_tokenized_pos_tagged_text):
 
     parse = subprocess.Popen(["java",
                               "-jar",
@@ -71,7 +71,7 @@ def _constituencey_parse(naf_tokenized_pos_tagged_text):
 
 
 if __name__ == "__main__":
-    print pre_process(open("test.txt", "rb").read())
+    print pre_process("I wrote a complete sentence. I got a good grade on it")
     pass
 # EOF
 
