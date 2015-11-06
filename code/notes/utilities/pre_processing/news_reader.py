@@ -3,6 +3,7 @@ import subprocess
 import os
 import re
 import sys
+import time
 
 xml_utilities_path = os.environ["TEA_PATH"] + "/code/notes/utilities"
 sys.path.insert(0, xml_utilities_path)
@@ -17,10 +18,20 @@ def pre_process(text):
     """
     tokenized_text = _tokenize(text)
     pos_tagged_text = _pos_tag(tokenized_text)
+    constituency_parsed_text = _constituency_parse(pos_tagged_text)
+
+    # TODO: move this
+#    srl = SRL()
+
+#    srl.launch_server()
+#    srl.parse_dependencies(constituency_parsed_text)
 
     # TODO: add more processing steps
+#    naf_marked_up_text = constituency_parsed_text
 
-    naf_marked_up_text = pos_tagged_text
+#    srl.close_server()
+
+    naf_marked_up_text = constituency_parsed_text
 
     return naf_marked_up_text
 
@@ -54,9 +65,108 @@ def _pos_tag(naf_tokenized_text):
 
     return output
 
+def _constituency_parse(naf_tokenized_pos_tagged_text):
+
+    parse = subprocess.Popen(["java",
+                              "-jar",
+                              os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-parse-1.1.0.jar",
+                              "parse",
+                              "-m",
+                              os.environ["TEA_PATH"] + "/code/notes/NewsReader/models/parse-models/en-parser-chunking.bin"],
+                              stdin=subprocess.PIPE,
+                              stdout=subprocess.PIPE)
+
+    output, _ = parse.communicate(naf_tokenized_pos_tagged_text)
+
+    return output
+
+
+class SRL():
+
+    def __init__(self):
+
+        # launching server...
+        self.server = SRLServer()
+
+    def parse_dependencies(self, naf_tokenized_pos_tagged_text):
+        return SRLClient.parse_dependencies(naf_tokenized_pos_tagged_text)
+
+
+    def launch_server(self):
+        self.server.launch_server()
+
+    def close_server(self):
+        # EXPLICITELY CALL THIS. python doesn't guarantee __del__ is called.
+        self.server.kill_server()
+
+
+class SRLClient():
+
+    tries = 0
+
+    @staticmethod
+    def parse_dependencies(naf_tokenized_pos_tagged_text):
+
+        output = None
+
+        while True:
+
+            if SRLClient.tries > 5:
+                exit("cannot get srl output. srl server is not running")
+
+            srl = subprocess.Popen(["java",
+                                    "-cp",
+                                    os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
+                                    "ixa.srl.SRLClient",
+                                    "en"],
+                                    stdout=subprocess.PIPE,
+                                    stdin=subprocess.PIPE)
+
+            _output, _ = srl.communicate(naf_tokenized_pos_tagged_text)
+
+            if _output == "":
+                print "no output when calling srl. trying again."
+                SRLClient.tries += 1
+                print "sleeping for 1m to wait for server to load..."
+                time.sleep(60)
+                continue
+            else:
+                output = _output
+                break
+
+        return output
+
+
+class SRLServer():
+
+    """ will execute srl server """
+    def __init__(self):
+        self.s = None
+
+    def launch_server(self):
+
+        with open(os.devnull, 'w') as fp:
+            self.s = subprocess.Popen(["java",
+                                       "-cp",
+                                       os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
+                                       "ixa.srl.SRLServer",
+                                        "en"],
+                                        stdout=fp)
+
+    def kill_server(self):
+
+        if self.s is not None:
+            self.s.kill()
+
+    def get_pid(self):
+
+        if self.s is not None:
+            return self.s.pid
+
 
 if __name__ == "__main__":
-    print pre_process(open("test.txt", "rb").read())
-    pass
+
+    pre_process("i ate the bones")
+
 # EOF
 
