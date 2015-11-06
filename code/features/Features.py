@@ -4,7 +4,6 @@ class Features(object):
     def __init__(self):
         print "called Features constructor"
 
-
     def get_features_vect(self):
         # TODO: redo this. my changes broke it.
 
@@ -15,9 +14,20 @@ class Features(object):
 
             for token in line:
 
-                vectors.append([{"dummy":1}])
+                feats = self.extract_features(token)
+
+                vectors.append([feats])
 
         return vectors
+
+    def extract_features(self, token):
+
+        # Just token text for now: pending preprocessed data
+        features = {}
+        features["word"] = token
+        features["length"] = len(token)
+
+        return features
 
 if __name__ == "__main__":
     print "nothing to do"
