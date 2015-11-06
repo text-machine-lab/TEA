@@ -43,7 +43,7 @@ class Model:
 		Purpose: Predict temporal relations for a set of notes
 
 		@param notes: A list of TimeNote objects
-		@return classes: The temporal relations identified by the classifiers
+		@return: All three label sets predicted by the classifiers
 		'''
 
 		timexFeats		= []
@@ -62,6 +62,8 @@ class Model:
 			tmpFeats, tmpLabels = note.vectorize("EVENT")
 			eventFeats = eventFeats + tmpFeats
 
+		#TODO: move direct SVM interfacing back to sci.py
+
 		#vectorize
 		timexVec = self.timexVectorizer.transform(timexFeats).toarray()
 		eventVec = self.eventVectorizer.transform(eventFeats).toarray()
@@ -70,9 +72,9 @@ class Model:
 		timexLabels = list(self.timexClassifier.predict(timexVec))
 		eventLabels = list(self.eventClassifier.predict(eventVec))
 
-		print timexLabels
-		print eventLabels
+		print "here"
 
+		return timexLabels, eventLabels
 
 	def _trainTimex(self, tokenVectors, Y):
 		'''
