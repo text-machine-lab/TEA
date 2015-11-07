@@ -50,7 +50,44 @@ def get_tagged_entities(timeml_doc):
 
     return elements
 
+def get_make_instances(timeml_doc):
+    """ gets the event instances in a timeml doc """
+    root = xml_utilities.get_root(timeml_doc)
+
+    make_instances = []
+
+    for e in root:
+
+        if e.tag == "MAKEINSTANCE":
+            make_instances.append(e)
+
+    return make_instances
+
+
+def get_tlinks(timeml_doc):
+
+    """ get tlinks from annotated document """
+
+    root = xml_utilities.get_root(timeml_doc)
+
+    tlinks = []
+
+    for e in root:
+
+        if e.tag == "TLINK":
+
+            tlinks.append(e)
+
+    return tlinks
+
+
 if __name__ == "__main__":
+
+    print get_make_instances("wsj_1025.tml")
+
+
+    print get_tlinks("wsj_1025.tml")
+
     print "nothing to do here"
 
 # EOF

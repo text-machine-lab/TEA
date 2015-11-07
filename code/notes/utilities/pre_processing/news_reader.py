@@ -24,10 +24,10 @@ def pre_process(text):
 #    srl = SRL()
 
 #    srl.launch_server()
-#    srl.parse_dependencies(constituency_parsed_text)
+#    srl_text = srl.parse_dependencies(constituency_parsed_text)
 
     # TODO: add more processing steps
-#    naf_marked_up_text = constituency_parsed_text
+#    naf_marked_up_text = srl_text
 
 #    srl.close_server()
 

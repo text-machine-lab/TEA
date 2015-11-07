@@ -13,7 +13,11 @@ from Note import Note
 from utilities.timeml_utilities import get_text
 from utilities.timeml_utilities import get_tagged_entities
 from utilities.timeml_utilities import get_text_element
+from utilities.timeml_utilities import get_tlinks
+from utilities.timeml_utilities import get_make_instances
+
 from utilities.xml_utilities import get_raw_text
+
 
 from utilities.pre_processing import pre_processing
 
@@ -21,7 +25,7 @@ from Features import Features
 
 class TimeNote(Note, Features):
 
-    # TODO: code is pretty bad. I will refactor it later.
+    # TODO: code is very inefficient. refactor to make processing faster and less redundant.
 
     def __init__(self, timeml_note_path, annotated_timeml_path=None):
 
@@ -40,10 +44,47 @@ class TimeNote(Note, Features):
         return self._process(self.note_path, self.annotated_note_path, iob_filter=set(["TIMEX3", "EVENT"]))
 
 
-    def get_labeled_tlinked_entities(self):
+    def get_tlinked_entities(self):
 
-        # TODO: implement. this is going to require different logic than just reading
-        #       because the taggings are annotated outside of the text body.
+        sentenized_data = self.get_tokenized_data_label_all()
+
+        t_links = None
+
+        if self.annotated_note_path is not None:
+            t_links = get_tlinks(self.annotated_note_path)
+            make_instances = get_make_instances(self.annotated_note_path)
+        else:
+            exit("cannot call get_labeled_tlinked_entities with a annotated_note_path not set")
+
+        timex_relations = []
+
+        eiid_to_eid = {}
+
+        for instance in make_instances:
+            eiid_to_eid[instance.attrib["eiid"]] = instance.attrib["eventID"]
+
+        for t in t_links:
+
+            link = {}
+
+            # source
+            if "eventInstanceID" in t.attrib:
+                link["event_id"] = eiid_to_eid[t.attrib["eventInstanceID"]]
+            else:
+                link["time_id"] = t.attrib["timeID"]
+
+            # target
+            if "relatedToEventInstance" in t.attrib:
+                link["relatedToEventInstance"] = eiid_to_eid[t.attrib["relatedToEventInstance"]]
+            else:
+                link["relatedToTime"] = t.attrib["relatedToTime"]
+
+            link["rel_type"] = t.attrib["relType"]
+
+            timex_relations.append(link)
+
+        print timex_relations
+
         pass
 
 
@@ -190,6 +231,9 @@ class TimeNote(Note, Features):
                     label = TimeNote.get_iob_label(token, offsets, iob_filter)
 
                     token.update({"IOB_label":label})
+                else:
+                    token.update({"IOB_label":'O'})
+
 
                 tmp.append(token)
 
@@ -302,7 +346,9 @@ if __name__ == "__main__":
     t =  TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml")
 #    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_event_entities()
 
-    print t.vectorize("EVENT")
+    t.get_tlinked_entities()
+
+#    print t.vectorize("EVENT")
 
     print "nothing to do"
 
