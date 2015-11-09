@@ -19,17 +19,43 @@ def get_text_element(timeml_doc):
     return text_element
 
 
-def annotate_text_element(timeml_doc, tag, attributes, start, end):
+def get_text_element_from_root(timeml_root):
+
+    text_element = None
+
+    for e in timeml_root:
+        if e.tag == "TEXT":
+
+            text_element = e
+            break
+
+    return text_element
+
+
+def set_text_element(timeml_root, text_element):
+
+    for e in timeml_root:
+        if e.tag == "TEXT":
+
+            e = text_element
+            break
+
+    return timeml_root 
+
+def annotate_text_element(timeml_root, tag, start, end, attributes = {}):
     '''
     returns modified version of the passed timeml_doc root with the annotations
     added in the correct positions
     '''
 
-    text_element = get_text_element(timeml_doc)
+    text_element = get_text_element_from_root(timeml_root)
 
     element = ET.Element(tag, attributes)
 
     text = text_element.text
+
+    start = start + 1
+    end = end + 2
 
     newText = text[:start]
     eleText = text[start:end]
@@ -41,7 +67,7 @@ def annotate_text_element(timeml_doc, tag, attributes, start, end):
 
     text_element.insert(0, element)
 
-    ET.dump(text_element)
+    return text_element
 
 
 def get_text(timeml_doc):

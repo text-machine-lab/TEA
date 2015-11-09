@@ -23,11 +23,11 @@ class Model:
 		#populate feature and label lists
 		for note in notes:
 			
-			tmpFeats, tmpLabels = note.vectorize("TIMEX3")
+			tmpFeats, tmpLabels, offsets = note.vectorize("TIMEX3")
 			timexFeats = timexFeats + tmpFeats
 			timexLabels = timexLabels + tmpLabels
 
-			tmpFeats, tmpLabels = note.vectorize("EVENT")
+			tmpFeats, tmpLabels, offsets = note.vectorize("EVENT")
 			eventFeats = eventFeats + tmpFeats
 			eventLabels = eventLabels + tmpLabels
 
