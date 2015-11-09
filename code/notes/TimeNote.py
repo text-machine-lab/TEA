@@ -259,16 +259,16 @@ class TimeNote(Note, Features):
 
         labels = []
 
+        offsets = []
+
         for line in processed_data:
 
             for token in line:
 
-                # training data may not be provided?
-                if "IOB_label" in token:
-                    labels.append(token["IOB_label"])
+                labels.append(token["IOB_label"])
+                offsets.append((token["start_offset"], token["end_offset"]))
 
-        return self.get_features_vect(processed_data), labels
-
+        return self.get_features_vect(processed_data), labels, offsets
 
     @staticmethod
     def get_iob_label(token, offsets, iob_filter):
@@ -346,9 +346,16 @@ if __name__ == "__main__":
     t =  TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml")
 #    print TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml").get_labeled_event_entities()
 
-    t.get_tlinked_entities()
+   # t.get_tlinked_entities()
 
 #    print t.vectorize("EVENT")
+
+    x, y, z =  t.vectorize("EVENT")
+
+    assert( len(x) == len(y))
+    assert( len(z) == len(x))
+
+#    print z
 
     print "nothing to do"
 
