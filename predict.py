@@ -31,23 +31,11 @@ def main():
 	with open(modfile) as modelfile:
 		model = cPickle.load(modelfile)
 
-	labels = predictWithModel(notes, model)
+	for note in notes:
+		timexLabels, eventLabels, offsets = model.predict
+		writeAnnotatedFile(note, timexLabels, eventLabels, offsets)
 
-	writeAnnotatedFile(labels)
-
-def predictWithModel(notes, model):
-	
-	timexLabels = []
-	eventLabels = []
-	relationsLabels = []
-
-	timexLabels, eventLabels = model.predict(notes)
-
-	print timexLabels
-	print eventLabels
-	return {"TIMEX3":timexLabels, "EVENT":eventLabels, "TLINK":relationsLabels}
-
-def writeAnnotatedFile(labels):
+def writeAnnotatedFile(note, timexLabels, eventLabels, offsets):
 	pass
 
 if __name__ == '__main__':

@@ -31,12 +31,14 @@ class Model:
 			eventFeats = eventFeats + tmpFeats
 			eventLabels = eventLabels + tmpLabels
 
+
+		# print timexFeats
 		#train classifiers
 		self._trainTimex(timexFeats, timexLabels)
 		self._trainEvent(eventFeats, eventLabels)
 		# self._trainRelation(relationFeats, relationLabels)
 
-	def predict(self, notes):
+	def predict(self, note):
 		'''
 		Model::predict()
 
@@ -52,15 +54,14 @@ class Model:
 		eventLabels		= []
 		relationFeats	= []
 		relationLabels	= []
+		offsets			= []
 
 		#populate feature lists
-		for note in notes:
-			
-			tmpFeats, tmpLabels = note.vectorize("TIMEX3")
-			timexFeats = timexFeats + tmpFeats
+		tmpFeats, tmpLabels, offsets = note.vectorize("TIMEX3")
+		timexFeats = timexFeats + tmpFeats
 
-			tmpFeats, tmpLabels = note.vectorize("EVENT")
-			eventFeats = eventFeats + tmpFeats
+		tmpFeats, tmpLabels, offsets = note.vectorize("EVENT")
+		eventFeats = eventFeats + tmpFeats
 
 		#TODO: move direct SVM interfacing back to sci.py
 
@@ -72,9 +73,7 @@ class Model:
 		timexLabels = list(self.timexClassifier.predict(timexVec))
 		eventLabels = list(self.eventClassifier.predict(eventVec))
 
-		print "here"
-
-		return timexLabels, eventLabels
+		return timexLabels, eventLabels, offsets
 
 	def _trainTimex(self, tokenVectors, Y):
 		'''
