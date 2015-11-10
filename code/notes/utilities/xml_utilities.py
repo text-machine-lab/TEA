@@ -22,12 +22,14 @@ def get_raw_text(xml_tree_element):
 
     return ET.tostring(xml_tree_element)
 
-def write_root_to_file(xml_root):
+def write_root_to_file(xml_root, file_path):
+
+	#TODO: fix missing xml root tag <?xml version="1.0"?>
 
 	tree = ET.ElementTree(xml_root)
 
-	tree.write("/home/connor/Workspaces/TEA/Temporal-Entity-Annotator-TEA-/text")
-
+	print file_path
+	tree.write(file_path)
 
 if __name__ == "__main__":
     print "nothing to do here"
