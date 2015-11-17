@@ -29,7 +29,7 @@ def write_root_to_file(xml_root, file_path):
 	tree = ET.ElementTree(xml_root)
 
 	print file_path
-	tree.write(file_path)
+	tree.write(file_path, xml_declaration=True, encoding="us-ascii")
 
 if __name__ == "__main__":
     print "nothing to do here"

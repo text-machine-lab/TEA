@@ -95,6 +95,8 @@ class SRL():
     def launch_server(self):
         self.server.launch_server()
 
+
+    # TODO: use atexit.
     def close_server(self):
         # EXPLICITELY CALL THIS. python doesn't guarantee __del__ is called.
         self.server.kill_server()

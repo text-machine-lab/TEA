@@ -1,8 +1,15 @@
 
+import os
 import nltk.data
 
 from utilities.note_utils import valid_path
 from utilities.pre_processing.pre_processing import pre_process
+
+from utilities.xml_utilities import write_root_to_file
+from utilities.xml_utilities import get_root
+from utilities.timeml_utilities import set_text_element
+from utilities.timeml_utilities import annotate_text_element
+
 
 class Note(object):
 
@@ -37,6 +44,47 @@ class Note(object):
 
         return open(self.note_path, "rb").read()
 
+    def write(self, timexLabels, eventLabels, offsets):
+
+        #TODO: create output directory if it does not exist
+
+        root = get_root(self.note_path)
+
+        length = len(offsets)
+
+        for i in range(1, length):
+            if(timexLabels[length - i][0] == "B"):
+                start = offsets[length - i][0]
+                end = offsets[length - i][1]
+
+                #grab any IN tokens and add them to the tag text
+                for j in range (1, i):
+                    if(timexLabels[length - i + j][0] == "I"):
+                        end = offsets[length - i + j][1]
+                    else:
+                        break
+
+                annotated_text = annotate_text_element(root, "TIMEX3", start, end, {"tid":"t" + str(length - i), "type":timexLabels[length - i][2:]})
+                set_text_element(root, annotated_text)
+
+            elif(eventLabels[length - i][0] == "B"):
+                start = offsets[length - i][0]
+                end = offsets[length - i][1]
+
+                #grab any IN tokens and add them to the tag text
+                for j in range (1, i):
+                    if(eventLabels[length - i + j][0] == "I"):
+                        end = offsets[length - i + j][1]
+                    else:
+                        break
+
+                annotated_text = annotate_text_element(root, "EVENT", start, end, {"eid":"e" + str(length - i), "class":eventLabels[length - i][2:]})
+                set_text_element(root, annotated_text)
+
+        # skip last 9 characters to remove .TE3input suffix
+        path = os.environ['TEA_PATH'] + '/output/' + self.note_path.split('/')[-1][:-9]
+
+        write_root_to_file(root, path)
 
     def _process(self):
 
