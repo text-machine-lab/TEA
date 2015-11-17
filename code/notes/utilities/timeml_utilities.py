@@ -80,13 +80,25 @@ def get_tlinks(timeml_doc):
 
     return tlinks
 
+def get_doctime_timex(timeml_doc):
+
+    """ get the document creation time timex """
+
+    root = xml_utilities.get_root(timeml_doc)
+
+    doctime = None
+
+    for e in root:
+
+        if e.tag == "DCT":
+            doctime = e[0]
+            break
+
+    return doctime
 
 if __name__ == "__main__":
 
-    print get_make_instances("wsj_1025.tml")
-
-
-    print get_tlinks("wsj_1025.tml")
+    print get_doctime_timex("wsj_1025.tml")
 
     print "nothing to do here"
 

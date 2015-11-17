@@ -27,8 +27,6 @@ def pre_process(text):
         tok.update(pos_tag)
         tok.update({"grammar_categories":grammar_categories})
 
-        print tok
-
         if tok["sentence_num"] in sentences:
             sentences[tok["sentence_num"]].append(tok)
         else:
