@@ -24,8 +24,6 @@ def get_raw_text(xml_tree_element):
 
 def write_root_to_file(xml_root, file_path):
 
-	#TODO: fix missing xml root tag <?xml version="1.0"?>
-
 	tree = ET.ElementTree(xml_root)
 
 	print file_path
