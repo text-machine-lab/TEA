@@ -13,12 +13,12 @@ class Model:
 		@param notes. A list of TimeNote objects containing annotated data
 		'''
 
-		timexFeats		= []
-		timexLabels		= []
-		eventFeats		= []
-		eventLabels		= []
-		relationFeats	= []
-		relationLabels	= []
+		timexFeats	= []
+		timexLabels	= []
+		eventFeats	= []
+		eventLabels	= []
+		tlinkFeats	= []
+		tlinkLabels	= []
 
 		#populate feature and label lists
 		for note in notes:
@@ -31,12 +31,15 @@ class Model:
 			eventFeats = eventFeats + tmpFeats
 			eventLabels = eventLabels + tmpLabels
 
+			tmpFeats, tmpLabels	= note.vectorize("TLINK")
+			tlinkFeats = tlinkFeats + tmpFeats
+			tlinkLabels = tlinkLabels + tmpLabels
 
-		# print timexFeats
+		# print tlinkLabels
 		#train classifiers
 		self._trainTimex(timexFeats, timexLabels)
 		self._trainEvent(eventFeats, eventLabels)
-		# self._trainRelation(relationFeats, relationLabels)
+		self._trainTlink(tlinkFeats, tlinkLabels)
 
 	def predict(self, note):
 		'''
@@ -48,13 +51,13 @@ class Model:
 		@return: All three label sets predicted by the classifiers
 		'''
 
-		timexFeats		= []
-		timexLabels		= []
-		eventFeats		= []
-		eventLabels		= []
-		relationFeats	= []
-		relationLabels	= []
-		offsets			= []
+		timexFeats	= []
+		timexLabels	= []
+		eventFeats	= []
+		eventLabels	= []
+		tlinkFeats	= []
+		tlinkLabels	= []
+		offsets		= []
 
 		#populate feature lists
 		tmpFeats, tmpLabels, offsets = note.vectorize("TIMEX3")
@@ -85,6 +88,8 @@ class Model:
 		@param Y: A list of lists of Timex3 classifications for each token in each sentence
 		'''
 
+		assert len(tokenVectors) == len(Y)
+
 		clf, vec = train_classifier(tokenVectors, Y)
 		self.timexClassifier = clf
 		self.timexVectorizer = vec
@@ -105,7 +110,7 @@ class Model:
 		self.eventVectorizer = vec
 
 
-	def _trainRelation(self, tokenVectors, Y):
+	def _trainTlink(self, tokenVectors, Y):
 		'''
 		Model::_trainRelation()
 

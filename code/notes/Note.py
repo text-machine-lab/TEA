@@ -52,6 +52,7 @@ class Note(object):
 
         length = len(offsets)
 
+        # start at back of document to preserve offsets until they are used
         for i in range(1, length):
             if(timexLabels[length - i][0] == "B"):
                 start = offsets[length - i][0]
@@ -80,6 +81,9 @@ class Note(object):
 
                 annotated_text = annotate_text_element(root, "EVENT", start, end, {"eid":"e" + str(length - i), "class":eventLabels[length - i][2:]})
                 set_text_element(root, annotated_text)
+
+        # for tlink in tlinkLabels:
+            
 
         # skip last 9 characters to remove .TE3input suffix
         path = os.environ['TEA_PATH'] + '/output/' + self.note_path.split('/')[-1][:-9]
