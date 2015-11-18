@@ -94,7 +94,7 @@ class TimeNote(Note, Features):
             else:
                 target_id = t.attrib["relatedToTime"]
 
-            tmp_dict = {"target_id":target_id, "rel_type":t.attrib["relType"]}
+            tmp_dict = {"target_id":target_id, "rel_type":t.attrib["relType"], "lid":t.attrib["lid"]}
 
             gold_tlink_pairs.add((src_id, target_id))
 
@@ -212,11 +212,11 @@ class TimeNote(Note, Features):
                         relation_count += 1
 
                         # need to assign relation to each pairing if there exists one otherwise set 'none'
-                        pairs_to_link.append({"src_entity":id_chunk_map[src_id], "target_entity":id_chunk_map[target_id], "rel_type":target_entity["rel_type"]})
+                        pairs_to_link.append({"src_entity":id_chunk_map[src_id], "target_entity":id_chunk_map[target_id], "rel_type":target_entity["rel_type"], "tlink_id":target_entity["lid"]})
 
                     else:
 
-                        pairs_to_link.append({"src_entity":id_chunk_map[src_id], "target_entity":id_chunk_map[target_id], "rel_type":'None'})
+                        pairs_to_link.append({"src_entity":id_chunk_map[src_id], "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None})
 
         assert( relation_count == len(t_links) )
 
@@ -390,6 +390,7 @@ class TimeNote(Note, Features):
 
         labels = []
         offsets = []
+        tlink_ids = []
 
         processed_data = None
 
@@ -418,14 +419,15 @@ class TimeNote(Note, Features):
 
         else:
 
+
             # tlinks
             for tlink in processed_data:
 
                 labels.append(tlink["rel_type"])
 
+                tlink_ids.append(tlink["tlink_id"])
 
-            return self.get_features_vect_tlinks(processed_data), labels
-
+            return self.get_features_vect_tlinks(processed_data), labels, tlink_ids
 
     @staticmethod
     def get_iob_labels(token, offsets):
@@ -527,7 +529,9 @@ if __name__ == "__main__":
 
     t =  TimeNote("APW19980219.0476.tml.TE3input", "APW19980219.0476.tml")
 
-    print t.vectorize('TLINK')
+    _,_,lids= t.vectorize('TLINK')
+
+    print lids
 
     print "nothing to do"
 
