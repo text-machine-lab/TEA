@@ -40,5 +40,5 @@ def pre_process(text):
 
 if __name__ == "__main__":
 #    print pre_process(""" One reason people lie is to achieve personal power. Achieving personal power is helpful for someone who pretends to be more confident than he really is. """)
-    pre_process("I wrote a complete sentence. I got a good grade on it")
+    print pre_process("I wrote a complete sentence. I got a good grade on it")
 
