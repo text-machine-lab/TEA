@@ -207,7 +207,7 @@ class TimeNote(Note, Features):
 
             doctime_dict[attrib] = doctime.attrib[attrib]
 
-        id_chunk_map[doctime_id] = doctime_dict
+        id_chunk_map[doctime_id] = [doctime_dict]
 
         timex_ids.add(doctime_id)
 
@@ -457,6 +457,7 @@ class TimeNote(Note, Features):
             for i, token in enumerate(target_entity):
 
                 for key in token:
+
                     vector["target_token{}_".format(i) + key] = token[key]
 
             vectors.append(vector)
@@ -589,7 +590,9 @@ def __unit_tests():
     #print t.get_token_char_offsets()
     """
 
-    print t.get_iob_features()
+    t.get_tlink_features()
+
+#    print t.get_iob_features()
 
 #    print t.get_tlinked_entities()
 
