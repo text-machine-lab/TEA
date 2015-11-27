@@ -397,7 +397,7 @@ class TimeNote(Note, Features):
 
         for line in self.pre_processed_text:
 
-            for token in self.pre_processed_text:
+            for token in self.pre_processed_text[line]:
 
                 vectors.append(token)
 
@@ -589,7 +589,10 @@ def __unit_tests():
     assert len(t.get_tlink_ids()) == number_of_tlinks
     #print t.get_token_char_offsets()
     """
-    print t.get_tlinked_entities()
+
+    print t.get_iob_features()
+
+#    print t.get_tlinked_entities()
 
 #    print t.get_tlink_labels()
 
