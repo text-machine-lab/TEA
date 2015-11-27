@@ -25,7 +25,9 @@ def pre_process(text):
         grammar_categories = constituency_trees[tok["sentence_num"]].get_phrase_memberships(tok["id"])
 
         tok.update(pos_tag)
-        tok.update({"grammar_categories":grammar_categories})
+
+        for category in grammar_categories:
+            tok.update({"grammar_category{}".format(category):grammar_categories[category]})
 
         if tok["sentence_num"] in sentences:
             sentences[tok["sentence_num"]].append(tok)
