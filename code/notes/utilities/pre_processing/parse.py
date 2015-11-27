@@ -153,7 +153,7 @@ class ConstituencyTree(object):
     def process_constituency_tree_element(self, xml_constituency_tree_element):
         """ generates a tree structure to determine the categories each token belongs in. """
 
-        print "called create_constituency_nodes"
+        #print "called create_constituency_nodes"
         constituency_nodes = {}
         terminal_nodes = {}
 
