@@ -44,8 +44,19 @@ class Note(object):
 
         return open(self.note_path, "rb").read()
 
-    def write(self, timexLabels, eventLabels, offsets):
+    def write(self, timexLabels, eventLabels, tlinkLabels, idPairs, offsets):
+        '''
+        Note::write()
 
+        Purpose: add annotations this notes tml file and write new xml tree to a .tml file in the output folder.
+
+        params:
+            timexLabels: list labels for timex expressions
+            eventLabels: list labels for events
+            tlinkLabels: list labels for tlink relations
+            idPairs: list of pairs of eid or tid that have a one to one correspondance with the tlinkLabels
+            offsets: list of offsets tuples used to locate events and timexes specified by the label lists. Have one to one correspondance with both lists of labels.
+        '''
         #TODO: create output directory if it does not exist
 
         root = get_root(self.note_path)

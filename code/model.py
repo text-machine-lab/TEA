@@ -19,6 +19,7 @@ class Model:
 		eventLabels	= []
 		tlinkFeats	= []
 		tlinkLabels	= []
+		tlinkIds	= []
 
 		#populate feature and label lists
 		for note in notes:
@@ -31,11 +32,10 @@ class Model:
 			eventFeats = eventFeats + tmpFeats
 			eventLabels = eventLabels + tmpLabels
 
-			tmpFeats, tmpLabels	= note.vectorize("TLINK")
+			tmpFeats, tmpLabels, tlinkIds = note.vectorize("TLINK")
 			tlinkFeats = tlinkFeats + tmpFeats
 			tlinkLabels = tlinkLabels + tmpLabels
 
-		# print tlinkLabels
 		#train classifiers
 		self._trainTimex(timexFeats, timexLabels)
 		self._trainEvent(eventFeats, eventLabels)
