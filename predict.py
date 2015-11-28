@@ -32,7 +32,7 @@ def main():
 
 	for note in notes:
 		timexLabels, eventLabels, offsets = model.predict(note)
-		note.write(timexLabels, eventLabels, offsets)
+		note.write(timexLabels, eventLabels, None, None, offsets)
 
 if __name__ == '__main__':
 	main()

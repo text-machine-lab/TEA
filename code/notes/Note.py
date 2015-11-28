@@ -94,6 +94,7 @@ class Note(object):
                 set_text_element(root, annotated_text)
 
         # for tlink in tlinkLabels:
+        
             
 
         # skip last 9 characters to remove .TE3input suffix
