@@ -31,8 +31,8 @@ def main():
 		model = cPickle.load(modelfile)
 
 	for note in notes:
-		timexLabels, eventLabels, offsets = model.predict(note)
-		note.write(timexLabels, eventLabels, None, None, offsets)
+		entityLabels, offsets = model.predict(note)
+		note.write(entityLabels, None, None, offsets)
 
 if __name__ == '__main__':
 	main()

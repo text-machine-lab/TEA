@@ -1,6 +1,7 @@
 import os
 
 from code.notes.TimeNote import TimeNote
+from utilities import combineTimexEventLabels
 from machine_learning.sci import train as train_classifier
 
 class Model:
@@ -78,33 +79,43 @@ class Model:
 		offsets		= note.get_token_char_offsets()
 
 		#populate feature lists
-		eventTimexFeats	= note.get_iob_features()
+		timexFeats = note.get_iob_features()
 
 		#TODO: move direct SVM interfacing back to sci.py
 
-		#vectorize
-		timexVec = self.timexVectorizer.transform(eventTimexFeats).toarray()
-		eventVec = self.eventVectorizer.transform(eventTimexFeats).toarray()
+		#vectorize and classify timex
+		timexVec = self.timexVectorizer.transform(timexFeats).toarray()
+		timexLabels = list(self.timexClassifier.predict(timexVec))	
 
-		#classify
-		timexLabels = list(self.timexClassifier.predict(timexVec))
+		#filter out all timex-labeled entities
+		eventOffsets = []
+		eventFeats = []
+		for i in range(0, len(timexLabels) - 1):
+			if timexLabels[i] == 'O':
+				eventFeats.append(timexFeats[i])
+				eventOffsets.append(offsets[i])
+
+		#vectorize and classify events
+		eventVec = self.eventVectorizer.transform(eventFeats).toarray()
 		eventLabels = list(self.eventClassifier.predict(eventVec))
 
+		timexEventLabels = combineTimexEventLabels(timexLabels, eventLabels)
+
 		#write timex and events to annoation file
-		note.write(timexLabels, eventLabels, None, None, offsets)
+		note.write(timexEventLabels, None, None, offsets)
 		#set new annoation path for the note so tlink data generates properly
 		note._set_note_path(note.note_path, (os.environ['TEA_PATH'] + '/output/' + note.note_path.split('/')[-1][:-9]))
 
 		# note.get_tlinked_entities()
 
-		tlinkFeats = note.get_tlink_features()
+		# tlinkFeats = note.get_tlink_features()
 
-		tlinkVec = self.tlinkVectorizer.transform(tlinkFeats).toarray()
-		tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
+		# tlinkVec = self.tlinkVectorizer.transform(tlinkFeats).toarray()
+		# tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
 
-		print tlinkLabels
+		# print tlinkLabels
 
-		return timexLabels, eventLabels, offsets
+		return timexEventLabels, offsets
 
 	def _trainTimex(self, tokenVectors, labels):
 		'''
