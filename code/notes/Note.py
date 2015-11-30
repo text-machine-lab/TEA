@@ -44,14 +44,14 @@ class Note(object):
 
         return open(self.note_path, "rb").read()
 
-    def write(self, timexEvemtLabels, tlinkLabels, idPairs, offsets):
+    def write(self, timexEventLabels, tlinkLabels, idPairs, offsets):
         '''
         Note::write()
 
         Purpose: add annotations this notes tml file and write new xml tree to a .tml file in the output folder.
 
         params:
-            timexEvemtLabels: list of dictionaries of labels for timex and events. 
+            timexEventLabels: list of dictionaries of labels for timex and events.
             tlinkLabels: list labels for tlink relations
             idPairs: list of pairs of eid or tid that have a one to one correspondance with the tlinkLabels
             offsets: list of offsets tuples used to locate events and timexes specified by the label lists. Have one to one correspondance with both lists of labels.
@@ -65,22 +65,22 @@ class Note(object):
         # start at back of document to preserve offsets until they are used
         for i in range(1, length):
             index = length - i
-            
-            if(timexEvemtLabels[index]["entity_label"][0] == "B"):
+
+            if(timexEventLabels[index]["entity_label"][0] == "B"):
                 start = offsets[index][0]
                 end = offsets[index][1]
 
                 #grab any IN tokens and add them to the tag text
                 for j in range (1, i):
-                    if(timexEvemtLabels[index + j]["entity_label"][0] == "I"):
+                    if(timexEventLabels[index + j]["entity_label"][0] == "I"):
                         end = offsets[index + j]["entity_label"][1]
                     else:
                         break
 
-                if timexEvemtLabels[index]["entity_type"] == "TIMEX3":
-                    annotated_text = annotate_text_element(root, "TIMEX3", start, end, {"tid": timexEvemtLabels[index]["entity_id"], "type":timexEvemtLabels[index]["entity_label"][2:]})
+                if timexEventLabels[index]["entity_type"] == "TIMEX3":
+                    annotated_text = annotate_text_element(root, "TIMEX3", start, end, {"tid": timexEventLabels[index]["entity_id"], "type":timexEventLabels[index]["entity_label"][2:]})
                 else:
-                    annotated_text = annotate_text_element(root, "EVENT", start, end, {"eid": timexEvemtLabels[index]["entity_id"], "class":timexEvemtLabels[index]["entity_label"][2:]})
+                    annotated_text = annotate_text_element(root, "EVENT", start, end, {"eid": timexEventLabels[index]["entity_id"], "class":timexEventLabels[index]["entity_label"][2:]})
 
                 set_text_element(root, annotated_text)
 
@@ -88,8 +88,8 @@ class Note(object):
 
         # for i in range(1, tlinkLength):
 
-            
-            
+
+
 
         # skip last 9 characters to remove .TE3input suffix
         path = os.environ['TEA_PATH'] + '/output/' + self.note_path.split('/')[-1][:-9]

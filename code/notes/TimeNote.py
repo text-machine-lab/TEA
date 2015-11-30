@@ -41,6 +41,9 @@ class TimeNote(Note, Features):
 
             self.get_tlinked_entities()
 
+        else:
+            self.tlinks = None
+
     def _pre_process(self, timeml_note_path):
 
         # callls newsreader pipeline, tokenizes, get_features
@@ -76,6 +79,104 @@ class TimeNote(Note, Features):
                     iob_tag['entity_label'] = 'O'
 
         return iob_labels
+
+    def set_tlinks(self, timexEventFeats, timexEventLabels, timexEventOffsets):
+
+        exit("set_tlinks doesn't work yet")
+
+        # TODO: not sure if connor needs timexEventOffsets paired together. but it's there as a
+        # parameter for now.
+
+        # there should be no tlinks if this method is called.
+        assert self.tlinks is None
+
+        id_chunk_map = {}
+
+        event_ids = set()
+        timex_ids = set()
+
+        chunks = []
+        chunk = []
+
+        id_chunks = []
+        id_chunk = []
+
+        start_entity_id = None
+
+        for token, label in zip(timexEventFeats, timexEventLabels):
+
+            # start of entity
+            if re.search('^B_', label["entity_label"]):
+
+                if label["entity_type"] == "EVENT":
+                    event_ids.add(label["entity_id"])
+                else:
+                    timex_ids.add(label["entity_id"])
+
+                if len(chunk) != 0:
+                    chunks.append(chunk)
+                    id_chunks.append(id_chunk)
+
+                    assert start_entity_id not in id_chunk_map
+
+                    id_chunk_map[start_entity_id] = chunk
+
+                    chunk = [token]
+                    id_chunk = [label["entity_id"]]
+
+                else:
+                    chunk.append(token)
+                    id_chunk.append(label["entity_id"])
+
+                start_entity_id = label["entity_id"]
+
+            elif re.search('^I_', label["entity_label"]):
+
+                chunk.append(token)
+                id_chunk.append(label["entity_id"])
+
+            else:
+                pass
+
+        # add doc time. this is a timex.
+        # TODO: need to add features for doctime. there aren't any.
+        doctime = get_doctime_timex(self.note_path)
+        doctime_id = doctime.attrib["tid"]
+        doctime_dict = {}
+
+        # create dict representation of doctime timex
+        for attrib in doctime.attrib:
+
+            doctime_dict[attrib] = doctime.attrib[attrib]
+
+        id_chunk_map[doctime_id] = [doctime_dict]
+
+        timex_ids.add(doctime_id)
+
+        # cartesian product of entity pairs
+        entity_pairs = filter(lambda t: t[0] != t[1], list(itertools.product(event_ids, timex_ids)) +\
+                                                      list(itertools.product(timex_ids, event_ids)) +\
+                                                      list(itertools.product(event_ids, event_ids)) +\
+                                                      list(itertools.product(timex_ids, timex_ids)))
+
+        entity_pairs = set(entity_pairs)
+
+        relation_count = 0
+
+        pairs_to_link = []
+
+        for pair in entity_pairs:
+
+            src_id = pair[0]
+            target_id = pair[1]
+
+            # no link at all
+            pairs_to_link.append({"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None})
+
+        assert len(pairs_to_link) == len(entity_pairs)
+
+        self.tlinks = pairs_to_link
+
 
     def get_tlinked_entities(self):
 
@@ -198,6 +299,7 @@ class TimeNote(Note, Features):
         assert len(event_ids.union(timex_ids)) == len(id_chunks)
         assert len(id_chunk_map.keys()) == len(event_ids.union(timex_ids))
 
+        # TODO: need to add features for doctime. there aren't any.
         # add doc time. this is a timex.
         doctime = get_doctime_timex(self.note_path)
         doctime_id = doctime.attrib["tid"]
@@ -246,7 +348,13 @@ class TimeNote(Note, Features):
 
                         pairs_to_link.append({"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None})
 
-        assert( relation_count == len(t_links) )
+            else:
+
+                # no link at all
+                pairs_to_link.append({"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None})
+
+        assert len(pairs_to_link) == len(entity_pairs)
+        assert relation_count == len(t_links)
 
         self.tlinks = pairs_to_link
 
