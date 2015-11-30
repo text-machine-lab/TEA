@@ -82,11 +82,6 @@ class TimeNote(Note, Features):
 
     def set_tlinks(self, timexEventFeats, timexEventLabels, timexEventOffsets):
 
-        exit("set_tlinks doesn't work yet")
-
-        # TODO: not sure if connor needs timexEventOffsets paired together. but it's there as a
-        # parameter for now.
-
         # there should be no tlinks if this method is called.
         assert self.tlinks is None
 
@@ -103,15 +98,21 @@ class TimeNote(Note, Features):
 
         start_entity_id = None
 
+        B_seen = False
+
         for token, label in zip(timexEventFeats, timexEventLabels):
 
             # start of entity
             if re.search('^B_', label["entity_label"]):
 
+                B_seen = True
+
                 if label["entity_type"] == "EVENT":
                     event_ids.add(label["entity_id"])
-                else:
+                elif label["entity_type"] == "TIMEX3":
                     timex_ids.add(label["entity_id"])
+                else:
+                    exit("invalid type")
 
                 if len(chunk) != 0:
                     chunks.append(chunk)
@@ -132,11 +133,25 @@ class TimeNote(Note, Features):
 
             elif re.search('^I_', label["entity_label"]):
 
+                if B_seen is False:
+                    # TODO: put logic in to handle this.
+                    exit("I label occured before B label")
+
+                #token["entity_id"] = start_entity_id
+
                 chunk.append(token)
                 id_chunk.append(label["entity_id"])
 
             else:
-                pass
+                continue
+
+        if len(chunk) != 0:
+            chunks.append(chunk)
+            assert len(id_chunk) == len(chunk)
+            id_chunks.append(id_chunk)
+
+            assert start_entity_id not in id_chunk_map
+            id_chunk_map[start_entity_id] = chunk
 
         # add doc time. this is a timex.
         # TODO: need to add features for doctime. there aren't any.
@@ -176,6 +191,7 @@ class TimeNote(Note, Features):
         assert len(pairs_to_link) == len(entity_pairs)
 
         self.tlinks = pairs_to_link
+
 
 
     def get_tlinked_entities(self):
@@ -331,6 +347,8 @@ class TimeNote(Note, Features):
             src_id = pair[0]
             target_id = pair[1]
 
+            pair = {"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None}
+
             if src_id in temporal_relations:
 
                 relation_found = False
@@ -342,18 +360,13 @@ class TimeNote(Note, Features):
                         relation_count += 1
 
                         # need to assign relation to each pairing if there exists one otherwise set 'none'
-                        pairs_to_link.append({"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":target_entity["rel_type"], "tlink_id":target_entity["lid"]})
+                        pair["rel_type"] = target_entity["rel_type"]
+                        pair["tlink_id"] = target_entity["lid"]
 
-                    else:
+            # no link at all
+            pairs_to_link.append(pair)
 
-                        pairs_to_link.append({"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None})
-
-            else:
-
-                # no link at all
-                pairs_to_link.append({"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None})
-
-        assert len(pairs_to_link) == len(entity_pairs)
+        assert len(pairs_to_link) == len(entity_pairs), "{} != {}".format(len(pairs_to_link), len(entity_pairs))
         assert relation_count == len(t_links)
 
         self.tlinks = pairs_to_link
@@ -507,7 +520,16 @@ class TimeNote(Note, Features):
 
             for token in self.pre_processed_text[line]:
 
-                vectors.append(token)
+                # don't want to modify original
+                t = copy.deepcopy(token)
+
+                # TODO: see if these features help once we get a baseline working?
+                t.pop("start_offset")
+                t.pop("end_offset")
+                t.pop("id")
+                t.pop("sentence_num")
+
+                vectors.append(t)
 
         return vectors
 

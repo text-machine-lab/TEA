@@ -20,6 +20,7 @@ def pre_process(text):
 
         assert tok["id"] == pos_tag["id"]
 
+        """
         # get the categories a token falls under.
         # {0:.., 1:,...} the lower the number the more specific.
         grammar_categories = constituency_trees[tok["sentence_num"]].get_phrase_memberships(tok["id"])
@@ -28,6 +29,7 @@ def pre_process(text):
 
         for category in grammar_categories:
             tok.update({"grammar_category{}".format(category):grammar_categories[category]})
+        """
 
         if tok["sentence_num"] in sentences:
             sentences[tok["sentence_num"]].append(tok)

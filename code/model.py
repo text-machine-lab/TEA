@@ -29,21 +29,21 @@ class Model:
 		for note in notes:
 
 			#timex and event features
-			eventTimexFeats = eventTimexFeats + note.get_iob_features()
+			eventTimexFeats += note.get_iob_features()
 
 			#timex labels
 			tmpLabels = note.get_timex_iob_labels()
 			for label in tmpLabels:
-				timexLabels = timexLabels + label
+				timexLabels += label
 
 			#event labels
 			tmpLabels = note.get_event_iob_labels()
 			for label in tmpLabels:
-				eventLabels = eventLabels + label
+				eventLabels += label
 
 			#tlink features and labels
-			tlinkFeats = tlinkFeats + note.get_tlink_features()
-			tlinkLabels = tlinkLabels + note.get_tlink_labels()
+			tlinkFeats += note.get_tlink_features()
+			tlinkLabels += note.get_tlink_labels()
 
 			#delete these after testing
 			tlinkIds = note.get_tlink_id_pairs()
@@ -56,6 +56,7 @@ class Model:
 				eLabels.append(label["entity_label"])
 
 			# note.write(tLabels, eLabels, tlinkLabels, tlinkIds, offsets)
+
 
 		#train classifiers
 		self._trainTimex(eventTimexFeats, timexLabels)
@@ -89,8 +90,6 @@ class Model:
 		potentialTimexVec = self.timexVectorizer.transform(timexEventFeats).toarray()
 		timexLabels_withO = list(self.timexClassifier.predict(potentialTimexVec))
 
-		for label in timexLabels:
-			print label
 
 		#filter out all timex-labeled entities
 		timexFeats = []
@@ -136,7 +135,8 @@ class Model:
 		timexEventLabels = combineLabels(timexLabels, eventLabels, OLabels)
 
 		#write timex and events to annoation file
-		note.write(timexEventLabels, None, None, timexOffsets + eventOffsets + OOffsets)
+# TODO: this doesn't work.
+#		note.write(timexEventLabels, None, None, timexOffsets + eventOffsets + OOffsets)
 		#set new annoation path for the note so tlink data generates properly
 		note._set_note_path(note.note_path, (os.environ['TEA_PATH'] + '/output/' + note.note_path.split('/')[-1][:-9]))
 
@@ -146,7 +146,7 @@ class Model:
 		assert len(timexEventOffsets) == len(timexEventFeats)
 		assert len(timexEventLabels) == len(timexEventFeats)
 
-#		note.set_tlinks(timexEventFeats, timexEventLabels, timexEventOffsets)
+		note.set_tlinks(timexEventFeats, timexEventLabels, timexEventOffsets)
 
 #		print note.get_tlinked_entities()
 
@@ -194,6 +194,7 @@ class Model:
 		assert len(tokenVectors) == len(labels)
 
 		Y = []
+
 
 		for label in labels:
 			Y.append(label["entity_label"])

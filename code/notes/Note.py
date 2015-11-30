@@ -57,6 +57,8 @@ class Note(object):
             offsets: list of offsets tuples used to locate events and timexes specified by the label lists. Have one to one correspondance with both lists of labels.
         '''
         #TODO: create output directory if it does not exist
+        # TODO: put this in TimeNote class
+
 
         root = get_root(self.note_path)
 
