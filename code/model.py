@@ -45,19 +45,6 @@ class Model:
 			tlinkFeats += note.get_tlink_features()
 			tlinkLabels += note.get_tlink_labels()
 
-			#delete these after testing
-			tlinkIds = note.get_tlink_id_pairs()
-			offsets = note.get_token_char_offsets()
-			tLabels = []
-			eLabels = []
-			for label in timexLabels:
-				tLabels.append(label["entity_label"])
-			for label in eventLabels:
-				eLabels.append(label["entity_label"])
-
-			# note.write(tLabels, eLabels, tlinkLabels, tlinkIds, offsets)
-
-
 		#train classifiers
 		self._trainTimex(eventTimexFeats, timexLabels)
 		self._trainEvent(eventTimexFeats, eventLabels)
@@ -134,12 +121,6 @@ class Model:
 
 		timexEventLabels = combineLabels(timexLabels, eventLabels, OLabels)
 
-		#write timex and events to annoation file
-# TODO: this doesn't work.
-#		note.write(timexEventLabels, None, None, timexOffsets + eventOffsets + OOffsets)
-		#set new annoation path for the note so tlink data generates properly
-		note._set_note_path(note.note_path, (os.environ['TEA_PATH'] + '/output/' + note.note_path.split('/')[-1][:-9]))
-
 		timexEventFeats = timexFeats + eventFeats + OFeats
 		timexEventOffsets = timexOffsets + eventOffsets + OOffsets
 
@@ -148,16 +129,14 @@ class Model:
 
 		note.set_tlinks(timexEventFeats, timexEventLabels, timexEventOffsets)
 
-#		print note.get_tlinked_entities()
+		tlinkFeats = note.get_tlink_features()
 
-		# tlinkFeats = note.get_tlink_features()
+		tlinkVec = self.tlinkVectorizer.transform(tlinkFeats).toarray()
+		tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
 
-		# tlinkVec = self.tlinkVectorizer.transform(tlinkFeats).toarray()
-		# tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
+		print tlinkLabels
 
-		# print tlinkLabels
-
-		return timexEventLabels, offsets
+		return timexEventLabels, timexEventOffsets
 
 	def _trainTimex(self, tokenVectors, labels):
 		'''

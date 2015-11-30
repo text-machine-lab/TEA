@@ -70,6 +70,16 @@ def annotate_text_element(timeml_root, tag, start, end, attributes = {}):
     return text_element
 
 
+def annotate_root(timeml_root, tag, attributes = {}):
+    ''' adds a sub element to root'''
+
+    element = ET.Element(tag, attributes)
+    element.tail = "\n"
+
+    timeml_root.append(element)
+
+    return timeml_root
+
 def get_text(timeml_doc):
     """ gets raw text of document, xml tags removed """
 
