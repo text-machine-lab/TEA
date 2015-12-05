@@ -4,11 +4,20 @@ import tokenize
 import pos
 import parse
 
+import os
+
+import sys
+
+utilities_path = os.environ["TEA_PATH"] + "/code/notes/utilities"
+sys.path.insert(0, utilities_path)
+
+import timeml_utilities
+
 def pre_process(text):
 
-    naf_tagged_doc = news_reader.pre_process(text)
+    naf_tagged_doc = news_reader.pre_process(timeml_utilities.strip_quotes(text))
 
-    tokens = tokenize.get_tokens(naf_tagged_doc)
+    tokens, tokens_to_offset = tokenize.get_tokens(naf_tagged_doc)
     pos_tags = pos.get_pos_tags(naf_tagged_doc)
     constituency_trees = parse.get_constituency_trees(naf_tagged_doc)
 
@@ -18,6 +27,10 @@ def pre_process(text):
 
         tmp = []
 
+        start = tok["start_offset"]
+        end   = tok["end_offset"]
+
+        assert text[start:end + 1] == tok["token"], "{} != {}".format(text[start:end+1], tok["token"])
         assert tok["id"] == pos_tag["id"]
 
         """
@@ -40,9 +53,10 @@ def pre_process(text):
     # TODO: doesn't actually assert the sentences match to their corresponding tree
     assert( len(sentences) == len(constituency_trees))
 
-    return sentences
+    return sentences, tokens_to_offset
 
 if __name__ == "__main__":
 #    print pre_process(""" One reason people lie is to achieve personal power. Achieving personal power is helpful for someone who pretends to be more confident than he really is. """)
-    print pre_process("I wrote a complete sentence. I got a good grade on it")
-
+#    print pre_process("Hello World")
+#    print pre_process(timeml_utilities.get_text("APW19980820.1428.tml"))
+    pass

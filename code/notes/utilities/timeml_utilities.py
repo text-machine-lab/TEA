@@ -4,6 +4,23 @@ from note_utils import valid_path
 
 import xml_utilities
 
+from string import whitespace
+
+import re
+
+def strip_quotes(text):
+    """ the pipeline we use does really weird stuff to quotes. just going to remove them for now or forever """
+
+#    text     = re.sub(r"``", r"", text)
+#    text     = re.sub(r"''", r"", text)
+#    text     = re.sub(r'"', r"", text)
+#    text     = re.sub(r"'", r"", text)
+
+    text     = re.sub(r"``", r"''", text)
+    text     = re.sub(r'"', r"'", text)
+
+    return text
+
 def get_text_element(timeml_doc):
 
     root = xml_utilities.get_root(timeml_doc)
@@ -15,6 +32,8 @@ def get_text_element(timeml_doc):
 
             text_element = e
             break
+
+    text_element.text = strip_quotes(text_element.text)
 
     return text_element
 
@@ -29,6 +48,8 @@ def get_text_element_from_root(timeml_root):
             text_element = e
             break
 
+    text_element.text = strip_quotes(text_element.text)
+
     return text_element
 
 
@@ -40,7 +61,7 @@ def set_text_element(timeml_root, text_element):
             e = text_element
             break
 
-    return timeml_root 
+    return timeml_root
 
 def annotate_text_element(timeml_root, tag, start, end, attributes = {}):
     '''
@@ -80,6 +101,7 @@ def annotate_root(timeml_root, tag, attributes = {}):
 
     return timeml_root
 
+
 def get_text(timeml_doc):
     """ gets raw text of document, xml tags removed """
 
@@ -89,15 +111,15 @@ def get_text(timeml_doc):
 
     string = list(ET.tostring(text_e, encoding='utf8', method='text'))
 
-    # retains a newline after <TEXT> tag...
-    if string[0] == '\n':
-        string.pop(0)
+    string = "".join(string)
 
-    if string[-1] == '\n':
-        string.pop(len(string) - 1)
+    for char in ['\n'] + list(whitespace):
 
-    return "".join(string)
+        string = string.strip(char)
 
+    string = strip_quotes(string)
+
+    return string
 
 def get_tagged_entities(timeml_doc):
     """ gets tagged entities within timeml text """

@@ -16,6 +16,7 @@ def pre_process(text):
     the idea behind is to left newsreader do its thing. it uses this formatting called NAF formatting
     that is designed to be this universal markup used by all of the ixa-pipes used in the project.
     """
+
     tokenized_text = _tokenize(text)
     pos_tagged_text = _pos_tag(tokenized_text)
     constituency_parsed_text = _constituency_parse(pos_tagged_text)
@@ -168,7 +169,7 @@ class SRLServer():
 
 if __name__ == "__main__":
 
-    pre_process("i ate the bones")
+    print pre_process("he said ''hello\"")
 
 # EOF
 
