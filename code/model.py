@@ -6,6 +6,10 @@ from machine_learning.sci import train as train_classifier
 
 class Model:
 
+	def __init__(self, grid=False):
+
+		self.grid=grid
+
 	def train(self, notes):
 		'''
 		Model::train()
@@ -155,7 +159,7 @@ class Model:
 		for label in labels:
 			Y.append(label["entity_label"])
 
-		clf, vec = train_classifier(tokenVectors, Y)
+		clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
 		self.timexClassifier = clf
 		self.timexVectorizer = vec
 
@@ -178,7 +182,7 @@ class Model:
 		for label in labels:
 			Y.append(label["entity_label"])
 
-		clf, vec = train_classifier(tokenVectors, Y)
+		clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
 		self.eventClassifier = clf
 		self.eventVectorizer = vec
 
@@ -195,7 +199,7 @@ class Model:
 
 		assert len(tokenVectors) == len(Y)
 
-		clf, vec = train_classifier(tokenVectors, Y)
+		clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
 		self.tlinkClassifier = clf
 		self.tlinkVectorizer = vec
 

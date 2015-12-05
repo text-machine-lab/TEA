@@ -8,19 +8,6 @@ from string import whitespace
 
 import re
 
-def strip_quotes(text):
-    """ the pipeline we use does really weird stuff to quotes. just going to remove them for now or forever """
-
-#    text     = re.sub(r"``", r"", text)
-#    text     = re.sub(r"''", r"", text)
-#    text     = re.sub(r'"', r"", text)
-#    text     = re.sub(r"'", r"", text)
-
-    text     = re.sub(r"``", r"''", text)
-    text     = re.sub(r'"', r"'", text)
-
-    return text
-
 def get_text_element(timeml_doc):
 
     root = xml_utilities.get_root(timeml_doc)
@@ -33,12 +20,12 @@ def get_text_element(timeml_doc):
             text_element = e
             break
 
-    text_element.text = strip_quotes(text_element.text)
-
     return text_element
 
 
 def get_text_element_from_root(timeml_root):
+
+    exit("called get text element from root")
 
     text_element = None
 
@@ -47,8 +34,6 @@ def get_text_element_from_root(timeml_root):
 
             text_element = e
             break
-
-    text_element.text = strip_quotes(text_element.text)
 
     return text_element
 
@@ -101,23 +86,34 @@ def annotate_root(timeml_root, tag, attributes = {}):
 
     return timeml_root
 
+def get_text_with_taggings(timeml_doc):
+
+    text_e = get_text_element(timeml_doc)
+
+    string = ET.tostring(text_e)
+
+    for char in ['\n'] + list(whitespace):
+
+        string = string.strip(char)
+
+    string = xml_utilities.strip_quotes(string)
+
+    return string
 
 def get_text(timeml_doc):
     """ gets raw text of document, xml tags removed """
 
     text_e = get_text_element(timeml_doc)
 
-    text_e = text_e
+    string =  ET.tostring(text_e)
 
-    string = list(ET.tostring(text_e, encoding='utf8', method='text'))
-
-    string = "".join(string)
+    string = ET.tostring(text_e, encoding='utf8', method='text')
 
     for char in ['\n'] + list(whitespace):
 
         string = string.strip(char)
 
-    string = strip_quotes(string)
+    string = xml_utilities.strip_quotes(string)
 
     return string
 
@@ -182,7 +178,13 @@ def get_doctime_timex(timeml_doc):
 
 if __name__ == "__main__":
 
-    print get_doctime_timex("wsj_1025.tml")
+    doc = "/data2/kwacome/Temporal-Entity-Annotator-TEA-/bad_train_file/NYT19981121.0173.tml"
+
+    e =  get_text_element(doc)
+
+    print get_text(doc)
+    print "\n\n\n"
+    print get_text_with_taggings(doc)
 
     print "nothing to do here"
 

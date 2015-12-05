@@ -17,12 +17,15 @@ def main():
 
     parser.add_argument("train_dir",
                         nargs=1,
-                        metavar='train_dir',
                         help="Directory containing training input and gold annotations")
 
-    parser.add_argument("model_dest",
-                        metavar="model_destination",
+    parser.add_argument("model_destination",
                         help="Where to store the trained model")
+
+    parser.add_argument("--grid",
+                        dest="grid",
+                        action="store_true",
+                        help="Enable or disable grid search")
 
     args = parser.parse_args()
 
@@ -53,43 +56,40 @@ def main():
 
     assert len(gold_files) == len(tml_files)
 
-    model = trainModel(tml_files, gold_files)
+    model = trainModel(tml_files, gold_files, args.grid)
 
-    with open("models/test.mod", "wb") as modFile:
+    with open(args.model_destination, "wb") as modFile:
         cPickle.dump(model, modFile)
 
 
-def trainModel( tml_files, gold_files ):
-      '''
-      train::trainModel()
+def trainModel( tml_files, gold_files, grid ):
+    '''
+    train::trainModel()
 
-      Purpose: Train a model for classification of events, timexes, and temporal relations based
-           on given training data
+    Purpose: Train a model for classification of events, timexes, and temporal relations based
+       on given training data
 
-      @param training_list: List of strings containing file paths for .tml training documents
-      '''
+    @param training_list: List of strings containing file paths for .tml training documents
+    '''
 
-      print "Called train"
+    print "Called train"
 
-      # Read in notes
-      notes = []
+    # Read in notes
+    notes = []
 
-      basename = lambda x: os.path.basename(x[0:x.index(".tml")])
+    basename = lambda x: os.path.basename(x[0:x.index(".tml")])
 
-      for tml, gold in zip(tml_files, gold_files):
-
-        print basename(tml)
-        print basename(gold)
+    for tml, gold in zip(tml_files, gold_files):
 
         assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
 
         tmp_note = TimeNote(tml, gold)
         notes.append(tmp_note)
 
-      mod = model.Model()
-      mod.train(notes)
+    mod = model.Model(grid=grid)
+    mod.train(notes)
 
-      return mod
+    return mod
 
 if __name__ == "__main__":
   main()

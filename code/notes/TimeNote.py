@@ -13,12 +13,12 @@ sys.path.insert(0, os.path.join(os.environ['TEA_PATH'], "code/features"))
 from Note import Note
 
 from utilities.timeml_utilities import get_text
+from utilities.timeml_utilities import get_text_with_taggings
 from utilities.timeml_utilities import get_tagged_entities
 from utilities.timeml_utilities import get_text_element
 from utilities.timeml_utilities import get_tlinks
 from utilities.timeml_utilities import get_make_instances
 from utilities.timeml_utilities import get_doctime_timex
-from utilities.timeml_utilities import strip_quotes
 
 from utilities.xml_utilities import get_raw_text
 from utilities.pre_processing import pre_processing
@@ -27,6 +27,8 @@ from Features import Features
 
 import copy
 from string import whitespace
+
+import xml_utilities
 
 class TimeNote(Note, Features):
 
@@ -397,26 +399,28 @@ class TimeNote(Note, Features):
             tagged_entities = get_tagged_entities(self.annotated_note_path)
             _tagged_entities = copy.deepcopy(tagged_entities)
 
-            raw_text_element = get_text_element(self.note_path)
-            raw_text = get_raw_text(raw_text_element)
+       #     raw_text_element = get_text_element(self.note_path)
+      #      raw_text = get_raw_text(raw_text_element)
 
-            labeled_text_element = get_text_element(self.annotated_note_path)
-            labeled_text = get_raw_text(labeled_text_element)
+     #       labeled_text_element = get_text_element(self.annotated_note_path)
+    #        labeled_text = get_raw_text(labeled_text_element)
+
+            raw_text = get_text(self.note_path)
+            labeled_text = get_text_with_taggings(self.annotated_note_path)
 
             # lots of checks!
             for char in ['\n'] + list(whitespace):
                 raw_text     = raw_text.strip(char)
                 labeled_text = labeled_text.strip(char)
 
-            raw_text     = strip_quotes(raw_text)
-            labeled_text = strip_quotes(labeled_text)
+            raw_text     = xml_utilities.strip_quotes(raw_text)
+            labeled_text = xml_utilities.strip_quotes(labeled_text)
 
-            # TODO: cleanup
-            raw_text = raw_text.strip("<TEXT>\n")
-            raw_text = raw_text.strip("<\/TEXT>")
+            raw_text = re.sub("<TEXT>\n+", "", raw_text)
+            raw_text = re.sub("\n+</TEXT>", "", raw_text)
 
-            labeled_text = labeled_text.strip("<TEXT>\n")
-            labeled_text = labeled_text.strip("<\/TEXT>")
+            labeled_text = re.sub("<TEXT>\n+", "", labeled_text)
+            labeled_text = re.sub("\n+</TEXT>", "", labeled_text)
 
             raw_index = 0
             labeled_index = 0
@@ -741,7 +745,7 @@ def __unit_tests():
     assert len(t.get_tlink_id_pairs()) == number_of_tlinks, "{} != {}".format(len(t.get_tlink_id_pairs()), number_of_tlinks)
     assert len(t.get_tlink_labels()) == number_of_tlinks
     assert len(t.get_tlink_ids()) == number_of_tlinks
-    #print t.get_token_char_offsets()
+    #prin t.get_token_char_offsets()
     """
 
     t.get_tlink_features()
