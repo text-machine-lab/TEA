@@ -1,6 +1,8 @@
 import os
 import cPickle
 import argparse
+import re
+import glob
 
 os.environ["TEA_PATH"] = os.getcwd()
 os.environ["PUNKT_PATH"] = os.environ["TEA_PATH"] + "/data/nltk_data/tokenizers/punkt/english.pickle"
@@ -11,42 +13,83 @@ from code import model
 
 def main():
 
-	parser = argparse.ArgumentParser()
-	parser.add_argument("trainList", metavar='Training List', nargs='+', 
-		help="The list of .tml files to train data on. It is assumed that every .tml file has a coresponding .tml.TE3input file clean of annotations.")
-	args = parser.parse_args()
-	
-	files = args.trainList
+    parser = argparse.ArgumentParser()
 
-	model = trainModel(files)
+    parser.add_argument("train_dir",
+                        nargs=1,
+                        metavar='train_dir',
+                        help="Directory containing training input and gold annotations")
 
-	with open("models/test.mod", "wb") as modFile:
-		cPickle.dump(model, modFile)
+    parser.add_argument("model_dest",
+                        metavar="model_destination",
+                        help="Where to store the trained model")
+
+    args = parser.parse_args()
+
+    train_dir = None
+
+    if '/*' != args.train_dir[0][-2:]:
+        train_dir = args.train_dir[0] + '/*'
+
+    else:
+        train_dir = args.train_dir[0]
 
 
-def trainModel( training_list ):
-	'''
-	train::trainModel()
+    print "\ntraining dir: {}\n".format(train_dir)
 
-	Purpose: Train a model for classification of events, timexes, and temporal relations based 
-			 on given training data
+    files = glob.glob(train_dir)
 
-	@param training_list: List of strings containing file paths for .tml training documents
-	'''
+    gold_files = []
+    tml_files  = []
 
-	print "Called train"
+    for f in files:
+        if "E3input" in f:
+            tml_files.append(f)
+        else:
+            gold_files.append(f)
 
-	# Read in notes
-	notes = []
+    gold_files.sort()
+    tml_files.sort()
 
-	for tml in training_list:
-		tmp_note = TimeNote(tml + '.TE3input', tml)
-		notes.append(tmp_note)
+    assert len(gold_files) == len(tml_files)
 
-	mod = model.Model()
-	mod.train(notes)
+    model = trainModel(tml_files, gold_files)
 
-	return mod
+    with open("models/test.mod", "wb") as modFile:
+        cPickle.dump(model, modFile)
+
+
+def trainModel( tml_files, gold_files ):
+      '''
+      train::trainModel()
+
+      Purpose: Train a model for classification of events, timexes, and temporal relations based
+           on given training data
+
+      @param training_list: List of strings containing file paths for .tml training documents
+      '''
+
+      print "Called train"
+
+      # Read in notes
+      notes = []
+
+      basename = lambda x: os.path.basename(x[0:x.index(".tml")])
+
+      for tml, gold in zip(tml_files, gold_files):
+
+        print basename(tml)
+        print basename(gold)
+
+        assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
+
+        tmp_note = TimeNote(tml, gold)
+        notes.append(tmp_note)
+
+      mod = model.Model()
+      mod.train(notes)
+
+      return mod
 
 if __name__ == "__main__":
-	main()
+  main()
