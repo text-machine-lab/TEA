@@ -9,6 +9,7 @@ from utilities.xml_utilities import write_root_to_file
 from utilities.xml_utilities import get_root
 from utilities.timeml_utilities import set_text_element
 from utilities.timeml_utilities import annotate_text_element
+from utilities.timeml_utilities import annotate_root
 
 
 class Note(object):
@@ -58,8 +59,6 @@ class Note(object):
         '''
         #TODO: create output directory if it does not exist
         # TODO: put this in TimeNote class
-
-
         root = get_root(self.note_path)
 
         length = len(offsets)
@@ -68,14 +67,14 @@ class Note(object):
         for i in range(1, length):
             index = length - i
 
-            if(timexEventLabels[index]["entity_label"][0] == "B"):
+            if timexEventLabels[index]["entity_label"][0] == "B":
                 start = offsets[index][0]
                 end = offsets[index][1]
 
                 #grab any IN tokens and add them to the tag text
                 for j in range (1, i):
                     if(timexEventLabels[index + j]["entity_label"][0] == "I"):
-                        end = offsets[index + j]["entity_label"][1]
+                        end = offsets[index + j][1]
                     else:
                         break
 
@@ -86,11 +85,37 @@ class Note(object):
 
                 set_text_element(root, annotated_text)
 
-        # tlinkLength = len(tlinkLabels)
+        # make event instances
+        eventDict = {}
+        for i, timexEventLabel in enumerate(timexEventLabels):
+            if timexEventLabel["entity_type"] == "EVENT":
+                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": "NONE", "aspect": "NONE", "polarity": "NONE", "pos": "NONE"})
+                eventDict[timexEventLabel["entity_id"]] = "ei" + str(i)
 
-        # for i in range(1, tlinkLength):
+        # add tlinks
+        for i, tlinkLabel in enumerate(tlinkLabels):
 
+            if tlinkLabel == "None":
+                continue
 
+            annotations = {"lid": "l" + str(i), "relType": tlinkLabel}
+
+            firstID = idPairs[i][0]
+            secondID = idPairs[i][1]
+
+            if firstID[0] == "e":
+                annotations["eventInstanceID"] = eventDict[firstID]
+
+            if firstID[0] == "t":
+                annotations["timeID"] = firstID
+
+            if secondID[0] == "e":
+                annotations["relatedToEventInstance"] = eventDict[secondID]
+
+            if secondID[0] == "t":
+                annotations["relatedToTime"] = secondID
+
+            root = annotate_root(root, "TLINK", annotations)
 
 
         # skip last 9 characters to remove .TE3input suffix
