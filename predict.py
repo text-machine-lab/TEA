@@ -24,6 +24,9 @@ def main():
 
 	#read in files as notes
 	for tml in files:
+
+		print '\n' + tml
+
 		tmp_note = TimeNote(tml)
 		notes.append(tmp_note)
 
@@ -31,8 +34,26 @@ def main():
 		model = cPickle.load(modelfile)
 
 	for note in notes:
-		entityLabels, offsets = model.predict(note)
-		note.write(entityLabels, None, None, offsets)
+
+		entityLabels, OriginalOffsets, tlinkLabels = model.predict(note)
+		tlinkIdPairs = note.get_tlink_id_pairs()
+
+		offsets = note.get_token_char_offsets()
+
+		assert len(OriginalOffsets) == len(offsets)
+
+		offsetDict = {}
+
+		for i, offset in enumerate(OriginalOffsets):
+			offsetDict[offset] = entityLabels[i]
+
+		wellOrderedEntityLabels = []
+
+		for offset in offsets:
+			wellOrderedEntityLabels.append(offsetDict[offset])
+
+		note.write(wellOrderedEntityLabels, tlinkLabels, tlinkIdPairs, offsets)
+
 
 if __name__ == '__main__':
 	main()

@@ -66,7 +66,6 @@ class Note(object):
         # start at back of document to preserve offsets until they are used
         for i in range(1, length):
             index = length - i
-
             if timexEventLabels[index]["entity_label"][0] == "B":
                 start = offsets[index][0]
                 end = offsets[index][1]
@@ -116,7 +115,6 @@ class Note(object):
                 annotations["relatedToTime"] = secondID
 
             root = annotate_root(root, "TLINK", annotations)
-
 
         # skip last 9 characters to remove .TE3input suffix
         path = os.environ['TEA_PATH'] + '/output/' + self.note_path.split('/')[-1][:-9]

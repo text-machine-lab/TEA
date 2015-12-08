@@ -142,7 +142,8 @@ class TimeNote(Note, Features):
 
                 if B_seen is False:
                     # TODO: put logic in to handle this.
-                    exit("I label occured before B label")
+                    # exit("I label occured before B label")
+                    continue   
 
                 #token["entity_id"] = start_entity_id
 

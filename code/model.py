@@ -138,9 +138,7 @@ class Model:
 		tlinkVec = self.tlinkVectorizer.transform(tlinkFeats).toarray()
 		tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
 
-		print tlinkLabels
-
-		return timexEventLabels, timexEventOffsets
+		return timexEventLabels, timexEventOffsets, tlinkLabels
 
 	def _trainTimex(self, tokenVectors, labels):
 		'''

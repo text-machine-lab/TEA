@@ -37,7 +37,6 @@ def main():
     else:
         train_dir = args.train_dir[0]
 
-
     print "\ntraining dir: {}\n".format(train_dir)
 
     files = glob.glob(train_dir)
@@ -82,6 +81,8 @@ def trainModel( tml_files, gold_files, grid ):
     for tml, gold in zip(tml_files, gold_files):
 
         assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
+
+        print '\n' + tml
 
         tmp_note = TimeNote(tml, gold)
         notes.append(tmp_note)

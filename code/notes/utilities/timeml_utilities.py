@@ -25,7 +25,7 @@ def get_text_element(timeml_doc):
 
 def get_text_element_from_root(timeml_root):
 
-    exit("called get text element from root")
+    # exit("called get text element from root")
 
     text_element = None
 
