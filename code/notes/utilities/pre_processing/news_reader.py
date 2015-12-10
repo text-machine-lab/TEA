@@ -169,7 +169,7 @@ class SRLServer():
 
 if __name__ == "__main__":
 
-    print pre_process("he said ''hello\"")
+    print _tokenize("hello world.")
 
 # EOF
 

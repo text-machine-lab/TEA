@@ -1,6 +1,6 @@
 
 
-def combineLabels(timexLabels, eventLabels, OLabels):
+def combineLabels(timexLabels, eventLabels, OLabels=[]):
 	'''
 	combineTimexEventLabels():
 		merge event and timex labels into one list, adding instance ids

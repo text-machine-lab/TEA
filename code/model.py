@@ -73,6 +73,17 @@ class Model:
 		#populate feature lists
 		timexEventFeats = note.get_iob_features()
 
+		tokens          = note.get_tokens()
+
+		# reconstruct labelings
+		iob_labels = []
+
+		tokenized_text = note.get_tokenized_text()
+
+		for line in tokenized_text:
+			iob_labels.append([None] * len(tokenized_text[line]))
+
+		assert len(tokens) == len(timexEventFeats)
 		assert len(offsets) == len(timexEventFeats)
 
 		#TODO: move direct SVM interfacing back to sci.py
@@ -81,23 +92,32 @@ class Model:
 		potentialTimexVec = self.timexVectorizer.transform(timexEventFeats).toarray()
 		timexLabels_withO = list(self.timexClassifier.predict(potentialTimexVec))
 
-
 		#filter out all timex-labeled entities
 		timexFeats = []
 		timexOffsets = []
 		timexLabels = []
 		potentialEventOffsets = []
 		potentialEventFeats = []
+
+		potentialEventTokens = []
+		timexTokens = []
+
 		for i in range(0, len(timexLabels_withO)):
 			if timexLabels_withO[i] == 'O':
 				potentialEventFeats.append(timexEventFeats[i])
 				potentialEventOffsets.append(offsets[i])
+
+				potentialEventTokens.append(tokens[i])
+
 			else:
 				timexFeats.append(timexEventFeats[i])
 				timexOffsets.append(offsets[i])
 				timexLabels.append(timexLabels_withO[i])
 
+				timexTokens.append(tokens[i])
+
 		assert len(potentialEventFeats + timexFeats) == len(offsets), "{} != {}".format(len(offsets), + len(potentialEventFeats + timexFeats))
+		assert len(potentialEventTokens + timexTokens) == len(offsets)
 
 		#vectorize and classify events
 		potentialEventVec = self.eventVectorizer.transform(potentialEventFeats).toarray()
@@ -109,34 +129,58 @@ class Model:
 		eventOffsets = []
 		eventFeats = []
 		eventLabels = []
+
+		OTokens = []
+		eventTokens = []
+
 		for i in range(0, len(eventLabels_withO)):
 			if eventLabels_withO[i] == 'O':
 				OOffsets.append(potentialEventOffsets[i])
 				OFeats.append(potentialEventFeats[i])
 				OLabels.append(eventLabels_withO[i])
+				OTokens.append(tokens[i])
+
 			else:
 				eventFeats.append(potentialEventFeats[i])
 				eventOffsets.append(potentialEventOffsets[i])
 				eventLabels.append(eventLabels_withO[i])
 
+				eventTokens.append(tokens[i])
+
 		assert len(OOffsets + eventOffsets + timexOffsets) == len(eventFeats + OFeats + timexFeats)
 		assert len(OLabels + eventLabels + timexLabels) == len(eventFeats + OFeats + timexFeats)
 		assert len(offsets) == len(OOffsets + eventOffsets + timexOffsets), "len(offsets): {}, len(OOffsets + eventOffsets + timexOffsets): {}".format(len(offsets), len(OOffsets + eventOffsets + timexOffsets))
+		assert len(OLabels + eventLabels + timexLabels) == len(OTokens + eventTokens + timexTokens)
 
-		timexEventLabels = combineLabels(timexLabels, eventLabels, OLabels)
+		timexEventLabels = combineLabels(timexLabels, eventLabels)
+		timexEventFeats = timexFeats + eventFeats
+		timexEventOffsets = timexOffsets + eventOffsets
+		timexEventTokens = timexTokens + eventTokens
 
-		timexEventFeats = timexFeats + eventFeats + OFeats
-		timexEventOffsets = timexOffsets + eventOffsets + OOffsets
-
+		assert len(timexEventOffsets) == len(timexEventTokens)
 		assert len(timexEventOffsets) == len(timexEventFeats)
 		assert len(timexEventLabels) == len(timexEventFeats)
 
-		note.set_tlinks(timexEventFeats, timexEventLabels, timexEventOffsets)
+		for token, label in zip(timexEventTokens, timexEventLabels):
+			sentence_index = token["sentence_num"] - 1
+			token_index = token["token_offset"]
+			iob_labels[sentence_index][token_index] = label
+
+		note.set_iob_labels(iob_labels)
+
+		assert iob_labels == note.get_iob_labels()
+
+		note.set_tlinks(timexEventTokens, timexEventLabels, timexEventOffsets)
 
 		tlinkFeats = note.get_tlink_features()
 
 		tlinkVec = self.tlinkVectorizer.transform(tlinkFeats).toarray()
+
 		tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
+
+		timexEventOffsets = timexOffsets + eventOffsets + OOffsets
+
+		timexEventLabels  = combineLabels(timexLabels, eventLabels,OLabels)
 
 		return timexEventLabels, timexEventOffsets, tlinkLabels
 

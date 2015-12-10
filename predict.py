@@ -12,10 +12,10 @@ def main():
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument("model", help="Model file to use in prediction")
-	parser.add_argument("predictList", metavar='Predict List', nargs='+', 
+	parser.add_argument("predictList", metavar='Predict List', nargs='+',
 		help="The list of files to annotate.")
 	args = parser.parse_args()
-	
+
 	modfile = args.model
 	files = args.predictList
 

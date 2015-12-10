@@ -23,14 +23,16 @@ def pre_process(text):
 
     sentences = {}
 
+    token_offset = 0
+
     for tok, pos_tag in zip(tokens, pos_tags):
 
         tmp = []
 
-        start = tok["start_offset"]
-        end   = tok["end_offset"]
+        char_start = tok["char_start_offset"]
+        char_end   = tok["char_end_offset"]
 
-        assert text[start:end + 1] == tok["token"], "{} != {}".format(text[start:end+1], tok["token"])
+        assert text[char_start:char_end + 1] == tok["token"], "{} != {}".format(text[char_start:char_end+1], tok["token"])
         assert tok["id"] == pos_tag["id"]
 
         """
@@ -46,8 +48,13 @@ def pre_process(text):
 
         if tok["sentence_num"] in sentences:
             sentences[tok["sentence_num"]].append(tok)
+            tok["token_offset"] = token_offset
         else:
             sentences[tok["sentence_num"]] = [tok]
+            token_offset = 0
+            tok["token_offset"] = token_offset
+
+        token_offset += 1
 
     # one tree per sentence
     # TODO: doesn't actually assert the sentences match to their corresponding tree

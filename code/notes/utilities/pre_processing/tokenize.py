@@ -53,7 +53,7 @@ def get_tokens(ixa_tok_output):
 
         token_text = naf_token.text
 
-        tokens.append({"token":token_text, "id":id_string, "sentence_num":sentence_num, "start_offset":tok_start, "end_offset":token_end})
+        tokens.append({"token":token_text, "id":id_string, "sentence_num":sentence_num, "char_start_offset":tok_start, "char_end_offset":token_end})
 
         if token_text in tokens_to_offset:
             tokens_to_offset[token_text].append((tok_start, token_end))

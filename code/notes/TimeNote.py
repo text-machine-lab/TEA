@@ -41,9 +41,14 @@ class TimeNote(Note, Features):
 
         self._pre_process(timeml_note_path)
 
+        self.iob_labels = None
+
         if self.annotated_note_path is not None:
 
             self.get_tlinked_entities()
+
+            # will store labels in self.iob_labels
+            self.get_iob_labels()
 
         else:
             self.tlinks = None
@@ -82,6 +87,7 @@ class TimeNote(Note, Features):
 
         for line in iob_labels:
             for iob_tag in line:
+
                 if iob_tag["entity_type"] != entity_type:
                     iob_tag['entity_label'] = 'O'
 
@@ -143,7 +149,7 @@ class TimeNote(Note, Features):
                 if B_seen is False:
                     # TODO: put logic in to handle this.
                     # exit("I label occured before B label")
-                    continue   
+                    continue
 
                 #token["entity_id"] = start_entity_id
 
@@ -361,7 +367,12 @@ class TimeNote(Note, Features):
             src_id = pair[0]
             target_id = pair[1]
 
-            pair = {"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None}
+            pair = {"src_entity":id_chunk_map[src_id],
+                    "src_id":src_id,
+                    "target_id":target_id,
+                    "target_entity":id_chunk_map[target_id],
+                    "rel_type":'None',
+                    "tlink_id":None}
 
             if src_id in temporal_relations:
 
@@ -395,16 +406,12 @@ class TimeNote(Note, Features):
         # need to create a list of tokens
         iob_labels = []
 
-        if self.annotated_note_path is not None:
+        if self.annotated_note_path is not None and self.iob_labels is None:
+
+            print "GETTING IOB LABELS!!!!"
 
             tagged_entities = get_tagged_entities(self.annotated_note_path)
             _tagged_entities = copy.deepcopy(tagged_entities)
-
-       #     raw_text_element = get_text_element(self.note_path)
-      #      raw_text = get_raw_text(raw_text_element)
-
-     #       labeled_text_element = get_text_element(self.annotated_note_path)
-    #        labeled_text = get_raw_text(labeled_text_element)
 
             raw_text = get_text(self.note_path)
             labeled_text = get_text_with_taggings(self.annotated_note_path)
@@ -499,42 +506,37 @@ class TimeNote(Note, Features):
             assert tagged_element is None
             assert len(offsets) == len(_tagged_entities)
 
-        for sentence_num in sorted(pre_processed_text.keys()):
+            for sentence_num in sorted(pre_processed_text.keys()):
 
-            # list of dicts
-            sentence = pre_processed_text[sentence_num]
+                # list of dicts
+                sentence = pre_processed_text[sentence_num]
 
-            # iobs in a sentence
-            iobs_sentence = []
+                # iobs in a sentence
+                iobs_sentence = []
 
-            # need to assign the iob labels by token index
-            for token in sentence:
-
-                if self.annotated_note_path is not None:
+                # need to assign the iob labels by token index
+                for token in sentence:
 
                     # set proper iob label to token
                     iob_label, entity_type, entity_id = TimeNote.get_iob_label(token, offsets)
 
-                    if iob_label is None:
+                    if iob_label is not 'O':
                         assert entity_id is not None
+                        assert entity_type in ['EVENT', 'TIMEX3']
+                    else:
+                        assert entity_id is None
+                        assert entity_type is None
 
-                    assert entity_type in ['EVENT', 'TIMEX3', None]
+                    iobs_sentence.append({'entity_label':iob_label,
+                                          'entity_type':entity_type,
+                                          'entity_id':entity_id})
 
-                else:
+                iob_labels.append(iobs_sentence)
 
-                    iob_label = 'O'
-
-                    entity_type = None
-                    entity_id = None
-
-                iobs_sentence.append({'entity_label':iob_label,
-                                      'entity_type':entity_type,
-                                      'entity_id':entity_id})
-
-            iob_labels.append(iobs_sentence)
+            self.iob_labels = iob_labels
 
 
-        return iob_labels
+        return copy.deepcopy(self.iob_labels)
 
     def get_iob_features(self):
 
@@ -546,18 +548,101 @@ class TimeNote(Note, Features):
 
             for token in self.pre_processed_text[line]:
 
-                # don't want to modify original
-                t = copy.deepcopy(token)
-
-                # TODO: see if these features help once we get a baseline working?
-                t.pop("start_offset")
-                t.pop("end_offset")
-                t.pop("id")
-                t.pop("sentence_num")
-
-                vectors.append(t)
+                token_features = self.get_features_for_token(token)
+                vectors.append(token_features)
 
         return vectors
+
+    def get_tokens(self):
+
+        tokens = []
+
+        for line in self.pre_processed_text:
+
+            for token in self.pre_processed_text[line]:
+
+                tokens.append(token)
+
+        return tokens
+
+    def set_iob_labels(self, iob_labels):
+
+        self.iob_labels = iob_labels
+
+    def get_tokenized_text(self):
+
+        return self.pre_processed_text
+
+    def get_features_for_token(self, token):
+        """ get the features for given token
+
+            token: a dictionary with various information
+        """
+
+        """
+        TODO: add substantial features
+        """
+
+        features = {}
+        features.update(self.get_ngram_features(token))
+
+        return features
+
+    def get_ngram_features(self, token):
+
+        features = {}
+
+        features.update(self.get_tokens_to_right(token, span=3))
+        features.update(self.get_tokens_to_left(token, span=3))
+
+        return features
+
+    def get_tokens_to_right(self, token, span):
+        """ get the tokens to the right of token
+
+            obtains tokens relative to the right of the current position of token
+        """
+
+        # TODO: set none if there are no tokens?
+
+        token_offset = token["token_offset"]
+        line = self.pre_processed_text[token["sentence_num"]]
+
+        # make sure we got the right token
+        assert  line[token_offset] == token
+        assert span > 0, "set to one or more, otherwise it will just get the token itself"
+
+        start = token_offset
+        end   = start + 1 + span
+
+        right_tokens = line[start:end][1:]
+
+        tokens = dict([("right_token_{}".format(i+1), token["token"]) for i, token in enumerate(right_tokens)])
+
+        return tokens
+
+    def get_tokens_to_left(self, token, span):
+        """ get the tokens to the left of token
+
+            obtains tokens relative to the left of the current position of token
+        """
+
+        # TODO: set none if there are no tokens?
+        token_offset = token["token_offset"]
+        line = self.pre_processed_text[token["sentence_num"]]
+
+        # make sure we got the right token
+        assert  line[token_offset] == token
+        assert span > 0, "set to one or more, otherwise it will just get the token itself"
+
+        start   = token_offset - span
+        end     = token_offset
+
+        left_tokens = line[start:end]
+        tokens = dict([("left_token_{}".format(i+1), token["token"]) for i, token in enumerate(left_tokens)])
+
+        return tokens
+
 
     def get_tlink_ids(self):
 
@@ -594,7 +679,15 @@ class TimeNote(Note, Features):
 
     def get_tlink_features(self):
 
+        """
+        TODO: add more substantial features
+            -read paper
+        """
+
         """ returns featurized representation of tlinks """
+
+        print "called get_tlink_features"
+
         vectors = []
 
         for relation in self.tlinks:
@@ -604,22 +697,79 @@ class TimeNote(Note, Features):
             target_entity = relation["target_entity"]
             src_entity = relation["src_entity"]
 
-            for i, token in enumerate(src_entity):
-
-                # merge features of each entity together
-                for key in token:
-
-                    vector["src_token{}_".format(i) + key] = token[key]
-
-            for i, token in enumerate(target_entity):
-
-                for key in token:
-
-                    vector["target_token{}_".format(i) + key] = token[key]
+            vector = self.get_features_for_entity_pair(src_entity, target_entity)
 
             vectors.append(vector)
 
         return vectors
+
+
+    def get_features_for_entity_pair(self, src_entity, target_entity):
+
+        """ get the features for an entity pair
+        """
+
+        pair_features = {}
+
+        src_features = {}
+        target_features = {}
+
+        src_features.update(self.get_entity_type_features(src_entity))
+        target_features.update(self.get_entity_type_features(target_entity))
+
+        for key in src_features:
+
+            pair_features[key + "_src"] = src_features[key]
+
+        for key in target_features:
+
+            pair_features[key + "_target"] = target_features[key]
+
+        return pair_features
+
+
+    def get_entity_type_features(self, entity):
+
+        """ for some entity, get the entity type labeling for tokens in that entity
+        """
+
+        features = {}
+
+        for i, token in enumerate(entity):
+
+            features.update({"entity_type{}".format(i):self.token_entity_type_feature(token)["entity_type"]})
+
+        return features
+
+
+    def token_entity_type_feature(self, token):
+
+        """ for some token, get the entity type (EVENT or TIMEX3) for it
+        """
+
+        feature = {}
+
+        line_num = None
+        token_offset = None
+
+        entity_type = None
+
+        # TODO: correct this, hacky
+        if "functionInDocument" in token:
+            # this is the creation time...
+            entity_type = "TIMEX3"
+
+        else:
+
+            line_num     = token["sentence_num"] - 1
+            token_offset = token["token_offset"]
+
+            iob_labels  =  self.get_iob_labels()
+            entity_type = iob_labels[line_num][token_offset]["entity_type"]
+
+        assert entity_type in ["EVENT", "TIMEX3"]
+
+        return {"entity_type":entity_type}
 
 
     def get_token_char_offsets(self):
@@ -642,7 +792,7 @@ class TimeNote(Note, Features):
 
             for token in self.pre_processed_text[line_num]:
 
-                offsets.append((token["start_offset"], token["end_offset"]))
+                offsets.append((token["char_start_offset"], token["char_end_offset"]))
 
         return offsets
 
@@ -650,7 +800,7 @@ class TimeNote(Note, Features):
     def get_iob_label(token, offsets):
 
         # NOTE: never call this directly. input is tested within _read
-        tok_span = (token["start_offset"], token["end_offset"])
+        tok_span = (token["char_start_offset"], token["char_end_offset"])
 
         label = 'O'
         entity_id = None
@@ -713,10 +863,6 @@ class TimeNote(Note, Features):
         """
         return span1[0] < span2[0] and span2[1] <= span1[1]
 
-    def create_features_vect_tlinks(self, entity_pairs):
-
-        # TODO: this will be done after training is completed.
-        pass
 
 def __unit_tests():
 
