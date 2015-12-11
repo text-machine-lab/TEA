@@ -148,8 +148,8 @@ class TimeNote(Note, Features):
 
                 if B_seen is False:
                     # TODO: put logic in to handle this.
-                    # exit("I label occured before B label")
-                    continue
+                    exit("I label occured before B label")
+        #            continue
 
                 #token["entity_id"] = start_entity_id
 
@@ -715,7 +715,10 @@ class TimeNote(Note, Features):
         target_features = {}
 
         src_features.update(self.get_entity_type_features(src_entity))
+        src_features.update(self.get_label_features(src_entity))
+
         target_features.update(self.get_entity_type_features(target_entity))
+        target_features.update(self.get_label_features(target_entity))
 
         for key in src_features:
 
@@ -727,6 +730,15 @@ class TimeNote(Note, Features):
 
         return pair_features
 
+    def get_label_features(self, entity):
+
+        features = {}
+
+        for i, token in enumerate(entity):
+
+            features.update({"label_type{}".format(i):self.token_label_feature(token)["entity_label"]})
+
+        return features
 
     def get_entity_type_features(self, entity):
 
@@ -740,6 +752,33 @@ class TimeNote(Note, Features):
             features.update({"entity_type{}".format(i):self.token_entity_type_feature(token)["entity_type"]})
 
         return features
+
+    def token_label_feature(self, token):
+
+        feature = {}
+        feature = {}
+
+        line_num = None
+        token_offset = None
+
+        label = None
+
+        # TODO: correct this, hacky
+        if "functionInDocument" in token:
+            # this is the creation time...
+            label = "B_DATE"
+
+        else:
+
+            line_num     = token["sentence_num"] - 1
+            token_offset = token["token_offset"]
+
+            iob_labels  =  self.get_iob_labels()
+            label = iob_labels[line_num][token_offset]["entity_label"]
+
+        assert label not in ['O', None]
+
+        return {"entity_label":label}
 
 
     def token_entity_type_feature(self, token):

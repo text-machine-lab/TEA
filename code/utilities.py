@@ -12,8 +12,9 @@ def combineLabels(timexLabels, eventLabels, OLabels=[]):
 
 	labels = []
 
+# creation time is always t0
 	for i, timexLabel in  enumerate(timexLabels):
-		label = {"entity_label": timexLabel, "entity_type": "TIMEX3", "entity_id": "t" + str(i)}
+		label = {"entity_label": timexLabel, "entity_type": "TIMEX3", "entity_id": "t" + str(i+1)}
 		labels.append(label)
 
 	for i, eventLabel in enumerate(eventLabels):
