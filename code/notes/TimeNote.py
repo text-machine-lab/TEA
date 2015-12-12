@@ -408,8 +408,6 @@ class TimeNote(Note, Features):
 
         if self.annotated_note_path is not None and self.iob_labels is None:
 
-            print "GETTING IOB LABELS!!!!"
-
             tagged_entities = get_tagged_entities(self.annotated_note_path)
             _tagged_entities = copy.deepcopy(tagged_entities)
 
