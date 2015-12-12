@@ -17,9 +17,10 @@ def pre_process(text):
     that is designed to be this universal markup used by all of the ixa-pipes used in the project.
     """
 
-    tokenized_text = _tokenize(text)
+    tokenized_text  = _tokenize(text)
     pos_tagged_text = _pos_tag(tokenized_text)
-    constituency_parsed_text = _constituency_parse(pos_tagged_text)
+    ner_tagged_text = _ner_tag(pos_tagged_text)
+    constituency_parsed_text = _constituency_parse(ner_tagged_text)
 
     # TODO: move this
 #    srl = SRL()
@@ -63,6 +64,21 @@ def _pos_tag(naf_tokenized_text):
                             stdout=subprocess.PIPE)
 
     output, _ = tag.communicate(naf_tokenized_text)
+
+    return output
+
+def _ner_tag(naf_pos_tagged_text):
+
+    tag = subprocess.Popen(["java",
+                            "-jar",
+                            os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-nerc-1.5.2.jar",
+                            "tag",
+                            "-m",
+                            os.environ["TEA_PATH"] + "/code/notes/NewsReader/models/nerc-models-1.5.0/nerc-models-1.5.0/en/conll03/en-91-19-conll03.bin"],
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE)
+
+    output, _ = tag.communicate(naf_pos_tagged_text)
 
     return output
 
@@ -169,7 +185,7 @@ class SRLServer():
 
 if __name__ == "__main__":
 
-    print _tokenize("hello world.")
+    print pre_process("hello world.")
 
 # EOF
 

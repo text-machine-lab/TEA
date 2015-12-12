@@ -8,11 +8,6 @@ import re
 def strip_quotes(text):
     """ the pipeline we use does really weird stuff to quotes. just going to remove them for now or forever """
 
-#    text     = re.sub(r"``", r"", text)
-#    text     = re.sub(r"''", r"", text)
-#    text     = re.sub(r'"', r"", text)
-#    text     = re.sub(r"'", r"", text)
-
     text     = re.sub(r"``", r"''", text)
     text     = re.sub(r'"', r"'", text)
 

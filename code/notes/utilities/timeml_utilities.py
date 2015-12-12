@@ -122,13 +122,7 @@ def get_tagged_entities(timeml_doc):
 
     text_element = get_text_element(timeml_doc)
 
-    elements = []
-
-    for element in text_element:
-
-        elements.append(element)
-
-    return elements
+    return list(text_element)
 
 def get_make_instances(timeml_doc):
     """ gets the event instances in a timeml doc """

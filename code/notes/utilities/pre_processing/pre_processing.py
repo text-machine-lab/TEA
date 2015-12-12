@@ -4,6 +4,8 @@ import tokenize
 import pos
 import parse
 
+import ner
+
 import os
 
 import sys
@@ -21,6 +23,7 @@ def pre_process(text):
     tokens, tokens_to_offset = tokenize.get_tokens(naf_tagged_doc)
     pos_tags = pos.get_pos_tags(naf_tagged_doc)
     token_lemmas   = lemmas.get_lemmas(naf_tagged_doc)
+    ner_tags       = ner.get_taggings(naf_tagged_doc)
 
     constituency_trees = parse.get_constituency_trees(naf_tagged_doc)
 
@@ -30,6 +33,8 @@ def pre_process(text):
 
     assert len(tokens) == len(pos_tags)
     assert len(tokens) == len(token_lemmas)
+
+    id_to_tok = {}
 
     for tok, pos_tag, lemma in zip(tokens, pos_tags, token_lemmas):
 
@@ -64,7 +69,17 @@ def pre_process(text):
             token_offset = 0
             tok["token_offset"] = token_offset
 
+        assert tok["id"] not in id_to_tok
+
+        id_to_tok[tok["id"]] = tok
+
         token_offset += 1
+
+    for target_id in ner_tags:
+
+        assert target_id in id_to_tok, "{} not in id_to_tok".format(target_id)
+
+        id_to_tok[target_id].update(ner_tags[target_id])
 
     # one tree per sentence
     # TODO: doesn't actually assert the sentences match to their corresponding tree
@@ -73,8 +88,8 @@ def pre_process(text):
     return sentences, tokens_to_offset
 
 if __name__ == "__main__":
-    #print pre_process(timeml_utilities.get_text("APW19980820.1428.tml"))
+    print pre_process(timeml_utilities.get_text("APW19980820.1428.tml.TE3input"))
 
-    print pre_process(timeml_utilities.get_text("APW19980820.1428.tml"))
+#    print pre_process(timeml_utilities.get_text("APW19980820.1428.tml"))
     pass
 

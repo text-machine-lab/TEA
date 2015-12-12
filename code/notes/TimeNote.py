@@ -589,8 +589,24 @@ class TimeNote(Note, Features):
         features.update(self.get_ngram_features(token))
         features.update(self.get_pos_tag(token))
         features.update(self.get_lemma(token))
+        features.update(self.get_ner_features(token))
 
         return features
+
+    def get_ner_features(self, token):
+
+        if "ner_tag" in token:
+
+            return {"ner_tag":token["ner_tag"],
+                    "ne_id":token["ne_id"]}
+
+        # TODO: what problems might arise from labeling tokens as none if no tagging?, we'll find out!
+        else:
+
+            return {"ner_tag":'None',
+                    "ne_id":'None'}
+
+
 
     def get_text(self, token):
 
