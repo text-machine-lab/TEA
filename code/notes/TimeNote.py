@@ -584,9 +584,41 @@ class TimeNote(Note, Features):
         """
 
         features = {}
+
+        features.update(self.get_text(token))
         features.update(self.get_ngram_features(token))
+        features.update(self.get_pos_tag(token))
+        features.update(self.get_lemma(token))
 
         return features
+
+    def get_text(self, token):
+
+        return {"text":token["token"]}
+
+    def get_pos_tag(self, token):
+
+        if "pos_tag" in token:
+
+            return {"pos_tag":token["pos_tag"]}
+
+        else:
+
+            # creation time.
+            return {"pos_tag":"DAT"}
+
+    def get_lemma(self, token):
+
+        if "pos_tag" in token:
+
+            return {"lemma":token["lemma"]}
+
+        else:
+
+            # creation time
+
+            # TODO: make better?
+            return {"lemma":token["token"]}
 
     def get_ngram_features(self, token):
 
