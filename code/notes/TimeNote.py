@@ -83,7 +83,7 @@ class TimeNote(Note, Features):
     def filter_iob_by_type(self, entity_type):
         assert entity_type in ['EVENT', 'TIMEX3']
 
-        iob_labels = self.get_iob_labels()
+        iob_labels = copy.deepcopy(self.get_iob_labels())
 
         for line in iob_labels:
             for iob_tag in line:
@@ -400,13 +400,14 @@ class TimeNote(Note, Features):
 
     def get_iob_labels(self):
 
-        # don't want to modify original
-        pre_processed_text = copy.deepcopy(self.pre_processed_text)
-
-        # need to create a list of tokens
-        iob_labels = []
 
         if self.annotated_note_path is not None and self.iob_labels is None:
+
+            # don't want to modify original
+            pre_processed_text = copy.deepcopy(self.pre_processed_text)
+
+            # need to create a list of tokens
+            iob_labels = []
 
             tagged_entities = get_tagged_entities(self.annotated_note_path)
             _tagged_entities = copy.deepcopy(tagged_entities)
@@ -533,8 +534,7 @@ class TimeNote(Note, Features):
 
             self.iob_labels = iob_labels
 
-
-        return copy.deepcopy(self.iob_labels)
+        return self.iob_labels
 
     def get_iob_features(self):
 

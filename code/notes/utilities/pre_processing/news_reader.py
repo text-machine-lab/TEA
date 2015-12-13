@@ -9,6 +9,7 @@ xml_utilities_path = os.environ["TEA_PATH"] + "/code/notes/utilities"
 sys.path.insert(0, xml_utilities_path)
 
 import xml_utilities
+import atexit
 
 def pre_process(text):
 
@@ -22,8 +23,16 @@ def pre_process(text):
     ner_tagged_text = _ner_tag(pos_tagged_text)
     constituency_parsed_text = _constituency_parse(ner_tagged_text)
 
+    #constituency_parsed_text = _constituency_parse(pos_tagged_text)
+
+    """
     # TODO: move this
-#    srl = SRL()
+    srl = SRL()
+
+    print srl.parse_dependencies(constituency_parsed_text)
+
+    exit()
+    """
 
 #    srl.launch_server()
 #    srl_text = srl.parse_dependencies(constituency_parsed_text)
@@ -100,23 +109,24 @@ def _constituency_parse(naf_tokenized_pos_tagged_text):
 
 class SRL():
 
+    server = None
+
     def __init__(self):
 
         # launching server...
-        self.server = SRLServer()
+        SRL.server = SRLServer()
+        SRL.server.launch_server()
 
     def parse_dependencies(self, naf_tokenized_pos_tagged_text):
         return SRLClient.parse_dependencies(naf_tokenized_pos_tagged_text)
 
-
-    def launch_server(self):
-        self.server.launch_server()
-
-
     # TODO: use atexit.
-    def close_server(self):
-        # EXPLICITELY CALL THIS. python doesn't guarantee __del__ is called.
-        self.server.kill_server()
+
+    @staticmethod
+    @atexit.register
+    def close_server():
+        if SRL.server is not None:
+            SRL.server.kill_server()
 
 
 class SRLClient():
@@ -128,26 +138,25 @@ class SRLClient():
 
         output = None
 
-        while True:
+        init_time = time.time()
 
-            if SRLClient.tries > 5:
-                exit("cannot get srl output. srl server is not running")
+        while True:
 
             srl = subprocess.Popen(["java",
                                     "-cp",
-                                    os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
+                                    os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
                                     "ixa.srl.SRLClient",
                                     "en"],
                                     stdout=subprocess.PIPE,
                                     stdin=subprocess.PIPE)
 
+            if time.time() - init_time > 60:
+                exit("couldn't get a connection to the srl server")
+
             _output, _ = srl.communicate(naf_tokenized_pos_tagged_text)
 
             if _output == "":
-                print "no output when calling srl. trying again."
-                SRLClient.tries += 1
-                print "sleeping for 1m to wait for server to load..."
-                time.sleep(60)
+                time.sleep(5)
                 continue
             else:
                 output = _output
@@ -167,7 +176,7 @@ class SRLServer():
         with open(os.devnull, 'w') as fp:
             self.s = subprocess.Popen(["java",
                                        "-cp",
-                                       os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
+                                       os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
                                        "ixa.srl.SRLServer",
                                         "en"],
                                         stdout=fp)
@@ -177,15 +186,12 @@ class SRLServer():
         if self.s is not None:
             self.s.kill()
 
-    def get_pid(self):
-
-        if self.s is not None:
-            return self.s.pid
-
 
 if __name__ == "__main__":
 
-    print pre_process("hello world.")
+    pre_process("hello world!")
+
+    pass
 
 # EOF
 
