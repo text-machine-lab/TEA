@@ -1,4 +1,3 @@
-
 import os
 import itertools
 
@@ -390,6 +389,9 @@ class TimeNote(Note, Features):
 
                         tlink_ids.append(target_entity["lid"])
 
+                        # done
+                        break
+
             # no link at all
             pairs_to_link.append(pair)
 
@@ -608,7 +610,13 @@ class TimeNote(Note, Features):
 
     def get_text(self, token):
 
-        return {"text":token["token"]}
+        if "text" in token:
+
+            return {"text":token["token"]}
+
+        else:
+
+            return {"text":"DATE"}
 
     def get_pos_tag(self, token):
 
@@ -619,7 +627,7 @@ class TimeNote(Note, Features):
         else:
 
             # creation time.
-            return {"pos_tag":"DAT"}
+            return {"pos_tag":"DATE"}
 
     def get_lemma(self, token):
 
@@ -630,9 +638,8 @@ class TimeNote(Note, Features):
         else:
 
             # creation time
-
             # TODO: make better?
-            return {"lemma":token["token"]}
+            return {"lemma":"DATE"}
 
     def get_ngram_features(self, token):
 
@@ -760,11 +767,18 @@ class TimeNote(Note, Features):
         src_features = {}
         target_features = {}
 
+        # features for each entity
         src_features.update(self.get_entity_type_features(src_entity))
         src_features.update(self.get_label_features(src_entity))
+        src_features.update(self.get_text_features(src_entity))
 
         target_features.update(self.get_entity_type_features(target_entity))
         target_features.update(self.get_label_features(target_entity))
+        target_features.update(self.get_text_features(target_entity))
+
+        # features concerning each entity
+        pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
+        pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
 
         for key in src_features:
 
@@ -775,6 +789,89 @@ class TimeNote(Note, Features):
             pair_features[key + "_target"] = target_features[key]
 
         return pair_features
+
+    def get_sentence_distance_feature(self, src_entity, target_entity):
+
+        src_line_no = None
+        target_line_no = None
+
+        for token in src_entity:
+
+            if src_line_no is None:
+
+                if "sentence_num" in token:
+                    src_line_no = token["sentence_num"]
+                else:
+                    # creation time is not in a sentence.
+                    return {"sent_distance":'None'}
+
+            else:
+
+                assert token["sentence_num"] == src_line_no
+
+        for token in target_entity:
+
+            if target_line_no is None:
+
+                if "sentence_num" in token:
+                    target_line_no = token["sentence_num"]
+                else:
+                    # creation time is not in a sentence.
+                    return {"sent_distance":'None'}
+
+            else:
+
+                assert token["sentence_num"] == target_line_no
+
+        return {"sent_distance":src_line_no - target_line_no}
+
+
+
+
+    def get_text_features(self, entity):
+
+        """
+            gets the features for entity:
+
+                pos
+                text of tokens
+                lemma of tokens
+                text chunk of entity
+
+        """
+
+        features = {}
+
+        tokens = []
+
+        for i, token in enumerate(entity):
+
+            features.update({"lemma_{}".format(i):self.get_lemma(token)["lemma"]})
+
+            tokens.append(self.get_text(token)["text"])
+
+            features.update({"text_{}".format(i):self.get_text(token)["text"]})
+            features.update({"pos_{}".format(i):self.get_pos_tag(token)["pos_tag"]})
+
+        features.update({"chunk":" ".join(tokens)})
+
+        return features
+
+    def get_same_pos_tag_feature(self, src_entity, target_entity):
+
+        src_pos_tags = []
+        target_pos_tags = []
+
+        for token in src_entity:
+
+            src_pos_tags.append(self.get_pos_tag(token)["pos_tag"])
+
+        for token in target_entity:
+
+            target_pos_tags.append(self.get_pos_tag(token)["pos_tag"])
+
+        return {"same_pos_tags":src_pos_tags == target_pos_tags}
+
 
     def get_label_features(self, entity):
 
