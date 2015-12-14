@@ -53,6 +53,8 @@ class Model:
 		self._trainTimex(eventTimexFeats, timexLabels)
 		self._trainEvent(eventTimexFeats, eventLabels)
 
+		print tlinkLabels
+
 		self._trainTlink(tlinkFeats, tlinkLabels)
 
 	def predict(self, note):
@@ -182,6 +184,8 @@ class Model:
 		timexEventOffsets = timexOffsets + eventOffsets + OOffsets
 
 		timexEventLabels  = combineLabels(timexLabels, eventLabels, OLabels)
+
+		print tlinkLabels
 
 		return timexEventLabels, timexEventOffsets, tlinkLabels
 
