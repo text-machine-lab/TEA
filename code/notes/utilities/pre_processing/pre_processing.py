@@ -75,6 +75,19 @@ def pre_process(text):
 
         token_offset += 1
 
+    sentence_features = []
+
+    # sentence based features
+    for key in sentences:
+
+        features_for_current_sentence = {}
+
+        parse_tree = constituency_trees[key].get_parenthetical_tree(sentences[key])
+        features_for_current_sentence['constituency_tree'] = parse_tree
+        features_for_current_sentence['sentence_num'] = key
+
+        sentence_features.append(features_for_current_sentence)
+
     for target_id in ner_tags:
 
         assert target_id in id_to_tok, "{} not in id_to_tok".format(target_id)
@@ -85,7 +98,7 @@ def pre_process(text):
     # TODO: doesn't actually assert the sentences match to their corresponding tree
     assert( len(sentences) == len(constituency_trees))
 
-    return sentences, tokens_to_offset
+    return sentences, tokens_to_offset, sentence_features 
 
 if __name__ == "__main__":
     print pre_process(timeml_utilities.get_text("APW19980820.1428.tml.TE3input"))
