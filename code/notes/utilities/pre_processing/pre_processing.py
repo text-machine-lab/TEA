@@ -75,7 +75,7 @@ def pre_process(text):
 
         token_offset += 1
 
-    sentence_features = []
+    sentence_features = {}
 
     # sentence based features
     for key in sentences:
@@ -84,9 +84,8 @@ def pre_process(text):
 
         parse_tree = constituency_trees[key].get_parenthetical_tree(sentences[key])
         features_for_current_sentence['constituency_tree'] = parse_tree
-        features_for_current_sentence['sentence_num'] = key
 
-        sentence_features.append(features_for_current_sentence)
+        sentence_features[key] = features_for_current_sentence
 
     for target_id in ner_tags:
 

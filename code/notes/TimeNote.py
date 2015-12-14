@@ -21,6 +21,7 @@ from utilities.timeml_utilities import get_doctime_timex
 
 from utilities.xml_utilities import get_raw_text
 from utilities.pre_processing import pre_processing
+from utilities.add_discourse import get_temporal_discourse_connectives
 
 from Features import Features
 
@@ -782,6 +783,7 @@ class TimeNote(Note, Features):
         # features concerning each entity
         pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
         pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
+        pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
 
         for key in src_features:
 
@@ -828,7 +830,59 @@ class TimeNote(Note, Features):
 
         return {"sent_distance":src_line_no - target_line_no}
 
+    
+    def get_discourse_connectives_features(self, src_entity, target_entity):
+        ''' return tokens of temporal discourse connectives and their distance from each entity, if connective exist and entities are on the same line.'''
 
+
+        src_line_no = None
+        target_line_no = None
+
+        for token in src_entity:
+
+            if src_line_no is None:
+
+                if "sentence_num" in token:
+                    src_line_no = token["sentence_num"]
+                else:
+                    # creation time is not in a sentence.
+                    return {"sent_distance":'None'}
+
+            else:
+
+                assert token["sentence_num"] == src_line_no
+
+        for token in target_entity:
+
+            if target_line_no is None:
+
+                if "sentence_num" in token:
+                    target_line_no = token["sentence_num"]
+                else:
+                    # creation time is not in a sentence.
+                    return {"sent_distance":'None'}
+
+            else:
+
+                assert token["sentence_num"] == target_line_no
+
+        if src_line_no is target_line_no:
+
+            connectives = self.get_discourse_connectives(src_line_no)
+
+
+
+        return{"connective_tokens": 'None', "connective_distance_from_src":'None', "connective_distance_from_target": 'None'}
+
+
+
+    def get_discourse_connectives(self, line_no):
+
+        constituency_tree = self.sentence_features[line_no]['constituency_tree']
+
+        connectives = get_temporal_discourse_connectives(constituency_tree)
+
+        return connectives
 
 
     def get_text_features(self, entity):
