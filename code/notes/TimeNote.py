@@ -202,10 +202,19 @@ class TimeNote(Note, Features):
             src_id = pair[0]
             target_id = pair[1]
 
+            if "sentence_num" in id_chunk_map[src_id][0] and "sentence_num" in id_chunk_map[target_id][0]:
+
+                src_sentence_num = id_chunk_map[src_id][0]["sentence_num"]
+                target_sentence_num = id_chunk_map[target_id][0]["sentence_num"]
+
+                if src_sentence_num != target_sentence_num and\
+                   src_sentence_num + 1 != target_sentence_num:
+                    continue
+
             # no link at all
             pairs_to_link.append({"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None})
 
-        assert len(pairs_to_link) == len(entity_pairs)
+#        assert len(pairs_to_link) == len(entity_pairs)
 
         self.tlinks = pairs_to_link
 
@@ -370,6 +379,15 @@ class TimeNote(Note, Features):
             src_id = pair[0]
             target_id = pair[1]
 
+            if "sentence_num" in id_chunk_map[src_id][0] and "sentence_num" in id_chunk_map[target_id][0]:
+
+                src_sentence_num = id_chunk_map[src_id][0]["sentence_num"]
+                target_sentence_num = id_chunk_map[target_id][0]["sentence_num"]
+
+                if src_sentence_num != target_sentence_num and\
+                   src_sentence_num + 1 != target_sentence_num:
+                    continue
+
             pair = {"src_entity":id_chunk_map[src_id],
                     "src_id":src_id,
                     "target_id":target_id,
@@ -427,7 +445,8 @@ class TimeNote(Note, Features):
             # no link at all
             pairs_to_link.append(pair)
 
-        assert len(pairs_to_link) == len(entity_pairs), "{} != {}".format(len(pairs_to_link), len(entity_pairs))
+        # TODO: if this fails just remove the assertion...
+        # make sure we don't miss any tlinks
         assert relation_count == len(t_links), "{} != {}".format(relation_count, len(t_links))
 
         self.tlinks = pairs_to_link
