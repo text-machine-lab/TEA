@@ -150,11 +150,7 @@ class CLI {
 
       final Annotate annotator = new Annotate(breader, properties);
 
-        System.out.println("done");
-
       if (outputFormat.equalsIgnoreCase("conll")) {
-
-        System.out.println("conll?");
 
         if (parsedArguments.getBoolean("offsets")) {
           bwriter.write(annotator.tokenizeToCoNLL());
@@ -163,12 +159,8 @@ class CLI {
         }
       } else if (outputFormat.equalsIgnoreCase("oneline")) {
 
-        System.out.println("oneline?");
-
         bwriter.write(annotator.tokenizeToText());
       } else {
-
-        System.out.println("default?");
 
         final KAFDocument.LinguisticProcessor newLp = kaf
             .addLinguisticProcessor("text", "ixa-pipe-tok-" + lang, version
