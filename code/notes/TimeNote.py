@@ -595,7 +595,16 @@ class TimeNote(Note, Features):
 
         return self.iob_labels
 
-    def get_iob_features(self):
+    def get_event_features(self):
+
+        return self.get_iob_features("EVENT")
+
+    def get_timex_features(self):
+
+        return self.get_iob_features("TIMEX3")
+
+
+    def get_iob_features(self, token_type):
 
         """ returns featurized representation of events and timexes """
 
@@ -605,7 +614,7 @@ class TimeNote(Note, Features):
 
             for token in self.pre_processed_text[line]:
 
-                token_features = self.get_features_for_token(token)
+                token_features = self.get_features_for_token(token, token_type)
                 vectors.append(token_features)
 
         return vectors
@@ -630,23 +639,32 @@ class TimeNote(Note, Features):
 
         return self.pre_processed_text
 
-    def get_features_for_token(self, token):
+    def get_features_for_token(self, token, token_type):
         """ get the features for given token
 
             token: a dictionary with various information
         """
 
-        """
-        TODO: add substantial features
-        """
-
         features = {}
 
-        features.update(self.get_text(token))
-        features.update(self.get_ngram_features(token))
-        features.update(self.get_pos_tag(token))
-        features.update(self.get_lemma(token))
-        features.update(self.get_ner_features(token))
+        # TODO: need to change feature set for each of these.
+        if token_type == "EVENT":
+
+            features.update(self.get_text(token))
+            features.update(self.get_ngram_features(token))
+            features.update(self.get_pos_tag(token))
+            features.update(self.get_lemma(token))
+            features.update(self.get_ner_features(token))
+
+        elif token_type == "TIMEX3":
+
+            features.update(self.get_text(token))
+            features.update(self.get_ngram_features(token))
+            features.update(self.get_pos_tag(token))
+            features.update(self.get_lemma(token))
+            features.update(self.get_ner_features(token))
+        else:
+            exit("invalid token type")
 
         return features
 

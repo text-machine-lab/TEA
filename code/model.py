@@ -19,7 +19,6 @@ class Model:
 		@param notes. A list of TimeNote objects containing annotated data
 		'''
 
-		eventTimexFeats	= []
 		timexLabels	= []
 		eventLabels	= []
 		tlinkFeats	= []
@@ -28,12 +27,14 @@ class Model:
 		tlinkIds	= []
 		offsets 	= []
 
+		eventFeats = []
+		timexFeats = []
 
 		#populate feature and label lists
 		for note in notes:
 
-			#timex and event features
-			eventTimexFeats += note.get_iob_features()
+			eventFeats += note.get_event_features()
+			timexFeats += note.get_timex_features()
 
 			#timex labels
 			tmpLabels = note.get_timex_iob_labels()
@@ -49,11 +50,13 @@ class Model:
 			tlinkFeats += note.get_tlink_features()
 			tlinkLabels += note.get_tlink_labels()
 
-		#train classifiers
-		self._trainTimex(eventTimexFeats, timexLabels)
-		self._trainEvent(eventTimexFeats, eventLabels)
+		assert len(eventFeats) == len(eventLabels), "{} != {}".format(len(eventFeats), len(eventLabels))
+		assert len(timexFeats) == len(timexLabels), "{} != {}".format(len(timexFeats), len(timexLabels))
+		assert len(tlinkFeats) == len(tlinkLabels), "{} != {}".format(len(tlinkFeats), len(tlinkLabels))
 
-		print tlinkLabels
+		#train classifiers
+		self._trainTimex(timexFeats, timexLabels)
+		self._trainEvent(eventFeats, eventLabels)
 
 		self._trainTlink(tlinkFeats, tlinkLabels)
 
@@ -74,7 +77,8 @@ class Model:
 		offsets		= note.get_token_char_offsets()
 
 		#populate feature lists
-		timexEventFeats = note.get_iob_features()
+		_eventFeats = note.get_event_features()
+		_timexFeats = note.get_timex_features()
 
 		tokens          = note.get_tokens()
 
@@ -86,13 +90,13 @@ class Model:
 		for line in tokenized_text:
 			iob_labels.append([None] * len(tokenized_text[line]))
 
-		assert len(tokens) == len(timexEventFeats)
-		assert len(offsets) == len(timexEventFeats)
+		assert len(tokens) == len(_timexFeats)
+		assert len(offsets) == len(_timexFeats)
 
 		#TODO: move direct SVM interfacing back to sci.py
 
 		#vectorize and classify timex
-		potentialTimexVec = self.timexVectorizer.transform(timexEventFeats).toarray()
+		potentialTimexVec = self.timexVectorizer.transform(_timexFeats).toarray()
 		timexLabels_withO = list(self.timexClassifier.predict(potentialTimexVec))
 
 		#filter out all timex-labeled entities
@@ -107,13 +111,13 @@ class Model:
 
 		for i in range(0, len(timexLabels_withO)):
 			if timexLabels_withO[i] == 'O':
-				potentialEventFeats.append(timexEventFeats[i])
+				potentialEventFeats.append(_eventFeats[i])
 				potentialEventOffsets.append(offsets[i])
 
 				potentialEventTokens.append(tokens[i])
 
 			else:
-				timexFeats.append(timexEventFeats[i])
+				timexFeats.append(_timexFeats[i])
 				timexOffsets.append(offsets[i])
 				timexLabels.append(timexLabels_withO[i])
 
@@ -184,8 +188,6 @@ class Model:
 		timexEventOffsets = timexOffsets + eventOffsets + OOffsets
 
 		timexEventLabels  = combineLabels(timexLabels, eventLabels, OLabels)
-
-		print tlinkLabels
 
 		return timexEventLabels, timexEventOffsets, tlinkLabels
 
