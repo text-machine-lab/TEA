@@ -187,6 +187,7 @@ class TimeNote(Note, Features):
 
         # cartesian product of entity pairs
         entity_pairs = list(itertools.product(event_ids, timex_ids)) +\
+                       list(itertools.product(timex_ids, event_ids)) +\
                        list(itertools.product(event_ids, event_ids))
 
         entity_pairs = set(entity_pairs)
@@ -367,7 +368,8 @@ class TimeNote(Note, Features):
 
         # cartesian product of entity pairs
         entity_pairs = list(itertools.product(event_ids, timex_ids)) +\
-                      list(itertools.product(event_ids, event_ids))
+                       list(itertools.product(timex_ids, event_ids)) +\
+                       list(itertools.product(event_ids, event_ids))
 
         entity_pairs = set(entity_pairs)
 
@@ -453,7 +455,6 @@ class TimeNote(Note, Features):
 
         # TODO: if this fails just remove the assertion...
         # make sure we don't miss any tlinks
-
         assert relation_count == len(t_links), "{} != {}".format(relation_count, len(t_links))
 
         self.tlinks = pairs_to_link
@@ -1047,6 +1048,11 @@ class TimeNote(Note, Features):
 
         iob_labels = self.get_iob_labels()
 
+        print iob_labels
+        print len(iob_labels)
+
+        #exit()
+
         count = 0
 
         # doctime does not have a position within the text.
@@ -1084,6 +1090,8 @@ class TimeNote(Note, Features):
             end   = target_token_offset if target_token_offset > src_token_offset else src_token_offset
 
             for label in sentence_labels[start:end+1]:
+
+                print label
 
                 if label["entity_label"] != 'O':
                     count += 1

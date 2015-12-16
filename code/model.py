@@ -88,7 +88,7 @@ class Model:
 		tokenized_text = note.get_tokenized_text()
 
 		for line in tokenized_text:
-			iob_labels.append([None] * len(tokenized_text[line]))
+			iob_labels.append([ {'entity_label': 'O', 'entity_id': None, 'entity_type': None}] * len(tokenized_text[line]))
 
 		assert len(tokens) == len(_timexFeats)
 		assert len(offsets) == len(_timexFeats)
