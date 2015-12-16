@@ -186,8 +186,8 @@ class TimeNote(Note, Features):
         timex_ids.add(doctime_id)
 
         # cartesian product of entity pairs
-        entity_pairs = filter(lambda t: t[0] != t[1], list(itertools.product(event_ids, timex_ids)) +\
-                                                      list(itertools.product(event_ids, event_ids)) +\
+        entity_pairs = list(itertools.product(event_ids, timex_ids)) +\
+                       list(itertools.product(event_ids, event_ids))
 
         entity_pairs = set(entity_pairs)
 
