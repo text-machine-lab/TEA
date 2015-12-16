@@ -11,6 +11,8 @@ sys.path.insert(0, xml_utilities_path)
 import xml_utilities
 import atexit
 
+srl = None
+
 def pre_process(text):
 
     """
@@ -22,27 +24,10 @@ def pre_process(text):
     pos_tagged_text = _pos_tag(tokenized_text)
     ner_tagged_text = _ner_tag(pos_tagged_text)
     constituency_parsed_text = _constituency_parse(ner_tagged_text)
-
-    #constituency_parsed_text = _constituency_parse(pos_tagged_text)
-
-    """
-    # TODO: move this
-    srl = SRL()
-
-    print srl.parse_dependencies(constituency_parsed_text)
-
-    exit()
-    """
-
-#    srl.launch_server()
-#    srl_text = srl.parse_dependencies(constituency_parsed_text)
+    srl_text = srl.parse_dependencies(constituency_parsed_text)
 
     # TODO: add more processing steps
-#    naf_marked_up_text = srl_text
-
-#    srl.close_server()
-
-    naf_marked_up_text = constituency_parsed_text
+    naf_marked_up_text = srl_text
 
     return naf_marked_up_text
 
@@ -186,6 +171,7 @@ class SRLServer():
         if self.s is not None:
             self.s.kill()
 
+srl = SRL()
 
 if __name__ == "__main__":
 

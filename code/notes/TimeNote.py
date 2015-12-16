@@ -186,10 +186,8 @@ class TimeNote(Note, Features):
         timex_ids.add(doctime_id)
 
         # cartesian product of entity pairs
-        entity_pairs = filter(lambda t: t[0] != t[1], list(itertools.product(event_ids, timex_ids)) +\
-                                                      list(itertools.product(timex_ids, event_ids)) +\
-                                                      list(itertools.product(event_ids, event_ids)) +\
-                                                      list(itertools.product(timex_ids, timex_ids)))
+        entity_pairs = list(itertools.product(event_ids, timex_ids)) +\
+                       list(itertools.product(event_ids, event_ids))
 
         entity_pairs = set(entity_pairs)
 
@@ -202,10 +200,26 @@ class TimeNote(Note, Features):
             src_id = pair[0]
             target_id = pair[1]
 
-            # no link at all
-            pairs_to_link.append({"src_entity":id_chunk_map[src_id], "src_id":src_id, "target_id":target_id, "target_entity":id_chunk_map[target_id], "rel_type":'None', "tlink_id":None})
+            if "sentence_num" in id_chunk_map[src_id][0] and "sentence_num" in id_chunk_map[target_id][0]:
 
-        assert len(pairs_to_link) == len(entity_pairs)
+                src_sentence_num = id_chunk_map[src_id][0]["sentence_num"]
+                target_sentence_num = id_chunk_map[target_id][0]["sentence_num"]
+
+                if src_sentence_num != target_sentence_num and\
+                   (src_sentence_num + 1 != target_sentence_num or\
+                   id_chunk_map[src_id][0]["is_main_verb"] is False or\
+                   id_chunk_map[target_id][0]["is_main_verb"] is False):
+                    continue
+
+            # no link at all
+            pairs_to_link.append({"src_entity":id_chunk_map[src_id],
+                                  "src_id":src_id,
+                                  "target_id":target_id,
+                                  "target_entity":id_chunk_map[target_id],
+                                  "rel_type":'None',
+                                  "tlink_id":None})
+
+#        assert len(pairs_to_link) == len(entity_pairs)
 
         self.tlinks = pairs_to_link
 
@@ -353,9 +367,7 @@ class TimeNote(Note, Features):
 
         # cartesian product of entity pairs
         entity_pairs = list(itertools.product(event_ids, timex_ids)) +\
-                      list(itertools.product(timex_ids, event_ids)) +\
-                      list(itertools.product(event_ids, event_ids)) +\
-                      list(itertools.product(timex_ids, timex_ids))
+                      list(itertools.product(event_ids, event_ids))
 
         entity_pairs = set(entity_pairs)
 
@@ -369,6 +381,18 @@ class TimeNote(Note, Features):
 
             src_id = pair[0]
             target_id = pair[1]
+
+
+            if "sentence_num" in id_chunk_map[src_id][0] and "sentence_num" in id_chunk_map[target_id][0]:
+
+                src_sentence_num = id_chunk_map[src_id][0]["sentence_num"]
+                target_sentence_num = id_chunk_map[target_id][0]["sentence_num"]
+
+                if src_sentence_num != target_sentence_num and\
+                   (src_sentence_num + 1 != target_sentence_num or\
+                   id_chunk_map[src_id][0]["is_main_verb"] is False or\
+                   id_chunk_map[target_id][0]["is_main_verb"] is False):
+                    continue
 
             pair = {"src_entity":id_chunk_map[src_id],
                     "src_id":src_id,
@@ -389,6 +413,34 @@ class TimeNote(Note, Features):
 
                         # need to assign relation to each pairing if there exists one otherwise set 'none'
                         pair["rel_type"] = target_entity["rel_type"]
+
+                        # need to simplify tlinks
+
+                        if pair["rel_type"] in ["IDENTITY", "DURING"]:
+                            pair["rel_type"] = "SIMULTANEOUS"
+                        elif pair["rel_type"] == "IBEFORE":
+                            pair["rel_type"] = "BEFORE"
+                        elif pair["rel_type"] == "IAFTER":
+                            pair["rel_type"] = "AFTER"
+                        elif pair["rel_type"] == "INCLUDES":
+                            pair["rel_type"] = "IS_INCLUDED"
+                        elif pair["rel_type"] == "BEGINS":
+                            pair["rel_type"] = "BEGUN_BY"
+                        elif pair["rel_type"] == "ENDS":
+                            pair["rel_type"] = "ENDED_BY"
+                        elif pair["rel_type"] not in [
+                                                    "BEGUN_BY",
+                                                    "IS_INCLUDED",
+                                                    "AFTER",
+                                                    "ENDED_BY",
+                                                    "SIMULTANEOUS",
+                                                    "DURING",
+                                                    "IDENTITY",
+                                                    "BEFORE"
+                                                 ]:
+                            print "rel_type: ", pair["rel_type"]
+                            exit("unknown rel_type")
+
                         pair["tlink_id"] = target_entity["lid"]
 
                         tlink_ids.append(target_entity["lid"])
@@ -399,7 +451,9 @@ class TimeNote(Note, Features):
             # no link at all
             pairs_to_link.append(pair)
 
-        assert len(pairs_to_link) == len(entity_pairs), "{} != {}".format(len(pairs_to_link), len(entity_pairs))
+        # TODO: if this fails just remove the assertion...
+        # make sure we don't miss any tlinks
+
         assert relation_count == len(t_links), "{} != {}".format(relation_count, len(t_links))
 
         self.tlinks = pairs_to_link
@@ -542,7 +596,16 @@ class TimeNote(Note, Features):
 
         return self.iob_labels
 
-    def get_iob_features(self):
+    def get_event_features(self):
+
+        return self.get_iob_features("EVENT")
+
+    def get_timex_features(self):
+
+        return self.get_iob_features("TIMEX3")
+
+
+    def get_iob_features(self, token_type):
 
         """ returns featurized representation of events and timexes """
 
@@ -552,7 +615,7 @@ class TimeNote(Note, Features):
 
             for token in self.pre_processed_text[line]:
 
-                token_features = self.get_features_for_token(token)
+                token_features = self.get_features_for_token(token, token_type)
                 vectors.append(token_features)
 
         return vectors
@@ -577,23 +640,32 @@ class TimeNote(Note, Features):
 
         return self.pre_processed_text
 
-    def get_features_for_token(self, token):
+    def get_features_for_token(self, token, token_type):
         """ get the features for given token
 
             token: a dictionary with various information
         """
 
-        """
-        TODO: add substantial features
-        """
-
         features = {}
 
-        features.update(self.get_text(token))
-        features.update(self.get_ngram_features(token))
-        features.update(self.get_pos_tag(token))
-        features.update(self.get_lemma(token))
-        features.update(self.get_ner_features(token))
+        # TODO: need to change feature set for each of these.
+        if token_type == "EVENT":
+
+            features.update(self.get_text(token))
+            features.update(self.get_ngram_features(token))
+            features.update(self.get_pos_tag(token))
+            features.update(self.get_lemma(token))
+            features.update(self.get_ner_features(token))
+
+        elif token_type == "TIMEX3":
+
+            features.update(self.get_text(token))
+            features.update(self.get_ngram_features(token))
+            features.update(self.get_pos_tag(token))
+            features.update(self.get_lemma(token))
+            features.update(self.get_ner_features(token))
+        else:
+            exit("invalid token type")
 
         return features
 
@@ -783,7 +855,10 @@ class TimeNote(Note, Features):
         # features concerning each entity
         pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
         pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
-        pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
+        #pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
+
+        pair_features.update(self.get_num_of_entities_between_tokens(src_entity, target_entity))
+        pair_features.update(self.doc_creation_time_in_pair(src_entity, target_entity))
 
         for key in src_features:
 
@@ -830,7 +905,7 @@ class TimeNote(Note, Features):
 
         return {"sent_distance":src_line_no - target_line_no}
 
-    
+
     def get_discourse_connectives_features(self, src_entity, target_entity):
         ''' return tokens of temporal discourse connectives and their distance from each entity, if connective exist and entities are on the same line.'''
 
@@ -1011,6 +1086,69 @@ class TimeNote(Note, Features):
             features.update({"entity_type{}".format(i):self.token_entity_type_feature(token)["entity_type"]})
 
         return features
+
+    def doc_creation_time_in_pair(self, src_entity, target_entity):
+
+        if 'functionInDocument' in src_entity[0] or 'functionInDocument' in target_entity[0]:
+
+            return {"doctimeinpair":1}
+
+        else:
+
+            return {"doctimeinpair":0}
+
+
+    def get_num_of_entities_between_tokens(self, src_entity, target_entity  ):
+
+        """ the two tokens either occur on the same sentence or token2 occurs on the next sentence, this is because
+            of the way we filter our tlink pairs
+        """
+
+        iob_labels = self.get_iob_labels()
+
+        count = 0
+
+        # doctime does not have a position within the text.
+        if "sentence_num" not in src_entity[0] or "sentence_num" not in target_entity[0]:
+            return {"entity_distance":-1}
+
+        if src_entity[-1]["sentence_num"] != target_entity[-1]["sentence_num"]:
+
+            src_sentence = src_entity[-1]["sentence_num"] - 1
+            src_token_offset = src_entity[-1]["token_offset"]
+
+            chunk1 = iob_labels[src_sentence][src_token_offset:]
+
+            target_sentence = target_entity[-1]["sentence_num"] - 1
+            target_token_offset = target_entity[-1]["token_offset"]
+
+            chunk2 = iob_labels[target_sentence][:target_token_offset+1]
+
+            for label in chunk1 + chunk2:
+
+                if label["entity_label"] != 'O':
+                    count += 1
+
+        else:
+
+            sentence_num = src_entity[-1]["sentence_num"] - 1
+
+            src_token_offset = src_entity[-1]["token_offset"]
+            target_token_offset = target_entity[-1]["token_offset"]
+
+            sentence_labels = iob_labels[sentence_num]
+
+            start = src_token_offset if src_token_offset < target_token_offset else target_token_offset
+
+            end   = target_token_offset if target_token_offset > src_token_offset else src_token_offset
+
+            for label in sentence_labels[start:end+1]:
+
+                if label["entity_label"] != 'O':
+                    count += 1
+
+        return {"entity_distance": count}
+
 
     def token_label_feature(self, token):
 
