@@ -834,47 +834,106 @@ class TimeNote(Note, Features):
     def get_discourse_connectives_features(self, src_entity, target_entity):
         ''' return tokens of temporal discourse connectives and their distance from each entity, if connective exist and entities are on the same line.'''
 
+        # extract relevent attributes from entities
+        src_line_no, src_start_offset, src_end_offset = self.get_entity_attributes(src_entity)
+        target_line_no, target_start_offset, target_end_offset = self.get_entity_attributes(target_entity)
 
-        src_line_no = None
-        target_line_no = None
+        # connectives are only obtained for single sentences, and connot be processed for pairs that cross sentence boundaries
+        if src_line_no != target_line_no or src_line_no is None or target_line_no is None:
+            return{"connective_tokens": 'None', "connective_distance_from_src":'None', "connective_distance_from_target": 'None'}
 
-        for token in src_entity:
+        # get discourse connectives
+        connectives = self.get_discourse_connectives(src_line_no)
 
-            if src_line_no is None:
+        connective_id = None
+        connective_tokens = ''
+        connective_dist_src = None
+        connective_dist_target = None
+        src_before_target = False
 
+        for connective_token in connectives:
+
+            # ensure connective is between the two entities
+            connective_is_between_entities = False
+            if src_end_offset < connective_token["token_offset"] and connective_token["token_offset"] < target_start_offset:
+                connective_is_between_entities = True
+                src_before_target = True
+
+            elif target_end_offset < connective_token["token_offset"] and connective_token["token_offset"] < src_start_offset:
+                connective_is_between_entities = True
+
+            if connective_is_between_entities is False:
+                continue
+                    
+            # assuming every pair of tokens will only have one connective between them. If this isn't the case, it would be nice to know
+            if connective_id is not None:
+                assert connective_id == connective_token["discourse_id"]
+            
+            connective_id = connective_token["discourse_id"]
+
+            # compute number of tokens between entities and connective using correct offset based on the order they occur in in the sentence
+            if src_before_target is True:
+                current_dist_src = abs(connective_token["token_offset"] - src_end_offset)
+                current_dist_target = abs(connective_token["token_offset"] - target_start_offset)
+
+            else:
+                current_dist_src = abs(connective_token["token_offset"] - src_start_offset)
+                current_dist_target = abs(connective_token["token_offset"] - target_end_offset)
+
+            # if no distence or new connective token is closer than last connective token
+            if connective_dist_src is None or connective_dist_src > current_dist_src:
+                connective_dist_src = current_dist_src
+
+            # if no distence or new connective token is closer than last connective token
+            if connective_dist_target is None or connective_dist_target > current_dist_target:
+                connective_dist_target = current_dist_target
+
+            # add space if not the first token
+            if connective_tokens != '':
+                connective_tokens += ' '
+
+            connective_tokens += connective_token["token"]
+
+
+        # if no connective was found
+        if connective_id is None:
+            return {"connective_tokens": 'None', "connective_distance_from_src":'None', "connective_distance_from_target": 'None'}
+
+        return {"connective_tokens": connective_tokens, "connective_distance_from_src": str(connective_dist_src), "connective_distance_from_target": str(connective_dist_target)}
+
+
+    def get_entity_attributes(self, entity):
+        ''' extract line number, start token offset, and end token offset from a given entity '''
+
+        line_no = None
+        start_offset = None
+        end_offset = None
+
+        for token in entity:
+
+            if line_no is None:
+                # creation time does not have a sentence number
                 if "sentence_num" in token:
-                    src_line_no = token["sentence_num"]
-                else:
-                    # creation time is not in a sentence.
-                    return {"sent_distance":'None'}
+                    line_no = token["sentence_num"]
 
             else:
 
-                assert token["sentence_num"] == src_line_no
+                assert token["sentence_num"] == line_no
 
-        for token in target_entity:
 
-            if target_line_no is None:
-
-                if "sentence_num" in token:
-                    target_line_no = token["sentence_num"]
-                else:
-                    # creation time is not in a sentence.
-                    return {"sent_distance":'None'}
+            if start_offset is None and end_offset is None:
+                if "token_offset" in token: 
+                    start_offset = token["token_offset"]
+                    end_offset = token["token_offset"]
 
             else:
+                if start_offset > token["token_offset"]:
+                    start_offset = token["token_offset"]
 
-                assert token["sentence_num"] == target_line_no
+                if end_offset < token["token_offset"]:
+                    end_offset = token["token_offset"]
 
-        if src_line_no is target_line_no:
-
-            connectives = self.get_discourse_connectives(src_line_no)
-
-
-
-        return{"connective_tokens": 'None', "connective_distance_from_src":'None', "connective_distance_from_target": 'None'}
-
-
+        return line_no, start_offset, end_offset
 
     def get_discourse_connectives(self, line_no):
 
