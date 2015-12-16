@@ -389,6 +389,34 @@ class TimeNote(Note, Features):
 
                         # need to assign relation to each pairing if there exists one otherwise set 'none'
                         pair["rel_type"] = target_entity["rel_type"]
+
+                        # need to simplify tlinks
+
+                        if pair["rel_type"] in ["IDENTITY", "DURING"]:
+                            pair["rel_type"] = "SIMULTANEOUS"
+                        elif pair["rel_type"] == "IBEFORE":
+                            pair["rel_type"] = "BEFORE"
+                        elif pair["rel_type"] == "IAFTER":
+                            pair["rel_type"] = "AFTER"
+                        elif pair["rel_type"] == "INCLUDES":
+                            pair["rel_type"] = "IS_INCLUDED"
+                        elif pair["rel_type"] == "BEGINS":
+                            pair["rel_type"] = "BEGUN_BY"
+                        elif pair["rel_type"] == "ENDS":
+                            pair["rel_type"] = "ENDED_BY"
+                        elif pair["rel_type"] not in [
+                                                    "BEGUN_BY",
+                                                    "IS_INCLUDED",
+                                                    "AFTER",
+                                                    "ENDED_BY",
+                                                    "SIMULTANEOUS",
+                                                    "DURING",
+                                                    "IDENTITY",
+                                                    "BEFORE"
+                                                 ]:
+                            print "rel_type: ", pair["rel_type"]
+                            exit("unknown rel_type")
+
                         pair["tlink_id"] = target_entity["lid"]
 
                         tlink_ids.append(target_entity["lid"])

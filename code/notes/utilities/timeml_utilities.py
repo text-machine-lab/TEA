@@ -8,6 +8,8 @@ from string import whitespace
 
 import re
 
+import glob
+
 def get_text_element(timeml_doc):
 
     root = xml_utilities.get_root(timeml_doc)
@@ -124,6 +126,39 @@ def get_tagged_entities(timeml_doc):
 
     return list(text_element)
 
+def display_taggings_in_doc(timeml_docs):
+    """ get thes unique taggings witin timeml text """
+
+    # used for debugging
+
+    types = {}
+
+    for doc in timeml_docs:
+
+        tagged_entities = get_tagged_entities(doc)
+
+        for entity in tagged_entities:
+
+            entity_type, sub_type = get_entity_type(entity)
+
+            if entity_type not in types:
+
+                types[entity_type] = []
+
+            if sub_type not in types[entity_type]:
+
+                types[entity_type].append(sub_type)
+
+    # print  them all in a nice formatting
+
+    for entity_type in types:
+
+        print entity_type
+
+        for sub_type in types[entity_type]:
+
+            print "\t\t" + sub_type
+
 def get_make_instances(timeml_doc):
     """ gets the event instances in a timeml doc """
     root = xml_utilities.get_root(timeml_doc)
@@ -154,6 +189,44 @@ def get_tlinks(timeml_doc):
 
     return tlinks
 
+def display_tlink_types(timeml_docs):
+
+    types = set()
+
+    for doc in timeml_docs:
+
+        tlinks = get_tlinks(doc)
+
+        for tlink in tlinks:
+
+            types.add(tlink.attrib["relType"])
+
+    print "TLINK TYPES:"
+
+    for t in types:
+
+        print "\t\t" + t
+
+
+def get_entity_type(tagged_entity):
+
+    entity_type = tagged_entity.tag
+
+    sub_type = None
+
+    if 'class' in tagged_entity.attrib:
+        sub_type = tagged_entity.attrib["class"]
+    elif 'type' in tagged_entity.attrib:
+        sub_type = tagged_entity.attrib["type"]
+    elif entity_type == "SIGNAL":
+        sub_type = ""
+    else:
+        print entity_type
+        exit("unknowned type")
+
+    return (entity_type, sub_type)
+
+
 def get_doctime_timex(timeml_doc):
 
     """ get the document creation time timex """
@@ -172,13 +245,9 @@ def get_doctime_timex(timeml_doc):
 
 if __name__ == "__main__":
 
-    doc = "/data2/kwacome/Temporal-Entity-Annotator-TEA-/bad_train_file/NYT19981121.0173.tml"
+    display_taggings_in_doc(glob.glob("/data2/kwacome/Temporal-Entity-Annotator-TEA-/annotated_data/*"))
 
-    e =  get_text_element(doc)
-
-    print get_text(doc)
-    print "\n\n\n"
-    print get_text_with_taggings(doc)
+    display_tlink_types(glob.glob("/data2/kwacome/Temporal-Entity-Annotator-TEA-/annotated_data/*"))
 
     print "nothing to do here"
 
