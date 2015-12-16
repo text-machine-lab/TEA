@@ -783,7 +783,7 @@ class TimeNote(Note, Features):
         # features concerning each entity
         pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
         pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
-        pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
+        #pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
 
         for key in src_features:
 
@@ -830,7 +830,7 @@ class TimeNote(Note, Features):
 
         return {"sent_distance":src_line_no - target_line_no}
 
-    
+
     def get_discourse_connectives_features(self, src_entity, target_entity):
         ''' return tokens of temporal discourse connectives and their distance from each entity, if connective exist and entities are on the same line.'''
 
