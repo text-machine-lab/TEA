@@ -453,6 +453,7 @@ class TimeNote(Note, Features):
 
         # TODO: if this fails just remove the assertion...
         # make sure we don't miss any tlinks
+
         assert relation_count == len(t_links), "{} != {}".format(relation_count, len(t_links))
 
         self.tlinks = pairs_to_link
@@ -856,6 +857,9 @@ class TimeNote(Note, Features):
         pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
         #pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
 
+        pair_features.update(self.get_num_of_entities_between_tokens(src_entity, target_entity))
+        pair_features.update(self.doc_creation_time_in_pair(src_entity, target_entity))
+
         for key in src_features:
 
             pair_features[key + "_src"] = src_features[key]
@@ -1023,6 +1027,69 @@ class TimeNote(Note, Features):
             features.update({"entity_type{}".format(i):self.token_entity_type_feature(token)["entity_type"]})
 
         return features
+
+    def doc_creation_time_in_pair(self, src_entity, target_entity):
+
+        if 'functionInDocument' in src_entity[0] or 'functionInDocument' in target_entity[0]:
+
+            return {"doctimeinpair":1}
+
+        else:
+
+            return {"doctimeinpair":0}
+
+
+    def get_num_of_entities_between_tokens(self, src_entity, target_entity  ):
+
+        """ the two tokens either occur on the same sentence or token2 occurs on the next sentence, this is because
+            of the way we filter our tlink pairs
+        """
+
+        iob_labels = self.get_iob_labels()
+
+        count = 0
+
+        # doctime does not have a position within the text.
+        if "sentence_num" not in src_entity[0] or "sentence_num" not in target_entity[0]:
+            return {"entity_distance":-1}
+
+        if src_entity[-1]["sentence_num"] != target_entity[-1]["sentence_num"]:
+
+            src_sentence = src_entity[-1]["sentence_num"] - 1
+            src_token_offset = src_entity[-1]["token_offset"]
+
+            chunk1 = iob_labels[src_sentence][src_token_offset:]
+
+            target_sentence = target_entity[-1]["sentence_num"] - 1
+            target_token_offset = target_entity[-1]["token_offset"]
+
+            chunk2 = iob_labels[target_sentence][:target_token_offset+1]
+
+            for label in chunk1 + chunk2:
+
+                if label["entity_label"] != 'O':
+                    count += 1
+
+        else:
+
+            sentence_num = src_entity[-1]["sentence_num"] - 1
+
+            src_token_offset = src_entity[-1]["token_offset"]
+            target_token_offset = target_entity[-1]["token_offset"]
+
+            sentence_labels = iob_labels[sentence_num]
+
+            start = src_token_offset if src_token_offset < target_token_offset else target_token_offset
+
+            end   = target_token_offset if target_token_offset > src_token_offset else src_token_offset
+
+            for label in sentence_labels[start:end+1]:
+
+                if label["entity_label"] != 'O':
+                    count += 1
+
+        return {"entity_distance": count}
+
 
     def token_label_feature(self, token):
 
