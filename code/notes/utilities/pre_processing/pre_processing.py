@@ -25,8 +25,6 @@ def pre_process(text):
     ner_tags       = ner.get_taggings(naf_tagged_doc)
     main_verbs     = srl.get_main_verbs(naf_tagged_doc)
 
-    print main_verbs
-
     constituency_trees = parse.get_constituency_trees(naf_tagged_doc)
 
     sentences = {}

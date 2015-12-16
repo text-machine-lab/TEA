@@ -940,11 +940,11 @@ class TimeNote(Note, Features):
 
             if connective_is_between_entities is False:
                 continue
-                    
+
             # assuming every pair of tokens will only have one connective between them. If this isn't the case, it would be nice to know
             if connective_id is not None:
                 assert connective_id == connective_token["discourse_id"]
-            
+
             connective_id = connective_token["discourse_id"]
 
             # compute number of tokens between entities and connective using correct offset based on the order they occur in in the sentence
@@ -998,7 +998,7 @@ class TimeNote(Note, Features):
 
 
             if start_offset is None and end_offset is None:
-                if "token_offset" in token: 
+                if "token_offset" in token:
                     start_offset = token["token_offset"]
                     end_offset = token["token_offset"]
 
@@ -1107,11 +1107,6 @@ class TimeNote(Note, Features):
 
         iob_labels = self.get_iob_labels()
 
-        print iob_labels
-        print len(iob_labels)
-
-        #exit()
-
         count = 0
 
         # doctime does not have a position within the text.
@@ -1149,8 +1144,6 @@ class TimeNote(Note, Features):
             end   = target_token_offset if target_token_offset > src_token_offset else src_token_offset
 
             for label in sentence_labels[start:end+1]:
-
-                print label
 
                 if label["entity_label"] != 'O':
                     count += 1
