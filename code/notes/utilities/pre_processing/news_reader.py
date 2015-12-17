@@ -158,13 +158,11 @@ class SRLServer():
 
     def launch_server(self):
 
-        with open(os.devnull, 'w') as fp:
-            self.s = subprocess.Popen(["java",
-                                       "-cp",
-                                       os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
-                                       "ixa.srl.SRLServer",
-                                        "en"],
-                                        stdout=fp)
+        self.s = subprocess.Popen(["java",
+                                   "-cp",
+                                   os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
+                                   "ixa.srl.SRLServer",
+                                    "en"])
 
     def kill_server(self):
 
