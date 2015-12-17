@@ -591,8 +591,6 @@ public class Ner {
 
     public String tag(String naf_tagged_text) {
 
-        System.out.println(naf_tagged_text);
-
         InputStream is = new ByteArrayInputStream( naf_tagged_text.getBytes( StandardCharsets.UTF_8 ) );
         OutputStream os      = new ByteArrayOutputStream();
 

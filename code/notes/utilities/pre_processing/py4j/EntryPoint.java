@@ -3,17 +3,20 @@ package gateway;
 
 import eus.ixa.ixa.pipe.tok.Tok;
 import eus.ixa.ixa.pipe.pos.Pos;
+import eus.ixa.ixa.pipe.nerc.Ner;
 
 class EntryPoint {
 
     Tok tokenizer = null;
     Pos tagger    = null;
+    Ner ner       = null;
 
     public EntryPoint() {
         try {
 
             tokenizer = new Tok();
             tagger    = new Pos();
+            ner       = new Ner();
 
         }
         catch(Exception e){
@@ -30,6 +33,12 @@ class EntryPoint {
     public Pos getIXAPosTagger() {
 
         return tagger;
+
+    }
+
+    public Ner getIXANerTagger() {
+
+        return ner;
 
     }
 
