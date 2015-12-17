@@ -2,15 +2,18 @@
 package gateway;
 
 import eus.ixa.ixa.pipe.tok.Tok;
+import eus.ixa.ixa.pipe.pos.Pos;
 
 class EntryPoint {
 
     Tok tokenizer = null;
+    Pos tagger    = null;
 
     public EntryPoint() {
         try {
 
             tokenizer = new Tok();
+            tagger    = new Pos();
 
         }
         catch(Exception e){
@@ -21,6 +24,12 @@ class EntryPoint {
     public Tok getIXATokenizer() {
 
         return tokenizer;
+
+    }
+
+    public Pos getIXAPosTagger() {
+
+        return tagger;
 
     }
 
