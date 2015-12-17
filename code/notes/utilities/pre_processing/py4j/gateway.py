@@ -1,0 +1,63 @@
+
+import os
+import subprocess
+import time
+import signal
+import atexit
+
+from py4j.java_gateway import GatewayClient
+
+if "PY4J_DIR_PATH" not in os.environ:
+
+    exit("please defined PY4J_DIR_PATH")
+
+if "TEA_PATH" not in os.environ:
+
+    exit("please define TEA_PATH")
+
+PY4J_DEPENDENCIES=":{}/*".format(os.environ["PY4J_DIR_PATH"])
+TOK_JAR_PATH=os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-tok-1.8.2.jar"
+DEPENDENCIES="{}:{}".format(PY4J_DEPENDENCIES, TOK_JAR_PATH)
+
+class GateWayServer(object):
+    """
+        creates the py4j gateway to allow access to jvm objects.
+        only one gateway server may be running at a time on a specific port.
+    """
+
+    server = None
+
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def launch_gateway():
+
+        if GateWayServer.server is None:
+            print "launching gateway"
+            GateWayServer.server = subprocess.Popen(["java", "-cp", DEPENDENCIES, "gateway.GateWay"])
+
+        else:
+            print "py4j server is already running"
+
+    @staticmethod
+    @atexit.register
+    def cleanup():
+
+        print "terminating py4j server"
+        if GateWayServer.server is not None:
+
+            os.kill(GateWayServer.server.pid, signal.SIGKILL)
+            GateWayServer.server = None
+
+    def __del__(self):
+        pass
+
+if __name__ == "__main__":
+
+    print "nothing to do in main"
+    GateWayServer.launch_gateway()
+
+    while True:
+        pass
+
