@@ -88,7 +88,7 @@ class Note(object):
         eventDict = {}
         for i, timexEventLabel in enumerate(timexEventLabels):
             if timexEventLabel["entity_type"] == "EVENT":
-                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": "NONE", "aspect": "NONE", "polarity": "NONE", "pos": "NONE"})
+                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": "PAST", "aspect": "NONE", "polarity": "POS", "pos": "OTHER"})
                 eventDict[timexEventLabel["entity_id"]] = "ei" + str(i)
 
         # add tlinks
