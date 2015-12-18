@@ -9,7 +9,9 @@ PY4J_DEPENDENCIES=":$PY4J_DIR_PATH/*"
 
 COMPILE_DEST=$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/
 
-javac -cp ":$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/" EntryPoint.java -d $COMPILE_DEST
+SRC_DIR=$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader
 
-javac -cp "$PY4J_DEPENDENCIES" GateWay.java -d $COMPILE_DEST
+javac -cp ":$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/" $SRC_DIR/EntryPoint.java -d $COMPILE_DEST
+
+javac -cp ":$SRC_DIR:$PY4J_DEPENDENCIES" $SRC_DIR/GateWay.java -d $COMPILE_DEST
 

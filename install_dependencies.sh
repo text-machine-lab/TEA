@@ -1,4 +1,10 @@
 
+if [ "$PY4J_DIR_PATH" == "" ]; then
+    echo "environment variable PY4J_DIR_PATH not specified"
+    echo "please put exact path example .../venv/share/py4j"
+    exit
+fi
+
 # unpack dependencies
 tar -xvf NewsReader.tar
 
@@ -30,5 +36,7 @@ rm -f PredicateMatrix.srl-module.tar.gz
 
 mv NewsReader code/notes/
 
+TEA_PATH=$(pwd)
+bash $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile.sh
 
 
