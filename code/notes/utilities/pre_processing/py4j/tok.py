@@ -41,5 +41,5 @@ if __name__ == "__main__":
 
     t = IXATokenizer()
 
-    t.tokenize("hello world")
+    print t.tokenize("hello world")
 

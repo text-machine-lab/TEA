@@ -220,14 +220,21 @@ class CLI {
     } else {
       lang = kaf.getLang();
     }
+
     Properties properties = setAnnotateProperties(model, lang, lexer, dictTag, dictPath, clearFeatures);
+
+
     KAFDocument.LinguisticProcessor newLp = kaf.addLinguisticProcessor(
         "entities", "ixa-pipe-nerc-" + Files.getNameWithoutExtension(model), version + "-" + commit);
     newLp.setBeginTimestamp();
+    System.out.println("added processor");
     Annotate annotator = new Annotate(properties);
+    System.out.println("annotating");
     annotator.annotateNEs(kaf);
     newLp.setEndTimestamp();
     String kafToString = null;
+
+
     if (outputFormat.equalsIgnoreCase("conll03")) {
       kafToString = annotator.annotateNEsToCoNLL2003(kaf);
     } else if (outputFormat.equalsIgnoreCase("conll02")) {

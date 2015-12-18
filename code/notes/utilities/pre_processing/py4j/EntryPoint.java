@@ -4,12 +4,14 @@ package gateway;
 import eus.ixa.ixa.pipe.tok.Tok;
 import eus.ixa.ixa.pipe.pos.Pos;
 import eus.ixa.ixa.pipe.nerc.Ner;
+import eus.ixa.ixa.pipe.parse.Parse;
 
 class EntryPoint {
 
     Tok tokenizer = null;
     Pos tagger    = null;
     Ner ner       = null;
+    Parse parser  = null;
 
     public EntryPoint() {
         try {
@@ -17,6 +19,7 @@ class EntryPoint {
             tokenizer = new Tok();
             tagger    = new Pos();
             ner       = new Ner();
+            parser    = new Parse();
 
         }
         catch(Exception e){
@@ -39,6 +42,12 @@ class EntryPoint {
     public Ner getIXANerTagger() {
 
         return ner;
+
+    }
+
+    public Parse getIXAParser() {
+
+        return parser;
 
     }
 
