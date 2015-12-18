@@ -1,0 +1,109 @@
+Gateway Server Started
+calling constructor
+launching gateway
+attempting to connect to py4j gateway
+calling constructor
+py4j server is already running
+attempting to connect to py4j gateway
+calling constructor
+py4j server is already running
+attempting to connect to py4j gateway
+tagging...
+tagging...
+<?xml version="1.0" encoding="UTF-8"?>
+<NAF xml:lang="en" version="v1.naf">
+  <nafHeader>
+    <linguisticProcessors layer="text">
+      <lp name="ixa-pipe-tok-en" beginTimestamp="2015-12-18T07:55:51-0500" endTimestamp="2015-12-18T07:55:51-0500" version="null-null" hostname="dumuzi" />
+    </linguisticProcessors>
+    <linguisticProcessors layer="terms">
+      <lp name="ixa-pipe-pos-en-maxent-100-c5-baseline-dict-penn" beginTimestamp="2015-12-18T07:55:51-0500" endTimestamp="2015-12-18T07:55:51-0500" version="null-null" hostname="dumuzi" />
+    </linguisticProcessors>
+    <linguisticProcessors layer="entities">
+      <lp name="ixa-pipe-nerc-en-91-19-conll03" beginTimestamp="2015-12-18T07:55:51-0500" endTimestamp="2015-12-18T07:55:51-0500" version="null-null" hostname="dumuzi" />
+    </linguisticProcessors>
+  </nafHeader>
+  <text>
+    <wf id="w1" sent="1" para="1" offset="0" length="5">hello</wf>
+    <wf id="w2" sent="1" para="1" offset="6" length="5">world</wf>
+  </text>
+  <terms>
+    <!--hello-->
+    <term id="t1" type="close" lemma="hello" pos="O" morphofeat="UH">
+      <span>
+        <target id="w1" />
+      </span>
+    </term>
+    <!--world-->
+    <term id="t2" type="open" lemma="world" pos="N" morphofeat="NN">
+      <span>
+        <target id="w2" />
+      </span>
+    </term>
+  </terms>
+</NAF>
+
+tagging...
+tagging...
+<?xml version="1.0" encoding="UTF-8"?>
+<NAF xml:lang="en" version="v1.naf">
+  <nafHeader>
+    <linguisticProcessors layer="text">
+      <lp name="ixa-pipe-tok-en" beginTimestamp="2015-12-18T07:55:51-0500" endTimestamp="2015-12-18T07:55:51-0500" version="null-null" hostname="dumuzi" />
+    </linguisticProcessors>
+    <linguisticProcessors layer="terms">
+      <lp name="ixa-pipe-pos-en-maxent-100-c5-baseline-dict-penn" beginTimestamp="2015-12-18T07:55:51-0500" endTimestamp="2015-12-18T07:55:51-0500" version="null-null" hostname="dumuzi" />
+    </linguisticProcessors>
+    <linguisticProcessors layer="entities">
+      <lp name="ixa-pipe-nerc-en-91-19-conll03" beginTimestamp="2015-12-18T07:55:51-0500" endTimestamp="2015-12-18T07:55:51-0500" version="null-null" hostname="dumuzi" />
+    </linguisticProcessors>
+  </nafHeader>
+  <text>
+    <wf id="w1" sent="1" para="1" offset="0" length="4">this</wf>
+    <wf id="w2" sent="1" para="1" offset="5" length="2">is</wf>
+    <wf id="w3" sent="1" para="1" offset="8" length="1">a</wf>
+    <wf id="w4" sent="1" para="1" offset="10" length="9">different</wf>
+    <wf id="w5" sent="1" para="1" offset="20" length="8">sentence</wf>
+    <wf id="w6" sent="1" para="1" offset="28" length="1">.</wf>
+  </text>
+  <terms>
+    <!--this-->
+    <term id="t1" type="close" lemma="this" pos="D" morphofeat="DT">
+      <span>
+        <target id="w1" />
+      </span>
+    </term>
+    <!--is-->
+    <term id="t2" type="open" lemma="be" pos="V" morphofeat="VBZ">
+      <span>
+        <target id="w2" />
+      </span>
+    </term>
+    <!--a-->
+    <term id="t3" type="close" lemma="a" pos="D" morphofeat="DT">
+      <span>
+        <target id="w3" />
+      </span>
+    </term>
+    <!--different-->
+    <term id="t4" type="open" lemma="different" pos="G" morphofeat="JJ">
+      <span>
+        <target id="w4" />
+      </span>
+    </term>
+    <!--sentence-->
+    <term id="t5" type="open" lemma="sentence" pos="N" morphofeat="NN">
+      <span>
+        <target id="w5" />
+      </span>
+    </term>
+    <!--.-->
+    <term id="t6" type="close" lemma="." pos="O" morphofeat=".">
+      <span>
+        <target id="w6" />
+      </span>
+    </term>
+  </terms>
+</NAF>
+
+terminating py4j server

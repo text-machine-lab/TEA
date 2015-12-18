@@ -12,11 +12,7 @@ import sys
 
 from gateway import GateWayServer
 
-import tok
-import pos
-import ner as nerc
-
-class IXAParser:
+class IXANerTagger:
 
     def __init__(self):
 
@@ -30,31 +26,16 @@ class IXAParser:
 
         self.gateway = JavaGateway(eager_load=True)
 
-        self.parser = self.gateway.entry_point.getIXAParser()
+        self.tagger = self.gateway.entry_point.getIXANerTagger()
 
-    def parse(self, naf_tagged_doc):
+    def tag(self, naf_tagged_doc):
 
         if 'NAF' not in naf_tagged_doc:
             exit("text needs to be processed by ixa tokenizer first")
 
         print "tagging..."
 
-        return self.parser.parse(naf_tagged_doc)
+        return self.tagger.tag(naf_tagged_doc)
 
 if __name__ == "__main__":
-
-    t = tok.IXATokenizer()
-    p = pos.IXAPosTagger()
-    ner = nerc.IXANerTagger()
-    parser = IXAParser()
-
-    tokenized_text = t.tokenize("hello world")
-
-    tokenized_text
-
-    pos_tagged_doc = p.tag(tokenized_text)
-
-    ner_tagged_doc = ner.tag(pos_tagged_doc)
-
-    print parser.parse(ner_tagged_doc)
-
+    pass

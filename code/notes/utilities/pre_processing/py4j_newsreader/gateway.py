@@ -15,12 +15,15 @@ if "TEA_PATH" not in os.environ:
 
     exit("please define TEA_PATH")
 
-PY4J_DEPENDENCIES=":{}/*".format(os.environ["PY4J_DIR_PATH"])
+PY4J_DEPENDENCIES="{}/*".format(os.environ["PY4J_DIR_PATH"])
 TOK_JAR_PATH=os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-tok-1.8.2.jar"
 POS_JAR_PATH=os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-pos-1.4.1.jar"
 NER_JAR_PATH=os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-nerc-1.5.2.jar"
 PARSE_JAR_PATH=os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-parse-1.1.0.jar"
-DEPENDENCIES="{}:{}:{}:{}:{}".format(PY4J_DEPENDENCIES, TOK_JAR_PATH, POS_JAR_PATH, NER_JAR_PATH, PARSE_JAR_PATH)
+SRC_DR=os.environ["TEA_PATH"] + "/code/notes/utilities/pre_processing/py4j_newsreader"
+DEPENDENCIES=":{}:{}:{}:{}:{}:{}:{}/*".format(PY4J_DEPENDENCIES, TOK_JAR_PATH, POS_JAR_PATH, NER_JAR_PATH, PARSE_JAR_PATH, SRC_DR, SRC_DR)
+
+print DEPENDENCIES
 
 class GateWayServer(object):
     """

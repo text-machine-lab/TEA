@@ -64,7 +64,7 @@ import java.io.BufferedReader;
  * @version 2014-11-30
  */
 
-class CLI {
+public class PosCLI {
 
     Annotate annotator = null;
 
@@ -121,7 +121,7 @@ class CLI {
    * Construct a CLI object with the three sub-parsers to manage the command
    * line parameters.
    */
-  public CLI() {
+  public PosCLI() {
     this.annotateParser = this.subParsers.addParser("tag").help("Tagging CLI");
     loadAnnotateParameters();
     this.trainParser = this.subParsers.addParser("train").help("Training CLI");
@@ -368,85 +368,4 @@ public final void parseArgs(final String[] args) throws IOException, JDOMExcepti
 
 }
 
-public class Pos {
-
-    CLI pos_CLI = null;
-
-    public Pos() {
-
-        String[] cli_args = { "tag",
-                              "-m",
-                              System.getenv("TEA_PATH") + "/code/notes/NewsReader/models/pos-models-1.4.0/en/en-maxent-100-c5-baseline-dict-penn.bin" };
-
-        pos_CLI = new CLI();
-
-        try {
-
-            pos_CLI.parseArgs(cli_args);
-
-        } catch (IOException e) {
-
-            System.out.println("ioerror");
-
-        } catch (JDOMException e) {
-
-            System.out.println("JDOM ERROR");
-
-        }
-
-
-    }
-
-    public String tag(String naf_tagged_text) {
-
-        InputStream is = new ByteArrayInputStream( naf_tagged_text.getBytes( StandardCharsets.UTF_8 ) );
-        OutputStream os      = new ByteArrayOutputStream();
-
-        try {
-
-            this.pos_CLI.annotate(is, os);
-
-        } catch (IOException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        } catch (JDOMException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        }
-
-        return os.toString();
-
-    }
-
-    public static void main(String[] args) {
-
-        Pos p = new Pos();
-
-        String input = "";
-
-        String line = null;
-
-        try{
-
-       BufferedReader br =
-        new BufferedReader(new InputStreamReader(System.in));
-
-            while((line=br.readLine())!=null){
-             input += line;
-        }
-
-        System.out.println(input);
-
-        } catch (IOException e){
-
-
-        }
-
-        System.out.println(p.tag(input));
-
-    }
-
-}
 

@@ -64,7 +64,7 @@ import java.nio.charset.StandardCharsets;
  * @version 2015-02-26
  *
  */
-class CLI {
+public class NerCLI {
 
 
     Annotate annotator = null;
@@ -121,7 +121,7 @@ class CLI {
    * Construct a CLI object with the sub-parsers to manage the command
    * line parameters.
    */
-  public CLI() {
+  public NerCLI() {
     annotateParser = subParsers.addParser("tag").help("NER Tagging CLI");
     loadAnnotateParameters();
     oteParser = subParsers.addParser("ote").help("Opinion Target Extraction CLI");
@@ -562,61 +562,4 @@ class CLI {
   }
 
 }
-
-public class Ner {
-
-    CLI ner_cli = null;
-
-    public Ner(){
-
-        String[] cli_args = { "tag",
-                              "-m",
-                              System.getenv("TEA_PATH") + "/code/notes/NewsReader/models/nerc-models-1.5.0/nerc-models-1.5.0/en/conll03/en-91-19-conll03.bin" };
-
-        ner_cli = new CLI();
-
-        try {
-
-            ner_cli.parseArgs(cli_args);
-
-        } catch (IOException e) {
-
-            System.out.println("ioerror");
-
-        } catch (JDOMException e) {
-
-            System.out.println("JDOM ERROR");
-
-        }
-
-    }
-
-    public String tag(String naf_tagged_text) {
-
-        InputStream is = new ByteArrayInputStream( naf_tagged_text.getBytes( StandardCharsets.UTF_8 ) );
-        OutputStream os      = new ByteArrayOutputStream();
-
-        try {
-
-            this.ner_cli.annotate(is, os);
-
-        } catch (IOException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        } catch (JDOMException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        }
-
-        return os.toString();
-
-    }
-
-    public static void main(String[] args) {
-    }
-
-}
-
 

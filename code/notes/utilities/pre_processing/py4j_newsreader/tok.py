@@ -10,11 +10,6 @@ import os
 import time
 import sys
 
-# path of stanford corenlp dir
-#gateway_dir = os.environ["TEA_PATH"] + "/code/notes/utilities/pre_processing/py4j"
-
-#sys.path.append(gateway_dir)
-
 from gateway import GateWayServer
 
 class IXATokenizer:
@@ -38,10 +33,4 @@ class IXATokenizer:
         return self.tokenizer.tokenize(text)
 
 if __name__ == "__main__":
-
-    t = IXATokenizer()
-
-    print t.tokenize("hello world")
-
-#    print t.tokenize("testing")
-
+    pass

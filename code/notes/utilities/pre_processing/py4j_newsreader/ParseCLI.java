@@ -59,7 +59,10 @@ import java.nio.charset.StandardCharsets;
  * @version 2014-04-18
  */
 
-class CLI {
+public class ParseCLI {
+
+
+  Annotate annotator = null;
 
   /**
    * Get dynamically the version of ixa-pipe-parse by looking at the MANIFEST
@@ -103,7 +106,7 @@ class CLI {
    * Construct a CLI object with the three sub-parsers to manage the command
    * line parameters.
    */
-  public CLI() {
+  public ParseCLI() {
     this.annotateParser = this.subParsers.addParser("parse")
         .help("Parsing CLI");
     loadAnnotateParameters();
@@ -151,34 +154,23 @@ class CLI {
     final BufferedWriter bwriter = new BufferedWriter(new OutputStreamWriter(
         outputStream, "UTF-8"));
     final KAFDocument kaf = KAFDocument.createFromStream(breader);
-    final String model = this.parsedArguments.getString("model");
-    final String headFinderOption = this.parsedArguments
-        .getString("headFinder");
-    final String outputFormat = this.parsedArguments.getString("outputFormat");
-    // language parameter
-    String lang = null;
-    if (this.parsedArguments.getString("language") != null) {
-      lang = this.parsedArguments.getString("language");
-      if (!kaf.getLang().equalsIgnoreCase(lang)) {
-        System.err.println("Language parameter in NAF and CLI do not match!!");
-        System.exit(1);
-      }
-    } else {
-      lang = kaf.getLang();
-    }
-    final Properties properties = setAnnotateProperties(model, lang,
-        headFinderOption);
+
+            final String model = this.parsedArguments.getString("model");
+            final String headFinderOption = this.parsedArguments
+                .getString("headFinder");
+            final String outputFormat = this.parsedArguments.getString("outputFormat");
+
+
     final KAFDocument.LinguisticProcessor newLp = kaf.addLinguisticProcessor(
         "constituency",
         "ixa-pipe-parse-" + Files.getNameWithoutExtension(model), this.version
             + "-" + this.commit);
     newLp.setBeginTimestamp();
-    final Annotate annotator = new Annotate(properties);
     String kafToString = null;
     if (outputFormat.equalsIgnoreCase("oneline")) {
-      kafToString = annotator.parseToOneline(kaf);
+      kafToString = this.annotator.parseToOneline(kaf);
     } else {
-      annotator.parseToKAF(kaf);
+      this.annotator.parseToKAF(kaf);
       newLp.setEndTimestamp();
       kafToString = kaf.toString();
     }
@@ -279,6 +271,15 @@ class CLI {
 
            parsedArguments = argParser.parseArgs(args);
 
+            final String model = this.parsedArguments.getString("model");
+            final String headFinderOption = this.parsedArguments
+                .getString("headFinder");
+            final String outputFormat = this.parsedArguments.getString("outputFormat");
+            final Properties properties = setAnnotateProperties(model, "en",
+                headFinderOption);
+
+            this.annotator = new Annotate(properties);
+
        } catch (ArgumentParserException e) {
 
            argParser.handleError(e);
@@ -289,66 +290,4 @@ class CLI {
 
 
 }
-
-public class Parse {
-
-    CLI parse_CLI = null;
-
-    public Parse() {
-
-        String[] cli_args = { "parse",
-                              "-m",
-                              System.getenv("TEA_PATH") + "/code/notes/NewsReader/models/parse-models/en-parser-chunking.bin" };
-
-        parse_CLI = new CLI();
-
-        try {
-
-            parse_CLI.parseArgs(cli_args);
-
-        } catch (IOException e) {
-
-            System.out.println("ioerror");
-
-        } catch (JDOMException e) {
-
-            System.out.println("JDOM ERROR");
-
-        }
-
-    }
-
-    public String parse(String naf_tagged_text) {
-
-        InputStream is = new ByteArrayInputStream( naf_tagged_text.getBytes( StandardCharsets.UTF_8 ) );
-        OutputStream os      = new ByteArrayOutputStream();
-
-        try {
-
-            this.parse_CLI.annotate(is, os);
-
-        } catch (IOException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        } catch (JDOMException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        }
-
-        return os.toString();
-
-    }
-
-
-    public static void main(String[] args) {
-
-
-
-    }
-
-
-}
-
 

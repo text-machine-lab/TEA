@@ -7,9 +7,9 @@ fi
 
 PY4J_DEPENDENCIES=":$PY4J_DIR_PATH/*"
 
-COMPILE_DEST=$TEA_PATH/code/notes/utilities/pre_processing/py4j/
+COMPILE_DEST=$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/
 
-javac -cp ":$TEA_PATH/code/notes/utilities/pre_processing/py4j/" EntryPoint.java -d $COMPILE_DEST
+javac -cp ":$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/" EntryPoint.java -d $COMPILE_DEST
 
 javac -cp "$PY4J_DEPENDENCIES" GateWay.java -d $COMPILE_DEST
 
