@@ -66,6 +66,8 @@ import java.io.BufferedReader;
 
 class CLI {
 
+    Annotate annotator = null;
+
   /**
    * Get dynamically the version of ixa-pipe-pos by looking at the MANIFEST
    * file.
@@ -185,37 +187,13 @@ class CLI {
   public final void annotate(final InputStream inputStream,
       final OutputStream outputStream) throws IOException, JDOMException {
 
-    final String model = this.parsedArguments.getString("model");
-    final String beamSize = this.parsedArguments.getString("beamSize");
-    final String multiwords = Boolean.toString(this.parsedArguments
-        .getBoolean("multiwords"));
-    final String dictag = Boolean.toString(this.parsedArguments
-        .getBoolean("dictag"));
-
     BufferedReader breader = new BufferedReader(new InputStreamReader(
     inputStream, "UTF-8"));
     BufferedWriter bwriter = new BufferedWriter(new OutputStreamWriter(
     outputStream, "UTF-8"));
 
     final KAFDocument kaf = KAFDocument.createFromStream(breader);
-
-    // language
-    String lang;
-
-    if (this.parsedArguments.getString("language") != null) {
-      lang = this.parsedArguments.getString("language");
-      if (!kaf.getLang().equalsIgnoreCase(lang)) {
-        System.err.println("Language parameter in NAF and CLI do not match!!");
-        System.exit(1);
-      }
-    } else {
-      lang = kaf.getLang();
-    }
-
-    final Properties properties = setAnnotateProperties(model, lang, beamSize,
-        multiwords, dictag);
-
-    final Annotate annotator = new Annotate(properties);
+    final String model = this.parsedArguments.getString("model");
 
     if (this.parsedArguments.getBoolean("nokaf")) {
       bwriter.write(annotator.annotatePOSToCoNLL(kaf));
@@ -225,7 +203,7 @@ class CLI {
           "terms", "ixa-pipe-pos-" + Files.getNameWithoutExtension(model),
           this.version + "-" + this.commit);
       newLp.setBeginTimestamp();
-      annotator.annotatePOSToKAF(kaf);
+      this.annotator.annotatePOSToKAF(kaf);
       newLp.setEndTimestamp();
       bwriter.write(kaf.toString());
     }
@@ -364,6 +342,19 @@ public final void parseArgs(final String[] args) throws IOException, JDOMExcepti
     try {
 
         parsedArguments = argParser.parseArgs(args);
+
+        final String model = this.parsedArguments.getString("model");
+        final String beamSize = this.parsedArguments.getString("beamSize");
+        final String multiwords = Boolean.toString(this.parsedArguments
+            .getBoolean("multiwords"));
+        final String dictag = Boolean.toString(this.parsedArguments
+            .getBoolean("dictag"));
+
+        // always english.
+        final Properties properties = setAnnotateProperties(model, "en", beamSize,
+            multiwords, dictag);
+
+        this.annotator = new Annotate(properties);
 
     } catch (ArgumentParserException e) {
 

@@ -23,11 +23,11 @@ class IXATokenizer:
 
         print "calling constructor"
 
-        # launches java gateway server.
+        #launches java gateway server.
         GateWayServer.launch_gateway()
 
         print "attempting to connect to py4j gateway"
-        time.sleep(5)
+        time.sleep(30)
 
         self.gateway = JavaGateway(eager_load=True)
 
@@ -42,4 +42,6 @@ if __name__ == "__main__":
     t = IXATokenizer()
 
     print t.tokenize("hello world")
+
+#    print t.tokenize("testing")
 

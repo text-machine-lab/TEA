@@ -19,7 +19,7 @@ class EntryPoint {
             tokenizer = new Tok();
             tagger    = new Pos();
             ner       = new Ner();
-            parser    = new Parse();
+//            parser    = new Parse();
 
         }
         catch(Exception e){

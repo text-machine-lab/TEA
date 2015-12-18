@@ -50,3 +50,5 @@ if __name__ == "__main__":
 
     print pos.tag(tokenized_text)
 
+    print pos.tag(tokenized_text)
+

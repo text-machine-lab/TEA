@@ -66,6 +66,9 @@ import java.nio.charset.StandardCharsets;
  */
 class CLI {
 
+
+    Annotate annotator = null;
+
   /**
    * Get dynamically the version of ixa-pipe-nerc by looking at the MANIFEST
    * file.
@@ -201,35 +204,16 @@ class CLI {
 
     // read KAF document from inputstream
     KAFDocument kaf = KAFDocument.createFromStream(breader);
-    // load parameters into a properties
-    String model = parsedArguments.getString("model");
-    String outputFormat = parsedArguments.getString("outputFormat");
-    String lexer = parsedArguments.getString("lexer");
-    String dictTag = parsedArguments.getString("dictTag");
-    String dictPath = parsedArguments.getString("dictPath");
-    String clearFeatures = parsedArguments.getString("clearFeatures");
-    // language parameter
-    String lang = null;
-    if (parsedArguments.getString("language") != null) {
-      lang = parsedArguments.getString("language");
-      if (!kaf.getLang().equalsIgnoreCase(lang)) {
-        System.err
-            .println("Language parameter in NAF and CLI do not match!!");
-        System.exit(1);
-      }
-    } else {
-      lang = kaf.getLang();
-    }
 
-    Properties properties = setAnnotateProperties(model, lang, lexer, dictTag, dictPath, clearFeatures);
 
+        String model = parsedArguments.getString("model");
+
+
+        String outputFormat = parsedArguments.getString("outputFormat");
 
     KAFDocument.LinguisticProcessor newLp = kaf.addLinguisticProcessor(
         "entities", "ixa-pipe-nerc-" + Files.getNameWithoutExtension(model), version + "-" + commit);
     newLp.setBeginTimestamp();
-    System.out.println("added processor");
-    Annotate annotator = new Annotate(properties);
-    System.out.println("annotating");
     annotator.annotateNEs(kaf);
     newLp.setEndTimestamp();
     String kafToString = null;
@@ -558,6 +542,17 @@ class CLI {
 
         parsedArguments = argParser.parseArgs(args);
 
+        // load parameters into a properties
+        String model = parsedArguments.getString("model");
+        String outputFormat = parsedArguments.getString("outputFormat");
+        String lexer = parsedArguments.getString("lexer");
+        String dictTag = parsedArguments.getString("dictTag");
+        String dictPath = parsedArguments.getString("dictPath");
+        String clearFeatures = parsedArguments.getString("clearFeatures");
+
+        Properties properties = setAnnotateProperties(model, "en", lexer, dictTag, dictPath, clearFeatures);
+
+        this.annotator = new Annotate(properties);
     } catch (ArgumentParserException e) {
 
         argParser.handleError(e);

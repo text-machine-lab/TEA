@@ -47,9 +47,11 @@ if __name__ == "__main__":
     ner = IXANerTagger()
 
     tokenized_text = t.tokenize("hello world")
+    pos_tagged_doc = p.tag(tokenized_text)
 
-    tokenized_text
+    print ner.tag(pos_tagged_doc)
 
+    tokenized_text = t.tokenize("this is a different sentence.")
     pos_tagged_doc = p.tag(tokenized_text)
 
     print ner.tag(pos_tagged_doc)

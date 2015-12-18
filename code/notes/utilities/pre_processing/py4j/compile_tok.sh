@@ -5,4 +5,3 @@ COMPILE_DEST=$TEA_PATH/code/notes/utilities/pre_processing/py4j/
 
 javac -cp ":$TOK_JAR_PATH" Tok.java -d $COMPILE_DEST
 
-
