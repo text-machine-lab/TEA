@@ -1090,13 +1090,20 @@ class TimeNote(Note, Features):
 
     def doc_creation_time_in_pair(self, src_entity, target_entity):
 
-        if 'functionInDocument' in src_entity[0] or 'functionInDocument' in target_entity[0]:
+        if 'functionInDocument' in src_entity[0]:
 
-            return {"doctimeinpair":1}
+            if src_entity[0]['functionInDocument'] == 'CREATION_TIME':
 
-        else:
+                return {"doctimeinpair":1}
 
-            return {"doctimeinpair":0}
+        if 'functionInDocument' in target_entity[0]:
+
+            if target_entity[0]['functionInDocument'] == 'CREATION_TIME':
+
+                return {"doctimeinpair":1}
+
+
+        return {"doctimeinpair":0}
 
 
     def get_num_of_entities_between_tokens(self, src_entity, target_entity  ):
@@ -1163,16 +1170,19 @@ class TimeNote(Note, Features):
 
         # TODO: correct this, hacky
         if "functionInDocument" in token:
-            # this is the creation time...
-            label = "B_DATE"
 
-        else:
+            if token["functionInDocument"] == 'CREATION_TIME':
 
-            line_num     = token["sentence_num"] - 1
-            token_offset = token["token_offset"]
+                # this is the creation time...
+                label = "B_DATE"
 
-            iob_labels  =  self.get_iob_labels()
-            label = iob_labels[line_num][token_offset]["entity_label"]
+                return {"entity_label":label}
+
+        line_num     = token["sentence_num"] - 1
+        token_offset = token["token_offset"]
+
+        iob_labels  =  self.get_iob_labels()
+        label = iob_labels[line_num][token_offset]["entity_label"]
 
         assert label not in ['O', None]
 
@@ -1193,16 +1203,18 @@ class TimeNote(Note, Features):
 
         # TODO: correct this, hacky
         if "functionInDocument" in token:
-            # this is the creation time...
-            entity_type = "TIMEX3"
 
-        else:
+            if token["functionInDocument"] == 'CREATION_TIME':
+                # this is the creation time...
+                entity_type = "TIMEX3"
 
-            line_num     = token["sentence_num"] - 1
-            token_offset = token["token_offset"]
+                return {"entity_type":entity_type}
 
-            iob_labels  =  self.get_iob_labels()
-            entity_type = iob_labels[line_num][token_offset]["entity_type"]
+        line_num     = token["sentence_num"] - 1
+        token_offset = token["token_offset"]
+
+        iob_labels  =  self.get_iob_labels()
+        entity_type = iob_labels[line_num][token_offset]["entity_type"]
 
         assert entity_type in ["EVENT", "TIMEX3"]
 
