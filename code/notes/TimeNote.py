@@ -910,7 +910,7 @@ class TimeNote(Note, Features):
         # features concerning each entity
         pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
         pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
-        #pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
+        pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
 
         pair_features.update(self.get_num_of_entities_between_tokens(src_entity, target_entity))
         pair_features.update(self.doc_creation_time_in_pair(src_entity, target_entity))
