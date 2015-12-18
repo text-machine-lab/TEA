@@ -85,8 +85,16 @@ def pre_process(text):
     for key in sentences:
 
         features_for_current_sentence = {}
+        parse_tree = None
 
-        parse_tree = constituency_trees[key].get_parenthetical_tree(sentences[key])
+        if key in constituency_trees:
+
+            parse_tree = constituency_trees[key].get_parenthetical_tree(sentences[key])
+
+        else:
+
+            parse_tree = []
+
         features_for_current_sentence['constituency_tree'] = parse_tree
 
         sentence_features[key] = features_for_current_sentence
@@ -110,10 +118,15 @@ def pre_process(text):
         if "is_main_verb" not in tok:
             tok.update({"is_main_verb":False})
 
+        if "ne_id" not in tok:
+            tok.update({"ne_id":tok["char_start_offset"]})
+            tok.update({"ner_tag":'NONE'})
 
     # one tree per sentence
     # TODO: doesn't actually assert the sentences match to their corresponding tree
-    assert( len(sentences) == len(constituency_trees))
+
+    if len(constituency_trees) > 0:
+        assert( len(sentences) == len(constituency_trees))
 
     return sentences, tokens_to_offset, sentence_features
 

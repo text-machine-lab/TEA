@@ -87,9 +87,6 @@ class Model:
 
 		tokenized_text = note.get_tokenized_text()
 
-		for line in tokenized_text:
-			iob_labels.append([ {'entity_label': 'O', 'entity_id': None, 'entity_type': None}] * len(tokenized_text[line]))
-
 		assert len(tokens) == len(_timexFeats)
 		assert len(offsets) == len(_timexFeats)
 
@@ -145,39 +142,59 @@ class Model:
 				OOffsets.append(potentialEventOffsets[i])
 				OFeats.append(potentialEventFeats[i])
 				OLabels.append(eventLabels_withO[i])
-				OTokens.append(tokens[i])
+				OTokens.append(potentialEventTokens[i])
 
 			else:
 				eventFeats.append(potentialEventFeats[i])
 				eventOffsets.append(potentialEventOffsets[i])
 				eventLabels.append(eventLabels_withO[i])
 
-				eventTokens.append(tokens[i])
+				eventTokens.append(potentialEventTokens[i])
 
 		assert len(OOffsets + eventOffsets + timexOffsets) == len(eventFeats + OFeats + timexFeats)
 		assert len(OLabels + eventLabels + timexLabels) == len(eventFeats + OFeats + timexFeats)
 		assert len(offsets) == len(OOffsets + eventOffsets + timexOffsets), "len(offsets): {}, len(OOffsets + eventOffsets + timexOffsets): {}".format(len(offsets), len(OOffsets + eventOffsets + timexOffsets))
 		assert len(OLabels + eventLabels + timexLabels) == len(OTokens + eventTokens + timexTokens)
 
-		timexEventLabels = combineLabels(timexLabels, eventLabels)
-		timexEventFeats = timexFeats + eventFeats
-		timexEventOffsets = timexOffsets + eventOffsets
-		timexEventTokens = timexTokens + eventTokens
+		timexEventLabels = combineLabels(timexLabels, eventLabels, OLabels)
+		timexEventFeats = timexFeats + eventFeats + OFeats
+		timexEventOffsets = timexOffsets + eventOffsets + OOffsets
+		timexEventTokens = timexTokens + eventTokens + OTokens
 
 		assert len(timexEventOffsets) == len(timexEventTokens)
 		assert len(timexEventOffsets) == len(timexEventFeats)
 		assert len(timexEventLabels) == len(timexEventFeats)
 
-		for token, label in zip(timexEventTokens, timexEventLabels):
-			sentence_index = token["sentence_num"] - 1
-			token_index = token["token_offset"]
-			iob_labels[sentence_index][token_index] = label
+		offsetDictLabel = {}
+		offsetDictToken = {}
 
-		note.set_iob_labels(iob_labels)
+		for i, offset in enumerate(timexEventOffsets):
+			offsetDictToken[offset] = timexEventTokens[i]
+			offsetDictLabel[offset] = timexEventLabels[i]
 
-		assert iob_labels == note.get_iob_labels()
+		wellOrderedEntityLabels = []
+		wellOrderedTokens = []
 
-		note.set_tlinks(timexEventTokens, timexEventLabels, timexEventOffsets)
+		for offset in note.get_token_char_offsets():
+			wellOrderedEntityLabels.append(offsetDictLabel[offset])
+			wellOrderedTokens.append(offsetDictToken[offset])
+
+		assert len(offsetDictToken) == len(offsetDictLabel)
+
+		unflattened_iobs = []
+
+# TODO: awful code. last minute bug fixing :(
+		for line in tokenized_text:
+			unflattened_iobs.append([ {'entity_label': 'O', 'entity_id': None, 'entity_type': None}] * len(tokenized_text[line]))
+
+		for tokenKey, labelKey in zip(offsetDictToken, offsetDictLabel):
+
+			assert tokenKey == labelKey
+			unflattened_iobs[offsetDictToken[tokenKey]["sentence_num"] - 1][offsetDictToken[tokenKey]["token_offset"]] = offsetDictLabel[labelKey]
+
+		note.set_iob_labels(unflattened_iobs)
+
+		note.set_tlinks(wellOrderedTokens, wellOrderedEntityLabels)
 
 		tlinkFeats = note.get_tlink_features()
 

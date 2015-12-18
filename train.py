@@ -78,6 +78,17 @@ def trainModel( tml_files, gold_files, grid ):
 
     basename = lambda x: os.path.basename(x[0:x.index(".tml")])
 
+    print tml_files
+
+    """
+    print tml_files.index("train_data/NYT20000106.0007.tml.TE3input")
+
+    for f in tml_files[0:68]:
+        print f
+
+    exit()
+    """
+
     for tml, gold in zip(tml_files, gold_files):
 
         assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
@@ -86,6 +97,7 @@ def trainModel( tml_files, gold_files, grid ):
 
         tmp_note = TimeNote(tml, gold)
         notes.append(tmp_note)
+
 
     mod = model.Model(grid=grid)
     mod.train(notes)

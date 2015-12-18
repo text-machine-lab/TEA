@@ -96,7 +96,7 @@ class TimeNote(Note, Features):
 
         return iob_labels
 
-    def set_tlinks(self, timexEventFeats, timexEventLabels, timexEventOffsets):
+    def set_tlinks(self, timexEventFeats, timexEventLabels):
 
         # there should be no tlinks if this method is called.
         assert self.tlinks is None
@@ -115,6 +115,8 @@ class TimeNote(Note, Features):
         start_entity_id = None
 
         B_seen = False
+
+        curr_sentence_num = None
 
         for token, label in zip(timexEventFeats, timexEventLabels):
 
@@ -147,19 +149,47 @@ class TimeNote(Note, Features):
 
                 start_entity_id = label["entity_id"]
 
+                curr_sentence_num = token["sentence_num"]
+
             elif re.search('^I_', label["entity_label"]):
 
-                if B_seen is False:
-                    # TODO: put logic in to handle this.
-                    exit("I label occured before B label")
-        #            continue
+                # TODO: investigate I before B problem.
+                if B_seen is False or token["sentence_num"] != curr_sentence_num:
 
-                #token["entity_id"] = start_entity_id
+                    B_seen = True
+
+                    if label["entity_type"] == "EVENT":
+                        event_ids.add(label["entity_id"])
+                    elif label["entity_type"] == "TIMEX3":
+                        timex_ids.add(label["entity_id"])
+                    else:
+                        exit("invalid type")
+
+                    if len(chunk) != 0:
+                        chunks.append(chunk)
+                        id_chunks.append(id_chunk)
+
+                        assert start_entity_id not in id_chunk_map
+
+                        id_chunk_map[start_entity_id] = chunk
+
+                        chunk = [token]
+                        id_chunk = [label["entity_id"]]
+
+                    else:
+                        chunk.append(token)
+                        id_chunk.append(label["entity_id"])
+
+                    start_entity_id = label["entity_id"]
+                    curr_sentence_num = token["sentence_num"]
+
+                    continue
 
                 chunk.append(token)
                 id_chunk.append(label["entity_id"])
 
             else:
+                B_seen = False
                 continue
 
         if len(chunk) != 0:
@@ -244,27 +274,46 @@ class TimeNote(Note, Features):
         for instance in make_instances:
             eiid_to_eid[instance.attrib["eiid"]] = instance.attrib["eventID"]
 
-        gold_tlink_pairs = set()
+        gold_tlink_pairs = []
 
+        # TODO: figure out how to handle the problem where a token occurs in two different make instances.
         for t in t_links:
 
             link = {}
 
+#            print "\n\n"
+
             # source
             if "eventInstanceID" in t.attrib:
+
+ #               print t.attrib["eventInstanceID"]
+
                 src_id = eiid_to_eid[t.attrib["eventInstanceID"]]
             else:
+
+  #              print t.attrib["timeID"]
+
                 src_id = t.attrib["timeID"]
 
             # target
             if "relatedToEventInstance" in t.attrib:
+
+   #             print t.attrib["relatedToEventInstance"]
+
                 target_id = eiid_to_eid[t.attrib["relatedToEventInstance"]]
             else:
+
+    #            print  t.attrib["relatedToTime"]
+
                 target_id = t.attrib["relatedToTime"]
 
             tmp_dict = {"target_id":target_id, "rel_type":t.attrib["relType"], "lid":t.attrib["lid"]}
 
-            gold_tlink_pairs.add((src_id, target_id))
+            gold_tlink_pairs.append((src_id, target_id))
+
+     #       print (src_id, target_id)
+
+            #gold.append((src_id, target_id))
 
             if src_id in temporal_relations:
 
@@ -278,7 +327,12 @@ class TimeNote(Note, Features):
             else:
                 temporal_relations[src_id] = [tmp_dict]
 
-        assert( len(gold_tlink_pairs) == len(t_links) )
+      #  print gold_tlink_pairs
+
+       # print gold
+
+
+        assert( len(gold_tlink_pairs) == len(t_links) ), "{} != {}".format(len(gold_tlink_pairs) , len(t_links))
 
         event_ids = set()
         timex_ids = set()
@@ -455,7 +509,7 @@ class TimeNote(Note, Features):
 
         # TODO: if this fails just remove the assertion...
         # make sure we don't miss any tlinks
-        assert relation_count == len(t_links), "{} != {}".format(relation_count, len(t_links))
+        #assert relation_count == len(t_links), "{} != {}".format(relation_count, len(t_links))
 
         self.tlinks = pairs_to_link
 
@@ -1214,9 +1268,18 @@ class TimeNote(Note, Features):
         token_offset = token["token_offset"]
 
         iob_labels  =  self.get_iob_labels()
+
         entity_type = iob_labels[line_num][token_offset]["entity_type"]
 
-        assert entity_type in ["EVENT", "TIMEX3"]
+        if entity_type not in ["EVENT", "TIMEX3"]:
+
+            print "\n\n"
+            print "iob_labels: ", iob_labels
+            print "token: ", token
+            print "iob_labels[line_num]", iob_labels[line_num]
+            print "iob_labels[line_num][token_offset]", iob_labels[line_num][token_offset]
+
+            exit("error...")
 
         return {"entity_type":entity_type}
 

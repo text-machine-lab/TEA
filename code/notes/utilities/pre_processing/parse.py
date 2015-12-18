@@ -41,6 +41,10 @@ def _get_constituency_tree_elements(naf_tagged_doc):
 
     constituency_element = _get_constituency_element(naf_tagged_doc)
 
+    if constituency_element is None:
+
+        return []
+
     tree_elements = []
 
     for e in constituency_element:
@@ -216,9 +220,9 @@ class ConstituencyTree(object):
         return self._get_parenthetical_tree_for_subtree(root, sentence)
 
     def _get_parenthetical_tree_for_subtree(self, root, sentence):
-        ''' 
+        '''
         Creates a string representation of the constituency tree, using parenthesis to represent each node.
-        This is generated recursively, with a pre-order recurvise traversal of the constituency tree. 
+        This is generated recursively, with a pre-order recurvise traversal of the constituency tree.
         The sentence parameter is sentence the constituency tree corresponds to. It is used to place the raw token in the correct position in the final string.
         '''
 
@@ -234,7 +238,7 @@ class ConstituencyTree(object):
 
                 parenthetical_tree += ' ' + self._get_parenthetical_tree_for_subtree(child, sentence) + ')'
 
-            else: 
+            else:
                 word = next((token for token in sentence if token['id'] == child.get_target_id()), None)
 
                 assert word is not None

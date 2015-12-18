@@ -22,18 +22,15 @@ def main():
 	#load data from files
 	notes = []
 
+	with open(modfile) as modelfile:
+		model = cPickle.load(modelfile)
+
 	#read in files as notes
 	for tml in files:
 
 		print '\n' + tml
 
-		tmp_note = TimeNote(tml)
-		notes.append(tmp_note)
-
-	with open(modfile) as modelfile:
-		model = cPickle.load(modelfile)
-
-	for note in notes:
+		note = TimeNote(tml)
 
 		entityLabels, OriginalOffsets, tlinkLabels = model.predict(note)
 		tlinkIdPairs = note.get_tlink_id_pairs()

@@ -53,6 +53,8 @@ class NewsReader(object):
         # TODO: add more processing steps
         naf_marked_up_text = srl_text
 
+        print naf_marked_up_text
+
         return naf_marked_up_text
 
 def _tokenize(text):

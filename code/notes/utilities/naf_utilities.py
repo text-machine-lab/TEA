@@ -67,7 +67,13 @@ def _get_predicate_tokens(naf_tagged_doc):
 
 def _get_ner_labels(naf_tagged_doc):
 
-    entity_elements = list(_get_entities_element(naf_tagged_doc))
+    entities_element =_get_entities_element(naf_tagged_doc)
+
+    if entities_element is None:
+
+        return {}
+
+    entity_elements = list(entities_element)
 
     def get_ref(entity_element):
         assert len(entity_element) == 1
