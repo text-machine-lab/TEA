@@ -42,7 +42,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-This is a brief description of the problem we will be solving and how our course project will be implemented and evaluated. We will be reimplementing the system described by the SemEval-2015 Task-5 challenge winners. This tasks involves temporal relation and entity tagging with regards to Question Answering.
+We have reimplemented the system described by the SemEval-2015 Task-5 challenge winners. This tasks involves temporal relation and entity tagging with regards to Question Answering. TEA is composed of a series of SVM classifiers for extracting TIMEX3 and EVENT entities, and then identifies temporal relations between them.
 \end{abstract}
 
 \section{Problem Overview}
@@ -55,17 +55,47 @@ TimeML is a markup specification that is used to represent temporal entities wit
 
 Part of the challenge of this SemEval task is to create meaningful annotations that allow the QA system provided by the organisers to answer questions accurately. In the proceedings from SemEval 2015 \cite{Llorens:16}, a list of the systems that perform the best annotations was provided, some abstracts were also written describing the methods used to participate in this challenge. HLT-FBK was the system with the best general performance because it achieved on average the highest F-measure of all of the systems.
 
+\section{Related Work}
+
+Two systems were ranked in the SemEval task out system is solving. The HLT-FBK system, which our system is based on, ranked first, using a similar SVM based classification pipeline. The second place system, HITSZ-ICRC, utilized several other temporal annotation systems, and then fed them into a correction system. This correction system merged the output of the initial annotators. This system resulted in a maximum recall score of 0.26 over news documents, opposed to the .29 recall attained by the HLT-FBK system over news documents.
+
 \section{System Overview}
 
-This challenge is a classification problem because it requires us to create a model that will assign specific taggings to tokens. We will be using a Support Vector Machine(SVM) with a polynomial kernel, this is in accordance to the system described by the winners of the QA TempEval challenge \cite{Mirza:15}. The HLT-FBK system was divided into three main components: pre-processing, temporal expression extraction, event extraction and temporal relation extraction. For pre-processing the system performed tokenization, parts of speech tagging, event coreference and several other standard pre-processing methods using NewsReader. Our system will be built with Python, so we will use NLTK to perform these functions instead where reasonable. The system utilized one-vs-one multi classification to label temporal expressions and temporal entity pairs. For event extraction, the system used a one-vs-rest multi classification strategy. We will leverage scikit to perform these classifications with its provided classifier implementations and kernels. Any features specified by the HLT-FBK system which cannot be accomplished easily using Python will be leveraged using Java with necessary dependencies, which will then be accessed with the Python module Py4J.
+Our system is implemented using Support Vector Machine (SVM) with a polynomial kernal. This matches the description of the winning system from the QA TempEval task \cite{Mirza:15}. Our system is divided into four main components: preprocessing, temporal expression extraction, event extraction, and temporal relation extraction. Tokens are tagged using IOB tags, to support entities that span multiple tokens. We utilize NewsReader and CorefGraph for preprocessing, addDiscourse to extract additional feature information, TimeNorm to normalize values when writing TIMEX3 entities, and Scikit-learn to implement our SVM classifiers.
+
+\subsection{Preprocessing}
+
+Our preprocessing pipeline is implemented using NewsReader and CorefGraph. From NewsReader, we utilize the IXA pipes modules to perform tokenization, part of speech tagging, named entity recognition, build constituency trees, and extract semantic role labels. The final portion of our pipeline is coreference resolution, extracted using CorefGraph, which is also an IXA pipe. This information is then attached to each token and stored in a dictionary.
+
+\subsection{Temporal Entity Extraction}
+
+All tokens are considered as candidates for temporal entities. Temporal entities are identified using the token's text, part of speech, whether the token is a member of a named entity, the four tokens to the left and right of the token in question, and whether the token matches a regular expression pattern for time units, part of a day, the name of a day, the name of a month, or a duration pattern. 
+
+\subsection{Event Extraction}
+
+All tokens that are not identified as temporal entities are considered as candidates for events. Events are identified using the token's text, part of speech, whether the token is part of a named entity, whether the token is the main verb of a sentence, whether the token is part of a temporal discourse connective, and the four tokens to the left and right of the token in question. Discourse connective information is obtained from the addDiscourse tool.
+
+\subsection{Temporal Relation Extraction}
+
+Temporal relations are identified across TIMEX3/EVENT and EVENT/EVENT pairs. Only entities in the same sentence are considered as candidates for temporal relations, with a few notable exceptions. The document creation time (which servers as an anchor for all temporal expressions) is considered for relations with every event. 
 
 \section{Evaluation}
 
-In accordance with the task description \cite{Llorens:15}, we will be using news, blog, and Wikipedia articles to test our system. The corpus will be tagged and then tested by the question answering system distributed with the test data. The task winner reached a recall score of .30 across all domains, with F1 scores between .25 and .46, depending on the domain \cite{Mirza:15}. Our goal is to come close to matching this.
+In accordance with the task description \cite{Llorens:15}, we will be using news, blog, and Wikipedia articles to test our system. The corpus will be tagged and then tested by the question answering system distributed with the test data. The task winner reached a recall score of .30 across all domains, with F1 scores between .25 and .46, depending on the domain \cite{Mirza:15}. 
+
+OUR RESULTS GO HERE ONCE WE GET THEM.
 
 \section{Data Sets}
 
 We will be testing, training, and evaluating our system with the data distributed for the QA TempEval Task. A QA kit is also distributed for testing our annotations. Test data comes from three domains: news, wiki, and informal blog. 
+
+Training data is composed of 25 documents with TE3Input files, as well as the TimeBank corpus and the AQUAINT corpus. These provide an additional 256 documents to train over.
+
+The test data contains 8 blog entries, 10 news articles, and 10 Wikipedia articles.
+
+\section{Results}
+
+
 
 %\section{Introduction}
 %
