@@ -11,10 +11,10 @@ if [ "$TEA_PATH" == "" ]; then
 fi
 
 
-bash compile_tok.sh
-bash compile_pos.sh
-bash compile_ner.sh
-bash compile_parse.sh
-bash compile_py4j.sh
+bash $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile_tok.sh
+bash $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile_pos.sh
+bash $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile_ner.sh
+bash $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile_parse.sh
+bash $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile_py4j.sh
 
 
