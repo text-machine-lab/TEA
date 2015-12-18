@@ -12,9 +12,7 @@ import sys
 
 from gateway import GateWayServer
 
-import tok
-
-class IXAPosTagger:
+class IXANerTagger:
 
     def __init__(self):
 
@@ -28,7 +26,7 @@ class IXAPosTagger:
 
         self.gateway = JavaGateway(eager_load=True)
 
-        self.tagger = self.gateway.entry_point.getIXAPosTagger()
+        self.tagger = self.gateway.entry_point.getIXANerTagger()
 
     def tag(self, naf_tagged_doc):
 
@@ -40,13 +38,4 @@ class IXAPosTagger:
         return self.tagger.tag(naf_tagged_doc)
 
 if __name__ == "__main__":
-
-    t = tok.IXATokenizer()
-    pos = IXAPosTagger()
-
-    tokenized_text = t.tokenize("hello world")
-
-    tokenized_text
-
-    pos.tag(tokenized_text)
-
+    pass

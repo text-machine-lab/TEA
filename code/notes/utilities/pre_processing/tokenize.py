@@ -9,7 +9,6 @@ sys.path.insert(0, xml_utilities_path)
 
 import xml_utilities
 import timeml_utilities
-import news_reader
 
 def _get_text_element(ixa_tok_output):
 
@@ -64,8 +63,6 @@ def get_tokens(ixa_tok_output):
 
 
 if __name__ == "__main__":
-#    text = timeml_utilities.get_text("APW19980820.1428.tml")
-#    print get_tokens(news_reader.pre_process(text))
     pass
 # EOF
 

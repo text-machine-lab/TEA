@@ -64,7 +64,10 @@ import java.nio.charset.StandardCharsets;
  * @version 2015-02-26
  *
  */
-class CLI {
+public class NerCLI {
+
+
+    Annotate annotator = null;
 
   /**
    * Get dynamically the version of ixa-pipe-nerc by looking at the MANIFEST
@@ -118,7 +121,7 @@ class CLI {
    * Construct a CLI object with the sub-parsers to manage the command
    * line parameters.
    */
-  public CLI() {
+  public NerCLI() {
     annotateParser = subParsers.addParser("tag").help("NER Tagging CLI");
     loadAnnotateParameters();
     oteParser = subParsers.addParser("ote").help("Opinion Target Extraction CLI");
@@ -201,33 +204,21 @@ class CLI {
 
     // read KAF document from inputstream
     KAFDocument kaf = KAFDocument.createFromStream(breader);
-    // load parameters into a properties
-    String model = parsedArguments.getString("model");
-    String outputFormat = parsedArguments.getString("outputFormat");
-    String lexer = parsedArguments.getString("lexer");
-    String dictTag = parsedArguments.getString("dictTag");
-    String dictPath = parsedArguments.getString("dictPath");
-    String clearFeatures = parsedArguments.getString("clearFeatures");
-    // language parameter
-    String lang = null;
-    if (parsedArguments.getString("language") != null) {
-      lang = parsedArguments.getString("language");
-      if (!kaf.getLang().equalsIgnoreCase(lang)) {
-        System.err
-            .println("Language parameter in NAF and CLI do not match!!");
-        System.exit(1);
-      }
-    } else {
-      lang = kaf.getLang();
-    }
-    Properties properties = setAnnotateProperties(model, lang, lexer, dictTag, dictPath, clearFeatures);
+
+
+        String model = parsedArguments.getString("model");
+
+
+        String outputFormat = parsedArguments.getString("outputFormat");
+
     KAFDocument.LinguisticProcessor newLp = kaf.addLinguisticProcessor(
         "entities", "ixa-pipe-nerc-" + Files.getNameWithoutExtension(model), version + "-" + commit);
     newLp.setBeginTimestamp();
-    Annotate annotator = new Annotate(properties);
     annotator.annotateNEs(kaf);
     newLp.setEndTimestamp();
     String kafToString = null;
+
+
     if (outputFormat.equalsIgnoreCase("conll03")) {
       kafToString = annotator.annotateNEsToCoNLL2003(kaf);
     } else if (outputFormat.equalsIgnoreCase("conll02")) {
@@ -551,6 +542,17 @@ class CLI {
 
         parsedArguments = argParser.parseArgs(args);
 
+        // load parameters into a properties
+        String model = parsedArguments.getString("model");
+        String outputFormat = parsedArguments.getString("outputFormat");
+        String lexer = parsedArguments.getString("lexer");
+        String dictTag = parsedArguments.getString("dictTag");
+        String dictPath = parsedArguments.getString("dictPath");
+        String clearFeatures = parsedArguments.getString("clearFeatures");
+
+        Properties properties = setAnnotateProperties(model, "en", lexer, dictTag, dictPath, clearFeatures);
+
+        this.annotator = new Annotate(properties);
     } catch (ArgumentParserException e) {
 
         argParser.handleError(e);
@@ -560,61 +562,4 @@ class CLI {
   }
 
 }
-
-public class Ner {
-
-    CLI ner_cli = null;
-
-    public Ner(){
-
-        String[] cli_args = { "tag",
-                              "-m",
-                              System.getenv("TEA_PATH") + "/code/notes/NewsReader/models/nerc-models-1.5.0/nerc-models-1.5.0/en/conll03/en-91-19-conll03.bin" };
-
-        ner_cli = new CLI();
-
-        try {
-
-            ner_cli.parseArgs(cli_args);
-
-        } catch (IOException e) {
-
-            System.out.println("ioerror");
-
-        } catch (JDOMException e) {
-
-            System.out.println("JDOM ERROR");
-
-        }
-
-    }
-
-    public String tag(String naf_tagged_text) {
-
-        InputStream is = new ByteArrayInputStream( naf_tagged_text.getBytes( StandardCharsets.UTF_8 ) );
-        OutputStream os      = new ByteArrayOutputStream();
-
-        try {
-
-            this.ner_cli.annotate(is, os);
-
-        } catch (IOException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        } catch (JDOMException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        }
-
-        return os.toString();
-
-    }
-
-    public static void main(String[] args) {
-    }
-
-}
-
 

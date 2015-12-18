@@ -10,14 +10,9 @@ import os
 import time
 import sys
 
-# path of stanford corenlp dir
-#gateway_dir = os.environ["TEA_PATH"] + "/code/notes/utilities/pre_processing/py4j"
-
-#sys.path.append(gateway_dir)
-
 from gateway import GateWayServer
 
-class IXATokenizer:
+class IXAPosTagger:
 
     def __init__(self):
 
@@ -27,19 +22,20 @@ class IXATokenizer:
         GateWayServer.launch_gateway()
 
         print "attempting to connect to py4j gateway"
-        time.sleep(5)
+#        time.sleep(30)
 
         self.gateway = JavaGateway(eager_load=True)
 
-        self.tokenizer = self.gateway.entry_point.getIXATokenizer()
+        self.tagger = self.gateway.entry_point.getIXAPosTagger()
 
-    def tokenize(self, text):
+    def tag(self, naf_tagged_doc):
 
-        return self.tokenizer.tokenize(text)
+        if 'NAF' not in naf_tagged_doc:
+            exit("text needs to be processed by ixa tokenizer first")
+
+        print "tagging..."
+
+        return self.tagger.tag(naf_tagged_doc)
 
 if __name__ == "__main__":
-
-    t = IXATokenizer()
-
-    t.tokenize("hello world")
-
+    pass

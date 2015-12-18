@@ -64,7 +64,9 @@ import java.io.BufferedReader;
  * @version 2014-11-30
  */
 
-class CLI {
+public class PosCLI {
+
+    Annotate annotator = null;
 
   /**
    * Get dynamically the version of ixa-pipe-pos by looking at the MANIFEST
@@ -119,7 +121,7 @@ class CLI {
    * Construct a CLI object with the three sub-parsers to manage the command
    * line parameters.
    */
-  public CLI() {
+  public PosCLI() {
     this.annotateParser = this.subParsers.addParser("tag").help("Tagging CLI");
     loadAnnotateParameters();
     this.trainParser = this.subParsers.addParser("train").help("Training CLI");
@@ -185,37 +187,13 @@ class CLI {
   public final void annotate(final InputStream inputStream,
       final OutputStream outputStream) throws IOException, JDOMException {
 
-    final String model = this.parsedArguments.getString("model");
-    final String beamSize = this.parsedArguments.getString("beamSize");
-    final String multiwords = Boolean.toString(this.parsedArguments
-        .getBoolean("multiwords"));
-    final String dictag = Boolean.toString(this.parsedArguments
-        .getBoolean("dictag"));
-
     BufferedReader breader = new BufferedReader(new InputStreamReader(
     inputStream, "UTF-8"));
     BufferedWriter bwriter = new BufferedWriter(new OutputStreamWriter(
     outputStream, "UTF-8"));
 
     final KAFDocument kaf = KAFDocument.createFromStream(breader);
-
-    // language
-    String lang;
-
-    if (this.parsedArguments.getString("language") != null) {
-      lang = this.parsedArguments.getString("language");
-      if (!kaf.getLang().equalsIgnoreCase(lang)) {
-        System.err.println("Language parameter in NAF and CLI do not match!!");
-        System.exit(1);
-      }
-    } else {
-      lang = kaf.getLang();
-    }
-
-    final Properties properties = setAnnotateProperties(model, lang, beamSize,
-        multiwords, dictag);
-
-    final Annotate annotator = new Annotate(properties);
+    final String model = this.parsedArguments.getString("model");
 
     if (this.parsedArguments.getBoolean("nokaf")) {
       bwriter.write(annotator.annotatePOSToCoNLL(kaf));
@@ -225,7 +203,7 @@ class CLI {
           "terms", "ixa-pipe-pos-" + Files.getNameWithoutExtension(model),
           this.version + "-" + this.commit);
       newLp.setBeginTimestamp();
-      annotator.annotatePOSToKAF(kaf);
+      this.annotator.annotatePOSToKAF(kaf);
       newLp.setEndTimestamp();
       bwriter.write(kaf.toString());
     }
@@ -365,6 +343,19 @@ public final void parseArgs(final String[] args) throws IOException, JDOMExcepti
 
         parsedArguments = argParser.parseArgs(args);
 
+        final String model = this.parsedArguments.getString("model");
+        final String beamSize = this.parsedArguments.getString("beamSize");
+        final String multiwords = Boolean.toString(this.parsedArguments
+            .getBoolean("multiwords"));
+        final String dictag = Boolean.toString(this.parsedArguments
+            .getBoolean("dictag"));
+
+        // always english.
+        final Properties properties = setAnnotateProperties(model, "en", beamSize,
+            multiwords, dictag);
+
+        this.annotator = new Annotate(properties);
+
     } catch (ArgumentParserException e) {
 
         argParser.handleError(e);
@@ -377,85 +368,4 @@ public final void parseArgs(final String[] args) throws IOException, JDOMExcepti
 
 }
 
-public class Pos {
-
-    CLI pos_CLI = null;
-
-    public Pos() {
-
-        String[] cli_args = { "tag",
-                              "-m",
-                              System.getenv("TEA_PATH") + "/code/notes/NewsReader/models/pos-models-1.4.0/en/en-maxent-100-c5-baseline-dict-penn.bin" };
-
-        pos_CLI = new CLI();
-
-        try {
-
-            pos_CLI.parseArgs(cli_args);
-
-        } catch (IOException e) {
-
-            System.out.println("ioerror");
-
-        } catch (JDOMException e) {
-
-            System.out.println("JDOM ERROR");
-
-        }
-
-
-    }
-
-    public String tag(String naf_tagged_text) {
-
-        InputStream is = new ByteArrayInputStream( naf_tagged_text.getBytes( StandardCharsets.UTF_8 ) );
-        OutputStream os      = new ByteArrayOutputStream();
-
-        try {
-
-            this.pos_CLI.annotate(is, os);
-
-        } catch (IOException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        } catch (JDOMException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        }
-
-        return os.toString();
-
-    }
-
-    public static void main(String[] args) {
-
-        Pos p = new Pos();
-
-        String input = "";
-
-        String line = null;
-
-        try{
-
-       BufferedReader br =
-        new BufferedReader(new InputStreamReader(System.in));
-
-            while((line=br.readLine())!=null){
-             input += line;
-        }
-
-        System.out.println(input);
-
-        } catch (IOException e){
-
-
-        }
-
-        System.out.println(p.tag(input));
-
-    }
-
-}
 

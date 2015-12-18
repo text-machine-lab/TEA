@@ -64,7 +64,7 @@ import java.nio.charset.StandardCharsets;
  * @version 2015-04-08
  */
 
-class CLI {
+public class TokCLI {
 
   /**
    * Get dynamically the version of ixa-pipe-tok by looking at the MANIFEST
@@ -94,7 +94,7 @@ class CLI {
    */
   private final Subparser annotateParser;
 
-  public CLI() {
+  public TokCLI() {
     annotateParser = subParsers.addParser("tok").help("Tagging CLI");
     loadAnnotateParameters();
   }
@@ -252,71 +252,6 @@ class CLI {
 
         }
       }
-
-}
-
-public class Tok {
-
-    CLI tok_CLI = null;
-
-    public Tok() {
-
-        String[] cli_args = { "tok",
-                          "-l",
-                          "en"};
-
-        tok_CLI = new CLI();
-
-        try {
-
-            tok_CLI.parseArgs(cli_args);
-
-        } catch (IOException e) {
-
-            System.out.println("ioerror");
-
-        } catch (JDOMException e) {
-
-            System.out.println("JDOM ERROR");
-
-        }
-
-
-    }
-
-
-    public String tokenize(String naf_tagged_text) {
-
-        InputStream is = new ByteArrayInputStream( naf_tagged_text.getBytes( StandardCharsets.UTF_8 ) );
-        OutputStream os      = new ByteArrayOutputStream();
-
-        try {
-
-            this.tok_CLI.annotate(is, os);
-
-        } catch (IOException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        } catch (JDOMException e) {
-
-            System.out.println("ioexception when tagging string");
-            System.exit(1);
-        }
-
-        return os.toString();
-
-    }
-
-
-    public static void main(String[] args) {
-
-        Tok t = new Tok();
-
-        System.out.println(t.tokenize("hello world"));
-
-    }
-
 
 }
 

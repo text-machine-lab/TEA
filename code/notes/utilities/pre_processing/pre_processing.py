@@ -15,9 +15,13 @@ sys.path.insert(0, utilities_path)
 import lemmas
 import timeml_utilities
 
+from news_reader import NewsReader
+
+pre_processor = NewsReader()
+
 def pre_process(text):
 
-    naf_tagged_doc = news_reader.pre_process(text)
+    naf_tagged_doc = pre_processor.pre_process(text)
 
     tokens, tokens_to_offset = tokenize.get_tokens(naf_tagged_doc)
     pos_tags = pos.get_pos_tags(naf_tagged_doc)

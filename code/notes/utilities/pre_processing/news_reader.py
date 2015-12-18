@@ -11,25 +11,49 @@ sys.path.insert(0, xml_utilities_path)
 import xml_utilities
 import atexit
 
+import py4j_newsreader.tok
+import py4j_newsreader.pos
+import py4j_newsreader.parse
+import py4j_newsreader.ner
+
 srl = None
 
-def pre_process(text):
+class NewsReader(object):
 
-    """
-    the idea behind is to left newsreader do its thing. it uses this formatting called NAF formatting
-    that is designed to be this universal markup used by all of the ixa-pipes used in the project.
-    """
+    def __init__(self):
 
-    tokenized_text  = _tokenize(text)
-    pos_tagged_text = _pos_tag(tokenized_text)
-    ner_tagged_text = _ner_tag(pos_tagged_text)
-    constituency_parsed_text = _constituency_parse(ner_tagged_text)
-    srl_text = srl.parse_dependencies(constituency_parsed_text)
+        # newsreader pipeline objects
+        print "creating tokenizer..."
+        self.newsreader_tok = py4j_newsreader.tok.IXATokenizer()
 
-    # TODO: add more processing steps
-    naf_marked_up_text = srl_text
+        print "creating pos tagger..."
+        self.newsreader_pos = py4j_newsreader.pos.IXAPosTagger()
 
-    return naf_marked_up_text
+        print "creating parser..."
+        self.newsreader_parse = py4j_newsreader.parse.IXAParser()
+
+        print "creating ner tagger..."
+        self.newsreader_ner = py4j_newsreader.ner.IXANerTagger()
+        pass
+
+
+    def pre_process(self, text):
+
+        """
+        the idea behind is to left newsreader do its thing. it uses this formatting called NAF formatting
+        that is designed to be this universal markup used by all of the ixa-pipes used in the project.
+        """
+
+        tokenized_text  = self.newsreader_tok.tokenize(text)
+        pos_tagged_text = self.newsreader_pos.tag(tokenized_text)
+        ner_tagged_text = self.newsreader_ner.tag(pos_tagged_text)
+        constituency_parsed_text = self.newsreader_parse.parse(ner_tagged_text)
+        srl_text = srl.parse_dependencies(constituency_parsed_text)
+
+        # TODO: add more processing steps
+        naf_marked_up_text = srl_text
+
+        return naf_marked_up_text
 
 def _tokenize(text):
     """ takes in path to a file and then tokenizes it """
@@ -173,7 +197,11 @@ srl = SRL()
 
 if __name__ == "__main__":
 
-    pre_process("hello world!")
+    nr = NewsReader()
+
+    print nr.pre_process("hello world!")
+
+    print nr.pre_process("this is a sentence!")
 
     pass
 
