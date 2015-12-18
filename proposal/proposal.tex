@@ -5,6 +5,7 @@
 \documentclass[11pt,letterpaper]{article}
 \usepackage{naaclhlt2013}
 \usepackage{times}
+\usepackage{multirow}
 \usepackage{latexsym}
 \usepackage{graphicx}
 \graphicspath{{images/}}
@@ -97,7 +98,7 @@ Temporal relation extraction is treated as a simple classification task across p
 \begin{center}
 	\begin{tabular}{ |c|c|c|c| } 
 		\hline
-		Original TimeML Label & TEA Labeling Subset \\
+		\textbf{Original TimeML Label} & \textbf{TEA Labeling Subset} \\
 		\hline
 		IDENTITY &  \\ 
 		DURING & SIMULTANEOUS \\ 
@@ -138,12 +139,110 @@ OUR RESULTS GO HERE ONCE WE GET THEM.
 
 \section{Results}
 
+TEXT ABOUT RESULTS
+\\TEXT is here to force tables to the next page, so that they appear in the left column.
+\\TEXT\\TEXT
+\\TEXT\\TEXT\\TEXT\\TEXT\\TEXT\\TEXT
+
+
+\begin{center}
+\begin{tabular}{c|cccc|cccc|cccc||c}
+
+\multirow{2}{*}{} &
+	\multicolumn{4}{c}{News} & 
+	\multicolumn{4}{|c}{Wikipedia} & 
+	\multicolumn{4}{|c||}{Blogs} & 
+	\multicolumn{1}{c}{All Domains} \\
+	
+	& Cov & P & R & F1 
+	& Cov & P & R & F1 
+	& Cov & P & R & F1 
+	& R\\
+	\hline
+
+	TEA & 
+	0.00 & 0.00 & 0.00 & 0.00 & 
+	0.00 & 0.00 & 0.00 & 0.00 & 
+	0.00 & 0.00 & 0.00 & 0.00 & 
+	0.00 \\
+
+	HLT-FBK 1 &
+	0.29 & 0.59 & 0.17 & 0.27 &
+	0.29 & 0.55 & 0.16 & 0.25 &
+	0.32 & 0.57 & 0.18 & 0.28 &
+	0.17 \\
+	
+	HLT-FBK 2 &
+	0.55 & 0.43 & 0.23 & 0.30 &
+	0.50 & 0.52 & 0.26 & 0.35 &
+	0.43 & 0.43 & 0.18 & 0.26 &
+	0.23 \\
+	
+	HLT-FBK 3 &
+	0.36 & 0.56 & 0.20 & 0.30 &
+	0.29 & 0.58 & 0.17 & 0.26 &
+	0.29 & 0.47 & 0.14 & 0.21 &
+	0.17 \\
+	
+	HLT-FBK 4 &
+	0.69 & 0.43 & 0.29 & 0.35 &
+	0.58 & 0.62 & 0.36 & 0.46 &
+	0.58 & 0.34 & 0.20 & 0.25 & 
+	0.30 \\
+
+\end{tabular}
+\end{center}
+
+
+\begin{center}
+	\begin{tabular}{c|ccc|cc|ccc|cc|ccc|cc}
+		
+	\multirow{2}{*}{} &
+		\multicolumn{5}{c}{News} & 
+		\multicolumn{5}{|c}{Wikipedia} & 
+		\multicolumn{5}{|c}{Blogs} \\
+	
+	\multirow{2}{*}{} &
+		\multicolumn{3}{r}{Answered} &
+		\multicolumn{2}{l|}{Unknown} &
+		\multicolumn{3}{r}{Answered} &
+		\multicolumn{2}{l|}{Unknown} &
+		\multicolumn{3}{r}{Answered} &
+		\multicolumn{2}{l}{Unknown} \\
+		
+		& Q & Cor & Inc & Ent & Rel
+		& Q & Cor & Inc & Ent & Rel
+		& Q & Cor & Inc & Ent & Rel \\
+		\hline
+	
+		TEA & 
+		0.00 & 0.00 & 0.00 & 0.00 & 0.00 &
+		0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 
+		0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+
+		HLT-FBK 3 &
+		99 & 20 & 16 & 17 & 46 &
+		130 & 22 & 16 & 48 & 44 &
+		65 & 9 & 10 & 22 & 24 \\
+
+		HLT-FBK 4 &
+		99 & 29 & 39 & 16 & 15 &
+		130 & 47 & 29 & 48 & 6 &
+		65 & 13 & 25 & 22 & 5 \\
+		
+	\end{tabular}
+\end{center}
+
+\vspace{5mm}
+
 OUR DETAILED RESULTS AND EXPERIMENT OUTLINES GO HERE ONCE WE GET THEM
 
 
 \section{Potential Improvements}
 
-Aside from simply increasing the feature set to better represent the entities being extracted, there are several ways to improve the performance of a classification system. One such way, which has significant potential for this system, is joint inference. By creating a bi-directional information flow between each of the classifiers, cascading errors can be corrected. 
+Aside from simply increasing the feature set to better represent the entities being extracted, there are several ways to improve the performance of a classification system. One such way, which has significant potential for this system, is joint inference. By creating a bi-directional information flow between each of the classifiers, we can reduce the errors that would normally accumulate through the pipeline. This will likely have significant benefit to the TIMEX3 and EVENT classifiers, which will in turn improve the quality of the TLINK classifier. This will allow us to make the most of the features we already have, rather than creating larger, more complex feature spaces.
+
+
 
 %\section{Introduction}
 %
