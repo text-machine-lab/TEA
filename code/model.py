@@ -202,11 +202,7 @@ class Model:
 
 		tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
 
-		timexEventOffsets = timexOffsets + eventOffsets + OOffsets
-
-		timexEventLabels  = combineLabels(timexLabels, eventLabels, OLabels)
-
-		return timexEventLabels, timexEventOffsets, tlinkLabels
+		return wellOrderedEntityLabels, timexEventOffsets, tlinkLabels
 
 	def _trainTimex(self, tokenVectors, labels):
 		'''

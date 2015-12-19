@@ -33,23 +33,14 @@ def main():
 		note = TimeNote(tml)
 
 		entityLabels, OriginalOffsets, tlinkLabels = model.predict(note)
+
 		tlinkIdPairs = note.get_tlink_id_pairs()
 
 		offsets = note.get_token_char_offsets()
 
 		assert len(OriginalOffsets) == len(offsets)
 
-		offsetDict = {}
-
-		for i, offset in enumerate(OriginalOffsets):
-			offsetDict[offset] = entityLabels[i]
-
-		wellOrderedEntityLabels = []
-
-		for offset in offsets:
-			wellOrderedEntityLabels.append(offsetDict[offset])
-
-		note.write(wellOrderedEntityLabels, tlinkLabels, tlinkIdPairs, offsets)
+		note.write(entityLabels, tlinkLabels, tlinkIdPairs, offsets)
 
 
 if __name__ == '__main__':
