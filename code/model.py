@@ -96,6 +96,11 @@ class Model:
 		potentialTimexVec = self.timexVectorizer.transform(_timexFeats).toarray()
 		timexLabels_withO = list(self.timexClassifier.predict(potentialTimexVec))
 
+		# adjust labels. normalize tool doesn't like this.
+		for i, token in enumerate(tokens):
+			if len(token["token"]) == 1:
+				timexLabels_withO[i] = 'O'
+
 		#filter out all timex-labeled entities
 		timexFeats = []
 		timexOffsets = []
@@ -126,6 +131,11 @@ class Model:
 		#vectorize and classify events
 		potentialEventVec = self.eventVectorizer.transform(potentialEventFeats).toarray()
 		eventLabels_withO = list(self.eventClassifier.predict(potentialEventVec))
+
+		# adjust labels. normalize tool doesn't like this.
+		for i, token in enumerate(potentialEventTokens):
+			if len(token["token"]) == 1:
+				eventLabels_withO[i] = 'O'
 
 		OOffsets = []
 		OFeats = []
