@@ -722,6 +722,8 @@ class TimeNote(Note, Features):
             # 4-gram
             features.update(self.get_ngram_features(token))
 
+            features.update(self.get_grammar_categories(token))
+
         elif token_type == "EVENT":
 
             features.update(self.get_lemma(token))
@@ -736,6 +738,11 @@ class TimeNote(Note, Features):
 
             features.update(self.get_ngram_label_features(token))
 
+            features.update(self.get_preposition_features(token))
+
+            features.update(self.get_grammar_categories(token))
+
+
         else:
             exit("invalid token type")
 
@@ -747,13 +754,13 @@ class TimeNote(Note, Features):
 
         if "grammar_categories" not in token:
 
-            return {"category_0":"DATE"}
+            return {("category_0", "DATE"):1}
 
         else:
 
             for key in token["grammar_categories"]:
 
-                features["category_{}".format(key)] = token["grammar_categories"][key]
+                features.update({("category_{}".format(key), token["grammar_categories"][key]):1})
 
         return features
 
@@ -1035,6 +1042,26 @@ class TimeNote(Note, Features):
             pair_features[(key[0] + "_target", key[1])] = target_features[key]
 
         return pair_features
+
+    def get_preposition_features(self, token):
+
+        features = {}
+
+        if "preposition_tokens" not in token or "semantic_role" not in token:
+
+            return {("preposition_token", "NULL"):1,
+                    ("semantic_role", "NULL"):1}
+
+        for prep_tok in token["preposition_tokens"]:
+
+            features.update({("preposition_tokens", prep_tok):1})
+
+        for semantic_role in token["semantic_role"]:
+
+            features.update({("semantic_role", semantic_role):1})
+
+        return features
+
 
     def get_sentence_distance_feature(self, src_entity, target_entity):
 
