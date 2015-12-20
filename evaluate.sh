@@ -15,8 +15,6 @@ fi
 
 python train.py training_data tempeval_QA.model
 
-:<<'END'
-
 python predict.py test_data tempeval_QA.model tempeval_output
 
 mkdir tempeval_output/wikipedia-annotated-output
@@ -69,5 +67,4 @@ bash evaluate_systems.sh
 cd $TEA_PATH/test-tools-and-data/qa-tempeval-test-blogs
 bash evaluate_systems.sh
 
-END
 
