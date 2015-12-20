@@ -1,7 +1,21 @@
 
-TEA_PATH=$(pwd)
+
+if [ "$TEA_PATH" == "" ]; then
+    echo "environment variable TEA_PATH not specified"
+    echo "it is the path to the folder <INSERT DIR>"
+    exit
+fi
+
+if [ "$PY4J_DIR_PATH" == "" ]; then
+    echo "environment variable PY4J_DIR_PATH not specified"
+    echo "please put exact path example .../venv/share/py4j"
+    exit
+fi
+
 
 python train.py training_data tempeval_QA.model
+
+:<<'END'
 
 python predict.py test_data tempeval_QA.model tempeval_output
 
@@ -55,5 +69,5 @@ bash evaluate_systems.sh
 cd $TEA_PATH/test-tools-and-data/qa-tempeval-test-blogs
 bash evaluate_systems.sh
 
-
+END
 

@@ -4,6 +4,7 @@ from subprocess import Popen, PIPE, STDOUT
 
 from py4j.java_collections import JavaArray
 from py4j.java_gateway import JavaGateway
+from py4j.protocol import Py4JNetworkError
 
 import re
 import os
@@ -22,15 +23,39 @@ class IXATokenizer:
         GateWayServer.launch_gateway()
 
         print "attempting to connect to py4j gateway"
-        time.sleep(30)
 
-        self.gateway = JavaGateway(eager_load=True)
+        self.gateway = JavaGateway()
 
-        self.tokenizer = self.gateway.entry_point.getIXATokenizer()
+        init_time = time.time()
+
+        self.tokenizer = None
+
+        while True:
+
+            if time.time() - init_time > 600:
+                exit("couldn't get py4j server running")
+
+            try:
+
+                self.tokenizer = self.gateway.entry_point.getIXATokenizer()
+
+                break
+
+            except Py4JNetworkError:
+
+                time.sleep(60)
+
+                continue
+
 
     def tokenize(self, text):
 
         return self.tokenizer.tokenize(text)
 
 if __name__ == "__main__":
+    t = IXATokenizer()
+
+    while True:
+        continue
+
     pass
