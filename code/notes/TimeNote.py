@@ -754,13 +754,13 @@ class TimeNote(Note, Features):
 
         if "grammar_categories" not in token:
 
-            return {("category_0", "DATE"):1}
+            return {("category", "DATE"):1}
 
         else:
 
             for key in token["grammar_categories"]:
 
-                features.update({("category_{}".format(key), token["grammar_categories"][key]):1})
+                features.update({("category", token["grammar_categories"][key]):1})
 
         return features
 
@@ -875,7 +875,7 @@ class TimeNote(Note, Features):
 
         right_labels = line[start:end][1:]
 
-        labels = dict([(("right_label_{}".format(i+1), label["entity_label"]), 1) for i, label in enumerate(right_labels)])
+        labels = dict([(("right_label", label["entity_label"]), 1) for i, label in enumerate(right_labels)])
 
         return labels
 
@@ -899,7 +899,7 @@ class TimeNote(Note, Features):
 
         right_tokens = line[start:end][1:]
 
-        tokens = dict([(("right_token_{}".format(i+1), token["token"]), 1) for i, token in enumerate(right_tokens)])
+        tokens = dict([(("right_token", token["token"]), 1) for i, token in enumerate(right_tokens)])
 
         return tokens
 
@@ -919,7 +919,7 @@ class TimeNote(Note, Features):
         end     = token_offset
 
         left_labels = line[start:end]
-        labels = dict([(("left_label_{}".format(i+1), label["entity_label"]), 1) for i, label in enumerate(left_labels)])
+        labels = dict([(("left_label", label["entity_label"]), 1) for i, label in enumerate(left_labels)])
 
         return labels
 
@@ -941,7 +941,7 @@ class TimeNote(Note, Features):
         end     = token_offset
 
         left_tokens = line[start:end]
-        tokens = dict([(("left_token_{}".format(i+1), token["token"]), 1) for i, token in enumerate(left_tokens)])
+        tokens = dict([(("left_token", token["token"]), 1) for i, token in enumerate(left_tokens)])
 
         return tokens
 
@@ -1242,33 +1242,30 @@ class TimeNote(Note, Features):
         for i, token in enumerate(entity):
 
             if "lemma" in token:
-                features.update({("lemma_{}".format(i), token["lemma"]):1})
+                features.update({("lemma", token["lemma"]):1})
 
             else:
-                features.update({("lemma_{}".format(i), "DATE"):1})
-
-            print token
-
+                features.update({("lemma", "DATE"):1})
 
             if "token" in token:
 
                 tokens.append(token["token"])
 
-                features.update({("text_{}".format(i), token["token"]):1})
+                features.update({("text", token["token"]):1})
 
             else:
 
                 tokens.append(token["value"])
 
-                features.update({("text_{}".format(i), token["value"]):1})
+                features.update({("text", token["value"]):1})
 
             if "pos_tag" in token:
 
-                features.update({("pos_{}".format(i), token["pos_tag"]):1})
+                features.update({("pos", token["pos_tag"]):1})
 
             else:
 
-                features.update({("pos_{}".format(i), "DATE"):1})
+                features.update({("pos", "DATE"):1})
 
         features.update({("chunk"," ".join(tokens)):1})
 
@@ -1308,7 +1305,7 @@ class TimeNote(Note, Features):
 
         for i, token in enumerate(entity):
 
-            features.update({("label_type{}".format(i), self.token_label_feature(token)["entity_label"]):1})
+            features.update({("label_type", self.token_label_feature(token)["entity_label"]):1})
 
         return features
 
@@ -1321,7 +1318,7 @@ class TimeNote(Note, Features):
 
         for i, token in enumerate(entity):
 
-            features.update({("entity_type{}".format(i), self.token_entity_type_feature(token)["entity_type"]):1})
+            features.update({("entity_type", self.token_entity_type_feature(token)["entity_type"]):1})
 
         return features
 
