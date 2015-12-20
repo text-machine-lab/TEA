@@ -36,7 +36,8 @@ rm -f PredicateMatrix.srl-module.tar.gz
 
 mv NewsReader code/notes/
 
-TEA_PATH=$(pwd)
-bash $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile.sh
+export TEA_PATH=$(pwd)
+. $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile.sh
 
+echo "finished installation"
 
