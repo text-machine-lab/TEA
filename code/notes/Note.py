@@ -142,7 +142,7 @@ class Note(object):
 
             root = annotate_root(root, "TLINK", annotations)
 
-        note_path = os.path.join(output_path, self.note_path.split('/')[-1] + ".TE3input.tml")
+        note_path = os.path.join(output_path, self.note_path.split('/')[-1] + ".tml")
 
         write_root_to_file(root, note_path)
 
