@@ -1,41 +1,12 @@
 
-import subprocess
 import os
-import re
 import sys
 
-xml_utilities_path = os.environ["TEA_PATH"] + "/code/notes/utilities"
-sys.path.insert(0, xml_utilities_path)
+naf_utilities_path = os.environ["TEA_PATH"] + "/code/notes/utilities"
+sys.path.insert(0, naf_utilities_path)
 
-import xml_utilities
+import naf_utilities
 import news_reader
-
-def _get_terms_element(ixa_tok_output):
-
-   xml_root = xml_utilities.get_root_from_str(ixa_tok_output)
-
-   terms_element = None
-
-   for e in xml_root:
-       if e.tag == "terms":
-           terms_element = e
-           break
-
-   return terms_element
-
-
-def _get_naf_pos_terms(ixa_tok_output):
-
-    terms_element = _get_terms_element(ixa_tok_output)
-
-    naf_pos_terms = []
-
-    for e in terms_element:
-        if e.tag == "term":
-            naf_pos_terms.append(e)
-
-    return naf_pos_terms
-
 
 def get_pos_tags(ixa_tok_output):
 
@@ -47,7 +18,7 @@ def get_pos_tags(ixa_tok_output):
 
     pos_tags = []
 
-    for naf_term in _get_naf_pos_terms(ixa_tok_output):
+    for naf_term in naf_utilities._get_naf_terms(ixa_tok_output):
 
         pos_tag      = naf_term.attrib["morphofeat"]
 
@@ -60,7 +31,7 @@ def get_pos_tags(ixa_tok_output):
 
 
 if __name__ == "__main__":
-    print get_pos_tags(news_reader.pre_process(open("test.txt", "rb").read()))
+    print get_pos_tags(news_reader.pre_process("this is a test sentence!"))
     pass
 # EOF
 

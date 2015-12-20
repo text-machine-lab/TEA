@@ -1,22 +1,49 @@
 from sklearn.svm import LinearSVC
+from sklearn.grid_search import GridSearchCV
 from sklearn.feature_extraction import DictVectorizer
+from sklearn.metrics import f1_score
 
-def train( featsDict, Y ):
+from multiprocessing import cpu_count
 
-	print "Called sci.train"
+import numpy as np
 
-	#vectorize dictionary data
-	vec = DictVectorizer()
-	X = vec.fit_transform(featsDict).toarray()
+import math
 
-	#create classifier
-	clf = LinearSVC()
-	clf.fit(X, Y)
+def train( featsDict, Y, do_grid=False ):
 
-	# Validate that training data is classified properly
-	testval = list(clf.predict(X))
+    #vectorize dictionary data
+    vec = DictVectorizer()
+    X = vec.fit_transform(featsDict).toarray()
 
-	if(testval == Y):
-		print 'yes'
+    # Search space
+    C_range     = 10.0 ** np.arange( -5, 9 )
+    gamma_range = 10.0 ** np.arange( -5, 9 )
 
-	return clf, vec
+    clf = None
+
+    # Grid search?
+    if do_grid:
+
+        print "training model [GRID SEARCH ON]"
+
+        estimates = LinearSVC()
+        parameters = [ {'C':C_range } ]
+
+        # Find best classifier
+        clf = GridSearchCV(estimates,
+                           parameters,
+                           score_func = f1_score,
+                           # one job per cpu available.
+                           n_jobs = int(math.ceil(cpu_count() / 2.0)),
+                           pre_dispatch=1)
+        clf.fit(X, Y)
+
+    else:
+
+        print "training model [GRID SEARCH OFF]"
+
+        clf = LinearSVC()
+        clf.fit(X, Y)
+
+    return clf, vec
+

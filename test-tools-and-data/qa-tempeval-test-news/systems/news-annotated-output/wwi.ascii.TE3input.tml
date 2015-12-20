@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+<Title>World leaders commemorate WWI outbreak</Title>
+<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2014-08-05">August 05, 2014</TIMEX3></DCT>
+
+<TEXT>
+PARIS: World leaders <EVENT class="OCCURRENCE" eid="e0">marked</EVENT> the 100th <EVENT class="OCCURRENCE" eid="e1">anniversary</EVENT> of the <EVENT class="OCCURRENCE" eid="e2">outbreak</EVENT> of World <EVENT class="OCCURRENCE" eid="e3">War</EVENT> I on <TIMEX3 tid="t1" type="DATE">Monday</TIMEX3> <EVENT class="OCCURRENCE" eid="e4">warning</EVENT> of the lessons to be <EVENT class="OCCURRENCE" eid="e5">learned</EVENT> in the <EVENT class="OCCURRENCE" eid="e6">face</EVENT> of <TIMEX3 tid="t2" type="DATE">today</TIMEX3>'s many <EVENT class="OCCURRENCE" eid="e7">crises</EVENT>, including Ukraine.
+"Peace has to be a <EVENT class="OCCURRENCE" eid="e8">shared</EVENT> goal," Belgium's King Philippe <EVENT class="REPORTING" eid="e9">told</EVENT> leaders <EVENT class="OCCURRENCE" eid="e10">gathered</EVENT> in the eastern city of Liege. "World War I <EVENT class="OCCURRENCE" eid="e11">reminds</EVENT> us to <EVENT class="OCCURRENCE" eid="e12">reflect</EVENT> on our responsibility ... to <EVENT class="OCCURRENCE" eid="e13">bring</EVENT> people together." Leaders from across Europe - from Britain and Ireland to Germany, Austria, Bulgaria and Malta - <EVENT class="OCCURRENCE" eid="e14">attended</EVENT> the commemoration at the Allied War Memorial of Cointe, a tower overlooking the city with a weathered grey-stone church painted with white doves for the occasion.
+French President Francois Hollande <EVENT class="OCCURRENCE" eid="e15">recalled</EVENT> Germany's <EVENT class="OCCURRENCE" eid="e16">invasion</EVENT> of neutral Belgium in early <TIMEX3 tid="t3" type="DATE">August 1914</TIMEX3> that <EVENT class="OCCURRENCE" eid="e17">turned</EVENT> a Balkans <EVENT class="OCCURRENCE" eid="e18">war</EVENT> into a global conflagration, <EVENT class="OCCURRENCE" eid="e19">raising</EVENT> <TIMEX3 tid="t5" type="DATE">current</TIMEX3> day parallels. "How can we <EVENT class="STATE" eid="e20">remain</EVENT> neutral <TIMEX3 tid="t6" type="DATE">today</TIMEX3> when a people not far from Europe is <EVENT class="OCCURRENCE" eid="e21">fighting</EVENT> for their rights?" Hollande <EVENT class="REPORTING" eid="e22">said</EVENT>, clearly <EVENT class="OCCURRENCE" eid="e23">referring</EVENT> to the Ukraine <EVENT class="OCCURRENCE" eid="e24">crisis</EVENT>. "How can we <EVENT class="STATE" eid="e25">remain</EVENT> neutral when a civilian airliner is <EVENT class="OCCURRENCE" eid="e26">brought</EVENT> down ... when there is conflict in Iraq, Syria, Lebanon, Gaza?" 
+"We cannot <EVENT class="STATE" eid="e27">remain</EVENT> neutral ... Europe must <EVENT class="OCCURRENCE" eid="e28">live</EVENT> up to its responsibilities with the United Nations," he <EVENT class="REPORTING" eid="e29">told</EVENT> an audience that included Britain's Prince William and his wife Catherine, heads of state and representatives of some 80 countries. German President Joachim Gauck <EVENT class="REPORTING" eid="e30">said</EVENT> Berlin <EVENT class="OCCURRENCE" eid="e31">had</EVENT> <EVENT class="OCCURRENCE" eid="e32">launched</EVENT> the <EVENT class="OCCURRENCE" eid="e33">war</EVENT> based only on "military logic" and it was immediately apparent that "treaties were worthless and that the standards of civilisation had been <EVENT class="OCCURRENCE" eid="e34">rendered</EVENT> null and void."
+Prince William <EVENT class="REPORTING" eid="e35">recalled</EVENT> the German execution of British nurse Edith Cavell, who just before her <EVENT class="OCCURRENCE" eid="e36">death</EVENT> in <TIMEX3 tid="t7" type="DATE">1915</TIMEX3> <EVENT class="REPORTING" eid="e37">said</EVENT>: "I must <EVENT class="OCCURRENCE" eid="e38">have</EVENT> no hatred or bitterness towards anyone." "It <EVENT class="OCCURRENCE" eid="e39">took</EVENT> another terrible war to <EVENT class="OCCURRENCE" eid="e40">learn</EVENT> the truth of her words and even <TIMEX3 tid="t8" type="DATE">today</TIMEX3> we <EVENT class="ASPECTUAL" eid="e41">continue</EVENT> to learn that lesson," he <EVENT class="REPORTING" eid="e42">said</EVENT>. "The <EVENT class="OCCURRENCE" eid="e43">events</EVENT> in Ukraine <EVENT class="OCCURRENCE" eid="e44">testify</EVENT> to the fact that <EVENT class="OCCURRENCE" eid="e45">instability</EVENT> <EVENT class="ASPECTUAL" eid="e46">continues</EVENT> to <EVENT class="OCCURRENCE" eid="e47">stalk</EVENT> our continent," he <EVENT class="REPORTING" eid="e48">added</EVENT>.
+The leaders <EVENT class="OCCURRENCE" eid="e49">gathered</EVENT> in the industrial town of Liege <EVENT class="OCCURRENCE" eid="e50">built</EVENT> on coal and steel because it <EVENT class="OCCURRENCE" eid="e51">barred</EVENT> the way to <EVENT class="OCCURRENCE" eid="e52">invading</EVENT> German troops in the early <TIMEX3 tid="t9" type="DURATION">days</TIMEX3> of August <TIMEX3 tid="t10" type="DATE">1914</TIMEX3>. Its fierce resistance <EVENT class="OCCURRENCE" eid="e53">derailed</EVENT> Berlin's plans for a quick victory, while Germany's <EVENT class="OCCURRENCE" eid="e54">invasion</EVENT> of Belgium formally <EVENT class="OCCURRENCE" eid="e55">brought</EVENT> Britain into the war, as interlocking alliances that were <EVENT class="OCCURRENCE" eid="e56">meant</EVENT> to <EVENT class="OCCURRENCE" eid="e57">preserve</EVENT> the peace <EVENT class="OCCURRENCE" eid="e58">plunged</EVENT> Europe into the abyss. The rest is history - 10 million troops dead, 20 million <EVENT class="OCCURRENCE" eid="e59">injured</EVENT>, millions of civilian victims, empires <EVENT class="OCCURRENCE" eid="e60">toppled</EVENT>, the world remade. 
+Earlier <TIMEX3 tid="t11" type="DATE">Monday</TIMEX3>, Australian Prime Minister Tony Abbott and his New Zealand counterpart John Key <EVENT class="OCCURRENCE" eid="e61">paid</EVENT> tribute to the tens of thousands of their countries' soldiers who <EVENT class="OCCURRENCE" eid="e62">died</EVENT> far from home. The conflict "was the most cataclysmic <EVENT class="OCCURRENCE" eid="e63">event</EVENT> in human history," Abbott <EVENT class="REPORTING" eid="e64">said</EVENT>, "and arguably <EVENT class="OCCURRENCE" eid="e65">gave</EVENT> <EVENT class="OCCURRENCE" eid="e66">rise</EVENT> to communism, to Nazism, to World War II and the Cold War." Security was very tight in Liege, with all streets <EVENT class="I_ACTION" eid="e67">leading</EVENT> to the great square and town hall <EVENT class="OCCURRENCE" eid="e68">cordoned</EVENT> off, with a heavy police presence.
+After Liege, it is the turn of Mons on the French border to <EVENT class="OCCURRENCE" eid="e69">remember</EVENT> a do-or-die <EVENT class="OCCURRENCE" eid="e70">rearguard</EVENT> <EVENT class="OCCURRENCE" eid="e71">action</EVENT> by the first British troops <EVENT class="OCCURRENCE" eid="e72">committed</EVENT> to the <EVENT class="OCCURRENCE" eid="e73">war</EVENT> as London and Paris <EVENT class="OCCURRENCE" eid="e74">scrambled</EVENT> to <EVENT class="I_ACTION" eid="e75">prevent</EVENT> a German <EVENT class="OCCURRENCE" eid="e76">breakthrough</EVENT> in late <TIMEX3 tid="t12" type="DATE">August</TIMEX3>. Prince William, his wife the Duchess of Cambridge, along with Prince Harry and Prime Minister David Cameron will <EVENT class="OCCURRENCE" eid="e77">lead</EVENT> the <EVENT class="OCCURRENCE" eid="e78">tributes</EVENT> in Mons where the first British soldier <EVENT class="OCCURRENCE" eid="e79">died</EVENT>. It was here, too, that the <TIMEX3 tid="t13" type="DATE">last</TIMEX3> British soldier was <EVENT class="OCCURRENCE" eid="e80">killed</EVENT> on November 11, <TIMEX3 tid="t14" type="DATE">1918</TIMEX3>, the very day of the Armistice that ended hostilities after <TIMEX3 tid="t15" type="DURATION">four bloody years</TIMEX3>. 
+The Mons <EVENT class="OCCURRENCE" eid="e81">ceremony</EVENT> will <EVENT class="OCCURRENCE" eid="e82">focus</EVENT> on the small military cemetery of St Symphorien, where 229 Commonwealth and 284 German solders were <EVENT class="OCCURRENCE" eid="e83">buried</EVENT> together in a gesture of <EVENT class="OCCURRENCE" eid="e84">reconciliation</EVENT> even as the fighting <EVENT class="OCCURRENCE" eid="e85">raged</EVENT>. Britain meanwhile holds a series of <EVENT class="OCCURRENCE" eid="e86">ceremonies</EVENT> <TIMEX3 tid="t18" type="DATE">Monday</TIMEX3>, with people encouraged to <EVENT class="OCCURRENCE" eid="e87">turn</EVENT> off their lights from <TIMEX3 tid="t19" type="TIME">10</TIMEX3>:00 pm (2100 GMT) to 11:00 pm, inspired by foreign secretary Edward Grey's famous remark on the eve of war. "The lamps are <EVENT class="OCCURRENCE" eid="e88">going</EVENT> out all over Europe; we shall not <EVENT class="PERCEPTION" eid="e89">see</EVENT> them lit again in our life-time," he <EVENT class="REPORTING" eid="e90">said</EVENT>. 
+
+Copyright AFP.
+
+</TEXT>
+
+<MAKEINSTANCE aspect="NONE" eiid="ei4" eventID="e0" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei7" eventID="e1" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei10" eventID="e2" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei13" eventID="e3" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei17" eventID="e4" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei23" eventID="e5" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei26" eventID="e6" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei31" eventID="e7" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei41" eventID="e8" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei49" eventID="e9" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei51" eventID="e10" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei62" eventID="e11" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei65" eventID="e12" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei71" eventID="e13" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei94" eventID="e14" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei127" eventID="e15" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei130" eventID="e16" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei139" eventID="e17" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei142" eventID="e18" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei148" eventID="e19" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei156" eventID="e20" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei167" eventID="e21" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei174" eventID="e22" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei177" eventID="e23" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei181" eventID="e24" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei186" eventID="e25" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei193" eventID="e26" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei212" eventID="e27" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei217" eventID="e28" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei229" eventID="e29" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei257" eventID="e30" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei259" eventID="e31" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei260" eventID="e32" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei262" eventID="e33" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei288" eventID="e34" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei296" eventID="e35" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei310" eventID="e36" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei313" eventID="e37" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei318" eventID="e38" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei328" eventID="e39" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei333" eventID="e40" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei343" eventID="e41" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei351" eventID="e42" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei354" eventID="e43" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei357" eventID="e44" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei362" eventID="e45" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei363" eventID="e46" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei365" eventID="e47" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei371" eventID="e48" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei375" eventID="e49" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei382" eventID="e50" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei389" eventID="e51" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei393" eventID="e52" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei407" eventID="e53" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei419" eventID="e54" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei423" eventID="e55" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei434" eventID="e56" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei436" eventID="e57" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei439" eventID="e58" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei457" eventID="e59" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei465" eventID="e60" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei486" eventID="e61" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei499" eventID="e62" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei511" eventID="e63" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei518" eventID="e64" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei523" eventID="e65" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei524" eventID="e66" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei551" eventID="e67" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei559" eventID="e68" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei582" eventID="e69" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei585" eventID="e70" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei586" eventID="e71" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei592" eventID="e72" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei595" eventID="e73" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei600" eventID="e74" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei602" eventID="e75" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei605" eventID="e76" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei630" eventID="e77" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei632" eventID="e78" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei640" eventID="e79" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei654" eventID="e80" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei677" eventID="e81" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei679" eventID="e82" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei697" eventID="e83" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei703" eventID="e84" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei708" eventID="e85" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei716" eventID="e86" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei723" eventID="e87" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei760" eventID="e88" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei769" eventID="e89" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei779" eventID="e90" polarity="POS" pos="VERB" tense="PAST" />
+<TLINK eventInstanceID="ei288" lid="l256" relType="AFTER" relatedToEventInstance="ei260" />
+<TLINK eventInstanceID="ei288" lid="l296" relType="AFTER" relatedToEventInstance="ei262" />
+<TLINK eventInstanceID="ei167" lid="l354" relType="IS_INCLUDED" relatedToTime="t6" />
+<TLINK eventInstanceID="ei288" lid="l382" relType="AFTER" relatedToEventInstance="ei259" />
+<TLINK lid="l413" relType="IS_INCLUDED" relatedToEventInstance="ei723" timeID="t19" />
+<TLINK lid="l453" relType="IS_INCLUDED" relatedToEventInstance="ei716" timeID="t19" />
+<TLINK eventInstanceID="ei23" lid="l460" relType="IS_INCLUDED" relatedToTime="t2" />
+</TimeML>

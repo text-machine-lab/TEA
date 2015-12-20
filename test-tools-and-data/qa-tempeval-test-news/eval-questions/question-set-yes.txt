@@ -1,0 +1,99 @@
+1|chomsky_on_gaza.ascii.TE3input.tml|IS e1002 BEFORE e1001|Were two Palestinian boys shot before Israeli rampage?|yes
+2|chomsky_on_gaza.ascii.TE3input.tml|IS e1004 BEFORE e1003|Was two-state settlement blocked before Palestinians voted?|yes
+3|chomsky_on_gaza.ascii.TE3input.tml|IS e1005 IS_INCLUDED t1001|Was imposing harsh sanctions in January 2006?|yes
+4|chomsky_on_gaza.ascii.TE3input.tml|IS e1005 SIMULTANEOUS e1006|Was imposing harsh sanctions simultaneous with Israel stepping up its violence?|yes
+5|chomsky_on_gaza.ascii.TE3input.tml|IS e1008 IS_INCLUDED e1007|Did Israeli assaults become far more severe when Hamas foiled the plans?|yes
+6|chomsky_on_gaza.ascii.TE3input.tml|IS e1009 AFTER e1008|Is the most recent cease-fire after Israeli assaults became far more severe?|yes
+7|chomsky_on_gaza.ascii.TE3input.tml|IS e1012 AFTER e1010|Were three Israeli boys murdered after the unity agreement?|yes
+8|chomsky_on_gaza.ascii.TE3input.tml|IS e1011 BEFORE t1002|Did Obama administration join the West before June 12?|yes
+9|chomsky_on_gaza.ascii.TE3input.tml|IS e1013 AFTER e1003|Did Israel kill five Hamas members after Palestinians voted?|yes
+10|chomsky_on_gaza.ascii.TE3input.tml|IS e1014 BEFORE t1003|Did Israel reject a full peace treaty before July 31?|yes
+11|ebola_infection.ascii.TE3input.tml|IS e1001 AFTER e1002|Did Mount Sinai Hospital test a patient after travel to a West African country?|yes
+12|ebola_infection.ascii.TE3input.tml|IS e1003 AFTER e1002|Did the male patient arrive at the emergency room after his travel to a West African country?|yes
+13|ebola_infection.ascii.TE3input.tml|IS e1004 AFTER e1002|Was he quarantined after he travelled to West African country?|yes
+14|ebola_infection.ascii.TE3input.tml|IS e1003 AFTER t1001|Did the male patient arrive at the emergency room after last week?|yes
+15|ebola_infection.ascii.TE3input.tml|IS e1006 AFTER e1005|Did they all turn out to be negative after Investigation?|yes
+16|ebola_infection.ascii.TE3input.tml|IS e1007 BEFORE t1001|Was one of those persons at Carolina Medical Center before last week?|yes
+17|ebola_infection.ascii.TE3input.tml|IS e1009 BEFORE e1008|Was sending out an alert before the CDC assumes?|yes
+18|james_brady_dies.ascii.TE3input.tml|IS e1001 SIMULTANEOUS e1002|Was the former White House press secretary shot during the assassination attempt?|yes
+19|james_brady_dies.ascii.TE3input.tml|IS e1003 AFTER e1001|Did the former White House press secretary become an unwavering gun-control advocate before he was shot?|yes
+20|james_brady_dies.ascii.TE3input.tml|IS e1004 AFTER e1001|Did the former White House press secretary die after he was shot?|yes
+21|james_brady_dies.ascii.TE3input.tml|IS e1005 AFTER e1006|Was Mr. Brady injured after a mentally troubled man opened fire at Washington Hilton Hotel?|yes
+22|james_brady_dies.ascii.TE3input.tml|IS e1007 AFTER t1001|Did Mr. Brady retained his press-secretary after March 30 1981?|yes
+23|james_brady_dies.ascii.TE3input.tml|IS e1008 AFTER e1005|Did Sarah initiated an effort after Mr. Brady was injured?|yes
+24|james_brady_dies.ascii.TE3input.tml|IS e1009 AFTER e1010|Was Brady Handgun Violence Prevention Act signed into law after debate?|yes
+25|james_brady_dies.ascii.TE3input.tml|IS e1009 AFTER e1005|Was Brady Handgun Violence Prevention Act signed into law after Mr. Brady was injured?|yes
+26|james_brady_dies.ascii.TE3input.tml|IS e1011 BEFORE e1012|Did Mr. Clinton award Mr. Brady the Medal of Freedom before the White House briefing room was renamed in his honor?|yes
+27|james_brady_dies.ascii.TE3input.tml|IS e1009 BEFORE t1003|Was Brady Handgun Violence Prevention Act signed into law before 1997?|yes
+28|james_brady_dies.ascii.TE3input.tml|IS e1013 AFTER e1001|Did Mr. Brady's health begin a steep decline after he was shot?|yes
+29|james_brady_dies.ascii.TE3input.tml|IS e1013 BEFORE t1002|Did Mr. Brady's health begin a steep decline after 1993?|yes
+30|man_u_vs_liverpool.ascii.TE3input.tml|IS e1001 AFTER e1002|Will the two north-west rivals go head-to-head after they topped their respective groups?|yes
+31|man_u_vs_liverpool.ascii.TE3input.tml|IS e1003 AFTER e1002|Will Manchester United and Liverpool play each other after they topped their respective groups?|yes
+32|man_u_vs_liverpool.ascii.TE3input.tml|IS e1003 AFTER e1004|Will Manchester United and Liverpool play each other after coming out on top in their group?|yes
+33|man_u_vs_liverpool.ascii.TE3input.tml|IS e1006 BEFORE e1005|Did Red Devils' 3-1 win over Real Madrid happen before Liverpool's qualification for the match in Miami was confirmed?|yes
+34|man_u_vs_liverpool.ascii.TE3input.tml|IS e1007 SIMULTANEOUS e1008|Will the match mark a first chance for Louis van Gaal simultaneous with picking up some silverware?|yes
+35|man_u_vs_liverpool.ascii.TE3input.tml|IS e1009 BEFORE e1005|Did Van Gaal lead the Old Trafford outfit to wins before Liverpool's qualification for the match in Miami was confirmed?|yes
+36|man_u_vs_liverpool.ascii.TE3input.tml|IS e1010 IS_INCLUDED t1001|Did the Reds complete their opening fixtures against AC Milan on Sunday?|yes
+37|man_u_vs_liverpool.ascii.TE3input.tml|IS e1011 AFTER e1005|Will the final kick-off after Liverpool's qualification for the match in Miami was confirmed?|yes
+38|man_u_vs_liverpool.ascii.TE3input.tml|IS e1003 BEGUN_BY t1002|Will Manchester United and Liverpool play begin by 02:00 CET on Tuesday August 5?|yes
+39|man_u_vs_liverpool.ascii.TE3input.tml|IS e1009 BEFORE t1002|Did Van Gaal lead the Old Trafford outfit to wins before 02:00 CET on Tuesday August 5?|yes
+40|marijuana.ascii.TE3input.tml|IS e1001 AFTER e1002|Was the federal law passed after the cannabis plant was widely grown?|yes
+41|marijuana.ascii.TE3input.tml|IS e1002 BEFORE e1003|Was the cannabis plant widely grown for use in fabric before the practice of smoking it appeared in Texas borders?|yes
+42|marijuana.ascii.TE3input.tml|IS e1002 BEFORE t1001|Was the cannabis plant widely grown for use in fabric in 1930s?|yes
+43|marijuana.ascii.TE3input.tml|IS e1005 AFTER e1003|Did some of grocery markets and drugstores ship small packets after the practice of smoking it appeared in Texas borders?|yes
+44|marijuana.ascii.TE3input.tml|IS e1006 BEFORE e1007|Had more than 30 states prohibited the use of marijuana for nonmedical purposes before the federal push?|yes
+45|marijuana.ascii.TE3input.tml|IS e1008 AFTER e1005|Was outbreak of robberies after some of grocery markets and drugstores ship small packets?|yes
+46|marijuana.ascii.TE3input.tml|IS e1009 IS_INCLUDED t1002|Did Harry Jacob Anslinger become the architect of national prohibition within early 1930s?|yes
+47|marijuana.ascii.TE3input.tml|IS e1010 AFTER e1009|Did Marijuana Tax Act try to eradicate the use of the drug after Harry Jacob Anslinger become the architect of national prohibition?|yes
+48|marijuana.ascii.TE3input.tml|IS e1012 AFTER e1011|Did Congress ratchet up penalties on users after a reputable researcher testified?|yes
+49|marijuana.ascii.TE3input.tml|IS e1013 AFTER t1003|Had weed been taken up by white college students after 1951?|yes
+50|marijuana.ascii.TE3input.tml|IS e1015 BEGUN_BY e1014|Was the alteration of public attitudes about harsh sentencing begun by seeing white lives ruined by marijuana laws?|yes
+51|marijuana.ascii.TE3input.tml|IS e1011 IS_INCLUDED t1003|Was the researcher called to testify in 1951?|yes
+52|marijuana.ascii.TE3input.tml|IS e1015 AFTER t1003|Were the laws altered after 1951?|yes
+53|microsoft_sues_samsung.ascii.TE3input.tml|IS e1001 BEFORE t1002|Did Samsung agree to Microsoft's demands before September 2013?|yes
+54|microsoft_sues_samsung.ascii.TE3input.tml|IS e1002 AFTER e1001|Did Samsung block a second payment after it agreed to Microsoft's demands?|yes
+55|microsoft_sues_samsung.ascii.TE3input.tml|IS e1003 AFTER t1001|Did Samsung learn of the Nokia deal after September 2011?|yes
+56|microsoft_sues_samsung.ascii.TE3input.tml|IS e1004 AFTER t1001|Has Samsung asked the Korean competition authorities to intervene after September 2011|yes
+57|microsoft_sues_samsung.ascii.TE3input.tml|IS e1005 AFTER e1001|Did Samsung threaten Microsoft after it agreed to Microsoft's demands?|yes
+58|microsoft_sues_samsung.ascii.TE3input.tml|IS e1007 AFTER e1006|Did Samsung decline to discuss any of the specific claims after David Howard wrote on the firm's blog?|yes
+59|microsoft_sues_samsung.ascii.TE3input.tml|IS e1008 AFTER e1005|Would Microsoft be keen to avoid a precedent after Samsung threatened Microsoft?|yes
+60|microsoft_sues_samsung.ascii.TE3input.tml|IS t1001 BEFORE t1002|Is September 2011 before September 2013|yes
+61|pf_chang.ascii.TE3input.tml|IS e1 AFTER e2|Did the discovery happen after the data was stolen?|yes
+62|pf_chang.ascii.TE3input.tml|IS e3 AFTER t2|Did the said happen after the eight months?|yes
+63|pf_chang.ascii.TE3input.tml|IS e2 BEFORE e5|Was the data stolen before the alerted?|yes
+64|pf_chang.ascii.TE3input.tml|IS e4 AFTER e5|Did the confirmed happen after the alerted?|yes
+65|pf_chang.ascii.TE3input.tml|IS e6 BEFORE t3|Did the breach happen before June 11?|yes
+66|pf_chang.ascii.TE3input.tml|IS e7 BEFORE e8|Did the determined happen before the processing?|yes
+67|pf_chang.ascii.TE3input.tml|IS e8 BEGUN_BY t3|Did the secure processing begin on June 11?|yes
+68|russian_pilgrims.ascii.TE3input.tml|IS e1 IS_INCLUDED e3|Is the trek included in Putin's campaign?|yes
+69|russian_pilgrims.ascii.TE3input.tml|IS e2 BEFORE t0|Is the 700th birthday before Aug 2, 2014?|yes
+70|russian_pilgrims.ascii.TE3input.tml|IS e2 INCLUDES e4|Does the 700th birthday include Putin's participation?|yes
+71|russian_pilgrims.ascii.TE3input.tml|IS e5 AFTER e6|Does the resurrection happen after the Communist repression?|yes
+72|russian_pilgrims.ascii.TE3input.tml|IS e5 AFTER e7|Does the resurrection happen after the birth?|yes
+73|russian_pilgrims.ascii.TE3input.tml|IS t1 INCLUDES e8|Does the late 14th century include the persuaded?|yes
+74|russian_pilgrims.ascii.TE3input.tml|IS e6 AFTER e8|Does the Communist repression happen after the persuaded?|yes
+75|russian_pilgrims.ascii.TE3input.tml|IS e9 AFTER e10|Were the czars overthrown after they tried to elevate?|yes
+76|russian_pilgrims.ascii.TE3input.tml|IS e11 AFTER e12|Did Putin attend after the disaster?|yes
+77|russian_pilgrims.ascii.TE3input.tml|IS e12 IS_INCLUDED e13|Is the disaster included in the war?|yes
+78|wall_st.ascii.TE3input.tml|IS t1001 BEFORE t0|Was Monday before Aug 4?|no
+79|wall_st.ascii.TE3input.tml|IS e1001 BEFORE e1003|Did stocks close before the largest weekly drop?|no
+80|wall_st.ascii.TE3input.tml|IS e1003 BEFORE e1001|Did the largest weekly drop occur before stocks close?|yes
+81|wall_st.ascii.TE3input.tml|IS e1002 SIMULTANEOUS e1003|Was the SP rebound simultaneous to stocks close?|no
+82|wall_st.ascii.TE3input.tml|IS e1003 IS_INCLUDED t1002|Was the largest weekly drop within 2012?|no
+83|wall_st.ascii.TE3input.tml|IS e1004 AFTER e1001|Did the company said its profit soared after stocks close?|no
+84|wall_st.ascii.TE3input.tml|IS e1004 BEFORE e1001|Did the company said its profit soared before stocks close?|yes
+85|wall_st.ascii.TE3input.tml|IS e1005 SIMULTANEOUS e1006|Was Dec 31 close simultaneous to the record?|yes
+86|wall_st.ascii.TE3input.tml|IS e1005 IAFTER t1003|Was Dec 31 close immediately after Dec 31?|no
+87|wall_st.ascii.TE3input.tml|IS e1007 BEFORE e1008|Was Tekmira's up before Tekmira's down?|yes
+88|wall_st.ascii.TE3input.tml|IS e1009 AFTER e1001|Is the stock market likely to be quiet after the stocks closed?|yes
+89|wwi.ascii.TE3input.tml|IS e1 SIMULTANEOUS t1|Is the 100th anniversary simultaneous with Monday?|yes
+90|wwi.ascii.TE3input.tml|IS e2 BEFORE t1|Is the outbreak of WWI before Monday?|yes
+91|wwi.ascii.TE3input.tml|IS e3 IS_INCLUDED t1|Was the leaders attendance of the commemoration included in Monday?|yes
+92|wwi.ascii.TE3input.tml|IS e4 BEFORE e5|Is Germany's invasion before the Ukraine crisis?|yes
+93|wwi.ascii.TE3input.tml|IS t1 IS_INCLUDED e5|Is Monday included in the Ukraine crisis?|yes
+94|wwi.ascii.TE3input.tml|IS e6 IS_INCLUDED t2|Is the execution included in 1915?|yes
+95|wwi.ascii.TE3input.tml|IS e4 BEFORE e6|Is Germany's invasion before the execution?|yes
+96|wwi.ascii.TE3input.tml|IS e7 IS_INCLUDED e8|Is the paid tribute included in the cordoned off town hall?|yes
+97|wwi.ascii.TE3input.tml|IS e7 BEFORE e9|Is the paid tribute before Cameron leads the tributes in Mons?|yes
+98|wwi.ascii.TE3input.tml|IS e10 BEFORE e11|Is the first death before the last killing?|yes
+99|wwi.ascii.TE3input.tml|IS e3 BEFORE e12|Did the leaders attend the commemoration before the Mons ceremony?|yes

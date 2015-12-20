@@ -41,6 +41,10 @@ def _get_constituency_tree_elements(naf_tagged_doc):
 
     constituency_element = _get_constituency_element(naf_tagged_doc)
 
+    if constituency_element is None:
+
+        return []
+
     tree_elements = []
 
     for e in constituency_element:
@@ -130,6 +134,9 @@ class ConstituencyNode(object):
         else:
             exit( "more than one parent? something bad has happened" )
 
+    def has_child(self):
+        return self.child_node is not None
+
     def is_child(self):
 
         return self.parent_node is not None
@@ -153,7 +160,7 @@ class ConstituencyTree(object):
     def process_constituency_tree_element(self, xml_constituency_tree_element):
         """ generates a tree structure to determine the categories each token belongs in. """
 
-        print "called create_constituency_nodes"
+        #print "called create_constituency_nodes"
         constituency_nodes = {}
         terminal_nodes = {}
 
@@ -188,6 +195,65 @@ class ConstituencyTree(object):
                 _create_edge(parent_node, child_node)
 
         return terminal_nodes
+
+
+    def get_parenthetical_tree(self, sentence):
+        '''
+        wrapper around _get_parenthetical_tree_for_subtree that generates parenthetical tree for the entire tree by starting at the root.
+        The sentence parameter is sentence the constituency tree corresponds to. It is used to place the raw token in the correct position in the
+        final string.
+        '''
+
+        root = None
+
+        # choose an arbitrary node
+        node = self.terminal_nodes[self.terminal_nodes.keys()[0]]
+
+        # follow node parent paths until root node is reached
+        while node.is_root() is False:
+            node = node.parent_node
+
+        root = node
+
+        assert root.is_root() is True
+
+        return self._get_parenthetical_tree_for_subtree(root, sentence)
+
+    def _get_parenthetical_tree_for_subtree(self, root, sentence):
+        '''
+        Creates a string representation of the constituency tree, using parenthesis to represent each node.
+        This is generated recursively, with a pre-order recurvise traversal of the constituency tree.
+        The sentence parameter is sentence the constituency tree corresponds to. It is used to place the raw token in the correct position in the final string.
+        '''
+
+        parenthetical_tree = ''
+
+        #Assumption: children are stored in reverse order of appearance in the setence. Will cause problems if this doens't prove correct
+        for child in reversed(root.child_node):
+
+            if child.is_terminal_node() is False:
+                parenthetical_tree += '(' + child.get_label()
+
+                assert child.has_child() is True
+
+                parenthetical_tree += ' ' + self._get_parenthetical_tree_for_subtree(child, sentence) + ')'
+
+            else:
+                word = next((token for token in sentence if token['id'] == child.get_target_id()), None)
+
+                assert word is not None
+
+                # store ) and ( differently since they are used as boundary characters
+                if word is ')':
+                    parenthetical_tree += '-RRB-'
+                elif word is '(':
+                    parenthetical_tree += '-LRB'
+                else:
+                    parenthetical_tree += word['token']
+
+                parenthetical_tree += ')'
+
+        return parenthetical_tree
 
 
     def get_phrase_memberships(self, node_id):

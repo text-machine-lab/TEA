@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+<Title>112265.female.23.indUnk.Taurus.xml</Title>
+<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2004-03-10">10,March,2004</TIMEX3></DCT>
+<TEXT> 
+Well. I <EVENT class="ASPECTUAL" eid="e0">started</EVENT> <TIMEX3 tid="t1" type="DATE">this</TIMEX3> blog <TIMEX3 tid="t2" type="DATE">years ago</TIMEX3> and never <EVENT class="OCCURRENCE" eid="e1">kept</EVENT> up with it. In fact, I sort of forgot about it. <TIMEX3 tid="t4" type="DATE">Now</TIMEX3>, I am <EVENT class="OCCURRENCE" eid="e2">done</EVENT> with <EVENT class="OCCURRENCE" eid="e3">school</EVENT> and married and I actually have *time* on my hands! (Gasp! <EVENT class="OCCURRENCE" eid="e4">Imagine</EVENT> that!) And, I really <EVENT class="I_STATE" eid="e5">want</EVENT> to <EVENT class="OCCURRENCE" eid="e6">get</EVENT> back into the swing of writing, so I <EVENT class="I_ACTION" eid="e7">thought</EVENT> blogging might be a good way to <EVENT class="OCCURRENCE" eid="e8">start</EVENT>. I feel like an introduction is in order, so here's a bit about me. My name is Kathleen. I am 22 years old, and I live in Portland, Maine with my husband Brett. We are originally from Portland, Oregon but <EVENT class="OCCURRENCE" eid="e9">lived</EVENT> in Seattle for 4 <TIMEX3 tid="t5" type="DURATION">years</TIMEX3> during <EVENT class="OCCURRENCE" eid="e10">college</EVENT>. I <EVENT class="OCCURRENCE" eid="e11">work</EVENT> as an office manager in a small software company, so I tend to have a bit of time on my hands. Hence, the blogging. I'll probably <EVENT class="OCCURRENCE" eid="e12">talk</EVENT> a lot about all of the <EVENT class="OCCURRENCE" eid="e13">changes</EVENT> that have <EVENT class="OCCURRENCE" eid="e14">happened</EVENT> in my life in <TIMEX3 tid="t6" type="DATE">the past year</TIMEX3>, since that's what is on my mind right now: getting married in <TIMEX3 tid="t9" type="DATE">July</TIMEX3>, <EVENT class="OCCURRENCE" eid="e15">moving</EVENT> to Maine in <TIMEX3 tid="t10" type="DATE">November</TIMEX3>, <EVENT class="OCCURRENCE" eid="e16">changing</EVENT> jobs several times, etc. So I will <EVENT class="OCCURRENCE" eid="e17">get</EVENT> right down to it. I am pretty freaking grumpy <TIMEX3 tid="t11" type="DATE">today</TIMEX3>. Well, to be honest, I've been really grumpy for a few weeks and I can't <EVENT class="OCCURRENCE" eid="e18">seem</EVENT> to <EVENT class="OCCURRENCE" eid="e19">get</EVENT> <EVENT class="STATE" eid="e20">un</EVENT> -<EVENT class="STATE" eid="e21">grumpy</EVENT>, which I <EVENT class="OCCURRENCE" eid="e22">hate</EVENT>. Feeling out of control, especially of myself, is not something I <EVENT class="I_STATE" eid="e23">like</EVENT>. I <EVENT class="OCCURRENCE" eid="e24">guess</EVENT> I'm <EVENT class="OCCURRENCE" eid="e25">coming</EVENT> to realize that life, and especially marriage, is NOT easy. Maybe I <EVENT class="OCCURRENCE" eid="e26">assumed</EVENT> that since we <EVENT class="OCCURRENCE" eid="e27">dated</EVENT> for over 4 <TIMEX3 tid="t12" type="DURATION">years</TIMEX3> before we <EVENT class="OCCURRENCE" eid="e28">got</EVENT> <EVENT class="OCCURRENCE" eid="e29">married</EVENT>, that things would be easy. Everyone <EVENT class="REPORTING" eid="e30">says</EVENT> that the first <TIMEX3 tid="t13" type="DATE">year</TIMEX3> of marriage is the hardest, and for the first <TIMEX3 tid="t14" type="DURATION">six months</TIMEX3> I <EVENT class="OCCURRENCE" eid="e31">laughed</EVENT> that off. "Hard?" I would scoff. "No way! I love being <EVENT class="OCCURRENCE" eid="e32">married</EVENT>. It's wonderful! It's amazing! blah, blah, blah." <TIMEX3 tid="t16" type="DATE">Now</TIMEX3> it's like the crap has <EVENT class="OCCURRENCE" eid="e33">hit</EVENT> the fan and I am <EVENT class="OCCURRENCE" eid="e34">transformed</EVENT> into a grumpy, nagging, mean, <EVENT class="OCCURRENCE" eid="e35">yelling</EVENT> wife. Ugh. I don't <EVENT class="I_STATE" eid="e36">want</EVENT> to be like this but every time I <EVENT class="I_ACTION" eid="e37">resolve</EVENT> to be different I <EVENT class="OCCURRENCE" eid="e38">fall</EVENT> right back into it. <EVENT class="I_ACTION" eid="e39">Choosing</EVENT> your <EVENT class="OCCURRENCE" eid="e40">battles</EVENT> is a lot harder than it <EVENT class="I_STATE" eid="e41">seems</EVENT>. I <EVENT class="I_STATE" eid="e42">think</EVENT> that's a lot of what I'm <EVENT class="OCCURRENCE" eid="e43">learning</EVENT>; that I really do have to <EVENT class="OCCURRENCE" eid="e44">choose</EVENT> my <EVENT class="OCCURRENCE" eid="e45">battles</EVENT>, because if I <EVENT class="OCCURRENCE" eid="e46">pick</EVENT> on every little thing, he won't listen at all when the big things <EVENT class="OCCURRENCE" eid="e47">come</EVENT> along and I really <EVENT class="I_STATE" eid="e48">need</EVENT> him to <EVENT class="OCCURRENCE" eid="e49">listen</EVENT>. Heh. That's my psychological epiphany for the <TIMEX3 tid="t17" type="DATE">day</TIMEX3>. 
+</TEXT>
+<MAKEINSTANCE aspect="NONE" eiid="ei3" eventID="e0" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei10" eventID="e1" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei29" eventID="e2" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei31" eventID="e3" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei48" eventID="e4" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei56" eventID="e5" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei58" eventID="e6" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei68" eventID="e7" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei76" eventID="e8" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei126" eventID="e9" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei133" eventID="e10" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei136" eventID="e11" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei168" eventID="e12" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei175" eventID="e13" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei178" eventID="e14" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei203" eventID="e15" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei209" eventID="e16" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei219" eventID="e17" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei251" eventID="e18" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei253" eventID="e19" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei254" eventID="e20" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei256" eventID="e21" polarity="POS" pos="ADJECTIVE" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei260" eventID="e22" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei275" eventID="e23" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei278" eventID="e24" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei281" eventID="e25" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei297" eventID="e26" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei301" eventID="e27" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei308" eventID="e28" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei309" eventID="e29" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei318" eventID="e30" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei336" eventID="e31" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei353" eventID="e32" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei377" eventID="e33" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei383" eventID="e34" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei392" eventID="e35" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei400" eventID="e36" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei409" eventID="e37" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei414" eventID="e38" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei420" eventID="e39" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei422" eventID="e40" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei429" eventID="e41" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei432" eventID="e42" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei441" eventID="e43" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei449" eventID="e44" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei451" eventID="e45" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei456" eventID="e46" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei472" eventID="e47" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei477" eventID="e48" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei480" eventID="e49" polarity="POS" pos="VERB" tense="PRESENT" />
+<TLINK lid="l178" relType="IS_INCLUDED" relatedToEventInstance="ei203" timeID="t10" />
+<TLINK eventInstanceID="ei441" lid="l417" relType="BEFORE" relatedToEventInstance="ei456" />
+</TimeML>

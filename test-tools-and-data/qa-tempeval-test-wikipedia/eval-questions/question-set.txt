@@ -1,0 +1,130 @@
+1|Black_Death-en.ascii.TE3input.tml|IS e1001 BEFORE t1002|Was the plague first introduced to Europe before 1343?|no
+2|Black_Death-en.ascii.TE3input.tml|IS e1001 BEFORE t1002|negativized|no
+3|Black_Death-en.ascii.TE3input.tml|IS e1001 BEFORE e1004|Was the plague first introduced to Europe before reaching Crimea?|no
+4|Black_Death-en.ascii.TE3input.tml|IS e1001 BEFORE e1004|negativized|no
+5|Black_Death-en.ascii.TE3input.tml|IS e1003 BEFORE e1004|negativized|no
+6|Black_Death-en.ascii.TE3input.tml|IS e1003 BEFORE e1004|Did the plague reach Sicily before Crimea?|no
+7|Black_Death-en.ascii.TE3input.tml|IS e1006 AFTER t1005|negativized|no
+8|Black_Death-en.ascii.TE3input.tml|IS e1006 AFTER t1005|Was the outbreak in Pisa after 1644?|no
+9|Black_Death-en.ascii.TE3input.tml|IS e1007 BEFORE e1003|Did the plague spread northwest Europe before reaching Sicily?|no
+10|Black_Death-en.ascii.TE3input.tml|IS e1007 BEFORE e1003|negativized|no
+11|Egypt-en.ascii.TE3input.tml|IS e1002 BEFORE e1001|negativized|no
+12|Egypt-en.ascii.TE3input.tml|IS e1003 BEFORE t1001|negativized|no
+13|Egypt-en.ascii.TE3input.tml|IS e1005 BEFORE e1004|negativized|no
+14|Egypt-en.ascii.TE3input.tml|IS e1006 BEFORE e1007|negativized|no
+15|Egypt-en.ascii.TE3input.tml|IS e1006 BEFORE t1002|negativized|no
+16|Egypt-en.ascii.TE3input.tml|IS e1008 BEFORE e1009|negativized|no
+17|Egypt-en.ascii.TE3input.tml|IS e1010 BEFORE t1002|negativized|no
+18|Egypt-en.ascii.TE3input.tml|IS e1011 AFTER e1012|negativized|no
+19|Egypt-en.ascii.TE3input.tml|IS e1012 BEFORE t1003|negativized|no
+20|Egypt-en.ascii.TE3input.tml|IS e1014 BEFORE e1012|negativized|no
+21|Egypt-en.ascii.TE3input.tml|IS e1015 BEFORE e1013|negativized|no
+22|Egypt-en.ascii.TE3input.tml|IS e1016 AFTER t1004|negativized|no
+23|Egypt-en.ascii.TE3input.tml|IS e1018 BEFORE e1017|negativized|no
+24|Egypt-en.ascii.TE3input.tml|IS e1019 BEFORE e1017|negativized|no
+25|Egypt-en.ascii.TE3input.tml|IS e1020 AFTER e1021|negativized|no
+26|Egypt-en.ascii.TE3input.tml|IS e1022 BEFORE e1021|negativized|no
+27|Egypt-en.ascii.TE3input.tml|IS e1024 BEFORE e1023|negativized|no
+28|Great_Depression-en.ascii.TE3input.tml|IS e1001 AFTER e1002|negativized|no
+29|Great_Depression-en.ascii.TE3input.tml|IS e1003 AFTER t1003|negativized|no
+30|Great_Depression-en.ascii.TE3input.tml|IS e1006 BEGUN_BY e1005|negativized|no
+31|Great_Depression-en.ascii.TE3input.tml|IS e1004 BEFORE e1005|Was the depression originated before the fall in stock prices?|no
+32|Great_Depression-en.ascii.TE3input.tml|IS e1007 INCLUDES t1005|negativized|no
+33|Great_Depression-en.ascii.TE3input.tml|IS e1003 BEFORE e1007|negativized|no
+34|Great_Depression-en.ascii.TE3input.tml|IS e1008 IAFTER e1007|negativized|no
+35|Great_Depression-en.ascii.TE3input.tml|IS e1009 AFTER t1006|negativized|no
+36|Great_Depression-en.ascii.TE3input.tml|IS t1006 BEFORE t1004|Is April before September 4, 1929?|no
+37|Great_Depression-en.ascii.TE3input.tml|IS e1010 IS_INCLUDED t1007|Did the sales decline within 1928?|no
+38|Great_Depression-en.ascii.TE3input.tml|IS e1011 BEFORE e1007|negativized|no
+39|Great_Depression-en.ascii.TE3input.tml|IS e1010 AFTER e1012|negativized|no
+40|Great_Depression-en.ascii.TE3input.tml|IS e1013 AFTER t1008|negativized|no
+41|Great_Depression-en.ascii.TE3input.tml|IS e1014 AFTER e1015|negativized|no
+42|Great_Depression-en.ascii.TE3input.tml|IS t1010 AFTER e1015|Was 1935 after GDP returned to its upward trend?|no
+43|Great_Depression-en.ascii.TE3input.tml|IS e1017 AFTER e1018|Did the unemployment fall after the outbreak of war?|no
+44|Great_Depression-en.ascii.TE3input.tml|IS e1009 BEFORE e1005|negativized|no
+45|Great_Depression-en.ascii.TE3input.tml|IS t1012 BEFORE e1016|Was 1931 before Britain left the gold standard?|no
+46|Great_Depression-en.ascii.TE3input.tml|IS e1016 AFTER t1008|Did Britain leave the gold standard after 1940?|no
+47|Great_Depression-en.ascii.TE3input.tml|IS t1013 BEFORE e1017|Was 1941 before unemployment fell?|no
+48|History_of_Paper-en.ascii.TE3input.tml|IS e1002 BEFORE e1001|negativized|no
+49|History_of_Paper-en.ascii.TE3input.tml|IS e1003 BEFORE e1004|negativized|no
+50|History_of_Paper-en.ascii.TE3input.tml|IS e1005 BEFORE e1006|negativized|no
+51|History_of_Paper-en.ascii.TE3input.tml|IS e1007 AFTER t1002|negativized|no
+52|History_of_Paper-en.ascii.TE3input.tml|IS t1002 AFTER t1001|negativized|no
+53|History_of_Paper-en.ascii.TE3input.tml|IS e1009 BEFORE e1008|negativized|no
+54|History_of_Paper-en.ascii.TE3input.tml|IS e1010 BEFORE t1002|negativized|no
+55|History_of_Paper-en.ascii.TE3input.tml|IS e1011 BEFORE e1010|negativized|no
+56|History_of_Paper-en.ascii.TE3input.tml|IS e1012 BEFORE e1011|negativized|no
+57|History_of_Paper-en.ascii.TE3input.tml|IS e1013 BEFORE t1003|negativized|no
+58|History_of_Paper-en.ascii.TE3input.tml|IS e1014 AFTER e1002|negativized|no
+59|Renaissance-en.ascii.TE3input.tml|IS e1002 BEFORE e1001|negativized|no
+60|Renaissance-en.ascii.TE3input.tml|IS e1004 AFTER e1003|negativized|no
+61|Renaissance-en.ascii.TE3input.tml|IS e1005 AFTER t1001|negativized|no
+62|Renaissance-en.ascii.TE3input.tml|IS e1006 AFTER e1007|negativized|no
+63|Renaissance-en.ascii.TE3input.tml|IS e1007 BEFORE t1002|negativized|no
+64|Renaissance-en.ascii.TE3input.tml|IS e1008 AFTER e1009|negativized|no
+65|Renaissance-en.ascii.TE3input.tml|IS e1010 BEFORE t1002|negativized|no
+66|Renaissance-en.ascii.TE3input.tml|IS e1011 IAFTER e1012|negativized|no
+67|Renaissance-en.ascii.TE3input.tml|IS e1012 INCLUDES t1001|negativized|no
+68|Roman_Empire-en.ascii.TE3input.tml|IS e1001 BEFORE e1002|negativized|no
+69|Roman_Empire-en.ascii.TE3input.tml|IS e1003 BEFORE t1001|negativized|no
+70|Roman_Empire-en.ascii.TE3input.tml|IS e1004 BEFORE e1002|negativized|no
+71|Roman_Empire-en.ascii.TE3input.tml|IS e1007 BEFORE e1005|negativized|no
+72|Roman_Empire-en.ascii.TE3input.tml|IS e1006 BEFORE t1002|negativized|no
+73|Roman_Empire-en.ascii.TE3input.tml|IS e1008 BEFORE t1003|negativized|no
+74|Roman_Empire-en.ascii.TE3input.tml|IS e1009 BEFORE e1001|negativized|no
+75|Roman_Empire-en.ascii.TE3input.tml|IS e1011 BEFORE e1010|negativized|no
+76|Roman_Empire-en.ascii.TE3input.tml|IS e1012 BEFORE t1002|negativized|no
+77|Roman_Empire-en.ascii.TE3input.tml|IS e1014 BEFORE e1013|negativized|no
+78|Roman_Empire-en.ascii.TE3input.tml|IS e1015 BEFORE e1012|negativized|no
+79|Roman_Empire-en.ascii.TE3input.tml|IS e1016 BEFORE t1003|negativized|no
+80|Roman_Empire-en.ascii.TE3input.tml|IS e1017 BEFORE e1016|negativized|no
+81|Sumer-en.ascii.TE3input.tml|IS e1001 AFTER e1002|negativized|no
+82|Sumer-en.ascii.TE3input.tml|IS e1003 AFTER e1004|negativized|no
+83|Sumer-en.ascii.TE3input.tml|IS e1006 BEFORE e1005|negativized|no
+84|Sumer-en.ascii.TE3input.tml|IS e1007 BEFORE e1005|negativized|no
+85|Sumer-en.ascii.TE3input.tml|IS e1009 BEFORE e1008|negativized|no
+86|Sumer-en.ascii.TE3input.tml|IS t1004 INCLUDES t1001|negativized|no
+87|Sumer-en.ascii.TE3input.tml|IS e1010 INCLUDES t1001|negativized|no
+88|Sumer-en.ascii.TE3input.tml|IS e1011 AFTER e1005|negativized|no
+89|Sumer-en.ascii.TE3input.tml|IS e1013 BEFORE e1012|negativized|no
+90|Sumer-en.ascii.TE3input.tml|IS e1014 BEFORE e1013|negativized|no
+91|Sumer-en.ascii.TE3input.tml|IS t1003 BEFORE t1004|negativized|no
+92|US_Constitution-en.ascii.TE3input.tml|IS e1 AFTER e2|negativized|no
+93|US_Constitution-en.ascii.TE3input.tml|IS e1 INCLUDES t1|negativized|no
+94|US_Constitution-en.ascii.TE3input.tml|IS e3 IS_INCLUDED t0|negativized|no
+95|US_Constitution-en.ascii.TE3input.tml|IS e4 AFTER e5|negativized|no
+96|US_Constitution-en.ascii.TE3input.tml|IS e4 AFTER e6|negativized|no
+97|US_Constitution-en.ascii.TE3input.tml|IS e6 BEFORE e7|negativized|no
+98|US_Constitution-en.ascii.TE3input.tml|IS e4 AFTER e7|negativized|no
+99|US_Constitution-en.ascii.TE3input.tml|IS e9 AFTER e12|negativized|no
+100|US_Constitution-en.ascii.TE3input.tml|IS e10 INCLUDES t3|negativized|no
+101|US_Constitution-en.ascii.TE3input.tml|IS t3 AFTER e11|negativized|no
+102|WWI-en.ascii.TE3input.tml|IS e1 AFTER e4|negativized|no
+103|WWI-en.ascii.TE3input.tml|IS e3 AFTER e4|negativized|no
+104|WWI-en.ascii.TE3input.tml|IS e4 AFTER e5|negativized|no
+105|WWI-en.ascii.TE3input.tml|IS e4 AFTER e6|negativized|no
+106|WWI-en.ascii.TE3input.tml|IS e6 AFTER e7|negativized|no
+107|WWI-en.ascii.TE3input.tml|IS t1 IS_INCLUDED e9|negativized|no
+108|WWI-en.ascii.TE3input.tml|IS e9 AFTER e8|negativized|no
+109|WWI-en.ascii.TE3input.tml|IS e1 BEFORE e10|negativized|no
+110|WWI-en.ascii.TE3input.tml|IS e1 IAFTER e11|negativized|no
+111|WWI-en.ascii.TE3input.tml|IS e11 AFTER e12|negativized|no
+112|WWI-en.ascii.TE3input.tml|IS e12 AFTER e13|negativized|no
+113|WWI-en.ascii.TE3input.tml|IS e5 IAFTER e14|negativized|no
+114|WWI-en.ascii.TE3input.tml|IS e13 AFTER e14|negativized|no
+115|WWI-en.ascii.TE3input.tml|IS e14 AFTER e15|negativized|no
+116|WWI-en.ascii.TE3input.tml|IS e15 INCLUDES t3|negativized|no
+117|WWII-en.ascii.TE3input.tml|IS t0 BEFORE e1|negativized|no
+118|WWII-en.ascii.TE3input.tml|IS e1 BEGINS t1|negativized|no
+119|WWII-en.ascii.TE3input.tml|IS e1 BEGINS e2|negativized|no
+120|WWII-en.ascii.TE3input.tml|IS e2 AFTER e3|negativized|no
+121|WWII-en.ascii.TE3input.tml|IS e3 AFTER e4|negativized|no
+122|WWII-en.ascii.TE3input.tml|IS e4 AFTER e5|negativized|no
+123|WWII-en.ascii.TE3input.tml|IS e4 AFTER e6|negativized|no
+124|WWII-en.ascii.TE3input.tml|IS e6 AFTER t2|negativized|no
+125|WWII-en.ascii.TE3input.tml|IS t2 IS_INCLUDED e7|negativized|no
+126|WWII-en.ascii.TE3input.tml|IS e8 IAFTER e9|negativized|no
+127|WWII-en.ascii.TE3input.tml|IS e8 AFTER e10|negativized|no
+128|WWII-en.ascii.TE3input.tml|IS e10 INCLUDES t3|negativized|no
+129|WWII-en.ascii.TE3input.tml|IS e10 AFTER e11|negativized|no
+130|WWII-en.ascii.TE3input.tml|IS e10 AFTER e12|negativized|no
