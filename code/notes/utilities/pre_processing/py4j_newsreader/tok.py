@@ -22,7 +22,7 @@ class IXATokenizer:
         GateWayServer.launch_gateway()
 
         print "attempting to connect to py4j gateway"
-        time.sleep(120)
+        time.sleep(30)
 
         self.gateway = JavaGateway(eager_load=True)
 

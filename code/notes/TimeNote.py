@@ -30,6 +30,8 @@ from string import whitespace
 
 import xml_utilities
 
+import wordshapes
+
 class TimeNote(Note, Features):
 
     def __init__(self, timeml_note_path, annotated_timeml_path=None, verbose=False):
@@ -148,15 +150,18 @@ class TimeNote(Note, Features):
                     id_chunk.append(label["entity_id"])
 
                 start_entity_id = label["entity_id"]
-
+                curr_entity_type = label["entity_type"]
                 curr_sentence_num = token["sentence_num"]
 
             elif re.search('^I_', label["entity_label"]):
 
                 # TODO: investigate I before B problem.
-                if B_seen is False or token["sentence_num"] != curr_sentence_num:
+                if B_seen is False or token["sentence_num"] != curr_sentence_num or label["entity_type"] != curr_entity_type:
 
                     B_seen = True
+
+                    # correct mislabeling
+                    label["entity_label"] = "B_" + label["entity_label"][2:]
 
                     if label["entity_type"] == "EVENT":
                         event_ids.add(label["entity_id"])
@@ -181,6 +186,7 @@ class TimeNote(Note, Features):
                         id_chunk.append(label["entity_id"])
 
                     start_entity_id = label["entity_id"]
+                    curr_entity_type = label["entity_type"]
                     curr_sentence_num = token["sentence_num"]
 
                     continue
@@ -238,8 +244,8 @@ class TimeNote(Note, Features):
 
                 if src_sentence_num != target_sentence_num and\
                    (src_sentence_num + 1 != target_sentence_num or\
-                   id_chunk_map[src_id][0]["is_main_verb"] is False or\
-                   id_chunk_map[target_id][0]["is_main_verb"] is False):
+                   True not in [token["is_main_verb"] for token in id_chunk_map[src_id]] or\
+                   True not in [token["is_main_verb"] for token in id_chunk_map[target_id]]):
                     continue
 
             # no link at all
@@ -446,8 +452,8 @@ class TimeNote(Note, Features):
 
                 if src_sentence_num != target_sentence_num and\
                    (src_sentence_num + 1 != target_sentence_num or\
-                   id_chunk_map[src_id][0]["is_main_verb"] is False or\
-                   id_chunk_map[target_id][0]["is_main_verb"] is False):
+                   True not in [token["is_main_verb"] for token in id_chunk_map[src_id]] or\
+                   True not in [token["is_main_verb"] for token in id_chunk_map[target_id]]):
                     continue
 
             pair = {"src_entity":id_chunk_map[src_id],
@@ -704,87 +710,172 @@ class TimeNote(Note, Features):
         features = {}
 
         # TODO: need to change feature set for each of these.
-        if token_type == "EVENT":
+        if token_type == "TIMEX3":
 
             features.update(self.get_text(token))
-            features.update(self.get_ngram_features(token))
-            features.update(self.get_pos_tag(token))
             features.update(self.get_lemma(token))
+            features.update(self.get_pos_tag(token))
             features.update(self.get_ner_features(token))
 
-        elif token_type == "TIMEX3":
+            features.update(self.get_wordshapes(token))
 
-            features.update(self.get_text(token))
+            # 4-gram
             features.update(self.get_ngram_features(token))
-            features.update(self.get_pos_tag(token))
+
+        elif token_type == "EVENT":
+
             features.update(self.get_lemma(token))
             features.update(self.get_ner_features(token))
+            features.update(self.get_pos_tag(token))
+
+            features.update(self.get_tense(token))
+            features.update(self.is_main_verb(token))
+
+            # 4-gram
+            features.update(self.get_ngram_features(token))
+
+            features.update(self.get_ngram_label_features(token))
+
         else:
             exit("invalid token type")
 
         return features
 
+    def get_grammar_categories(self, token):
+
+        features = {}
+
+        if "grammar_categories" not in token:
+
+            return {"category_0":"DATE"}
+
+        else:
+
+            for key in token["grammar_categories"]:
+
+                features["category_{}".format(key)] = token["grammar_categories"][key]
+
+        return features
+
+
+    def is_main_verb(self, token):
+
+        if "is_main_verb" in token:
+
+            return {"is_main_verb":token["is_main_verb"]}
+
+        else:
+
+            return {"is_main_verb":False}
+
+    def get_wordshapes(self, token):
+
+        return wordshapes.getWordShapes(token["token"])
+
     def get_ner_features(self, token):
 
         if "ner_tag" in token:
 
-            return {"ner_tag":token["ner_tag"],
-                    "ne_id":token["ne_id"]}
+            return {("ner_tag", token["ner_tag"]):1,
+                    "in_ne":1,
+                    ("ne_chunk", token["ne_chunk"]):1}
 
         # TODO: what problems might arise from labeling tokens as none if no tagging?, we'll find out!
         else:
 
-            return {"ner_tag":'None',
-                    "ne_id":'None'}
+            return {("ner_tag", 'None'):1,
+                    "in_ne":0,
+                    ("ne_chunk", "NULL"):1}
 
+    def get_tense(self, token):
+        if "tense" in token:
+
+            return {("tense", token["tense"]):1}
+
+        else:
+
+            return {("tense", "PRESENT"):1}
 
 
     def get_text(self, token):
 
-        if "text" in token:
+        if "token" in token:
 
-            return {"text":token["token"]}
+            return {("text",token["token"]):1}
 
         else:
 
-            return {"text":"DATE"}
+            print token
+
+            return {("text", token["value"]):1}
 
     def get_pos_tag(self, token):
 
         if "pos_tag" in token:
 
-            return {"pos_tag":token["pos_tag"]}
+            return {("pos_tag", token["pos_tag"]):1}
 
         else:
 
             # creation time.
-            return {"pos_tag":"DATE"}
+            return {("pos_tag", "DATE"):1}
 
     def get_lemma(self, token):
 
         if "pos_tag" in token:
 
-            return {"lemma":token["lemma"]}
+            return {("lemma", token["lemma"]):1}
 
         else:
 
             # creation time
             # TODO: make better?
-            return {"lemma":"DATE"}
+            return {("lemma", "DATE"):1}
 
     def get_ngram_features(self, token):
 
         features = {}
 
-        features.update(self.get_tokens_to_right(token, span=3))
-        features.update(self.get_tokens_to_left(token, span=3))
+        features.update(self.get_tokens_to_right(token, span=4))
+        features.update(self.get_tokens_to_left(token, span=4))
 
         return features
+
+    def get_ngram_label_features(self, token):
+
+        features=  {}
+
+        features.update(self.get_labels_to_right(token, span=4))
+        features.update(self.get_labels_to_left(token, span=4))
+
+        return features
+
+    def get_labels_to_right(self, token, span):
+        """ get the labeled entities to the right of token
+
+            obtains tokens relative to the right of the current position of token
+        """
+
+        # TODO: set none if there are no tokens?
+
+        token_offset = token["token_offset"]
+        line = self.get_iob_labels()[token["sentence_num"] - 1]
+
+        assert span > 0, "set to one or more, otherwise it will just get the token itself"
+
+        start = token_offset
+        end   = start + 1 + span
+
+        right_labels = line[start:end][1:]
+
+        labels = dict([(("right_label_{}".format(i+1), label["entity_label"]), 1) for i, label in enumerate(right_labels)])
+
+        return labels
 
     def get_tokens_to_right(self, token, span):
         """ get the tokens to the right of token
 
-            obtains tokens relative to the right of the current position of token
+            obtains labels relative to the right of the current position of token
         """
 
         # TODO: set none if there are no tokens?
@@ -801,9 +892,29 @@ class TimeNote(Note, Features):
 
         right_tokens = line[start:end][1:]
 
-        tokens = dict([("right_token_{}".format(i+1), token["token"]) for i, token in enumerate(right_tokens)])
+        tokens = dict([(("right_token_{}".format(i+1), token["token"]), 1) for i, token in enumerate(right_tokens)])
 
         return tokens
+
+    def get_labels_to_left(self, token, span):
+        """ get the labels to the left of token
+
+            obtains labels relative to the left of the current position of token
+        """
+
+        # TODO: set none if there are no tokens?
+        token_offset = token["token_offset"]
+        line = self.get_iob_labels()[token["sentence_num"] - 1]
+
+        assert span > 0, "set to one or more, otherwise it will just get the token itself"
+
+        start   = token_offset - span
+        end     = token_offset
+
+        left_labels = line[start:end]
+        labels = dict([(("left_label_{}".format(i+1), label["entity_label"]), 1) for i, label in enumerate(left_labels)])
+
+        return labels
 
     def get_tokens_to_left(self, token, span):
         """ get the tokens to the left of token
@@ -823,7 +934,7 @@ class TimeNote(Note, Features):
         end     = token_offset
 
         left_tokens = line[start:end]
-        tokens = dict([("left_token_{}".format(i+1), token["token"]) for i, token in enumerate(left_tokens)])
+        tokens = dict([(("left_token_{}".format(i+1), token["token"]), 1) for i, token in enumerate(left_tokens)])
 
         return tokens
 
@@ -898,30 +1009,30 @@ class TimeNote(Note, Features):
         src_features = {}
         target_features = {}
 
-        # features for each entity
-        src_features.update(self.get_entity_type_features(src_entity))
-        src_features.update(self.get_label_features(src_entity))
         src_features.update(self.get_text_features(src_entity))
-
-        target_features.update(self.get_entity_type_features(target_entity))
-        target_features.update(self.get_label_features(target_entity))
         target_features.update(self.get_text_features(target_entity))
 
-        # features concerning each entity
+        src_features.update(self.get_entity_type_features(src_entity))
+        target_features.update(self.get_entity_type_features(target_entity))
+
+        src_features.update(self.get_label_features(src_entity))
+        target_features.update(self.get_label_features(target_entity))
+
         pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
         pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
-        pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
 
         pair_features.update(self.get_num_of_entities_between_tokens(src_entity, target_entity))
         pair_features.update(self.doc_creation_time_in_pair(src_entity, target_entity))
 
+    #    pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
+
         for key in src_features:
 
-            pair_features[key + "_src"] = src_features[key]
+            pair_features[(key[0] + "_src", key[1])] = src_features[key]
 
         for key in target_features:
 
-            pair_features[key + "_target"] = target_features[key]
+            pair_features[(key[0] + "_target", key[1])] = target_features[key]
 
         return pair_features
 
@@ -995,9 +1106,9 @@ class TimeNote(Note, Features):
             if connective_is_between_entities is False:
                 continue
 
-            # assuming every pair of tokens will only have one connective between them. If this isn't the case, it would be nice to know
-            if connective_id is not None:
-                assert connective_id == connective_token["discourse_id"]
+           # # assuming every pair of tokens will only have one connective between them. If this isn't the case, it would be nice to know
+           # if connective_id is not None:
+           #     assert connective_id == connective_token["discourse_id"]
 
             connective_id = connective_token["discourse_id"]
 
@@ -1024,9 +1135,11 @@ class TimeNote(Note, Features):
 
             connective_tokens += connective_token["token"]
 
+        assert self.token_entity_type_feature(src_entity[0])["entity_type"] in ["EVENT", "TIMEX3"]
+        assert self.token_entity_type_feature(target_entity[0])["entity_type"] in ["EVENT", "TIMEX3"]
 
         # if no connective was found
-        if connective_id is None:
+        if connective_id is None or self.token_entity_type_feature(src_entity[0])["entity_type"] != "EVENT" or self.token_entity_type_feature(target_entity[0])["entity_type"] != "EVENT":
             return {"connective_tokens": 'None', "connective_distance_from_src":'None', "connective_distance_from_target": 'None'}
 
         return {"connective_tokens": connective_tokens, "connective_distance_from_src": str(connective_dist_src), "connective_distance_from_target": str(connective_dist_target)}
@@ -1092,14 +1205,36 @@ class TimeNote(Note, Features):
 
         for i, token in enumerate(entity):
 
-            features.update({"lemma_{}".format(i):self.get_lemma(token)["lemma"]})
+            if "lemma" in token:
+                features.update({("lemma_{}".format(i), token["lemma"]):1})
 
-            tokens.append(self.get_text(token)["text"])
+            else:
+                features.update({("lemma_{}".format(i), "DATE"):1})
 
-            features.update({"text_{}".format(i):self.get_text(token)["text"]})
-            features.update({"pos_{}".format(i):self.get_pos_tag(token)["pos_tag"]})
+            print token
 
-        features.update({"chunk":" ".join(tokens)})
+
+            if "token" in token:
+
+                tokens.append(token["token"])
+
+                features.update({("text_{}".format(i), token["token"]):1})
+
+            else:
+
+                tokens.append(token["value"])
+
+                features.update({("text_{}".format(i), token["value"]):1})
+
+            if "pos_tag" in token:
+
+                features.update({("pos_{}".format(i), token["pos_tag"]):1})
+
+            else:
+
+                features.update({("pos_{}".format(i), "DATE"):1})
+
+        features.update({("chunk"," ".join(tokens)):1})
 
         return features
 
@@ -1110,11 +1245,23 @@ class TimeNote(Note, Features):
 
         for token in src_entity:
 
-            src_pos_tags.append(self.get_pos_tag(token)["pos_tag"])
+            if "pos_tag" in token:
+
+                src_pos_tags.append(token["pos_tag"])
+
+            else:
+
+                src_pos_tags.append("DATE")
 
         for token in target_entity:
 
-            target_pos_tags.append(self.get_pos_tag(token)["pos_tag"])
+            if "pos_tag" in token:
+
+                target_pos_tags.append(token["pos_tag"])
+
+            else:
+
+                target_pos_tags.append("DATE")
 
         return {"same_pos_tags":src_pos_tags == target_pos_tags}
 
@@ -1125,7 +1272,7 @@ class TimeNote(Note, Features):
 
         for i, token in enumerate(entity):
 
-            features.update({"label_type{}".format(i):self.token_label_feature(token)["entity_label"]})
+            features.update({("label_type{}".format(i), self.token_label_feature(token)["entity_label"]):1})
 
         return features
 
@@ -1138,7 +1285,7 @@ class TimeNote(Note, Features):
 
         for i, token in enumerate(entity):
 
-            features.update({"entity_type{}".format(i):self.token_entity_type_feature(token)["entity_type"]})
+            features.update({("entity_type{}".format(i), self.token_entity_type_feature(token)["entity_type"]):1})
 
         return features
 

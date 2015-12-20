@@ -13,3 +13,7 @@ def get_main_verbs(naf_tagged_doc):
 
     return tokens
 
+def get_predicate_info(naf_tagged_doc):
+
+    return naf_utilities._get_token_id_to_participant_map(naf_tagged_doc)
+

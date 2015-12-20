@@ -5,7 +5,9 @@ import sys
 def get_temporal_discourse_connectives(sentence_constituency):
 
     connectives_text = _add_discourse(sentence_constituency)
+
     connectives_tokens = parse_discourse(connectives_text)
+
     return connectives_tokens
 
 def _add_discourse(sentence_constituency):
@@ -71,13 +73,13 @@ def get_token_offsets(sentence_constituency):
                 offset_start -= 1
 
             #find end of the token
-            offset_end = offset_start            
+            offset_end = offset_start
             while offset_end is not len(sentence_constituency):
-        
+
                 if sentence_constituency[offset_end + 1] is '#':
                     offset_end += 1
                     break
-        
+
                 if sentence_constituency[offset_end + 1] is ')':
                     offset_end += 1
                     break

@@ -23,11 +23,15 @@ def pre_process(text):
 
     naf_tagged_doc = pre_processor.pre_process(text)
 
+    print naf_tagged_doc
+
     tokens, tokens_to_offset = tokenize.get_tokens(naf_tagged_doc)
     pos_tags = pos.get_pos_tags(naf_tagged_doc)
     token_lemmas   = lemmas.get_lemmas(naf_tagged_doc)
     ner_tags       = ner.get_taggings(naf_tagged_doc)
     main_verbs     = srl.get_main_verbs(naf_tagged_doc)
+
+    tok_id_to_predicate_info = srl.get_predicate_info(naf_tagged_doc)
 
     constituency_trees = parse.get_constituency_trees(naf_tagged_doc)
 
@@ -54,16 +58,29 @@ def pre_process(text):
         tok.update(pos_tag)
         tok.update(lemma)
 
-        """
+        grammar_categories = []
+
         # get the categories a token falls under.
         # {0:.., 1:,...} the lower the number the more specific.
-        grammar_categories = constituency_trees[tok["sentence_num"]].get_phrase_memberships(tok["id"])
+        if tok["sentence_num"] in constituency_trees:
+
+            grammar_categories = constituency_trees[tok["sentence_num"]].get_phrase_memberships(tok["id"])
 
         tok.update(pos_tag)
 
-        for category in grammar_categories:
-            tok.update({"grammar_category{}".format(category):grammar_categories[category]})
-        """
+
+        # get verb tense:
+        # TODO: make this better..
+        if tok["pos_tag"] in ["VBD", "VBP"]:
+
+            tok.update({"tense":"PAST"})
+
+        else:
+
+            tok.update({"tense":"PRESENT"})
+
+
+        tok.update({"grammar_categories":grammar_categories})
 
         if tok["sentence_num"] in sentences:
             sentences[tok["sentence_num"]].append(tok)
@@ -105,6 +122,14 @@ def pre_process(text):
 
         id_to_tok[target_id].update(ner_tags[target_id])
 
+        ne_chunk = ""
+
+        for _id in ner_tags[target_id]["ne_chunk_ids"]:
+
+            ne_chunk += id_to_tok[_id]["token"]
+
+        id_to_tok[target_id].update({"ne_chunk":ne_chunk})
+
     for main_verb in main_verbs:
 
         assert main_verb in id_to_tok
@@ -121,8 +146,26 @@ def pre_process(text):
         if "ne_id" not in tok:
             tok.update({"ne_id":tok["char_start_offset"]})
             tok.update({"ner_tag":'NONE'})
+            tok.update({"ne_chunk":"NULL"})
 
-    # one tree per sentence
+        if tok["id"] in tok_id_to_predicate_info:
+
+            tok_predicate_info = tok_id_to_predicate_info[tok["id"]]
+
+            preposition_ids = tok_predicate_info.pop("toks_preposition")
+
+            preposition_tokens = []
+
+            for tok_id in preposition_ids:
+
+                preposition_tokens.append(id_to_tok[tok_id]["token"])
+
+            tok_predicate_info["preposition_tokens"] = preposition_tokens
+
+            tok.update(tok_predicate_info)
+
+
+    # one tree per sentencei
     # TODO: doesn't actually assert the sentences match to their corresponding tree
 
     if len(constituency_trees) > 0:
@@ -131,8 +174,7 @@ def pre_process(text):
     return sentences, tokens_to_offset, sentence_features
 
 if __name__ == "__main__":
-    pre_process(timeml_utilities.get_text("APW19980820.1428.tml.TE3input"))
+    print pre_process(timeml_utilities.get_text("APW19980820.1428.tml.TE3input"))
 
-#    print pre_process(timeml_utilities.get_text("APW19980820.1428.tml"))
     pass
 

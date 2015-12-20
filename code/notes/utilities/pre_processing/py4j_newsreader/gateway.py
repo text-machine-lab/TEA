@@ -23,8 +23,6 @@ PARSE_JAR_PATH=os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/
 SRC_DR=os.environ["TEA_PATH"] + "/code/notes/utilities/pre_processing/py4j_newsreader"
 DEPENDENCIES=":{}:{}:{}:{}:{}:{}:{}/*".format(PY4J_DEPENDENCIES, TOK_JAR_PATH, POS_JAR_PATH, NER_JAR_PATH, PARSE_JAR_PATH, SRC_DR, SRC_DR)
 
-print DEPENDENCIES
-
 class GateWayServer(object):
     """
         creates the py4j gateway to allow access to jvm objects.

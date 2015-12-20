@@ -23,7 +23,8 @@ def get_taggings(naf_tagged_doc):
             assert target_id not in taggings
 
             taggings[target_id] = {"ne_id":ne_id,
-                                    "ner_tag":ner_tag}
+                                   "ner_tag":ner_tag,
+                                   "ne_chunk_ids":target_ids}
 
     return taggings
 

@@ -33,8 +33,6 @@ class IXAPosTagger:
         if 'NAF' not in naf_tagged_doc:
             exit("text needs to be processed by ixa tokenizer first")
 
-        print "tagging..."
-
         return self.tagger.tag(naf_tagged_doc)
 
 if __name__ == "__main__":

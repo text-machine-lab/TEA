@@ -32,7 +32,7 @@ def main():
 
 		note = TimeNote(tml)
 
-		entityLabels, OriginalOffsets, tlinkLabels = model.predict(note)
+		entityLabels, OriginalOffsets, tlinkLabels, tokens = model.predict(note)
 
 		tlinkIdPairs = note.get_tlink_id_pairs()
 
@@ -40,7 +40,7 @@ def main():
 
 		assert len(OriginalOffsets) == len(offsets)
 
-		note.write(entityLabels, tlinkLabels, tlinkIdPairs, offsets)
+		note.write(entityLabels, tlinkLabels, tlinkIdPairs, offsets, tokens)
 
 
 if __name__ == '__main__':

@@ -77,7 +77,6 @@ class Model:
 		offsets		= note.get_token_char_offsets()
 
 		#populate feature lists
-		_eventFeats = note.get_event_features()
 		_timexFeats = note.get_timex_features()
 
 		tokens          = note.get_tokens()
@@ -111,6 +110,26 @@ class Model:
 		potentialEventTokens = []
 		timexTokens = []
 
+		_tmp_labels = []
+
+
+		for line in tokenized_text:
+			_tmp_labels.append([ {'entity_label': 'O', 'entity_type': None}] * len(tokenized_text[line]))
+
+
+
+		for token, label in zip(tokens, timexLabels_withO):
+
+			_tmp_labels[token["sentence_num"] - 1][token["token_offset"]]["entity_label"]=label
+			_tmp_labels[token["sentence_num"] - 1][token["token_offset"]]["entity_type"]=label[2:]
+
+
+		note.set_iob_labels(_tmp_labels)
+
+
+
+		_eventFeats = note.get_event_features()
+
 		for i in range(0, len(timexLabels_withO)):
 			if timexLabels_withO[i] == 'O':
 				potentialEventFeats.append(_eventFeats[i])
@@ -124,6 +143,7 @@ class Model:
 				timexLabels.append(timexLabels_withO[i])
 
 				timexTokens.append(tokens[i])
+
 
 		assert len(potentialEventFeats + timexFeats) == len(offsets), "{} != {}".format(len(offsets), + len(potentialEventFeats + timexFeats))
 		assert len(potentialEventTokens + timexTokens) == len(offsets)
@@ -212,7 +232,7 @@ class Model:
 
 		tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
 
-		return wellOrderedEntityLabels, timexEventOffsets, tlinkLabels
+		return wellOrderedEntityLabels, timexEventOffsets, tlinkLabels, wellOrderedTokens
 
 	def _trainTimex(self, tokenVectors, labels):
 		'''

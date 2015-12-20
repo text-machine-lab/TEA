@@ -30,6 +30,85 @@ def _get_srl_element(naf_tagged_doc):
 
     return list(srl_element)
 
+def _get_token_id_to_participant_map(naf_tagged_doc):
+
+    srl_element = _get_srl_element(naf_tagged_doc)
+
+    # token id to its semantic role and
+    mappings = {}
+
+
+    for predicate in srl_element:
+
+        span = []
+
+        # i'm assuming all elements within srl_element are predicates
+        assert predicate.tag == "predicate"
+
+        preposition = None
+
+        for element in predicate:
+
+            if element.tag == "span":
+
+                assert preposition is None
+
+                span = list(element)
+
+                assert len(span) == 1
+
+                preposition = span[0].attrib["id"]
+                preposition = list(preposition)
+                preposition[0] = 'w'
+                preposition = "".join(preposition)
+
+            if element.tag == "role":
+
+                role = element
+
+                target_ids = None
+
+                for e in role:
+
+                    if e.tag == "span":
+
+                        target_ids = list(e)
+
+                        break
+
+                predicates_ids = []
+                role_ids = []
+
+                for i in target_ids:
+
+                    tok_id = list(i.attrib["id"])
+                    tok_id[0] = 'w'
+                    tok_id = "".join(tok_id)
+
+                    is_head = False
+
+                    if "head" in i.attrib:
+                        if i.attrib["head"] == "yes": is_head = True
+
+                    if tok_id not in mappings:
+
+                        mappings[tok_id] = {"predicate_ids":[predicate.attrib["id"]],
+                                           "role_id":[role.attrib["id"]],
+                                           "semantic_role":[role.attrib["semRole"]],
+                                           "head_token":[is_head],
+                                            "toks_preposition":[preposition]}
+
+                    else:
+
+                        mappings[tok_id]["predicate_ids"].append(predicate.attrib["id"])
+                        mappings[tok_id]["role_id"].append(role.attrib["id"])
+                        mappings[tok_id]["semantic_role"].append(role.attrib["semRole"])
+                        mappings[tok_id]["head_token"].append(is_head),
+                        mappings[tok_id]["toks_preposition"].append(preposition)
+
+
+    return mappings
+
 
 def _get_predicate_tokens(naf_tagged_doc):
 

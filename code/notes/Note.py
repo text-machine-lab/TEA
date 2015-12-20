@@ -45,7 +45,7 @@ class Note(object):
 
         return open(self.note_path, "rb").read()
 
-    def write(self, timexEventLabels, tlinkLabels, idPairs, offsets):
+    def write(self, timexEventLabels, tlinkLabels, idPairs, offsets, tokens):
         '''
         Note::write()
 
@@ -63,15 +63,26 @@ class Note(object):
 
         length = len(offsets)
 
+   #     print timexEventLabels
+  #      print "\n\n"
+
         # start at back of document to preserve offsets until they are used
         for i in range(1, length):
             index = length - i
+
+ #           print "timexEventLabels[index][\"entity_label\"", timexEventLabels[index]["entity_label"]
+
             if timexEventLabels[index]["entity_label"][0] == "B":
                 start = offsets[index][0]
                 end = offsets[index][1]
 
+#                print "B FOUND:\n\n"
+
                 #grab any IN tokens and add them to the tag text
                 for j in range (1, i):
+
+    #                print '\t\t', timexEventLabels[index + j]
+
                     if(timexEventLabels[index + j]["entity_label"][0] == "I"):
                         end = offsets[index + j][1]
                     else:
@@ -87,8 +98,32 @@ class Note(object):
         # make event instances
         eventDict = {}
         for i, timexEventLabel in enumerate(timexEventLabels):
+
+            token = tokens[i]
+
+            pos = None
+
+            # pos
+            if token["pos_tag"] == "IN":
+                pos = "PREPOSITION"
+            elif token["pos_tag"] in ["VB", "VBD","VBG", "VBN", "VBP", "VBZ", "RB", "RBR", "RBS"]:
+
+                pos = "VERB"
+
+            elif token["pos_tag"] in ["NN", "NNS", "NNP", "NNPS", "PRP", "PRP$"]:
+
+                pos = "NOUN"
+
+            elif token["pos_tag"] in ["JJ", "JJR", "JJS"]:
+
+                pos = "ADJECTIVE"
+
+            else:
+
+                pos = "OTHER"
+
             if timexEventLabel["entity_type"] == "EVENT":
-                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": "PAST", "aspect": "NONE", "polarity": "POS", "pos": "OTHER"})
+                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "aspect": "NONE", "polarity": "POS", "pos":pos})
                 eventDict[timexEventLabel["entity_id"]] = "ei" + str(i)
 
         # add tlinks
