@@ -45,7 +45,7 @@ class Note(object):
 
         return open(self.note_path, "rb").read()
 
-    def write(self, timexEventLabels, tlinkLabels, idPairs, offsets, tokens):
+    def write(self, timexEventLabels, tlinkLabels, idPairs, offsets, tokens, output_path):
         '''
         Note::write()
 
@@ -63,25 +63,16 @@ class Note(object):
 
         length = len(offsets)
 
-   #     print timexEventLabels
-  #      print "\n\n"
-
         # start at back of document to preserve offsets until they are used
         for i in range(1, length):
             index = length - i
-
- #           print "timexEventLabels[index][\"entity_label\"", timexEventLabels[index]["entity_label"]
 
             if timexEventLabels[index]["entity_label"][0] == "B":
                 start = offsets[index][0]
                 end = offsets[index][1]
 
-#                print "B FOUND:\n\n"
-
                 #grab any IN tokens and add them to the tag text
                 for j in range (1, i):
-
-    #                print '\t\t', timexEventLabels[index + j]
 
                     if(timexEventLabels[index + j]["entity_label"][0] == "I"):
                         end = offsets[index + j][1]
@@ -151,10 +142,9 @@ class Note(object):
 
             root = annotate_root(root, "TLINK", annotations)
 
-        # skip last 9 characters to remove .TE3input suffix
-        path = os.environ['TEA_PATH'] + '/output/' + self.note_path.split('/')[-1][:-9]
+        note_path = os.path.join(output_path, self.note_path.split('/')[-1] + ".TE3input.tml")
 
-        write_root_to_file(root, path)
+        write_root_to_file(root, note_path)
 
     def _process(self):
 

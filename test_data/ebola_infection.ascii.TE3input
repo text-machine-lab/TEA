@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+
+<Title>New York City hospital testing patient for possible Ebola infection</Title>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2014-04-08" temporalFunction="false" functionInDocument="CREATION_TIME">August 04, 2014</TIMEX3></DCT>
+
+<TEXT>
+
+Mount Sinai Hospital in New York City is testing a patient who had recently traveled to a West African country affected by the Ebola outbreak, the hospital said in a statement Monday afternoon.
+
+The male patient arrived at the emergency room Monday morning with a high fever and gastrointestinal symptoms. He has been quarantined to undergo medical screening.
+
+"All necessary steps are being taken to ensure the safety of all patients, visitors and staff. We will continue to work closely with federal, state and city health officials to address and monitor this case, keep the community informed and provide the best quality care to all of our patients," the hospital wrote in a statement.
+
+Mount Sinai is following protocol recommended by the Centers for Disease Control and Prevention last week.
+
+CDC officials told Fox News correspondent John Roberts that there have been "a half dozen or so" so-called "Persons Under Investigation" in the U.S. for possible Ebola infection and that they have all turned out to be negative.
+
+One of those was at Carolina Medical Center a little more than a week ago.
+
+The CDC assumes that Mount Sinai is acting out of an abundance of caution after the center sent out an alert regarding febrile patients who have recently traveled to West Africa.
+
+Copyright FoxNews.com
+</TEXT>
+</TimeML>

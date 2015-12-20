@@ -4,14 +4,17 @@ import argparse
 import re
 import glob
 
+if "TEA_PATH" not in os.environ:
+    exit("TEA_PATH environment variable not specified, it is the directory containg train.py")
+
+if "PY4J_DIR_PATH" not in os.environ:
+    exit("PY4J_DIR_PATH environment variable not specified")
+
 os.environ["TEA_PATH"] = os.getcwd()
 os.environ["PUNKT_PATH"] = os.environ["TEA_PATH"] + "/data/nltk_data/tokenizers/punkt/english.pickle"
 
-from code.notes.TimeNote import TimeNote
-
-from code import model
-
 def main():
+
 
     parser = argparse.ArgumentParser()
 
@@ -22,12 +25,14 @@ def main():
     parser.add_argument("model_destination",
                         help="Where to store the trained model")
 
-    parser.add_argument("--grid",
-                        dest="grid",
-                        action="store_true",
-                        help="Enable or disable grid search")
-
     args = parser.parse_args()
+
+    if os.path.isdir(train_dir) is False:
+        exit("invalid path to directory containing training data")
+
+
+    from code.notes.TimeNote import TimeNote
+    from code import model
 
     train_dir = None
 
@@ -36,8 +41,6 @@ def main():
 
     else:
         train_dir = args.train_dir[0]
-
-    print "\ntraining dir: {}\n".format(train_dir)
 
     files = glob.glob(train_dir)
 
@@ -55,7 +58,7 @@ def main():
 
     assert len(gold_files) == len(tml_files)
 
-    model = trainModel(tml_files, gold_files, args.grid)
+    model = trainModel(tml_files, gold_files, False)
 
     with open(args.model_destination, "wb") as modFile:
         cPickle.dump(model, modFile)
@@ -77,17 +80,6 @@ def trainModel( tml_files, gold_files, grid ):
     notes = []
 
     basename = lambda x: os.path.basename(x[0:x.index(".tml")])
-
-    print tml_files
-
-    """
-    print tml_files.index("train_data/NYT20000106.0007.tml.TE3input")
-
-    for f in tml_files[0:68]:
-        print f
-
-    exit()
-    """
 
     for tml, gold in zip(tml_files, gold_files):
 
