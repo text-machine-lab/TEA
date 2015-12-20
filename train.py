@@ -4,6 +4,9 @@ import argparse
 import re
 import glob
 
+from code.notes.TimeNote import TimeNote
+from code import model
+
 if "TEA_PATH" not in os.environ:
     exit("TEA_PATH environment variable not specified, it is the directory containg train.py")
 
@@ -19,6 +22,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("train_dir",
+                        type=str,
                         nargs=1,
                         help="Directory containing training input and gold annotations")
 
@@ -27,12 +31,8 @@ def main():
 
     args = parser.parse_args()
 
-    if os.path.isdir(train_dir) is False:
+    if os.path.isdir(args.train_dir[0]) is False:
         exit("invalid path to directory containing training data")
-
-
-    from code.notes.TimeNote import TimeNote
-    from code import model
 
     train_dir = None
 
@@ -81,15 +81,18 @@ def trainModel( tml_files, gold_files, grid ):
 
     basename = lambda x: os.path.basename(x[0:x.index(".tml")])
 
+    i = 1
+
     for tml, gold in zip(tml_files, gold_files):
 
         assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
 
-        print '\n' + tml
+        print '\n\nprocessing file {}/{} {}'.format(i, len(zip(tml_files, gold_files)), tml)
 
         tmp_note = TimeNote(tml, gold)
         notes.append(tmp_note)
 
+        i += 1
 
     mod = model.Model(grid=grid)
     mod.train(notes)

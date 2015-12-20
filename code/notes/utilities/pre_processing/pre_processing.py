@@ -17,9 +17,14 @@ import timeml_utilities
 
 from news_reader import NewsReader
 
-pre_processor = NewsReader()
+pre_processor = None
 
 def pre_process(text):
+
+    global pre_processor
+
+    if pre_processor is None:
+        pre_processor = NewsReader()
 
     naf_tagged_doc = pre_processor.pre_process(text)
 
