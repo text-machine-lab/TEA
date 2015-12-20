@@ -983,7 +983,6 @@ class TimeNote(Note, Features):
 
         """
         TODO: add more substantial features
-            -read paper
         """
 
         """ returns featurized representation of tlinks """
@@ -1025,11 +1024,16 @@ class TimeNote(Note, Features):
         src_features.update(self.get_label_features(src_entity))
         target_features.update(self.get_label_features(target_entity))
 
+        src_features.update(self.get_entity_attributes(src_entity))
+        target_features.update(self.get_entity_attributes(target_entity))
+
         pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
         pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
 
         pair_features.update(self.get_num_of_entities_between_tokens(src_entity, target_entity))
         pair_features.update(self.doc_creation_time_in_pair(src_entity, target_entity))
+
+        pair_features.update(self.get_same_attributes(self.get_entity_attributes(src_entity), self.get_entity_attributes(target_entity)))
 
     #    pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
 
@@ -1042,6 +1046,44 @@ class TimeNote(Note, Features):
             pair_features[(key[0] + "_target", key[1])] = target_features[key]
 
         return pair_features
+
+    def get_same_attributes(self, src_features, target_features):
+
+        return {"same_attributes":1}
+
+    def get_entity_attributes(self, entity):
+
+        features = {}
+
+        for tok in entity:
+
+            if "tense" in tok:
+
+                features.update({("tense", tok["tense"]):1})
+
+            else:
+
+                features.update({("tense", "PRESENT"):1})
+
+            iob_label = None
+
+            if "token_offset" in tok:
+
+                token_offset = tok["token_offset"]
+                label = self.get_iob_labels()[tok["sentence_num"] - 1][token_offset]
+
+                iob_label = {("class", label["entity_label"]):1}
+
+            else:
+
+                iob_label = {("class", "O"):1}
+
+            features.update(iob_label)
+
+
+        return features
+
+
 
     def get_preposition_features(self, token):
 
@@ -1171,39 +1213,6 @@ class TimeNote(Note, Features):
 
         return {"connective_tokens": connective_tokens, "connective_distance_from_src": str(connective_dist_src), "connective_distance_from_target": str(connective_dist_target)}
 
-
-    def get_entity_attributes(self, entity):
-        ''' extract line number, start token offset, and end token offset from a given entity '''
-
-        line_no = None
-        start_offset = None
-        end_offset = None
-
-        for token in entity:
-
-            if line_no is None:
-                # creation time does not have a sentence number
-                if "sentence_num" in token:
-                    line_no = token["sentence_num"]
-
-            else:
-
-                assert token["sentence_num"] == line_no
-
-
-            if start_offset is None and end_offset is None:
-                if "token_offset" in token:
-                    start_offset = token["token_offset"]
-                    end_offset = token["token_offset"]
-
-            else:
-                if start_offset > token["token_offset"]:
-                    start_offset = token["token_offset"]
-
-                if end_offset < token["token_offset"]:
-                    end_offset = token["token_offset"]
-
-        return line_no, start_offset, end_offset
 
     def get_discourse_connectives(self, line_no):
 
