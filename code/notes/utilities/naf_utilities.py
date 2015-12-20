@@ -14,6 +14,23 @@ def _get_entities_element(naf_tagged_doc):
 
    return terms_element
 
+def _get_deps_element(naf_tagged_doc):
+
+    xml_root = xml_utilities.get_root_from_str(naf_tagged_doc)
+
+    deps_element = []
+
+    for e in xml_root:
+
+        if e.tag == "deps":
+
+            deps_element = e
+
+            break
+
+    return list(deps_element)
+
+
 def _get_srl_element(naf_tagged_doc):
 
     xml_root = xml_utilities.get_root_from_str(naf_tagged_doc)
@@ -219,4 +236,60 @@ def _get_naf_terms(naf_tagged_doc):
     terms_element = _get_terms_element(naf_tagged_doc)
 
     return list(terms_element)
+
+"""
+class SyntacticDependencies(object):
+
+
+    def __init__(self, naf_tagged_doc):
+
+        self._extract_dependency_paths(naf_tagged_doc)
+
+        pass
+
+    def get_dependency_path(self, start_tok_id, end_tok_id):
+
+        print start_tok_id
+        print end_tok_id
+
+        tok_path = []
+        rfunc_path = []
+
+        curr_id = start_tok_id
+
+        while relations[curr_id]["to"] != {}:
+
+
+
+
+    def _extract_dependency_paths(self, naf_tagged_doc):
+
+        deps_element = _get_deps_element(naf_tagged_doc)
+
+        relations = {}
+
+        for dep in deps_element:
+
+            f    = dep.attrib["from"]
+            to   = dep.attrib["to"]
+            rfunc= dep.attrib["rfunc"]
+
+            if f not in relations:
+
+                relations.update({f:{ "to":{},
+                                        "rfunc":{}}})
+
+            if to not in relations:
+
+                relations.update({to:{"to":{},
+                                     "rfunc":{}}})
+
+            assert f not in relations[to]["rfunc"]
+
+            relations[to]["rfunc"][f] = rfunc
+
+            assert f not in relations[f]["to"]
+
+            relations[f]["to"].update({to:relations[to]})
+"""
 
