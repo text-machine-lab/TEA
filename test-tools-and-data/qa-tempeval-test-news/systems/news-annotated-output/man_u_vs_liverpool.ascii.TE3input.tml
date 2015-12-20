@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+<Title>Manchester United to face Liverpool in International Champions Cup final</Title>
+<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2014-04-08T21:30">Aug 4, 2014 21:30:00</TIMEX3></DCT>
+
+<TEXT>
+
+The two north-west rivals will<EVENT class="OCCURRENCE" eid="e0"> g</EVENT>o head-to-head in Miami after both did enough to<EVENT class="OCCURRENCE" eid="e1"> to</EVENT>p their respective groups in the prestigious pre-season tournament in the US
+
+Manchester United and Liverpool will<EVENT class="OCCURRENCE" eid="e2"> pla</EVENT>y each other in the International Champions Cup final on<TIMEX3 tid="t1" type="DATE"> Tuesda</TIMEX3>y after<EVENT class="OCCURRENCE" eid="e3"> comin</EVENT>g out on<TIMEX3 tid="t2" type="DATE"> to</TIMEX3>p in the group stage of the competition.
+
+Liverpool's qualification for the match in Miami was<EVENT class="REPORTING" eid="e4"> confirme</EVENT>d after Manchester City's defeat on penalties to Olympiakos while the Red Devils' 3-1 win over Real Madrid<EVENT class="OCCURRENCE" eid="e5"> prove</EVENT>d enough for them to also<EVENT class="OCCURRENCE" eid="e6"> g</EVENT>o through.
+
+The<EVENT class="OCCURRENCE" eid="e7"> matc</EVENT>h will<EVENT class="OCCURRENCE" eid="e8"> mar</EVENT>k a first chance for Louis van Gaal to<EVENT class="OCCURRENCE" eid="e9"> secur</EVENT>e a<EVENT class="OCCURRENCE" eid="e10"> victor</EVENT>y over his new team's oldest rivals while also<EVENT class="OCCURRENCE" eid="e11"> pickin</EVENT>g up some silverware following an impressive first<TIMEX3 tid="t3" type="DATE"> mont</TIMEX3>h in charge.
+
+Van Gaal has<EVENT class="OCCURRENCE" eid="e12"> le</EVENT>d the Old Trafford<EVENT class="OCCURRENCE" eid="e13"> outfi</EVENT>t to wins over Madrid and Roma while victory on penalties over Inter<EVENT class="OCCURRENCE" eid="e14"> prove</EVENT>d to be the defining result of their group campaign.
+
+Brendan Rodgers' side, meanwhile, were<EVENT class="OCCURRENCE" eid="e15"> victoriou</EVENT>s against Olympiakos in their opening<EVENT class="OCCURRENCE" eid="e16"> matc</EVENT>h before<EVENT class="OCCURRENCE" eid="e17"> beatin</EVENT>g Manchester City on penalties. The Reds complete their opening fixtures against AC Milan early on<TIMEX3 tid="t4" type="DATE"> Sunda</TIMEX3>y.
+
+The final will kick-off at 02:00 CET on<TIMEX3 tid="t5" type="DATE"> Tuesda</TIMEX3>y<TIMEX3 tid="t6" type="DATE"> Augus</TIMEX3>t 5 and you can<EVENT class="OCCURRENCE" eid="e18"> follo</EVENT>w LIVE minute-by-minute
+
+Copyright Goal.com
+</TEXT>
+
+<MAKEINSTANCE aspect="NONE" eiid="ei5" eventID="e0" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei14" eventID="e1" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei31" eventID="e2" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei43" eventID="e3" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei64" eventID="e4" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei84" eventID="e5" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei90" eventID="e6" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei94" eventID="e7" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei96" eventID="e8" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei105" eventID="e9" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei107" eventID="e10" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei117" eventID="e11" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei132" eventID="e12" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei136" eventID="e13" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei149" eventID="e14" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei168" eventID="e15" polarity="POS" pos="ADJECTIVE" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei174" eventID="e16" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei176" eventID="e17" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei211" eventID="e18" polarity="POS" pos="VERB" tense="PRESENT" />
+</TimeML>

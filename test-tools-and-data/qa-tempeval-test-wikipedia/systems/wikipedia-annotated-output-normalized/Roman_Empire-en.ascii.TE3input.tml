@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+
+<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2014-08-22">2014</TIMEX3></DCT>
+
+<TEXT>
+The Roman Empire (Latin: Imperium Romanum) was the post-Republican period of the ancient Roman civilisation, <EVENT class="OCCURRENCE" eid="e1">characterised</EVENT> by an autocratic form of government, headed by an Emperor, and large territorial holdings around the Mediterranean Sea in Europe, Africa, the Middle East and Asia Minor. The 500 year old republic which <EVENT class="OCCURRENCE" eid="e2">preceded</EVENT> it had been <EVENT class="OCCURRENCE" eid="e3">destabilised</EVENT> through a series of civil wars. Several <EVENT class="OCCURRENCE" eid="e4">events</EVENT> <EVENT class="I_ACTION" eid="e5">marked</EVENT> the transition of power from the Roman Senate to an autocratic Emperor. Julis Caesar's <EVENT class="OCCURRENCE" eid="e1001">appointment</EVENT> as perpetual dictator in 44 BC after his victory over Pompey <EVENT class="I_ACTION" eid="e8">resulted</EVENT> in his assassination, <EVENT class="ASPECTUAL" eid="e10">triggering</EVENT> a power vacuum that <EVENT class="OCCURRENCE" eid="e11">led</EVENT> to a succession of conflicts between supporters of Caesar and the Senate. Octavian, Caesar's <EVENT class="OCCURRENCE" eid="e13">adopted</EVENT> son, <EVENT class="OCCURRENCE" eid="e14">defeated</EVENT> Mark Antony and Cleopatra at the Battle of Actium in <TIMEX3 tid="t1002" type="DATE">31</TIMEX3> BC after <EVENT class="OCCURRENCE" eid="e15">inheriting</EVENT> Caesar's estates. <EVENT class="OCCURRENCE" eid="e16">Following</EVENT> Antony and Cleopatra's suicides, the Roman Senate <EVENT class="OCCURRENCE" eid="e1006">granted</EVENT> the honorific title Augustus to Octavian in 27 BC, effectively <EVENT class="OCCURRENCE" eid="e19">bringing</EVENT> about the end of the Roman Republic.
+
+The imperial successor to the Republic <EVENT class="OCCURRENCE" eid="e21">endured</EVENT> for some 500 <TIMEX3 tid="t1" type="DURATION">years</TIMEX3>. <EVENT class="OCCURRENCE" eid="e22">Following</EVENT> Octavian's victory, the first two centuries of the Empire's existence were a period of unprecedented political stability and prosperity known as the Pax Romana, or "Roman Peace". <EVENT class="OCCURRENCE" eid="e23">Following</EVENT> the <EVENT class="OCCURRENCE" eid="e24">assassination</EVENT> of the mad Emperor Caligula in 41 <EVENT class="OCCURRENCE" eid="e25">AD</EVENT>, the Praetorian Guard briefly <EVENT class="I_ACTION" eid="e26">considered</EVENT> <EVENT class="OCCURRENCE" eid="e27">returning</EVENT> power to the Roman Senate, however their proclamation of Claudius <EVENT class="OCCURRENCE" eid="e28">ensured</EVENT> the Empire's longevity. After Claudius' successor, Nero, <EVENT class="OCCURRENCE" eid="e29">died</EVENT> in 68 <EVENT class="OCCURRENCE" eid="e30">AD</EVENT>, the Empire <EVENT class="OCCURRENCE" eid="e31">suffered</EVENT> a <TIMEX3 tid="t2" type="DATE">period</TIMEX3> of brief civil wars, as well as a concurrent major rebellion in Judea, during which four different legionary generals were <EVENT class="OCCURRENCE" eid="e32">proclaimed</EVENT> Emperor. Vespasian <EVENT class="OCCURRENCE" eid="e33">emerged</EVENT> triumphant in 69 AD, <EVENT class="I_ACTION" eid="e34">establishing</EVENT> the Flavian dynasty. The rule of the Five Good Emperors in the late 1st and 2nd centuries <EVENT class="PERCEPTION" eid="e35">saw</EVENT> widespread territorial and social <EVENT class="OCCURRENCE" eid="e36">expansion</EVENT>. The Empire <EVENT class="OCCURRENCE" eid="e37">reached</EVENT> its greatest extent under Trajan, the second in this line, <EVENT class="OCCURRENCE" eid="e38">conquering</EVENT> Nabataea, Dacia, Armenia and Mesopotamia.
+
+The reign of Commodus <EVENT class="ASPECTUAL" eid="e39">began</EVENT> a period of decline in imperial prosperity. Commodus' <EVENT class="OCCURRENCE" eid="e40">assassination</EVENT> in 192 <EVENT class="OCCURRENCE" eid="e41">AD</EVENT> <EVENT class="OCCURRENCE" eid="e42">triggered</EVENT> the Year of the Five Emperors, of which Septimus Severus <EVENT class="OCCURRENCE" eid="e1008">emerged</EVENT> victorious <TIMEX3 tid="t3" type="DATE">the following year</TIMEX3>. The assassination of Alexander Severus in 222 <EVENT class="OCCURRENCE" eid="e44">AD</EVENT> <EVENT class="OCCURRENCE" eid="e45">led</EVENT> to the Crisis of the Third Century in which 26 men were <EVENT class="OCCURRENCE" eid="e47">declared</EVENT> Emperor by the Roman Senate over a <TIMEX3 tid="t4" type="DATE">fifty year period</TIMEX3>. The Empire <EVENT class="OCCURRENCE" eid="e48">split</EVENT> into three competing factions; the Gallic Empire, the Palmyrene Empire and the Roman Empire proper, suffering through foreign <EVENT class="OCCURRENCE" eid="e49">invasions</EVENT> and economic depression. Aurelian <EVENT class="OCCURRENCE" eid="e50">re-conquered</EVENT> the Gallic and Palmyrene factions, reuniting the Empire proper, <EVENT class="OCCURRENCE" eid="e51">earning</EVENT> him the title Restitutor Orbis or "Restorer of the World". However, it was not until the reign of Diocletian that the Empire was successfully <EVENT class="OCCURRENCE" eid="e52">stabilised</EVENT>. Under Dicoletian's reign, the empire was <EVENT class="OCCURRENCE" eid="e53">divided</EVENT> in half, with the Western half <EVENT class="OCCURRENCE" eid="e54">centred</EVENT> on Rome, while the Eastern half was <EVENT class="OCCURRENCE" eid="e55">ruled</EVENT> from Byzantium by a co-emperor.
+
+The division was ultimately unsuccessful, <EVENT class="I_ACTION" eid="e56">leading</EVENT> to a civil war that was finally <EVENT class="ASPECTUAL" eid="e58">ended</EVENT> by Constantine I, who <EVENT class="OCCURRENCE" eid="e59">defeated</EVENT> his rivals Maxentius and Licinius, <EVENT class="I_STATE" eid="e1011">becoming</EVENT> sole ruler of east and west. Constantine also <EVENT class="OCCURRENCE" eid="e61">adopted</EVENT> Christianity as the official religion of the Empire, <EVENT class="OCCURRENCE" eid="e62">ending</EVENT> centuries of Roman polytheism and leading to a massive <EVENT class="OCCURRENCE" eid="e63">rise</EVENT> in power of the Christian religion. From Constantine's death in 337, the dominion of the Empire was gradually <EVENT class="OCCURRENCE" eid="e64">eroded</EVENT> by abuses of power, civil wars, barbarian migrations and <EVENT class="OCCURRENCE" eid="e65">invasions</EVENT>, military reforms and economic depression. The Sack of Rome in 410 by the Visigoths and the subsequent deposition of Romulus Augustus in 476 by Odoacer is generally <EVENT class="OCCURRENCE" eid="e66">accepted</EVENT> to <EVENT class="OCCURRENCE" eid="e67">mark</EVENT> the end of the Western Roman civilisation. The Eastern Roman Empire, <EVENT class="OCCURRENCE" eid="e68">centred</EVENT> in Constantinople <EVENT class="OCCURRENCE" eid="e69">endured</EVENT> for another <TIMEX3 tid="t5" type="DURATION">thousand years</TIMEX3>, eventually <EVENT class="OCCURRENCE" eid="e70">falling</EVENT> to the Ottoman Turks under Mehmed II in <TIMEX3 tid="t6" type="DATE">1453</TIMEX3>.
+
+During its tenure, the Roman Empire was the most powerful economic, cultural and military force in Europe. The longevity and vast extent of the Empire <EVENT class="OCCURRENCE" eid="e71">ensured</EVENT> the lasting influence of Latin and Greek language, culture, religion, architecture, philosophy, law and governmental forms on the Empire's descendants. Throughout the European medieval <TIMEX3 tid="t7" type="DATE">period</TIMEX3>, <EVENT class="I_ACTION" eid="e72">attempts</EVENT> were even <EVENT class="OCCURRENCE" eid="e73">made</EVENT> to <EVENT class="I_ACTION" eid="e74">establish</EVENT> successors to the Roman Empire, including the Crusader state, the Empire of Romania and the Holy Roman Empire. By means of European expansionism, especially through the Spanish, French and British empires, Roman and Greek culture was <EVENT class="OCCURRENCE" eid="e75">spread</EVENT> on a worldwide scale, <EVENT class="OCCURRENCE" eid="e76">playing</EVENT> a significant role in the development of the modern world.
+
+Contents.
+
+History.
+
+Rome had <EVENT class="ASPECTUAL" eid="e77">begun</EVENT> annexing provinces in the 3rd century BC, four centuries before <EVENT class="OCCURRENCE" eid="e78">reaching</EVENT> its greatest territorial extent, and in that sense was an "empire" while still <EVENT class="OCCURRENCE" eid="e79">governed</EVENT> as a republic. Republican provinces were <EVENT class="OCCURRENCE" eid="e80">administered</EVENT> by former consuls and praetors, who had been <EVENT class="OCCURRENCE" eid="e81">elected</EVENT> to one-year terms and held imperium, "right of command". The amassing of disproportionate wealth and military power by a few men through their provincial commands was a major factor in the <EVENT class="STATE" eid="e82">transition</EVENT> from republic to imperial autocracy. Later, the position of power <EVENT class="OCCURRENCE" eid="e83">held</EVENT> by the emperor was <EVENT class="OCCURRENCE" eid="e84">expressed</EVENT> as imperium. The Latin word is the origin of English "empire," a meaning it <EVENT class="ASPECTUAL" eid="e85">began</EVENT> to <EVENT class="OCCURRENCE" eid="e86">acquire</EVENT> only later in Rome's history.
+
+As the first emperor, Augustus <EVENT class="OCCURRENCE" eid="e87">took</EVENT> the official position that he had <EVENT class="OCCURRENCE" eid="e88">saved</EVENT> the Republic, and carefully framed his powers within republican constitutional principles. He <EVENT class="REPORTING" eid="e89">rejected</EVENT> titles that Romans associated with monarchy, and instead <EVENT class="OCCURRENCE" eid="e90">referred</EVENT> to himself as the princeps, "<EVENT class="I_ACTION" eid="e91">leading</EVENT> citizen". Consuls <EVENT class="ASPECTUAL" eid="e92">continued</EVENT> to be <EVENT class="OCCURRENCE" eid="e93">elected</EVENT>, tribunes of the people <EVENT class="ASPECTUAL" eid="e94">continued</EVENT> to <EVENT class="OCCURRENCE" eid="e95">put</EVENT> forth legislation, and senators still <EVENT class="OCCURRENCE" eid="e96">debated</EVENT> in the curia. It was Augustus, however, who <EVENT class="I_ACTION" eid="e97">established</EVENT> the precedent that the emperor controlled the final <EVENT class="OCCURRENCE" eid="e98">decisions</EVENT>, <EVENT class="OCCURRENCE" eid="e99">backed</EVENT> up by military force.
+
+The reign of Augustus, from 27 BC to <TIMEX3 tid="t8" type="DATE">14</TIMEX3> AD, was portrayed in Augustan literature and art as a new "Golden Age." Augustus <EVENT class="OCCURRENCE" eid="e100">laid</EVENT> out an enduring ideological foundation for the three centuries of the Empire known as the Principate (27 BC - 284 AD), the first 200 years of which is traditionally regarded as the Pax Romana. During <TIMEX3 tid="t9" type="DATE">this period</TIMEX3>, the cohesion of the Empire was <EVENT class="OCCURRENCE" eid="e1012">furthered</EVENT> by participation in civic life, economic ties, and <EVENT class="OCCURRENCE" eid="e102">shared</EVENT> cultural, legal and religious norms. Uprisings in the provinces were infrequent, but <EVENT class="OCCURRENCE" eid="e103">put</EVENT> down "mercilessly and swiftly" when they <EVENT class="OCCURRENCE" eid="e104">occurred</EVENT>, as in Britain and Gaul. The <TIMEX3 tid="t10" type="DURATION">sixty years</TIMEX3> of Jewish - Roman <EVENT class="STATE" eid="e105">wars</EVENT> in the <TIMEX3 tid="t11" type="DATE">second</TIMEX3> half of the first <TIMEX3 tid="t12" type="DATE">century</TIMEX3> and the <TIMEX3 tid="t13" type="DURATION">first</TIMEX3> half of the <TIMEX3 tid="t14" type="DATE">2nd</TIMEX3> century were exceptional in their duration and violence.
+
+The success of Augustus in <EVENT class="OCCURRENCE" eid="e106">establishing</EVENT> principles of dynastic succession was <EVENT class="OCCURRENCE" eid="e107">limited</EVENT> by his <EVENT class="OCCURRENCE" eid="e108">outliving</EVENT> a number of talented potential heirs: the Julio-Claudian dynasty <EVENT class="OCCURRENCE" eid="e109">lasted</EVENT> for four more emperors - Tiberius, Caligula, Claudius, and Nero - before it <EVENT class="OCCURRENCE" eid="e110">yielded</EVENT> in 69 AD to the strife-torn Year of Four Emperors, from which Vespasian <EVENT class="OCCURRENCE" eid="e111">emerged</EVENT> as victor.
+
+Vespasian <EVENT class="OCCURRENCE" eid="e1013">became</EVENT> the founder of the brief Flavian dynasty, to be followed by the Nerva - Antonine dynasty which produced the "Five Good Emperors": Nerva, Trajan, Hadrian, Antoninus Pius and the philosophically inclined Marcus Aurelius. In the view of the Greek historian Dio Cassius, a contemporary observer, the <EVENT class="OCCURRENCE" eid="e114">accession</EVENT> of the emperor Commodus in 180 <EVENT class="OCCURRENCE" eid="e115">AD</EVENT> <EVENT class="OCCURRENCE" eid="e116">marked</EVENT> the descent "from a kingdom of gold to one of rust and iron" - a famous comment which has <EVENT class="OCCURRENCE" eid="e117">led</EVENT> some historians, notably Edward Gibbon, to <EVENT class="OCCURRENCE" eid="e118">take</EVENT> Commodus' reign as the beginning of the <EVENT class="OCCURRENCE" eid="e119">decline</EVENT> of the Roman Empire.
+
+In 212, during the <EVENT class="OCCURRENCE" eid="e120">reign</EVENT> of Caracalla, Roman citizenship was <EVENT class="OCCURRENCE" eid="e1015">granted</EVENT> to all freeborn inhabitants of the Empire. But despite this gesture of universality, the Severan dynasty was tumultuous - an emperor's reign was <EVENT class="OCCURRENCE" eid="e122">ended</EVENT> routinely by his <EVENT class="OCCURRENCE" eid="e123">murder</EVENT> or execution - and <EVENT class="OCCURRENCE" eid="e124">following</EVENT> its collapse, the Roman Empire was <EVENT class="OCCURRENCE" eid="e125">engulfed</EVENT> by the Crisis of the Third Century, a <TIMEX3 tid="t15" type="DATE">period</TIMEX3> of invasions, civil strife, economic depression, and plague. In <EVENT class="OCCURRENCE" eid="e126">defining</EVENT> historical epochs, this <EVENT class="OCCURRENCE" eid="e127">crisis</EVENT> is sometimes <EVENT class="OCCURRENCE" eid="e128">viewed</EVENT> as <EVENT class="OCCURRENCE" eid="e129">marking</EVENT> the <EVENT class="OCCURRENCE" eid="e130">transition</EVENT> from Classical Antiquity to Late Antiquity. The emaciated illusion of the old Republic was <EVENT class="OCCURRENCE" eid="e131">sacrificed</EVENT> for the <EVENT class="OCCURRENCE" eid="e132">sake</EVENT> of <EVENT class="OCCURRENCE" eid="e133">imposing</EVENT> <EVENT class="OCCURRENCE" eid="e134">order</EVENT>: Diocletian (reigned 284 - 305) <EVENT class="OCCURRENCE" eid="e135">brought</EVENT> the Empire back from the brink, but <EVENT class="OCCURRENCE" eid="e136">declined</EVENT> the role of princeps and <EVENT class="OCCURRENCE" eid="e137">became</EVENT> the first emperor to be <EVENT class="OCCURRENCE" eid="e138">addressed</EVENT> regularly as domine, "master" or "lord". Diocletian's reign also <EVENT class="OCCURRENCE" eid="e139">brought</EVENT> the Empire's most concerted effort against the perceived threat of Christianity, the "Great Persecution".The state of autocratic absolutism that <EVENT class="ASPECTUAL" eid="e140">began</EVENT> with Diocletian as the Dominate <EVENT class="OCCURRENCE" eid="e141">endured</EVENT> until the <TIMEX3 tid="t16" type="DATE">fall</TIMEX3> of the Western Roman Empire in 476.
+
+The unity of the Roman Empire was from this point a fiction, as graphically revealed by Diocletian's division of authority among four "co-emperors", the Tetrarchy. Order was <EVENT class="OCCURRENCE" eid="e142">shaken</EVENT> again soon after, but was <EVENT class="OCCURRENCE" eid="e143">restored</EVENT> by Constantine, who <EVENT class="OCCURRENCE" eid="e144">became</EVENT> the first emperor to <EVENT class="OCCURRENCE" eid="e145">convert</EVENT> to Christianity, and who <EVENT class="OCCURRENCE" eid="e146">established</EVENT> Constantinople as the new capital of the eastern empire. During the decades of the Constantinian and Valentinian dynasties, the Empire was <EVENT class="OCCURRENCE" eid="e147">divided</EVENT> along an east-west axis, with dual power centres in Constantinople and Rome. The reign of Julian, who <EVENT class="I_ACTION" eid="e148">attempted</EVENT> to <EVENT class="OCCURRENCE" eid="e149">restore</EVENT> Classical Roman and Hellenistic religion, only briefly <EVENT class="OCCURRENCE" eid="e150">interrupted</EVENT> the succession of Christian emperors. Theodosius I, the last emperor to <EVENT class="OCCURRENCE" eid="e151">rule</EVENT> over both East and West, <EVENT class="OCCURRENCE" eid="e152">died</EVENT> in 395 <EVENT class="OCCURRENCE" eid="e153">AD</EVENT> after <EVENT class="OCCURRENCE" eid="e154">making</EVENT> Christianity the official state religion.
+
+The Roman Empire <EVENT class="ASPECTUAL" eid="e1016">began</EVENT> to <EVENT class="OCCURRENCE" eid="e156">disintegrate</EVENT> in the late 4th and early 5th century as <EVENT class="OCCURRENCE" eid="e157">invasions</EVENT> <EVENT class="OCCURRENCE" eid="e158">overwhelmed</EVENT> the <EVENT class="OCCURRENCE" eid="e159">capacity</EVENT> of the Empire to <EVENT class="OCCURRENCE" eid="e160">govern</EVENT> and <EVENT class="OCCURRENCE" eid="e161">mount</EVENT> a coordinated defence. Most chronologies <EVENT class="OCCURRENCE" eid="e162">place</EVENT> the end of the Western Roman empire in 476, when Romulus Augustulus was <EVENT class="OCCURRENCE" eid="e163">forced</EVENT> to <EVENT class="OCCURRENCE" eid="e164">abdicate</EVENT> to the Germanic warlord Odoacer. The empire in the East - <EVENT class="OCCURRENCE" eid="e165">known</EVENT> today as the Byzantine Empire, but <EVENT class="OCCURRENCE" eid="e166">referred</EVENT> to in its time as the "Roman Empire" or by various other names - <EVENT class="OCCURRENCE" eid="e1017">ended</EVENT> in <TIMEX3 tid="t17" type="DATE">1453</TIMEX3> with the death of Constantine XI and the <EVENT class="OCCURRENCE" eid="e168">fall</EVENT> of Constantinople to the Ottoman Turks.
+
+</TEXT>
+
+<MAKEINSTANCE aspect="NONE" eiid="ei1" eventID="e1" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei2" eventID="e2" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei3" eventID="e3" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei4" eventID="e4" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei5" eventID="e5" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1001" eventID="e1001" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei8" eventID="e8" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei10" eventID="e10" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei11" eventID="e11" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei13" eventID="e13" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei14" eventID="e14" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei15" eventID="e15" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei16" eventID="e16" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1006" eventID="e1006" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei19" eventID="e19" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei21" eventID="e21" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei22" eventID="e22" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei23" eventID="e23" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei24" eventID="e24" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei25" eventID="e25" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei26" eventID="e26" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei27" eventID="e27" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei28" eventID="e28" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei29" eventID="e29" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei30" eventID="e30" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei31" eventID="e31" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei32" eventID="e32" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei33" eventID="e33" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei34" eventID="e34" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei35" eventID="e35" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei36" eventID="e36" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei37" eventID="e37" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei38" eventID="e38" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei39" eventID="e39" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei40" eventID="e40" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei41" eventID="e41" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei42" eventID="e42" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1008" eventID="e1008" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei44" eventID="e44" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei45" eventID="e45" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei47" eventID="e47" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei48" eventID="e48" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei49" eventID="e49" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei50" eventID="e50" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei51" eventID="e51" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei52" eventID="e52" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei53" eventID="e53" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei54" eventID="e54" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei55" eventID="e55" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei56" eventID="e56" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei58" eventID="e58" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei59" eventID="e59" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1011" eventID="e1011" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei61" eventID="e61" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei62" eventID="e62" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei63" eventID="e63" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei64" eventID="e64" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei65" eventID="e65" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei66" eventID="e66" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei67" eventID="e67" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei68" eventID="e68" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei69" eventID="e69" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei70" eventID="e70" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei71" eventID="e71" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei72" eventID="e72" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei73" eventID="e73" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei74" eventID="e74" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei75" eventID="e75" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei76" eventID="e76" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei77" eventID="e77" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei78" eventID="e78" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei79" eventID="e79" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei80" eventID="e80" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei81" eventID="e81" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei82" eventID="e82" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei83" eventID="e83" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei84" eventID="e84" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei85" eventID="e85" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei86" eventID="e86" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei87" eventID="e87" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei88" eventID="e88" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei89" eventID="e89" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei90" eventID="e90" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei91" eventID="e91" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei92" eventID="e92" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei93" eventID="e93" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei94" eventID="e94" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei95" eventID="e95" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei96" eventID="e96" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei97" eventID="e97" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei98" eventID="e98" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei99" eventID="e99" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei100" eventID="e100" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1012" eventID="e1012" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei102" eventID="e102" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei103" eventID="e103" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei104" eventID="e104" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei105" eventID="e105" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei106" eventID="e106" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei107" eventID="e107" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei108" eventID="e108" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei109" eventID="e109" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei110" eventID="e110" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei111" eventID="e111" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1013" eventID="e1013" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei114" eventID="e114" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei115" eventID="e115" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei116" eventID="e116" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei117" eventID="e117" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei118" eventID="e118" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei119" eventID="e119" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei120" eventID="e120" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1015" eventID="e1015" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei122" eventID="e122" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei123" eventID="e123" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei124" eventID="e124" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei125" eventID="e125" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei126" eventID="e126" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei127" eventID="e127" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei128" eventID="e128" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei129" eventID="e129" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei130" eventID="e130" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei131" eventID="e131" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei132" eventID="e132" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei133" eventID="e133" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei134" eventID="e134" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei135" eventID="e135" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei136" eventID="e136" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei137" eventID="e137" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei138" eventID="e138" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei139" eventID="e139" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei140" eventID="e140" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei141" eventID="e141" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei142" eventID="e142" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei143" eventID="e143" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei144" eventID="e144" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei145" eventID="e145" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei146" eventID="e146" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei147" eventID="e147" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei148" eventID="e148" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei149" eventID="e149" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei150" eventID="e150" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei151" eventID="e151" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei152" eventID="e152" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei153" eventID="e153" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei154" eventID="e154" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1016" eventID="e1016" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei156" eventID="e156" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei157" eventID="e157" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei158" eventID="e158" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei159" eventID="e159" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei160" eventID="e160" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei161" eventID="e161" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei162" eventID="e162" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei163" eventID="e163" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei164" eventID="e164" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei165" eventID="e165" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei166" eventID="e166" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1017" eventID="e1017" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei168" eventID="e168" polarity="POS" pos="NOUN" tense="PRESENT" />
+<TLINK eventInstanceID="ei157" lid="l62" relType="BEFORE" relatedToEventInstance="ei158" />
+<TLINK eventInstanceID="ei157" lid="l95" relType="BEFORE" relatedToEventInstance="ei1016" />
+</TimeML>

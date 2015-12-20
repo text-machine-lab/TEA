@@ -1,0 +1,130 @@
+1|Black_Death-en.ascii.TE3input.tml|IS e1001 BEFORE t1002|Was the plague first introduced to Europe before 1343?|no
+2|Black_Death-en.ascii.TE3input.tml|IS e1001 AFTER t1002|Was the plague first introduced to Europe after 1343?|yes
+3|Black_Death-en.ascii.TE3input.tml|IS e1001 BEFORE e1004|Was the plague first introduced to Europe before reaching Crimea?|no
+4|Black_Death-en.ascii.TE3input.tml|IS e1001 AFTER e1004|Was the plague first introduced to Europe after reaching Crimea?|yes
+5|Black_Death-en.ascii.TE3input.tml|IS e1003 AFTER e1004|Did the plague reach Sicily after Crimea?|yes
+6|Black_Death-en.ascii.TE3input.tml|IS e1003 BEFORE e1004|Did the plague reach Sicily before Crimea?|no
+7|Black_Death-en.ascii.TE3input.tml|IS e1006 BEFORE t1005|Was the outbreak in Pisa before 1644?|yes
+8|Black_Death-en.ascii.TE3input.tml|IS e1006 AFTER t1005|Was the outbreak in Pisa after 1644?|no
+9|Black_Death-en.ascii.TE3input.tml|IS e1007 BEFORE e1003|Did the plague spread northwest Europe before reaching Sicily?|no
+10|Black_Death-en.ascii.TE3input.tml|IS e1007 AFTER e1003|Did the plague spread northwest Europe after reaching Sicily?|yes
+11|Egypt-en.ascii.TE3input.tml|IS e1002 AFTER e1001|Did forming of the Sahara happen after the desiccate of the pastoral lands of Egypt?|yes
+12|Egypt-en.ascii.TE3input.tml|IS e1003 AFTER t1001|Did the earliest known evidence of Egyptian hieroglyphic inscriptions appear after 8000 BC?|yes
+13|Egypt-en.ascii.TE3input.tml|IS e1005 AFTER e1004|Did renewed prosperity for the country happen after unified kingdom was founded?|yes
+14|Egypt-en.ascii.TE3input.tml|IS e1006 AFTER e1007|Did it fell to the Persians after King Nectanebo was defeated in battle?|yes
+15|Egypt-en.ascii.TE3input.tml|IS e1006 AFTER t1002|Did it fell to the Persians after 6000 BC?|yes
+16|Egypt-en.ascii.TE3input.tml|IS e1008 AFTER e1009|Did Cleopatra VII commit suicide after Octavian had captured Alexandria?|yes
+17|Egypt-en.ascii.TE3input.tml|IS e1010 AFTER t1002|Was Christianity brought to Egypt after 6000 BC?|yes
+18|Egypt-en.ascii.TE3input.tml|IS e1011 BEFORE e1012|Was a brief Persian invasion  before Egypt being conquered by Islamic Empire?|yes
+19|Egypt-en.ascii.TE3input.tml|IS e1012 AFTER t1003|Was Egypt conquered by Islamic Empire after 1st century?|yes
+20|Egypt-en.ascii.TE3input.tml|IS e1014 AFTER e1012|Did Egypt become a province of the Ottoman Empire after it was conquered by the Islamic Empire?|yes
+21|Egypt-en.ascii.TE3input.tml|IS e1015 AFTER e1013|Did British occupation happen after Egypt was conquered by the Ottoman Turks?|yes
+22|Egypt-en.ascii.TE3input.tml|IS e1016 BEFORE t1004|Did Muhammad Ali establish a dynasty before 1952?|yes
+23|Egypt-en.ascii.TE3input.tml|IS e1018 AFTER e1017|Did rule of Egypt pass to military hands after the Revolution?|yes
+24|Egypt-en.ascii.TE3input.tml|IS e1019 AFTER e1017|Was Naguib put under house arrest after the Revolution?|yes
+25|Egypt-en.ascii.TE3input.tml|IS e1020 BEFORE e1021|Were 62 people massacred before Mubarak announced a reform of the presidential election law?|yes
+26|Egypt-en.ascii.TE3input.tml|IS e1022 AFTER e1021|Did Mubarak imprison Ayman Nour after he announced a reform of the presidential election law?|yes
+27|Egypt-en.ascii.TE3input.tml|IS e1024 AFTER e1023|Were massive protests organised after the largest violent battle between Islamists and their foes?|yes
+28|Great_Depression-en.ascii.TE3input.tml|IS e1001 BEFORE e1002|Was the Great Depression before World War II?|yes
+29|Great_Depression-en.ascii.TE3input.tml|IS e1003 BEFORE t1003|Did the depression start before middle 1940s?|yes
+30|Great_Depression-en.ascii.TE3input.tml|IS e1006 BEGINS e1005|Did the beginning of the fall of prices begin that fall event?|yes
+31|Great_Depression-en.ascii.TE3input.tml|IS e1004 BEFORE e1005|Was the depression originated before the fall in stock prices?|no
+32|Great_Depression-en.ascii.TE3input.tml|IS e1007 IS_INCLUDED t1005|Did the stock market crash during October 29, 1929?|yes
+33|Great_Depression-en.ascii.TE3input.tml|IS e1003 AFTER e1007|Did the depression start after the stock market crash?|yes
+34|Great_Depression-en.ascii.TE3input.tml|IS e1008 SIMULTANEOUS e1007|Are the stock market crash and collapse simultaneous?|yes
+35|Great_Depression-en.ascii.TE3input.tml|IS e1009 BEFORE t1006|Did the market turn upward before April?|yes
+36|Great_Depression-en.ascii.TE3input.tml|IS t1006 BEFORE t1004|Is April before September 4, 1929?|no
+37|Great_Depression-en.ascii.TE3input.tml|IS e1010 IS_INCLUDED t1007|Did the sales decline within 1928?|no
+38|Great_Depression-en.ascii.TE3input.tml|IS e1011 AFTER e1007|Did the deflationary spiral started after the market crash?|yes
+39|Great_Depression-en.ascii.TE3input.tml|IS e1010 BEFORE e1012|Was the sales decline before the decline of the world economy reached bottom?|yes
+40|Great_Depression-en.ascii.TE3input.tml|IS e1013 BEFORE t1008|Did the recovery begin before 1940?|yes
+41|Great_Depression-en.ascii.TE3input.tml|IS e1014 BEFORE e1015|Was the recession before GDP returned to its upward trend?|yes
+42|Great_Depression-en.ascii.TE3input.tml|IS t1010 AFTER e1015|Was 1935 after GDP returned to its upward trend?|no
+43|Great_Depression-en.ascii.TE3input.tml|IS e1017 AFTER e1018|Did the unemployment fall after the outbreak of war?|no
+44|Great_Depression-en.ascii.TE3input.tml|IS e1009 AFTER e1005|Did the stock turn upward after the stack fall?|yes
+45|Great_Depression-en.ascii.TE3input.tml|IS t1012 BEFORE e1016|Was 1931 before Britain left the gold standard?|no
+46|Great_Depression-en.ascii.TE3input.tml|IS e1016 AFTER t1008|Did Britain leave the gold standard after 1940?|no
+47|Great_Depression-en.ascii.TE3input.tml|IS t1013 BEFORE e1017|Was 1941 before unemployment fell?|no
+48|History_of_Paper-en.ascii.TE3input.tml|IS e1002 AFTER e1001|Did papermaking slowly spread to Italy and Southern France after Paper was invented?|yes
+49|History_of_Paper-en.ascii.TE3input.tml|IS e1003 AFTER e1004|Was rapid expansion of European paper production enhanced after the invention of the printing press?|yes
+50|History_of_Paper-en.ascii.TE3input.tml|IS e1005 AFTER e1006|Was earliest piece of paper found after Cai Lun created a sheet of paper?|yes
+51|History_of_Paper-en.ascii.TE3input.tml|IS e1007 BEFORE t1002|Were documents ordinarily written on bone or bamboo before 202 BC-AD 220?|yes
+52|History_of_Paper-en.ascii.TE3input.tml|IS t1002 BEFORE t1001|Is 202 BC-AD 220 before 10th century?|yes
+53|History_of_Paper-en.ascii.TE3input.tml|IS e1009 AFTER e1008|Were matted fibres collected after pounding rags in water?|yes
+54|History_of_Paper-en.ascii.TE3input.tml|IS e1010 AFTER t1002|Was it used for purposes of wrapping after 202 BC-AD 220?|yes
+55|History_of_Paper-en.ascii.TE3input.tml|IS e1011 AFTER e1010|Was paper used for writing after it was used for purposes of wrapping?|yes
+56|History_of_Paper-en.ascii.TE3input.tml|IS e1012 AFTER e1011|Was paper folded into square bags to preserve the flavor of tea after it was used for writing?|yes
+57|History_of_Paper-en.ascii.TE3input.tml|IS e1013 AFTER t1003|Did the government produce the world's first known paper-printed money after 618-907?|yes
+58|History_of_Paper-en.ascii.TE3input.tml|IS e1014 BEFORE e1002|Was paper introduced in Japan before papermaking's slowly spread to Italy?|yes
+59|Renaissance-en.ascii.TE3input.tml|IS e1002 AFTER e1001|Did Renaissance spread to the rest of Europe after beginning in Italy?|yes
+60|Renaissance-en.ascii.TE3input.tml|IS e1003 BEFORE e1004|Did fall of Constantinople happen before migration of Greek scholars?|yes
+61|Renaissance-en.ascii.TE3input.tml|IS e1005 BEFORE t1001|Had they focused on studying Greek and Arabic works before 14th century?|yes
+62|Renaissance-en.ascii.TE3input.tml|IS e1006 BEFORE e1007|Was engagement with new Christian works before Protestant Reformation?|yes
+63|Renaissance-en.ascii.TE3input.tml|IS e1007 AFTER t1002|Is Protestant Reformation after 12th Century?|yes
+64|Renaissance-en.ascii.TE3input.tml|IS e1008 BEFORE e1009|Had return of classicism been exemplified before Florentine painters strove to portray the human form relaistically?|yes
+65|Renaissance-en.ascii.TE3input.tml|IS e1010 AFTER t1002|Were many more people allowed access to books after 12th Century?|yes
+66|Renaissance-en.ascii.TE3input.tml|IS e1011 SIMULTANEOUS e1012|Were others under direct church control simultaneous with independent city republics of Italy took over the principles of capitalism?|yes
+67|Renaissance-en.ascii.TE3input.tml|IS e1012 IS_INCLUDED t1001|Did independent city republics of Italy take over the principles of capitalism within 14th Century?|yes
+68|Roman_Empire-en.ascii.TE3input.tml|IS e1001 AFTER e1002|Was Julis Caesar's appointment as perpetual dictator after his victory over Pompey?|yes
+69|Roman_Empire-en.ascii.TE3input.tml|IS e1003 AFTER t1001|Was Julis Caesar's assassination after 44 BC?|yes
+70|Roman_Empire-en.ascii.TE3input.tml|IS e1004 AFTER e1002|Did conflicts between supporters of Caesar and the Senate happen after Julis Caesar's victory over Pompey?|yes
+71|Roman_Empire-en.ascii.TE3input.tml|IS e1007 AFTER e1005|Was the end of the Roman Republic after Antony and Cleopatra's suicides?|yes
+72|Roman_Empire-en.ascii.TE3input.tml|IS e1006 AFTER t1002|Did the Roman Senate grant the honorific title after 31 BC?|yes
+73|Roman_Empire-en.ascii.TE3input.tml|IS e1008 AFTER t1003|Did Septimus Severus emerge victorious after 192 AD?|yes
+74|Roman_Empire-en.ascii.TE3input.tml|IS e1009 AFTER e1001|Was the Crisis of the Third Century after Julis Caesar's appointment as perpetual dictator?|yes
+75|Roman_Empire-en.ascii.TE3input.tml|IS e1011 AFTER e1010|Did Constantine I become sole ruler of east and west after the civil war?|yes
+76|Roman_Empire-en.ascii.TE3input.tml|IS e1012 AFTER t1002|Was the cohesion of the Empire furthered after 31 BC?|yes
+77|Roman_Empire-en.ascii.TE3input.tml|IS e1014 AFTER e1013|Did Antonine dynasty produce the "Five Good Emperors" after Vespasian became the founder of the brief Flavian dynasty?|yes
+78|Roman_Empire-en.ascii.TE3input.tml|IS e1015 AFTER e1012|Was Roman citizenship granted to all freeborn inhabitants of the Empire after the cohesion of the Empire furthered?|yes
+79|Roman_Empire-en.ascii.TE3input.tml|IS e1016 AFTER t1003|Did the Roman Empire begin to disintegrate after 212?|yes
+80|Roman_Empire-en.ascii.TE3input.tml|IS e1017 AFTER e1016|Did the empire end after it began to disintegrate?|yes
+81|Sumer-en.ascii.TE3input.tml|IS e1001 BEFORE e1002|Were the Sumerians settled along the coast of Eastern Arabia before it flooded?|yes
+82|Sumer-en.ascii.TE3input.tml|IS e1003 BEFORE e1004|Did the Sumerian civilization take form before a close cultural symbiosis developed between the Sumerians and the Semitic Akkadians?|yes
+83|Sumer-en.ascii.TE3input.tml|IS e1006 AFTER e1005|Did Sumerian continue as a sacred language after Sumer was conquered?|yes
+84|Sumer-en.ascii.TE3input.tml|IS e1007 AFTER e1005|Did the native Sumerian re-emerge after the time Sumer was conquered?|yes
+85|Sumer-en.ascii.TE3input.tml|IS e1009 AFTER e1008|Did depopulation of the Sumerian region happen after the historic overuse of the irrigated soils?|yes
+86|Sumer-en.ascii.TE3input.tml|IS t1004 IS_INCLUDED t1001|Is late 4th millennium BCE included in 4th millennium BCE?|yes
+87|Sumer-en.ascii.TE3input.tml|IS e1010 IS_INCLUDED t1001|Was the stage of proto-writing within 4th millennium BCE|yes
+88|Sumer-en.ascii.TE3input.tml|IS e1011 BEFORE e1005|Was Sumer divided before it was conquered?|yes
+89|Sumer-en.ascii.TE3input.tml|IS e1013 AFTER e1012|Is the rise of the Akkadian Empire after the classical Sumer ends?|yes
+90|Sumer-en.ascii.TE3input.tml|IS e1014 AFTER e1013|Were the Sumerians absorbed into the Akkadian population after the rise of the Akkadian Empire?|yes
+91|Sumer-en.ascii.TE3input.tml|IS t1003 AFTER t1004|Is 3rd millennium BCE after late 4th millennium BCE?|yes
+92|US_Constitution-en.ascii.TE3input.tml|IS e1 BEFORE e2|Was the Constitution put into effect before amendments were proposed?|yes
+93|US_Constitution-en.ascii.TE3input.tml|IS e1 IS_INCLUDED t1|Was the Constitution put into effect in 1789?|yes
+94|US_Constitution-en.ascii.TE3input.tml|IS e3 INCLUDES t0|Does the implementation of the Constitution include the document time stamp?|yes
+95|US_Constitution-en.ascii.TE3input.tml|IS e4 BEFORE e5|Did ratification happen before power was kept limited?|yes
+96|US_Constitution-en.ascii.TE3input.tml|IS e4 BEFORE e6|Did ratification happen before the currency was worthless?|yes
+97|US_Constitution-en.ascii.TE3input.tml|IS e6 AFTER e7|Is the currency being worthless after the Treay of Paris was signed?|yes
+98|US_Constitution-en.ascii.TE3input.tml|IS e4 BEFORE e7|Did ratification happen before the Treaty of Paris was signed?|yes
+99|US_Constitution-en.ascii.TE3input.tml|IS e9 BEFORE e12|Was there a call for a convention before the delegation was present?|yes
+100|US_Constitution-en.ascii.TE3input.tml|IS e10 IS_INCLUDED t3|Is the convention included in May 14, 1787?|yes
+101|US_Constitution-en.ascii.TE3input.tml|IS t3 BEFORE e11|Is May 14, 1787 before the quorum met?|yes
+102|WWI-en.ascii.TE3input.tml|IS e1 BEFORE e4|Did the assassination happen before Germany invaded?|yes
+103|WWI-en.ascii.TE3input.tml|IS e3 BEFORE e4|Did the Austro-Hungarians fire the first shots before Germany invaded?|yes
+104|WWI-en.ascii.TE3input.tml|IS e4 BEFORE e5|Did Germany invade before Britain declared war?|yes
+105|WWI-en.ascii.TE3input.tml|IS e4 BEFORE e6|Did Germany invade before the Ottoman Empire joined the war?|yes
+106|WWI-en.ascii.TE3input.tml|IS e6 BEFORE e7|Did the Ottoman Empire join the war before the Allies drove back the Germans?|yes
+107|WWI-en.ascii.TE3input.tml|IS t1 INCLUDES e9|Does 11 November 1918 include ending the war?|yes
+108|WWI-en.ascii.TE3input.tml|IS e9 BEFORE e8|Did the war end before the maps were redrawn?|yes
+109|WWI-en.ascii.TE3input.tml|IS e1 AFTER e10|Did the assassination happen after the Frano-Prussian War?|yes
+110|WWI-en.ascii.TE3input.tml|IS e1 SIMULTANEOUS e11|Is the assassination simultaneous with Ferdinand killed?|yes
+111|WWI-en.ascii.TE3input.tml|IS e11 BEFORE e12|Is the killing before Russia ordered mobilization?|yes
+112|WWI-en.ascii.TE3input.tml|IS e12 BEFORE e13|Did Russia order mobilization before Germany declared a "state of danger of war"?|yes
+113|WWI-en.ascii.TE3input.tml|IS e5 SIMULTANEOUS e14|Is Britain declared war simultaneous with Britain declaring war?|yes
+114|WWI-en.ascii.TE3input.tml|IS e13 BEFORE e14|Is Germany's declaration before Britain's declaration?|yes
+115|WWI-en.ascii.TE3input.tml|IS e14 BEFORE e15|Is Britain's declaration before the signing?|yes
+116|WWI-en.ascii.TE3input.tml|IS e15 IS_INCLUDED t3|Is the signing included in 28 June 1919?|yes
+117|WWII-en.ascii.TE3input.tml|IS t0 AFTER e1|Was 2014-08-22 after the World War?|yes
+118|WWII-en.ascii.TE3input.tml|IS e1 BEGUN_BY t1|Was the World War begun by 1 Sep 1939?|yes
+119|WWII-en.ascii.TE3input.tml|IS e1 BEGUN_BY e2|Was the World War begun by the invasion of Poland?|yes
+120|WWII-en.ascii.TE3input.tml|IS e2 BEFORE e3|Was the invasion of Poland before conquering Europe?|yes
+121|WWII-en.ascii.TE3input.tml|IS e3 BEFORE e4|Was conquering Europe before they launched an invasion?|yes
+122|WWII-en.ascii.TE3input.tml|IS e4 BEFORE e5|Was the launched invasion before Japan joined the Axis?|yes
+123|WWII-en.ascii.TE3input.tml|IS e4 BEFORE e6|Was the launched invasion before Japan conquered the Pacific?|yes
+124|WWII-en.ascii.TE3input.tml|IS e6 BEFORE t2|Was Japan conquering the Pacific before 1942?|yes
+125|WWII-en.ascii.TE3input.tml|IS t2 INCLUDES e7|Did 1942 include Japan losing the Battle of Midway?|yes
+126|WWII-en.ascii.TE3input.tml|IS e8 SIMULTANEOUS e9|Was the invasion of France simultaneous with the Soviet Union regaining its territories?|yes
+127|WWII-en.ascii.TE3input.tml|IS e8 BEFORE e10|Was the invasion of France before the German surrender?|yes
+128|WWII-en.ascii.TE3input.tml|IS e10 IS_INCLUDED t3|Was the German surrender included in 8 May 1945?|yes
+129|WWII-en.ascii.TE3input.tml|IS e10 BEFORE e11|Was the German surrender before the US dropped atomic bombs?|yes
+130|WWII-en.ascii.TE3input.tml|IS e10 BEFORE e12|Was the German surrender before the Japanese surrender?|yes

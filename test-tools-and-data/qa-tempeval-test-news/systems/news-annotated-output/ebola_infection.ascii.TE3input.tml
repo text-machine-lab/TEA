@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+
+<Title>New York City hospital testing patient for possible Ebola infection</Title>
+<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2014-04-08">August 04, 2014</TIMEX3></DCT>
+
+<TEXT>
+
+Mount Sinai Hospital in New York City is<EVENT class="OCCURRENCE" eid="e0"> testin</EVENT>g a patient who had<TIMEX3 tid="t1" type="DATE"> recentl</TIMEX3>y<EVENT class="OCCURRENCE" eid="e1"> travele</EVENT>d to a West African country<EVENT class="STATE" eid="e2"> affecte</EVENT>d by the Ebola outbreak, the hospital<EVENT class="REPORTING" eid="e3"> sai</EVENT>d in a statement<TIMEX3 tid="t2" type="DATE"> Monda</TIMEX3>y afternoon.
+
+The male patient<EVENT class="OCCURRENCE" eid="e4"> arrive</EVENT>d at the emergency room<TIMEX3 tid="t3" type="DATE"> Monday mornin</TIMEX3>g with a high fever and gastrointestinal symptoms. He has been quarantined to<EVENT class="OCCURRENCE" eid="e5"> underg</EVENT>o medical screening.
+
+"All necessary steps are being<EVENT class="OCCURRENCE" eid="e6"> take</EVENT>n to<EVENT class="OCCURRENCE" eid="e7"> ensur</EVENT>e the safety of all patients, visitors and staff. We will<EVENT class="ASPECTUAL" eid="e8"> continu</EVENT>e to<EVENT class="OCCURRENCE" eid="e9"> wor</EVENT>k closely with federal, state and city health officials to address and<EVENT class="OCCURRENCE" eid="e10"> monito</EVENT>r this case,<EVENT class="OCCURRENCE" eid="e11"> kee</EVENT>p the community<EVENT class="REPORTING" eid="e12"> informe</EVENT>d and<EVENT class="OCCURRENCE" eid="e13"> provid</EVENT>e the best quality care to all of our patients," the hospital<EVENT class="REPORTING" eid="e14"> wrot</EVENT>e in a statement.
+
+Mount Sinai is<EVENT class="OCCURRENCE" eid="e15"> followin</EVENT>g protocol<EVENT class="OCCURRENCE" eid="e16"> recommende</EVENT>d by the Centers for Disease Control and Prevention<TIMEX3 tid="t5" type="DATE"> last wee</TIMEX3>k.
+
+CDC officials<EVENT class="REPORTING" eid="e17"> tol</EVENT>d Fox News correspondent John Roberts that there have<EVENT class="STATE" eid="e18"> bee</EVENT>n "a half dozen or so" so-called "Persons Under Investigation" in the U.S. for possible Ebola infection and that they have all<EVENT class="OCCURRENCE" eid="e19"> turne</EVENT>d out to be negative.
+
+One of those was at Carolina Medical Center a little more than a<TIMEX3 tid="t7" type="DATE"> week ag</TIMEX3>o.
+
+The CDC<EVENT class="OCCURRENCE" eid="e20"> assume</EVENT>s that Mount Sinai is<EVENT class="OCCURRENCE" eid="e21"> actin</EVENT>g out of an abundance of caution after the center<EVENT class="OCCURRENCE" eid="e22"> sen</EVENT>t out an alert regarding febrile patients who have<TIMEX3 tid="t9" type="DATE"> recentl</TIMEX3>y<EVENT class="OCCURRENCE" eid="e23"> travele</EVENT>d to West Africa.
+
+Copyright FoxNews.com
+</TEXT>
+<MAKEINSTANCE aspect="NONE" eiid="ei8" eventID="e0" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei14" eventID="e1" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei20" eventID="e2" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei28" eventID="e3" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei38" eventID="e4" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei58" eventID="e5" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei68" eventID="e6" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei70" eventID="e7" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei83" eventID="e8" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei85" eventID="e9" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei98" eventID="e10" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei102" eventID="e11" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei105" eventID="e12" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei107" eventID="e13" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei121" eventID="e14" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei129" eventID="e15" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei131" eventID="e16" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei145" eventID="e17" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei154" eventID="e18" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei180" eventID="e19" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei204" eventID="e20" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei209" eventID="e21" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei219" eventID="e22" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei229" eventID="e23" polarity="POS" pos="VERB" tense="PRESENT" />
+<TLINK eventInstanceID="ei121" lid="l23" relType="BEFORE" relatedToEventInstance="ei131" />
+</TimeML>

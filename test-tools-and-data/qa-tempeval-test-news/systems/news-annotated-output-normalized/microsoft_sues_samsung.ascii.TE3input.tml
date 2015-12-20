@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+<Title>Microsoft sues Samsung over Android patent fees</Title>
+<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2014-04-08">4 August 2014</TIMEX3></DCT>
+
+<TEXT>
+
+Microsoft is<EVENT class="ASPECTUAL" eid="e1"> suin</EVENT>g Samsung in a<EVENT class="OCCURRENCE" eid="e2"> disput</EVENT>e over Android patent fees.
+
+Microsoft<EVENT class="REPORTING" eid="e3"> say</EVENT>s the South Korean firm<EVENT class="OCCURRENCE" eid="e4"> faile</EVENT>d to<EVENT class="OCCURRENCE" eid="e5"> pa</EVENT>y it on schedule for the use of its inventions and has<EVENT class="ASPECTUAL" eid="e6"> begu</EVENT>n legal<EVENT class="OCCURRENCE" eid="e7"> actio</EVENT>n in New York.
+
+In a blog, the US firm<EVENT class="REPORTING" eid="e8"> sai</EVENT>d Samsung had<EVENT class="OCCURRENCE" eid="e9"> use</EVENT>d Microsoft's<EVENT class="OCCURRENCE" eid="e10"> takeove</EVENT>r of Nokia's handset unit "as an excuse to<EVENT class="OCCURRENCE" eid="e11"> breac</EVENT>h its contract".
+
+Samsung has<EVENT class="REPORTING" eid="e12"> sai</EVENT>d: "We will<EVENT class="OCCURRENCE" eid="e13"> revie</EVENT>w the complaint in detail and<EVENT class="OCCURRENCE" eid="e14"> determin</EVENT>e appropriate measures in response."
+
+The case<EVENT class="I_STATE" eid="e15"> mark</EVENT>s the first time that Microsoft has<EVENT class="OCCURRENCE" eid="e16"> launche</EVENT>d legal<EVENT class="OCCURRENCE" eid="e17"> actio</EVENT>n against Samsung.
+
+The two companies have a long-running partnership, due to the Asian manufacturer's<EVENT class="OCCURRENCE" eid="e18"> sal</EVENT>e of Windows PCs and Windows Phone handsets.
+
+Nokia deal
+Although Microsoft is best<EVENT class="OCCURRENCE" eid="e19"> know</EVENT>n for its own Windows operating system, it also<EVENT class="REPORTING" eid="e20"> claim</EVENT>s ownership to hundreds of patents relating to Google's Android OS.
+
+It has<EVENT class="OCCURRENCE" eid="e21"> pursue</EVENT>d many Android device-makers for related licence fees and to date has<EVENT class="OCCURRENCE" eid="e22"> struc</EVENT>k<EVENT class="OCCURRENCE" eid="e23"> deal</EVENT>s with more than 25 companies, including HTC, Acer, ZTE and Nikon.
+
+Samsung<EVENT class="I_ACTION" eid="e1001"> agree</EVENT>d to Microsoft's<EVENT class="OCCURRENCE" eid="e25"> demand</EVENT>s in<TIMEX3 tid="t1001" type="DATE"> Septembe</TIMEX3>r<TIMEX3 tid="t1" type="DATE"> 201</TIMEX3>1 and<EVENT class="OCCURRENCE" eid="e26"> mad</EVENT>e its first<TIMEX3 tid="t2" type="DATE"> yea</TIMEX3>r's<EVENT class="OCCURRENCE" eid="e27"> paymen</EVENT>t<TIMEX3 tid="t3" type="DATE"> the following yea</TIMEX3>r.
+
+But a censored copy of court papers filed by Microsoft's lawyer, and<EVENT class="OCCURRENCE" eid="e28"> poste</EVENT>d online by news site Geekwire,<EVENT class="REPORTING" eid="e29"> indicat</EVENT>e that Samsung<EVENT class="I_ACTION" eid="e1002"> blocke</EVENT>d a second<EVENT class="OCCURRENCE" eid="e31"> paymen</EVENT>t after learning of the Nokia deal in<TIMEX3 tid="t1002" type="DATE"> Septembe</TIMEX3>r<TIMEX3 tid="t4" type="DATE"> 201</TIMEX3>3.
+
+Although the documents<EVENT class="REPORTING" eid="e33"> stat</EVENT>e that Samsung later<EVENT class="OCCURRENCE" eid="e34"> pai</EVENT>d the<EVENT class="OCCURRENCE" eid="e35"> fe</EVENT>e in<TIMEX3 tid="t5" type="DATE"> Novembe</TIMEX3>r<TIMEX3 tid="t6" type="DATE"> 201</TIMEX3>3, Microsoft<EVENT class="REPORTING" eid="e36"> claim</EVENT>s it is still<EVENT class="OCCURRENCE" eid="e37"> owe</EVENT>d money to<EVENT class="OCCURRENCE" eid="e38"> cove</EVENT>r the interest on the sum over<TIMEX3 tid="t7" type="DURATION"> the perio</TIMEX3>d it was not<EVENT class="OCCURRENCE" eid="e39"> pai</EVENT>d.
+
+In addition the US company is unhappy that Samsung is reserving the right not to<EVENT class="OCCURRENCE" eid="e40"> mak</EVENT>e future<EVENT class="OCCURRENCE" eid="e41"> payment</EVENT>s.
+
+It also complains that Samsung has<EVENT class="I_ACTION" eid="e1004"> aske</EVENT>d the Korean competition authorities to<EVENT class="OCCURRENCE" eid="e43"> interven</EVENT>e to<EVENT class="OCCURRENCE" eid="e44"> eliminat</EVENT>e the need for future fees - a matter that Microsoft<EVENT class="REPORTING" eid="e45"> say</EVENT>s would be outside the regulators' authority.
+
+Furthermore, the papers<EVENT class="OCCURRENCE" eid="e46"> sugges</EVENT>t Samsung has<EVENT class="I_ACTION" eid="e1005"> threatene</EVENT>d Microsoft with its own patent infringement claims relating to the Nokia<EVENT class="OCCURRENCE" eid="e48"> takeove</EVENT>r.
+
+"Microsoft values and respects our partnership with Samsung and expects it to<EVENT class="ASPECTUAL" eid="e49"> continu</EVENT>e. We are simply<EVENT class="OCCURRENCE" eid="e50"> askin</EVENT>g the court to<EVENT class="OCCURRENCE" eid="e51"> settl</EVENT>e our disagreement, and we are confident the contract will be<EVENT class="OCCURRENCE" eid="e52"> enforce</EVENT>d,"<EVENT class="REPORTING" eid="e1006"> wrot</EVENT>e David Howard, deputy general counsel for Microsoft, on the firm's blog.
+
+Samsung<EVENT class="I_ACTION" eid="e1007"> decline</EVENT>d to<EVENT class="OCCURRENCE" eid="e55"> discus</EVENT>s any of the specific claims.
+
+Microsoft has never<EVENT class="I_ACTION" eid="e56"> disclose</EVENT>d how much it<EVENT class="OCCURRENCE" eid="e57"> make</EVENT>s from its Android patents, but analysts have<EVENT class="I_ACTION" eid="e58"> estimate</EVENT>d the figure is between $1bn (GBP<TIMEX3 tid="t8" type="DATE"> 595</TIMEX3>m) to <TIMEX3 tid="t9" type="DATE">$2b</TIMEX3>n a year.
+
+One company watcher<EVENT class="REPORTING" eid="e59"> sai</EVENT>d Microsoft would be<EVENT class="OCCURRENCE" eid="e1008"> kee</EVENT>n to<EVENT class="OCCURRENCE" eid="e61"> avoi</EVENT>d a precedent that other firms might<EVENT class="I_ACTION" eid="e62"> tr</EVENT>y to<EVENT class="OCCURRENCE" eid="e63"> mak</EVENT>e<EVENT class="OCCURRENCE" eid="e64"> us</EVENT>e of to<EVENT class="OCCURRENCE" eid="e65"> cance</EVENT>l their own<EVENT class="OCCURRENCE" eid="e66"> payment</EVENT>s.
+
+"The fear would be that this case could<EVENT class="OCCURRENCE" eid="e67"> develo</EVENT>p into a revenue stream leakage that would be difficult to<EVENT class="OCCURRENCE" eid="e68"> ta</EVENT>p,"<EVENT class="REPORTING" eid="e69"> sai</EVENT>d Windsor Holden, research director at Juniper Research.
+
+
+Copyright BBC.
+</TEXT>
+
+<MAKEINSTANCE aspect="NONE" eiid="ei1" eventID="e1" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei2" eventID="e2" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei3" eventID="e3" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei4" eventID="e4" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei5" eventID="e5" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei6" eventID="e6" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei7" eventID="e7" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei8" eventID="e8" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei9" eventID="e9" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei10" eventID="e10" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei11" eventID="e11" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei12" eventID="e12" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei13" eventID="e13" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei14" eventID="e14" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei15" eventID="e15" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei16" eventID="e16" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei17" eventID="e17" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei18" eventID="e18" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei19" eventID="e19" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei20" eventID="e20" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei21" eventID="e21" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei22" eventID="e22" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei23" eventID="e23" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1001" eventID="e1001" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei25" eventID="e25" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei26" eventID="e26" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei27" eventID="e27" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei28" eventID="e28" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei29" eventID="e29" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1002" eventID="e1002" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei31" eventID="e31" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei33" eventID="e33" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei34" eventID="e34" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei35" eventID="e35" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei36" eventID="e36" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei37" eventID="e37" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei38" eventID="e38" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei39" eventID="e39" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei40" eventID="e40" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei41" eventID="e41" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1004" eventID="e1004" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei43" eventID="e43" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei44" eventID="e44" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei45" eventID="e45" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei46" eventID="e46" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1005" eventID="e1005" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei48" eventID="e48" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei49" eventID="e49" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei50" eventID="e50" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei51" eventID="e51" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei52" eventID="e52" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1006" eventID="e1006" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1007" eventID="e1007" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei55" eventID="e55" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei56" eventID="e56" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei57" eventID="e57" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei58" eventID="e58" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei59" eventID="e59" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1008" eventID="e1008" polarity="POS" pos="ADJECTIVE" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei61" eventID="e61" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei62" eventID="e62" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei63" eventID="e63" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei64" eventID="e64" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei65" eventID="e65" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei66" eventID="e66" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei67" eventID="e67" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei68" eventID="e68" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei69" eventID="e69" polarity="POS" pos="VERB" tense="PAST" />
+</TimeML>

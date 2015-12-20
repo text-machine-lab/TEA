@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+<Title>1926378.female.24.indUnk.Aries.xml</Title>
+<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2003-09-22">22,September,2003</TIMEX3></DCT>
+<TEXT>
+It's been a crazy <TIMEX3 tid="t1" type="DATE">week</TIMEX3> here at work, but luckily my weekends <EVENT class="OCCURRENCE" eid="e3">keep</EVENT> me sane enough to <EVENT class="OCCURRENCE" eid="e8">stay</EVENT> in <TIMEX3 tid="t4" type="DATE">this</TIMEX3> game <EVENT class="OCCURRENCE" eid="e9">called</EVENT> "Ladder Climb in Hollywood". <TIMEX3 tid="t3" type="DATE">Last weekend</TIMEX3> was <EVENT class="OCCURRENCE" eid="e10">packed</EVENT> full of fun things. My Aunt Deirdre from Boston is in town on a photo <EVENT class="OCCURRENCE" eid="e11">shoot</EVENT>, and my Uncle Pete and 7-month-old cousin Aidan <EVENT class="OCCURRENCE" eid="e1">came</EVENT> along to chill for the <TIMEX3 tid="t2" type="DATE">week</TIMEX3>. I'm <EVENT class="OCCURRENCE" eid="e2">babysitting</EVENT> him on <TIMEX3 tid="t5" type="DATE">Sunday</TIMEX3>, so I'm hoping all of my big sister/diaper changing/bottle <EVENT class="OCCURRENCE" eid="e14">warming</EVENT> techniques <EVENT class="OCCURRENCE" eid="e15">come</EVENT> back. Pete, Aidan, and I <EVENT class="OCCURRENCE" eid="e4">strolled</EVENT> over to the Santa Monica Pier where Red Bull was holding their annual Flugtag <EVENT class="OCCURRENCE" eid="e17">event</EVENT>. A gazillion people were there <EVENT class="PERCEPTION" eid="e5">watching</EVENT> these groups of people <EVENT class="OCCURRENCE" eid="e19">launch</EVENT> their weirdly <EVENT class="OCCURRENCE" eid="e20">engineered</EVENT> contraptions off the Pier in hopes that it'll <EVENT class="OCCURRENCE" eid="e21">fly</EVENT>. Most designs were top-heavy and immediately <EVENT class="OCCURRENCE" eid="e6">nosedived</EVENT> into the Pacific. Still fun to <EVENT class="PERCEPTION" eid="e23">watch</EVENT> though. I also <EVENT class="OCCURRENCE" eid="e7">went</EVENT> with some friends to "The Animation Show" at the Regent Theatre in Hollywood. So much of animation <EVENT class="I_STATE" eid="e25">seems</EVENT> <EVENT class="OCCURRENCE" eid="e26">filmic</EVENT> these <TIMEX3 tid="t6" type="DURATION">days</TIMEX3>! It <EVENT class="OCCURRENCE" eid="e27">showcased</EVENT> a lot of Mike Judge and Don Hertzfeldt's older work. Don's "Rejected" is still my fave. Very funny. It's <EVENT class="OCCURRENCE" eid="e28">coming</EVENT> to a theatre near you. I've been <EVENT class="OCCURRENCE" eid="e29">getting</EVENT> some good <EVENT class="OCCURRENCE" eid="e30">use</EVENT> out of my longboard lately. It is by far the best leg and ab workout I've had in a long time. AND it has <EVENT class="I_ACTION" eid="e31">helped</EVENT> my balance and posture tremendously.
+</TEXT>
+<MAKEINSTANCE aspect="NONE" eiid="ei3" eventID="e3" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei8" eventID="e8" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei9" eventID="e9" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei10" eventID="e10" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei11" eventID="e11" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei1" eventID="e1" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei2" eventID="e2" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei14" eventID="e14" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei15" eventID="e15" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei4" eventID="e4" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei17" eventID="e17" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei5" eventID="e5" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei19" eventID="e19" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei20" eventID="e20" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei21" eventID="e21" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei6" eventID="e6" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei23" eventID="e23" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei7" eventID="e7" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei25" eventID="e25" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei26" eventID="e26" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei27" eventID="e27" polarity="POS" pos="VERB" tense="PAST" />
+<MAKEINSTANCE aspect="NONE" eiid="ei28" eventID="e28" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei29" eventID="e29" polarity="POS" pos="VERB" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei30" eventID="e30" polarity="POS" pos="NOUN" tense="PRESENT" />
+<MAKEINSTANCE aspect="NONE" eiid="ei31" eventID="e31" polarity="POS" pos="VERB" tense="PRESENT" />
+<TLINK lid="l69" relType="AFTER" relatedToTime="t6" eventInstanceID="ei25" />
+</TimeML>

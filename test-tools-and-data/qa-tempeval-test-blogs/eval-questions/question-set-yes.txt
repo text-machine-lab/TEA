@@ -1,0 +1,65 @@
+1|blog1.TE3input.tml|IS e2 BEFORE e3|Was the thinking before the getting to the checkout?|yes
+2|blog1.TE3input.tml|IS e5 INCLUDES e6|Is the cooking included in the writing?|yes
+3|blog1.TE3input.tml|IS e1 BEFORE e4|Was the went to Ikea before the check on dinner?|yes
+4|blog1.TE3input.tml|IS e4 AFTER e6|Was the check on dinner after she wrote this?|yes
+5|blog1.TE3input.tml|IS e7 IS_INCLUDED t2|Did she set off the smoke alarm during the other night?|yes
+6|blog1.TE3input.tml|IS e1 AFTER e7|Was the went to ikea after she set off the smoke alarm?|yes
+7|blog1.TE3input.tml|IS t1 BEFORE t0|Was last night before the document writing time?|yes
+8|blog2.TE3input.tml|IS e1 AFTER e2|Did she live in Portland after they lived in Seattle?|yes
+9|blog2.TE3input.tml|IS e4 BEFORE e5|Did they get married before they moved to Maine?|yes
+10|blog2.TE3input.tml|IS e5 IS_INCLUDED t1|Did moving to Maine happen in November?|yes
+11|blog2.TE3input.tml|IS e3 INCLUDES e5|Does the changes in her life include the moving to Maine?|yes
+12|blog2.TE3input.tml|IS e4 AFTER e6|Did the getting married happen after they dated?|yes
+13|blog2.TE3input.tml|IS e6 SIMULTANEOUS t2|Did they date simultaneously with the 4 years?|yes
+14|blog2.TE3input.tml|IS t3 INCLUDES t4|Does the first year of marriage include the first six months?|yes
+15|blog2.TE3input.tml|IS e7 BEFORE e8|Did she laugh before the crap hit the fan?|yes
+16|blog2.TE3input.tml|IS e1 INCLUDES e9|Does live in Portland include the transformed into a grumpy wife?|yes
+17|blog3.TE3input.tml|IS t1 INCLUDES t2|Does the great weekend include Mother's Day?|yes
+18|blog3.TE3input.tml|IS t1 INCLUDES e1|Does the great weekend include taking my mom out?|yes
+19|blog3.TE3input.tml|IS t1 INCLUDES e2|Does the great weekend include the seeing "Movin' Out"?|yes
+20|blog3.TE3input.tml|IS e2 BEFORE e3|Is seeing "Movin' Out" before the treated to dinner?|yes
+21|blog3.TE3input.tml|IS e5 AFTER e6|Is getting an apartment after living together?|yes
+22|blog3.TE3input.tml|IS t0 INCLUDES e7|Does the document creation time include being stoked?|yes
+23|blog3.TE3input.tml|IS t0 BEFORE e8|Is the document creation time before pay me $50?|yes
+24|blog4.TE3input.tml|IS t0 AFTER e1|Is the document time stamp after UPS left a slip?|yes
+25|blog4.TE3input.tml|IS t0 AFTER e2|Is the document time stamp after taking to lunch?|yes
+26|blog4.TE3input.tml|IS t0 SIMULTANEOUS t1|Is the document time stamp simultaneous with Friday?|yes
+27|blog4.TE3input.tml|IS e1 BEFORE e3|Did UPS leave a slip before she stayed home?|yes
+28|blog4.TE3input.tml|IS e1 BEFORE e4|Did UPS leave a slip before they came?|yes
+29|blog4.TE3input.tml|IS t1 BEFORE e6|Is Friday before the call center closes?|yes
+30|blog4.TE3input.tml|IS e5 INCLUDES e7|Does having it include the laid off?|yes
+31|blog4.TE3input.tml|IS e7 AFTER e8|Is the laid off after the availing of their merchandise?|yes
+32|blog5.TE3input.tml|IS t1 INCLUDES t2|Does this work week include this morning?|yes
+33|blog5.TE3input.tml|IS e2 IS_INCLUDED t3|Did someone pump gas on Monday?|yes
+34|blog5.TE3input.tml|IS e1 AFTER e2|Did the report happen after the gas was pumped?|yes
+35|blog5.TE3input.tml|IS e2 BEFORE e3|Did someone pump gas before she headed to the premiere?|yes
+36|blog5.TE3input.tml|IS e2 IS_INCLUDED e5|Did someone pump gas when she was at work?|yes
+37|blog5.TE3input.tml|IS e3 AFTER e4|Did she head to the premiere after the invite?|yes
+38|blog5.TE3input.tml|IS t4 SIMULTANEOUS t5| Is tomorrow night simultaneous with a networking night?|yes
+39|blog6.TE3input.tml|IS e1 BEFORE e2|Did they come along to chill before babysitting?|yes
+40|blog6.TE3input.tml|IS t2 BEFORE e2|Is the week before babysitting?|yes
+41|blog6.TE3input.tml|IS t3 INCLUDES e4|Does last weekend include the strolling?|yes
+42|blog6.TE3input.tml|IS t3 INCLUDES e7|Does last weekend include the went with some friends?|yes
+43|blog6.TE3input.tml|IS e4 IS_INCLUDED e5|Is the strolled included in the people watching?|yes
+44|blog6.TE3input.tml|IS e5 INCLUDES e6|Did the gazillion people watching include the moment in which designs nosedived?|yes
+45|blog6.TE3input.tml|IS e2 AFTER e7|Is the babysitting after the went with some friends?|yes
+46|blog7.TE3input.tml|IS e12 BEFORE e13|Is the told Alison before the put it up on the site?|yes
+47|blog7.TE3input.tml|IS e1 IS_INCLUDED e2|Was she roped into holding him during the crying?|yes
+48|blog7.TE3input.tml|IS e2 IS_INCLUDED e3|Is the crying included in the dressed?|yes
+49|blog7.TE3input.tml|IS e3 INCLUDES e4|Did the dressed occur during him being sweaty?|yes
+50|blog7.TE3input.tml|IS e2 INCLUDES e5|Does the crying include when she took off his vest?|yes
+51|blog7.TE3input.tml|IS e5 BEFORE e6|Did she take off his vest before he stopped crying?|yes
+52|blog7.TE3input.tml|IS e5 BEFORE e7|Did she take off his vest before his mom came in?|yes
+53|blog7.TE3input.tml|IS e7 BEFORE e8|Did his mom come in before she bitched her out?|yes
+54|blog7.TE3input.tml|IS e6 BEFORE e9|Did she stop before he wore the thing?|yes
+55|blog7.TE3input.tml|IS e2 BEFORE e10|Was the crying before he cried?|yes
+56|blog7.TE3input.tml|IS e2 BEFORE e11|Was the crying before he came back?|yes
+57|blog8.TE3input.tml|IS t0 BEFORE t1|Is the document time stamp before Saturday?|yes
+58|blog8.TE3input.tml|IS t1 INCLUDES e1|Does Saturday include the exam?|yes
+59|blog8.TE3input.tml|IS t1 AFTER e2|Is Saturday after the ritual?|yes
+60|blog8.TE3input.tml|IS e2 BEFORE e3|Is the ritual before the talk?|yes
+61|blog8.TE3input.tml|IS e3 BEFORE e4|Is the talk before the life?|yes
+62|blog8.TE3input.tml|IS e5 BEFORE e6|Is the introduced before the hook up?|yes
+63|blog8.TE3input.tml|IS t2 SIMULTANEOUS t3| Is tomorrow simultaneous with Thursday?|yes
+64|blog8.TE3input.tml|IS e1 AFTER t2|Is the exam after tomorrow?|yes
+65|blog8.TE3input.tml|IS t1 AFTER e7|Is Saturday after the sneak a peak?|yes

@@ -1,0 +1,4 @@
+RESULTS
+-------
+system_name		quests	answrd	corr	inc	acc	prec	rec	f1
+wikipedia-annotated-output		130	1	1	0	0.01	1.00	0.01	0.02
