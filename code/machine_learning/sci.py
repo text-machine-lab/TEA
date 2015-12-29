@@ -1,4 +1,4 @@
-from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
 from sklearn.grid_search import GridSearchCV
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.metrics import f1_score
@@ -26,7 +26,7 @@ def train( featsDict, Y, do_grid=False ):
 
         print "training model [GRID SEARCH ON]"
 
-        estimates = LinearSVC()
+        estimates = SVC(kernel='linear')
         parameters = [ {'C':C_range } ]
 
         # Find best classifier
@@ -42,7 +42,7 @@ def train( featsDict, Y, do_grid=False ):
 
         print "training model [GRID SEARCH OFF]"
 
-        clf = LinearSVC()
+        clf = SVC(kernel='linear')
         clf.fit(X, Y)
 
     return clf, vec
