@@ -9,7 +9,16 @@ import numpy as np
 
 import math
 
-def train( featsDict, Y, do_grid=False ):
+def train( featsDict, Y, do_grid=False, ovo=False ):
+    '''
+    train()
+        train a single classifier for a given data and label set
+
+    @param featsDict: List of dictionary representations of every data entry
+    @param Y: labels for each data entry
+    @param do_grid: use grid search? (default False)
+    @param ovo: use one-vs-one classification? (default False results in one-vs-rest classification)
+    '''
 
     #vectorize dictionary data
     vec = DictVectorizer()
@@ -21,12 +30,17 @@ def train( featsDict, Y, do_grid=False ):
 
     clf = None
 
+    # if
+    func_shape = 'ovr'
+    if ovo:
+        func_shape = 'ovo'
+
     # Grid search?
     if do_grid:
 
         print "training model [GRID SEARCH ON]"
 
-        estimates = SVC(kernel='linear')
+        estimates = SVC(kernel='linear', decision_function_shape=func_shape)
         parameters = [ {'C':C_range } ]
 
         # Find best classifier
@@ -42,7 +56,7 @@ def train( featsDict, Y, do_grid=False ):
 
         print "training model [GRID SEARCH OFF]"
 
-        clf = SVC(kernel='linear')
+        clf = SVC(kernel='linear', decision_function_shape=func_shape)
         clf.fit(X, Y)
 
     return clf, vec
