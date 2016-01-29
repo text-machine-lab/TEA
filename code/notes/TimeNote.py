@@ -1178,7 +1178,6 @@ class TimeNote(Note, Features):
 
         # extract relevent attributes from entities
         src_position = self.get_entity_position(src_entity)
-        print src_position
         src_line_no = src_position["line_no"]
         src_start_offset = src_position["start_offset"]
         src_end_offset = src_position["end_offset"]
