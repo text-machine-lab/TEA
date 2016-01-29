@@ -256,7 +256,7 @@ class TimeNote(Note, Features):
                                   "rel_type":'None',
                                   "tlink_id":None})
 
-#        assert len(pairs_to_link) == len(entity_pairs)
+       # assert len(pairs_to_link) == len(entity_pairs)
 
         self.tlinks = pairs_to_link
 
@@ -287,29 +287,29 @@ class TimeNote(Note, Features):
 
             link = {}
 
-#            print "\n\n"
+            # print "\n\n"
 
             # source
             if "eventInstanceID" in t.attrib:
 
- #               print t.attrib["eventInstanceID"]
+               # print t.attrib["eventInstanceID"]
 
                 src_id = eiid_to_eid[t.attrib["eventInstanceID"]]
             else:
 
-  #              print t.attrib["timeID"]
+               # print t.attrib["timeID"]
 
                 src_id = t.attrib["timeID"]
 
             # target
             if "relatedToEventInstance" in t.attrib:
 
-   #             print t.attrib["relatedToEventInstance"]
+               # print t.attrib["relatedToEventInstance"]
 
                 target_id = eiid_to_eid[t.attrib["relatedToEventInstance"]]
             else:
 
-    #            print  t.attrib["relatedToTime"]
+               # print  t.attrib["relatedToTime"]
 
                 target_id = t.attrib["relatedToTime"]
 
@@ -317,9 +317,9 @@ class TimeNote(Note, Features):
 
             gold_tlink_pairs.append((src_id, target_id))
 
-     #       print (src_id, target_id)
+           # print (src_id, target_id)
 
-            #gold.append((src_id, target_id))
+            # gold.append((src_id, target_id))
 
             if src_id in temporal_relations:
 
@@ -333,7 +333,7 @@ class TimeNote(Note, Features):
             else:
                 temporal_relations[src_id] = [tmp_dict]
 
-      #  print gold_tlink_pairs
+       # print gold_tlink_pairs
 
        # print gold
 
@@ -1035,7 +1035,7 @@ class TimeNote(Note, Features):
 
         pair_features.update(self.get_same_attributes(self.get_entity_attributes(src_entity), self.get_entity_attributes(target_entity)))
 
-    #    pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
+        pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
 
         for key in src_features:
 
@@ -1083,6 +1083,38 @@ class TimeNote(Note, Features):
 
         return features
 
+
+    def get_entity_position(self, entity):
+        ''' extract line number, start token offset, and end token offset from a given entity '''
+ 
+        line_no = None
+        start_offset = None
+        end_offset = None
+ 
+        for token in entity:
+
+            if line_no is None:
+                # creation time does not have a sentence number
+                if "sentence_num" in token:
+                    line_no = token["sentence_num"]
+
+            else:
+                assert token["sentence_num"] == line_no
+
+
+            if start_offset is None and end_offset is None:
+                if "token_offset" in token: 
+                    start_offset = token["token_offset"]
+                    end_offset = token["token_offset"]
+
+            else:
+                if start_offset > token["token_offset"]:
+                    start_offset = token["token_offset"]
+
+                if end_offset < token["token_offset"]:
+                    end_offset = token["token_offset"]
+ 
+        return {"line_no": line_no, "start_offset": start_offset, "end_offset": end_offset}
 
 
     def get_preposition_features(self, token):
@@ -1145,12 +1177,20 @@ class TimeNote(Note, Features):
         ''' return tokens of temporal discourse connectives and their distance from each entity, if connective exist and entities are on the same line.'''
 
         # extract relevent attributes from entities
-        src_line_no, src_start_offset, src_end_offset = self.get_entity_attributes(src_entity)
-        target_line_no, target_start_offset, target_end_offset = self.get_entity_attributes(target_entity)
+        src_position = self.get_entity_position(src_entity)
+        print src_position
+        src_line_no = src_position["line_no"]
+        src_start_offset = src_position["start_offset"]
+        src_end_offset = src_position["end_offset"]
+
+        target_position = self.get_entity_position(target_entity)
+        target_line_no = target_position["line_no"]
+        target_start_offset = target_position["start_offset"]
+        target_end_offset = target_position["end_offset"]
 
         # connectives are only obtained for single sentences, and connot be processed for pairs that cross sentence boundaries
         if src_line_no != target_line_no or src_line_no is None or target_line_no is None:
-            return{"connective_tokens": 'None', "connective_distance_from_src":'None', "connective_distance_from_target": 'None'}
+            return {}
 
         # get discourse connectives
         connectives = self.get_discourse_connectives(src_line_no)
@@ -1209,9 +1249,9 @@ class TimeNote(Note, Features):
 
         # if no connective was found
         if connective_id is None or self.token_entity_type_feature(src_entity[0])["entity_type"] != "EVENT" or self.token_entity_type_feature(target_entity[0])["entity_type"] != "EVENT":
-            return {"connective_tokens": 'None', "connective_distance_from_src":'None', "connective_distance_from_target": 'None'}
+            return {}
 
-        return {"connective_tokens": connective_tokens, "connective_distance_from_src": str(connective_dist_src), "connective_distance_from_target": str(connective_dist_target)}
+        return {("connective_tokens", connective_tokens):1, ("connective_distance_from_src", str(connective_dist_src)):1, ("connective_distance_from_target", str(connective_dist_target)):1}
 
 
     def get_discourse_connectives(self, line_no):

@@ -30,17 +30,17 @@ def train( featsDict, Y, do_grid=False, ovo=False ):
 
     clf = None
 
-    # if
-    func_shape = 'ovr'
-    if ovo:
-        func_shape = 'ovo'
+    # # one-vs-one?
+    # func_shape = 'ovr'
+    # if ovo:
+    #     func_shape = 'ovo'
 
     # Grid search?
     if do_grid:
 
         print "training model [GRID SEARCH ON]"
 
-        estimates = SVC(kernel='linear', decision_function_shape=func_shape)
+        estimates = SVC(kernel='linear')
         parameters = [ {'C':C_range } ]
 
         # Find best classifier
@@ -56,7 +56,7 @@ def train( featsDict, Y, do_grid=False, ovo=False ):
 
         print "training model [GRID SEARCH OFF]"
 
-        clf = SVC(kernel='linear', decision_function_shape=func_shape)
+        clf = SVC(kernel='linear')
         clf.fit(X, Y)
 
     return clf, vec
