@@ -54,6 +54,8 @@ public class Parse {
     public Parse() {
 
         String[] cli_args = { "parse",
+                              "-g",
+                              "collins",
                               "-m",
                               System.getenv("TEA_PATH") + "/code/notes/NewsReader/models/parse-models/en-parser-chunking.bin" };
 
