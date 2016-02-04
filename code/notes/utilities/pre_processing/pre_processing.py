@@ -28,6 +28,8 @@ def pre_process(text):
 
     naf_tagged_doc = pre_processor.pre_process(text)
 
+    print naf_tagged_doc
+
     tokens, tokens_to_offset = tokenize.get_tokens(naf_tagged_doc)
     pos_tags = pos.get_pos_tags(naf_tagged_doc)
     token_lemmas   = lemmas.get_lemmas(naf_tagged_doc)
