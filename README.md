@@ -29,7 +29,7 @@ External Dependencies:
 
 Environment Variables:
 
-    1. There are two that need to be defined for the system to work:
+    1. There are two environment variables that need to be defined for the system to work:
         - TEA_PATH, should be set to the the path .../Temporal-Entity-Annotator-TEA-VERSION
 
         - PY4J_DIR_PATH, should be set to the folder /share/py4j, created when installing py4j.
