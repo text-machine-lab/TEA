@@ -114,7 +114,7 @@ class Note(object):
                 pos = "OTHER"
 
             if timexEventLabel["entity_type"] == "EVENT":
-                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "aspect": "NONE", "polarity": "POS", "pos":pos})
+                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "pos":pos})
                 eventDict[timexEventLabel["entity_id"]] = "ei" + str(i)
 
         # add tlinks
