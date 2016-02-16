@@ -1307,7 +1307,6 @@ class TimeNote(Note, Features):
             if target_end_offset < signal['start']:
                 retval.update({(signal_text + "_signal_after_target"): 1})
 
-        print retval
         return retval
 
     def get_temporal_signals_in_sentence(self, line_no):

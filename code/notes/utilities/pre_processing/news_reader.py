@@ -53,8 +53,6 @@ class NewsReader(object):
 
         # TODO: add more processing steps
         naf_marked_up_text = coref_tagged_text
-        with open("NAF_TEST.naf", "w") as f:
-            f.write(coref_tagged_text)
 
         return naf_marked_up_text
 
@@ -138,7 +136,6 @@ def _coreference_tag(naf_constituency_parsed_text):
     for i, char in enumerate(output):
         if char == '<':
             filtered_output = output[i:]
-            print i
             break
 
     return filtered_output
