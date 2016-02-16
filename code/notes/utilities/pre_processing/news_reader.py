@@ -49,9 +49,12 @@ class NewsReader(object):
         ner_tagged_text = self.newsreader_ner.tag(pos_tagged_text)
         constituency_parsed_text = self.newsreader_parse.parse(ner_tagged_text)
         srl_text = srl.parse_dependencies(constituency_parsed_text)
+        coref_tagged_text = _coreference_tag(srl_text)
 
         # TODO: add more processing steps
-        naf_marked_up_text = srl_text
+        naf_marked_up_text = coref_tagged_text
+        with open("NAF_TEST.naf", "w") as f:
+            f.write(coref_tagged_text)
 
         return naf_marked_up_text
 
@@ -115,6 +118,30 @@ def _constituency_parse(naf_tokenized_pos_tagged_text):
 
     return output
 
+def _coreference_tag(naf_constituency_parsed_text):
+
+    tag = subprocess.Popen(["python2.7",
+                            "-m",
+                            "corefgraph.process.file",
+                            "--reader",
+                            "NAF",
+                            "--language",
+                            "en"],
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE)
+
+    output, _ = tag.communicate(naf_constituency_parsed_text)
+
+    filtered_output = ""
+
+    # coref graph adds some garbage lines at the top of the file. Remove everything before the first opening tag.
+    for i, char in enumerate(output):
+        if char == '<':
+            filtered_output = output[i:]
+            print i
+            break
+
+    return filtered_output
 
 class SRL():
 

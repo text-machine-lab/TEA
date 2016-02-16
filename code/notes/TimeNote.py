@@ -55,6 +55,10 @@ class TimeNote(Note, Features):
         else:
             self.tlinks = None
 
+        # these were extracted from the TimeBank corpus, and have been hardcoded here for convenience
+        self.temporal_signals = [['in'], ['on'], ['after'], ['since'], ['until'], ['in', 'advance', 'of'], ['before'], ['to'], ['at'], ['during'], ['ahead', 'of'], ['of'], ['by'], 
+                                ['between'], ['as', 'of'], ['from'], ['as', 'early', 'as'], ['for'], ['around'], ['over'], ['prior', 'to'], ['when'], ['should'], ['within'], ['while']]
+
     def _pre_process(self, timeml_note_path):
 
         # callls newsreader pipeline, tokenizes, get_features
@@ -1036,6 +1040,7 @@ class TimeNote(Note, Features):
         pair_features.update(self.get_same_attributes(self.get_entity_attributes(src_entity), self.get_entity_attributes(target_entity)))
 
         pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
+        pair_features.update(self.get_temporal_signal_features(src_entity, target_entity))
 
         for key in src_features:
 
@@ -1176,6 +1181,10 @@ class TimeNote(Note, Features):
     def get_discourse_connectives_features(self, src_entity, target_entity):
         ''' return tokens of temporal discourse connectives and their distance from each entity, if connective exist and entities are on the same line.'''
 
+        # if both entities are not events, return
+        if self.token_entity_type_feature(src_entity[0])["entity_type"] != "EVENT" or self.token_entity_type_feature(target_entity[0])["entity_type"] != "EVENT":
+            return {}
+
         # extract relevent attributes from entities
         src_position = self.get_entity_position(src_entity)
         src_line_no = src_position["line_no"]
@@ -1196,62 +1205,65 @@ class TimeNote(Note, Features):
 
         connective_id = None
         connective_tokens = ''
-        connective_dist_src = None
-        connective_dist_target = None
+        connective_is_between_entities = False
+        connective_before_entities = False
+        connective_after_entities = False
         src_before_target = False
 
         for connective_token in connectives:
 
-            # ensure connective is between the two entities
-            connective_is_between_entities = False
-            if src_end_offset < connective_token["token_offset"] and connective_token["token_offset"] < target_start_offset:
+            # find connective position relative to entities
+            if src_start_offset < connective_token["token_offset"] and connective_token["token_offset"] < target_end_offset:
                 connective_is_between_entities = True
                 src_before_target = True
-
-            elif target_end_offset < connective_token["token_offset"] and connective_token["token_offset"] < src_start_offset:
+            elif target_start_offset < connective_token["token_offset"] and connective_token["token_offset"] < src_end_offset:
                 connective_is_between_entities = True
 
-            if connective_is_between_entities is False:
-                continue
+            elif src_start_offset < target_start_offset and target_start_offset < connective_token["token_offset"]:
+                connective_after_entities = True
+                src_before_target = True
+            elif target_start_offset < src_start_offset and src_start_offset < connective_token["token_offset"]:
+                connective_after_entities = True
 
-           # # assuming every pair of tokens will only have one connective between them. If this isn't the case, it would be nice to know
-           # if connective_id is not None:
-           #     assert connective_id == connective_token["discourse_id"]
+            elif connective_token["token_offset"] < src_end_offset and src_start_offset < target_start_offset:
+                connective_before_entities = True
+                src_before_target = True
+            elif connective_token["token_offset"] < target_end_offset and target_start_offset < src_start_offset:
+                connective_before_entities = True
+
+            # assuming every sentence will only have one temporal discourse connective. If this isn't the case, it would be nice to know
+            if connective_id is not None:
+                assert connective_id == connective_token["discourse_id"]
 
             connective_id = connective_token["discourse_id"]
 
-            # compute number of tokens between entities and connective using correct offset based on the order they occur in in the sentence
-            if src_before_target is True:
-                current_dist_src = abs(connective_token["token_offset"] - src_end_offset)
-                current_dist_target = abs(connective_token["token_offset"] - target_start_offset)
-
-            else:
-                current_dist_src = abs(connective_token["token_offset"] - src_start_offset)
-                current_dist_target = abs(connective_token["token_offset"] - target_end_offset)
-
-            # if no distence or new connective token is closer than last connective token
-            if connective_dist_src is None or connective_dist_src > current_dist_src:
-                connective_dist_src = current_dist_src
-
-            # if no distence or new connective token is closer than last connective token
-            if connective_dist_target is None or connective_dist_target > current_dist_target:
-                connective_dist_target = current_dist_target
-
-            # add space if not the first token
-            if connective_tokens != '':
-                connective_tokens += ' '
-
+            # add token to connective
             connective_tokens += connective_token["token"]
 
-        assert self.token_entity_type_feature(src_entity[0])["entity_type"] in ["EVENT", "TIMEX3"]
-        assert self.token_entity_type_feature(target_entity[0])["entity_type"] in ["EVENT", "TIMEX3"]
-
         # if no connective was found
-        if connective_id is None or self.token_entity_type_feature(src_entity[0])["entity_type"] != "EVENT" or self.token_entity_type_feature(target_entity[0])["entity_type"] != "EVENT":
+        if connective_id is None:
             return {}
 
-        return {("connective_tokens", connective_tokens):1, ("connective_distance_from_src", str(connective_dist_src)):1, ("connective_distance_from_target", str(connective_dist_target)):1}
+        # # sanity check
+        # if connective_id is not None:
+            # assert connective_before_entities or connective_after_entities or connective_is_between_entities
 
+        # return feature dict
+        retval = {("connective_tokens", connective_tokens):1}
+        if connective_before_entities:
+            retval["connective_before_src"] = 1
+            retval["connective_before_target"] = 1
+        elif connective_after_entities:
+            retval["connective_after_src"] = 1
+            retval["connective_after_target"] = 1
+        elif connective_is_between_entities and src_before_target:
+            retval["connective_after_src"] = 1
+            retval["connective_before_target"] = 1
+        elif connective_is_between_entities and not src_before_target:
+            retval["connective_before_src"] = 1
+            retval["connective_after_target"] = 1
+
+        return retval
 
     def get_discourse_connectives(self, line_no):
 
@@ -1261,6 +1273,70 @@ class TimeNote(Note, Features):
 
         return connectives
 
+    def get_temporal_signal_features(self, src_entity, target_entity):
+
+        # get position information for both entities
+        src_position = self.get_entity_position(src_entity)
+        src_line_no = src_position["line_no"]
+        src_start_offset = src_position["start_offset"]
+        src_end_offset = src_position["end_offset"]
+
+        target_position = self.get_entity_position(target_entity)
+        target_line_no = target_position["line_no"]
+        target_start_offset = target_position["start_offset"]
+        target_end_offset = target_position["end_offset"]
+
+        # signals are currently only examined for pairs in the same sentence
+        if src_line_no != target_line_no or src_line_no is None or target_line_no is None:
+            return {}
+
+        # get signals in sentence
+        signals = self.get_temporal_signals_in_sentence(src_line_no)
+        retval = {}
+
+        # extract positional features for each signal
+        for signal in signals:
+            signal_text = signal['tokens']
+            retval.update({(signal_text + '_signal'):1})
+            if signal['end'] < src_start_offset:
+                retval.update({(signal_text + "_signal_before_src"): 1})
+            if src_end_offset < signal['start']:
+                retval.update({(signal_text + "_signal_after_src"): 1})
+            if signal['end'] < target_start_offset:
+                retval.update({(signal_text + "_signal_before_target"): 1})
+            if target_end_offset < signal['start']:
+                retval.update({(signal_text + "_signal_after_target"): 1})
+
+        print retval
+        return retval
+
+    def get_temporal_signals_in_sentence(self, line_no):
+        
+        # get sentence in question
+        sentence = self.pre_processed_text[line_no]
+        signals = []
+
+        # for every token, see if it is in every signal
+        for i, token in enumerate(sentence):
+            for signal in self.temporal_signals:
+                token_is_signal = True
+                signal_text = ""
+
+                # check if the whole signal is present
+                signal_end = i
+                for j in range(len(signal)):
+                    if sentence[i+j]['token'] != signal[j]:
+                        token_is_signal = False
+                        break
+                    signal_text += signal[j] + ' '
+                    signal_end = i + j
+
+                # if signal is present, do shit
+                if token_is_signal:
+                    signals.append({"start": i, "end": signal_end, "tokens": signal_text})
+                    break
+
+        return signals
 
     def get_text_features(self, entity):
 

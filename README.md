@@ -25,7 +25,8 @@ External Dependencies:
     - java1.7 or higher
     - python2.7
     - py4j, python module
-    - scikitlearn
+    - scikit-learn, python module
+    - CorefGraph, python module
 
 Environment Variables:
 

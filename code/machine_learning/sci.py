@@ -40,7 +40,7 @@ def train( featsDict, Y, do_grid=False, ovo=False ):
 
         print "training model [GRID SEARCH ON]"
 
-        estimates = SVC(kernel='linear', max_iter=1000)
+        estimates = SVC(kernel='linear', max_iter=1000, decision_function_shape=func_shape)
         parameters = [ {'C':C_range } ]
 
         # Find best classifier
