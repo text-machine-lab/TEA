@@ -13,11 +13,11 @@ if "TEA_PATH" not in os.environ:
 if "PY4J_DIR_PATH" not in os.environ:
     exit("PY4J_DIR_PATH environment variable not specified")
 
-os.environ["TEA_PATH"] = os.getcwd()
-os.environ["PUNKT_PATH"] = os.environ["TEA_PATH"] + "/data/nltk_data/tokenizers/punkt/english.pickle"
 
 def main():
 
+    """ Processes command line arguments and then generates a trained model on files provided.
+    """
 
     parser = argparse.ArgumentParser()
 
@@ -38,10 +38,10 @@ def main():
 
     if '/*' != args.train_dir[0][-2:]:
         train_dir = args.train_dir[0] + '/*'
-
     else:
         train_dir = args.train_dir[0]
 
+    # get files in directory
     files = glob.glob(train_dir)
 
     gold_files = []
@@ -56,23 +56,26 @@ def main():
     gold_files.sort()
     tml_files.sort()
 
+    # one-to-one pairing of annotated file and un-annotated
     assert len(gold_files) == len(tml_files)
 
+    # create the model
     model = trainModel(tml_files, gold_files, False)
 
+    # store model as pickle object.
     with open(args.model_destination, "wb") as modFile:
         cPickle.dump(model, modFile)
 
 
 def trainModel( tml_files, gold_files, grid ):
-    '''
+    """
     train::trainModel()
 
     Purpose: Train a model for classification of events, timexes, and temporal relations based
        on given training data
 
     @param training_list: List of strings containing file paths for .tml training documents
-    '''
+    """
 
     print "Called train"
 
@@ -81,18 +84,18 @@ def trainModel( tml_files, gold_files, grid ):
 
     basename = lambda x: os.path.basename(x[0:x.index(".tml")])
 
-    i = 1
+    for i, example in enumerate(zip(tml_files, gold_files)):
 
-    for tml, gold in zip(tml_files, gold_files):
+        tml, gold = example
 
         assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
 
-        print '\n\nprocessing file {}/{} {}'.format(i, len(zip(tml_files, gold_files)), tml)
+        print '\n\nprocessing file {}/{} {}'.format(i + 1,
+                                                    len(zip(tml_files, gold_files)),
+                                                    tml)
 
         tmp_note = TimeNote(tml, gold)
         notes.append(tmp_note)
-
-        i += 1
 
     mod = model.Model(grid=grid)
     mod.train(notes)

@@ -4,295 +4,295 @@ from code.notes.TimeNote import TimeNote
 from utilities import combineLabels
 from machine_learning.sci import train as train_classifier
 
+
 class Model:
 
-	def __init__(self, grid=False):
 
-		self.grid=grid
+    def __init__(self, grid=False):
 
-	def train(self, notes):
-		'''
-		Model::train()
+        self.grid=grid
 
-		Purpose: Train a classification model for Timex3, events, and temporal event relations from annotated data
 
-		@param notes. A list of TimeNote objects containing annotated data
-		'''
+    def train(self, notes):
+        """
+        Model::train()
 
-		timexLabels	= []
-		eventLabels	= []
-		tlinkFeats	= []
-		tlinkLabels	= []
+        Purpose: Train a classification model for Timex3, events, and temporal event relations from annotated data
 
-		tlinkIds	= []
-		offsets 	= []
+        @param notes. A list of TimeNote objects containing annotated data
+        """
 
-		eventFeats = []
-		timexFeats = []
+        timexLabels = []
+        eventLabels = []
+        tlinkFeats  = []
+        tlinkLabels = []
 
-		#populate feature and label lists
-		for note in notes:
+        tlinkIds = []
+        offsets  = []
 
-			eventFeats += note.get_event_features()
-			timexFeats += note.get_timex_features()
+        eventFeats = []
+        timexFeats = []
 
-			#timex labels
-			tmpLabels = note.get_timex_iob_labels()
-			for label in tmpLabels:
-				timexLabels += label
+        #populate feature and label lists
+        for note in notes:
 
-			#event labels
-			tmpLabels = note.get_event_iob_labels()
-			for label in tmpLabels:
-				eventLabels += label
+            eventFeats += note.get_event_features()
+            timexFeats += note.get_timex_features()
 
-			#tlink features and labels
-			tlinkFeats += note.get_tlink_features()
-			tlinkLabels += note.get_tlink_labels()
+            #timex labels
+            tmpLabels = note.get_timex_iob_labels()
+            for label in tmpLabels:
+                timexLabels += label
 
-		assert len(eventFeats) == len(eventLabels), "{} != {}".format(len(eventFeats), len(eventLabels))
-		assert len(timexFeats) == len(timexLabels), "{} != {}".format(len(timexFeats), len(timexLabels))
-		assert len(tlinkFeats) == len(tlinkLabels), "{} != {}".format(len(tlinkFeats), len(tlinkLabels))
+            #event labels
+            tmpLabels = note.get_event_iob_labels()
+            for label in tmpLabels:
+                eventLabels += label
 
-		#train classifiers
-		self._trainTimex(timexFeats, timexLabels)
-		self._trainEvent(eventFeats, eventLabels)
+            #tlink features and labels
+            tlinkFeats += note.get_tlink_features()
+            tlinkLabels += note.get_tlink_labels()
 
-		self._trainTlink(tlinkFeats, tlinkLabels)
+        assert len(eventFeats) == len(eventLabels), "{} != {}".format(len(eventFeats), len(eventLabels))
+        assert len(timexFeats) == len(timexLabels), "{} != {}".format(len(timexFeats), len(timexLabels))
+        assert len(tlinkFeats) == len(tlinkLabels), "{} != {}".format(len(tlinkFeats), len(tlinkLabels))
 
-	def predict(self, note):
-		'''
-		Model::predict()
+        #train classifiers
+        self._trainTimex(timexFeats, timexLabels)
+        self._trainEvent(eventFeats, eventLabels)
 
-		Purpose: Predict temporal relations for a set of notes
+        self._trainTlink(tlinkFeats, tlinkLabels)
 
-		@param notes: A list of TimeNote objects
-		@return: All three label sets predicted by the classifiers
-		'''
 
-		timexLabels	= []
-		eventLabels	= []
-		tlinkFeats	= []
-		tlinkLabels	= []
-		offsets		= note.get_token_char_offsets()
+    def predict(self, note):
+        """
+        Model::predict()
 
-		#populate feature lists
-		_timexFeats = note.get_timex_features()
+        Purpose: Predict temporal relations for a set of notes
 
-		tokens          = note.get_tokens()
+        @param notes: A list of TimeNote objects
+        @return: All three label sets predicted by the classifiers
+        """
 
-		# reconstruct labelings
-		iob_labels = []
+        timexLabels = []
+        eventLabels = []
+        tlinkFeats  = []
+        tlinkLabels = []
+        offsets     = note.get_token_char_offsets()
 
-		tokenized_text = note.get_tokenized_text()
+        #populate feature lists
+        _timexFeats = note.get_timex_features()
 
-		assert len(tokens) == len(_timexFeats)
-		assert len(offsets) == len(_timexFeats)
+        tokens  = note.get_tokens()
 
-		#TODO: move direct SVM interfacing back to sci.py
+        # reconstruct labelings
+        iob_labels = []
 
-		#vectorize and classify timex
-		potentialTimexVec = self.timexVectorizer.transform(_timexFeats).toarray()
-		timexLabels_withO = list(self.timexClassifier.predict(potentialTimexVec))
+        tokenized_text = note.get_tokenized_text()
 
-		# adjust labels. normalize tool doesn't like this.
-		for i, token in enumerate(tokens):
-			if len(token["token"]) == 1:
-				timexLabels_withO[i] = 'O'
+        assert len(tokens) == len(_timexFeats)
+        assert len(offsets) == len(_timexFeats)
 
-		#filter out all timex-labeled entities
-		timexFeats = []
-		timexOffsets = []
-		timexLabels = []
-		potentialEventOffsets = []
-		potentialEventFeats = []
+        #TODO: move direct SVM interfacing back to sci.py
 
-		potentialEventTokens = []
-		timexTokens = []
+        #vectorize and classify timex
+        potentialTimexVec = self.timexVectorizer.transform(_timexFeats).toarray()
+        timexLabels_withO = list(self.timexClassifier.predict(potentialTimexVec))
 
-		_tmp_labels = []
+        # adjust labels. normalize tool doesn't like this.
+        for i, token in enumerate(tokens):
+            if len(token["token"]) == 1:
+                timexLabels_withO[i] = 'O'
 
+        #filter out all timex-labeled entities
+        timexFeats = []
+        timexOffsets = []
+        timexLabels = []
+        potentialEventOffsets = []
+        potentialEventFeats = []
 
-		for line in tokenized_text:
-			_tmp_labels.append([ {'entity_label': 'O', 'entity_type': None}] * len(tokenized_text[line]))
+        potentialEventTokens = []
+        timexTokens = []
 
+        _tmp_labels = []
 
+        for line in tokenized_text:
+            _tmp_labels.append([ {'entity_label': 'O', 'entity_type': None}] * len(tokenized_text[line]))
 
-		for token, label in zip(tokens, timexLabels_withO):
+        for token, label in zip(tokens, timexLabels_withO):
 
-			_tmp_labels[token["sentence_num"] - 1][token["token_offset"]]["entity_label"]=label
-			_tmp_labels[token["sentence_num"] - 1][token["token_offset"]]["entity_type"]=label[2:]
+            _tmp_labels[token["sentence_num"] - 1][token["token_offset"]]["entity_label"]=label
+            _tmp_labels[token["sentence_num"] - 1][token["token_offset"]]["entity_type"]=label[2:]
 
+        note.set_iob_labels(_tmp_labels)
 
-		note.set_iob_labels(_tmp_labels)
+        _eventFeats = note.get_event_features()
 
+        for i in range(0, len(timexLabels_withO)):
+            if timexLabels_withO[i] == 'O':
+                potentialEventFeats.append(_eventFeats[i])
+                potentialEventOffsets.append(offsets[i])
 
+                potentialEventTokens.append(tokens[i])
 
-		_eventFeats = note.get_event_features()
+            else:
+                timexFeats.append(_timexFeats[i])
+                timexOffsets.append(offsets[i])
+                timexLabels.append(timexLabels_withO[i])
 
-		for i in range(0, len(timexLabels_withO)):
-			if timexLabels_withO[i] == 'O':
-				potentialEventFeats.append(_eventFeats[i])
-				potentialEventOffsets.append(offsets[i])
+                timexTokens.append(tokens[i])
 
-				potentialEventTokens.append(tokens[i])
+        assert len(potentialEventFeats + timexFeats) == len(offsets), "{} != {}".format(len(offsets), + len(potentialEventFeats + timexFeats))
+        assert len(potentialEventTokens + timexTokens) == len(offsets)
 
-			else:
-				timexFeats.append(_timexFeats[i])
-				timexOffsets.append(offsets[i])
-				timexLabels.append(timexLabels_withO[i])
+        #vectorize and classify events
+        potentialEventVec = self.eventVectorizer.transform(potentialEventFeats).toarray()
+        eventLabels_withO = list(self.eventClassifier.predict(potentialEventVec))
 
-				timexTokens.append(tokens[i])
+        # adjust labels. normalize tool doesn't like this.
+        for i, token in enumerate(potentialEventTokens):
+            if len(token["token"]) == 1:
+                eventLabels_withO[i] = 'O'
 
+        OOffsets = []
+        OFeats = []
+        OLabels = []
+        eventOffsets = []
+        eventFeats = []
+        eventLabels = []
 
-		assert len(potentialEventFeats + timexFeats) == len(offsets), "{} != {}".format(len(offsets), + len(potentialEventFeats + timexFeats))
-		assert len(potentialEventTokens + timexTokens) == len(offsets)
+        OTokens = []
+        eventTokens = []
 
-		#vectorize and classify events
-		potentialEventVec = self.eventVectorizer.transform(potentialEventFeats).toarray()
-		eventLabels_withO = list(self.eventClassifier.predict(potentialEventVec))
+        for i in range(0, len(eventLabels_withO)):
+            if eventLabels_withO[i] == 'O':
+                OOffsets.append(potentialEventOffsets[i])
+                OFeats.append(potentialEventFeats[i])
+                OLabels.append(eventLabels_withO[i])
+                OTokens.append(potentialEventTokens[i])
 
-		# adjust labels. normalize tool doesn't like this.
-		for i, token in enumerate(potentialEventTokens):
-			if len(token["token"]) == 1:
-				eventLabels_withO[i] = 'O'
+        else:
+            eventFeats.append(potentialEventFeats[i])
+            eventOffsets.append(potentialEventOffsets[i])
+            eventLabels.append(eventLabels_withO[i])
 
-		OOffsets = []
-		OFeats = []
-		OLabels = []
-		eventOffsets = []
-		eventFeats = []
-		eventLabels = []
+            eventTokens.append(potentialEventTokens[i])
 
-		OTokens = []
-		eventTokens = []
+        assert len(OOffsets + eventOffsets + timexOffsets) == len(eventFeats + OFeats + timexFeats)
+        assert len(OLabels + eventLabels + timexLabels) == len(eventFeats + OFeats + timexFeats)
+        assert len(offsets) == len(OOffsets + eventOffsets + timexOffsets),
+               "len(offsets): {}, len(OOffsets + eventOffsets + timexOffsets): {}".format(len(offsets),
+                                                                                          len(OOffsets + eventOffsets + timexOffsets))
+        assert len(OLabels + eventLabels + timexLabels) == len(OTokens + eventTokens + timexTokens)
 
-		for i in range(0, len(eventLabels_withO)):
-			if eventLabels_withO[i] == 'O':
-				OOffsets.append(potentialEventOffsets[i])
-				OFeats.append(potentialEventFeats[i])
-				OLabels.append(eventLabels_withO[i])
-				OTokens.append(potentialEventTokens[i])
+        timexEventLabels = combineLabels(timexLabels, eventLabels, OLabels)
+        timexEventFeats = timexFeats + eventFeats + OFeats
+        timexEventOffsets = timexOffsets + eventOffsets + OOffsets
+        timexEventTokens = timexTokens + eventTokens + OTokens
 
-			else:
-				eventFeats.append(potentialEventFeats[i])
-				eventOffsets.append(potentialEventOffsets[i])
-				eventLabels.append(eventLabels_withO[i])
+        assert len(timexEventOffsets) == len(timexEventTokens)
+        assert len(timexEventOffsets) == len(timexEventFeats)
+        assert len(timexEventLabels) == len(timexEventFeats)
 
-				eventTokens.append(potentialEventTokens[i])
+        offsetDictLabel = {}
+        offsetDictToken = {}
 
-		assert len(OOffsets + eventOffsets + timexOffsets) == len(eventFeats + OFeats + timexFeats)
-		assert len(OLabels + eventLabels + timexLabels) == len(eventFeats + OFeats + timexFeats)
-		assert len(offsets) == len(OOffsets + eventOffsets + timexOffsets), "len(offsets): {}, len(OOffsets + eventOffsets + timexOffsets): {}".format(len(offsets), len(OOffsets + eventOffsets + timexOffsets))
-		assert len(OLabels + eventLabels + timexLabels) == len(OTokens + eventTokens + timexTokens)
+        for i, offset in enumerate(timexEventOffsets):
+            offsetDictToken[offset] = timexEventTokens[i]
+            offsetDictLabel[offset] = timexEventLabels[i]
 
-		timexEventLabels = combineLabels(timexLabels, eventLabels, OLabels)
-		timexEventFeats = timexFeats + eventFeats + OFeats
-		timexEventOffsets = timexOffsets + eventOffsets + OOffsets
-		timexEventTokens = timexTokens + eventTokens + OTokens
+        wellOrderedEntityLabels = []
+        wellOrderedTokens = []
 
-		assert len(timexEventOffsets) == len(timexEventTokens)
-		assert len(timexEventOffsets) == len(timexEventFeats)
-		assert len(timexEventLabels) == len(timexEventFeats)
+        for offset in note.get_token_char_offsets():
+            wellOrderedEntityLabels.append(offsetDictLabel[offset])
+            wellOrderedTokens.append(offsetDictToken[offset])
 
-		offsetDictLabel = {}
-		offsetDictToken = {}
+        assert len(offsetDictToken) == len(offsetDictLabel)
 
-		for i, offset in enumerate(timexEventOffsets):
-			offsetDictToken[offset] = timexEventTokens[i]
-			offsetDictLabel[offset] = timexEventLabels[i]
+        unflattened_iobs = []
 
-		wellOrderedEntityLabels = []
-		wellOrderedTokens = []
+        # TODO: awful code. last minute bug fixing :(
+        for line in tokenized_text:
+            unflattened_iobs.append([ {'entity_label': 'O', 'entity_id': None, 'entity_type': None}] * len(tokenized_text[line]))
 
-		for offset in note.get_token_char_offsets():
-			wellOrderedEntityLabels.append(offsetDictLabel[offset])
-			wellOrderedTokens.append(offsetDictToken[offset])
+        for tokenKey, labelKey in zip(offsetDictToken, offsetDictLabel):
 
-		assert len(offsetDictToken) == len(offsetDictLabel)
+            assert tokenKey == labelKey
+            unflattened_iobs[offsetDictToken[tokenKey]["sentence_num"] - 1][offsetDictToken[tokenKey]["token_offset"]] = offsetDictLabel[labelKey]
 
-		unflattened_iobs = []
+        note.set_iob_labels(unflattened_iobs)
 
-# TODO: awful code. last minute bug fixing :(
-		for line in tokenized_text:
-			unflattened_iobs.append([ {'entity_label': 'O', 'entity_id': None, 'entity_type': None}] * len(tokenized_text[line]))
+        note.set_tlinks(wellOrderedTokens, wellOrderedEntityLabels)
 
-		for tokenKey, labelKey in zip(offsetDictToken, offsetDictLabel):
+        tlinkFeats = note.get_tlink_features()
 
-			assert tokenKey == labelKey
-			unflattened_iobs[offsetDictToken[tokenKey]["sentence_num"] - 1][offsetDictToken[tokenKey]["token_offset"]] = offsetDictLabel[labelKey]
+        tlinkVec = self.tlinkVectorizer.transform(tlinkFeats).toarray()
 
-		note.set_iob_labels(unflattened_iobs)
+        tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
 
-		note.set_tlinks(wellOrderedTokens, wellOrderedEntityLabels)
+        return wellOrderedEntityLabels, timexEventOffsets, tlinkLabels, wellOrderedTokens
 
-		tlinkFeats = note.get_tlink_features()
 
-		tlinkVec = self.tlinkVectorizer.transform(tlinkFeats).toarray()
+    def _trainTimex(self, tokenVectors, labels):
+        """
+        Model::_trainTimex()
 
-		tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
+        Purpose: Train a classifer for Timex3 expressions
 
-		return wellOrderedEntityLabels, timexEventOffsets, tlinkLabels, wellOrderedTokens
+        @param tokenVectors: A list of tokens represented as feature dictionaries
+        @param Y: A list of lists of Timex3 classifications for each token in each sentence
+        """
 
-	def _trainTimex(self, tokenVectors, labels):
-		'''
-		Model::_trainTimex()
+        assert len(tokenVectors) == len(labels)
 
-		Purpose: Train a classifer for Timex3 expressions
+        Y = []
 
-		@param tokenVectors: A list of tokens represented as feature dictionaries
-		@param Y: A list of lists of Timex3 classifications for each token in each sentence
-		'''
+        for label in labels:
+            Y.append(label["entity_label"])
 
-		assert len(tokenVectors) == len(labels)
+        clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
+        self.timexClassifier = clf
+        self.timexVectorizer = vec
 
-		Y = []
 
-		for label in labels:
-			Y.append(label["entity_label"])
+    def _trainEvent(self, tokenVectors, labels):
+        """
+        Model::_trainEvent()
 
-		clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
-		self.timexClassifier = clf
-		self.timexVectorizer = vec
+        Purpose: Train a classifer for event identification
 
+        @param tokenVectors: A list of tokens represented as feature dictionaries
+        @param Y: A list of lists of event classifications for each token, with one list per sentence
+        """
 
-	def _trainEvent(self, tokenVectors, labels):
-		'''
-		Model::_trainEvent()
+        assert len(tokenVectors) == len(labels)
 
-		Purpose: Train a classifer for event identification
+        Y = []
 
-		@param tokenVectors: A list of tokens represented as feature dictionaries
-		@param Y: A list of lists of event classifications for each token, with one list per sentence
-		'''
 
-		assert len(tokenVectors) == len(labels)
+        for label in labels:
+            Y.append(label["entity_label"])
 
-		Y = []
+        clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
+        self.eventClassifier = clf
+        self.eventVectorizer = vec
 
 
-		for label in labels:
-			Y.append(label["entity_label"])
+    def _trainTlink(self, tokenVectors, Y):
+        """
+        Model::_trainRelation()
 
-		clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
-		self.eventClassifier = clf
-		self.eventVectorizer = vec
+        Purpose: Train a classifer for temporal relations between events and timex3 labels
 
+        @param tokenVectors: A list of tokens represented as feature dictionaries
+        @param Y: A list of relation classifications for each pair of timexes and events.
+        """
 
-	def _trainTlink(self, tokenVectors, Y):
-		'''
-		Model::_trainRelation()
+        assert len(tokenVectors) == len(Y)
 
-		Purpose: Train a classifer for temporal relations between events and timex3 labels
-
-		@param tokenVectors: A list of tokens represented as feature dictionaries
-		@param Y: A list of relation classifications for each pair of timexes and events.
-		'''
-
-		assert len(tokenVectors) == len(Y)
-
-		clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
-		self.tlinkClassifier = clf
-		self.tlinkVectorizer = vec
+        clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
+        self.tlinkClassifier = clf
+        self.tlinkVectorizer = vec
 
 
