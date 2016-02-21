@@ -1,6 +1,14 @@
 """ TODO: fix features below, they don't work. i simply just moved them into a different file.
 """
 
+# these were extracted from the TimeBank corpus, and have been hardcoded here for convenience
+temporal_signals = [['in'],      ['on'],                  ['after'],       ['since'],
+                    ['until'],   ['in', 'advance', 'of'], ['before'],      ['to'],
+                    ['at'],      ['during'],              ['ahead', 'of'], ['of'], ['by'],
+                    ['between'], ['as', 'of'],            ['from'],        ['as', 'early', 'as'],
+                    ['for'],     ['around'],              ['over'],        ['prior', 'to'],
+                    ['when'],    ['should'],              ['within'],      ['while']]
+
 
 def get_event_features(self):
 

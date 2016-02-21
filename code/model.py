@@ -180,7 +180,7 @@ class Model:
 
         assert len(OOffsets + eventOffsets + timexOffsets) == len(eventFeats + OFeats + timexFeats)
         assert len(OLabels + eventLabels + timexLabels) == len(eventFeats + OFeats + timexFeats)
-        assert len(offsets) == len(OOffsets + eventOffsets + timexOffsets),
+        assert len(offsets) == len(OOffsets + eventOffsets + timexOffsets),\
                "len(offsets): {}, len(OOffsets + eventOffsets + timexOffsets): {}".format(len(offsets),
                                                                                           len(OOffsets + eventOffsets + timexOffsets))
         assert len(OLabels + eventLabels + timexLabels) == len(OTokens + eventTokens + timexTokens)
