@@ -55,65 +55,6 @@ class NewsReader(object):
 
         return naf_marked_up_text
 
-def _tokenize(text):
-    """ takes in path to a file and then tokenizes it """
-    tok = subprocess.Popen(["java",
-                            "-jar",
-                            os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-tok-1.8.2.jar",
-                            "tok",
-                            "-l",       # language
-                            "en"],
-                            stdin=subprocess.PIPE,
-                            stdout=subprocess.PIPE)
-
-    output, _ = tok.communicate(text)
-
-    return output
-
-def _pos_tag(naf_tokenized_text):
-
-    tag = subprocess.Popen(["java",
-                            "-jar",
-                            os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-pos-1.4.1.jar",
-                            "tag",
-                            "-m",
-                            os.environ["TEA_PATH"] + "/code/notes/NewsReader/models/pos-models-1.4.0/en/en-maxent-100-c5-baseline-dict-penn.bin"],
-                            stdin=subprocess.PIPE,
-                            stdout=subprocess.PIPE)
-
-    output, _ = tag.communicate(naf_tokenized_text)
-
-    return output
-
-def _ner_tag(naf_pos_tagged_text):
-
-    tag = subprocess.Popen(["java",
-                            "-jar",
-                            os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-nerc-1.5.2.jar",
-                            "tag",
-                            "-m",
-                            os.environ["TEA_PATH"] + "/code/notes/NewsReader/models/nerc-models-1.5.0/nerc-models-1.5.0/en/conll03/en-91-19-conll03.bin"],
-                            stdin=subprocess.PIPE,
-                            stdout=subprocess.PIPE)
-
-    output, _ = tag.communicate(naf_pos_tagged_text)
-
-    return output
-
-def _constituency_parse(naf_tokenized_pos_tagged_text):
-
-    parse = subprocess.Popen(["java",
-                              "-jar",
-                              os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-parse-1.1.0.jar",
-                              "parse",
-                              "-m",
-                              os.environ["TEA_PATH"] + "/code/notes/NewsReader/models/parse-models/en-parser-chunking.bin"],
-                              stdin=subprocess.PIPE,
-                              stdout=subprocess.PIPE)
-
-    output, _ = parse.communicate(naf_tokenized_pos_tagged_text)
-
-    return output
 
 def _coreference_tag(naf_constituency_parsed_text):
 
