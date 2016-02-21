@@ -77,22 +77,16 @@ def pre_process(text):
         # get the categories a token falls under.
         # {0:.., 1:,...} the lower the number the more specific.
         if tok["sentence_num"] in constituency_trees:
-
             grammar_categories = constituency_trees[tok["sentence_num"]].get_phrase_memberships(tok["id"])
 
         tok.update(pos_tag)
 
-
         # get verb tense:
         # TODO: make this better..
         if tok["pos_tag"] in ["VBD", "VBP"]:
-
             tok.update({"tense":"PAST"})
-
         else:
-
             tok.update({"tense":"PRESENT"})
-
 
         tok.update({"grammar_categories":grammar_categories})
 
