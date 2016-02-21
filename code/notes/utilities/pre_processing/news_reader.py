@@ -5,10 +5,6 @@ import re
 import sys
 import time
 
-xml_utilities_path = os.environ["TEA_PATH"] + "/code/notes/utilities"
-sys.path.insert(0, xml_utilities_path)
-
-import xml_utilities
 import atexit
 
 import py4j_newsreader.tok
@@ -49,10 +45,13 @@ class NewsReader(object):
         ner_tagged_text = self.newsreader_ner.tag(pos_tagged_text)
         constituency_parsed_text = self.newsreader_parse.parse(ner_tagged_text)
         srl_text = srl.parse_dependencies(constituency_parsed_text)
-        coref_tagged_text = _coreference_tag(srl_text)
+
+        naf_marked_up_text = srl_text
+
+        #coref_tagged_text = _coreference_tag(srl_text)
 
         # TODO: add more processing steps
-        naf_marked_up_text = coref_tagged_text
+        #naf_marked_up_text = coref_tagged_text
 
         return naf_marked_up_text
 
@@ -224,7 +223,6 @@ if __name__ == "__main__":
     nr = NewsReader()
 
     print nr.pre_process("hello world!")
-
     print nr.pre_process("this is a sentence!")
 
     pass

@@ -1,21 +1,13 @@
-
-import news_reader
-import tokenize
-import pos
-import parse
-import ner
-import srl
-
 import os
 import sys
-
-utilities_path = os.environ["TEA_PATH"] + "/code/notes/utilities"
-sys.path.insert(0, utilities_path)
-
-import lemmas
-import timeml_utilities
+import naf_parse
 
 from news_reader import NewsReader
+
+timeml_utilities = os.environ["TEA_PATH"] + "/code/notes/utilities"
+sys.path.insert(0, timeml_utilities)
+
+import timeml_utilities
 
 pre_processor = None
 
@@ -28,17 +20,40 @@ def pre_process(text):
 
     naf_tagged_doc = pre_processor.pre_process(text)
 
-    print naf_tagged_doc
+    tokens,     tokens_to_offset,\
+    pos_tags,   token_lemmas,\
+    ner_tags,   constituency_trees,\
+    main_verbs, tok_id_to_predicate_info = naf_parse.parse(naf_tagged_doc)
 
-    tokens, tokens_to_offset = tokenize.get_tokens(naf_tagged_doc)
-    pos_tags = pos.get_pos_tags(naf_tagged_doc)
-    token_lemmas   = lemmas.get_lemmas(naf_tagged_doc)
-    ner_tags       = ner.get_taggings(naf_tagged_doc)
-    main_verbs     = srl.get_main_verbs(naf_tagged_doc)
+    """
+    print "\ntokens:\n"
+    print tokens
+    print "\n\n"
 
-    tok_id_to_predicate_info = srl.get_predicate_info(naf_tagged_doc)
+    print "\ntokens_to_offset:\n"
+    print tokens_to_offset
+    print "\n\n"
 
-    constituency_trees = parse.get_constituency_trees(naf_tagged_doc)
+    print "\ntoken_lemmas:\n"
+    print token_lemmas
+    print "\n\n"
+
+    print "\nner_tags:\n"
+    print ner_tags
+    print "\n\n"
+
+    print "\nmain_verbs:\n"
+    print main_verbs
+    print "\n\n"
+
+    print "\ntok_id_to_predicate_info:\n"
+    print tok_id_to_predicate_info
+    print "\n\n"
+
+    print "\nconstituency_trees:\n"
+    print constituency_trees
+    print "\n\n"
+    """
 
     sentences = {}
 

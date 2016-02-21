@@ -56,6 +56,6 @@ if __name__ == "__main__":
 
     ner_tagged_doc = ner.tag(pos_tagged_doc)
 
-    print parser.parse(ner_tagged_doc)
+    #print parser.parse(ner_tagged_doc)
 
-    print parser.parse(ner_tagged_doc)
+    #print parser.parse(ner_tagged_doc)

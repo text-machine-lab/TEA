@@ -237,7 +237,6 @@ def _get_naf_terms(naf_tagged_doc):
 
     return list(terms_element)
 
-"""
 class SyntacticDependencies(object):
 
 
@@ -291,5 +290,4 @@ class SyntacticDependencies(object):
             assert f not in relations[f]["to"]
 
             relations[f]["to"].update({to:relations[to]})
-"""
 
