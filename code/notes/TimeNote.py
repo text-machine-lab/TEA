@@ -52,7 +52,7 @@ class TimeNote(Note):
         # contains sentence level information extracted by newsreader
         self.sentence_features = sentence_features
 
-        self.iob_labels = None
+        self.iob_labels = []
 
         """
         print "\n\nself.original_text:\n\n"
@@ -528,7 +528,7 @@ class TimeNote(Note):
 
     def get_iob_labels(self):
 
-        if self.annotated_note_path is not None and self.iob_labels is None:
+        if self.annotated_note_path is not None and self.iob_labels == []:
 
             # don't want to modify original
             pre_processed_text = copy.deepcopy(self.pre_processed_text)

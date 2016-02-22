@@ -5,7 +5,6 @@ from code.notes.TimeNote import TimeNote
 from utilities import combineLabels
 from machine_learning.sci import train as train_classifier
 
-
 class Model:
 
 
@@ -25,7 +24,7 @@ class Model:
             for label in tmpLabels:
                 timexLabels += label
 
-            timexFeatures += features.extract_timex_feature_set(note)
+            timexFeatures += features.extract_timex_feature_set(note, note.get_timex_iob_labels())
 
 
         self._trainTimex(timexFeatures, timexLabels)
@@ -82,16 +81,43 @@ class Model:
         self._trainTlink(tlinkFeats, tlinkLabels)
     """
 
-
     def predict(self, note):
-        """
-        Model::predict()
 
-        Purpose: Predict temporal relations for a set of notes
-
-        @param notes: A list of TimeNote objects
-        @return: All three label sets predicted by the classifiers
         """
+        iobs_sentence.append({'entity_label':iob_label,
+                            'entity_type':entity_type,
+                            'entity_id':entity_id})
+        """
+
+        tokenized_text = note.get_tokenized_text()
+        timexLabels    = []
+
+        for line in tokenized_text:
+
+            l = []
+
+            timexLabels.append(l)
+
+            for token in tokenized_text[line]:
+
+                timexFeatures = features.extract_timex_feature_set_token(token, timexLabels)
+                X = self.timexVectorizer.transform([timexFeatures]).toarray()
+                Y = list(self.timexClassifier.predict(X))
+
+                l.append({'entity_label':Y[0],
+                          'entity_type':'TIMEX3',
+                          'entity_id':None})
+
+        exit()
+
+    """
+    def predict(self, note):
+#        Model::predict()
+
+#        Purpose: Predict temporal relations for a set of notes
+
+#        @param notes: A list of TimeNote objects
+#        @return: All three label sets predicted by the classifiers
 
         timexLabels = []
         eventLabels = []
@@ -251,6 +277,7 @@ class Model:
         tlinkLabels = list(self.tlinkClassifier.predict(tlinkVec))
 
         return wellOrderedEntityLabels, timexEventOffsets, tlinkLabels, wellOrderedTokens
+    """
 
 
     def _trainTimex(self, timexFeatures, timexLabels):

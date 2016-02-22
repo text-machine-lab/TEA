@@ -20,17 +20,28 @@ def get_preceding_labels(token, labels):
     """
 
     features = {}
+    preceding_labels = []
 
     window = 4
 
     start = max(token["token_offset"] - window, 0)
     end   = token["token_offset"]
 
-    # iob label for token
-    preceding_labels = [l["entity_label"] for l in labels[token["sentence_num"] - 1][start:end]]
+    if len(labels) > 0:
+        # iob label for token
+        preceding_labels = [l["entity_label"] for l in labels[token["sentence_num"] - 1][start:end]]
+
+        # normalize the features
+        if token["token_offset"] - window < 0:
+            preceding_labels = (([None] * abs(token["token_offset"] - window)) + preceding_labels)
+
+    else:
+        preceding_labels = [None]*4
+
+    assert len(preceding_labels) == 4, "preceding _labels: {}".format(preceding_labels)
 
     for i, l in enumerate(preceding_labels):
-        features[i] = l
+        features[(i, l)] = True
 
     return features
 
@@ -38,23 +49,28 @@ def extract_event_feature_set(note):
 
     return get_iob_features(note, "EVENT")
 
-def extract_timex_feature_set(note):
+def extract_timex_feature_set(note, labels):
 
-    return extract_iob_features(note, "TIMEX3")
+    return extract_iob_features(note, labels, "TIMEX3")
 
+def extract_timex_feature_set_token(token, labels):
 
-get_labels = {"TIMEX3":lambda note: note.get_timex_iob_labels(),
-              "EVENT" :lambda note: note.get_event_iob_labels()}
+    return extract_iob_features_token(token, labels, "TIMEX3")
 
+def extract_iob_features_token(token, labels, feature_set):
 
-def extract_iob_features(note, feature_set):
+    token_features = {}
+    update_features[feature_set](token_features, token, labels)
+
+    return token_features
+
+def extract_iob_features(note, labels, feature_set):
 
     """ returns featurized representation of events and timexes """
 
     features = []
 
     tokenized_text = note.get_tokenized_text()
-    labels         = get_labels[feature_set](note)
 
     for line in tokenized_text:
 
