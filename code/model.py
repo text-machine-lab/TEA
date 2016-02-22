@@ -1,5 +1,6 @@
 import os
 
+from code.notes import features
 from code.notes.TimeNote import TimeNote
 from utilities import combineLabels
 from machine_learning.sci import train as train_classifier
@@ -12,15 +13,35 @@ class Model:
 
         self.grid=grid
 
-
     def train(self, notes):
-        """
-        Model::train()
 
-        Purpose: Train a classification model for Timex3, events, and temporal event relations from annotated data
+        timexLabels   = []
+        timexFeatures = []
 
-        @param notes. A list of TimeNote objects containing annotated data
-        """
+        print "notes:\n\n"
+        print notes
+        print "\n\n"
+
+        for note in notes:
+
+            # get timex labels
+            tmpLabels = note.get_timex_iob_labels()
+            for label in tmpLabels:
+                timexLabels += label
+
+            timexFeatures += features.extract_timex_feature_set(note)
+
+        print timexFeatures
+
+#        print timexLabels
+
+    """
+    def train(self, notes):
+#        Model::train()
+
+#        Purpose: Train a classification model for Timex3, events, and temporal event relations from annotated data
+
+#        @param notes. A list of TimeNote objects containing annotated data
 
         timexLabels = []
         eventLabels = []
@@ -62,6 +83,7 @@ class Model:
         self._trainEvent(eventFeats, eventLabels)
 
         self._trainTlink(tlinkFeats, tlinkLabels)
+    """
 
 
     def predict(self, note):

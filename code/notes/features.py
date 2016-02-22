@@ -9,77 +9,88 @@ temporal_signals = [['in'],      ['on'],                  ['after'],       ['sin
                     ['for'],     ['around'],              ['over'],        ['prior', 'to'],
                     ['when'],    ['should'],              ['within'],      ['while']]
 
+update_features   = {"TIMEX3":lambda token_features, token, labels:\
+                        token_features.update(get_preceding_labels(token, labels)),
+                     "EVENT" :lambda token_features, token, labels:\
+                        token_features.update({"null":None})}
 
-def get_event_features(self):
+def get_preceding_labels(token, labels):
 
-    return self.get_iob_features("EVENT")
+    """Get the IOB labeling of the previous 4 tokens.
+    """
 
-def get_timex_features(self):
+    features = {}
 
-    return self.get_iob_features("TIMEX3")
+    window = 4
+
+    start = max(token["token_offset"] - window, 0)
+    end   = token["token_offset"]
+
+    # iob label for token
+    preceding_labels = [l["entity_label"] for l in labels[token["sentence_num"] - 1][start:end]]
+
+    for i, l in enumerate(preceding_labels):
+        features[i] = l
+
+    return features
+
+def extract_event_feature_set(note):
+
+    return get_iob_features(note, "EVENT")
+
+def extract_timex_feature_set(note):
+
+    return extract_iob_features(note, "TIMEX3")
 
 
-def get_iob_features(self, token_type):
+get_labels = {"TIMEX3":lambda note: note.get_timex_iob_labels(),
+              "EVENT" :lambda note: note.get_event_iob_labels()}
+
+
+def extract_iob_features(note, feature_set):
 
     """ returns featurized representation of events and timexes """
 
-    vectors = []
+    features = []
 
-    for line in self.pre_processed_text:
+    tokenized_text = note.get_tokenized_text()
+    labels         = get_labels[feature_set](note)
 
-        for token in self.pre_processed_text[line]:
+    for line in tokenized_text:
 
-            token_features = self.get_features_for_token(token, token_type)
-            vectors.append(token_features)
+        for token in tokenized_text[line]:
 
-    return vectors
+            token_features = {}
 
-def get_features_for_token(self, token, token_type):
-     """ get the features for given token
+#            token_features.update(self.get_ner_features(token))
+#            token_features.update(self.get_pos_tag(token))
+#            token_features.update(self.get_lemma(token))
+#            token_features.update(self.get_ngram_features(token))
+#            token_features.update(self.get_grammar_categories(token))
 
-         token: a dictionary with various information
-     """
+            # get features specific to a specific label type
+            update_features[feature_set](token_features, token, labels)
 
-     features = {}
+#            if feature_set == "TIMEX3":
 
-     # TODO: need to change feature set for each of these.
-     if token_type == "TIMEX3":
+#                token_features.update(get_preceding_labels(token,
 
-         features.update(self.get_text(token))
-         features.update(self.get_lemma(token))
-         features.update(self.get_pos_tag(token))
-         features.update(self.get_ner_features(token))
+#                token_features.update(self.get_text(token))
+#                token_features.update(self.get_wordshapes(token))
 
-         features.update(self.get_wordshapes(token))
+#            elif feature_set == "EVENT":
 
-         # 4-gram
-         features.update(self.get_ngram_features(token))
+#                pass
 
-         features.update(self.get_grammar_categories(token))
+#                token_features.update(self.get_tense(token))
+#                token_features.update(self.is_main_verb(token))
+#                token_features.update(self.get_ngram_label_features(token))
+#                token_features.update(self.get_preposition_features(token))
 
-     elif token_type == "EVENT":
+            features.append(token_features)
 
-         features.update(self.get_lemma(token))
-         features.update(self.get_ner_features(token))
-         features.update(self.get_pos_tag(token))
+    return features
 
-         features.update(self.get_tense(token))
-         features.update(self.is_main_verb(token))
-
-         # 4-gram
-         features.update(self.get_ngram_features(token))
-
-         features.update(self.get_ngram_label_features(token))
-
-         features.update(self.get_preposition_features(token))
-
-         features.update(self.get_grammar_categories(token))
-
-
-     else:
-         exit("invalid token type")
-
-     return features
 
 def get_grammar_categories(self, token):
 
@@ -281,7 +292,7 @@ def get_tokens_to_left(self, token, span):
 
     return tokens
 
- def get_tlink_features(self):
+def get_tlink_features(self):
 
      """
      TODO: add more substantial features
