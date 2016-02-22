@@ -18,10 +18,6 @@ class Model:
         timexLabels   = []
         timexFeatures = []
 
-        print "notes:\n\n"
-        print notes
-        print "\n\n"
-
         for note in notes:
 
             # get timex labels
@@ -31,7 +27,8 @@ class Model:
 
             timexFeatures += features.extract_timex_feature_set(note)
 
-        print timexFeatures
+
+        self._trainTimex(timexFeatures, timexLabels)
 
 #        print timexLabels
 
@@ -256,7 +253,7 @@ class Model:
         return wellOrderedEntityLabels, timexEventOffsets, tlinkLabels, wellOrderedTokens
 
 
-    def _trainTimex(self, tokenVectors, labels):
+    def _trainTimex(self, timexFeatures, timexLabels):
         """
         Model::_trainTimex()
 
@@ -266,19 +263,16 @@ class Model:
         @param Y: A list of lists of Timex3 classifications for each token in each sentence
         """
 
-        assert len(tokenVectors) == len(labels)
+        assert len(timexFeatures) == len(timexLabels), "{} != {}".format(len(timexFeatures), len(timexLabels))
 
-        Y = []
+        Y = [l["entity_label"] for l in timexLabels]
 
-        for label in labels:
-            Y.append(label["entity_label"])
-
-        clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
+        clf, vec = train_classifier(timexFeatures, Y, do_grid=self.grid, ovo=True)
         self.timexClassifier = clf
         self.timexVectorizer = vec
 
 
-    def _trainEvent(self, tokenVectors, labels):
+    def _trainEvent(self, eventFeatures, eventLabels):
         """
         Model::_trainEvent()
 
@@ -288,15 +282,11 @@ class Model:
         @param Y: A list of lists of event classifications for each token, with one list per sentence
         """
 
-        assert len(tokenVectors) == len(labels)
+        assert len(eventFeatures) == len(eventLabels), "{} != {}".format(len(eventFeatures), len(eventLabels))
 
-        Y = []
+        Y = [l["entity_label"] for l in eventLabels]
 
-
-        for label in labels:
-            Y.append(label["entity_label"])
-
-        clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid)
+        clf, vec = train_classifier(eventFeatures, Y, do_grid=self.grid)
         self.eventClassifier = clf
         self.eventVectorizer = vec
 
