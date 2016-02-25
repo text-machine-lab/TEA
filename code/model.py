@@ -17,15 +17,21 @@ class Model:
         timexLabels   = []
         timexFeatures = []
 
-        for note in notes:
+        for i, note in enumerate(notes):
+
+            print "note: {}".format(i)
 
             # get timex labels
             tmpLabels = note.get_timex_iob_labels()
+
             for label in tmpLabels:
                 timexLabels += label
 
             timexFeatures += features.extract_timex_feature_set(note, note.get_timex_iob_labels())
 
+            print "\n\n"
+            print timexFeatures
+            print "\n\n"
 
         self._trainTimex(timexFeatures, timexLabels)
 
@@ -92,21 +98,32 @@ class Model:
         tokenized_text = note.get_tokenized_text()
         timexLabels    = []
 
+        tokens = []
         for line in tokenized_text:
+            timexLabels.append([])
+            tokens += tokenized_text[line]
 
-            l = []
+        timexFeatures = features.extract_timex_feature_set(note, timexLabels, predict=True)
 
-            timexLabels.append(l)
+        assert len(tokens) == len(timexFeatures)
 
-            for token in tokenized_text[line]:
+        for t, f in zip(tokens, timexFeatures):
 
-                timexFeatures = features.extract_timex_feature_set_token(token, timexLabels)
-                X = self.timexVectorizer.transform([timexFeatures]).toarray()
-                Y = list(self.timexClassifier.predict(X))
+            # TODO; im assuming tokens are in order...
+            timexLabels[t["sentence_num"] - 1].append({'entity_label':'O',
+                                                       'entity_type':'TIMEX3',
+                                                       'entity_id':None})
 
-                l.append({'entity_label':Y[0],
-                          'entity_type':'TIMEX3',
-                          'entity_id':None})
+            features.update_features(t, f, timexLabels)
+
+            X = self.timexVectorizer.transform([f]).toarray()
+            Y = list(self.timexClassifier.predict(X))
+
+            timexLabels[t["sentence_num"] - 1][t["token_offset"]] = {'entity_label':Y[0],
+                                                                     'entity_type':'TIMEX3',
+                                                                     'entity_id':None}
+
+        print timexLabels
 
         exit()
 

@@ -1,3 +1,5 @@
+import copy
+
 """ TODO: fix features below, they don't work. i simply just moved them into a different file.
 """
 
@@ -9,10 +11,36 @@ temporal_signals = [['in'],      ['on'],                  ['after'],       ['sin
                     ['for'],     ['around'],              ['over'],        ['prior', 'to'],
                     ['when'],    ['should'],              ['within'],      ['while']]
 
+"""
 update_features   = {"TIMEX3":lambda token_features, token, labels:\
                         token_features.update(get_preceding_labels(token, labels)),
                      "EVENT" :lambda token_features, token, labels:\
                         token_features.update({"null":None})}
+"""
+
+def get_window_features(index, features_in_sentence):
+
+    # TODO: figure out how I am going to get this to be efficient.
+    # TODO: should i add null values if there are no left or right features?
+
+    window = 4
+
+    window_features = {}
+
+    left_start    = max(index - window, 0)
+    left_end      = index
+
+    right_start   = index + 1
+    right_end     = index + window + 1
+
+    left_features  = {("left_{}_{}".format(i, key), f[key]):True for i, f in enumerate(features_in_sentence[left_start:left_end]) for key in f}
+    right_features = {("right_{}_{}".format(i, key), f[key]):True for i, f in enumerate(features_in_sentence[right_start:right_end]) for key in f}
+
+    window_features.update(left_features)
+    window_features.update(right_features)
+
+    return window_features
+
 
 def get_preceding_labels(token, labels):
 
@@ -28,6 +56,9 @@ def get_preceding_labels(token, labels):
     end   = token["token_offset"]
 
     if len(labels) > 0:
+
+        print "len(labels) < 0"
+
         # iob label for token
         preceding_labels = [l["entity_label"] for l in labels[token["sentence_num"] - 1][start:end]]
 
@@ -41,7 +72,7 @@ def get_preceding_labels(token, labels):
     assert len(preceding_labels) == 4, "preceding _labels: {}".format(preceding_labels)
 
     for i, l in enumerate(preceding_labels):
-        features[(i, l)] = True
+        features[("preceding_labels_{}".format(i), l)] = True
 
     return features
 
@@ -49,22 +80,16 @@ def extract_event_feature_set(note):
 
     return get_iob_features(note, "EVENT")
 
-def extract_timex_feature_set(note, labels):
+def extract_timex_feature_set(note, labels, predict=False):
 
-    return extract_iob_features(note, labels, "TIMEX3")
+    return extract_iob_features(note, labels, "TIMEX3", predicting=predict)
 
-def extract_timex_feature_set_token(token, labels):
+def update_features(token, token_features, labels):
+    """ needed when predicting """
+    token_features.update(get_preceding_labels(token, labels))
 
-    return extract_iob_features_token(token, labels, "TIMEX3")
 
-def extract_iob_features_token(token, labels, feature_set):
-
-    token_features = {}
-    update_features[feature_set](token_features, token, labels)
-
-    return token_features
-
-def extract_iob_features(note, labels, feature_set):
+def extract_iob_features(note, labels, feature_set, predicting=False):
 
     """ returns featurized representation of events and timexes """
 
@@ -72,38 +97,53 @@ def extract_iob_features(note, labels, feature_set):
 
     tokenized_text = note.get_tokenized_text()
 
+    preceding_features = []
+
     for line in tokenized_text:
 
         for token in tokenized_text[line]:
 
             token_features = {}
 
-#            token_features.update(self.get_ner_features(token))
-#            token_features.update(self.get_pos_tag(token))
-#            token_features.update(self.get_lemma(token))
-#            token_features.update(self.get_ngram_features(token))
-#            token_features.update(self.get_grammar_categories(token))
-
             # get features specific to a specific label type
-            update_features[feature_set](token_features, token, labels)
+            if feature_set == "TIMEX3":
+                token_features.update(get_lemma(token))
+                token_features.update(get_text(token))
+                token_features.update(get_pos_tag(token))
+                token_features.update(get_ner_features(token))
 
-#            if feature_set == "TIMEX3":
+            elif feature_set == "EVENT":
+                pass
 
-#                token_features.update(get_preceding_labels(token,
+            feature_copy = copy.deepcopy(token_features)
 
-#                token_features.update(self.get_text(token))
-#                token_features.update(self.get_wordshapes(token))
+            # labels are meaningless when this function is called when predicting, don't know the labels yet.
+            if not predicting:
+                token_features.update(get_preceding_labels(token, labels))
 
-#            elif feature_set == "EVENT":
+            # get the features of the 4 previous tokens.
+            # TODO: might be a problem later on, in terms of performance?
+            for i, f in enumerate(preceding_features):
+                for key in f:
+                    token_features[("preceding_feats_{}_{}".format(i, key[0]), key[1])] = f[key]
 
-#                pass
-
-#                token_features.update(self.get_tense(token))
-#                token_features.update(self.is_main_verb(token))
-#                token_features.update(self.get_ngram_label_features(token))
-#                token_features.update(self.get_preposition_features(token))
+            if len(preceding_features) < 4:
+                preceding_features.append(feature_copy)
+            else:
+                preceding_features.pop(0)
 
             features.append(token_features)
+
+    # get features of following 4 tokens:
+    for i, token_features in enumerate(features):
+        following = features[i + 1:i + 5]
+        for j, f in enumerate(following):
+            for key in f:
+
+                if "preceding_feats_" in key[0] or "preceding_labels_" in key[0]:
+                    continue
+
+                token_features[("following_{}_{}".format(j, key[0]), key[1])] = f[key]
 
     return features
 
@@ -140,17 +180,14 @@ def get_wordshapes(self, token):
     return wordshapes.getWordShapes(token["token"])
 
 
-def get_ner_features(self, token):
+def get_ner_features(token):
 
     if "ner_tag" in token:
-
         return {("ner_tag", token["ner_tag"]):1,
                 "in_ne":1,
                 ("ne_chunk", token["ne_chunk"]):1}
-
     # TODO: what problems might arise from labeling tokens as none if no tagging?, we'll find out!
     else:
-
         return {("ner_tag", 'None'):1,
                 "in_ne":0,
                 ("ne_chunk", "NULL"):1}
@@ -165,41 +202,33 @@ def get_tense(self, token):
         return {("tense", "PRESENT"):1}
 
 
-def get_text(self, token):
+def get_text(token):
 
     if "token" in token:
-
         return {("text",token["token"]):1}
-
     else:
-
-        print token
-
         return {("text", token["value"]):1}
 
 
-def get_pos_tag(self, token):
+def get_pos_tag(token):
 
     if "pos_tag" in token:
-
         return {("pos_tag", token["pos_tag"]):1}
-
     else:
-
         # creation time.
         return {("pos_tag", "DATE"):1}
 
-def get_lemma(self, token):
+def get_lemma(token):
 
     if "pos_tag" in token:
 
-        return {("lemma", token["lemma"]):1}
+        return {("lemma", token["lemma"]):True}
 
     else:
 
         # creation time
         # TODO: make better?
-        return {("lemma", "DATE"):1}
+        return {("lemma", "DATE"):True}
 
 def get_ngram_features(self, token):
 
