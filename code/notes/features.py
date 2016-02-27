@@ -57,8 +57,6 @@ def get_preceding_labels(token, labels):
 
     if len(labels) > 0:
 
-        print "len(labels) < 0"
-
         # iob label for token
         preceding_labels = [l["entity_label"] for l in labels[token["sentence_num"] - 1][start:end]]
 
@@ -77,17 +75,14 @@ def get_preceding_labels(token, labels):
     return features
 
 def extract_event_feature_set(note):
-
     return get_iob_features(note, "EVENT")
 
 def extract_timex_feature_set(note, labels, predict=False):
-
     return extract_iob_features(note, labels, "TIMEX3", predicting=predict)
 
 def update_features(token, token_features, labels):
     """ needed when predicting """
     token_features.update(get_preceding_labels(token, labels))
-
 
 def extract_iob_features(note, labels, feature_set, predicting=False):
 
@@ -140,7 +135,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False):
         for j, f in enumerate(following):
             for key in f:
 
-                if "preceding_feats_" in key[0] or "preceding_labels_" in key[0]:
+                if ("preceding_feats_" in key[0]) or ("preceding_labels_" in key[0]):
                     continue
 
                 token_features[("following_{}_{}".format(j, key[0]), key[1])] = f[key]

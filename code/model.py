@@ -29,13 +29,9 @@ class Model:
 
             timexFeatures += features.extract_timex_feature_set(note, note.get_timex_iob_labels())
 
-            print "\n\n"
-            print timexFeatures
-            print "\n\n"
-
         self._trainTimex(timexFeatures, timexLabels)
 
-#        print timexLabels
+        return
 
     """
     def train(self, notes):
@@ -95,37 +91,43 @@ class Model:
                             'entity_id':entity_id})
         """
 
+        # get tokenized text
         tokenized_text = note.get_tokenized_text()
         timexLabels    = []
 
+        # init the number of lines for timexlabels
+        # we currently do not know what they are.
+        # get the tokens into a flast list, these are ordered by
+        # appearance within the document
         tokens = []
         for line in tokenized_text:
             timexLabels.append([])
             tokens += tokenized_text[line]
 
+        # get the timex feature set for the tokens within the note.
         timexFeatures = features.extract_timex_feature_set(note, timexLabels, predict=True)
 
+        # sanity check
         assert len(tokens) == len(timexFeatures)
 
+        # predict over the tokens and the features extracted.
         for t, f in zip(tokens, timexFeatures):
-
-            # TODO; im assuming tokens are in order...
-            timexLabels[t["sentence_num"] - 1].append({'entity_label':'O',
-                                                       'entity_type':'TIMEX3',
-                                                       'entity_id':None})
 
             features.update_features(t, f, timexLabels)
 
             X = self.timexVectorizer.transform([f]).toarray()
             Y = list(self.timexClassifier.predict(X))
 
-            timexLabels[t["sentence_num"] - 1][t["token_offset"]] = {'entity_label':Y[0],
-                                                                     'entity_type':'TIMEX3',
-                                                                     'entity_id':None}
+            timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                       'entity_type':'TIMEX3',
+                                                       'entity_id':None})
 
-        print timexLabels
+        for l in timexLabels:
+            print l
 
         exit()
+
+        return
 
     """
     def predict(self, note):
@@ -311,7 +313,7 @@ class Model:
 
         Y = [l["entity_label"] for l in timexLabels]
 
-        clf, vec = train_classifier(timexFeatures, Y, do_grid=self.grid, ovo=True)
+        clf, vec = train_classifier(timexFeatures, Y, do_grid=self.grid, ovo=True, dev=True)
         self.timexClassifier = clf
         self.timexVectorizer = vec
 

@@ -1,3 +1,4 @@
+from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
 from sklearn.grid_search import GridSearchCV
 from sklearn.feature_extraction import DictVectorizer
@@ -9,7 +10,7 @@ import numpy as np
 
 import math
 
-def train( featsDict, Y, do_grid=False, ovo=False ):
+def train( featsDict, Y, do_grid=False, ovo=False, dev=False ):
     '''
     train()
         train a single classifier for a given data and label set
@@ -56,7 +57,11 @@ def train( featsDict, Y, do_grid=False, ovo=False ):
 
         print "training model [GRID SEARCH OFF]"
 
-        clf = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape)
+        if dev is True:
+            clf = LinearSVC()
+        else:
+            clf = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape)
+
         clf.fit(X, Y)
 
     return clf, vec
