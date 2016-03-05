@@ -9,6 +9,8 @@ def env_paths():
     paths = paths.strip('\n')
     paths = [line.split() for line in paths.split('\n')]
 
+    env_paths = {}
+
     for line in paths:
         path = None if line[1] == 'None' else line[1]
 
@@ -16,7 +18,7 @@ def env_paths():
             if path is not None and os.path.isdir(path) is False:
                 raise Exception("ERROR: PY4J_DIR_PATH directory is invalid")
 
-    env_paths = {line[0]:(None if line[1] == 'None' else line[1]) for line in paths}
+        env_paths[line[0]] = path
 
     return env_paths
 
