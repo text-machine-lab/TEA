@@ -2,6 +2,7 @@ import os
 import sys
 import naf_parse
 
+
 from news_reader import NewsReader
 pre_processor = None
 

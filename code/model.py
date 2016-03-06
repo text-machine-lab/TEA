@@ -17,19 +17,41 @@ class Model:
         timexLabels   = []
         timexFeatures = []
 
+        eventLabels   = []
+        eventFeatures = []
+
+        eventClassLabels   = []
+        eventClassFeatures = []
+
         for i, note in enumerate(notes):
 
             print "note: {}".format(i)
 
             # get timex labels
-            tmpLabels = note.get_timex_iob_labels()
+            tmpLabels = note.get_timex_labels()
 
             for label in tmpLabels:
                 timexLabels += label
 
-            timexFeatures += features.extract_timex_feature_set(note, note.get_timex_iob_labels())
+            timexFeatures += features.extract_timex_feature_set(note, tmpLabels)
+
+            tmpLabels = note.get_event_labels()
+
+            for label in tmpLabels:
+                eventLabels += label
+
+            eventFeatures += features.extract_event_feature_set(note, tmpLabels)
+
+            tmpLabels = note.get_event_class_labels()
+
+            for label in tmpLabels:
+                eventClassLabels += label
+
+            eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels)
 
         self._trainTimex(timexFeatures, timexLabels)
+        self._trainEvent(eventFeatures, eventLabels)
+        self._trainEventClass(eventClassFeatures, eventClassLabels)
 
         return
 
@@ -85,12 +107,6 @@ class Model:
 
     def predict(self, note):
 
-        """
-        iobs_sentence.append({'entity_label':iob_label,
-                            'entity_type':entity_type,
-                            'entity_id':entity_id})
-        """
-
         # get tokenized text
         tokenized_text = note.get_tokenized_text()
         timexLabels    = []
@@ -119,7 +135,7 @@ class Model:
             Y = list(self.timexClassifier.predict(X))
 
             timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                       'entity_type':'TIMEX3',
+                                                       'entity_type':None if Y[0] == 'O' else 'TIMEX3',
                                                        'entity_id':None})
 
         for l in timexLabels:
@@ -332,10 +348,27 @@ class Model:
 
         Y = [l["entity_label"] for l in eventLabels]
 
-        clf, vec = train_classifier(eventFeatures, Y, do_grid=self.grid)
+        clf, vec = train_classifier(eventFeatures, Y, do_grid=self.grid, dev=True)
         self.eventClassifier = clf
         self.eventVectorizer = vec
 
+    def _trainEventClass(self, eventClassFeatures, eventClassLabels):
+        """
+        Model::_trainEventClass()
+
+        Purpose: Train a classifer for event class identification
+
+        @param tokenVectors: A list of tokens represented as feature dictionaries
+        @param Y: A list of lists of event classifications for each token, with one list per sentence
+        """
+
+        assert len(eventClassFeatures) == len(eventClassLabels), "{} != {}".format(len(eventClassFeatures), len(eventClassLabels))
+
+        Y = [l["entity_label"] for l in eventClassLabels]
+
+        clf, vec = train_classifier(eventClassFeatures, Y, do_grid=self.grid, dev=True)
+        self.eventClassClassifier = clf
+        self.eventClassVectorizer = vec
 
     def _trainTlink(self, tokenVectors, Y):
         """

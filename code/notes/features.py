@@ -11,12 +11,6 @@ temporal_signals = [['in'],      ['on'],                  ['after'],       ['sin
                     ['for'],     ['around'],              ['over'],        ['prior', 'to'],
                     ['when'],    ['should'],              ['within'],      ['while']]
 
-"""
-update_features   = {"TIMEX3":lambda token_features, token, labels:\
-                        token_features.update(get_preceding_labels(token, labels)),
-                     "EVENT" :lambda token_features, token, labels:\
-                        token_features.update({"null":None})}
-"""
 
 def get_window_features(index, features_in_sentence):
 
@@ -74,11 +68,15 @@ def get_preceding_labels(token, labels):
 
     return features
 
-def extract_event_feature_set(note):
-    return get_iob_features(note, "EVENT")
+def extract_event_feature_set(note, labels, predict=False):
+    return extract_iob_features(note, labels, "EVENT", predicting=predict)
 
 def extract_timex_feature_set(note, labels, predict=False):
     return extract_iob_features(note, labels, "TIMEX3", predicting=predict)
+
+def extract_event_class_feature_set(note, labels, predict=False):
+    return extract_iob_features(note, labels, "EVENT_CLASS", predicting=predict)
+
 
 def update_features(token, token_features, labels):
     """ needed when predicting """
@@ -108,7 +106,20 @@ def extract_iob_features(note, labels, feature_set, predicting=False):
                 token_features.update(get_ner_features(token))
 
             elif feature_set == "EVENT":
+                token_features.update(get_lemma(token))
+                token_features.update(get_text(token))
+                token_features.update(get_pos_tag(token))
+                token_features.update(get_ner_features(token))
                 pass
+
+            elif feature_set == "EVENT_CLASS":
+                token_features.update(get_lemma(token))
+                token_features.update(get_text(token))
+                token_features.update(get_pos_tag(token))
+                token_features.update(get_ner_features(token))
+                pass
+            else:
+                raise Exception("ERROR: invalid feature set")
 
             feature_copy = copy.deepcopy(token_features)
 

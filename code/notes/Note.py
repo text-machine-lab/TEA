@@ -2,9 +2,9 @@
 import os
 import nltk.data
 
+
 from utilities.note_utils import valid_path
 from utilities.pre_processing.pre_processing import pre_process
-
 from utilities.xml_utilities import write_root_to_file
 from utilities.xml_utilities import get_root
 from utilities.timeml_utilities import set_text_element

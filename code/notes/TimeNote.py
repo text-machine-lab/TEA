@@ -1,12 +1,11 @@
 import os
 import itertools
-
-if 'TEA_PATH' not in os.environ:
-    exit("please defined TEA_PATH, the path of the direct path of the code folder")
-
 import sys
 import re
+import copy
+import wordshapes
 
+from string import whitespace
 from Note import Note
 
 from utilities.timeml_utilities import get_text
@@ -20,10 +19,6 @@ from utilities.timeml_utilities import get_doctime_timex
 from utilities.xml_utilities import get_raw_text
 from utilities.pre_processing import pre_processing
 from utilities.add_discourse import get_temporal_discourse_connectives
-
-import copy
-from string import whitespace
-import wordshapes
 
 class TimeNote(Note):
 
@@ -52,7 +47,7 @@ class TimeNote(Note):
         # contains sentence level information extracted by newsreader
         self.sentence_features = sentence_features
 
-        self.iob_labels = []
+        self.labels = []
 
         """
         print "\n\nself.original_text:\n\n"
@@ -77,33 +72,49 @@ class TimeNote(Note):
             self.get_tlinked_entities()
 
             # will store labels in self.iob_labels
-            self.get_iob_labels()
+            self.get_labels()
 
         else:
             self.tlinks = None
 
     def get_tokenized_text(self):
-
         return self.pre_processed_text
 
-    def get_timex_iob_labels(self):
-        return self.filter_iob_by_type('TIMEX3')
+    def get_timex_labels(self):
+        return self.filter_label_by_type('TIMEX3')
 
-    def get_event_iob_labels(self):
-        return self.filter_iob_by_type('EVENT')
+    def get_event_labels(self):
 
-    def filter_iob_by_type(self, entity_type):
+        labels = self.filter_label_by_type("EVENT")
+
+        for line in labels:
+            for label in line:
+                if label["entity_type"] != "EVENT":
+                    label['entity_label'] = 'O'
+                else:
+                    label['entity_label'] = "EVENT"
+
+        return labels
+
+    def get_event_class_labels(self):
+         return self.filter_label_by_type('EVENT')
+
+
+    def filter_label_by_type(self, entity_type):
         assert entity_type in ['EVENT', 'TIMEX3']
 
-        iob_labels = copy.deepcopy(self.get_iob_labels())
+        labels = copy.deepcopy(self.get_labels())
 
-        for line in iob_labels:
-            for iob_tag in line:
+        for line in labels:
+            for label in line:
 
-                if iob_tag["entity_type"] != entity_type:
-                    iob_tag['entity_label'] = 'O'
+                if label["entity_type"] != entity_type:
+                    label['entity_label'] = 'O'
+                elif entity_type == "EVENT":
+                    # iob labels aren't used within EVENT pass
+                    label['entity_label'] = label['entity_label'][2:]
 
-        return iob_labels
+        return labels
 
     def set_tlinks(self, timexEventFeats, timexEventLabels):
 
@@ -363,7 +374,7 @@ class TimeNote(Note):
         B_seen = False
 
         # get tagged entities and group into a list
-        for sentence_num, labels in zip(self.pre_processed_text, self.get_iob_labels()):
+        for sentence_num, labels in zip(self.pre_processed_text, self.get_labels()):
 
             for token, label in zip(self.pre_processed_text[sentence_num], labels):
 
@@ -526,9 +537,9 @@ class TimeNote(Note):
 
         self.tlinks = pairs_to_link
 
-    def get_iob_labels(self):
+    def get_labels(self):
 
-        if self.annotated_note_path is not None and self.iob_labels == []:
+        if self.annotated_note_path is not None and self.labels == []:
 
             # don't want to modify original
             pre_processed_text = copy.deepcopy(self.pre_processed_text)
@@ -645,7 +656,7 @@ class TimeNote(Note):
                 for token in sentence:
 
                     # set proper iob label to token
-                    iob_label, entity_type, entity_id = TimeNote.get_iob_label(token, offsets)
+                    iob_label, entity_type, entity_id = TimeNote.get_label(token, offsets)
 
                     if iob_label is not 'O':
                         assert entity_id is not None
@@ -660,9 +671,9 @@ class TimeNote(Note):
 
                 iob_labels.append(iobs_sentence)
 
-            self.iob_labels = iob_labels
+            self.labels = iob_labels
 
-        return self.iob_labels
+        return self.labels
 
     def get_tokens(self):
 
@@ -740,7 +751,7 @@ class TimeNote(Note):
         return offsets
 
     @staticmethod
-    def get_iob_label(token, offsets):
+    def get_label(token, offsets):
 
         # NOTE: never call this directly. input is tested within _read
         tok_span = (token["char_start_offset"], token["char_end_offset"])
@@ -777,7 +788,7 @@ class TimeNote(Note):
                 labeled_entity = offsets[span]["tagged_xml_element"]
 
                 if 'class' in labeled_entity.attrib:
-                    label = 'I_' + labeled_entity.attrib["class"]
+                    label = 'B_' + labeled_entity.attrib["class"]
                 else:
                     label = 'I_' + labeled_entity.attrib["type"]
 
