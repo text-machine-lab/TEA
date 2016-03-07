@@ -74,15 +74,15 @@ def extract_event_feature_set(note, labels, predict=False):
 def extract_timex_feature_set(note, labels, predict=False):
     return extract_iob_features(note, labels, "TIMEX3", predicting=predict)
 
-def extract_event_class_feature_set(note, labels, predict=False):
-    return extract_iob_features(note, labels, "EVENT_CLASS", predicting=predict)
+def extract_event_class_feature_set(note, labels, eventLabels, predict=False):
+    return extract_iob_features(note, labels, "EVENT_CLASS", predicting=predict, eventLabels=eventLabels)
 
 
 def update_features(token, token_features, labels):
     """ needed when predicting """
     token_features.update(get_preceding_labels(token, labels))
 
-def extract_iob_features(note, labels, feature_set, predicting=False):
+def extract_iob_features(note, labels, feature_set, predicting=False, eventLabels=None):
 
     """ returns featurized representation of events and timexes """
 
@@ -113,10 +113,11 @@ def extract_iob_features(note, labels, feature_set, predicting=False):
                 pass
 
             elif feature_set == "EVENT_CLASS":
-                token_features.update(get_lemma(token))
-                token_features.update(get_text(token))
-                token_features.update(get_pos_tag(token))
-                token_features.update(get_ner_features(token))
+                #token_features.update(get_lemma(token))
+                #token_features.update(get_text(token))
+                #token_features.update(get_pos_tag(token))
+                #token_features.update(get_ner_features(token))
+                token_features.update(is_event(token, eventLabels))
                 pass
             else:
                 raise Exception("ERROR: invalid feature set")
@@ -144,6 +145,8 @@ def extract_iob_features(note, labels, feature_set, predicting=False):
     for i, token_features in enumerate(features):
         following = features[i + 1:i + 5]
         for j, f in enumerate(following):
+
+
             for key in f:
 
                 if ("preceding_feats_" in key[0]) or ("preceding_labels_" in key[0]):
@@ -152,6 +155,9 @@ def extract_iob_features(note, labels, feature_set, predicting=False):
                 token_features[("following_{}_{}".format(j, key[0]), key[1])] = f[key]
 
     return features
+
+def is_event(token, eventLabels):
+    return {("is_event", None):(eventLabels[token["sentence_num"]-1][token["token_offset"]]["entity_label"] == "EVENT")}
 
 
 def get_grammar_categories(self, token):

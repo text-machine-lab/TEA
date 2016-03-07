@@ -47,7 +47,7 @@ class Model:
             for label in tmpLabels:
                 eventClassLabels += label
 
-            eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels)
+            eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels())
 
         self._trainTimex(timexFeatures, timexLabels)
         self._trainEvent(eventFeatures, eventLabels)
@@ -107,6 +107,8 @@ class Model:
 
     def predict(self, note):
 
+        # TODO: refactor this code. a lot of it is redundant.
+
         # get tokenized text
         tokenized_text = note.get_tokenized_text()
         timexLabels    = []
@@ -138,10 +140,61 @@ class Model:
                                                        'entity_type':None if Y[0] == 'O' else 'TIMEX3',
                                                        'entity_id':None})
 
-        for l in timexLabels:
-            print l
+        # all label mappings should be one to one at this point.
+        # we need to update entries
+        eventLabels = []
 
-        exit()
+        tokens = []
+        for line in tokenized_text:
+            eventLabels.append([])
+            tokens += tokenized_text[line]
+
+        # get the timex feature set for the tokens within the note.
+        # don't get iob labels yet, they are inaccurate. need to predict first.
+        eventFeatures = features.extract_event_feature_set(note, eventLabels, predict=True)
+
+        # sanity check
+        assert len(tokens) == len(eventFeatures)
+
+        # predict over the tokens and the features extracted.
+        for t, f in zip(tokens, eventFeatures):
+
+            features.update_features(t, f, eventLabels)
+
+            X = self.eventVectorizer.transform([f]).toarray()
+            Y = list(self.eventClassifier.predict(X))
+
+            eventLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                       'entity_type':None if Y[0] == 'O' else 'EVENT',
+                                                       'entity_id':None})
+
+        eventClassLabels = []
+
+        tokens = []
+        for line in tokenized_text:
+            eventClassLabels.append([])
+            tokens += tokenized_text[line]
+
+        # get the timex feature set for the tokens within the note.
+        eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True)
+
+        # sanity check
+        assert len(tokens) == len(eventClassFeatures)
+
+        # predict over the tokens and the features extracted.
+        for t, f in zip(tokens, eventClassFeatures):
+
+            # updates labels
+            features.update_features(t, f, eventClassLabels)
+
+            X = self.eventClassVectorizer.transform([f]).toarray()
+            Y = list(self.eventClassClassifier.predict(X))
+
+            eventClassLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                            'entity_type':None if Y[0] == 'O' else 'EVENT',
+                                                            'entity_id':None})
+
+        print eventClassLabels
 
         return
 
