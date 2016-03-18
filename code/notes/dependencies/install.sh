@@ -13,11 +13,14 @@ elif [ "$1" == 'test' ]; then
 
 else
 
-    tar -xvf timenorm.tar
+    tar -zxvf timenorm-timenorm-0.9.5.tar.gz
 
-    mvn clean install -f timenorm/pom.xml
+    cd timenorm-timenorm-0.9.5
+    mvn install
+    cd ../
+    mv timenorm-timenorm-0.9.5/target/timenorm-0.9.5.jar ./
 
-    scalac -cp ".:$(pwd)/timenorm/target/timenorm-0.9.1-SNAPSHOT.jar" TimeNorm.scala
+    # scalac -cp ".:$(pwd)/timenorm/target/timenorm-0.9.1-SNAPSHOT.jar" TimeNorm.scala
 
 
 fi

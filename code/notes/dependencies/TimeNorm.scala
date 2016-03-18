@@ -1,29 +1,38 @@
+import info.bethard.timenorm.TemporalExpressionParser
+import info.bethard.timenorm.Temporal
+import info.bethard.timenorm.TimeSpan
+import info.bethard.timenorm._
+import scala.util._
+import java.io._
+import scala.io.Source
+import scala.collection.mutable.ListBuffer
 
-import info.bethard.timenorm.TemporalExpressionParser;
-import info.bethard.timenorm.TimeSpan;
-import scala.util.Success;
+object TimeNorm4Py {
 
-object TimeNorm {
+	def main(args: Array[String]) {
+		
+		// parse args
+		val anch = args(0)
+		val expression_list = args(1)
 
-      // TODO: finish code to normalize some timex relative to doc creation time..
-      def main(args: Array[String]) {
+		// temporal parser
+		val parser = new TemporalExpressionParser(TemporalExpressionParser.getClass.getResource("/info/bethard/timenorm/en.grammar"))
 
-        // create a new parser (using the default English grammar)
-        val parser = new TemporalExpressionParser
+		// convert anchor string into year, day, and month
+		val anch_split = anch.split("-")
+		val year = anch_split(0).toInt
+		val month = anch_split(1).toInt
+		val day = anch_split(2).toInt
 
-        // establish an anchor time
-        val anchor = TimeSpan.of(2013, 1, 4)
+		// create anchor object
+		val anchor = TimeSpan.of(year, month, day)
 
-        // parse an expression given an anchor time (here, assuming it succeeds)
-        val Success(temporal) = parser.parse("two weeks ago", anchor)
-
-        // get the TimeML value ("2012-W51") from the Temporal
-        val value = temporal.timeMLValue
-
-        println(value);
-
-    }
-
+		// evaluate each time expression with respect to the anchor
+		val expressions = expression_list.split(",")
+		for( expression <- expressions ){	
+			val Success(temporal) = parser.parse(expression, anchor)
+			val value = temporal.timeMLValue
+			println(value)
+		}
+	}
 }
-
-
