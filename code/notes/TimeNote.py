@@ -110,9 +110,6 @@ class TimeNote(Note):
 
                 if label["entity_type"] != entity_type:
                     label['entity_label'] = 'O'
-                elif entity_type == "EVENT":
-                    # iob labels aren't used within EVENT pass
-                    label['entity_label'] = label['entity_label'][2:]
 
         return labels
 
@@ -278,8 +275,6 @@ class TimeNote(Note):
 
         self.tlinks = pairs_to_link
 
-
-
     def get_tlinked_entities(self):
 
         t_links = None
@@ -305,56 +300,29 @@ class TimeNote(Note):
 
             link = {}
 
-            # print "\n\n"
-
             # source
             if "eventInstanceID" in t.attrib:
-
-               # print t.attrib["eventInstanceID"]
-
                 src_id = eiid_to_eid[t.attrib["eventInstanceID"]]
             else:
-
-               # print t.attrib["timeID"]
-
                 src_id = t.attrib["timeID"]
 
             # target
             if "relatedToEventInstance" in t.attrib:
-
-               # print t.attrib["relatedToEventInstance"]
-
                 target_id = eiid_to_eid[t.attrib["relatedToEventInstance"]]
             else:
-
-               # print  t.attrib["relatedToTime"]
-
                 target_id = t.attrib["relatedToTime"]
 
             tmp_dict = {"target_id":target_id, "rel_type":t.attrib["relType"], "lid":t.attrib["lid"]}
 
             gold_tlink_pairs.append((src_id, target_id))
 
-           # print (src_id, target_id)
-
-            # gold.append((src_id, target_id))
-
             if src_id in temporal_relations:
-
-
                 # this would mean the same src id will map to same target with different relation type.
                 # not possible.
                 assert tmp_dict not in temporal_relations[src_id]
-
                 temporal_relations[src_id].append(tmp_dict)
-
             else:
                 temporal_relations[src_id] = [tmp_dict]
-
-       # print gold_tlink_pairs
-
-       # print gold
-
 
         assert( len(gold_tlink_pairs) == len(t_links) ), "{} != {}".format(len(gold_tlink_pairs) , len(t_links))
 
@@ -373,18 +341,35 @@ class TimeNote(Note):
 
         B_seen = False
 
+        sentence_chunks = {}
+
         # get tagged entities and group into a list
         for sentence_num, labels in zip(self.pre_processed_text, self.get_labels()):
 
+            sentence_chunks[sentence_num] = []
+
             for token, label in zip(self.pre_processed_text[sentence_num], labels):
 
-                # start of entity
-                if re.search('^B_', label["entity_label"]):
+                if label["entity_type"] == "EVENT":
 
-                    if label["entity_type"] == "EVENT":
-                        event_ids.add(label["entity_id"])
-                    else:
-                        timex_ids.add(label["entity_id"])
+                    _chunk = [token]
+                    chunks.append(_chunk)
+
+                    event_ids.add(label["entity_id"])
+
+                    id_chunks.append([label["entity_id"]])
+
+                    # TODO: gonna drop multi span events...
+                    assert label["entity_id"] not in id_chunk_map
+
+                    id_chunk_map[label["entity_id"]] = _chunk
+
+                    sentence_chunks[sentence_num].append(("EVENT", label["entity_id"]))
+
+                # start of timex
+                elif re.search('^B_', label["entity_label"]):
+
+                    timex_ids.add(label["entity_id"])
 
                     if len(chunk) != 0:
                         chunks.append(chunk)
@@ -394,8 +379,11 @@ class TimeNote(Note):
 
                         id_chunk_map[start_entity_id] = chunk
 
+                        sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
+
                         chunk = [token]
                         id_chunk = [label["entity_id"]]
+
 
                     else:
                         chunk.append(token)
@@ -405,6 +393,7 @@ class TimeNote(Note):
 
                     B_seen = True
 
+                # in timex chunk
                 elif re.search('^I_', label["entity_label"]):
 
                     assert label["entity_id"] == start_entity_id, "{} != {}, B_seen is {}".format(label["entity_id"], start_entity_id, B_seen)
@@ -415,16 +404,18 @@ class TimeNote(Note):
                 else:
                     pass
 
-        if len(chunk) != 0:
-            chunks.append(chunk)
-            assert len(id_chunk) == len(chunk)
-            id_chunks.append(id_chunk)
+            if len(chunk) != 0:
+                chunks.append(chunk)
+                assert len(id_chunk) == len(chunk)
+                id_chunks.append(id_chunk)
 
-            assert start_entity_id not in id_chunk_map
-            id_chunk_map[start_entity_id] = chunk
+                assert start_entity_id not in id_chunk_map
+                id_chunk_map[start_entity_id] = chunk
 
-        chunk = []
-        id_chunk = []
+            sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
+
+            chunk = []
+            id_chunk = []
 
         assert len(event_ids.union(timex_ids)) == len(id_chunks)
         assert len(id_chunk_map.keys()) == len(event_ids.union(timex_ids))
@@ -437,42 +428,49 @@ class TimeNote(Note):
 
         # create dict representation of doctime timex
         for attrib in doctime.attrib:
-
             doctime_dict[attrib] = doctime.attrib[attrib]
 
         id_chunk_map[doctime_id] = [doctime_dict]
-
         timex_ids.add(doctime_id)
 
-        # cartesian product of entity pairs
-        entity_pairs = list(itertools.product(event_ids, timex_ids)) +\
-                       list(itertools.product(timex_ids, event_ids)) +\
-                       list(itertools.product(event_ids, event_ids))
+        entity_pairs = []
 
-        entity_pairs = set(entity_pairs)
+        # TODO: make more efficient...
+        for sentence_num in sentence_chunks:
+            for i, entity in enumerate(sentence_chunks[sentence_num]):
+                entity_id   = entity[1]
+                entity_type = entity[0]
+
+                if entity_type == "EVENT":
+                    entity_pairs += list(itertools.product([entity_id], sentence_chunks[sentence_num][i+1:]))
+                    entity_pairs.append((entity_id, ("TIMEX", doctime_id)))
+                else:
+                    events = map(lambda event: event[1], filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num][i+1:]))
+                    entity_pairs += list(itertools.product(events,
+                                                           [("TIMEX", entity_id)]))
+
+            if sentence_num + 1 in sentence_chunks:
+
+                # get events of sentence
+                event_ids = filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num])
+                main_events = filter(lambda event_id: True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]], event_ids)
+                main_events = map(lambda event: event[1], main_events)
+
+                # get adjacent sentence events and filter the main events
+                adj_event_ids = filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num+1])
+                adj_main_events = filter(lambda event_id: True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]], adj_event_ids)
+
+                entity_pairs += list(itertools.product(main_events, adj_main_events))
 
         relation_count = 0
 
         pairs_to_link = []
-
         tlink_ids = []
 
         for pair in entity_pairs:
 
             src_id = pair[0]
-            target_id = pair[1]
-
-
-            if "sentence_num" in id_chunk_map[src_id][0] and "sentence_num" in id_chunk_map[target_id][0]:
-
-                src_sentence_num = id_chunk_map[src_id][0]["sentence_num"]
-                target_sentence_num = id_chunk_map[target_id][0]["sentence_num"]
-
-                if src_sentence_num != target_sentence_num and\
-                   (src_sentence_num + 1 != target_sentence_num or\
-                   True not in [token["is_main_verb"] for token in id_chunk_map[src_id]] or\
-                   True not in [token["is_main_verb"] for token in id_chunk_map[target_id]]):
-                    continue
+            target_id = pair[1][1]
 
             pair = {"src_entity":id_chunk_map[src_id],
                     "src_id":src_id,
@@ -788,7 +786,7 @@ class TimeNote(Note):
                 labeled_entity = offsets[span]["tagged_xml_element"]
 
                 if 'class' in labeled_entity.attrib:
-                    label = 'B_' + labeled_entity.attrib["class"]
+                    label = 'I_' + labeled_entity.attrib["class"]
                 else:
                     label = 'I_' + labeled_entity.attrib["type"]
 
@@ -800,6 +798,11 @@ class TimeNote(Note):
                 entity_type = labeled_entity.tag
 
                 break
+
+        if entity_type == "EVENT":
+            # don't need iob tagging just what the type is.
+            # multi token events are very rare.
+            label = label[2:]
 
         return label, entity_type, entity_id
 
