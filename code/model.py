@@ -50,14 +50,14 @@ class Model:
             eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels())
 
             print "getting tlink relations..."
-            note.get_tlinked_entities()
+            tlink_pairs = note.get_tlinked_entities()
+
+            # TODO: generat feature set for tlink_pairs
+
 
         self._trainTimex(timexFeatures, timexLabels)
         self._trainEvent(eventFeatures, eventLabels)
         self._trainEventClass(eventClassFeatures, eventClassLabels)
-
-        # TODO: need to extract pairs according to the paper
-        # TODO: read my notes...
 
         return
 
