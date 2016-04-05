@@ -68,6 +68,15 @@ def get_preceding_labels(token, labels):
 
     return features
 
+def extract_tlink_features(note, labels):
+    tlinkFeatures = []
+
+    for tlink_pair in note.get_tlinked_entities():
+        # TODO: add real features
+        tlinkFeatures.append({"dummy":1})
+
+    return tlinkFeatures
+
 def extract_event_feature_set(note, labels, predict=False):
     return extract_iob_features(note, labels, "EVENT", predicting=predict)
 
@@ -76,7 +85,6 @@ def extract_timex_feature_set(note, labels, predict=False):
 
 def extract_event_class_feature_set(note, labels, eventLabels, predict=False):
     return extract_iob_features(note, labels, "EVENT_CLASS", predicting=predict, eventLabels=eventLabels)
-
 
 def update_features(token, token_features, labels):
     """ needed when predicting """

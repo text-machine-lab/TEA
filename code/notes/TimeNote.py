@@ -67,6 +67,8 @@ class TimeNote(Note):
         print "\n\n"
         """
 
+        self.tlinks = None
+
         if self.annotated_note_path is not None:
 
             self.get_tlinked_entities()
@@ -74,8 +76,6 @@ class TimeNote(Note):
             # will store labels in self.iob_labels
             self.get_labels()
 
-        else:
-            self.tlinks = None
 
     def get_tokenized_text(self):
         return self.pre_processed_text
@@ -113,7 +113,7 @@ class TimeNote(Note):
 
         return labels
 
-    def set_tlinks(self, timexEventFeats, timexEventLabels):
+    def set_tlinked_entities(self, timexEventFeats, timexEventLabels):
 
         # there should be no tlinks if this method is called.
         assert self.tlinks is None
@@ -279,12 +279,15 @@ class TimeNote(Note):
 
         t_links = None
 
-        if self.annotated_note_path is not None:
+        if self.tlinks is not None:
+            return self.tlinks
+        elif self.annotated_note_path is not None:
             t_links = get_tlinks(self.annotated_note_path)
             make_instances = get_make_instances(self.annotated_note_path)
         else:
             print "no annotated timeml note to get tlinks from returning empty list..."
             self.tlinks = []
+            return self.tlinks
 
         temporal_relations = {}
 
@@ -481,7 +484,7 @@ class TimeNote(Note):
 
             if src_id in temporal_relations:
 
-                relation_found = False
+                # relation_found = False
 
                 for target_entity in temporal_relations[src_id]:
 
@@ -534,6 +537,9 @@ class TimeNote(Note):
         #assert relation_count == len(t_links), "{} != {}".format(relation_count, len(t_links))
 
         self.tlinks = pairs_to_link
+
+        return self.tlinks
+
 
     def get_labels(self):
 
