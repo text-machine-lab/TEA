@@ -58,7 +58,7 @@ class Model:
 
             tlinkLabels = note.get_tlink_labels()
 
-            tlinkFeatures += features.extract_tlink_features(note, tlinkLabels)
+            tlinkFeatures += features.extract_tlink_features(note)
 
         self._trainTimex(timexFeatures, timexLabels)
 
@@ -86,7 +86,10 @@ class Model:
 
         # get tokenized text
         tokenized_text = note.get_tokenized_text()
-        timexLabels    = []
+
+        timexLabels      = []
+        eventLabels      = []
+        eventClassLabels = []
 
         # init the number of lines for timexlabels
         # we currently do not know what they are.
@@ -95,6 +98,8 @@ class Model:
         tokens = []
         for line in tokenized_text:
             timexLabels.append([])
+            eventLabels.append([])
+            eventClassLabels.append([])
             tokens += tokenized_text[line]
 
         # get the timex feature set for the tokens within the note.
@@ -114,15 +119,6 @@ class Model:
             timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
                                                        'entity_type':None if Y[0] == 'O' else 'TIMEX3',
                                                        'entity_id':None})
-
-        # all label mappings should be one to one at this point.
-        # we need to update entries
-        eventLabels = []
-
-        tokens = []
-        for line in tokenized_text:
-            eventLabels.append([])
-            tokens += tokenized_text[line]
 
         # get the timex feature set for the tokens within the note.
         # don't get iob labels yet, they are inaccurate. need to predict first.
@@ -144,13 +140,6 @@ class Model:
                                                        'entity_type':None if Y[0] == 'O' else 'EVENT',
                                                        'entity_id':None})
 
-        eventClassLabels = []
-
-        tokens = []
-        for line in tokenized_text:
-            eventClassLabels.append([])
-            tokens += tokenized_text[line]
-
         # get the timex feature set for the tokens within the note.
         eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True)
 
@@ -170,11 +159,9 @@ class Model:
                                                             'entity_type':None if Y[0] == 'O' else 'EVENT',
                                                             'entity_id':None})
 
-        # TODO: take above labels and merge into a single giant list of labels
-        # TODO: send list of labels and tokens into set_tlinked_entities
+        note.set_tlinked_entities(tokens,timexLabels,eventClassLabels)
 
-
-        print eventClassLabels
+        print features.extract_tlink_features(note)
 
         return
 

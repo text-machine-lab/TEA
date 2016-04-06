@@ -68,7 +68,7 @@ def get_preceding_labels(token, labels):
 
     return features
 
-def extract_tlink_features(note, labels):
+def extract_tlink_features(note):
     tlinkFeatures = []
 
     for tlink_pair in note.get_tlinked_entities():
