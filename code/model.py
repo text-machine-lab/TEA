@@ -79,6 +79,7 @@ class Model:
 
     def predict(self, note):
 
+        # TODO: try and correct the flattening on the lists. might just end up being redundent?
         # TODO: refactor this code. a lot of it is redundant.
         # TODO: need to do some filtering of tokens
         # TODO: experiment with the feature of the 4 left and right taggings. do we
@@ -159,9 +160,13 @@ class Model:
                                                             'entity_type':None if Y[0] == 'O' else 'EVENT',
                                                             'entity_id':None})
 
-        note.set_tlinked_entities(tokens,timexLabels,eventClassLabels)
+        note.set_tlinked_entities(timexLabels,eventClassLabels)
+
+        print "PREDICT: getting tlink features"
 
         print features.extract_tlink_features(note)
+
+        exit()
 
         return
 
