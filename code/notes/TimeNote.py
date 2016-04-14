@@ -116,6 +116,7 @@ class TimeNote(Note):
     def set_tlinked_entities(self, timexLabels, eventClassLabels):
         """
             Set the tlink entities given the taggings from classifiers.
+            This is used during prediction prior to feature extraction of tlink pairings.
             NOTE: this function will modify the dictionaries within timexLabels to correct I_ before B_ taggings.
         """
 
@@ -271,6 +272,7 @@ class TimeNote(Note):
 
         entity_pairs = []
 
+        # make forward pairings of entity pairings
         # TODO: make more efficient...
         for sentence_num in sentence_chunks:
             for i, entity in enumerate(sentence_chunks[sentence_num]):
@@ -303,6 +305,7 @@ class TimeNote(Note):
         pairs_to_link = []
         tlink_ids = []
 
+        # create the pair representation.
         for pair in entity_pairs:
 
             src_id = pair[0]
@@ -313,9 +316,9 @@ class TimeNote(Note):
                     "target_id":target_id,
                     "target_entity":id_chunk_map[target_id],
                     "rel_type":'None',
+                    # no linkes!
                     "tlink_id":None}
 
-            # no link at all
             pairs_to_link.append(pair)
 
         self.tlinks = pairs_to_link
