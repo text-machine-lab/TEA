@@ -316,7 +316,7 @@ class TimeNote(Note):
                     "target_id":target_id,
                     "target_entity":id_chunk_map[target_id],
                     "rel_type":'None',
-                    # no linkes!
+                    # no links!
                     "tlink_id":None}
 
             pairs_to_link.append(pair)

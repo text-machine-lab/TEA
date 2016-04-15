@@ -69,13 +69,45 @@ def get_preceding_labels(token, labels):
     return features
 
 def extract_tlink_features(note):
-    tlinkFeatures = []
+    tlink_features = []
+
+    print  note.get_tlinked_entities()
 
     for tlink_pair in note.get_tlinked_entities():
-        # TODO: add real features
-        tlinkFeatures.append({"dummy":1})
 
-    return tlinkFeatures
+        pair_features = {}
+
+        # entities. timexes may be composed of multiple tokens
+        target_tokens = tlink_pair['target_entity']
+        source_tokens = tlink_pair['src_entity']
+
+        tokens = []
+        for i, target_token in enumerate(target_tokens):
+            text_feature = get_text(target_token,"target_token_{}".format(i))
+            tokens.append(text_feature.keys()[0][1])
+            pair_features.update(get_text(target_token,"target_token_{}".format(i)))
+            pair_features.update(get_lemma(target_token,"target_lemma_{}".format(i)))
+            pair_features.update(get_pos_tag(target_token,"target_pos_{}".format(i)))
+            pass
+
+        chunk = " ".join(tokens)
+        pair_features.update({("target_chunk",chunk):1})
+
+        tokens = []
+        for i, source_token in enumerate(source_tokens):
+            text_feature = get_text(source_token,"source_token_{}".format(i))
+            tokens.append(text_feature.keys()[0][1])
+            pair_features.update(get_text(source_token,"src_token_{}".format(i)))
+            pair_features.update(get_lemma(source_token,"src_lemma_{}".format(i)))
+            pair_features.update(get_pos_tag(source_token,"src_pos_{}".format(i)))
+            pass
+
+        chunk = " ".join(tokens)
+        pair_features.update({("src_chunk",chunk):1})
+
+        tlink_features.append(pair_features)
+
+    return tlink_features
 
 def extract_event_feature_set(note, labels, predict=False):
     return extract_iob_features(note, labels, "EVENT", predicting=predict)
@@ -222,33 +254,33 @@ def get_tense(self, token):
         return {("tense", "PRESENT"):1}
 
 
-def get_text(token):
+def get_text(token,feat_name="text"):
 
     if "token" in token:
-        return {("text",token["token"]):1}
+        return {(feat_name,token["token"]):1}
     else:
-        return {("text", token["value"]):1}
+        return {(feat_name, token["value"]):1}
 
 
-def get_pos_tag(token):
+def get_pos_tag(token,feat_name="pos_tag"):
 
     if "pos_tag" in token:
-        return {("pos_tag", token["pos_tag"]):1}
+        return {(feat_name, token["pos_tag"]):1}
     else:
         # creation time.
-        return {("pos_tag", "DATE"):1}
+        return {(feat_name, "DATE"):1}
 
-def get_lemma(token):
+def get_lemma(token,feat_name="lemma"):
 
     if "pos_tag" in token:
 
-        return {("lemma", token["lemma"]):True}
+        return {(feat_name, token["lemma"]):True}
 
     else:
 
         # creation time
         # TODO: make better?
-        return {("lemma", "DATE"):True}
+        return {(feat_name, "DATE"):True}
 
 def get_ngram_features(self, token):
 
@@ -713,43 +745,6 @@ def get_temporal_signals_in_sentence(self, line_no):
     return signals
 
 
-def get_text_features(self, entity):
-
-    """
-        gets the features for entity:
-
-            pos
-            text of tokens
-            lemma of tokens
-            text chunk of entity
-
-    """
-
-    features = {}
-    tokens = []
-
-    for i, token in enumerate(entity):
-
-        if "lemma" in token:
-            features.update({("lemma", token["lemma"]):1})
-        else:
-            features.update({("lemma", "DATE"):1})
-
-        if "token" in token:
-            tokens.append(token["token"])
-            features.update({("text", token["token"]):1})
-        else:
-            tokens.append(token["value"])
-            features.update({("text", token["value"]):1})
-
-        if "pos_tag" in token:
-            features.update({("pos", token["pos_tag"]):1})
-        else:
-            features.update({("pos", "DATE"):1})
-
-    features.update({("chunk"," ".join(tokens)):1})
-
-    return features
 
 
 def get_same_pos_tag_feature(self, src_entity, target_entity):
