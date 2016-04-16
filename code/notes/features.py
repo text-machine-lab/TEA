@@ -82,45 +82,167 @@ def extract_tlink_features(note):
         source_tokens = tlink_pair['src_entity']
 
         tokens = []
+        target_pos_tags = set()
+
         for i, target_token in enumerate(target_tokens):
+
             text_feature = get_text(target_token,"target_token_{}".format(i))
             tokens.append(text_feature.keys()[0][1])
-            pair_features.update(get_text(target_token,"target_token_{}".format(i)))
+            pair_features.update(text_feature)
             pair_features.update(get_lemma(target_token,"target_lemma_{}".format(i)))
-            pair_features.update(get_pos_tag(target_token,"target_pos_{}".format(i)))
+            target_pos_feature = get_pos_tag(target_token,"target_pos_{}".format(i))
+            target_pos_tags.add(target_pos_feature.keys()[0][1])
+            pair_features.update(target_pos_feature)
+
             pass
 
         chunk = " ".join(tokens)
         pair_features.update({("target_chunk",chunk):1})
 
         tokens = []
+        src_pos_tags = set()
+
         for i, source_token in enumerate(source_tokens):
-            text_feature = get_text(source_token,"source_token_{}".format(i))
+
+            text_feature = get_text(source_token,"src_token_{}".format(i))
             tokens.append(text_feature.keys()[0][1])
-            pair_features.update(get_text(source_token,"src_token_{}".format(i)))
+            pair_features.update(text_feature)
             pair_features.update(get_lemma(source_token,"src_lemma_{}".format(i)))
-            pair_features.update(get_pos_tag(source_token,"src_pos_{}".format(i)))
+            src_pos_feature = get_pos_tag(target_token,"src_pos_{}".format(i))
+            src_pos_tags.add(src_pos_feature.keys()[0][1])
+            pair_features.update(src_post_feature)
+
             pass
 
         chunk = " ".join(tokens)
         pair_features.update({("src_chunk",chunk):1})
+        pair_features.update({("same_pos", None):(src_pos_tags == target_pos_tags)})
+        pair_features.update(get_sentence_distance(source_tokens, targets_tokens)
+        pair_features.update(get_num_inbetween_entities(src_entity,target_entity))
 
         tlink_features.append(pair_features)
 
     return tlink_features
 
+
+def get_num_inbetween_entities(self, src_entity, target_entity):
+
+    """
+    possible situations:
+
+        EVENT -> all following EVENTs in same sentence
+
+        EVENT -> all following TIMEX  in same sentence
+
+        TIMEX -> all following EVENTS in same sentence
+
+        main verb EVENTS in sentence -> main verb EVENTS in following sentence, if there is one.
+    """
+
+    # start of entity?
+    start_of_entity = lambda label: "I_" not in label and label != "O"
+
+    iob_labels = self.get_iob_labels()
+    entity_count = 0
+
+    # doctime does not have a position within the text.
+    if "sentence_num" not in src_entity[0] or "sentence_num" not in target_entity[0]:
+        return {("entity_distance",None):-1}
+
+    # this proj has poorly managed indexing. bad coding practice. SUE ME!
+    # get the sentence index of entities
+    src_sentence    = src_entity[0]["sentence_num"] - 1
+    target_sentence = target_entity[0]["sentence_num"] - 1
+
+    # entities are in adjacent sentences
+    if src_sentence != target_sentence:
+
+        # want to get distance between end and start of tokens
+        end_src_token      = src_entity[-1]["token_offset"]
+        start_target_token = target_entity[0]["token_offset"]
+
+        # get iob labels. concatenate and then find all labels that are not I_ or O
+        chunk1 = iob_labels[src_sentence][end_src_token+1:]
+        chunk2 = iob_labels[target_sentence][:start_target_token]
+
+        labels = chunk1 + chunk2
+
+        # count all labels with B_ (TIMEX) or not O (EVENT)
+        for label in labels:
+            if start_of_entity(label):
+                entity_count += 1
+
+    # tokens must be in same sentence
+    else:
+
+        # we need to check if src or target entity is a EVENT or TIMEX
+        # because of the way TEA pairs stuff, I (kevin) always made EVENTS come first within
+        # a pairing event if the EVENT came after a TIMEX. I did this because I just did a literal
+        # translation from the paper we were following.
+
+        # same sentence.
+        sentence_num = src_sentence
+
+        # if end of src comes before start of target just find the number of entities between
+        # otherwise if end comes after just take distance between last index of target and first index of src
+
+        end_src_token       = src_entity[-1]["token_offset"]
+        start_target_token  = target_entity[0]["token_offset"]
+
+        start_src_token     = src_entity[0]["token_offset"]
+        end_target_token    = target_entity[-1]["token_offset"]
+
+        sentence_labels = iob_labels[sentence_num]
+        labels          = None
+
+        if end_src_token < start_target_token:
+            labels = sentence_labels[end_src_token+1:start_target_token]
+        else:
+            labels = sentence_labels[end_target_token+1:start_src_token]
+
+        for label in labels:
+            if start_of_entity(label):
+                entity_count += 1
+
+    return {("entity_distance",None): entity_count}
+
+def get_sentence_distance(self, src_entity, target_entity):
+    """
+    Sentence distance (e.g. 0 if e1 and e2 are in the same sentence)
+    Since we only consider pairs of entities within same sentence or adjacent
+    it must be 0 or 1
+    """
+
+    # assuming each entity's tokens are all in the same sentence.
+
+    sentence_dist_feat = {("sent_distance",None):-1}
+
+    # if doctime occurs then there is no distance since it is not in a sentence.
+    if 'sentence_num' in src_entity[0] and 'sentence_num' in target_entity[0]:
+        src_line_no    = src_entity[0]["sentence_num"]
+        target_line_no = target_entity[0]["sentence_num"]
+
+        sentence_dist_feat = {("sent_distance",None):abs(src_line_no - target_line_no)}
+
+    return sentence_dist_feat
+
+
 def extract_event_feature_set(note, labels, predict=False):
     return extract_iob_features(note, labels, "EVENT", predicting=predict)
+
 
 def extract_timex_feature_set(note, labels, predict=False):
     return extract_iob_features(note, labels, "TIMEX3", predicting=predict)
 
+
 def extract_event_class_feature_set(note, labels, eventLabels, predict=False):
     return extract_iob_features(note, labels, "EVENT_CLASS", predicting=predict, eventLabels=eventLabels)
+
 
 def update_features(token, token_features, labels):
     """ needed when predicting """
     token_features.update(get_preceding_labels(token, labels))
+
 
 def extract_iob_features(note, labels, feature_set, predicting=False, eventLabels=None):
 
@@ -389,30 +511,6 @@ def get_tokens_to_left(self, token, span):
 
     return tokens
 
-def get_tlink_features(self):
-
-     """
-     TODO: add more substantial features
-     """
-
-     """ returns featurized representation of tlinks """
-
-     print "called get_tlink_features"
-
-     vectors = []
-
-     for relation in self.tlinks:
-
-         vector = {}
-
-         target_entity = relation["target_entity"]
-         src_entity = relation["src_entity"]
-
-         vector = self.get_features_for_entity_pair(src_entity, target_entity)
-
-         vectors.append(vector)
-
-     return vectors
 
 def get_features_for_entity_pair(self, src_entity, target_entity):
 
@@ -546,42 +644,6 @@ def get_preposition_features(self, token):
         features.update({("semantic_role", semantic_role):1})
 
     return features
-
-
-def get_sentence_distance_feature(self, src_entity, target_entity):
-
-    src_line_no = None
-    target_line_no = None
-
-    for token in src_entity:
-
-        if src_line_no is None:
-
-            if "sentence_num" in token:
-                src_line_no = token["sentence_num"]
-            else:
-                # creation time is not in a sentence.
-                return {"sent_distance":'None'}
-
-        else:
-
-            assert token["sentence_num"] == src_line_no
-
-    for token in target_entity:
-
-        if target_line_no is None:
-
-            if "sentence_num" in token:
-                target_line_no = token["sentence_num"]
-            else:
-                # creation time is not in a sentence.
-                return {"sent_distance":'None'}
-
-        else:
-
-            assert token["sentence_num"] == target_line_no
-
-    return {"sent_distance":src_line_no - target_line_no}
 
 
 def get_discourse_connectives_features(self, src_entity, target_entity):
@@ -745,36 +807,6 @@ def get_temporal_signals_in_sentence(self, line_no):
     return signals
 
 
-
-
-def get_same_pos_tag_feature(self, src_entity, target_entity):
-
-    src_pos_tags = []
-    target_pos_tags = []
-
-    for token in src_entity:
-
-        if "pos_tag" in token:
-
-            src_pos_tags.append(token["pos_tag"])
-
-        else:
-
-            src_pos_tags.append("DATE")
-
-    for token in target_entity:
-
-        if "pos_tag" in token:
-
-            target_pos_tags.append(token["pos_tag"])
-
-        else:
-
-            target_pos_tags.append("DATE")
-
-    return {"same_pos_tags":src_pos_tags == target_pos_tags}
-
-
 def get_label_features(self, entity):
 
     features = {}
@@ -816,58 +848,6 @@ def doc_creation_time_in_pair(self, src_entity, target_entity):
 
     return {"doctimeinpair":0}
 
-
-def get_num_of_entities_between_tokens(self, src_entity, target_entity  ):
-
-    """ the two tokens either occur on the same sentence or token2 occurs on the next sentence, this is because
-        of the way we filter our tlink pairs
-    """
-
-    iob_labels = self.get_iob_labels()
-
-    count = 0
-
-    # doctime does not have a position within the text.
-    if "sentence_num" not in src_entity[0] or "sentence_num" not in target_entity[0]:
-        return {"entity_distance":-1}
-
-    if src_entity[-1]["sentence_num"] != target_entity[-1]["sentence_num"]:
-
-        src_sentence = src_entity[-1]["sentence_num"] - 1
-        src_token_offset = src_entity[-1]["token_offset"]
-
-        chunk1 = iob_labels[src_sentence][src_token_offset:]
-
-        target_sentence = target_entity[-1]["sentence_num"] - 1
-        target_token_offset = target_entity[-1]["token_offset"]
-
-        chunk2 = iob_labels[target_sentence][:target_token_offset+1]
-
-        for label in chunk1 + chunk2:
-
-            if label["entity_label"] != 'O':
-                count += 1
-
-    else:
-
-        sentence_num = src_entity[-1]["sentence_num"] - 1
-
-        src_token_offset = src_entity[-1]["token_offset"]
-        target_token_offset = target_entity[-1]["token_offset"]
-
-        sentence_labels = iob_labels[sentence_num]
-
-        start = src_token_offset if src_token_offset < target_token_offset else target_token_offset
-
-        end   = target_token_offset if target_token_offset > src_token_offset else src_token_offset
-
-        for label in sentence_labels[start:end+1]:
-
-            if label["entity_label"] != 'O':
-                count += 1
-
-
-    return {"entity_distance": count}
 
 
 def token_label_feature(self, token):
