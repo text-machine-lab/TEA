@@ -119,11 +119,24 @@ def extract_tlink_features(note):
         pair_features.update({("same_pos", None):(src_pos_tags == target_pos_tags)})
         pair_features.update(get_sentence_distance(source_tokens, targets_tokens)
         pair_features.update(get_num_inbetween_entities(src_entity,target_entity))
+        pair_features.update(doc_creation_time_in_pair(src_entity,target_entity))
 
         tlink_features.append(pair_features)
 
     return tlink_features
 
+def doc_creation_time_in_pair(self, src_entity, target_entity):
+
+    feature = {("doctimeinpairm",None):0}
+
+    if 'functionInDocument' in src_entity[0]:
+        if src_entity[0]['functionInDocument'] == 'CREATION_TIME':
+            feature = {("doctimeinpair",None):1}
+    if 'functionInDocument' in target_entity[0]:
+        if target_entity[0]['functionInDocument'] == 'CREATION_TIME':
+            feature = {("doctimeinpair",None):1}
+
+    return feature
 
 def get_num_inbetween_entities(self, src_entity, target_entity):
 
@@ -830,24 +843,6 @@ def get_entity_type_features(self, entity):
         features.update({("entity_type", self.token_entity_type_feature(token)["entity_type"]):1})
 
     return features
-
-def doc_creation_time_in_pair(self, src_entity, target_entity):
-
-    if 'functionInDocument' in src_entity[0]:
-
-        if src_entity[0]['functionInDocument'] == 'CREATION_TIME':
-
-            return {"doctimeinpair":1}
-
-    if 'functionInDocument' in target_entity[0]:
-
-        if target_entity[0]['functionInDocument'] == 'CREATION_TIME':
-
-            return {"doctimeinpair":1}
-
-
-    return {"doctimeinpair":0}
-
 
 
 def token_label_feature(self, token):

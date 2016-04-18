@@ -523,27 +523,68 @@ def write_root_to_file(xml_root, file_path):
     tree.write(file_path, xml_declaration=True, encoding="us-ascii")
 
 
-"""
 class DependencyPath(object):
 
     def __init__(self, ixa_tok_output):
 
-        self.first_last_to_path = DependencyPath.get_deps_path(ixa_tok_output)
+        self.deps = self._get_deps(ixa_tok_output)
 
-    def get_path(self, start, end):
 
-        if (start, end) in self.first_last_to_path:
+    def get_paths(self, token_id1, token_id2):
+        """
+        Wrapper to initialize a global cache of seen tokens to prevent infinite recursion
+        """
 
-            return self.first_last_to_path[(start,end)]
+        self.seen = set()
 
-        else:
+        # tokens don't appear. no dependencies.
+        if token_id1 not in self.deps and token_id2 not in self.deps:
+            print "no dependencies available between tokens..."
+            return []
 
-            return ([],[])
+        paths = self._get_paths(token_id1, token_id2)
+        paths += self._get_paths(token_id2, token_id1)
 
-    @staticmethod
-    def get_deps_path(ixa_tok_output):
+        self.seen = set()
 
-        xml_root = xml_utilities.get_root_from_str(ixa_tok_output)
+        # remove paths with no end markers (invalid paths)
+        paths = filter(lambda p: p[-1] == "END", paths)
+
+        # inplace order paths by increasing order by len
+        paths.sort(key=lambda p: len(p))
+
+        # get the shortest path. omit the END marker
+        return paths[0][:-1]
+
+    def _get_paths(self, token_id1, token_id2, prev_token_id1=None):
+        """
+        Go through dependencies extracted from _get_deps and try and find smallest paths
+        between two tokens.
+
+        Expects to take in the token id (t##)
+        """
+        paths = []
+
+        # reach desired end!
+        if token_id1 == token_id2:
+            return [["END"]]
+        # cycle? or end? (not desired end!)
+        elif token_id1 in self.seen or token_id1 not in self.deps:
+            return [[None]]
+
+        for token_id in self.deps[token_id1]:
+            paths += [[(token_id1, token_id, self.deps[token_id1][token_id])] + p for p in self._get_paths(token_id, token_id2, prev_token_id1=token_id1)]
+
+        return paths
+
+
+    def _get_deps(self, ixa_pipe_output):
+        """
+        Extract from the deps element in the annotated NAF file the dependencies as they appear.
+        Place these dependencies within a dictionary.
+        """
+
+        xml_root = xml_root = ET.fromstring(ixa_pipe_output)
 
         deps_element = None
 
@@ -553,77 +594,28 @@ class DependencyPath(object):
                 deps_element = e
                 break
 
-        tmp_paths = []
+        deps = {}
 
         # get deps
         for d in deps_element:
 
             # d = ( [ list of tokens representing path ], [ list of rfuncs ] )
+            _from  = d.attrib["from"]
+            _to    = d.attrib["to"]
+            _rfunc = d.attrib["rfunc"]
 
-            tmp_paths.append(([d.attrib["from"],
-                        d.attrib["to"]],
-                        [d.attrib["rfunc"]]))
+            if _from in deps:
+                deps[_from].update({_to:_rfunc})
+            else:
+                deps[_from] = {_to:_rfunc}
 
-        paths = []
-
-        i = 0
-
-        for tmp_path in tmp_paths:
-
-
-            #    iterate over all the dependencies
-            #    concatenate and merge them as necessary
+        return deps
 
 
-            # going to potentially modify it and add to list of deps.
-            path = copy.deepcopy(tmp_path)
+if __name__ == "__main__":
 
-            # by default add to paths
-            paths.append(path)
+    d = DependencyPath(open("test.xml","rb").read())
+    print d.get_paths("t12","t1")
+    print d.get_paths("t56","t60")
 
-            paths_to_add = []
-
-            for p in paths:
-
-                # want to add to a path
-                # example:
-                #       20 -> 21
-                #       21 - > 23
-                #       want to add 20 -> 21 -> 31
-
-                # refer to same path add
-                if p == path:
-                    continue
-
-                # append to path
-                elif p[0][-1] == path[0][0]:
-                    paths_to_add.append((p[0] + path[0][1:], p[1] + path[1]))
-                    pass
-
-                # prepend to path
-                elif p[0][0] == path[0][-1]:
-                    paths_to_add.append((path[0] + p[0][1:], path[1] + p[1]))
-                    pass
-
-                # do nothing
-                else:
-                    pass
-
-            paths += paths_to_add
-            paths_to_add = []
-
-        first_last_to_path = {}
-
-        for p in paths:
-
-            first_last = (p[0][0], p[0][-1])
-
-            if first_last in first_last_to_path:
-
-                exit("error line 91 in deps.py")
-
-            first_last_to_path[first_last] = p
-
-        return first_last_to_path
-"""
 
