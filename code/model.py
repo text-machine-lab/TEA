@@ -58,6 +58,8 @@ class Model:
 
             tlinkLabels = note.get_tlink_labels()
 
+            print "tlinkLabels: ", tlinkLabels
+
             tlinkFeatures += features.extract_tlink_features(note)
 
         self._trainTimex(timexFeatures, timexLabels)
@@ -88,6 +90,9 @@ class Model:
         # get tokenized text
         tokenized_text = note.get_tokenized_text()
 
+        # will be new iob_labels
+        iob_labels      = []
+
         timexLabels      = []
         eventLabels      = []
         eventClassLabels = []
@@ -101,6 +106,7 @@ class Model:
             timexLabels.append([])
             eventLabels.append([])
             eventClassLabels.append([])
+            iob_labels.append([])
             tokens += tokenized_text[line]
 
         # get the timex feature set for the tokens within the note.
@@ -120,6 +126,8 @@ class Model:
             timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
                                                        'entity_type':None if Y[0] == 'O' else 'TIMEX3',
                                                        'entity_id':None})
+
+            iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
 
         # get the timex feature set for the tokens within the note.
         # don't get iob labels yet, they are inaccurate. need to predict first.
@@ -147,6 +155,9 @@ class Model:
         # sanity check
         assert len(tokens) == len(eventClassFeatures)
 
+        i = 0
+        sentence_num = None
+
         # predict over the tokens and the features extracted.
         for t, f in zip(tokens, eventClassFeatures):
 
@@ -160,7 +171,22 @@ class Model:
                                                             'entity_type':None if Y[0] == 'O' else 'EVENT',
                                                             'entity_id':None})
 
+            if sentence_num is None:
+                sentence_num = t["sentence_num"] - 1
+            # new sentence
+            elif sentence_num != t["sentence_num"] - 1:
+                sentence_num = t["sentence_num"] - 1
+                i = 0
+            else:
+                pass
+
+            if iob_labels[t["sentence_num"] - 1][i]["entity_type"] == None:
+                iob_labels[t["sentence_num"] - 1][i] = eventClassLabels[t["sentence_num"] - 1][-1]
+
+            i += 1
+
         note.set_tlinked_entities(timexLabels,eventClassLabels)
+        note.set_iob_labels(iob_labels)
 
         print "PREDICT: getting tlink features"
 
