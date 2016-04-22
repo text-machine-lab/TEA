@@ -556,7 +556,7 @@ class DependencyPath(object):
         # get the shortest path. omit the END marker
         return paths[0][:-1]
 
-    def _get_paths(self, token_id1, token_id2, prev_token_id1=None):
+    def _get_paths(self, token_id1, token_id2):
         """
         Go through dependencies extracted from _get_deps and try and find smallest paths
         between two tokens.
@@ -572,8 +572,10 @@ class DependencyPath(object):
         elif token_id1 in self.seen or token_id1 not in self.deps:
             return [[None]]
 
+        self.seen.add(token_id1)
+
         for token_id in self.deps[token_id1]:
-            paths += [[(token_id1, token_id, self.deps[token_id1][token_id])] + p for p in self._get_paths(token_id, token_id2, prev_token_id1=token_id1)]
+            paths += [[(token_id1, token_id, self.deps[token_id1][token_id])] + p for p in self._get_paths(token_id, token_id2)]
 
         return paths
 
@@ -617,5 +619,5 @@ if __name__ == "__main__":
     d = DependencyPath(open("test.xml","rb").read())
     print d.get_paths("t12","t1")
     print d.get_paths("t56","t60")
-
+    print d.get_paths("t32", "t38")
 
