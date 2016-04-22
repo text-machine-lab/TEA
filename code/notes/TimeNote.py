@@ -47,7 +47,7 @@ class TimeNote(Note):
         # contains sentence level information extracted by newsreader
         self.sentence_features = sentence_features
 
-        self.labels = []
+        self.iob_labels = []
 
         """
         print "\n\nself.original_text:\n\n"
@@ -76,6 +76,8 @@ class TimeNote(Note):
             # will store labels in self.iob_labels
             self.get_labels()
 
+    def get_sentence_features(self):
+        return self.sentence_features
 
     def get_tokenized_text(self):
         return self.pre_processed_text
@@ -594,7 +596,7 @@ class TimeNote(Note):
 
     def get_labels(self):
 
-        if self.annotated_note_path is not None and self.labels == []:
+        if self.annotated_note_path is not None and self.iob_labels == []:
 
             # don't want to modify original
             pre_processed_text = copy.deepcopy(self.pre_processed_text)
@@ -726,9 +728,9 @@ class TimeNote(Note):
 
                 iob_labels.append(iobs_sentence)
 
-            self.labels = iob_labels
+            self.iob_labels = iob_labels
 
-        return self.labels
+        return self.iob_labels
 
     def get_tokens(self):
 
@@ -743,6 +745,9 @@ class TimeNote(Note):
         return tokens
 
     def set_iob_labels(self, iob_labels):
+
+        # don't over write existing labels.
+        assert len(iob_labels) == 0
 
         self.iob_labels = iob_labels
 

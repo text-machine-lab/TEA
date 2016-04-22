@@ -1,4 +1,6 @@
 import copy
+from utilities.add_discourse import get_temporal_discourse_connectives
+
 
 """ TODO: fix features below, they don't work. i simply just moved them into a different file.
 """
@@ -110,22 +112,126 @@ def extract_tlink_features(note):
             pair_features.update(get_lemma(source_token,"src_lemma_{}".format(i)))
             src_pos_feature = get_pos_tag(target_token,"src_pos_{}".format(i))
             src_pos_tags.add(src_pos_feature.keys()[0][1])
-            pair_features.update(src_post_feature)
+            pair_features.update(src_pos_feature)
 
             pass
 
         chunk = " ".join(tokens)
         pair_features.update({("src_chunk",chunk):1})
         pair_features.update({("same_pos", None):(src_pos_tags == target_pos_tags)})
-        pair_features.update(get_sentence_distance(source_tokens, targets_tokens)
-        pair_features.update(get_num_inbetween_entities(src_entity,target_entity))
-        pair_features.update(doc_creation_time_in_pair(src_entity,target_entity))
+        pair_features.update(get_sentence_distance(source_tokens, target_tokens))
+        pair_features.update(get_num_inbetween_entities(source_tokens,target_tokens, note))
+        pair_features.update(doc_creation_time_in_pair(source_tokens,target_tokens))
+        pair_features.update(get_discourse_connectives_features(source_tokens,target_tokens, note))
+        pair_features.update(get_temporal_signal_features(source_tokens,target_tokens,note))
 
         tlink_features.append(pair_features)
 
     return tlink_features
 
-def doc_creation_time_in_pair(self, src_entity, target_entity):
+def _entity_type_entity(entity, note):
+    # doc time
+    if 'functionInDocument' in entity[0]:
+        return "TIMEX"
+    return note.get_labels()[entity[0]["sentence_num"]-1][entity[0]["token_offset"]]["entity_type"]
+
+def get_discourse_connectives_features(src_entity, target_entity, note):
+    """
+    return tokens of temporal discourse connectives and their distance from each entity, if connective exist and entities are on the same line.
+    """
+
+    # if both entities are not events, return
+    if _entity_type_entity(src_entity, note) != "EVENT" or _entity_type_entity(target_entity,note) != "EVENT":
+        return {}
+
+    # extract relevent attributes from entities
+    src_line_no      = src_entity[0]["sentence_num"] - 1
+    src_start_offset = src_entity[0]["token_offset"]
+    src_end_offset   = src_entity[-1]["token_offset"]
+
+    target_line_no      = target_entity[0]["sentence_num"] - 1
+    target_start_offset = target_entity[0]["token_offset"]
+    target_end_offset   = target_entity[-1]["token_offset"]
+
+    # connectives are only obtained for single sentences, and connot be processed for pairs that cross sentence boundaries
+    if src_line_no != target_line_no or src_line_no is None or target_line_no is None:
+        return {}
+
+    # get discourse connectives
+    connectives = get_discourse_connectives(src_line_no, note)
+
+    connective_id = None
+    connective_tokens = ''
+    connective_is_between_entities = False
+    connective_before_entities = False
+    connective_after_entities = False
+    src_before_target = False
+
+    for connective_token in connectives:
+
+        # find connective position relative to entities
+        if src_start_offset < connective_token["token_offset"] and connective_token["token_offset"] < target_end_offset:
+            connective_is_between_entities = True
+            src_before_target = True
+        elif target_start_offset < connective_token["token_offset"] and connective_token["token_offset"] < src_end_offset:
+            connective_is_between_entities = True
+
+        elif src_start_offset < target_start_offset and target_start_offset < connective_token["token_offset"]:
+            connective_after_entities = True
+            src_before_target = True
+        elif target_start_offset < src_start_offset and src_start_offset < connective_token["token_offset"]:
+            connective_after_entities = True
+
+        elif connective_token["token_offset"] < src_end_offset and src_start_offset < target_start_offset:
+            connective_before_entities = True
+            src_before_target = True
+        elif connective_token["token_offset"] < target_end_offset and target_start_offset < src_start_offset:
+            connective_before_entities = True
+
+        # assuming every sentence will only have one temporal discourse connective. If this isn't the case, it would be nice to know
+        if connective_id is not None:
+            assert connective_id == connective_token["discourse_id"]
+
+        connective_id = connective_token["discourse_id"]
+
+        # add token to connective
+        connective_tokens += connective_token["token"]
+
+    # if no connective was found
+    if connective_id is None:
+        return {}
+
+    # # sanity check
+    # if connective_id is not None:
+     # assert connective_before_entities or connective_after_entities or connective_is_between_entities
+
+    # return feature dict
+    retval = {("connective_tokens", connective_tokens):1}
+    if connective_before_entities:
+        retval["connective_before_src"] = 1
+        retval["connective_before_target"] = 1
+    elif connective_after_entities:
+        retval["connective_after_src"] = 1
+        retval["connective_after_target"] = 1
+    elif connective_is_between_entities and src_before_target:
+        retval["connective_after_src"] = 1
+        retval["connective_before_target"] = 1
+    elif connective_is_between_entities and not src_before_target:
+        retval["connective_before_src"] = 1
+        retval["connective_after_target"] = 1
+
+    return retval
+
+
+def get_discourse_connectives(line_no,note):
+
+    constituency_tree = note.get_sentence_features()[line_no+1]['constituency_tree']
+    connectives = get_temporal_discourse_connectives(constituency_tree)
+
+    return connectives
+
+
+def doc_creation_time_in_pair(src_entity, target_entity):
 
     feature = {("doctimeinpairm",None):0}
 
@@ -138,7 +244,7 @@ def doc_creation_time_in_pair(self, src_entity, target_entity):
 
     return feature
 
-def get_num_inbetween_entities(self, src_entity, target_entity):
+def get_num_inbetween_entities(src_entity, target_entity, note):
 
     """
     possible situations:
@@ -155,8 +261,9 @@ def get_num_inbetween_entities(self, src_entity, target_entity):
     # start of entity?
     start_of_entity = lambda label: "I_" not in label and label != "O"
 
-    iob_labels = self.get_iob_labels()
     entity_count = 0
+
+    iob_labels = note.get_labels()
 
     # doctime does not have a position within the text.
     if "sentence_num" not in src_entity[0] or "sentence_num" not in target_entity[0]:
@@ -219,7 +326,7 @@ def get_num_inbetween_entities(self, src_entity, target_entity):
 
     return {("entity_distance",None): entity_count}
 
-def get_sentence_distance(self, src_entity, target_entity):
+def get_sentence_distance(src_entity, target_entity):
     """
     Sentence distance (e.g. 0 if e1 and e2 are in the same sentence)
     Since we only consider pairs of entities within same sentence or adjacent
@@ -335,7 +442,7 @@ def is_event(token, eventLabels):
     return {("is_event", None):(eventLabels[token["sentence_num"]-1][token["token_offset"]]["entity_label"] == "EVENT")}
 
 
-def get_grammar_categories(self, token):
+def get_grammar_categories(token):
 
     features = {}
 
@@ -435,12 +542,7 @@ def get_ngram_label_features(self, token):
 
     return features
 
-
 def get_labels_to_right(self, token, span):
-    """ get the labeled entities to the right of token
-
-        obtains tokens relative to the right of the current position of token
-    """
 
     # TODO: set none if there are no tokens?
 
@@ -459,10 +561,6 @@ def get_labels_to_right(self, token, span):
     return labels
 
 def get_tokens_to_right(self, token, span):
-    """ get the tokens to the right of token
-
-        obtains labels relative to the right of the current position of token
-    """
 
     # TODO: set none if there are no tokens?
 
@@ -483,10 +581,6 @@ def get_tokens_to_right(self, token, span):
     return tokens
 
 def get_labels_to_left(self, token, span):
-    """ get the labels to the left of token
-
-        obtains labels relative to the left of the current position of token
-    """
 
     # TODO: set none if there are no tokens?
     token_offset = token["token_offset"]
@@ -503,10 +597,6 @@ def get_labels_to_left(self, token, span):
     return labels
 
 def get_tokens_to_left(self, token, span):
-    """ get the tokens to the left of token
-
-        obtains tokens relative to the left of the current position of token
-    """
 
     # TODO: set none if there are no tokens?
     token_offset = token["token_offset"]
@@ -524,11 +614,7 @@ def get_tokens_to_left(self, token, span):
 
     return tokens
 
-
 def get_features_for_entity_pair(self, src_entity, target_entity):
-
-     """ get the features for an entity pair
-     """
 
      pair_features = {}
 
@@ -568,7 +654,6 @@ def get_features_for_entity_pair(self, src_entity, target_entity):
 
      return pair_features
 
-
 def get_same_attributes(self, src_features, target_features):
 
     # TODO: what happened here???/
@@ -606,9 +691,7 @@ def get_entity_attributes(self, entity):
 
     return features
 
-
 def get_entity_position(self, entity):
-    ''' extract line number, start token offset, and end token offset from a given entity '''
 
     line_no = None
     start_offset = None
@@ -659,121 +742,27 @@ def get_preposition_features(self, token):
     return features
 
 
-def get_discourse_connectives_features(self, src_entity, target_entity):
-     ''' return tokens of temporal discourse connectives and their distance from each entity, if connective exist and entities are on the same line.'''
+def get_temporal_signal_features(src_entity, target_entity, note):
 
-     # if both entities are not events, return
-     if self.token_entity_type_feature(src_entity[0])["entity_type"] != "EVENT" or self.token_entity_type_feature(target_entity[0])["entity_type"] != "EVENT":
+    # doc time in pair. not same sentence.
+    if "sentence_num" not in src_entity[0] or "sentence_num" not in target_entity[0]:
         return {}
 
-     # extract relevent attributes from entities
-     src_position = self.get_entity_position(src_entity)
-     src_line_no = src_position["line_no"]
-     src_start_offset = src_position["start_offset"]
-     src_end_offset = src_position["end_offset"]
+    # extract relevent attributes from entities
+    src_line_no      = src_entity[0]["sentence_num"]
+    src_start_offset = src_entity[0]["token_offset"]
+    src_end_offset   = src_entity[-1]["token_offset"]
 
-     target_position = self.get_entity_position(target_entity)
-     target_line_no = target_position["line_no"]
-     target_start_offset = target_position["start_offset"]
-     target_end_offset = target_position["end_offset"]
-
-     # connectives are only obtained for single sentences, and connot be processed for pairs that cross sentence boundaries
-     if src_line_no != target_line_no or src_line_no is None or target_line_no is None:
-        return {}
-
-     # get discourse connectives
-     connectives = self.get_discourse_connectives(src_line_no)
-
-     connective_id = None
-     connective_tokens = ''
-     connective_is_between_entities = False
-     connective_before_entities = False
-     connective_after_entities = False
-     src_before_target = False
-
-     for connective_token in connectives:
-
-         # find connective position relative to entities
-         if src_start_offset < connective_token["token_offset"] and connective_token["token_offset"] < target_end_offset:
-             connective_is_between_entities = True
-             src_before_target = True
-         elif target_start_offset < connective_token["token_offset"] and connective_token["token_offset"] < src_end_offset:
-             connective_is_between_entities = True
-
-         elif src_start_offset < target_start_offset and target_start_offset < connective_token["token_offset"]:
-             connective_after_entities = True
-             src_before_target = True
-         elif target_start_offset < src_start_offset and src_start_offset < connective_token["token_offset"]:
-             connective_after_entities = True
-
-         elif connective_token["token_offset"] < src_end_offset and src_start_offset < target_start_offset:
-             connective_before_entities = True
-             src_before_target = True
-         elif connective_token["token_offset"] < target_end_offset and target_start_offset < src_start_offset:
-             connective_before_entities = True
-
-         # assuming every sentence will only have one temporal discourse connective. If this isn't the case, it would be nice to know
-         if connective_id is not None:
-             assert connective_id == connective_token["discourse_id"]
-
-         connective_id = connective_token["discourse_id"]
-
-         # add token to connective
-         connective_tokens += connective_token["token"]
-
-     # if no connective was found
-     if connective_id is None:
-         return {}
-
-     # # sanity check
-     # if connective_id is not None:
-         # assert connective_before_entities or connective_after_entities or connective_is_between_entities
-
-     # return feature dict
-     retval = {("connective_tokens", connective_tokens):1}
-     if connective_before_entities:
-         retval["connective_before_src"] = 1
-         retval["connective_before_target"] = 1
-     elif connective_after_entities:
-         retval["connective_after_src"] = 1
-         retval["connective_after_target"] = 1
-     elif connective_is_between_entities and src_before_target:
-         retval["connective_after_src"] = 1
-         retval["connective_before_target"] = 1
-     elif connective_is_between_entities and not src_before_target:
-         retval["connective_before_src"] = 1
-         retval["connective_after_target"] = 1
-
-     return retval
-
-
-def get_discourse_connectives(self, line_no):
-
-    constituency_tree = self.sentence_features[line_no]['constituency_tree']
-
-    connectives = get_temporal_discourse_connectives(constituency_tree)
-
-    return connectives
-
-def get_temporal_signal_features(self, src_entity, target_entity):
-
-    # get position information for both entities
-    src_position = self.get_entity_position(src_entity)
-    src_line_no = src_position["line_no"]
-    src_start_offset = src_position["start_offset"]
-    src_end_offset = src_position["end_offset"]
-
-    target_position = self.get_entity_position(target_entity)
-    target_line_no = target_position["line_no"]
-    target_start_offset = target_position["start_offset"]
-    target_end_offset = target_position["end_offset"]
+    target_line_no       = target_entity[0]["sentence_num"]
+    target_start_offset = target_entity[0]["token_offset"]
+    target_end_offset   = target_entity[-1]["token_offset"]
 
     # signals are currently only examined for pairs in the same sentence
     if src_line_no != target_line_no or src_line_no is None or target_line_no is None:
         return {}
 
     # get signals in sentence
-    signals = self.get_temporal_signals_in_sentence(src_line_no)
+    signals = get_temporal_signals_in_sentence(src_line_no, note)
     retval = {}
 
     # extract positional features for each signal
@@ -791,15 +780,15 @@ def get_temporal_signal_features(self, src_entity, target_entity):
 
     return retval
 
-def get_temporal_signals_in_sentence(self, line_no):
+def get_temporal_signals_in_sentence(line_no, note):
 
     # get sentence in question
-    sentence = self.pre_processed_text[line_no]
+    sentence = note.get_tokenized_text()[line_no]
     signals = []
 
     # for every token, see if it is in every signal
     for i, token in enumerate(sentence):
-        for signal in self.temporal_signals:
+        for signal in temporal_signals:
             token_is_signal = True
             signal_text = ""
 
@@ -819,7 +808,6 @@ def get_temporal_signals_in_sentence(self, line_no):
 
     return signals
 
-
 def get_label_features(self, entity):
 
     features = {}
@@ -830,11 +818,7 @@ def get_label_features(self, entity):
 
     return features
 
-
 def get_entity_type_features(self, entity):
-
-    """ for some entity, get the entity type labeling for tokens in that entity
-    """
 
     features = {}
 
@@ -843,7 +827,6 @@ def get_entity_type_features(self, entity):
         features.update({("entity_type", self.token_entity_type_feature(token)["entity_type"]):1})
 
     return features
-
 
 def token_label_feature(self, token):
 
@@ -876,9 +859,6 @@ def token_label_feature(self, token):
     return {"entity_label":label}
 
 def token_entity_type_feature(self, token):
-
-    """ for some token, get the entity type (EVENT or TIMEX3) for it
-    """
 
     feature = {}
 
@@ -914,7 +894,6 @@ def token_entity_type_feature(self, token):
         exit("error...")
 
     return {"entity_type":entity_type}
-
 
 
 
