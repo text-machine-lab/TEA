@@ -5,10 +5,15 @@ import numpy as np
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten
+from notes.TimeNote import TimeNote
 
 class NNModel:
 
     def __init__(self, data_dim=16, timesteps=16, nb_classes=7):
+        '''
+        Creates a neural network with the specified conditions.
+        '''
+        # TODO: remove embedding layer once word2vec embeddings are added
 
         # encode the first entity
         encoder_a = Sequential()
@@ -34,31 +39,65 @@ class NNModel:
         self.classifier = decoder
 
     def train(self, notes, epochs=100):
+        '''
+        obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
+        '''
 
         tlinklabels = []
         X1 = []
         X2 = []
 
         for i, note in enumerate(notes):
+            # get tlink lables
             tlinklabels += note.get_tlink_labels()
-            entity_pairs = note.get_tlinked_entities()
 
-            # TODO: get the sdp for each pair. Need to figure out how to get token IDs for each entity
-            # TODO: format the data appropriately. Minimally must split dependency path
-            # X1 += sdp_left
-            # X2 += sdp_right
+            # retrieve tlinks from the note and properly format them
+            left_path, right_path = _get_formatted_data(note)
+            X1 += left_path
+            X2 += right_path
+
+        # print tlinklabels
 
         # may need to reformat labels using to_categorical
-        self.classifier.fit([X1, X2], tlinklabels, nb_epoch=epochs)
+        # self.classifier.fit([X1, X2], tlinklabels, nb_epoch=epochs)
+
+    def predict(self, notes):
+        pass
+
+def _get_formatted_data(note):
+    pairs = note.get_tlinked_entities()
+
+    left_paths = []
+    right_paths = []
+
+    for pair in pairs:
+        target_id = ''
+        source_id = ''
+
+        # extract and reformat the ids in the pair to be of form t# instead of w#
+        # events may be linked to document creation time, which will not have an id
+        if 'id' in pair["target_entity"][0]:
+            target_id = pair["target_entity"][0]["id"]
+            target_id = 't' + target_id[1:]
+        if 'id' in pair["src_entity"][0]:
+            source_id = pair["src_entity"][0]["id"]
+            source_id = 't' + source_id[1:]
+
+        left_paths, right_paths = note.dependency_paths.get_left_right_subpaths(target_id, source_id)
+
+    return left_paths, right_paths
 
 if __name__ == "__main__":
     test = NNModel()
+    tmp_note = TimeNote("APW19980418.0210.tml.TE3input", "APW19980418.0210.tml")
 
-    input1 = np.random.random((10000,16))
-    input2 = np.random.random((10000,16))
-    labels = np.random.randint(7, size=(10000,1))
-    print labels
-    labels = to_categorical(labels,7)
-    test.classifier.fit([input1,input2], labels, nb_epoch=100)
-    print test.classifier.predict_classes([input1,input2])
+    test.train([tmp_note])
+
+    # input1 = np.random.random((10000,16))
+    # input2 = np.random.random((10000,16))
+    # labels = np.random.randint(7, size=(10000,1))
+    # print labels
+    # labels = to_categorical(labels,7)
+    # test.classifier.fit([input1,input2], labels, nb_epoch=100)
+    # print test.classifier.predict_classes([input1,input2])
     pass

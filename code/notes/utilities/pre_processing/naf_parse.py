@@ -528,7 +528,7 @@ class DependencyPath(object):
     def __init__(self, ixa_tok_output):
 
         self.deps = self._get_deps(ixa_tok_output)
-
+        self.tree = self._create_tree()
 
     def get_paths(self, token_id1, token_id2):
         """
@@ -554,7 +554,9 @@ class DependencyPath(object):
         paths.sort(key=lambda p: len(p))
 
         # get the shortest path. omit the END marker
-        return paths[0][:-1]
+        if paths != []:
+            return paths[0][:-1]
+        return []
 
     def _get_paths(self, token_id1, token_id2):
         """
@@ -585,7 +587,6 @@ class DependencyPath(object):
         Extract from the deps element in the annotated NAF file the dependencies as they appear.
         Place these dependencies within a dictionary.
         """
-
         xml_root = xml_root = ET.fromstring(ixa_pipe_output)
 
         deps_element = None
@@ -612,6 +613,87 @@ class DependencyPath(object):
                 deps[_from] = {_to:_rfunc}
 
         return deps
+
+    def _create_tree(self):
+        """
+        Recreate tree structure for the dependency parse
+        """
+        tree = {}
+
+        for dep in self.deps:
+            # if node is not in tree, add it
+            if dep not in tree:
+                tree[dep] = DependencyTree()
+
+            # recursively build explicit tree using structure of deps dictionary
+            for child in self.deps[dep]:
+                if child not in tree:
+                    tree[child] = DependencyTree()
+                assert tree[child].parent is None
+                tree[child].parent = dep
+                tree[dep].children += child
+
+        print tree
+        return tree
+
+    def get_left_right_subpaths(self, token_id1, token_id2):
+        """
+        Get the left and right sub-paths of the subtree connecting the two tokens
+        Note that left and right are arbitrary identifiers to keep track of which variables correspond
+        to each subpath, and do not indicate any information about the tokens, such as which comes first.
+        """
+        L_path = []
+        R_path = []
+
+        # there is no path between tokens if one of them is not in the tree
+        # should only occur if tokens are from different sentences
+        if token_id2 not in self.tree or token_id1 not in self.tree:
+            return [], []
+
+        L_token = token_id1
+        R_token = token_id2
+
+        # search backwards through the tree from both tokens, until the paths intersect
+        while True:
+
+            # add tokens to respective paths
+            L_path.append(L_token)
+            R_path.append(R_token)
+
+            # check for intersection
+            if L_token in R_path:
+                # add one so that final token is included when using index to slice array
+                end_index = R_path.index(L_token) + 1
+                R_path = R_path[:end_index]
+                print "R: ", R_path, "L: ", L_path
+                return L_path, R_path
+
+            # same as above for R_token
+            if R_token in L_path:
+                # add one so that final token is included when using index to slice array
+                end_index = L_path.index(R_token) + 1
+                L_path = R_path[:end_index]
+                print "R: ", L_path, "R: ", R_path
+                return L_path, R_path
+
+            # if no match is found and there is nowhere else to move up to, tokens have no connection path
+            # in theory, this should never occur due to the way dependency parses are structured
+            if self.tree[L_token].parent is None and self.tree[R_token].parent is None:
+                return [], []
+
+            # if the token has a parent, move up the tree
+            if self.tree[L_token].parent is not None:
+                L_token = self.tree[L_token].parent
+            if self.tree[R_token].parent is not None:
+                R_token = self.tree[R_token].parent
+
+
+class DependencyTree(object):
+
+    def __init__(self, parent=None, children=[]):
+
+        self.parent = parent
+        self.children = children
 
 
 if __name__ == "__main__":
