@@ -173,14 +173,14 @@ def pre_process(text):
 
             tok.update(tok_predicate_info)
 
-
+    dependency_paths = naf_parse.DependencyPath(naf_tagged_doc)
     # one tree per sentencei
     # TODO: doesn't actually assert the sentences match to their corresponding tree
 
     if len(constituency_trees) > 0:
         assert( len(sentences) == len(constituency_trees))
 
-    return sentences, tokens_to_offset, sentence_features
+    return sentences, tokens_to_offset, sentence_features, dependency_paths
 
 if __name__ == "__main__":
 
