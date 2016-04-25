@@ -35,7 +35,7 @@ class TimeNote(Note):
         self.original_text = data
 
         # send body of document to NewsReader pipeline.
-        tokenized_text, token_to_offset, sentence_features = pre_processing.pre_process(data)
+        tokenized_text, token_to_offset, sentence_features, dependency_paths = pre_processing.pre_process(data)
 
         # {sentence_num: [{token},...], ...}
         self.pre_processed_text = tokenized_text
@@ -46,6 +46,9 @@ class TimeNote(Note):
 
         # contains sentence level information extracted by newsreader
         self.sentence_features = sentence_features
+
+        # dependency paths for sentences in the document
+        self.dependency_paths = dependency_paths
 
         self.iob_labels = []
 
