@@ -52,9 +52,9 @@ class NNModel:
             tlinklabels += note.get_tlink_labels()
 
             # retrieve tlinks from the note and properly format them
-            left_path, right_path = _get_formatted_data(note)
-            X1 += left_path
-            X2 += right_path
+            left_path, right_path = _get_token_id_subpaths(note)
+            # X1 += left_path
+            # X2 += right_path
 
         # print tlinklabels
 
@@ -64,7 +64,7 @@ class NNModel:
     def predict(self, notes):
         pass
 
-def _get_formatted_data(note):
+def _get_token_id_subpaths(note):
     pairs = note.get_tlinked_entities()
 
     left_paths = []
