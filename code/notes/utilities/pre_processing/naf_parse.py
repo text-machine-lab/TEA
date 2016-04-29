@@ -633,7 +633,6 @@ class DependencyPath(object):
                 tree[child].parent = dep
                 tree[dep].children += child
 
-        print tree
         return tree
 
     def get_left_right_subpaths(self, token_id1, token_id2):
@@ -663,17 +662,11 @@ class DependencyPath(object):
             # check for intersection
             if L_token in R_path:
                 # add one so that final token is included when using index to slice array
-                end_index = R_path.index(L_token) + 1
-                R_path = R_path[:end_index]
-                print "R: ", R_path, "L: ", L_path
-                return L_path, R_path
-
-            # same as above for R_token
-            if R_token in L_path:
-                # add one so that final token is included when using index to slice array
-                end_index = L_path.index(R_token) + 1
-                L_path = R_path[:end_index]
-                print "R: ", L_path, "R: ", R_path
+                end_R = R_path.index(L_token) + 1
+                end_L = L_path.index(L_token) + 1
+                # slice both arrays incase L reached the common ancestor before R
+                R_path = R_path[:end_R]
+                L_path = L_path[:end_L]
                 return L_path, R_path
 
             # if no match is found and there is nowhere else to move up to, tokens have no connection path
