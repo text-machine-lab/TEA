@@ -554,7 +554,7 @@ class DependencyPath(object):
         paths.sort(key=lambda p: len(p))
 
         # get the shortest path. omit the END marker
-        return paths[0][:-1]
+        return paths[0][:-1] if len(paths) > 0 else []
 
     def _get_paths(self, token_id1, token_id2):
         """
@@ -620,4 +620,5 @@ if __name__ == "__main__":
     print d.get_paths("t12","t1")
     print d.get_paths("t56","t60")
     print d.get_paths("t32", "t38")
+    print d.get_paths("t35", "t38")
 

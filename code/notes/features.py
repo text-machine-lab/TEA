@@ -75,6 +75,8 @@ def extract_tlink_features(note):
 
     print  note.get_tlinked_entities()
 
+    exit()
+
     for tlink_pair in note.get_tlinked_entities():
 
         pair_features = {}
@@ -524,95 +526,6 @@ def get_lemma(token,feat_name="lemma"):
         # TODO: make better?
         return {(feat_name, "DATE"):True}
 
-def get_ngram_features(self, token):
-
-    features = {}
-
-    features.update(self.get_tokens_to_right(token, span=4))
-    features.update(self.get_tokens_to_left(token, span=4))
-
-    return features
-
-def get_ngram_label_features(self, token):
-
-    features=  {}
-
-    features.update(self.get_labels_to_right(token, span=4))
-    features.update(self.get_labels_to_left(token, span=4))
-
-    return features
-
-def get_labels_to_right(self, token, span):
-
-    # TODO: set none if there are no tokens?
-
-    token_offset = token["token_offset"]
-    line = self.get_iob_labels()[token["sentence_num"] - 1]
-
-    assert span > 0, "set to one or more, otherwise it will just get the token itself"
-
-    start = token_offset
-    end   = start + 1 + span
-
-    right_labels = line[start:end][1:]
-
-    labels = dict([(("right_label", label["entity_label"]), 1) for i, label in enumerate(right_labels)])
-
-    return labels
-
-def get_tokens_to_right(self, token, span):
-
-    # TODO: set none if there are no tokens?
-
-    token_offset = token["token_offset"]
-    line = self.pre_processed_text[token["sentence_num"]]
-
-    # make sure we got the right token
-    assert  line[token_offset] == token
-    assert span > 0, "set to one or more, otherwise it will just get the token itself"
-
-    start = token_offset
-    end   = start + 1 + span
-
-    right_tokens = line[start:end][1:]
-
-    tokens = dict([(("right_token", token["token"]), 1) for i, token in enumerate(right_tokens)])
-
-    return tokens
-
-def get_labels_to_left(self, token, span):
-
-    # TODO: set none if there are no tokens?
-    token_offset = token["token_offset"]
-    line = self.get_iob_labels()[token["sentence_num"] - 1]
-
-    assert span > 0, "set to one or more, otherwise it will just get the token itself"
-
-    start   = token_offset - span
-    end     = token_offset
-
-    left_labels = line[start:end]
-    labels = dict([(("left_label", label["entity_label"]), 1) for i, label in enumerate(left_labels)])
-
-    return labels
-
-def get_tokens_to_left(self, token, span):
-
-    # TODO: set none if there are no tokens?
-    token_offset = token["token_offset"]
-    line = self.pre_processed_text[token["sentence_num"]]
-
-    # make sure we got the right token
-    assert  line[token_offset] == token
-    assert span > 0, "set to one or more, otherwise it will just get the token itself"
-
-    start   = token_offset - span
-    end     = token_offset
-
-    left_tokens = line[start:end]
-    tokens = dict([(("left_token", token["token"]), 1) for i, token in enumerate(left_tokens)])
-
-    return tokens
 
 def get_features_for_entity_pair(self, src_entity, target_entity):
 
