@@ -34,7 +34,7 @@ wget http://adimen.si.ehu.es/web/files/PredicateMatrix/PredicateMatrix.srl-modul
 tar -zxf PredicateMatrix.srl-module.tar.gz -C NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/PredicateMatrix/
 rm -f PredicateMatrix.srl-module.tar.gz
 
-mv NewsReader code/notes/dependencies
+mv NewsReader dependencies/
 
 export TEA_PATH=$(pwd)
 . $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile.sh

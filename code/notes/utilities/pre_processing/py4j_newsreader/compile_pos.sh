@@ -6,7 +6,7 @@ END
 
 
 
-POS_JAR_PATH=$TEA_PATH/code/notes/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-pos-1.4.1.jar
+POS_JAR_PATH=$TEA_PATH/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-pos-1.4.1.jar
 COMPILE_DEST=$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/
 SRC_DIR=$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader
 
