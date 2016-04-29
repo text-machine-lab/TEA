@@ -46,7 +46,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
-
+/**
+* newsreader parser component.
+*/
 public class Parse {
 
     ParseCLI parse_CLI = null;

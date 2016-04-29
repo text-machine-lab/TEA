@@ -56,7 +56,9 @@ import eus.ixa.ixa.pipe.nerc.train.Trainer;
 
 import java.nio.charset.StandardCharsets;
 
-
+/**
+* newsreader named entity component.
+*/
 public class Ner {
 
     NerCLI ner_cli = null;

@@ -45,7 +45,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
-
+/**
+* newsreader tokenization component.
+*/
 public class Tok {
 
     TokCLI tok_CLI = null;

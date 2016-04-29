@@ -1,3 +1,5 @@
+"""Used for interacting with newsreader components.
+"""
 
 import os
 import subprocess
@@ -24,9 +26,8 @@ SRC_DR=os.environ["TEA_PATH"] + "/code/notes/utilities/pre_processing/py4j_newsr
 DEPENDENCIES=":{}:{}:{}:{}:{}:{}:{}/*".format(PY4J_DEPENDENCIES, TOK_JAR_PATH, POS_JAR_PATH, NER_JAR_PATH, PARSE_JAR_PATH, SRC_DR, SRC_DR)
 
 class GateWayServer(object):
-    """
-        creates the py4j gateway to allow access to jvm objects.
-        only one gateway server may be running at a time on a specific port.
+    """creates the py4j gateway to allow access to jvm objects.
+    only one gateway server may be running at a time on a specific port.
     """
 
     server = None

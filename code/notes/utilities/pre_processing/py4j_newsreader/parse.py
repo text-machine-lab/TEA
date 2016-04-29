@@ -1,4 +1,5 @@
-
+"""Allows newsreader parser component to be accessed by python.
+"""
 
 from subprocess import Popen, PIPE, STDOUT
 

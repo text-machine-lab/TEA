@@ -1,7 +1,14 @@
+#!/bin/bash
+: <<'END'
+Compile all necessary java dependencies to use timenorm
 
-# IMPORTANT!!!
-# make sure that mvn uses java 1.8, this can done by seting JAVA_HOME within .mavenrc
-# make sure scala version matches pom.xml version.
+Requirements:
+    *maven3
+    *maven3 is using java 1.8
+END
+
+
+
 
 if [ "$1" == 'clean' ]; then
 
@@ -21,7 +28,6 @@ else
     mv timenorm-timenorm-0.9.5/target/timenorm-0.9.5.jar ./
 
     # scalac -cp ".:$(pwd)/timenorm/target/timenorm-0.9.1-SNAPSHOT.jar" TimeNorm.scala
-
 
 fi
 

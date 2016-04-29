@@ -58,7 +58,9 @@ import java.nio.charset.StandardCharsets;
 
 import java.io.BufferedReader;
 
-
+/**
+* newsreader parts of speech component.
+*/
 public class Pos {
 
     PosCLI pos_CLI = null;
