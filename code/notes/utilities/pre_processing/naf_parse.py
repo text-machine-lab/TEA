@@ -1,3 +1,5 @@
+"""Parses NAF annotated file.
+"""
 import sys
 import copy
 import os
@@ -557,11 +559,13 @@ class DependencyPath(object):
         return paths[0][:-1] if len(paths) > 0 else []
 
     def _get_paths(self, token_id1, token_id2):
-        """
-        Go through dependencies extracted from _get_deps and try and find smallest paths
+        """Go through dependencies extracted from _get_deps and try and find smallest paths
         between two tokens.
 
-        Expects to take in the token id (t##)
+        Example:
+            NAF_contents = open("example_file.NAF","rb").read()
+            d = DependencyPath(NAF_contents)
+            print d.get_paths("t12","t1")
         """
         paths = []
 
@@ -615,10 +619,4 @@ class DependencyPath(object):
 
 
 if __name__ == "__main__":
-
-    d = DependencyPath(open("test.xml","rb").read())
-    print d.get_paths("t12","t1")
-    print d.get_paths("t56","t60")
-    print d.get_paths("t32", "t38")
-    print d.get_paths("t35", "t38")
-
+    pass

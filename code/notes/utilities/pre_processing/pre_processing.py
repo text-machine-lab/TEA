@@ -1,3 +1,6 @@
+"""Processes contents of text document.
+"""
+
 import os
 import sys
 import naf_parse
@@ -7,6 +10,12 @@ from news_reader import NewsReader
 pre_processor = None
 
 def pre_process(text):
+    """ pre-process contents of a document
+
+    Example:
+        text = open("some_doc.txt","rb").read()
+        pre_process(text)
+    """
 
     global pre_processor
 
@@ -183,14 +192,5 @@ def pre_process(text):
     return sentences, tokens_to_offset, sentence_features
 
 if __name__ == "__main__":
-
-
-    timeml_utilities = os.environ["TEA_PATH"] + "/code/notes/utilities"
-    sys.path.insert(0, timeml_utilities)
-
-    import timeml_utilities
-
-    print pre_process(timeml_utilities.get_text("APW19980820.1428.tml.TE3input"))
-
     pass
 

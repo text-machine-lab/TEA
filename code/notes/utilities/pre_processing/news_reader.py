@@ -1,3 +1,13 @@
+"""Defines python interfaces to utilize newsreader pipeline.
+
+The newsreader pipeline is used to perform various text processing tasks.
+
+Performs following:
+    tokenization
+    parts of speech tagging
+    dependency parse + constituency parse
+    named entity recognition
+"""
 
 import subprocess
 import os
