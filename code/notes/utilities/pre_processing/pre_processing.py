@@ -180,7 +180,7 @@ def pre_process(text):
     if len(constituency_trees) > 0:
         assert( len(sentences) == len(constituency_trees))
 
-    return sentences, tokens_to_offset, sentence_features, dependency_paths
+    return sentences, tokens_to_offset, sentence_features, dependency_paths, id_to_tok
 
 if __name__ == "__main__":
 
