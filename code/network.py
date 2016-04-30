@@ -9,7 +9,7 @@ from notes.TimeNote import TimeNote
 
 class NNModel:
 
-    def __init__(self, data_dim=16, timesteps=16, nb_classes=7):
+    def __init__(self, data_dim=200, timesteps=16, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         '''
@@ -17,22 +17,20 @@ class NNModel:
 
         # encode the first entity
         encoder_a = Sequential()
-        encoder_a.add(Embedding(output_dim=200, input_dim=data_dim, input_length=timesteps, mask_zero=False))
-        encoder_a.add(LSTM(32, return_sequences=True))
+        encoder_a.add(LSTM(300, input_dim=data_dim, input_length=timesteps, return_sequences=True))
         encoder_a.add(MaxPooling1D(pool_length=2))
         encoder_a.add(Flatten())
 
         # encode the second entity
         encoder_b = Sequential()
-        encoder_b.add(Embedding(output_dim=200, input_dim=data_dim, input_length=timesteps, mask_zero=False))
-        encoder_b.add(LSTM(32, return_sequences=True))
+        encoder_b.add(LSTM(300, input_dim=data_dim, input_length=timesteps, return_sequences=True))
         encoder_b.add(MaxPooling1D(pool_length=2))
         encoder_b.add(Flatten())
 
         # combine and classify entities as a single relation
         decoder = Sequential()
         decoder.add(Merge([encoder_a, encoder_b], mode='concat'))
-        decoder.add(Dense(32, activation='sigmoid'))
+        decoder.add(Dense(100, activation='sigmoid'))
         decoder.add(Dense(nb_classes, activation='softmax'))
 
         decoder.compile(loss='categorical_crossentropy', optimizer='rmsprop')
@@ -52,7 +50,10 @@ class NNModel:
             tlinklabels += note.get_tlink_labels()
 
             # retrieve tlinks from the note and properly format them
-            left_path, right_path = _get_token_id_subpaths(note)
+            left_ids, right_ids = _get_token_id_subpaths(note)
+            left_path = note.get_tokens_from_ids(left_ids)
+            right_path = note.get_tokens_from_ids(right_ids)
+            print right_path
             # X1 += left_path
             # X2 += right_path
 
@@ -90,14 +91,17 @@ def _get_token_id_subpaths(note):
 if __name__ == "__main__":
     test = NNModel()
     tmp_note = TimeNote("APW19980418.0210.tml.TE3input", "APW19980418.0210.tml")
+    print tmp_note.pre_processed_text[2][16]
 
     test.train([tmp_note])
 
-    # input1 = np.random.random((10000,16))
-    # input2 = np.random.random((10000,16))
+    labels = tmp_note.get_tlink_labels()
+    print len(labels)
+    input1 = np.random.random((len(labels),300))
+    input2 = np.random.random((len(labels),300))
     # labels = np.random.randint(7, size=(10000,1))
-    # print labels
-    # labels = to_categorical(labels,7)
-    # test.classifier.fit([input1,input2], labels, nb_epoch=100)
-    # print test.classifier.predict_classes([input1,input2])
+    labels = to_categorical(labels,7)
+    print labels
+    test.classifier.fit([input1,input2], labels, nb_epoch=100)
+    print test.classifier.predict_classes([input1,input2])
     pass
