@@ -16,14 +16,14 @@ class NNModel:
         # encode the first entity
         encoder_L = Sequential()
         # encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_L.add(LSTM(300, input_dim=data_dim, input_length=max_len, return_sequences=True))
+        encoder_L.add(LSTM(300, input_shape=(data_dim, max_len), return_sequences=True))
         encoder_L.add(MaxPooling1D(pool_length=300))
         encoder_L.add(Flatten())
 
         # encode the second entity
         encoder_R = Sequential()
         # encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_R.add(LSTM(300, input_dim=data_dim, input_length=max_len, return_sequences=True))
+        encoder_R.add(LSTM(300, input_shape=(data_dim, max_len), return_sequences=True))
         encoder_R.add(MaxPooling1D(pool_length=300))
         encoder_R.add(Flatten())
 
