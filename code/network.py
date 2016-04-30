@@ -3,34 +3,37 @@ import pickle
 
 import numpy as np
 from keras.utils.np_utils import to_categorical
-from keras.models import Sequential
-from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten
+from keras.models import Sequential, Graph
+from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten, Masking, Input, Permute
 from notes.TimeNote import TimeNote
 
 class NNModel:
 
-    def __init__(self, data_dim=200, timesteps=16, nb_classes=7):
+    def __init__(self, data_dim=300, max_len=16, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         '''
-        # TODO: remove embedding layer once word2vec embeddings are added
-
         # encode the first entity
-        encoder_a = Sequential()
-        encoder_a.add(LSTM(300, input_dim=data_dim, return_sequences=True))
-        encoder_a.add(MaxPooling1D(pool_length=2))
+        encoder_L = Sequential()
+        # encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        encoder_L.add(LSTM(300, input_dim=data_dim, input_length=max_len, return_sequences=True))
+        encoder_L.add(MaxPooling1D(pool_length=300))
+        encoder_L.add(Flatten())
 
         # encode the second entity
-        encoder_b = Sequential()
-        encoder_b.add(LSTM(300, input_dim=data_dim, return_sequences=True))
-        encoder_b.add(MaxPooling1D(pool_length=2))
+        encoder_R = Sequential()
+        # encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        encoder_R.add(LSTM(300, input_dim=data_dim, input_length=max_len, return_sequences=True))
+        encoder_R.add(MaxPooling1D(pool_length=300))
+        encoder_R.add(Flatten())
 
         # combine and classify entities as a single relation
         decoder = Sequential()
-        decoder.add(Merge([encoder_a, encoder_b], mode='concat'))
+        decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
         decoder.add(Dense(100, activation='sigmoid'))
         decoder.add(Dense(nb_classes, activation='softmax'))
 
+        # compile the final model
         decoder.compile(loss='categorical_crossentropy', optimizer='rmsprop')
         self.classifier = decoder
 
@@ -120,8 +123,8 @@ if __name__ == "__main__":
     labels = to_categorical(labels,7)
     print len(labels)
     print labels
-    input1 = np.random.random((len(labels),16, 300))
-    input2 = np.random.random((len(labels),16, 300))
+    input1 = np.random.random((len(labels),300, 16))
+    input2 = np.random.random((len(labels),300, 16))
     # labels = np.random.randint(7, size=(10000,1))
     test.classifier.fit([input1,input2], labels, nb_epoch=100)
     print test.classifier.predict_classes([input1,input2])
