@@ -19,13 +19,11 @@ class NNModel:
         encoder_a = Sequential()
         encoder_a.add(LSTM(300, input_dim=data_dim, return_sequences=True))
         encoder_a.add(MaxPooling1D(pool_length=2))
-        encoder_a.add(Flatten())
 
         # encode the second entity
         encoder_b = Sequential()
         encoder_b.add(LSTM(300, input_dim=data_dim, return_sequences=True))
         encoder_b.add(MaxPooling1D(pool_length=2))
-        encoder_b.add(Flatten())
 
         # combine and classify entities as a single relation
         decoder = Sequential()
