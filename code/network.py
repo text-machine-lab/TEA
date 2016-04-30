@@ -120,12 +120,13 @@ if __name__ == "__main__":
 
     labels = tmp_note.get_tlink_labels()
     labels = _pre_process_labels(labels)
-    labels = to_categorical(labels,7)
+    _labels = to_categorical(labels,7)
     print len(labels)
     print labels
     input1 = np.random.random((len(labels),300, 16))
     input2 = np.random.random((len(labels),300, 16))
     # labels = np.random.randint(7, size=(10000,1))
-    test.classifier.fit([input1,input2], labels, nb_epoch=100)
+    test.classifier.fit([input1,input2], _labels, nb_epoch=100)
     print test.classifier.predict_classes([input1,input2])
+    print labels
     pass
