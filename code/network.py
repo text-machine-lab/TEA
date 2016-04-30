@@ -30,7 +30,7 @@ class NNModel:
         # combine and classify entities as a single relation
         decoder = Sequential()
         decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
-        decoder.add(Dense(100, activation='sigmoid'))
+        # decoder.add(Dense(100, activation='sigmoid'))
         decoder.add(Dense(nb_classes, activation='softmax'))
 
         # compile the final model
