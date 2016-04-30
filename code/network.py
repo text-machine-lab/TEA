@@ -120,8 +120,8 @@ if __name__ == "__main__":
     labels = to_categorical(labels,7)
     print len(labels)
     print labels
-    input1 = np.random.random((len(labels),16, 300))
-    input2 = np.random.random((len(labels),16, 300))
+    input1 = np.random.random((,16, 300))
+    input2 = np.random.random((,16, 300))
     # labels = np.random.randint(7, size=(10000,1))
     test.classifier.fit([input1,input2], labels, nb_epoch=100)
     print test.classifier.predict_classes([input1,input2])
