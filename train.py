@@ -9,11 +9,12 @@ from code.config import env_paths
 
 from code.notes.TimeNote import TimeNote
 from code import model
+from code import network
 
 if "TEA_PATH" not in os.environ:
     sys.exit("TEA_PATH environment variable not specified, it is the directory containg train.py")
 
-if env_paths()["PY4J_DIR_PATH"] is None:
+if "PY4J_DIR_PATH" is os.environ:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
 
 
@@ -31,6 +32,9 @@ def main():
 
     parser.add_argument("model_destination",
                         help="Where to store the trained model")
+    parser.add_argument("--neural_network", '-n',
+                        action='store_true',
+                        help="set flag to use a neural network model rather than SVM for tlink identification")
 
     args = parser.parse_args()
 
@@ -63,7 +67,10 @@ def main():
     assert len(gold_files) == len(tml_files)
 
     # create the model
-    model = trainModel(tml_files, gold_files, False)
+    if args.neural_network == True:
+        model = trainNetwork(tml_files, gold_files)
+    else:
+        model = trainModel(tml_files, gold_files, False)
 
     # store model as pickle object.
     with open(args.model_destination, "wb") as modFile:
@@ -104,6 +111,42 @@ def trainModel( tml_files, gold_files, grid ):
     mod.train(notes)
 
     return mod
+
+def trainNetwork(tml_files, gold_files):
+    '''
+    train::trainNetwork()
+
+    Purpose: Train a neural network for classification of temporal realtions. Assumes events and timexes
+        will be provided at prediction time
+
+    @param tml_files: List of unlabled (no timex, etc) timeML documents
+    @param gold_files: Fully labeled gold standard timeML documents
+    '''
+    print "Called trainNetwork"
+
+    # Read in notes
+    notes = []
+
+    basename = lambda x: os.path.basename(x[0:x.index(".tml")])
+
+    for i, example in enumerate(zip(tml_files, gold_files)):
+
+        tml, gold = example
+
+        assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
+
+        print '\n\nprocessing file {}/{} {}'.format(i + 1,
+                                                    len(zip(tml_files, gold_files)),
+                                                    tml)
+
+        tmp_note = TimeNote(tml, gold)
+        notes.append(tmp_note)
+
+    mod = network.NNModel()
+    mod.train(notes)
+
+    return mod
+
 
 if __name__ == "__main__":
   main()
