@@ -6,6 +6,7 @@ from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten, Masking, Input, Permute
 from notes.TimeNote import TimeNote
+from gensim.models import word2vec
 
 class NNModel:
 
@@ -43,9 +44,13 @@ class NNModel:
         '''
 
         tlinklabels = []
-        X1 = []
-        X2 = []
+        left_path_vectors = []
+        right_path_vectors = []
 
+        print 'Loading word embeddings...'
+        word_vectors = word2vec.Word2Vec.load_word2vec_format(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', binary=True)
+
+        print 'Extracting dependency paths...'
         for i, note in enumerate(notes):
             # get tlink lables
             tlinklabels += note.get_tlink_labels()
@@ -54,19 +59,57 @@ class NNModel:
             left_ids, right_ids = _get_token_id_subpaths(note)
             left_path = note.get_tokens_from_ids(left_ids)
             right_path = note.get_tokens_from_ids(right_ids)
-            print right_path
-            # X1 += left_path
-            # X2 += right_path
 
-        # print tlinklabels
+            # get the vectors for every word in the left path
+            left_vecs = []
+            for word in left_path:
+                left_vecs.append(word_vectors[word])
 
-        # may need to reformat labels using to_categorical
-        # self.classifier.fit([X1, X2], tlinklabels, nb_epoch=epochs)
+            # get the vectors for every word in the right path
+            right_vecs = []
+            for word in right_path:
+                right_vecs.append(word_vectors[word])
+
+            left_path_vectors.append(left_vecs)
+            right_path_vectors.append(right_vecs)
+
+        # cast data to numpy arrays
+        XL = numpy.asarray(left_path_vectors, dtype='float32')
+        XR = numpy.asarray(right_path_vectors, dtype='float32')
+
+        # reformat labels so that they can be used by the NN
+        labels = _pre_process_labels(tlinklabels)
+        Y = to_categorical(labels,7)
+
+        # train the network
+        print 'Training network...'
+        self.classifier.fit([XL, XR], Y, nb_epoch=epochs)
+
+
+        test = self.classifier.predict_classes([XL, XR])
+
+        T = 0
+        F = 0
+        outs = 0
+        for true, pred in zip(labels, test):
+            if true == pred:
+                T += 1
+            else:
+                F += 1
+            if true == 0:
+                outs += 0
+
+        print "T: ", T, "F: ", F, "outs: ", outs
 
     def predict(self, notes):
         pass
 
 def _get_token_id_subpaths(note):
+    '''
+    extract ids for the tokens in each half of the shortest dependency path between each token in each relation
+    '''
+    # TODO: for now we only look at the first token in a given entity. Eventually, we should get all tokens in the entity
+
     pairs = note.get_tlinked_entities()
 
     left_paths = []
@@ -114,19 +157,19 @@ def _pre_process_labels(labels):
 if __name__ == "__main__":
     test = NNModel()
     tmp_note = TimeNote("APW19980418.0210.tml.TE3input", "APW19980418.0210.tml")
-    print tmp_note.pre_processed_text[2][16]
+    # print tmp_note.pre_processed_text[2][16]
 
     test.train([tmp_note])
 
-    labels = tmp_note.get_tlink_labels()
-    labels = _pre_process_labels(labels)
-    _labels = to_categorical(labels,7)
-    print len(labels)
-    print labels
-    input1 = np.random.random((len(labels),300, 16))
-    input2 = np.random.random((len(labels),300, 16))
-    # labels = np.random.randint(7, size=(10000,1))
-    test.classifier.fit([input1,input2], _labels, nb_epoch=100)
-    print test.classifier.predict_classes([input1,input2])
-    print labels
+    # labels = tmp_note.get_tlink_labels()
+    # labels = _pre_process_labels(labels)
+    # _labels = to_categorical(labels,7)
+    # print len(labels)
+    # print labels
+    # input1 = np.random.random((len(labels),300, 16))
+    # input2 = np.random.random((len(labels),300, 16))
+    # # labels = np.random.randint(7, size=(10000,1))
+    # test.classifier.fit([input1,input2], _labels, nb_epoch=100)
+    # print test.classifier.predict_classes([input1,input2])
+    # print labels
     pass
