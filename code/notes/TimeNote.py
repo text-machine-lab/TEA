@@ -822,8 +822,9 @@ class TimeNote(Note):
         ''' returns the token associated with a specific id'''
         tokens = []
         for _id in ids:
-            tokens.append(self.id_to_token[_id])
-
+            # ensuring id prefix value is correct.
+            # TODO: adjust TimeNote to consistently use t# or w# format
+            tokens.append(self.id_to_token['w' + _id[1:]]["token"])
         return tokens
 
     @staticmethod
