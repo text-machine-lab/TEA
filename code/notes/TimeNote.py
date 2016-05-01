@@ -3,7 +3,6 @@ import itertools
 import sys
 import re
 import copy
-import wordshapes
 
 from string import whitespace
 from Note import Note

@@ -1,4 +1,6 @@
 
+TEA_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 if [ "$PY4J_DIR_PATH" == "" ]; then
     echo "environment variable PY4J_DIR_PATH not specified"
     echo "please put exact path example .../venv/share/py4j"
@@ -36,8 +38,7 @@ rm -f PredicateMatrix.srl-module.tar.gz
 
 mv NewsReader dependencies/
 
-export TEA_PATH=$(pwd)
-. $TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/compile.sh
+. $TEA_HOME/code/notes/utilities/pre_processing/py4j_newsreader/compile.sh
 
 echo "finished installation"
 

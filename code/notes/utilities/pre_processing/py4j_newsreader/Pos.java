@@ -67,9 +67,13 @@ public class Pos {
 
     public Pos() {
 
+        String CURR_DIR = new String(getClass().getProtectionDomain().getCodeSource().getLocation().toString().substring(5));
+
+        String TEA_HOME = new String(CURR_DIR + "../../../../../");
+
         String[] cli_args = { "tag",
                               "-m",
-                              System.getenv("TEA_PATH") + "/code/notes/NewsReader/models/pos-models-1.4.0/en/en-maxent-100-c5-baseline-dict-penn.bin" };
+                              TEA_HOME  + "/dependencies/NewsReader/models/pos-models-1.4.0/en/en-maxent-100-c5-baseline-dict-penn.bin" };
 
         pos_CLI = new PosCLI();
 

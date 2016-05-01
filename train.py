@@ -1,21 +1,18 @@
 import sys
+from code.config import env_paths
+
+# this needs to be set. exit now so user doesn't wait to know.
+if env_paths()["PY4J_DIR_PATH"] is None:
+    sys.exit("PY4J_DIR_PATH environment variable not specified")
+
 import os
 import cPickle
 import argparse
 import re
 import glob
 
-from code.config import env_paths
-
 from code.notes.TimeNote import TimeNote
-from code import model
-
-if "TEA_PATH" not in os.environ:
-    sys.exit("TEA_PATH environment variable not specified, it is the directory containg train.py")
-
-if env_paths()["PY4J_DIR_PATH"] is None:
-    sys.exit("PY4J_DIR_PATH environment variable not specified")
-
+from code.learning import model
 
 def main():
 

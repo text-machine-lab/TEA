@@ -65,9 +65,14 @@ public class Ner {
 
     public Ner(){
 
+        String CURR_DIR = new String(getClass().getProtectionDomain().getCodeSource().getLocation().toString().substring(5));
+
+        String TEA_HOME = new String(CURR_DIR + "../../../../../");
+
+
         String[] cli_args = { "tag",
                               "-m",
-                              System.getenv("TEA_PATH") + "/code/notes/NewsReader/models/nerc-models-1.5.0/nerc-models-1.5.0/en/conll03/en-91-19-conll03.bin" };
+                              TEA_HOME + "/dependencies/NewsReader/models/nerc-models-1.5.0/nerc-models-1.5.0/en/conll03/en-91-19-conll03.bin" };
 
         ner_cli = new NerCLI();
 

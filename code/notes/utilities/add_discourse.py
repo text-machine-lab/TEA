@@ -2,6 +2,9 @@ import subprocess
 import os
 import sys
 
+TEA_HOME = os.path.join(*([os.path.dirname(os.path.abspath(__file__))]+[".."]*3))
+
+
 def get_temporal_discourse_connectives(sentence_constituency):
 
     connectives_text = _add_discourse(sentence_constituency)
@@ -14,10 +17,10 @@ def _add_discourse(sentence_constituency):
     '''takes a constituency parse for a sentence and adds discourse tags'''
 
     discourse = subprocess.Popen(["perl",
-                                os.environ["TEA_PATH"] + "/code/notes/AddDiscourse/addDiscourse.pl",
+                                TEA_HOME + "/dependencies/AddDiscourse/addDiscourse.pl",
                                 "--parses",
                                 "/dev/stdin"],
-                                cwd=os.environ["TEA_PATH"] + "/code/notes/AddDiscourse",
+                                cwd=TEA_HOME + "/dependencies/AddDiscourse",
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE)
 

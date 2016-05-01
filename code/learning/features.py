@@ -1,5 +1,5 @@
 import copy
-from utilities.add_discourse import get_temporal_discourse_connectives
+from code.notes.utilities.add_discourse import get_temporal_discourse_connectives
 
 """ TODO: fix features below, they don't work. i simply just moved them into a different file.
 """
@@ -71,10 +71,6 @@ def get_preceding_labels(token, labels):
 
 def extract_tlink_features(note):
     tlink_features = []
-
-    print  note.get_tlinked_entities()
-
-    exit()
 
     for tlink_pair in note.get_tlinked_entities():
 

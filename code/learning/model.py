@@ -1,8 +1,10 @@
 import os
+import features
 
-from code.notes import features
+TEA_HOME_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+
 from code.notes.TimeNote import TimeNote
-from machine_learning.sci import train as train_classifier
+from sci import train as train_classifier
 
 class Model:
 
@@ -11,67 +13,76 @@ class Model:
 
         self.grid=grid
 
-    def train(self, notes):
+    def train(self, notes, train_timex=True, train_event=True, train_rel=True):
 
         # TODO: need to do some filtering of tokens
         # TODO: experiment with the feature of the 4 left and right taggings. do we
         #       only utilize taggings for each pass or do we incorporate taggings in different passes?
 
+        # BIO labelings for tokens in text.
         timexLabels   = []
         timexFeatures = []
-        tlinkLabels   = []
 
+        # EVENT or O labelings for tokens in text.
         eventLabels   = []
         eventFeatures = []
 
+        # event class labelings for tokens in text.
         eventClassLabels   = []
         eventClassFeatures = []
 
+        #
+        tlinkLabels   = []
         tlinkFeatures = []
 
         for i, note in enumerate(notes):
 
             print "note: {}".format(i)
 
-            # get timex labels
-            tmpLabels = note.get_timex_labels()
+            if train_timex is True:
+                # extract features to perform BIO labeling for timexs
+                tmpLabels = note.get_timex_labels()
+                for label in tmpLabels: timexLabels += label
+                timexFeatures += features.extract_timex_feature_set(note, tmpLabels)
 
-            for label in tmpLabels:
-                timexLabels += label
+            if train_event is True:
+                # extract features to perform EVENT or O labeling.
+                tmpLabels = note.get_event_labels()
+                for label in tmpLabels: eventLabels += label
+                eventFeatures += features.extract_event_feature_set(note, tmpLabels)
 
-            timexFeatures += features.extract_timex_feature_set(note, tmpLabels)
+                # extract features to perform event class labeling.
+                tmpLabels = note.get_event_class_labels()
+                for label in tmpLabels: eventClassLabels += label
+                eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels())
 
-            tmpLabels = note.get_event_labels()
+            if train_rel is True:
+                # extract features to classify relations between temporal entities.
+                tlinkLabels = note.get_tlink_labels()
+                tlinkFeatures += features.extract_tlink_features(note)
 
-            for label in tmpLabels:
-                eventLabels += label
+        # TODAY!
+        # TODO: save each of the following training steps into a model
+        # TODO: when predicting, if gold standard is provided evaluate F-measure for each of the steps
 
-            eventFeatures += features.extract_event_feature_set(note, tmpLabels)
+        if train_timex is True:
+            # train model to perform BIO labeling for timexs
+            self._trainTimex(timexFeatures, timexLabels)
 
-            tmpLabels = note.get_event_class_labels()
+        if train_event is True:
+            # train model to label as EVENT or O
+            # TODO: filter non-timex only?
+            self._trainEvent(eventFeatures, eventLabels)
 
-            for label in tmpLabels:
-                eventClassLabels += label
+            # train model to label as a class of EVENT
+            # TODO: filter event only?
+            # TODO: should we be training over all tokens or those that are just EVENTs?
+            self._trainEventClass(eventClassFeatures, eventClassLabels)
 
-            eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels())
-
-            tlinkLabels = note.get_tlink_labels()
-
-            print "tlinkLabels: ", tlinkLabels
-
-            tlinkFeatures += features.extract_tlink_features(note)
-
-        self._trainTimex(timexFeatures, timexLabels)
-
-        # TODO: filter non-timex only?
-        self._trainEvent(eventFeatures, eventLabels)
-
-        # TODO: filter event only?
-        # TODO: should we be training over all tokens or those that are just EVENTs?
-        self._trainEventClass(eventClassFeatures, eventClassLabels)
-
-        # TODO: add features back in.
-        self._trainTlink(tlinkFeatures, tlinkLabels)
+        if train_rel is True:
+            # train model to classify relations between temporal entities.
+            # TODO: add features back in.
+            self._trainTlink(tlinkFeatures, tlinkLabels)
 
         return
 
@@ -280,7 +291,7 @@ def combineLabels(timexLabels, eventLabels, OLabels=[]):
 
     labels = []
 
-    creation time is always t0
+    # creation time is always t0
     for i, timexLabel in  enumerate(timexLabels):
         label = {"entity_label": timexLabel, "entity_type": "TIMEX3", "entity_id": "t" + str(i+1)}
         labels.append(label)
