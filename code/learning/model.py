@@ -1,5 +1,6 @@
 import os
 import features
+import cPickle
 
 TEA_HOME_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
@@ -8,10 +9,24 @@ from sci import train as train_classifier
 
 class Model:
 
-
     def __init__(self, grid=False):
 
         self.grid=grid
+
+        # make these exist so the reference is created for now.
+        # each of these data members will be set to appropriate objects for dumping when train methods are called.
+        # some may not  be set to anything depending on options.
+        self.timexClassifier = None
+        self.timexVectorizer = None
+
+        self.eventClassifier = None
+        self.eventVectorizer = None
+
+        self.eventClassClassifier = None
+        self.eventClassVectorizer = None
+
+        self.tlinkClassifier = None
+        self.tlinkVectorizer = None
 
     def train(self, notes, train_timex=True, train_event=True, train_rel=True):
 
@@ -19,20 +34,16 @@ class Model:
         # TODO: experiment with the feature of the 4 left and right taggings. do we
         #       only utilize taggings for each pass or do we incorporate taggings in different passes?
 
-        # BIO labelings for tokens in text.
-        timexLabels   = []
+        timexLabels   = [] # BIO labelings for tokens in text.
         timexFeatures = []
 
-        # EVENT or O labelings for tokens in text.
-        eventLabels   = []
+        eventLabels   = [] # EVENT or O labelings for tokens in text.
         eventFeatures = []
 
-        # event class labelings for tokens in text.
-        eventClassLabels   = []
+        eventClassLabels   = [] # event class labelings for tokens in text.
         eventClassFeatures = []
 
-        #
-        tlinkLabels   = []
+        tlinkLabels   = {} # temporal relation labelings for enitity pairs.
         tlinkFeatures = []
 
         for i, note in enumerate(notes):
@@ -62,7 +73,6 @@ class Model:
                 tlinkFeatures += features.extract_tlink_features(note)
 
         # TODAY!
-        # TODO: save each of the following training steps into a model
         # TODO: when predicting, if gold standard is provided evaluate F-measure for each of the steps
 
         if train_timex is True:
@@ -83,6 +93,17 @@ class Model:
             # train model to classify relations between temporal entities.
             # TODO: add features back in.
             self._trainTlink(tlinkFeatures, tlinkLabels)
+
+        # will be accessed later for dumping
+        self.models = {"TIMEX":self.timexClassifier,
+                       "EVENT":self.eventClassifier,
+                       "EVENT_CLASS":self.eventClassClassifier,
+                       "TLINK":self.tlinkClassifier}
+
+        self.vectorizers = {"TIMEX":self.timexVectorizer,
+                            "EVENT":self.eventVectorizer,
+                            "EVENT_CLASS":self.eventClassVectorizer,
+                            "TLINK":self.tlinkVectorizer}
 
         return
 
@@ -307,4 +328,27 @@ def combineLabels(timexLabels, eventLabels, OLabels=[]):
     assert len(labels) == len(timexLabels + eventLabels + OLabels)
 
     return labels
+
+def dump_models(model, path):
+    """dump model specified by argument into the file path indicated by path argument
+    """
+
+    print "dumping..."
+
+    keys = ["TIMEX", "EVENT", "EVENT_CLASS", "TLINK"]
+
+    for key in keys:
+        if model.models[key] is None:
+            continue
+        else:
+
+            print "dumping: {}".format(key)
+
+            model_dest = open(path+"_"+key+"_MODEL", "wb")
+            vect_dest  = open(path+"_"+key+"_VECT", "wb")
+
+            cPickle.dump(model.models[key], model_dest)
+            cPickle.dump(model.vectorizers[key], vect_dest)
+
+    return
 

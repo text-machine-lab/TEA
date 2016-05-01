@@ -1,3 +1,6 @@
+"""Interface to perform training of models for temporal entity and relation extraction.
+"""
+
 import sys
 from code.config import env_paths
 
@@ -6,17 +9,15 @@ if env_paths()["PY4J_DIR_PATH"] is None:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
 
 import os
-import cPickle
 import argparse
-import re
 import glob
 
 from code.notes.TimeNote import TimeNote
 from code.learning import model
+from code.learning import dump_model
 
 def main():
-
-    """ Processes command line arguments and then generates a trained model on files provided.
+    """ Process command line arguments and then generate trained models (4, one for each pass) on files provided.
     """
 
     parser = argparse.ArgumentParser()
@@ -29,10 +30,34 @@ def main():
     parser.add_argument("model_destination",
                         help="Where to store the trained model")
 
+    parser.add_argument("--no_event",
+                        action='store_true',
+                        default=False)
+
+    parser.add_argument("--no_timex",
+                        action='store_true',
+                        default=False)
+
+    parser.add_argument("--no_tlink",
+                        action='store_true',
+                        default=False)
+
     args = parser.parse_args()
+
+    train_event = not(args.no_event)
+    train_timex = not(args.no_timex)
+    train_tlink = not(args.no_tlink)
+
+    print "\n\tTRAINING:\n"
+    print "\t\tTIMEX {}".format(train_timex)
+    print "\t\tEVENT {}".format(train_event)
+    print "\t\tTLINK {}".format(train_tlink)
+    print "\n"
 
     if os.path.isdir(args.train_dir[0]) is False:
         exit("invalid path to directory containing training data")
+    if os.path.isdir(os.path.dirname(args.model_destination)) is False:
+        exit("directory for model destination does not exist")
 
     train_dir = None
 
@@ -60,14 +85,13 @@ def main():
     assert len(gold_files) == len(tml_files)
 
     # create the model
-    model = trainModel(tml_files, gold_files, False)
+    trained_model = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink)
 
     # store model as pickle object.
-    with open(args.model_destination, "wb") as modFile:
-        cPickle.dump(model, modFile)
+    model.dump_models(trained_model, args.model_destination)
 
 
-def trainModel( tml_files, gold_files, grid ):
+def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tlink):
     """
     train::trainModel()
 
@@ -97,10 +121,10 @@ def trainModel( tml_files, gold_files, grid ):
         tmp_note = TimeNote(tml, gold)
         notes.append(tmp_note)
 
-    mod = model.Model(grid=grid)
-    mod.train(notes)
+    m = model.Model(grid=grid)
+    m.train(notes, train_timex, train_event, train_tlink)
 
-    return mod
+    return m
 
 if __name__ == "__main__":
   main()
