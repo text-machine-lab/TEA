@@ -95,23 +95,18 @@ class Note(object):
             pos = None
 
             # pos
+            """
             if token["pos_tag"] == "IN":
                 pos = "PREPOSITION"
             elif token["pos_tag"] in ["VB", "VBD","VBG", "VBN", "VBP", "VBZ", "RB", "RBR", "RBS"]:
-
                 pos = "VERB"
-
             elif token["pos_tag"] in ["NN", "NNS", "NNP", "NNPS", "PRP", "PRP$"]:
-
                 pos = "NOUN"
-
             elif token["pos_tag"] in ["JJ", "JJR", "JJS"]:
-
                 pos = "ADJECTIVE"
-
             else:
-
                 pos = "OTHER"
+            """
 
             if timexEventLabel["entity_type"] == "EVENT":
                 root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "pos":pos})

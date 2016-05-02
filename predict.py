@@ -27,9 +27,6 @@ def main():
     parser.add_argument("annotation_destination",
                          help="Where annotated files are written")
 
-
-    args = parser.parse_args()
-
     parser.add_argument("--no_event",
                         action='store_true',
                         default=False)
@@ -51,28 +48,38 @@ def main():
     annotation_destination = args.annotation_destination
 
     if os.path.isdir(annotation_destination) is False:
-        exit("\n\noutput destination does not exist")
-
-    predict_dir = None
-    model = None
+        sys.exit("\n\noutput destination does not exist")
 
     predict_dir = args.predict_dir[0]
 
     if os.path.isdir(predict_dir) is False:
-        exit("\n\nno output directory exists at set path")
-    if os.path.isfile(args.model_destination) is False:
-        exit("\n\nno model exists at set path")
+        sys.exit("\n\nno output directory exists at set path")
+
+    model_path = args.model_destination
+
+    keys = ["TIMEX", "EVENT", "EVENT_CLASS", "TLINK"]
+    flags = [predict_timex, predict_event, predict_event, predict_tlink]
+
+    # make sure appropriate models exist for what needs to be done.
+    for key, flag in zip(keys, flags):
+        if flag is True:
+            m_path = model_path + "_{}_MODEL".format(key)
+            v_path = model_path + "_{}_VECT".format(key)
+            if os.path.isfile(m_path) is False:
+                sys.exit("\n\nmissing model: {}".format(m_path))
+            if os.path.isfile(v_path) is False:
+                sys.exit("\n\nmissing vectorizer: {}".format(v_path))
 
     # bad form, but it is annoying for this to inputted just to be told args are invalid.
     from code.notes.TimeNote import TimeNote
-    from code import model
-
-    model_path = args.model_destination
+    from code.learning import model
 
     files_to_annotate = glob.glob(predict_dir + "/*")
 
     #load data from files
     notes = []
+
+    model.load_models(model_path, predict_timex, predict_event, predict_tlink)
 
     #read in files as notes
     for i, tml in enumerate(files_to_annotate):
@@ -81,10 +88,12 @@ def main():
 
         note = TimeNote(tml)
 
-        entityLabels, OriginalOffsets, tlinkLabels, tokens = model.predict(note)
+        entityLabels, OriginalOffsets, tlinkLabels, tokens = model.predict(note,
+                                                                           predict_timex,
+                                                                           predict_event,
+                                                                           predict_tlink)
 
         tlinkIdPairs = note.get_tlink_id_pairs()
-
         offsets = note.get_token_char_offsets()
 
         assert len(OriginalOffsets) == len(offsets)

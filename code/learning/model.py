@@ -1,12 +1,19 @@
 import os
 import features
 import cPickle
+import sys
 
 TEA_HOME_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 from code.notes.TimeNote import TimeNote
 from sci import train as train_classifier
 
+# models to be loaded.
+# not be manually set.
+_models = {}
+_vects = {}
+
+_models_loaded = False
 
 def train(notes, train_timex=True, train_event=True, train_rel=True):
 
@@ -100,15 +107,20 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
     return models, vectorizers
 
 
-def predict(note):
-
-    # TODO: fix self. occurences. need to load models...
+def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
 
     # TODO: try and correct the flattening on the lists. might just end up being redundent?
     # TODO: refactor this code. a lot of it is redundant.
     # TODO: need to do some filtering of tokens
     # TODO: experiment with the feature of the 4 left and right taggings. do we
     #       only utilize taggings for each pass or do we incorporate taggings in different passes?
+
+    global _models
+    global _vects
+    global _models_loaded
+
+    if _models_loaded is False:
+        sys.exit("Models not loaded. Cannot predict")
 
     # get tokenized text
     tokenized_text = note.get_tokenized_text()
@@ -132,90 +144,100 @@ def predict(note):
         iob_labels.append([])
         tokens += tokenized_text[line]
 
-    # get the timex feature set for the tokens within the note.
-    timexFeatures = features.extract_timex_feature_set(note, timexLabels, predict=True)
+    if predict_timex is True:
 
-    # sanity check
-    assert len(tokens) == len(timexFeatures)
+        timexClassifier = _models["TIMEX"]
+        timexVectorizer = _vects["TIMEX"]
 
-    # predict over the tokens and the features extracted.
-    for t, f in zip(tokens, timexFeatures):
+        # get the timex feature set for the tokens within the note.
+        timexFeatures = features.extract_timex_feature_set(note, timexLabels, predict=True)
 
-        features.update_features(t, f, timexLabels)
+        # sanity check
+        assert len(tokens) == len(timexFeatures)
 
-        X = self.timexVectorizer.transform([f]).toarray()
-        Y = list(self.timexClassifier.predict(X))
+        # predict over the tokens and the features extracted.
+        for t, f in zip(tokens, timexFeatures):
 
-        timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                   'entity_type':None if Y[0] == 'O' else 'TIMEX3',
-                                                   'entity_id':None})
+            features.update_features(t, f, timexLabels)
 
-        iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
+            X = timexVectorizer.transform([f]).toarray()
+            Y = list(timexClassifier.predict(X))
 
-    # get the timex feature set for the tokens within the note.
-    # don't get iob labels yet, they are inaccurate. need to predict first.
-    eventFeatures = features.extract_event_feature_set(note, eventLabels, predict=True)
+            timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                       'entity_type':None if Y[0] == 'O' else 'TIMEX3',
+                                                       'entity_id':None})
 
-    # sanity check
-    assert len(tokens) == len(eventFeatures)
+            iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
 
-    # TODO: need to do some filter. if something is already labeled then just skip over it.
-    # predict over the tokens and the features extracted.
-    for t, f in zip(tokens, eventFeatures):
+    if predict_event is True:
 
-        features.update_features(t, f, eventLabels)
+        eventClassifier = _models["EVENT"]
+        eventVectorizer = _vects["EVENT"]
 
-        X = self.eventVectorizer.transform([f]).toarray()
-        Y = list(self.eventClassifier.predict(X))
+        eventClassClassifier = _models["EVENT_CLASS"]
+        eventClassVectorizer = _vects["EVENT_CLASS"]
 
-        eventLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                   'entity_type':None if Y[0] == 'O' else 'EVENT',
-                                                   'entity_id':None})
+        # get the timex feature set for the tokens within the note.
+        # don't get iob labels yet, they are inaccurate. need to predict first.
+        eventFeatures = features.extract_event_feature_set(note, eventLabels, predict=True)
 
-    # get the timex feature set for the tokens within the note.
-    eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True)
+        # sanity check
+        assert len(tokens) == len(eventFeatures)
 
-    # sanity check
-    assert len(tokens) == len(eventClassFeatures)
+        # TODO: need to do some filter. if something is already labeled then just skip over it.
+        # predict over the tokens and the features extracted.
+        for t, f in zip(tokens, eventFeatures):
 
-    i = 0
-    sentence_num = None
+            features.update_features(t, f, eventLabels)
 
-    # predict over the tokens and the features extracted.
-    for t, f in zip(tokens, eventClassFeatures):
+            X = eventVectorizer.transform([f]).toarray()
+            Y = list(eventClassifier.predict(X))
 
-        # updates labels
-        features.update_features(t, f, eventClassLabels)
+            eventLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                       'entity_type':None if Y[0] == 'O' else 'EVENT',
+                                                       'entity_id':None})
 
-        X = self.eventClassVectorizer.transform([f]).toarray()
-        Y = list(self.eventClassClassifier.predict(X))
+        # get the timex feature set for the tokens within the note.
+        eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True)
 
-        eventClassLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                        'entity_type':None if Y[0] == 'O' else 'EVENT',
-                                                        'entity_id':None})
+        # sanity check
+        assert len(tokens) == len(eventClassFeatures)
 
-        if sentence_num is None:
-            sentence_num = t["sentence_num"] - 1
-        # new sentence
-        elif sentence_num != t["sentence_num"] - 1:
-            sentence_num = t["sentence_num"] - 1
-            i = 0
-        else:
-            pass
+        # predict over the tokens and the features extracted.
+        for t, f in zip(tokens, eventClassFeatures):
 
-        if iob_labels[t["sentence_num"] - 1][i]["entity_type"] == None:
-            iob_labels[t["sentence_num"] - 1][i] = eventClassLabels[t["sentence_num"] - 1][-1]
+            # updates labels
+            features.update_features(t, f, eventClassLabels)
 
-        i += 1
+            X = eventClassVectorizer.transform([f]).toarray()
+            Y = list(eventClassClassifier.predict(X))
 
-    note.set_tlinked_entities(timexLabels,eventClassLabels)
-    note.set_iob_labels(iob_labels)
+            eventClassLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                            'entity_type':None if Y[0] == 'O' else 'EVENT',
+                                                            'entity_id':None})
 
-    print "PREDICT: getting tlink features"
+            if iob_labels[t["sentence_num"] - 1][t["token_offset"]]["entity_type"] == None:
+                iob_labels[t["sentence_num"] - 1][t["token_offset"]] = eventClassLabels[t["sentence_num"] - 1][-1]
 
-    print features.extract_tlink_features(note)
+    if predict_timex is True and predict_event is True and predict_rel is True:
 
-    return
+        tlinkVectorizer = _vects["TLINK"]
+        tlinkClassifier = _models["TLINK"]
+
+        note.set_tlinked_entities(timexLabels,eventClassLabels)
+        note.set_iob_labels(iob_labels)
+
+        print "PREDICT: getting tlink features"
+
+        f = features.extract_tlink_features(note)
+        X = tlinkVectorizer.transform(f).toarray()
+
+        tlink_labels = list(tlinkClassifier.predict(X))
+
+    entity_labels    = [label for line in iob_labels for label in line]
+    original_offsets = note.get_token_char_offsets()
+
+    return entity_labels, original_offsets, tlink_labels, tokens
 
 
 def _trainTimex(timexFeatures, timexLabels, grid=False):
@@ -314,6 +336,32 @@ def combineLabels(timexLabels, eventLabels, OLabels=[]):
     assert len(labels) == len(timexLabels + eventLabels + OLabels)
 
     return labels
+
+def load_models(path, predict_timex, predict_event, predict_tlink):
+
+    keys = ["TIMEX", "EVENT", "EVENT_CLASS", "TLINK"]
+    flags = [predict_timex, predict_event, predict_event, predict_tlink]
+
+    global _models
+    global _vects
+    global _models_loaded
+
+    for key, flag in zip(keys, flags):
+
+        # vect should also exist, unless something went wrong.
+        if os.path.isfile(path+"_"+key+"_MODEL") is True and flag is True:
+            print "loading: {}".format(key)
+
+            _models[key] = cPickle.load(open(path+"_"+key+"_MODEL", "rb"))
+            _vects[key]  = cPickle.load(open(path+"_"+key+"_VECT", "rb"))
+        else:
+            _models[key] = None
+            _vects[key]  = None
+
+    _models_loaded = True
+
+    return
+
 
 def dump_models(models, vectorizers, path):
     """dump model specified by argument into the file path indicated by path argument

@@ -746,7 +746,7 @@ class TimeNote(Note):
     def set_iob_labels(self, iob_labels):
 
         # don't over write existing labels.
-        assert len(iob_labels) == 0
+        assert len(self.iob_labels) == 0
 
         self.iob_labels = iob_labels
 
@@ -802,9 +802,7 @@ class TimeNote(Note):
         offsets = []
 
         for line_num in self.pre_processed_text:
-
             for token in self.pre_processed_text[line_num]:
-
                 offsets.append((token["char_start_offset"], token["char_end_offset"]))
 
         return offsets
