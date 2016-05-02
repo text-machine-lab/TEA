@@ -85,10 +85,10 @@ def main():
     assert len(gold_files) == len(tml_files)
 
     # create the model
-    trained_model = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink)
+    models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink)
 
     # store model as pickle object.
-    model.dump_models(trained_model, args.model_destination)
+    model.dump_models(models, vectorizers, args.model_destination)
 
 
 def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tlink):
@@ -121,10 +121,7 @@ def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tli
         tmp_note = TimeNote(tml, gold)
         notes.append(tmp_note)
 
-    m = model.Model(grid=grid)
-    m.train(notes, train_timex, train_event, train_tlink)
-
-    return m
+    return model.train(notes, train_timex, train_event, train_tlink)
 
 if __name__ == "__main__":
   main()

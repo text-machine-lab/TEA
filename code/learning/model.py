@@ -7,298 +7,284 @@ TEA_HOME_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 from code.notes.TimeNote import TimeNote
 from sci import train as train_classifier
 
-class Model:
 
-    def __init__(self, grid=False):
+def train(notes, train_timex=True, train_event=True, train_rel=True):
 
-        self.grid=grid
+    # TODO: need to do some filtering of tokens
+    # TODO: experiment with the feature of the 4 left and right taggings. do we
+    #       only utilize taggings for each pass or do we incorporate taggings in different passes?
 
-        # make these exist so the reference is created for now.
-        # each of these data members will be set to appropriate objects for dumping when train methods are called.
-        # some may not  be set to anything depending on options.
-        self.timexClassifier = None
-        self.timexVectorizer = None
+    timexLabels   = [] # BIO labelings for tokens in text.
+    timexFeatures = []
 
-        self.eventClassifier = None
-        self.eventVectorizer = None
+    eventLabels   = [] # EVENT or O labelings for tokens in text.
+    eventFeatures = []
 
-        self.eventClassClassifier = None
-        self.eventClassVectorizer = None
+    eventClassLabels   = [] # event class labelings for tokens in text.
+    eventClassFeatures = []
 
-        self.tlinkClassifier = None
-        self.tlinkVectorizer = None
+    tlinkLabels   = {} # temporal relation labelings for enitity pairs.
+    tlinkFeatures = []
 
-    def train(self, notes, train_timex=True, train_event=True, train_rel=True):
+    timexClassifier = None
+    timexVectorizer = None
 
-        # TODO: need to do some filtering of tokens
-        # TODO: experiment with the feature of the 4 left and right taggings. do we
-        #       only utilize taggings for each pass or do we incorporate taggings in different passes?
+    eventClassifier = None
+    eventVectorizer = None
 
-        timexLabels   = [] # BIO labelings for tokens in text.
-        timexFeatures = []
+    eventClassClassifier = None
+    eventClassVectorizer = None
 
-        eventLabels   = [] # EVENT or O labelings for tokens in text.
-        eventFeatures = []
+    tlinkClassifier = None
+    tlinkVectorizer = None
 
-        eventClassLabels   = [] # event class labelings for tokens in text.
-        eventClassFeatures = []
+    for i, note in enumerate(notes):
 
-        tlinkLabels   = {} # temporal relation labelings for enitity pairs.
-        tlinkFeatures = []
-
-        for i, note in enumerate(notes):
-
-            print "note: {}".format(i)
-
-            if train_timex is True:
-                # extract features to perform BIO labeling for timexs
-                tmpLabels = note.get_timex_labels()
-                for label in tmpLabels: timexLabels += label
-                timexFeatures += features.extract_timex_feature_set(note, tmpLabels)
-
-            if train_event is True:
-                # extract features to perform EVENT or O labeling.
-                tmpLabels = note.get_event_labels()
-                for label in tmpLabels: eventLabels += label
-                eventFeatures += features.extract_event_feature_set(note, tmpLabels)
-
-                # extract features to perform event class labeling.
-                tmpLabels = note.get_event_class_labels()
-                for label in tmpLabels: eventClassLabels += label
-                eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels())
-
-            if train_rel is True:
-                # extract features to classify relations between temporal entities.
-                tlinkLabels = note.get_tlink_labels()
-                tlinkFeatures += features.extract_tlink_features(note)
-
-        # TODAY!
-        # TODO: when predicting, if gold standard is provided evaluate F-measure for each of the steps
+        print "note: {}".format(i)
 
         if train_timex is True:
-            # train model to perform BIO labeling for timexs
-            self._trainTimex(timexFeatures, timexLabels)
+            # extract features to perform BIO labeling for timexs
+            tmpLabels = note.get_timex_labels()
+            for label in tmpLabels: timexLabels += label
+            timexFeatures += features.extract_timex_feature_set(note, tmpLabels)
 
         if train_event is True:
-            # train model to label as EVENT or O
-            # TODO: filter non-timex only?
-            self._trainEvent(eventFeatures, eventLabels)
+            # extract features to perform EVENT or O labeling.
+            tmpLabels = note.get_event_labels()
+            for label in tmpLabels: eventLabels += label
+            eventFeatures += features.extract_event_feature_set(note, tmpLabels)
 
-            # train model to label as a class of EVENT
-            # TODO: filter event only?
-            # TODO: should we be training over all tokens or those that are just EVENTs?
-            self._trainEventClass(eventClassFeatures, eventClassLabels)
+            # extract features to perform event class labeling.
+            tmpLabels = note.get_event_class_labels()
+            for label in tmpLabels: eventClassLabels += label
+            eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels())
 
         if train_rel is True:
-            # train model to classify relations between temporal entities.
-            # TODO: add features back in.
-            self._trainTlink(tlinkFeatures, tlinkLabels)
+            # extract features to classify relations between temporal entities.
+            tlinkLabels = note.get_tlink_labels()
+            tlinkFeatures += features.extract_tlink_features(note)
 
-        # will be accessed later for dumping
-        self.models = {"TIMEX":self.timexClassifier,
-                       "EVENT":self.eventClassifier,
-                       "EVENT_CLASS":self.eventClassClassifier,
-                       "TLINK":self.tlinkClassifier}
+    # TODAY!
+    # TODO: when predicting, if gold standard is provided evaluate F-measure for each of the steps
 
-        self.vectorizers = {"TIMEX":self.timexVectorizer,
-                            "EVENT":self.eventVectorizer,
-                            "EVENT_CLASS":self.eventClassVectorizer,
-                            "TLINK":self.tlinkVectorizer}
+    if train_timex is True:
+        # train model to perform BIO labeling for timexs
+        timexClassifier, timexVectorizer = _trainTimex(timexFeatures, timexLabels)
 
-        return
+    if train_event is True:
+        # train model to label as EVENT or O
+        # TODO: filter non-timex only?
+        eventClassifier, eventVectorizer = _trainEvent(eventFeatures, eventLabels)
 
+        # train model to label as a class of EVENT
+        # TODO: filter event only?
+        # TODO: should we be training over all tokens or those that are just EVENTs?
+        eventClassClassifier, eventClassVectorizer = _trainEventClass(eventClassFeatures, eventClassLabels)
 
+    if train_rel is True:
+        # train model to classify relations between temporal entities.
+        # TODO: add features back in.
+        tlinkClassifier, tlinkVectorizer = _trainTlink(tlinkFeatures, tlinkLabels)
 
+    # will be accessed later for dumping
+    models = {"TIMEX":timexClassifier,
+              "EVENT":eventClassifier,
+              "EVENT_CLASS":eventClassClassifier,
+              "TLINK":tlinkClassifier}
 
-    def predict(self, note):
+    vectorizers = {"TIMEX":timexVectorizer,
+                   "EVENT":eventVectorizer,
+                   "EVENT_CLASS":eventClassVectorizer,
+                   "TLINK":tlinkVectorizer}
 
-        # TODO: try and correct the flattening on the lists. might just end up being redundent?
-        # TODO: refactor this code. a lot of it is redundant.
-        # TODO: need to do some filtering of tokens
-        # TODO: experiment with the feature of the 4 left and right taggings. do we
-        #       only utilize taggings for each pass or do we incorporate taggings in different passes?
+    return models, vectorizers
 
-        # get tokenized text
-        tokenized_text = note.get_tokenized_text()
 
-        # will be new iob_labels
-        iob_labels      = []
+def predict(note):
 
-        timexLabels      = []
-        eventLabels      = []
-        eventClassLabels = []
+    # TODO: fix self. occurences. need to load models...
 
-        # init the number of lines for timexlabels
-        # we currently do not know what they are.
-        # get the tokens into a flast list, these are ordered by
-        # appearance within the document
-        tokens = []
-        for line in tokenized_text:
-            timexLabels.append([])
-            eventLabels.append([])
-            eventClassLabels.append([])
-            iob_labels.append([])
-            tokens += tokenized_text[line]
+    # TODO: try and correct the flattening on the lists. might just end up being redundent?
+    # TODO: refactor this code. a lot of it is redundant.
+    # TODO: need to do some filtering of tokens
+    # TODO: experiment with the feature of the 4 left and right taggings. do we
+    #       only utilize taggings for each pass or do we incorporate taggings in different passes?
 
-        # get the timex feature set for the tokens within the note.
-        timexFeatures = features.extract_timex_feature_set(note, timexLabels, predict=True)
+    # get tokenized text
+    tokenized_text = note.get_tokenized_text()
 
-        # sanity check
-        assert len(tokens) == len(timexFeatures)
+    # will be new iob_labels
+    iob_labels      = []
 
-        # predict over the tokens and the features extracted.
-        for t, f in zip(tokens, timexFeatures):
+    timexLabels      = []
+    eventLabels      = []
+    eventClassLabels = []
 
-            features.update_features(t, f, timexLabels)
+    # init the number of lines for timexlabels
+    # we currently do not know what they are.
+    # get the tokens into a flast list, these are ordered by
+    # appearance within the document
+    tokens = []
+    for line in tokenized_text:
+        timexLabels.append([])
+        eventLabels.append([])
+        eventClassLabels.append([])
+        iob_labels.append([])
+        tokens += tokenized_text[line]
 
-            X = self.timexVectorizer.transform([f]).toarray()
-            Y = list(self.timexClassifier.predict(X))
+    # get the timex feature set for the tokens within the note.
+    timexFeatures = features.extract_timex_feature_set(note, timexLabels, predict=True)
 
-            timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                       'entity_type':None if Y[0] == 'O' else 'TIMEX3',
-                                                       'entity_id':None})
+    # sanity check
+    assert len(tokens) == len(timexFeatures)
 
-            iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
+    # predict over the tokens and the features extracted.
+    for t, f in zip(tokens, timexFeatures):
 
-        # get the timex feature set for the tokens within the note.
-        # don't get iob labels yet, they are inaccurate. need to predict first.
-        eventFeatures = features.extract_event_feature_set(note, eventLabels, predict=True)
+        features.update_features(t, f, timexLabels)
 
-        # sanity check
-        assert len(tokens) == len(eventFeatures)
+        X = self.timexVectorizer.transform([f]).toarray()
+        Y = list(self.timexClassifier.predict(X))
 
-        # TODO: need to do some filter. if something is already labeled then just skip over it.
-        # predict over the tokens and the features extracted.
-        for t, f in zip(tokens, eventFeatures):
+        timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                   'entity_type':None if Y[0] == 'O' else 'TIMEX3',
+                                                   'entity_id':None})
 
-            features.update_features(t, f, eventLabels)
+        iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
 
-            X = self.eventVectorizer.transform([f]).toarray()
-            Y = list(self.eventClassifier.predict(X))
+    # get the timex feature set for the tokens within the note.
+    # don't get iob labels yet, they are inaccurate. need to predict first.
+    eventFeatures = features.extract_event_feature_set(note, eventLabels, predict=True)
 
-            eventLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                       'entity_type':None if Y[0] == 'O' else 'EVENT',
-                                                       'entity_id':None})
+    # sanity check
+    assert len(tokens) == len(eventFeatures)
 
-        # get the timex feature set for the tokens within the note.
-        eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True)
+    # TODO: need to do some filter. if something is already labeled then just skip over it.
+    # predict over the tokens and the features extracted.
+    for t, f in zip(tokens, eventFeatures):
 
-        # sanity check
-        assert len(tokens) == len(eventClassFeatures)
+        features.update_features(t, f, eventLabels)
 
-        i = 0
-        sentence_num = None
+        X = self.eventVectorizer.transform([f]).toarray()
+        Y = list(self.eventClassifier.predict(X))
 
-        # predict over the tokens and the features extracted.
-        for t, f in zip(tokens, eventClassFeatures):
+        eventLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                   'entity_type':None if Y[0] == 'O' else 'EVENT',
+                                                   'entity_id':None})
 
-            # updates labels
-            features.update_features(t, f, eventClassLabels)
+    # get the timex feature set for the tokens within the note.
+    eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True)
 
-            X = self.eventClassVectorizer.transform([f]).toarray()
-            Y = list(self.eventClassClassifier.predict(X))
+    # sanity check
+    assert len(tokens) == len(eventClassFeatures)
 
-            eventClassLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                            'entity_type':None if Y[0] == 'O' else 'EVENT',
-                                                            'entity_id':None})
+    i = 0
+    sentence_num = None
 
-            if sentence_num is None:
-                sentence_num = t["sentence_num"] - 1
-            # new sentence
-            elif sentence_num != t["sentence_num"] - 1:
-                sentence_num = t["sentence_num"] - 1
-                i = 0
-            else:
-                pass
+    # predict over the tokens and the features extracted.
+    for t, f in zip(tokens, eventClassFeatures):
 
-            if iob_labels[t["sentence_num"] - 1][i]["entity_type"] == None:
-                iob_labels[t["sentence_num"] - 1][i] = eventClassLabels[t["sentence_num"] - 1][-1]
+        # updates labels
+        features.update_features(t, f, eventClassLabels)
 
-            i += 1
+        X = self.eventClassVectorizer.transform([f]).toarray()
+        Y = list(self.eventClassClassifier.predict(X))
 
-        note.set_tlinked_entities(timexLabels,eventClassLabels)
-        note.set_iob_labels(iob_labels)
+        eventClassLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                        'entity_type':None if Y[0] == 'O' else 'EVENT',
+                                                        'entity_id':None})
 
-        print "PREDICT: getting tlink features"
+        if sentence_num is None:
+            sentence_num = t["sentence_num"] - 1
+        # new sentence
+        elif sentence_num != t["sentence_num"] - 1:
+            sentence_num = t["sentence_num"] - 1
+            i = 0
+        else:
+            pass
 
-        print features.extract_tlink_features(note)
+        if iob_labels[t["sentence_num"] - 1][i]["entity_type"] == None:
+            iob_labels[t["sentence_num"] - 1][i] = eventClassLabels[t["sentence_num"] - 1][-1]
 
-        exit()
+        i += 1
 
-        return
+    note.set_tlinked_entities(timexLabels,eventClassLabels)
+    note.set_iob_labels(iob_labels)
 
+    print "PREDICT: getting tlink features"
 
+    print features.extract_tlink_features(note)
 
-    def _trainTimex(self, timexFeatures, timexLabels):
-        """
-        Model::_trainTimex()
+    return
 
-        Purpose: Train a classifer for Timex3 expressions
 
-        @param tokenVectors: A list of tokens represented as feature dictionaries
-        @param Y: A list of lists of Timex3 classifications for each token in each sentence
-        """
+def _trainTimex(timexFeatures, timexLabels, grid=False):
+    """
+    Purpose: Train a classifer for Timex3 expressions
 
-        assert len(timexFeatures) == len(timexLabels), "{} != {}".format(len(timexFeatures), len(timexLabels))
+    @param tokenVectors: A list of tokens represented as feature dictionaries
+    @param Y: A list of lists of Timex3 classifications for each token in each sentence
+    """
 
-        Y = [l["entity_label"] for l in timexLabels]
+    assert len(timexFeatures) == len(timexLabels), "{} != {}".format(len(timexFeatures), len(timexLabels))
 
-        clf, vec = train_classifier(timexFeatures, Y, do_grid=self.grid, ovo=True, dev=True)
-        self.timexClassifier = clf
-        self.timexVectorizer = vec
+    Y = [l["entity_label"] for l in timexLabels]
 
+    clf, vec = train_classifier(timexFeatures, Y, do_grid=grid, ovo=True, dev=True)
+    return clf, vec
 
-    def _trainEvent(self, eventFeatures, eventLabels):
-        """
-        Model::_trainEvent()
 
-        Purpose: Train a classifer for event identification
+def _trainEvent(eventFeatures, eventLabels, grid=False):
+    """
+    Model::_trainEvent()
 
-        @param tokenVectors: A list of tokens represented as feature dictionaries
-        @param Y: A list of lists of event classifications for each token, with one list per sentence
-        """
+    Purpose: Train a classifer for event identification
 
-        assert len(eventFeatures) == len(eventLabels), "{} != {}".format(len(eventFeatures), len(eventLabels))
+    @param tokenVectors: A list of tokens represented as feature dictionaries
+    @param Y: A list of lists of event classifications for each token, with one list per sentence
+    """
 
-        Y = [l["entity_label"] for l in eventLabels]
+    assert len(eventFeatures) == len(eventLabels), "{} != {}".format(len(eventFeatures), len(eventLabels))
 
-        clf, vec = train_classifier(eventFeatures, Y, do_grid=self.grid, dev=True)
-        self.eventClassifier = clf
-        self.eventVectorizer = vec
+    Y = [l["entity_label"] for l in eventLabels]
 
-    def _trainEventClass(self, eventClassFeatures, eventClassLabels):
-        """
-        Model::_trainEventClass()
+    clf, vec = train_classifier(eventFeatures, Y, do_grid=grid, dev=True)
+    return clf, vec
 
-        Purpose: Train a classifer for event class identification
 
-        @param tokenVectors: A list of tokens represented as feature dictionaries
-        @param Y: A list of lists of event classifications for each token, with one list per sentence
-        """
+def _trainEventClass(eventClassFeatures, eventClassLabels, grid=False):
+    """
+    Model::_trainEventClass()
 
-        assert len(eventClassFeatures) == len(eventClassLabels), "{} != {}".format(len(eventClassFeatures), len(eventClassLabels))
+    Purpose: Train a classifer for event class identification
 
-        Y = [l["entity_label"] for l in eventClassLabels]
+    @param tokenVectors: A list of tokens represented as feature dictionaries
+    @param Y: A list of lists of event classifications for each token, with one list per sentence
+    """
 
-        clf, vec = train_classifier(eventClassFeatures, Y, do_grid=self.grid, dev=True)
-        self.eventClassClassifier = clf
-        self.eventClassVectorizer = vec
+    assert len(eventClassFeatures) == len(eventClassLabels), "{} != {}".format(len(eventClassFeatures), len(eventClassLabels))
 
-    def _trainTlink(self, tokenVectors, Y):
-        """
-        Model::_trainRelation()
+    Y = [l["entity_label"] for l in eventClassLabels]
 
-        Purpose: Train a classifer for temporal relations between events and timex3 labels
+    clf, vec = train_classifier(eventClassFeatures, Y, do_grid=grid, dev=True)
+    return clf, vec
 
-        @param tokenVectors: A list of tokens represented as feature dictionaries
-        @param Y: A list of relation classifications for each pair of timexes and events.
-        """
 
-        assert len(tokenVectors) == len(Y)
+def _trainTlink(tokenVectors, Y, grid=False):
+    """
+    Model::_trainRelation()
 
-        clf, vec = train_classifier(tokenVectors, Y, do_grid=self.grid, dev=True)
-        self.tlinkClassifier = clf
-        self.tlinkVectorizer = vec
+    Purpose: Train a classifer for temporal relations between events and timex3 labels
+
+    @param tokenVectors: A list of tokens represented as feature dictionaries
+    @param Y: A list of relation classifications for each pair of timexes and events.
+    """
+
+    assert len(tokenVectors) == len(Y)
+
+    clf, vec = train_classifier(tokenVectors, Y, do_grid=grid, dev=True)
+    return clf, vec
+
 
 def combineLabels(timexLabels, eventLabels, OLabels=[]):
     """
@@ -329,7 +315,7 @@ def combineLabels(timexLabels, eventLabels, OLabels=[]):
 
     return labels
 
-def dump_models(model, path):
+def dump_models(models, vectorizers, path):
     """dump model specified by argument into the file path indicated by path argument
     """
 
@@ -338,7 +324,7 @@ def dump_models(model, path):
     keys = ["TIMEX", "EVENT", "EVENT_CLASS", "TLINK"]
 
     for key in keys:
-        if model.models[key] is None:
+        if models[key] is None:
             continue
         else:
 
@@ -347,8 +333,8 @@ def dump_models(model, path):
             model_dest = open(path+"_"+key+"_MODEL", "wb")
             vect_dest  = open(path+"_"+key+"_VECT", "wb")
 
-            cPickle.dump(model.models[key], model_dest)
-            cPickle.dump(model.vectorizers[key], vect_dest)
+            cPickle.dump(models[key], model_dest)
+            cPickle.dump(vectorizers[key], vect_dest)
 
     return
 
