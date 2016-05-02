@@ -60,21 +60,25 @@ class Note(object):
         #TODO: create output directory if it does not exist
         # TODO: put this in TimeNote class
         root = get_root(self.note_path)
-
         length = len(offsets)
+
+        # hack so events are detected in next for loop.
+        for label in timexEventLabels:
+            if label["entity_label"][0:2] not in ["B_","I_","O"]:
+                label["entity_label"] = "B_" + label["entity_label"]
 
         # start at back of document to preserve offsets until they are used
         for i in range(1, length):
             index = length - i
 
-            if timexEventLabels[index]["entity_label"][0] == "B":
+            if timexEventLabels[index]["entity_label"][0:2] == "B_":
                 start = offsets[index][0]
                 end = offsets[index][1]
 
                 #grab any IN tokens and add them to the tag text
                 for j in range (1, i):
 
-                    if(timexEventLabels[index + j]["entity_label"][0] == "I"):
+                    if(timexEventLabels[index + j]["entity_label"][0:2] == "I_"):
                         end = offsets[index + j][1]
                     else:
                         break
@@ -95,7 +99,6 @@ class Note(object):
             pos = None
 
             # pos
-            """
             if token["pos_tag"] == "IN":
                 pos = "PREPOSITION"
             elif token["pos_tag"] in ["VB", "VBD","VBG", "VBN", "VBP", "VBZ", "RB", "RBR", "RBS"]:
@@ -106,7 +109,6 @@ class Note(object):
                 pos = "ADJECTIVE"
             else:
                 pos = "OTHER"
-            """
 
             if timexEventLabel["entity_type"] == "EVENT":
                 root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "pos":pos})

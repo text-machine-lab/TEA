@@ -252,7 +252,7 @@ def _trainTimex(timexFeatures, timexLabels, grid=False):
 
     Y = [l["entity_label"] for l in timexLabels]
 
-    clf, vec = train_classifier(timexFeatures, Y, do_grid=grid, ovo=True, dev=True)
+    clf, vec = train_classifier(timexFeatures, Y, do_grid=grid, ovo=True)
     return clf, vec
 
 
@@ -270,7 +270,7 @@ def _trainEvent(eventFeatures, eventLabels, grid=False):
 
     Y = [l["entity_label"] for l in eventLabels]
 
-    clf, vec = train_classifier(eventFeatures, Y, do_grid=grid, dev=True)
+    clf, vec = train_classifier(eventFeatures, Y, do_grid=grid)
     return clf, vec
 
 
@@ -288,7 +288,7 @@ def _trainEventClass(eventClassFeatures, eventClassLabels, grid=False):
 
     Y = [l["entity_label"] for l in eventClassLabels]
 
-    clf, vec = train_classifier(eventClassFeatures, Y, do_grid=grid, dev=True)
+    clf, vec = train_classifier(eventClassFeatures, Y, do_grid=grid)
     return clf, vec
 
 
@@ -304,7 +304,7 @@ def _trainTlink(tokenVectors, Y, grid=False):
 
     assert len(tokenVectors) == len(Y)
 
-    clf, vec = train_classifier(tokenVectors, Y, do_grid=grid, dev=True)
+    clf, vec = train_classifier(tokenVectors, Y, do_grid=grid)
     return clf, vec
 
 
