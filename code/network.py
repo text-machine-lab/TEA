@@ -166,22 +166,22 @@ class NNModel:
         print 'Training network...'
         self.classifier.fit([XL, XR], Y, nb_epoch=epochs)
 
-        # test = self.classifier.predict_classes([XL, XR])
+        test = self.classifier.predict_classes([XL, XR])
 
-        # print test
+        print test
 
-        # T = 0
-        # F = 0
-        # outs = 0
-        # for true, pred in zip(labels, test):
-        #     if true == pred:
-        #         T += 1
-        #     else:
-        #         F += 1
-        #     if true == 0:
-        #         outs += 1
+        T = 0
+        F = 0
+        outs = 0
+        for true, pred in zip(labels, test):
+            if true == pred:
+                T += 1
+            else:
+                F += 1
+            if true == 0:
+                outs += 1
 
-        # print "T: ", T, "F: ", F, "outs: ", outs
+        print "T: ", T, "F: ", F, "outs: ", outs
 
     def predict(self, notes):
         pass
