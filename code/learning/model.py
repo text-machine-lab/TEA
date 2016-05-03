@@ -71,12 +71,11 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
             tlinkLabels = note.get_tlink_labels()
             tlinkFeatures += features.extract_tlink_features(note)
 
-    # TODAY!
     # TODO: when predicting, if gold standard is provided evaluate F-measure for each of the steps
 
     if train_timex is True:
         # train model to perform BIO labeling for timexs
-        timexClassifier, timexVectorizer = _trainTimex(timexFeatures, timexLabels)
+        timexClassifier, timexVectorizer = _trainTimex(timexFeatures, timexLabels, grid=True)
 
     if train_event is True:
         # train model to label as EVENT or O
@@ -168,6 +167,7 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
                                                        'entity_id':None})
 
             iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
+
 
     if predict_event is True:
 

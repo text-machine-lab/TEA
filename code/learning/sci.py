@@ -10,7 +10,7 @@ import numpy as np
 
 import math
 
-def train( featsDict, Y, do_grid=False, ovo=False, dev=False ):
+def train( featsDict, Y, do_grid=False, ovo=False):
     '''
     train()
         train a single classifier for a given data and label set
@@ -41,27 +41,21 @@ def train( featsDict, Y, do_grid=False, ovo=False, dev=False ):
 
         print "training model [GRID SEARCH ON]"
 
-        estimates = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape)
-        parameters = [ {'C':C_range } ]
+        estimates = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weight='balanced')
+        parameters = [{'C':C_range, 'gamma':gamma_range}]
 
         # Find best classifier
         clf = GridSearchCV(estimates,
                            parameters,
-                           score_func = f1_score,
-                           # one job per cpu available.
-                           n_jobs = int(math.ceil(cpu_count() / 2.0)),
-                           pre_dispatch=1)
+                           scoring='f1_weighted',
+                           n_jobs=5,
+                           verbose=10)
         clf.fit(X, Y)
 
     else:
 
         print "training model [GRID SEARCH OFF]"
-
-        if dev is True:
-            clf = LinearSVC()
-        else:
-            clf = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape)
-
+        clf = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weighted='balanced')
         clf.fit(X, Y)
 
     return clf, vec
