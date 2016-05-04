@@ -257,7 +257,7 @@ class TimeNote(Note):
                 assert start_entity_id not in id_chunk_map
                 id_chunk_map[start_entity_id] = chunk
 
-            sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
+                sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
 
             chunk = []
             id_chunk = []
@@ -439,7 +439,14 @@ class TimeNote(Note):
 
                         assert start_entity_id not in id_chunk_map
 
+                        #print "TIMEX: adding to id_chunk _map"
+                        #print "\t", label
+
                         id_chunk_map[start_entity_id] = chunk
+
+                        #if start_entity_id is None:
+                        #    print "start_entity_id is NONE"
+                        #    print label
 
                         sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
 
@@ -474,7 +481,7 @@ class TimeNote(Note):
                 assert start_entity_id not in id_chunk_map
                 id_chunk_map[start_entity_id] = chunk
 
-            sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
+                sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
 
             chunk = []
             id_chunk = []
@@ -511,6 +518,10 @@ class TimeNote(Note):
                     entity_pairs += list(itertools.product(events,
                                                            [("TIMEX", entity_id)]))
 
+                    #if entity_id is None:
+                        #print "NONE TIMEX ID????"
+                        #print  entity
+
             if sentence_num + 1 in sentence_chunks:
 
                 # get events of sentence
@@ -529,10 +540,23 @@ class TimeNote(Note):
         pairs_to_link = []
         tlink_ids = []
 
+        #print "entity paurs:"
+        #print entity_pairs
+
+        #print "sentence_chunks: "
+        #print sentence_chunks
+
         for pair in entity_pairs:
 
             src_id = pair[0]
             target_id = pair[1][1]
+
+            # print "id_chunk_map: "
+            # print id_chunk_map
+            # print "src_id: "
+            # print src_id
+            # print "target_id: "
+            # print target_id
 
             pair = {"src_entity":id_chunk_map[src_id],
                     "src_id":src_id,
@@ -540,6 +564,7 @@ class TimeNote(Note):
                     "target_entity":id_chunk_map[target_id],
                     "rel_type":'None',
                     "tlink_id":None}
+
 
             if src_id in temporal_relations:
 

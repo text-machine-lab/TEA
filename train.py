@@ -23,10 +23,11 @@ if env_paths()["PY4J_DIR_PATH"] is None:
 
 import argparse
 import glob
+import cPickle
 
-from code.notes.TimeNote import TimeNote
 from code.learning import model
 
+timenote_imported = False
 
 def main():
     """ Process command line arguments and then generate trained models (4, one for each pass) on files provided.
@@ -45,6 +46,11 @@ def main():
     parser.add_argument("--neural_network", '-n',
                         action='store_true',
                         help="set flag to use a neural network model rather than SVM for tlink identification")
+
+    parser.add_argument("newsreader_annotations",
+                        #type=str,
+                        #nargs=1,
+                        help="Where newsreader pipeline parsed file objects go")
 
     parser.add_argument("--no_event",
                         action='store_true',
@@ -70,11 +76,17 @@ def main():
     print "\t\tTLINK {}".format(train_tlink)
     print "\n"
 
+    if os.path.isdir(args.newsreader_annotations) is False:
+        sys.exit("invalid path for time note dir")
     if os.path.isdir(args.train_dir[0]) is False:
-        exit("invalid path to directory containing training data")
+        sys.exit("invalid path to directory containing training data")
     if os.path.isdir(os.path.dirname(args.model_destination)) is False:
-        exit("directory for model destination does not exist")
+        sys.exit("directory for model destination does not exist")
 
+    newsreader_dir = args.newsreader_annotations
+    #print "NEWSREADER"
+    #print newsreader_dir
+    #sys.exit("done")
     train_dir = None
 
     if '/*' != args.train_dir[0][-2:]:
@@ -101,20 +113,19 @@ def main():
     assert len(gold_files) == len(tml_files)
 
     # create the model
-
     if args.neural_network == True:
         model = trainNetwork(tml_files, gold_files)
         with open(args.model_destination, "wb") as modefile:
             cPickle.dump(model, modfile)
 
     else:
-        models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink)
+        models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink, newsreader_dir)
 
         # store model as pickle object.
         model.dump_models(models, vectorizers, args.model_destination)
 
 
-def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tlink):
+def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tlink, newsreader_dir):
     """
     train::trainModel()
 
@@ -124,12 +135,20 @@ def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tli
     @param training_list: List of strings containing file paths for .tml training documents
     """
 
+    global timenote_imported
+
     print "Called train"
 
     # Read in notes
     notes = []
 
     basename = lambda x: os.path.basename(x[0:x.index(".tml")])
+
+    pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
+
+    print pickled_timeml_notes
+
+    tmp_note = None
 
     for i, example in enumerate(zip(tml_files, gold_files)):
 
@@ -141,7 +160,14 @@ def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tli
                                                     len(zip(tml_files, gold_files)),
                                                     tml)
 
-        tmp_note = TimeNote(tml, gold)
+        if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
+            tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
+        else:
+            if timenote_imported is False:
+                from code.notes.TimeNote import TimeNote
+                timenote_imported = True
+            tmp_note = TimeNote(tml, gold)
+            cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
         notes.append(tmp_note)
 
     return model.train(notes, train_timex, train_event, train_tlink)
