@@ -250,7 +250,7 @@ class TimeNote(Note):
                 assert start_entity_id not in id_chunk_map
                 id_chunk_map[start_entity_id] = chunk
 
-            sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
+                sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
 
             chunk = []
             id_chunk = []
