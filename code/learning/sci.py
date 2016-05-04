@@ -2,12 +2,9 @@ from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
 from sklearn.grid_search import GridSearchCV
 from sklearn.feature_extraction import DictVectorizer
-from sklearn.metrics import f1_score
-
-from multiprocessing import cpu_count
+from sklearn.cross_validation import StratifiedKFold
 
 import numpy as np
-
 import math
 
 def train( featsDict, Y, do_grid=False, ovo=False):
@@ -48,14 +45,16 @@ def train( featsDict, Y, do_grid=False, ovo=False):
         clf = GridSearchCV(estimates,
                            parameters,
                            scoring='f1_weighted',
-                           n_jobs=5,
-                           verbose=10)
+                           n_jobs=20,
+                           verbose=10,
+                           cv=StratifiedKFold(Y))
+
         clf.fit(X, Y)
 
     else:
 
         print "training model [GRID SEARCH OFF]"
-        clf = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weighted='balanced')
+        clf = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weight='balanced')
         clf.fit(X, Y)
 
     return clf, vec

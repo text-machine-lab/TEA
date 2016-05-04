@@ -76,21 +76,25 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
     if train_timex is True:
         # train model to perform BIO labeling for timexs
         timexClassifier, timexVectorizer = _trainTimex(timexFeatures, timexLabels, grid=True)
+        #timexClassifier, timexVectorizer = _trainTimex(timexFeatures, timexLabels, grid=False)
 
     if train_event is True:
         # train model to label as EVENT or O
         # TODO: filter non-timex only?
-        eventClassifier, eventVectorizer = _trainEvent(eventFeatures, eventLabels)
+        eventClassifier, eventVectorizer = _trainEvent(eventFeatures, eventLabels, grid=True)
+       # eventClassifier, eventVectorizer = _trainEvent(eventFeatures, eventLabels, grid=False)
 
         # train model to label as a class of EVENT
         # TODO: filter event only?
         # TODO: should we be training over all tokens or those that are just EVENTs?
-        eventClassClassifier, eventClassVectorizer = _trainEventClass(eventClassFeatures, eventClassLabels)
+        eventClassClassifier, eventClassVectorizer = _trainEventClass(eventClassFeatures, eventClassLabels, grid=True)
+        #eventClassClassifier, eventClassVectorizer = _trainEventClass(eventClassFeatures, eventClassLabels, grid=False)
 
     if train_rel is True:
         # train model to classify relations between temporal entities.
         # TODO: add features back in.
-        tlinkClassifier, tlinkVectorizer = _trainTlink(tlinkFeatures, tlinkLabels)
+        #tlinkClassifier, tlinkVectorizer = _trainTlink(tlinkFeatures, tlinkLabels, grid=False)
+        tlinkClassifier, tlinkVectorizer = _trainTlink(tlinkFeatures, tlinkLabels, grid=True)
 
     # will be accessed later for dumping
     models = {"TIMEX":timexClassifier,
@@ -131,6 +135,8 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
     eventLabels      = []
     eventClassLabels = []
 
+    tlink_labels = []
+
     # init the number of lines for timexlabels
     # we currently do not know what they are.
     # get the tokens into a flast list, these are ordered by
@@ -167,7 +173,6 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
                                                        'entity_id':None})
 
             iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
-
 
     if predict_event is True:
 
@@ -218,6 +223,18 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
 
             if iob_labels[t["sentence_num"] - 1][t["token_offset"]]["entity_type"] == None:
                 iob_labels[t["sentence_num"] - 1][t["token_offset"]] = eventClassLabels[t["sentence_num"] - 1][-1]
+
+    _totLabels = []
+    for l in eventClassLabels:
+        _totLabels += l
+
+    print "predicted ZERO events? : ", len(_totLabels) == len([l for l in _totLabels if l["entity_label"] != 'O'])
+
+    _totLabels = []
+    for l in timexLabels:
+        _totLabels += l
+
+    print "predicted ZERO timex? :", len(_totLabels) == len([l for l in _totLabels if l["entity_label"] != 'O'])
 
     if predict_timex is True and predict_event is True and predict_rel is True:
 
@@ -304,7 +321,7 @@ def _trainTlink(tokenVectors, Y, grid=False):
 
     assert len(tokenVectors) == len(Y)
 
-    clf, vec = train_classifier(tokenVectors, Y, do_grid=grid)
+    clf, vec = train_classifier(tokenVectors, Y, do_grid=grid, ovo=True)
     return clf, vec
 
 

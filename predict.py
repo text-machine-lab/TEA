@@ -93,6 +93,7 @@ def main():
                                                                            predict_event,
                                                                            predict_tlink)
 
+        # will be empty if no tlinks are set
         tlinkIdPairs = note.get_tlink_id_pairs()
         offsets = note.get_token_char_offsets()
 

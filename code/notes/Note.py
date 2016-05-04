@@ -68,7 +68,7 @@ class Note(object):
                 label["entity_label"] = "B_" + label["entity_label"]
 
         # start at back of document to preserve offsets until they are used
-        for i in range(1, length):
+        for i in range(1, length+1):
             index = length - i
 
             if timexEventLabels[index]["entity_label"][0:2] == "B_":
@@ -140,6 +140,9 @@ class Note(object):
             root = annotate_root(root, "TLINK", annotations)
 
         note_path = os.path.join(output_path, self.note_path.split('/')[-1] + ".tml")
+
+#        print "root: ", root
+#        print "note_path: ", note_path
 
         write_root_to_file(root, note_path)
 

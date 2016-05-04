@@ -66,7 +66,7 @@ class TimeNote(Note):
         print "\n\n"
         """
 
-        self.tlinks = None
+        self.tlinks = []
 
         if self.annotated_note_path is not None:
 
@@ -122,7 +122,7 @@ class TimeNote(Note):
         """
 
         # there should be no tlinks if this method is called.
-        assert self.tlinks is None
+        assert len(self.tlinks) == 0
 
         event_ids = set()
         timex_ids = set()
@@ -331,7 +331,7 @@ class TimeNote(Note):
 
         t_links = None
 
-        if self.tlinks is not None:
+        if len(self.tlinks) > 0:
             return self.tlinks
         elif self.annotated_note_path is not None:
             t_links = get_tlinks(self.annotated_note_path)

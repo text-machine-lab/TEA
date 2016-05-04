@@ -848,22 +848,22 @@ def timex_regex_feats(token):
     else:
         timex = token["value"]
 
-    feats =  {("_YY_",None): False,
-              ("_TIME_", None): False,
-              ("_DURATION_", None): False,
-              ("_NUMBER_", None): False,
-              ("_OTHER_", None): False,
-              ("_UNIT_", None): False,
-              ("_DAY_", None): False,
-              ("_MONTH_", None): False,
-              ("_SEASON_", None): False,
-              ("_ON_", None): False,
-              ("_PD_", None): False,
-              ("_CN_", None): False,
-              ("_AVT_", None): False,
-              ("_NAMES_", None): False,
-              ("_SET_", None): False,
-              ("_", None): False}
+    feats =  {("_YY_",None): 0,
+              ("_TIME_", None): 0,
+              ("_DURATION_", None): 0,
+              ("_NUMBER_", None): 0,
+              ("_OTHER_", None): 0,
+              ("_UNIT_", None): 0,
+              ("_DAY_", None): 0,
+              ("_MONTH_", None): 0,
+              ("_SEASON_", None): 0,
+              ("_ON_", None): 0,
+              ("_PD_", None): 0,
+              ("_CN_", None): 0,
+              ("_AVT_", None): 0,
+              ("_NAMES_", None): 0,
+              ("_SET_", None): 0,
+              ("_", None): 0}
 
     # contains digits
     if re.search("[0-9]", timex):
@@ -873,10 +873,10 @@ def timex_regex_feats(token):
 
         for key, pattern in zip(keys, patterns):
             if re.search(pattern, timex):
-                feats[key] = True
+                feats[key] = 1
                 break
         else:
-            feats[("_OTHER_", None)] = True
+            feats[("_OTHER_", None)] = 1
 
     # doesn't dontain digits.
     else:
@@ -889,10 +889,10 @@ def timex_regex_feats(token):
 
         for key, pattern in zip(keys, patterns):
             if re.search(pattern, timex):
-                feats[key] = True
+                feats[key] = 1
                 break
         else:
-            feats[("_", None)] = True
+            feats[("_", None)] = 1
 
     return feats
 
