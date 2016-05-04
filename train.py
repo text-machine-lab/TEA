@@ -114,7 +114,7 @@ def main():
 
     # create the model
     if args.neural_network == True:
-        model = trainNetwork(tml_files, gold_files)
+        model = trainNetwork(tml_files, gold_files,newsreader_dir)
         with open(args.model_destination, "wb") as modefile:
             cPickle.dump(model, modfile)
 
@@ -172,7 +172,7 @@ def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tli
 
     return model.train(notes, train_timex, train_event, train_tlink)
 
-def trainNetwork(tml_files, gold_files):
+def trainNetwork(tml_files, gold_files, newsreader_dir):
     '''
     train::trainNetwork()
 
@@ -182,24 +182,38 @@ def trainNetwork(tml_files, gold_files):
     @param tml_files: List of unlabled (no timex, etc) timeML documents
     @param gold_files: Fully labeled gold standard timeML documents
     '''
+
     print "Called trainNetwork"
+
+    global timenote_imported
 
     # Read in notes
     notes = []
 
     basename = lambda x: os.path.basename(x[0:x.index(".tml")])
 
+    pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
+
+    tmp_note = None
+
     for i, example in enumerate(zip(tml_files, gold_files)):
-
-        tml, gold = example
-
+       	tml, gold = example
+        
         assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
+
 
         print '\n\nprocessing file {}/{} {}'.format(i + 1,
                                                     len(zip(tml_files, gold_files)),
                                                     tml)
-
-        tmp_note = TimeNote(tml, gold)
+	if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
+            tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
+        else:
+            if timenote_imported is False:
+                from code.notes.TimeNote import TimeNote
+                timenote_imported = True
+            tmp_note = TimeNote(tml, gold)
+            cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
+        
         notes.append(tmp_note)
 
     mod = network.NNModel()

@@ -5,7 +5,7 @@ import numpy as np
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten, Masking, Input, Permute
-from notes.TimeNote import TimeNote
+#from notes.TimeNote import TimeNote
 from gensim.models import word2vec
 
 class NNModel:
