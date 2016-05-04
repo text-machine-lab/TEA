@@ -168,6 +168,8 @@ def pre_process(text):
 
         if tok["id"] in tok_id_to_predicate_info:
 
+            semantic_roles = tok_id_to_predicate_info[tok["id"]]["semantic_role"]
+
             tok_predicate_info = tok_id_to_predicate_info[tok["id"]]
 
             preposition_ids = tok_predicate_info.pop("toks_preposition")
@@ -179,6 +181,8 @@ def pre_process(text):
                 preposition_tokens.append(id_to_tok[tok_id]["token"])
 
             tok_predicate_info["preposition_tokens"] = preposition_tokens
+
+            tok.update({"semantic_roles":semantic_roles})
 
             tok.update(tok_predicate_info)
 

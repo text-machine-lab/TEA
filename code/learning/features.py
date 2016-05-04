@@ -424,15 +424,14 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(get_text(token))
                 token_features.update(get_pos_tag(token))
                 token_features.update(get_ner_features(token))
-                pass
-
             elif feature_set == "EVENT_CLASS":
                 token_features.update(get_lemma(token))
                 token_features.update(get_text(token))
                 token_features.update(get_pos_tag(token))
                 token_features.update(get_ner_features(token))
+                token_features.update(is_main_verb(token))
                 token_features.update(is_event(token, eventLabels))
-                pass
+                token_features.update(semantic_roles(token))
             else:
                 raise Exception("ERROR: invalid feature set")
 
@@ -467,6 +466,20 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
 
     return features
 
+def semantic_roles(token):
+    feats = {}
+    if "semantic_roles" in token:
+        for i, role in enumerate(token["semantic_roles"]):
+            feats.update({("semantic_role_{}".format(i),role):1})
+    return feats
+
+def is_main_verb(token):
+    feat = {("main_verb",None):0}
+    if "is_main_verb" in token:
+        feat = {("main_verb",None):token["is_main_verb"]}
+    return feat
+
+
 def is_event(token, eventLabels):
     return {("is_event", None):(eventLabels[token["sentence_num"]-1][token["token_offset"]]["entity_label"] == "EVENT")}
 
@@ -487,16 +500,6 @@ def get_grammar_categories(token):
 
     return features
 
-
-def is_main_verb(self, token):
-
-    if "is_main_verb" in token:
-
-        return {"is_main_verb":token["is_main_verb"]}
-
-    else:
-
-        return {"is_main_verb":False}
 
 def get_wordshapes(self, token):
 
