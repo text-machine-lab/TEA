@@ -1,19 +1,19 @@
+"""Interface to perform predicting of TIMEX, EVENT and TLINK annotations.
+"""
+
+import sys
+from code.config import env_paths
+
+# this needs to be set. exit now so user doesn't wait to know.
+if env_paths()["PY4J_DIR_PATH"] is None:
+    sys.exit("PY4J_DIR_PATH environment variable not specified")
+
 import os
 import cPickle
 import argparse
 import glob
 
-if "TEA_PATH" not in os.environ:
-    exit("TEA_PATH environment variable not specified, it is the directory containg predict.py")
-
-if "PY4J_DIR_PATH" not in os.environ:
-    exit("PY4J_DIR_PATH environment variable not specified")
-
-
-os.environ["TEA_PATH"] = os.getcwd()
-
 def main():
-
 
     parser = argparse.ArgumentParser()
 
@@ -27,41 +27,59 @@ def main():
     parser.add_argument("annotation_destination",
                          help="Where annotated files are written")
 
+    parser.add_argument("--no_event",
+                        action='store_true',
+                        default=False)
+
+    parser.add_argument("--no_timex",
+                        action='store_true',
+                        default=False)
+
+    parser.add_argument("--no_tlink",
+                        action='store_true',
+                        default=False)
 
     args = parser.parse_args()
+
+    predict_event = not(args.no_event)
+    predict_timex = not(args.no_timex)
+    predict_tlink = not(args.no_tlink)
 
     annotation_destination = args.annotation_destination
 
     if os.path.isdir(annotation_destination) is False:
-
-        exit("\n\noutput destination does not exist")
-
-    predict_dir = None
-    model = None
+        sys.exit("\n\noutput destination does not exist")
 
     predict_dir = args.predict_dir[0]
 
     if os.path.isdir(predict_dir) is False:
+        sys.exit("\n\nno output directory exists at set path")
 
-        exit("\n\nno output directory exists at set path")
+    model_path = args.model_destination
 
-    if os.path.isfile(args.model_destination) is False:
+    keys = ["TIMEX", "EVENT", "EVENT_CLASS", "TLINK"]
+    flags = [predict_timex, predict_event, predict_event, predict_tlink]
 
-        exit("\n\nno model exists at set path")
+    # make sure appropriate models exist for what needs to be done.
+    for key, flag in zip(keys, flags):
+        if flag is True:
+            m_path = model_path + "_{}_MODEL".format(key)
+            v_path = model_path + "_{}_VECT".format(key)
+            if os.path.isfile(m_path) is False:
+                sys.exit("\n\nmissing model: {}".format(m_path))
+            if os.path.isfile(v_path) is False:
+                sys.exit("\n\nmissing vectorizer: {}".format(v_path))
 
     # bad form, but it is annoying for this to inputted just to be told args are invalid.
     from code.notes.TimeNote import TimeNote
-    from code import model
-
-    modfile = args.model_destination
+    from code.learning import model
 
     files_to_annotate = glob.glob(predict_dir + "/*")
 
     #load data from files
     notes = []
 
-    with open(modfile) as modelfile:
-        model = cPickle.load(modelfile)
+    model.load_models(model_path, predict_timex, predict_event, predict_tlink)
 
     #read in files as notes
     for i, tml in enumerate(files_to_annotate):
@@ -70,10 +88,13 @@ def main():
 
         note = TimeNote(tml)
 
-        entityLabels, OriginalOffsets, tlinkLabels, tokens = model.predict(note)
+        entityLabels, OriginalOffsets, tlinkLabels, tokens = model.predict(note,
+                                                                           predict_timex,
+                                                                           predict_event,
+                                                                           predict_tlink)
 
+        # will be empty if no tlinks are set
         tlinkIdPairs = note.get_tlink_id_pairs()
-
         offsets = note.get_token_char_offsets()
 
         assert len(OriginalOffsets) == len(offsets)

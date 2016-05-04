@@ -1,4 +1,5 @@
-
+"""Allows newsreader tokenization component to be accessed by python.
+"""
 
 from subprocess import Popen, PIPE, STDOUT
 
@@ -53,9 +54,4 @@ class IXATokenizer:
         return self.tokenizer.tokenize(text)
 
 if __name__ == "__main__":
-    t = IXATokenizer()
-
-    while True:
-        continue
-
     pass

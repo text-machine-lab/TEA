@@ -3,7 +3,6 @@ import itertools
 import sys
 import re
 import copy
-import wordshapes
 
 from string import whitespace
 from Note import Note
@@ -74,7 +73,7 @@ class TimeNote(Note):
         print "\n\n"
         """
 
-        self.tlinks = None
+        self.tlinks = []
 
         if self.annotated_note_path is not None:
 
@@ -130,7 +129,7 @@ class TimeNote(Note):
         """
 
         # there should be no tlinks if this method is called.
-        assert self.tlinks is None
+        assert len(self.tlinks) == 0
 
         event_ids = set()
         timex_ids = set()
@@ -339,7 +338,7 @@ class TimeNote(Note):
 
         t_links = None
 
-        if self.tlinks is not None:
+        if len(self.tlinks) > 0:
             return self.tlinks
         elif self.annotated_note_path is not None:
             t_links = get_tlinks(self.annotated_note_path)
@@ -754,7 +753,7 @@ class TimeNote(Note):
     def set_iob_labels(self, iob_labels):
 
         # don't over write existing labels.
-        assert len(iob_labels) == 0
+        assert len(self.iob_labels) == 0
 
         self.iob_labels = iob_labels
 
@@ -810,9 +809,7 @@ class TimeNote(Note):
         offsets = []
 
         for line_num in self.pre_processed_text:
-
             for token in self.pre_processed_text[line_num]:
-
                 offsets.append((token["char_start_offset"], token["char_end_offset"]))
 
         return offsets

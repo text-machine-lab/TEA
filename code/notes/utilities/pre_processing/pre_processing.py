@@ -1,3 +1,6 @@
+"""Processes contents of text document.
+"""
+
 import os
 import sys
 import naf_parse
@@ -7,6 +10,12 @@ from news_reader import NewsReader
 pre_processor = None
 
 def pre_process(text):
+    """ pre-process contents of a document
+
+    Example:
+        text = open("some_doc.txt","rb").read()
+        pre_process(text)
+    """
 
     global pre_processor
 
@@ -159,6 +168,8 @@ def pre_process(text):
 
         if tok["id"] in tok_id_to_predicate_info:
 
+            semantic_roles = tok_id_to_predicate_info[tok["id"]]["semantic_role"]
+
             tok_predicate_info = tok_id_to_predicate_info[tok["id"]]
 
             preposition_ids = tok_predicate_info.pop("toks_preposition")
@@ -170,6 +181,8 @@ def pre_process(text):
                 preposition_tokens.append(id_to_tok[tok_id]["token"])
 
             tok_predicate_info["preposition_tokens"] = preposition_tokens
+
+            tok.update({"semantic_roles":semantic_roles})
 
             tok.update(tok_predicate_info)
 
@@ -183,14 +196,5 @@ def pre_process(text):
     return sentences, tokens_to_offset, sentence_features, dependency_paths, id_to_tok
 
 if __name__ == "__main__":
-
-
-    timeml_utilities = os.environ["TEA_PATH"] + "/code/notes/utilities"
-    sys.path.insert(0, timeml_utilities)
-
-    import timeml_utilities
-
-    print pre_process(timeml_utilities.get_text("APW19980820.1428.tml.TE3input"))
-
     pass
 

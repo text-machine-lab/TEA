@@ -1,26 +1,35 @@
+"""Interface to perform training of models for temporal entity and relation extraction.
+"""
+
+# temporary until NN interface is updated
+import cPickle
+from code import network
+
+
+
 import sys
 import os
-import cPickle
-import argparse
-import re
-import glob
-
 from code.config import env_paths
 
-from code.notes.TimeNote import TimeNote
-from code import model
-from code import network
+
 
 if "TEA_PATH" not in os.environ:
     sys.exit("TEA_PATH environment variable not specified, it is the directory containg train.py")
 
-if "PY4J_DIR_PATH" is os.environ:
+# this needs to be set. exit now so user doesn't wait to know.
+if env_paths()["PY4J_DIR_PATH"] is None:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
 
 
-def main():
+import argparse
+import glob
 
-    """ Processes command line arguments and then generates a trained model on files provided.
+from code.notes.TimeNote import TimeNote
+from code.learning import model
+
+
+def main():
+    """ Process command line arguments and then generate trained models (4, one for each pass) on files provided.
     """
 
     parser = argparse.ArgumentParser()
@@ -32,14 +41,39 @@ def main():
 
     parser.add_argument("model_destination",
                         help="Where to store the trained model")
+
     parser.add_argument("--neural_network", '-n',
                         action='store_true',
                         help="set flag to use a neural network model rather than SVM for tlink identification")
 
+    parser.add_argument("--no_event",
+                        action='store_true',
+                        default=False)
+
+    parser.add_argument("--no_timex",
+                        action='store_true',
+                        default=False)
+
+    parser.add_argument("--no_tlink",
+                        action='store_true',
+                        default=False)
+
     args = parser.parse_args()
+
+    train_event = not(args.no_event)
+    train_timex = not(args.no_timex)
+    train_tlink = not(args.no_tlink)
+
+    print "\n\tTRAINING:\n"
+    print "\t\tTIMEX {}".format(train_timex)
+    print "\t\tEVENT {}".format(train_event)
+    print "\t\tTLINK {}".format(train_tlink)
+    print "\n"
 
     if os.path.isdir(args.train_dir[0]) is False:
         exit("invalid path to directory containing training data")
+    if os.path.isdir(os.path.dirname(args.model_destination)) is False:
+        exit("directory for model destination does not exist")
 
     train_dir = None
 
@@ -67,17 +101,20 @@ def main():
     assert len(gold_files) == len(tml_files)
 
     # create the model
+
     if args.neural_network == True:
         model = trainNetwork(tml_files, gold_files)
+        with open(args.model_destination, "wb") as modefile:
+            cPickle.dump(model, modfile)
+
     else:
-        model = trainModel(tml_files, gold_files, False)
+        models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink)
 
-    # store model as pickle object.
-    with open(args.model_destination, "wb") as modFile:
-        cPickle.dump(model, modFile)
+        # store model as pickle object.
+        model.dump_models(models, vectorizers, args.model_destination)
 
 
-def trainModel( tml_files, gold_files, grid ):
+def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tlink):
     """
     train::trainModel()
 
@@ -107,10 +144,7 @@ def trainModel( tml_files, gold_files, grid ):
         tmp_note = TimeNote(tml, gold)
         notes.append(tmp_note)
 
-    mod = model.Model(grid=grid)
-    mod.train(notes)
-
-    return mod
+    return model.train(notes, train_timex, train_event, train_tlink)
 
 def trainNetwork(tml_files, gold_files):
     '''
