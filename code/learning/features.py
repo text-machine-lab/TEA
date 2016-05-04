@@ -427,10 +427,10 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 pass
 
             elif feature_set == "EVENT_CLASS":
-                #token_features.update(get_lemma(token))
-                #token_features.update(get_text(token))
-                #token_features.update(get_pos_tag(token))
-                #token_features.update(get_ner_features(token))
+                token_features.update(get_lemma(token))
+                token_features.update(get_text(token))
+                token_features.update(get_pos_tag(token))
+                token_features.update(get_ner_features(token))
                 token_features.update(is_event(token, eventLabels))
                 pass
             else:
@@ -459,10 +459,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
     for i, token_features in enumerate(features):
         following = features[i + 1:i + 5]
         for j, f in enumerate(following):
-
-
             for key in f:
-
                 if ("preceding_feats_" in key[0]) or ("preceding_labels_" in key[0]):
                     continue
 
