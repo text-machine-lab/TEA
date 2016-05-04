@@ -10,7 +10,7 @@ from gensim.models import word2vec
 
 class NNModel:
 
-    def __init__(self, data_dim=300, max_len=11, nb_classes=7):
+    def __init__(self, data_dim=300, max_len=20, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         '''
@@ -99,7 +99,7 @@ class NNModel:
                 if left_vecs == None:
                     left_vecs = vecs_path
                 else:
-                    left_vecs = _pad_and_concatentate(left_vecs, vecs_path, axis=0)
+                    left_vecs = _pad_and_concatenate(left_vecs, vecs_path, axis=0)
 
             # get the vectors for every word in the right path
             right_vecs = None
@@ -127,17 +127,17 @@ class NNModel:
                 if right_vecs == None:
                     right_vecs = vecs_path
                 else:
-                    right_vecs = _pad_and_concatentate(right_vecs, vecs_path, axis=0)
+                    right_vecs = _pad_and_concatenate(right_vecs, vecs_path, axis=0)
 
             if XL == None:
                 XL = left_vecs
             else:
-                XL = np.concatenate((XL, left_vecs), axis=0)
+                XL = _pad_and_concatenate(XL, left_vecs, axis=0)
 
             if XR == None:
                 XR = right_vecs
             else:
-                XR = np.concatenate((XR, right_vecs), axis=0)
+                XR = _pad_and_concatenate(XR, right_vecs, axis=0)
 
             # remove duplicate indices
             del_list = list(set(del_list))
@@ -186,7 +186,7 @@ class NNModel:
     def predict(self, notes):
         pass
 
-def _pad_and_concatentate(a, b, axis):
+def _pad_and_concatenate(a, b, axis):
     '''
     given two tensors, pad with zeros so that all dimensions are equal except the axis to concatentate on, and the concatenate
     '''
