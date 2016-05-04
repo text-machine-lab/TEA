@@ -1,4 +1,3 @@
-
 package gateway;
 
 import eus.ixa.ixa.pipe.tok.Tok;
@@ -6,6 +5,9 @@ import eus.ixa.ixa.pipe.pos.Pos;
 import eus.ixa.ixa.pipe.nerc.Ner;
 import eus.ixa.ixa.pipe.parse.Parse;
 
+/**
+* Defines object that willbe used to access loaded newsreader components.
+*/
 class EntryPoint {
 
     Tok tokenizer = null;
@@ -66,5 +68,4 @@ class EntryPoint {
     }
 
 }
-
 

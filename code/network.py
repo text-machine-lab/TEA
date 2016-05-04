@@ -5,7 +5,7 @@ import numpy as np
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten, Masking, Input, Permute
-from notes.TimeNote import TimeNote
+#from notes.TimeNote import TimeNote
 from gensim.models import word2vec
 
 class NNModel:
@@ -277,10 +277,10 @@ if __name__ == "__main__":
     test = NNModel()
     with open("note.dump") as n:
         tmp_note = pickle.load(n)
-    # tmp_note = TimeNote("APW19980418.0210.tml.TE3input", "APW19980418.0210.tml")
+#    tmp_note = TimeNote("APW19980418.0210.tml.TE3input", "APW19980418.0210.tml")
     # print tmp_note.pre_processed_text[2][16]
-    # with open("note.dump", 'wb') as n:
-    #     pickle.dump(tmp_note, n)
+#    with open("note.dump", 'wb') as n:
+#        pickle.dump(tmp_note, n)
     test.train([tmp_note])
 
     # labels = tmp_note.get_tlink_labels()

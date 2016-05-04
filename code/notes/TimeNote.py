@@ -3,7 +3,6 @@ import itertools
 import sys
 import re
 import copy
-import wordshapes
 
 from string import whitespace
 from Note import Note
@@ -74,7 +73,7 @@ class TimeNote(Note):
         print "\n\n"
         """
 
-        self.tlinks = None
+        self.tlinks = []
 
         if self.annotated_note_path is not None:
 
@@ -130,7 +129,7 @@ class TimeNote(Note):
         """
 
         # there should be no tlinks if this method is called.
-        assert self.tlinks is None
+        assert len(self.tlinks) == 0
 
         event_ids = set()
         timex_ids = set()
@@ -258,7 +257,7 @@ class TimeNote(Note):
                 assert start_entity_id not in id_chunk_map
                 id_chunk_map[start_entity_id] = chunk
 
-            sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
+                sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
 
             chunk = []
             id_chunk = []
@@ -339,7 +338,7 @@ class TimeNote(Note):
 
         t_links = None
 
-        if self.tlinks is not None:
+        if len(self.tlinks) > 0:
             return self.tlinks
         elif self.annotated_note_path is not None:
             t_links = get_tlinks(self.annotated_note_path)
@@ -440,7 +439,14 @@ class TimeNote(Note):
 
                         assert start_entity_id not in id_chunk_map
 
+                        #print "TIMEX: adding to id_chunk _map"
+                        #print "\t", label
+
                         id_chunk_map[start_entity_id] = chunk
+
+                        #if start_entity_id is None:
+                        #    print "start_entity_id is NONE"
+                        #    print label
 
                         sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
 
@@ -475,7 +481,7 @@ class TimeNote(Note):
                 assert start_entity_id not in id_chunk_map
                 id_chunk_map[start_entity_id] = chunk
 
-            sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
+                sentence_chunks[sentence_num].append(("TIMEX", start_entity_id))
 
             chunk = []
             id_chunk = []
@@ -512,6 +518,10 @@ class TimeNote(Note):
                     entity_pairs += list(itertools.product(events,
                                                            [("TIMEX", entity_id)]))
 
+                    #if entity_id is None:
+                        #print "NONE TIMEX ID????"
+                        #print  entity
+
             if sentence_num + 1 in sentence_chunks:
 
                 # get events of sentence
@@ -530,10 +540,23 @@ class TimeNote(Note):
         pairs_to_link = []
         tlink_ids = []
 
+        #print "entity paurs:"
+        #print entity_pairs
+
+        #print "sentence_chunks: "
+        #print sentence_chunks
+
         for pair in entity_pairs:
 
             src_id = pair[0]
             target_id = pair[1][1]
+
+            # print "id_chunk_map: "
+            # print id_chunk_map
+            # print "src_id: "
+            # print src_id
+            # print "target_id: "
+            # print target_id
 
             pair = {"src_entity":id_chunk_map[src_id],
                     "src_id":src_id,
@@ -541,6 +564,7 @@ class TimeNote(Note):
                     "target_entity":id_chunk_map[target_id],
                     "rel_type":'None',
                     "tlink_id":None}
+
 
             if src_id in temporal_relations:
 
@@ -754,7 +778,7 @@ class TimeNote(Note):
     def set_iob_labels(self, iob_labels):
 
         # don't over write existing labels.
-        assert len(iob_labels) == 0
+        assert len(self.iob_labels) == 0
 
         self.iob_labels = iob_labels
 
@@ -810,9 +834,7 @@ class TimeNote(Note):
         offsets = []
 
         for line_num in self.pre_processed_text:
-
             for token in self.pre_processed_text[line_num]:
-
                 offsets.append((token["char_start_offset"], token["char_end_offset"]))
 
         return offsets

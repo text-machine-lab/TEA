@@ -1,7 +1,7 @@
-
+"""Allows newsreader ner component to be accessed by python.
+"""
 
 from subprocess import Popen, PIPE, STDOUT
-
 from py4j.java_collections import JavaArray
 from py4j.java_gateway import JavaGateway
 

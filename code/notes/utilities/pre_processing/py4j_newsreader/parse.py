@@ -1,4 +1,5 @@
-
+"""Allows newsreader parser component to be accessed by python.
+"""
 
 from subprocess import Popen, PIPE, STDOUT
 
@@ -43,6 +44,7 @@ class IXAParser:
 
 if __name__ == "__main__":
 
+    """
     t = tok.IXATokenizer()
     p = pos.IXAPosTagger()
     ner = nerc.IXANerTagger()
@@ -59,3 +61,7 @@ if __name__ == "__main__":
     #print parser.parse(ner_tagged_doc)
 
     #print parser.parse(ner_tagged_doc)
+    """
+
+    pass
+

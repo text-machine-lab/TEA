@@ -46,18 +46,25 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
-
+/**
+* newsreader parser component.
+*/
 public class Parse {
 
     ParseCLI parse_CLI = null;
 
     public Parse() {
 
+        String CURR_DIR = new String(getClass().getProtectionDomain().getCodeSource().getLocation().toString().substring(5));
+
+        String TEA_HOME = new String(CURR_DIR + "../../../../../");
+
+
         String[] cli_args = { "parse",
                               "-g",
                               "collins",
                               "-m",
-                              System.getenv("TEA_PATH") + "/code/notes/NewsReader/models/parse-models/en-parser-chunking.bin" };
+                              TEA_HOME + "/dependencies/NewsReader/models/parse-models/en-parser-chunking.bin" };
 
         parse_CLI = new ParseCLI();
 

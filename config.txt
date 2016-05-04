@@ -1,1 +1,1 @@
-PY4J_DIR_PATH None
+PY4J_DIR_PATH /data1/kwacome/venv/share/py4j

@@ -1,3 +1,13 @@
+"""Defines python interfaces to utilize newsreader pipeline.
+
+The newsreader pipeline is used to perform various text processing tasks.
+
+Performs following:
+    tokenization
+    parts of speech tagging
+    dependency parse + constituency parse
+    named entity recognition
+"""
 
 import subprocess
 import os
@@ -11,6 +21,8 @@ import py4j_newsreader.tok
 import py4j_newsreader.pos
 import py4j_newsreader.parse
 import py4j_newsreader.ner
+
+TEA_HOME_DIR = os.path.join(*([os.path.dirname(os.path.abspath(__file__))] + [".."]*4))
 
 srl = None
 
@@ -117,7 +129,7 @@ class SRLClient():
 
             srl = subprocess.Popen(["java",
                                     "-cp",
-                                    os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
+                                    TEA_HOME_DIR + "/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
                                     "ixa.srl.SRLClient",
                                     "en"],
                                     stdout=subprocess.PIPE,
@@ -148,7 +160,7 @@ class SRLServer():
 
         self.s = subprocess.Popen(["java",
                                    "-cp",
-                                   os.environ["TEA_PATH"] + "/code/notes/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
+                                   TEA_HOME_DIR + "/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/IXA-EHU-srl-3.0.jar",
                                    "ixa.srl.SRLServer",
                                     "en"])
 
