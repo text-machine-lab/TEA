@@ -17,7 +17,7 @@ if "TEA_PATH" not in os.environ:
     sys.exit("TEA_PATH environment variable not specified, it is the directory containg train.py")
 
 # this needs to be set. exit now so user doesn't wait to know.
-if env_paths()["PY4J_DIR_PATH"] is None:
+if "PY4J_DIR_PATH" not in os.environ:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
 
 
