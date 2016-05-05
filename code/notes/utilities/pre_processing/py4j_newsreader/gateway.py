@@ -15,7 +15,7 @@ if env_paths()[b"PY4J_DIR_PATH"] is None:
 
 from py4j.java_gateway import GatewayClient
 
-PY4J_DEPENDENCIES="{}/*".format(env_paths()["PY4J_DIR_PATH"])
+PY4J_DEPENDENCIES="{}/*".format(env_paths()[b"PY4J_DIR_PATH"])
 TOK_JAR_PATH=TEA_HOME_DIR + "/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-tok-1.8.2.jar"
 POS_JAR_PATH=TEA_HOME_DIR + "/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-pos-1.4.1.jar"
 NER_JAR_PATH=TEA_HOME_DIR + "/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-nerc-1.5.2.jar"
