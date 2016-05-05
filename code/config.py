@@ -6,7 +6,7 @@ TEA_HOME_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 def env_paths():
 
     paths = open(os.path.join(TEA_HOME_DIR, "config.txt"), "rb").read()
-    paths = paths.strip('\n')
+    paths = paths.strip(b'\n')
     paths = [line.split() for line in paths.split('\n')]
 
     env_paths = {}
