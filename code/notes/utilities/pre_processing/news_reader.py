@@ -17,10 +17,10 @@ import time
 
 import atexit
 
-from . import py4j_newsreader.tok
-from . import py4j_newsreader.pos
-from . import py4j_newsreader.parse
-from . import py4j_newsreader.ner
+from py4j_newsreader import tok
+from py4j_newsreader import pos
+from py4j_newsreader import parse
+from py4j_newsreader import ner
 
 TEA_HOME_DIR = os.path.join(*([os.path.dirname(os.path.abspath(__file__))] + [".."]*4))
 
