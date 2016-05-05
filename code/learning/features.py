@@ -4,7 +4,7 @@
 import copy
 from code.notes.utilities.add_discourse import get_temporal_discourse_connectives
 import re
-import re_timex_patterns
+import re_timex_pattern
 import nominalization
 
 # these were extracted from the TimeBank corpus, and have been hardcoded here for convenience
@@ -838,7 +838,7 @@ def timex_regex_feats(token):
     # contains digits
     if re.search("[0-9]", timex):
 
-        patterns = [re_timex_pattern.yy, re_timex_pattern.time, re_timex_pattern.duration, re_timex_pattern.patternnumber]
+        patterns = [re_timex_pattern.yy, re_timex_pattern.time, re_timex_pattern.duration, re_timex_pattern.number]
         keys = [("_YY_", None), ( "_TIME_", None), ("_DURATION_", None),  ("_NUMBER_", None)]
 
         for key, pattern in zip(keys, patterns):
@@ -855,7 +855,7 @@ def timex_regex_feats(token):
                  ("_PD_", None), ("_CN_", None), ("_AVT_", None), ("_NAMES_", None), ("_SET_", None)]
 
         patterns = [re_timex_pattern.unit, re_timex_pattern.day, re_timex_pattern.month, re_timex_pattern.season, re_timex_pattern.ordinal_number,
-                    re_timex_pattern.parts_of_the_day, re_timex_pattern.cardinal_number, re_timex_pattern.dverbs, re_timex_pattern.names, re_timex_pattern.set_pattern]
+                    re_timex_pattern.parts_of_the_day, re_timex_pattern.cardinal_number, re_timex_pattern.adverbs, re_timex_pattern.names, re_timex_pattern.set_pattern]
 
         for key, pattern in zip(keys, patterns):
             if re.search(pattern, timex):
