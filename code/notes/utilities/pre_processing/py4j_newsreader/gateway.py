@@ -10,7 +10,7 @@ import atexit
 TEA_HOME_DIR = os.path.join(*([os.path.dirname(os.path.abspath(__file__))]+[".."]*5))
 from code.config import env_paths
 
-if env_paths()["PY4J_DIR_PATH"] is None:
+if env_paths()[b"PY4J_DIR_PATH"] is None:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
 
 from py4j.java_gateway import GatewayClient
