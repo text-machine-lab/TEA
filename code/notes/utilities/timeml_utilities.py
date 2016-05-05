@@ -113,7 +113,7 @@ def get_text(timeml_doc):
 
     for char in ['\n'] + list(whitespace):
 
-        string = string.strip(char)
+        string = string.strip(char.encode())
 
     string = xml_utilities.strip_quotes(string)
 
