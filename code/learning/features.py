@@ -121,11 +121,11 @@ def extract_tlink_features(note):
         for i, target_token in enumerate(target_tokens):
 
             text_feature = get_text(target_token,"target_token_{}".format(i))
-            tokens.append(text_feature.keys()[0][1])
+            tokens.append(list(text_feature.keys())[0][1])
             pair_features.update(text_feature)
             pair_features.update(get_lemma(target_token,"target_lemma_{}".format(i)))
             target_pos_feature = get_pos_tag(target_token,"target_pos_{}".format(i))
-            target_pos_tags.add(target_pos_feature.keys()[0][1])
+            target_pos_tags.add(list(target_pos_feature.keys())[0][1])
             pair_features.update(target_pos_feature)
 
             pass
@@ -139,11 +139,11 @@ def extract_tlink_features(note):
         for i, source_token in enumerate(source_tokens):
 
             text_feature = get_text(source_token,"src_token_{}".format(i))
-            tokens.append(text_feature.keys()[0][1])
+            tokens.append(list(text_feature.keys())[0][1])
             pair_features.update(text_feature)
             pair_features.update(get_lemma(source_token,"src_lemma_{}".format(i)))
             src_pos_feature = get_pos_tag(target_token,"src_pos_{}".format(i))
-            src_pos_tags.add(src_pos_feature.keys()[0][1])
+            src_pos_tags.add(list(src_pos_feature.keys())[0][1])
             pair_features.update(src_pos_feature)
 
             pass
@@ -828,11 +828,11 @@ def token_entity_type_feature(self, token):
 
     if entity_type not in ["EVENT", "TIMEX3"]:
 
-        print "\n\n"
-        print "iob_labels: ", iob_labels
-        print "token: ", token
-        print "iob_labels[line_num]", iob_labels[line_num]
-        print "iob_labels[line_num][token_offset]", iob_labels[line_num][token_offset]
+        print("\n\n")
+        print("iob_labels: ", iob_labels)
+        print("token: ", token)
+        print("iob_labels[line_num]", iob_labels[line_num])
+        print("iob_labels[line_num][token_offset]", iob_labels[line_num][token_offset])
 
         exit("error...")
 

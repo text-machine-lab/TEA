@@ -1,12 +1,12 @@
 import os
-import features
-import cPickle
+from . import features
+import pickle
 import sys
 
 TEA_HOME_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 from code.notes.TimeNote import TimeNote
-from sci import train as train_classifier
+from .sci import train as train_classifier
 
 # models to be loaded.
 # not be manually set.
@@ -47,7 +47,7 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
 
     for i, note in enumerate(notes):
 
-        print "note: {}".format(i)
+        print("note: {}".format(i))
 
         if train_timex is True:
             # extract features to perform BIO labeling for timexs
@@ -228,13 +228,13 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
     for l in eventClassLabels:
         _totLabels += l
 
-    print "predicted ZERO events? : ", len(_totLabels) == len([l for l in _totLabels if l["entity_label"] != 'O'])
+    print("predicted ZERO events? : ", len(_totLabels) == len([l for l in _totLabels if l["entity_label"] != 'O']))
 
     _totLabels = []
     for l in timexLabels:
         _totLabels += l
 
-    print "predicted ZERO timex? :", len(_totLabels) == len([l for l in _totLabels if l["entity_label"] != 'O'])
+    print("predicted ZERO timex? :", len(_totLabels) == len([l for l in _totLabels if l["entity_label"] != 'O']))
 
     if predict_timex is True and predict_event is True and predict_rel is True:
 
@@ -244,7 +244,7 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
         note.set_tlinked_entities(timexLabels,eventClassLabels)
         note.set_iob_labels(iob_labels)
 
-        print "PREDICT: getting tlink features"
+        print("PREDICT: getting tlink features")
 
         f = features.extract_tlink_features(note)
         X = tlinkVectorizer.transform(f).toarray()
@@ -367,10 +367,10 @@ def load_models(path, predict_timex, predict_event, predict_tlink):
 
         # vect should also exist, unless something went wrong.
         if os.path.isfile(path+"_"+key+"_MODEL") is True and flag is True:
-            print "loading: {}".format(key)
+            print("loading: {}".format(key))
 
-            _models[key] = cPickle.load(open(path+"_"+key+"_MODEL", "rb"))
-            _vects[key]  = cPickle.load(open(path+"_"+key+"_VECT", "rb"))
+            _models[key] = pickle.load(open(path+"_"+key+"_MODEL", "rb"))
+            _vects[key]  = pickle.load(open(path+"_"+key+"_VECT", "rb"))
         else:
             _models[key] = None
             _vects[key]  = None
@@ -384,7 +384,7 @@ def dump_models(models, vectorizers, path):
     """dump model specified by argument into the file path indicated by path argument
     """
 
-    print "dumping..."
+    print("dumping...")
 
     keys = ["TIMEX", "EVENT", "EVENT_CLASS", "TLINK"]
 
@@ -393,13 +393,13 @@ def dump_models(models, vectorizers, path):
             continue
         else:
 
-            print "dumping: {}".format(key)
+            print("dumping: {}".format(key))
 
             model_dest = open(path+"_"+key+"_MODEL", "wb")
             vect_dest  = open(path+"_"+key+"_VECT", "wb")
 
-            cPickle.dump(models[key], model_dest)
-            cPickle.dump(vectorizers[key], vect_dest)
+            pickle.dump(models[key], model_dest)
+            pickle.dump(vectorizers[key], vect_dest)
 
     return
 

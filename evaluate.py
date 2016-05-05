@@ -34,10 +34,10 @@ def main():
     if os.path.isdir(args.gold) is False:
         sys.exit("ERROR: invalid gold directory")
 
-    print "\n"
-    print "\tpredicted DIR: {}".format(args.predicted)
-    print "\tgold DIR: {}".format(args.gold)
-    print "\n"
+    print("\n")
+    print("\tpredicted DIR: {}".format(args.predicted))
+    print("\tgold DIR: {}".format(args.gold))
+    print("\n")
 
     wildcard = "*"
 
@@ -99,27 +99,27 @@ def main():
         col_width = max(len(entry) for line in incorrect + correct for entry in line) + 2
 
         repeat = 0
-        print "\t\tincorrect taggings"
+        print("\t\tincorrect taggings")
         for line in incorrect:
             if repeat % 15 == 0 or repeat == 0:
-                print "\n\t\t\t{}{}{}\n".format("token".ljust(col_width),
+                print("\n\t\t\t{}{}{}\n".format("token".ljust(col_width),
                                           "gold label".ljust(col_width),
-                                          "predicted label".ljust(col_width))
+                                          "predicted label".ljust(col_width)))
 
-            print "\t\t\t" + "".join(entry.ljust(col_width) for entry in line)
+            print("\t\t\t" + "".join(entry.ljust(col_width) for entry in line))
 
             repeat += 1
 
         repeat = 0
 
-        print "\n\t\tcorrect taggings"
+        print("\n\t\tcorrect taggings")
         for line in correct:
             if repeat % 15 == 0 or repeat == 0:
-                print "\n\t\t\t{}{}{}\n".format("token".ljust(col_width),
+                print("\n\t\t\t{}{}{}\n".format("token".ljust(col_width),
                                           "gold label".ljust(col_width),
-                                          "predicted label".ljust(col_width))
+                                          "predicted label".ljust(col_width)))
 
-            print "\t\t\t" + "".join(entry.ljust(col_width) for entry in line)
+            print("\t\t\t" + "".join(entry.ljust(col_width) for entry in line))
 
             repeat += 1
 

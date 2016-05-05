@@ -4,7 +4,7 @@ import os
 import argparse
 import glob
 from code.notes.utilities.timeml_utilities import get_text_element
-import cPickle as cp
+import pickle as cp
 
 def main():
     '''script for extracting temporal signals from TimeML documents with signal annotations'''
@@ -47,7 +47,7 @@ def main():
                 else:
                     signals += [text]
 
-    print signals
+    print(signals)
 
     with open(args.output_destination, "wb") as output:
         cp.dump(signals, output)

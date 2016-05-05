@@ -3,10 +3,10 @@
 
 import os
 import sys
-import naf_parse
+from . import naf_parse
 
 
-from news_reader import NewsReader
+from .news_reader import NewsReader
 pre_processor = None
 
 def pre_process(text):

@@ -108,11 +108,9 @@ def get_named_entities(entities_element):
 
     taggings = {}
 
-    references_elements =  map(lambda entity_element: entity_element[0],
-                               entities_element)
+    references_elements =  [entity_element[0] for entity_element in entities_element]
 
-    ner_span_elements =  map(lambda references_element: references_element[0],
-                             references_elements)
+    ner_span_elements =  [references_element[0] for references_element in references_elements]
 
     assert len(entities_element) == len(ner_span_elements)
 
@@ -336,7 +334,7 @@ class ConstituencyTree(object):
         root = None
 
         # choose an arbitrary node
-        node = self.terminal_nodes[self.terminal_nodes.keys()[0]]
+        node = self.terminal_nodes[list(self.terminal_nodes.keys())[0]]
 
         # follow node parent paths until root node is reached
         while node.is_root() is False:
@@ -521,7 +519,7 @@ def write_root_to_file(xml_root, file_path):
 
     tree = ET.ElementTree(xml_root)
 
-    print file_path
+    print(file_path)
     tree.write(file_path, xml_declaration=True, encoding="us-ascii")
 
 
@@ -541,7 +539,7 @@ class DependencyPath(object):
 
         # tokens don't appear. no dependencies.
         if token_id1 not in self.deps and token_id2 not in self.deps:
-            print "no dependencies available between tokens..."
+            print("no dependencies available between tokens...")
             return []
 
         paths = self._get_paths(token_id1, token_id2)
@@ -550,7 +548,7 @@ class DependencyPath(object):
         self.seen = set()
 
         # remove paths with no end markers (invalid paths)
-        paths = filter(lambda p: p[-1] == "END", paths)
+        paths = [p for p in paths if p[-1] == "END"]
 
         # inplace order paths by increasing order by len
         paths.sort(key=lambda p: len(p))

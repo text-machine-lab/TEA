@@ -9,7 +9,7 @@ if env_paths()["PY4J_DIR_PATH"] is None:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
 
 import os
-import cPickle
+import pickle
 import argparse
 import glob
 
@@ -84,7 +84,7 @@ def main():
     #read in files as notes
     for i, tml in enumerate(files_to_annotate):
 
-        print '\nannotating file: {}/{} {}\n'.format(i+1, len(files_to_annotate), tml)
+        print('\nannotating file: {}/{} {}\n'.format(i+1, len(files_to_annotate), tml))
 
         note = TimeNote(tml)
 

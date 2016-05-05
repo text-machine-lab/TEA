@@ -1,5 +1,5 @@
 
-import xml_utilities
+from . import xml_utilities
 
 def _get_entities_element(naf_tagged_doc):
 
@@ -175,13 +175,13 @@ def _get_ner_labels(naf_tagged_doc):
         assert len(entity_element) == 1
         return list(entity_element)[0]
 
-    references_elements =  map(get_ref, entity_elements)
+    references_elements =  list(map(get_ref, entity_elements))
 
     def get_span(references_element):
         assert len(references_element) == 1
         return list(references_element)[0]
 
-    ner_span_elements =  map(get_span, references_elements)
+    ner_span_elements =  list(map(get_span, references_elements))
 
     assert len(entity_elements) == len(ner_span_elements)
 
@@ -204,8 +204,8 @@ def _get_ner_labels(naf_tagged_doc):
 
         return {"ne_id":ner_entity.attrib["id"], "ner_tag":ner_entity.attrib["type"]}
 
-    clustered_target_ids = map(span_to_ids,
-                               ner_span_elements)
+    clustered_target_ids = list(map(span_to_ids,
+                               ner_span_elements))
 
     mappings = []
 
@@ -248,8 +248,8 @@ class SyntacticDependencies(object):
 
     def get_dependency_path(self, start_tok_id, end_tok_id):
 
-        print start_tok_id
-        print end_tok_id
+        print(start_tok_id)
+        print(end_tok_id)
 
         tok_path = []
         rfunc_path = []
@@ -257,6 +257,7 @@ class SyntacticDependencies(object):
         curr_id = start_tok_id
 
         while relations[curr_id]["to"] != {}:
+            pass
 
 
 

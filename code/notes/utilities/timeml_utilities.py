@@ -1,8 +1,8 @@
 
 import xml.etree.ElementTree as ET
-from note_utils import valid_path
+from .note_utils import valid_path
 
-import xml_utilities
+from . import xml_utilities
 
 from string import whitespace
 
@@ -153,11 +153,11 @@ def display_taggings_in_doc(timeml_docs):
 
     for entity_type in types:
 
-        print entity_type
+        print(entity_type)
 
         for sub_type in types[entity_type]:
 
-            print "\t\t" + sub_type
+            print("\t\t" + sub_type)
 
 def get_make_instances(timeml_doc):
     """ gets the event instances in a timeml doc """
@@ -201,11 +201,11 @@ def display_tlink_types(timeml_docs):
 
             types.add(tlink.attrib["relType"])
 
-    print "TLINK TYPES:"
+    print("TLINK TYPES:")
 
     for t in types:
 
-        print "\t\t" + t
+        print("\t\t" + t)
 
 
 def get_entity_type(tagged_entity):
@@ -221,7 +221,7 @@ def get_entity_type(tagged_entity):
     elif entity_type == "SIGNAL":
         sub_type = ""
     else:
-        print entity_type
+        print(entity_type)
         exit("unknowned type")
 
     return (entity_type, sub_type)
@@ -249,7 +249,7 @@ if __name__ == "__main__":
 
     display_tlink_types(glob.glob("/data2/kwacome/Temporal-Entity-Annotator-TEA-/annotated_data/*"))
 
-    print "nothing to do here"
+    print("nothing to do here")
 
 # EOF
 

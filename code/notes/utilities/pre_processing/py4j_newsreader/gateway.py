@@ -37,17 +37,17 @@ class GateWayServer(object):
     def launch_gateway():
 
         if GateWayServer.server is None:
-            print "launching gateway"
+            print("launching gateway")
             GateWayServer.server = subprocess.Popen(["java", "-cp", DEPENDENCIES, "gateway.GateWay"])
 
         else:
-            print "py4j server is already running"
+            print("py4j server is already running")
 
     @staticmethod
     @atexit.register
     def cleanup():
 
-        print "terminating py4j server"
+        print("terminating py4j server")
         if GateWayServer.server is not None:
 
             os.kill(GateWayServer.server.pid, signal.SIGKILL)

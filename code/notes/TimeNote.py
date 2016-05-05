@@ -5,25 +5,25 @@ import re
 import copy
 
 from string import whitespace
-from Note import Note
+from .Note import Note
 
-from utilities.timeml_utilities import get_text
-from utilities.timeml_utilities import get_text_with_taggings
-from utilities.timeml_utilities import get_tagged_entities
-from utilities.timeml_utilities import get_text_element
-from utilities.timeml_utilities import get_tlinks
-from utilities.timeml_utilities import get_make_instances
-from utilities.timeml_utilities import get_doctime_timex
+from .utilities.timeml_utilities import get_text
+from .utilities.timeml_utilities import get_text_with_taggings
+from .utilities.timeml_utilities import get_tagged_entities
+from .utilities.timeml_utilities import get_text_element
+from .utilities.timeml_utilities import get_tlinks
+from .utilities.timeml_utilities import get_make_instances
+from .utilities.timeml_utilities import get_doctime_timex
 
-from utilities.xml_utilities import get_raw_text
-from utilities.pre_processing import pre_processing
-from utilities.add_discourse import get_temporal_discourse_connectives
+from .utilities.xml_utilities import get_raw_text
+from .utilities.pre_processing import pre_processing
+from .utilities.add_discourse import get_temporal_discourse_connectives
 
 class TimeNote(Note):
 
     def __init__(self, timeml_note_path, annotated_timeml_path=None, verbose=False):
 
-        if verbose: print "called TimeNote constructor"
+        if verbose: print("called TimeNote constructor")
 
         _Note = Note.__init__(self, timeml_note_path, annotated_timeml_path)
 
@@ -263,7 +263,7 @@ class TimeNote(Note):
             id_chunk = []
 
         assert len(event_ids.union(timex_ids)) == len(id_chunks)
-        assert len(id_chunk_map.keys()) == len(event_ids.union(timex_ids))
+        assert len(list(id_chunk_map.keys())) == len(event_ids.union(timex_ids))
 
         # TODO: need to add features for doctime. there aren't any.
         # add doc time. this is a timex.
@@ -291,20 +291,20 @@ class TimeNote(Note):
                     entity_pairs += list(itertools.product([entity_id], sentence_chunks[sentence_num][i+1:]))
                     entity_pairs.append((entity_id, ("TIMEX", doctime_id)))
                 else:
-                    events = map(lambda event: event[1], filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num][i+1:]))
+                    events = [event[1] for event in [entity for entity in sentence_chunks[sentence_num][i+1:] if entity[0] == "EVENT"]]
                     entity_pairs += list(itertools.product(events,
                                                            [("TIMEX", entity_id)]))
 
             if sentence_num + 1 in sentence_chunks:
 
                 # get events of sentence
-                event_ids = filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num])
-                main_events = filter(lambda event_id: True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]], event_ids)
-                main_events = map(lambda event: event[1], main_events)
+                event_ids = [entity for entity in sentence_chunks[sentence_num] if entity[0] == "EVENT"]
+                main_events = [event_id for event_id in event_ids if True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]]]
+                main_events = [event[1] for event in main_events]
 
                 # get adjacent sentence events and filter the main events
-                adj_event_ids = filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num+1])
-                adj_main_events = filter(lambda event_id: True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]], adj_event_ids)
+                adj_event_ids = [entity for entity in sentence_chunks[sentence_num+1] if entity[0] == "EVENT"]
+                adj_main_events = [event_id for event_id in adj_event_ids if True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]]]
 
                 entity_pairs += list(itertools.product(main_events, adj_main_events))
 
@@ -344,7 +344,7 @@ class TimeNote(Note):
             t_links = get_tlinks(self.annotated_note_path)
             make_instances = get_make_instances(self.annotated_note_path)
         else:
-            print "no annotated timeml note to get tlinks from returning empty list..."
+            print("no annotated timeml note to get tlinks from returning empty list...")
             self.tlinks = []
             return self.tlinks
 
@@ -487,7 +487,7 @@ class TimeNote(Note):
             id_chunk = []
 
         assert len(event_ids.union(timex_ids)) == len(id_chunks)
-        assert len(id_chunk_map.keys()) == len(event_ids.union(timex_ids))
+        assert len(list(id_chunk_map.keys())) == len(event_ids.union(timex_ids))
 
         # TODO: need to add features for doctime. there aren't any.
         # add doc time. this is a timex.
@@ -514,7 +514,7 @@ class TimeNote(Note):
                     entity_pairs += list(itertools.product([entity_id], sentence_chunks[sentence_num][i+1:]))
                     entity_pairs.append((entity_id, ("TIMEX", doctime_id)))
                 else:
-                    events = map(lambda event: event[1], filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num][i+1:]))
+                    events = [event[1] for event in [entity for entity in sentence_chunks[sentence_num][i+1:] if entity[0] == "EVENT"]]
                     entity_pairs += list(itertools.product(events,
                                                            [("TIMEX", entity_id)]))
 
@@ -525,13 +525,13 @@ class TimeNote(Note):
             if sentence_num + 1 in sentence_chunks:
 
                 # get events of sentence
-                event_ids = filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num])
-                main_events = filter(lambda event_id: True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]], event_ids)
-                main_events = map(lambda event: event[1], main_events)
+                event_ids = [entity for entity in sentence_chunks[sentence_num] if entity[0] == "EVENT"]
+                main_events = [event_id for event_id in event_ids if True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]]]
+                main_events = [event[1] for event in main_events]
 
                 # get adjacent sentence events and filter the main events
-                adj_event_ids = filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num+1])
-                adj_main_events = filter(lambda event_id: True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]], adj_event_ids)
+                adj_event_ids = [entity for entity in sentence_chunks[sentence_num+1] if entity[0] == "EVENT"]
+                adj_main_events = [event_id for event_id in adj_event_ids if True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]]]
 
                 entity_pairs += list(itertools.product(main_events, adj_main_events))
 
@@ -603,7 +603,7 @@ class TimeNote(Note):
                                                     "IDENTITY",
                                                     "BEFORE"
                                                  ]:
-                            print "rel_type: ", pair["rel_type"]
+                            print("rel_type: ", pair["rel_type"])
                             exit("unknown rel_type")
 
                         pair["tlink_id"] = target_entity["lid"]
@@ -965,7 +965,7 @@ if __name__ == "__main__":
 
     __unit_tests()
 
-    print "nothing to do"
+    print("nothing to do")
 
 
 

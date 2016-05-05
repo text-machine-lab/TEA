@@ -49,10 +49,10 @@ class NNModel:
         XL = None
         XR = None
 
-        print 'Loading word embeddings...'
+        print('Loading word embeddings...')
         word_vectors = word2vec.Word2Vec.load_word2vec_format(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', binary=True)
 
-        print 'Extracting dependency paths...'
+        print('Extracting dependency paths...')
         for i, note in enumerate(notes):
             # get tlink lables
             note_tlinklabels = note.get_tlink_labels()
@@ -163,12 +163,12 @@ class NNModel:
         XL, XR = _pad_to_match_dimensions(XL, XR, 2)
 
         # train the network
-        print 'Training network...'
+        print('Training network...')
         self.classifier.fit([XL, XR], Y, nb_epoch=epochs)
 
         test = self.classifier.predict_classes([XL, XR])
 
-        print test
+        print(test)
 
         T = 0
         F = 0
@@ -181,7 +181,7 @@ class NNModel:
             if true == 0:
                 outs += 1
 
-        print "T: ", T, "F: ", F, "outs: ", outs
+        print("T: ", T, "F: ", F, "outs: ", outs)
 
     def predict(self, notes):
         pass

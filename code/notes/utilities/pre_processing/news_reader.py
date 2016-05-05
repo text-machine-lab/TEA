@@ -17,10 +17,10 @@ import time
 
 import atexit
 
-import py4j_newsreader.tok
-import py4j_newsreader.pos
-import py4j_newsreader.parse
-import py4j_newsreader.ner
+from . import py4j_newsreader.tok
+from . import py4j_newsreader.pos
+from . import py4j_newsreader.parse
+from . import py4j_newsreader.ner
 
 TEA_HOME_DIR = os.path.join(*([os.path.dirname(os.path.abspath(__file__))] + [".."]*4))
 
@@ -31,16 +31,16 @@ class NewsReader(object):
     def __init__(self):
 
         # newsreader pipeline objects
-        print "creating tokenizer..."
+        print("creating tokenizer...")
         self.newsreader_tok = py4j_newsreader.tok.IXATokenizer()
 
-        print "creating pos tagger..."
+        print("creating pos tagger...")
         self.newsreader_pos = py4j_newsreader.pos.IXAPosTagger()
 
-        print "creating parser..."
+        print("creating parser...")
         self.newsreader_parse = py4j_newsreader.parse.IXAParser()
 
-        print "creating ner tagger..."
+        print("creating ner tagger...")
         self.newsreader_ner = py4j_newsreader.ner.IXANerTagger()
         pass
 
@@ -175,8 +175,8 @@ if __name__ == "__main__":
 
     nr = NewsReader()
 
-    print nr.pre_process("hello world!")
-    print nr.pre_process("this is a sentence!")
+    print(nr.pre_process("hello world!"))
+    print(nr.pre_process("this is a sentence!"))
 
     pass
 

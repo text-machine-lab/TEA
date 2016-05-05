@@ -36,7 +36,7 @@ def train( featsDict, Y, do_grid=False, ovo=False):
     # Grid search?
     if do_grid:
 
-        print "training model [GRID SEARCH ON]"
+        print("training model [GRID SEARCH ON]")
 
         estimates = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weight='balanced')
         parameters = [{'C':C_range, 'gamma':gamma_range}]
@@ -53,7 +53,7 @@ def train( featsDict, Y, do_grid=False, ovo=False):
 
     else:
 
-        print "training model [GRID SEARCH OFF]"
+        print("training model [GRID SEARCH OFF]")
         clf = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weight='balanced')
         clf.fit(X, Y)
 
