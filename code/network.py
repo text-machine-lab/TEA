@@ -121,8 +121,46 @@ class NNModel:
         '''
         use the trained model to predict the labels of some data
         '''
-        pass
 
+        # data tensors for left and right SDP
+        XL = None
+        XR = None
+
+        # list of lists, where each list contains the indices to delete from a given note
+        # indices of the outer list corespond to indices of the notes list
+        del_lists = []
+
+        print 'Loading word embeddings...'
+        word_vectors = word2vec.Word2Vec.load_word2vec_format(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', binary=True)
+
+        print 'Extracting dependency paths...'
+        for i, note in enumerate(notes):
+            # get the representation for the event/timex pairs in the note
+            # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
+            # (with length equal to word embedding length), and axis 2 hold each word.
+            left_vecs, right_vecs, del_list = _extract_path_representations(note)
+
+            # add the list of indices to delete from every file to the primary list
+            del_lists.append(del_list)
+
+            # add the note's data to the combine data matrix
+            if XL == None:
+                XL = left_vecs
+            else:
+                XL = _pad_and_concatenate(XL, left_vecs, axis=0)
+
+            if XR == None:
+                XR = right_vecs
+            else:
+                XR = _pad_and_concatenate(XR, right_vecs, axis=0)
+
+        # pad XL and XR so that they have the same number of dimensions on the second axis
+        # any other dimension mis-matches are caused by actually errors and should not be padded away
+        XL, XR = _pad_to_match_dimensions(XL, XR, 2)
+
+        labels = self.classifier.predict_classes([XL, XR])
+
+        return labels, del_lists
 
 def _extract_path_representations(note):
     '''
