@@ -45,7 +45,10 @@ class NNModel:
 
         # TODO: handle tlinks linking to the document creation time. at the moment, we simply skip them
 
+        # labels for each SDP pair
         tlinklabels = []
+
+        # data tensor for left and right SDP subpaths
         XL = None
         XR = None
 
@@ -57,78 +60,13 @@ class NNModel:
             # get tlink lables
             note_tlinklabels = note.get_tlink_labels()
 
-            # retrieve tlinks from the note and properly format them
-            left_ids, right_ids = _get_token_id_subpaths(note)
+            # get the representation for the event/timex pairs in the note
+            # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
+            # (with length equal to word embedding length), and axis 2 hold each word.
+            # del_list is a list of indices for which no SDP could be obtained
+            left_vecs, right_vecs, del_list = _extract_path_representations(note)
 
-            left_paths = []
-            right_paths = []
-
-            # get token text from ids in left sdp
-            for id_list in left_ids:
-                left_paths.append(note.get_tokens_from_ids(id_list))
-
-            # get token text from ids in right sdp
-            for id_list in right_ids:
-                right_paths.append(note.get_tokens_from_ids(id_list))
-
-            del_list = []
-
-            # get the vectors for every word in the left path
-            left_vecs = None
-            for j, path in enumerate(left_paths):
-                vecs_path = None
-                for word in path:
-                    # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 1s.
-                    try:
-                        embedding = np.asarray(word_vectors[word], dtype='float32')
-                    except KeyError:
-                        embedding = np.ones((300))
-
-                    # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-                    embedding = embedding[np.newaxis, :, np.newaxis]
-                    if vecs_path == None:
-                        vecs_path = embedding
-                    else:
-                        vecs_path = np.concatenate((vecs_path, embedding), axis=2)
-
-                # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-                # add index to list to indexes to remove and continue
-                if vecs_path == None:
-                    del_list.append(j)
-                    continue
-                if left_vecs == None:
-                    left_vecs = vecs_path
-                else:
-                    left_vecs = _pad_and_concatenate(left_vecs, vecs_path, axis=0)
-
-            # get the vectors for every word in the right path
-            right_vecs = None
-            for j, path in enumerate(right_paths):
-                vecs_path = None
-                for word in path:
-                    # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 0s.
-                    try:
-                        embedding = np.asarray(word_vectors[word], dtype='float32')
-                    except KeyError:
-                        embedding = np.zeros((300))
-
-                    # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-                    embedding = embedding[np.newaxis, :, np.newaxis]
-                    if vecs_path == None:
-                        vecs_path = embedding
-                    else:
-                        vecs_path = np.concatenate((vecs_path, embedding), axis=2)
-
-                # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-                # remove label from list and continue to the next path
-                if vecs_path == None:
-                    del_list.append(j)
-                    continue
-                if right_vecs == None:
-                    right_vecs = vecs_path
-                else:
-                    right_vecs = _pad_and_concatenate(right_vecs, vecs_path, axis=0)
-
+            # add the note's data to the combine data matrix
             if XL == None:
                 XL = left_vecs
             else:
@@ -149,10 +87,6 @@ class NNModel:
 
             # add remaining labels to complete list of labels
             tlinklabels += note_tlinklabels
-
-        # # cast data to numpy arrays
-        # XL = np.asarray(XL, dtype='float32')
-        # XR = np.asarray(XR, dtype='float32')
 
         # reformat labels so that they can be used by the NN
         labels = _pre_process_labels(tlinklabels)
@@ -184,7 +118,92 @@ class NNModel:
         print "T: ", T, "F: ", F, "outs: ", outs
 
     def predict(self, notes):
+        '''
+        use the trained model to predict the labels of some data
+        '''
         pass
+
+
+def _extract_path_representations(note):
+    '''
+    convert a note into a portion of the input matrix
+    '''
+
+    # retrieve the ids for the left and right halves of every SDP between tlinked entities
+    left_ids, right_ids = _get_token_id_subpaths(note)
+
+    # left and right paths are used to store the actual tokens of the SDP paths
+    left_paths = []
+    right_paths = []
+
+    # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
+    del_list = []
+
+    # get token text from ids in left sdp
+    for id_list in left_ids:
+        left_paths.append(note.get_tokens_from_ids(id_list))
+
+    # get token text from ids in right sdp
+    for id_list in right_ids:
+        right_paths.append(note.get_tokens_from_ids(id_list))
+
+    # get the word vectors for every word in the left path
+    left_vecs = None
+    for j, path in enumerate(left_paths):
+        vecs_path = None
+        for word in path:
+            # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 1s.
+            try:
+                embedding = np.asarray(word_vectors[word], dtype='float32')
+            except KeyError:
+                embedding = np.ones((300))
+
+            # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
+            embedding = embedding[np.newaxis, :, np.newaxis]
+            if vecs_path == None:
+                vecs_path = embedding
+            else:
+                vecs_path = np.concatenate((vecs_path, embedding), axis=2)
+
+        # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
+        # add index to list to indexes to remove and continue
+        if vecs_path == None:
+            del_list.append(j)
+            continue
+        if left_vecs == None:
+            left_vecs = vecs_path
+        else:
+            left_vecs = _pad_and_concatenate(left_vecs, vecs_path, axis=0)
+
+    # get the vectors for every word in the right path
+    right_vecs = None
+    for j, path in enumerate(right_paths):
+        vecs_path = None
+        for word in path:
+            # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 0s.
+            try:
+                embedding = np.asarray(word_vectors[word], dtype='float32')
+            except KeyError:
+                embedding = np.zeros((300))
+
+            # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
+            embedding = embedding[np.newaxis, :, np.newaxis]
+            if vecs_path == None:
+                vecs_path = embedding
+            else:
+                vecs_path = np.concatenate((vecs_path, embedding), axis=2)
+
+        # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
+        # remove label from list and continue to the next path
+        if vecs_path == None:
+            del_list.append(j)
+            continue
+        if right_vecs == None:
+            right_vecs = vecs_path
+        else:
+            right_vecs = _pad_and_concatenate(right_vecs, vecs_path, axis=0)
+
+    return left_vecs, right_vecs, del_list
 
 def _pad_and_concatenate(a, b, axis):
     '''
