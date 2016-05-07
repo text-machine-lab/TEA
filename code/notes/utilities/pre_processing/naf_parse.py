@@ -384,6 +384,68 @@ class ConstituencyTree(object):
 
         return parenthetical_tree
 
+    def _get_terminal_target_ids(self, tree):
+
+        terminal_target_ids = []
+
+        self.__get_terminal_target_ids(tree, terminal_target_ids)
+
+        terminal_target_ids.sort(key=lambda t_id: int(t_id[1:]))
+
+        return terminal_target_ids
+
+    def __get_terminal_target_ids(self, tree, terminal_target_ids):
+
+        for token in tree.child_node:
+            if token.is_terminal_node():
+                terminal_target_ids.append(token.get_target_id())
+            else:
+                self.__get_terminal_target_ids(token,terminal_target_ids)
+
+        return
+
+
+    def get_phrase_membership(self, target_id):
+        """Finds first phrase a token belongs to.
+
+           Input: a token's id, t##
+        """
+
+        # results
+        parent = None
+        phrase = "NONE"
+        siblings = None
+
+        if target_id not in self.terminal_nodes:
+            return {"phrase":phrase, "ordered_phrase_members":None}
+
+        terminal_node = self.terminal_nodes[target_id]
+
+        # tmp variables
+        _parent = None
+        _phrase = "NONE"
+
+        while _phrase[-1:] != 'P' or _phrase == "TOP":
+            if _parent is None:
+                if terminal_node.is_root(): break
+                _parent = terminal_node.get_parent()
+                _phrase = _parent.get_label()
+            else:
+                if _parent.is_root(): break
+                _parent = _parent.get_parent()
+                _phrase = _parent.get_label()
+        else:
+            # regex match
+            phrase = _phrase
+            parent = _parent
+
+        # TODO: if a node is not terminal we need to get all its children.
+        if parent is not None:
+            siblings = self._get_terminal_target_ids(parent)
+
+        return {"phrase":phrase, "ordered_phrase_members":siblings}
+
+
 
     def get_phrase_memberships(self, node_id):
 
@@ -691,6 +753,22 @@ class DependencyTree(object):
         self.parent = parent
         self.children = children
 
-
 if __name__ == "__main__":
+
+    ret = parse(open("tree.xml").read())
+
+    tokens       = ret[0]
+    constituency = ret[5]
+
+    for t in tokens:
+        t_id = 'w' + t["id"][1:]
+        s_num = t["sentence_num"]
+
+        print "token_id: ", t_id
+        print "token: ", t["token"]
+
+        print constituency[s_num].get_phrase_membership(t_id)
+
+
     pass
+
