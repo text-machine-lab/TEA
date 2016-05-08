@@ -34,7 +34,7 @@ class TimeNote(Note):
         self.original_text = data
 
         # send body of document to NewsReader pipeline.
-        tokenized_text, token_to_offset, sentence_features = pre_processing.pre_process(data)
+        tokenized_text, token_to_offset, sentence_features = pre_processing.pre_process(data, timeml_note_path)
 
         # {sentence_num: [{token},...], ...}
         self.pre_processed_text = tokenized_text

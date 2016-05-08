@@ -5,11 +5,12 @@ import os
 import sys
 import naf_parse
 
-
 from news_reader import NewsReader
+import morpho_pro
+
 pre_processor = None
 
-def pre_process(text):
+def pre_process(text, filename):
     """ pre-process contents of a document
 
     Example:
@@ -28,6 +29,8 @@ def pre_process(text):
     pos_tags,   token_lemmas,\
     ner_tags,   constituency_trees,\
     main_verbs, tok_id_to_predicate_info = naf_parse.parse(naf_tagged_doc)
+
+    base_filename = os.path.basename(filename).split('.')[0]
 
     """
     print "\ntokens:\n"
@@ -68,6 +71,8 @@ def pre_process(text):
 
     id_to_tok = {}
 
+    morpho_pro_input = []
+
     for tok, pos_tag, lemma in zip(tokens, pos_tags, token_lemmas):
 
         tmp = []
@@ -103,10 +108,17 @@ def pre_process(text):
         if tok["sentence_num"] in sentences:
             sentences[tok["sentence_num"]].append(tok)
             tok["token_offset"] = token_offset
+
+            morpho_pro_input.append(tok["token"])
+
         else:
             sentences[tok["sentence_num"]] = [tok]
             token_offset = 0
             tok["token_offset"] = token_offset
+
+            if morpho_pro_input != []:
+                morpho_pro_input.append("")
+            morpho_pro_input.append(tok["token"])
 
         assert tok["id"] not in id_to_tok
 
@@ -118,32 +130,25 @@ def pre_process(text):
 
     # sentence based features
     for key in sentences:
-
         features_for_current_sentence = {}
         parse_tree = None
 
         if key in constituency_trees:
-
             parse_tree = constituency_trees[key].get_parenthetical_tree(sentences[key])
-
         else:
-
             parse_tree = []
 
         features_for_current_sentence['constituency_tree'] = parse_tree
-
         sentence_features[key] = features_for_current_sentence
 
-    for target_id in ner_tags:
 
+    for target_id in ner_tags:
         assert target_id in id_to_tok, "{} not in id_to_tok".format(target_id)
 
         id_to_tok[target_id].update(ner_tags[target_id])
-
         ne_chunk = ""
 
         for _id in ner_tags[target_id]["ne_chunk_ids"]:
-
             ne_chunk += id_to_tok[_id]["token"]
 
         id_to_tok[target_id].update({"ne_chunk":ne_chunk})
@@ -156,8 +161,16 @@ def pre_process(text):
 
     # make sure all the other tokens have is_main_verb
 
-    for tok in tokens:
+    # print morpho_pro_input
+    morpho_pro_input = "\n".join(morpho_pro_input)
 
+    # print morpho_pro_input
+
+    morpho_output = morpho_pro.process(morpho_pro_input, base_filename)
+
+    # print morpho_output
+
+    for tok in tokens:
         if "is_main_verb" not in tok:
             tok.update({"is_main_verb":False})
 
@@ -167,25 +180,33 @@ def pre_process(text):
             tok.update({"ne_chunk":"NULL"})
 
         if tok["id"] in tok_id_to_predicate_info:
-
             semantic_roles = tok_id_to_predicate_info[tok["id"]]["semantic_role"]
-
             tok_predicate_info = tok_id_to_predicate_info[tok["id"]]
-
             preposition_ids = tok_predicate_info.pop("toks_preposition")
-
             preposition_tokens = []
 
             for tok_id in preposition_ids:
-
                 preposition_tokens.append(id_to_tok[tok_id]["token"])
 
             tok_predicate_info["preposition_tokens"] = preposition_tokens
-
             tok.update({"semantic_roles":semantic_roles})
-
             tok.update(tok_predicate_info)
 
+        # add constituency phrase membership
+        tok.update({"constituency_phrase":constituency_trees[tok["sentence_num"]].get_phrase_membership(tok["id"])})
+
+        # verify that there is a 1-1 correspondence between morphopro tokenization and newsreader.
+        if tok["token_offset"] >= len(morpho_output[tok["sentence_num"]-1]):
+            sys.exit("missing token from morphology processing")
+        elif tok["token"] != morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]:
+            # print "morpho token: ", morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]
+            # print "newsreader token: ", tok["token"]
+            # print "newsreader: ", [t for t in tokens if t["sentence_num"] == tok["sentence_num"]]
+            # print "morpho sentence: ", morpho_output[tok["sentence_num"]-1]
+            sys.exit("token mismatch between newsreader tokenization and morphorpo")
+        else:
+            # good to go
+            tok.update(morpho_output[tok["sentence_num"]-1][tok["token_offset"]])
 
     # one tree per sentencei
     # TODO: doesn't actually assert the sentences match to their corresponding tree
