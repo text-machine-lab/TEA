@@ -1,1 +1,2 @@
-PY4J_DIR_PATH /data1/kwacome/venv/share/py4j
+PY4J_DIR_PATH None
+MORPHO_DIR_PATH None

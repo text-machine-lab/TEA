@@ -296,7 +296,7 @@ class ConstituencyTree(object):
         # used to assert if there can be same target id in different nodes
         target_ids_seen = set()
 
-        """ the elements within the xml tree element is sequential, i think. just proces them in order """
+        # the elements within the xml tree element is sequential, i think. just proces them in order
         for element in xml_constituency_tree_element:
 
             if element.tag == 'nt' or element.tag == 't':
