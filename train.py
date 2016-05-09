@@ -112,11 +112,12 @@ def main():
     # one-to-one pairing of annotated file and un-annotated
     assert len(gold_files) == len(tml_files)
 
-    # create the model
+    # create the model, then save architecture and weights
     if args.neural_network == True:
-        model = trainNetwork(tml_files, gold_files,newsreader_dir)
-        with open(args.model_destination, "wb") as modefile:
-            cPickle.dump(model, modfile)
+        model = trainNetwork(tml_files, gold_files, newsreader_dir)
+        architecture = model.classifier.to_json()
+        open(args.model_destination + '.arch.json', "w").write(architecture)
+        model.classifier.save_weights(args.model_destination + '.weights.h5')
 
     else:
         models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink, newsreader_dir)
@@ -198,14 +199,14 @@ def trainNetwork(tml_files, gold_files, newsreader_dir):
 
     for i, example in enumerate(zip(tml_files, gold_files)):
        	tml, gold = example
-        
+
         assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
 
 
         print '\n\nprocessing file {}/{} {}'.format(i + 1,
                                                     len(zip(tml_files, gold_files)),
                                                     tml)
-	if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
+    	if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
             tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
         else:
             if timenote_imported is False:
@@ -213,7 +214,7 @@ def trainNetwork(tml_files, gold_files, newsreader_dir):
                 timenote_imported = True
             tmp_note = TimeNote(tml, gold)
             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
-        
+
         notes.append(tmp_note)
 
     mod = network.NNModel()

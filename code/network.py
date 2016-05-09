@@ -10,7 +10,7 @@ from gensim.models import word2vec
 
 class NNModel:
 
-    def __init__(self, data_dim=300, max_len=20, nb_classes=7):
+    def __init__(self, data_dim=300, max_len=22, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         '''
@@ -38,7 +38,7 @@ class NNModel:
         decoder.compile(loss='categorical_crossentropy', optimizer='rmsprop')
         self.classifier = decoder
 
-    def train(self, notes, epochs=100):
+    def train(self, notes, epochs=5):
         '''
         obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
         '''
@@ -64,7 +64,7 @@ class NNModel:
             # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
             # (with length equal to word embedding length), and axis 2 hold each word.
             # del_list is a list of indices for which no SDP could be obtained
-            left_vecs, right_vecs, del_list = _extract_path_representations(note)
+            left_vecs, right_vecs, del_list = _extract_path_representations(note, word_vectors)
 
             # add the note's data to the combine data matrix
             if XL == None:
@@ -138,7 +138,7 @@ class NNModel:
             # get the representation for the event/timex pairs in the note
             # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
             # (with length equal to word embedding length), and axis 2 hold each word.
-            left_vecs, right_vecs, del_list = _extract_path_representations(note)
+            left_vecs, right_vecs, del_list = _extract_path_representations(note, word_vectors)
 
             # add the list of indices to delete from every file to the primary list
             del_lists.append(del_list)
@@ -158,11 +158,12 @@ class NNModel:
         # any other dimension mis-matches are caused by actually errors and should not be padded away
         XL, XR = _pad_to_match_dimensions(XL, XR, 2)
 
+        print 'Predicting...'
         labels = self.classifier.predict_classes([XL, XR])
 
         return labels, del_lists
 
-def _extract_path_representations(note):
+def _extract_path_representations(note, word_vectors):
     '''
     convert a note into a portion of the input matrix
     '''
