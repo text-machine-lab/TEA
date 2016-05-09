@@ -6,6 +6,7 @@ from code.notes.utilities.add_discourse import get_temporal_discourse_connective
 import re
 import re_timex_pattern
 import nominalization
+import english_rules
 
 # these were extracted from the TimeBank corpus, and have been hardcoded here for convenience
 temporal_signals = [['in'],      ['on'],                  ['after'],       ['since'],
@@ -393,6 +394,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(get_pos_tag(token))
                 token_features.update(get_ner_features(token))
                 token_features.update(is_nominalization(token))
+                token_features.update(get_tense(token, note.id_to_tok))
             elif feature_set == "EVENT_CLASS":
                 token_features.update(get_lemma(token))
                 token_features.update(get_text(token))
@@ -487,16 +489,6 @@ def get_ner_features(token):
         return {("ner_tag", 'None'):1,
                 "in_ne":0,
                 ("ne_chunk", "NULL"):1}
-
-def get_tense(self, token):
-    if "tense" in token:
-
-        return {("tense", token["tense"]):1}
-
-    else:
-
-        return {("tense", "PRESENT"):1}
-
 
 def get_text(token,feat_name="text"):
 
@@ -874,5 +866,11 @@ def is_nominalization(token):
             feat = {("is_nominalization",None):1}
 
     return feat
+
+def get_tense(token, id_to_tok):
+    # english_rules.get_tense_aspect(token, id_to_tok)
+    #exit()
+    return {}
+
 
 
