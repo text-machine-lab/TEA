@@ -98,7 +98,7 @@ class NNModel:
 
         # train the network
         print 'Training network...'
-        self.classifier.fit([XL, XR], Y, nb_epoch=epochs)
+        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.15)
 
         test = self.classifier.predict_classes([XL, XR])
 
