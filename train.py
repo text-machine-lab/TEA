@@ -218,7 +218,7 @@ def trainNetwork(tml_files, gold_files, newsreader_dir):
         notes.append(tmp_note)
 
     mod = network.NNModel()
-    mod.train(notes)
+    mod.train(notes, epochs=100)
 
     return mod
 
