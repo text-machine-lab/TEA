@@ -24,9 +24,16 @@ External Dependencies:
     - maven3
     - java1.7 or higher
     - python2.7
-    - py4j, python module
-    - scikit-learn, python module
-    - CorefGraph, python module
+    - python modules
+      - numpy
+      - scipy
+      - scikit-learn (sklearn)
+      - keras
+      - gensim
+      - h5py
+      - nltk
+      - py4j
+      - CorefGraph
 
 Environment Variables:
 
