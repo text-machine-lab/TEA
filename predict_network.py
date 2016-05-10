@@ -99,7 +99,40 @@ def main():
 
     labels, filter_lists = model.predict(notes)
 
-    print labels
+    # labels are returned as a 1 dimensional numpy array, with labels for all objects.
+    # we track the current index to find labels for given notes
+    label_index = 0
+
+    # filter unused pairs and write each pair to the TimeML file
+    for note, del_list in zip(notes, filter_lists):
+        # get entity pairs, offsets, tokens, and event/timex entities
+        entities = note.get_tlink_id_pairs()
+        offsets = note.get_token_char_offsets()
+
+        # flatten list of tokens
+        tokenized_text = note.get_tokenized_text()
+        tokens = []
+        for line in tokenized_text:
+            tokens += tokenized_text[line]
+
+        event_timex_labels = []
+        # flatten list of labels
+        for label_list in note.get_labels():
+            event_timex_labels += label_list
+
+        # sort del_list to be in ascending order, and remove duplicates
+        del_list = list(set(del_list))
+        del_list.sort()
+        del_list.reverse()
+        # loop through indicies starting at the back to preserve earlier indexes
+        for index in del_list:
+            del entities[index]
+
+        note_labels = labels[label_index:label_index+len(entities)]
+
+        note.write(event_timex_labels, note_labels, entities, offsets, tokens, annotation_destination)
+
+        label_index += len(entities)
 
 if __name__ == '__main__':
     main()

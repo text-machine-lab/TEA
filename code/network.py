@@ -10,7 +10,7 @@ from gensim.models import word2vec
 
 class NNModel:
 
-    def __init__(self, data_dim=300, max_len=22, nb_classes=7):
+    def __init__(self, data_dim=300, max_len=11, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         '''
@@ -89,7 +89,7 @@ class NNModel:
             tlinklabels += note_tlinklabels
 
         # reformat labels so that they can be used by the NN
-        labels = _pre_process_labels(tlinklabels)
+        labels = _convert_str_labels_to_int(tlinklabels)
         Y = to_categorical(labels,7)
 
         # pad XL and XR so that they have the same number of dimensions on the second axis
@@ -161,7 +161,7 @@ class NNModel:
         print 'Predicting...'
         labels = self.classifier.predict_classes([XL, XR])
 
-        return labels, del_lists
+        return _convert_int_labels_to_str(labels), del_lists
 
 def _extract_path_representations(note, word_vectors):
     '''
@@ -309,8 +309,8 @@ def _get_token_id_subpaths(note):
 
     return left_paths, right_paths
 
-def _pre_process_labels(labels):
-    '''convert tlink labels to integers so they can be processed accordingly'''
+def _convert_str_labels_to_int(labels):
+    '''convert tlink labels to integers so they can be processed by the network'''
 
     processed_labels = []
     for label in labels:
@@ -331,6 +331,28 @@ def _pre_process_labels(labels):
 
     return processed_labels
 
+def _convert_int_labels_to_str(labels):
+    '''convert ints to tlink labels so network output can be understood'''
+
+    processed_labels = []
+    for label in labels:
+        if label == 1:
+            processed_labels.append("SIMULTANEOUS")
+        elif label == 2:
+            processed_labels.append("BEFORE")
+        elif label == 3:
+            processed_labels.append("AFTER")
+        elif label == 4:
+            processed_labels.append("IS_INCLUDED")
+        elif label == 5:
+            processed_labels.append("BEGUN_BY")
+        elif label == 6:
+            processed_labels.append("ENDED_BY")
+        else:  # label for unlinked pairs (should have int 0)
+            processed_labels.append("None")
+
+    return processed_labels
+
 if __name__ == "__main__":
     test = NNModel()
     with open("note.dump") as n:
@@ -342,7 +364,7 @@ if __name__ == "__main__":
     test.train([tmp_note])
 
     # labels = tmp_note.get_tlink_labels()
-    # labels = _pre_process_labels(labels)
+    # labels = _convert_str_labels_to_int(labels)
     # _labels = to_categorical(labels,7)
     # print len(labels)
     # print labels
