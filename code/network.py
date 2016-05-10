@@ -10,7 +10,7 @@ from gensim.models import word2vec
 
 class NNModel:
 
-    def __init__(self, data_dim=300, max_len=11, nb_classes=7):
+    def __init__(self, data_dim=300, max_len=15, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         '''
@@ -31,7 +31,7 @@ class NNModel:
         # combine and classify entities as a single relation
         decoder = Sequential()
         decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
-        # decoder.add(Dense(100, activation='sigmoid'))
+        decoder.add(Dense(100, activation='relu'))
         decoder.add(Dense(nb_classes, activation='softmax'))
 
         # compile the final model
@@ -96,9 +96,12 @@ class NNModel:
         # any other dimension mis-matches are caused by actually errors and should not be padded away
         XL, XR = _pad_to_match_dimensions(XL, XR, 2)
 
+        class_weights = _get_uniform_weights(Y)
+        print class_weights
+
         # train the network
         print 'Training network...'
-        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.15)
+        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.15, class_weight=class_weights)
 
         test = self.classifier.predict_classes([XL, XR])
 
@@ -309,8 +312,31 @@ def _get_token_id_subpaths(note):
 
     return left_paths, right_paths
 
+def _get_uniform_weights(labels):
+    '''
+    get a dictionary of weights for each class. Used to combat imbalanced data problems by reducing
+    the impact of highly represented classes. Has no effect on equally distributed data
+    '''
+    # Y is composed of one-hot vectors for each class
+    classes = {}
+    for label in labels:
+        for i, _class in enumerate(label):
+            if _class == 1:
+                if i in classes:
+                    classes[i] += 1.0
+                else:
+                    classes[i] = 1.0
+
+    for _class in classes:
+        classes[_class] /= len(labels)
+        classes[_class] = 1 - classes[_class]
+
+    return classes
+
 def _convert_str_labels_to_int(labels):
-    '''convert tlink labels to integers so they can be processed by the network'''
+    '''
+    convert tlink labels to integers so they can be processed by the network
+    '''
 
     processed_labels = []
     for label in labels:
@@ -332,7 +358,9 @@ def _convert_str_labels_to_int(labels):
     return processed_labels
 
 def _convert_int_labels_to_str(labels):
-    '''convert ints to tlink labels so network output can be understood'''
+    '''
+    convert ints to tlink labels so network output can be understood
+    '''
 
     processed_labels = []
     for label in labels:
