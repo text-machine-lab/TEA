@@ -35,7 +35,7 @@ class NNModel:
         decoder.add(Dense(nb_classes, activation='softmax'))
 
         # compile the final model
-        decoder.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+        decoder.compile(loss='categorical_crossentropy', optimizer='adam')
         self.classifier = decoder
 
     def train(self, notes, epochs=5):
@@ -101,7 +101,7 @@ class NNModel:
 
         # train the network
         print 'Training network...'
-        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.15, class_weight=class_weights)
+        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.15, class_weight=class_weights, batch_size=256)
 
         test = self.classifier.predict_classes([XL, XR])
 
