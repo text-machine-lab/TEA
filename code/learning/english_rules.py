@@ -108,6 +108,20 @@ _INFINITIVE_PERFECTIVE_RE = "^to\+.*||^have\+.*\+infin\+pres||^.+\+v\+.*part\+pa
 _INFINITIVE_PERFECTIVE_PROGRESSIVE_RE = "^to\+.*||^have\+.*\+infin\+pres||^be\+.*\+part\+past||^.+\+v\+.*gerund\+pres"
 
 
+# _v_/gerund/pres = tense=PRESPART, aspect=NONE
+_PRESPART_RE = "^.+\+v\+.*gerund\+pres"
+
+# _v_/indic/pres = tense=PRESENT, aspect=NONE
+_PRESENT_RE = "^.+\+v\+.*indic\+pres"
+
+# _v_/indic/past = tense=PAST, aspect=NONE
+_PAST_RE = "^.+\+v\+.*indic\+past"
+
+# _v_/part/past = tense=PASTPART, aspect=NONE
+_PASTPART_RE = "^.+\+v\+.*part\+past"
+
+
+
 _RULE_NAMES = {
 
                 _ACTIVE_VOICE_PRESENT_PROGRESSIVE_RE: "ACTIVE VOICE: PRESENT PROGRESSIVE",
@@ -158,6 +172,12 @@ _RULE_NAMES = {
                 _INFITIVE_PROGRESSIVE_RE: "INFINITIVE: PROGRESSIVE",
                 _INFINITIVE_PERFECTIVE_RE: "INFINITIVE: PERFECTIVE",
                 _INFINITIVE_PERFECTIVE_PROGRESSIVE_RE: "INFINITIVE: PERFECTIVE-PROGRESSIVE",
+
+                _PRESPART_RE: "releasing",
+                _PRESENT_RE: "release",
+                _PAST_RE: "released",
+                _PASTPART_RE: "released",
+
 
               }
 
@@ -213,6 +233,11 @@ _POSITIVE_CASES = {
                     _INFINITIVE_PERFECTIVE_RE: "to have released",
                     _INFINITIVE_PERFECTIVE_PROGRESSIVE_RE: "to have been releasing",
 
+                    _PRESPART_RE: "releasing",
+                    _PRESENT_RE: "release",
+                    _PAST_RE: "released",
+                    _PASTPART_RE: "released",
+
                  }
 
 # should never match
@@ -266,6 +291,11 @@ _NEGATIVE_CASES = {
                     _INFITIVE_PROGRESSIVE_RE: "to be released",
                     _INFINITIVE_PERFECTIVE_RE: "to have money",
                     _INFINITIVE_PERFECTIVE_PROGRESSIVE_RE: "to have been released",
+
+                    _PRESPART_RE: "released",
+                    _PRESENT_RE: "releasing",
+                    _PAST_RE: "release",
+                    _PASTPART_RE: "released",
 
                   }
 
@@ -371,57 +401,6 @@ def _test_english_rules(verbose=False):
 
 
         sys.exit("passive voice future perfective test failed")
-
-
-
-
-def _single_word_VP_test():
-
-    from code.notes.utilities.pre_processing import morpho_pro
-
-    # _v_/gerund/pres = tense=PRESPART, aspect=NONE
-    phrase = "\n".join(["releasing"])
-    output = morpho_pro.process(phrase, base_filename="test", overwrite=True)
-
-    tok = output[0][0]["morphology_morpho"][0]
-
-    if True in [re.search("^.+\+v\+.*gerund\+pres",m) != None for m in tok.split(' ')]:
-        print "active voice present progressive test passed"
-    else:
-        sys.exit("active voice present progressive test failed")
-
-    # _v_/indic/pres = tense=PRESENT, aspect=NONE
-    phrase = "\n".join(["release"])
-    output = morpho_pro.process(phrase, base_filename="test", overwrite=True)
-
-    tok = output[0][0]["morphology_morpho"][0]
-
-    if True in [re.search("^.+\+v\+.*indic\+pres",m) != None for m in tok.split(' ')]:
-        print "active voice present progressive test passed"
-    else:
-        sys.exit("active voice present progressive test failed")
-
-    # _v_/indic/past = tense=PAST, aspect=NONE
-    phrase = "\n".join(["released"])
-    output = morpho_pro.process(phrase, base_filename="test", overwrite=True)
-
-    tok = output[0][0]["morphology_morpho"][0]
-
-    if True in [re.search("^.+\+v\+.*indic\+past",m) != None for m in tok.split(' ')]:
-        print "active voice present progressive test passed"
-    else:
-        sys.exit("active voice present progressive test failed")
-
-    # _v_/part/past = tense=PASTPART, aspect=NONE
-    phrase = "\n".join(["released"])
-    output = morpho_pro.process(phrase, base_filename="test", overwrite=True)
-
-    tok = output[0][0]["morphology_morpho"][0]
-
-    if True in [re.search("^.+\+v\+.*part\+past",m) != None for m in tok.split(' ')]:
-        print "active voice present progressive test passed"
-    else:
-        sys.exit("active voice present progressive test failed")
 
 
 def _two_piece_VP():
