@@ -6,6 +6,7 @@ import sys
 
 from code.notes.utilities.pre_processing import morpho_pro
 
+# TODO: i don't check tests on the negative case very exhaustively. need to add more negative cases.
 
 TEA_HOME_DIR = os.path.join(*([os.path.dirname(os.path.abspath(__file__))] + [".."]*2))
 
@@ -39,6 +40,74 @@ _ACTIVE_VOICE_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||^have\+.*\+infin\+
 _ACTIVE_VOICE_FUTURE_PERFECTIVE_PROGRESSIVE_RE = "^will\+.*\+indic\+pres||^have\+.*\+infin\+pres||^be\+.*part\+past||^.+\+v\+.*gerund\+pres"
 
 
+# be/indic/pres + _v_/part/past = tense=PRESENT, aspect=NONE
+_PASSIVE_VOICE_PRESENT_RE = "^be\+.*\+indic\+pres||^.+\+v\+.*part\+past"
+# be/indic/pres + be/gerund/pres + _v_/part/past = tense=PRESENT, aspect=PROGRESSIVE
+_PASSIVE_VOICE_PRESENT_PROGRESSIVE_RE = "^be\+.*\+indic\+pres||^be\+.*\+gerund\+pres||^.+\+v\+.*part\+past"
+# have/indic/pres + be/part/past + _v_/part/past = tense=PRESENT, aspect=PERFECTIVE
+_PASSIVE_VOICE_PRESENT_PERFECTIVE_RE = "^have\+.*\+indic\+pres||^be\+.*\+part\+past||^.+\+v\+.*part\+past"
+# be/indic/past + _v_/part/past = tense=PAST, aspect=NONE
+_PASSIVE_VOICE_PAST_RE = "^be\+.*\+indic\+past||^.+\+v\+.*part\+past"
+# be/indic/past + be/gerund/pres + _v_/part/past = tense=PAST, aspect=PROGRESSIVE
+_PASSIVE_VOICE_PAST_PROGRESSIVE_RE = "^be\+.*\+indic\+past||^be\+.*\+gerund\+pres|^.+\+v\+.*part\+past"
+# have/indic/past + be/part/past + _v_/part/past = tense=PAST, aspect=PERFECTIVE
+_PASSIVE_VOICE_PAST_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.+\+v\+.*part\+past"
+# will/indic/pres + be/infin/pres + _v_/part/past = tense=FUTURE, aspect=NONE
+_PASSIVE_VOICE_FUTURE_A_RE = "^will\+.*\+indic\+pres||^be\+.*\+infin\+pres||^.+\+v\+.*part\+past"
+# be/indic/pres + go/gerund/pres + to + be/infin/pres + _v_/part/past = tense=FUTURE, aspect=NONE
+_PASSIVE_VOICE_FUTURE_B_RE = "^be\+.*\+indic\+pres||^go\+.*\+gerund\+pres||^to\+.*||^be\+.*infin\+pres||^.+\+v\+.*part\+past"
+# will/indic/pres + have/infin/pres + be/part/past + _v_/part/past = tense=FUTURE, aspect=PERFECTIVE
+_PASSIVE_VOICE_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||^have\+.*\+infin\+pres||^be\+.*part\+past||^.+\+v\+.*part\+past"
+
+
+# have/indic/pres + to + _v_/infin/pres = tense=PRESENT, aspect=NONE
+_MODAL_PRESENT_RE = "^have\+.*\+indic\+pres||^to\+.*||^.+\+v\+.*infin\+pres"
+# have/indic/pres + to + be/infin/pres + _v_/gerund/pres = tense=PRESENT, aspect=PROGRESSIVE
+_MODAL_PRESENT_PROGRESSIVE_RE = "^have\+.*\+indic\+pres||^to.*||^be\+.*infin\+pres||^.+\+v\+.*gerund\+pres"
+# have/indic/pres + to + have/infin/pres + _v_/part/past = tense=PRESENT, aspect=PERFECTIVE
+_MODAL_PRESENT_PERFECTIVE_RE = "^have\+.*\+indic\+pres||^to.*||^have\+.*infin\+pres||^.+\+v\+.*part\+past"
+# have/indic/pres + to + have/infin/pres + be/part/past + _v_/gerund/pres = tense=PRESENT, aspect=PERFECTIVE_PROGRESSIVE
+_MODAL_PRESENT_PERFECTIVE_PROGRESSIVE_RE = "^have\+.*\+indic\+pres||^to.*||^have\+.*infin\+pres||^be\+v\+.*part\+past||^.+\+v\+.*gerund\+pres"
+# have/indic/past + to + _v_/infin/pres = tense=PAST, aspect=NONE
+_MODAL_PAST_NONE_A_RE = "^have\+.*\+indic\+past||^to.*||^.+\+v\+.*infin\+pres"
+# have/indic/past + to + be/infin/pres + _v_/gerund/pres = tense=PAST, aspect=PROGRESSIVE
+_MODAL_PAST_PROGRESSIVE_RE = "^have\+.*\+indic\+past||^to.*||^be\+.*infin\+pres||^.+\+v\+.*gerund\+pres"
+# will/indic/pres + have/infin/pres + to + _v_/infin/pres = tense=FUTURE, aspect=NONE
+_MODAL_FUTURE_RE = "^will\+.*\+indic\+pres||^have\+.*infin\+pres||^to.*||^.+\+v\+.*infin\+pres"
+# will/indic/pres + have/infin/pres + to + be/infin/pres + _v_/gerund/pres = tense=FUTURE, aspect=PROGRESSIVE
+_MODAL_FUTURE_PROGRESSIVE_RE = "^will\+.*indic\+pres||^have\+.*infin\+pres||^to.*||^be\+.*infin\+pres||^.+\+v\+.*gerund\+pres"
+# (must|should|may|might|can|could|would) + _v_/infin/pres = tense=NONE, aspect=NONE
+_MODAL_NONE_NONE_RE = "^(must|should|may|might|can|could|would)\+.*||^.+\+v\+.*infin\+pres"
+# (must|should|may|might|can|could|would) + be/infin/pres + _v_/gerund/pres = tense=NONE, aspect=PROGRESSIVE
+_MODAL_NONE_PROGRESSIVE_RE = "^(must|should|may|might|can|could|would)\+.*||^be\+.*infin\+pres||^.+\+v\+.*gerund\+pres"
+# (must|should|may|might|can|could|would) + have/infin/pres +_v_/part/past = tense=NONE, aspect=PERFECTIVE
+_MODAL_NONE_PERFECTIVE_RE = "^(must|should|may|might|can|could|would)\+.*||^have\+.*infin\+pres||^.+\+v\+.*part\+past"
+# (must|should|may|might|can|could|would) + have/infin/pres + been/part/past +_v_/gerund/pres = tense=NONE, aspect=PERFECTIVE_PROGRESSIVE
+_MODAL_NONE_PERFECTIVE_PROGRESSIVE = "^(must|should|may|might|can|could|would)\+.*||^have\+.*infin\+pres||^be\+.*part\+past||^.+\+v\+.*gerund\+pres"
+# (must|should|may|might|can|could|would) + be/infin/pres + _v_/part/past = tense=PAST, aspect=NONE
+_MODAL_PAST_NONE_B_RE = "^(must|should|may|might|can|could|would)\+.*||^be\+.*infin\+pres||^.+\+v\+.*part\+past"
+
+# do/indic/past + _v_/infin/pres = tense=PAST, aspect=NONE
+_DO_PAST_RE = "^do\+.*indic\+past||^.+\+v\+.*infin\+pres"
+# do/indic/pres + _v_/infin/pres = tense=PRESENT, aspect=NONE
+_DO_PRESENT_RE = "^do\+.*indic\+pres||^.+\+v\+.*infin\+pres"
+
+# to + _v_/infin/pres = tense=INFINITIVE, aspect=NONE
+_INFINITIVE_NONE_A_RE = "^to\+.*||^.+\+v\+.*infin\+pres"
+
+# to + _v_/indic/pres = tense=INFINITIVE, aspect=NONE
+_INFINITIVE_NONE_B_RE = "^to\+.*||^.+\+v\+.*indic\+pres"
+
+# to + be/infin/pres + _v_/gerund/pres = tense=INFINITIVE, aspect=PROGRESSIVE
+_INFITIVE_PROGRESSIVE_RE = "^to\+.*||^be\+.*\+infin\+pres||^.+\+v\+.*gerund\+pres"
+
+# to + have/infin/pres + _v_/part/past = tense=INFINITIVE, aspect=PERFECTIVE
+_INFINITIVE_PERFECTIVE_RE = "^to\+.*||^have\+.*\+infin\+pres||^.+\+v\+.*part\+past"
+
+# to + have/infin/pres + be/part/past + _v_/gerund/pres = tense=INFINITIVE, aspect=PERFECTIVE_PROGRESSIVE
+_INFINITIVE_PERFECTIVE_PROGRESSIVE_RE = "^to\+.*||^have\+.*\+infin\+pres||^be\+.*\+part\+past||^.+\+v\+.*gerund\+pres"
+
+
 _RULE_NAMES = {
 
                 _ACTIVE_VOICE_PRESENT_PROGRESSIVE_RE: "ACTIVE VOICE: PRESENT PROGRESSIVE",
@@ -56,6 +125,39 @@ _RULE_NAMES = {
                 _ACTIVE_VOICE_FUTURE_PROGRESSIVE_B_RE: "ACTIVE VOICE: FUTURE PROGRESSIVE",
                 _ACTIVE_VOICE_FUTURE_PERFECTIVE_RE: "ACTIVE VOICE: FUTURE PERFECTIVE",
                 _ACTIVE_VOICE_FUTURE_PERFECTIVE_PROGRESSIVE_RE: "ACTIVE VOICE: PERFECTIVE PROGRESSIVE",
+
+                _PASSIVE_VOICE_PRESENT_RE: "PASSIVE VOICE: PRESENT",
+                _PASSIVE_VOICE_PRESENT_PROGRESSIVE_RE: "PASSIVE VOICE: PRESENT PROGRESSIVE",
+                _PASSIVE_VOICE_PRESENT_PERFECTIVE_RE: "PASSIVE VOICE: PRESENT PERFECTIVE",
+                _PASSIVE_VOICE_PAST_RE: "PASSIVE VOICE: PAS",
+                _PASSIVE_VOICE_PAST_PROGRESSIVE_RE: "PASSIVE VOICE: PAST PROGRESSIVE",
+                _PASSIVE_VOICE_PAST_PERFECTIVE_RE: "PASSIVE VOICE: PAST PERFECTIVE",
+                _PASSIVE_VOICE_FUTURE_A_RE: "PASSIVE VOICE: FUTURE A",
+                _PASSIVE_VOICE_FUTURE_B_RE: "PASSIVE VOICEL FUTURE B",
+                _PASSIVE_VOICE_FUTURE_PERFECTIVE_RE: "PASSIVE VOICE: FUTURE PERFECTIVE",
+
+                _MODAL_PRESENT_RE: "MODAL: PRESENT",
+                _MODAL_PRESENT_PROGRESSIVE_RE: "MODAL: PRESENT PROGRESSIVE",
+                _MODAL_PRESENT_PERFECTIVE_RE: "MODAL: PRESENT PERFECTIVE",
+                _MODAL_PRESENT_PERFECTIVE_PROGRESSIVE_RE: "MODAL: PRESENTER PERFECTIVE-PROGRESSIVE",
+                _MODAL_PAST_NONE_A_RE: "MODAL: PAST",
+                _MODAL_PAST_PROGRESSIVE_RE: "MODAL: PAST PROGRESSIVE",
+                _MODAL_FUTURE_RE: "MODAL: FUTURE",
+                _MODAL_FUTURE_PROGRESSIVE_RE: "MODAL: FUTURE PROGRESSIVE",
+                _MODAL_NONE_NONE_RE: "MODAL: NONE NONE",
+                _MODAL_NONE_PROGRESSIVE_RE: "MODAL: NONE PROGRESSIVE",
+                _MODAL_NONE_PERFECTIVE_RE: "MODAL: NONE PERFECTIVE",
+                _MODAL_NONE_PERFECTIVE_PROGRESSIVE: "MODAL: PERFECTIVE PROGRESSIVE",
+                _MODAL_PAST_NONE_B_RE: "MODAL: PAST NONE B",
+
+                _DO_PAST_RE: "DO: PAST care",
+                _DO_PRESENT_RE: "DO: PRESENT",
+
+                _INFINITIVE_NONE_A_RE: "INFINITIVE: NONE A",
+                _INFINITIVE_NONE_B_RE: "INFINITIVE: NONE B",
+                _INFITIVE_PROGRESSIVE_RE: "INFINITIVE: PROGRESSIVE",
+                _INFINITIVE_PERFECTIVE_RE: "INFINITIVE: PERFECTIVE",
+                _INFINITIVE_PERFECTIVE_PROGRESSIVE_RE: "INFINITIVE: PERFECTIVE-PROGRESSIVE",
 
               }
 
@@ -78,6 +180,39 @@ _POSITIVE_CASES = {
                     _ACTIVE_VOICE_FUTURE_PERFECTIVE_RE: "will have taught",
                     _ACTIVE_VOICE_FUTURE_PERFECTIVE_PROGRESSIVE_RE: "will have been teaching",
 
+                    _PASSIVE_VOICE_PRESENT_RE: "is taught",
+                    _PASSIVE_VOICE_PRESENT_PROGRESSIVE_RE: "is being taught",
+                    _PASSIVE_VOICE_PRESENT_PERFECTIVE_RE: "have been taught",
+                    _PASSIVE_VOICE_PAST_RE: "was taught",
+                    _PASSIVE_VOICE_PAST_PROGRESSIVE_RE: "was being taught",
+                    _PASSIVE_VOICE_PAST_PERFECTIVE_RE: "had been taught",
+                    _PASSIVE_VOICE_FUTURE_A_RE: "will be taught",
+                    _PASSIVE_VOICE_FUTURE_B_RE: "is going to be taught",
+                    _PASSIVE_VOICE_FUTURE_PERFECTIVE_RE: "will have been taught",
+
+                    _MODAL_PRESENT_RE: "has to teach",
+                    _MODAL_PRESENT_PROGRESSIVE_RE: "has to be teaching",
+                    _MODAL_PRESENT_PERFECTIVE_RE: "has to have taught",
+                    _MODAL_PRESENT_PERFECTIVE_PROGRESSIVE_RE: "has to have been teaching",
+                    _MODAL_PAST_NONE_A_RE: "had to teach",
+                    _MODAL_PAST_PROGRESSIVE_RE: "had to be teaching",
+                    _MODAL_FUTURE_RE: "will have to teach",
+                    _MODAL_FUTURE_PROGRESSIVE_RE: "will have to be teaching",
+                    _MODAL_NONE_NONE_RE: "could teach",
+                    _MODAL_NONE_PROGRESSIVE_RE: "could be teaching",
+                    _MODAL_NONE_PERFECTIVE_RE: "could have taught",
+                    _MODAL_NONE_PERFECTIVE_PROGRESSIVE: "could have been teaching",
+                    _MODAL_PAST_NONE_B_RE: "could be taught",
+
+                    _DO_PAST_RE: "did care",
+                    _DO_PRESENT_RE: "do care",
+
+                    _INFINITIVE_NONE_A_RE: "to release",
+                    _INFINITIVE_NONE_B_RE: "to release",
+                    _INFITIVE_PROGRESSIVE_RE: "to be releasing",
+                    _INFINITIVE_PERFECTIVE_RE: "to have released",
+                    _INFINITIVE_PERFECTIVE_PROGRESSIVE_RE: "to have been releasing",
+
                  }
 
 # should never match
@@ -98,6 +233,39 @@ _NEGATIVE_CASES = {
                     _ACTIVE_VOICE_FUTURE_PROGRESSIVE_B_RE: "was going to be teaching",
                     _ACTIVE_VOICE_FUTURE_PERFECTIVE_RE: "would have taught",
                     _ACTIVE_VOICE_FUTURE_PERFECTIVE_PROGRESSIVE_RE: "would have been teaching",
+
+                    _PASSIVE_VOICE_PRESENT_RE: "was taught",
+                    _PASSIVE_VOICE_PRESENT_PROGRESSIVE_RE: "was being taught",
+                    _PASSIVE_VOICE_PRESENT_PERFECTIVE_RE: "had been taught",
+                    _PASSIVE_VOICE_PAST_RE: "is taught",
+                    _PASSIVE_VOICE_PAST_PROGRESSIVE_RE: "is being taught",
+                    _PASSIVE_VOICE_PAST_PERFECTIVE_RE: "has been taught",
+                    _PASSIVE_VOICE_FUTURE_A_RE: "would be taught",
+                    _PASSIVE_VOICE_FUTURE_B_RE: "was going to be taught",
+                    _PASSIVE_VOICE_FUTURE_PERFECTIVE_RE: "would have been taught",
+
+                    _MODAL_PRESENT_RE: "had to teach",
+                    _MODAL_PRESENT_PROGRESSIVE_RE: "had to be teaching",
+                    _MODAL_PRESENT_PERFECTIVE_RE: "had to have taught",
+                    _MODAL_PRESENT_PERFECTIVE_PROGRESSIVE_RE: "had to have been teaching",
+                    _MODAL_PAST_NONE_A_RE: "has to teach",
+                    _MODAL_PAST_PROGRESSIVE_RE: "has to be teaching",
+                    _MODAL_FUTURE_RE: "would have to teach",
+                    _MODAL_FUTURE_PROGRESSIVE_RE: "would have to be teaching",
+                    _MODAL_NONE_NONE_RE: "will teach",
+                    _MODAL_NONE_PROGRESSIVE_RE: "will be teaching",
+                    _MODAL_NONE_PERFECTIVE_RE: "will have taught",
+                    _MODAL_NONE_PERFECTIVE_PROGRESSIVE: "should have been teaching",
+                    _MODAL_PAST_NONE_B_RE: "will be taught",
+
+                    _DO_PAST_RE: "do care",
+                    _DO_PRESENT_RE: "did care",
+
+                    _INFINITIVE_NONE_A_RE: "to releasing",
+                    _INFINITIVE_NONE_B_RE: "to released",
+                    _INFITIVE_PROGRESSIVE_RE: "to be released",
+                    _INFINITIVE_PERFECTIVE_RE: "to have money",
+                    _INFINITIVE_PERFECTIVE_PROGRESSIVE_RE: "to have been released",
 
                   }
 
@@ -185,493 +353,26 @@ def _test_english_rules(verbose=False):
     print
     print "SUMMARY: "
 
-    matched = [rule for rule in positive_test_results if positive_test_results[rule] is True]
-    did_not_match = [rule for rule in negative_test_results if negative_test_results[rule] is False]
+    did_not_match = [rule for rule in positive_test_results if positive_test_results[rule] is False]
+    did_match = [rule for rule in negative_test_results if negative_test_results[rule] is True]
 
-    print "\tPOSITIVE: Passed {}/ Total {}".format(len(matched), len(positive_test_results))
-    print "\tNEGATIVE: Passed {}/ Total {}".format(len(did_not_match), len(negative_test_results))
+    print "\tPOSITIVE: Passed {}/ Total {}".format(len(positive_test_results) - len(did_not_match), len(positive_test_results))
 
+    if len(did_not_match):
+        print "yes"
 
+    print "\tNEGATIVE: Passed {}/ Total {}".format(len(negative_test_results) - len(did_match), len(negative_test_results))
 
-
-def _tests_passive_voice():
-
-    from code.notes.utilities.pre_processing import morpho_pro
-
-    # be/indic/pres + _v_/part/past = tense=PRESENT, aspect=NONE
-    active_voice = "\n".join(["is", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-
-    if True in [re.search("^be\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok2.split(' ')]:
-        print "passive voice present none test passed"
-    else:
-        sys.exit("passive voice present none test failed")
-
-    # be/indic/pres + be/gerund/pres + _v_/part/past = tense=PRESENT, aspect=PROGRESSIVE
-    active_voice = "\n".join(["is", "being", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^be\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^be\+.*\+gerund\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice present progressive test passed"
-    else:
-        sys.exit("passive voice present progressive test failed")
-
-    # have/indic/pres + be/part/past + _v_/part/past = tense=PRESENT, aspect=PERFECTIVE
-    active_voice = "\n".join(["have", "been", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^have\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^be\+.*\+part\+past",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice present perfective test passed"
-    else:
-        sys.exit("passive voice present perfective test failed")
-
-    # be/indic/past + _v_/part/past = tense=PAST, aspect=NONE
-    active_voice = "\n".join(["was", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-
-    if True in [re.search("^be\+.*\+indic\+past",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok2.split(' ')]:
-        print "passive voice past none test passed"
-    else:
-        sys.exit("passive voice past none test failed")
-
-    # be/indic/past + be/gerund/pres + _v_/part/past = tense=PAST, aspect=PROGRESSIVE
-    active_voice = "\n".join(["was", "being", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^be\+.*\+indic\+past",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^be\+.*\+gerund\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice past progressive test passed"
-    else:
-        sys.exit("passive voice past progressive test failed")
+    if len(did_match):
+        for match in did_match:
+            print "\t\tNEGATIVE TEST FAILED: ({})".format(match)
 
 
-    # have/indic/past + be/part/past + _v_/part/past = tense=PAST, aspect=PERFECTIVE
-    active_voice = "\n".join(["had", "been", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
 
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
 
-    if True in [re.search("^have\+.*\+indic\+past",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^be\+.*\+part\+past",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice past perfective test passed"
-    else:
-        sys.exit("passive voice past perfective test failed")
-
-    # will/indic/pres + be/infin/pres + _v_/part/past = tense=FUTURE, aspect=NONE
-    active_voice = "\n".join(["will", "be", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^will\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^be\+.*\+infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice future none test passed"
-    else:
-        sys.exit("passive voice future none test failed")
-
-    # be/indic/pres + go/gerund/pres + to + be/infin/pres + _v_/part/past = tense=FUTURE, aspect=NONE
-    active_voice = "\n".join(["is", "going", "to", "be", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-    active_voice_morphology_tok5 = active_voice_output[0][4]["morphology_morpho"][0]
-
-    if True in [re.search("^be\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^go\+.*\+gerund\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^to\+.*",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^be\+.*infin\+pres",m) != None for m in active_voice_morphology_tok4.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok5.split(' ')]:
-        print "passive voice future none test passed"
-    else:
-        sys.exit("passive voice future none test failed")
-
-    # will/indic/pres + have/infin/pres + be/part/past + _v_/part/past = tense=FUTURE, aspect=PERFECTIVE
-    active_voice = "\n".join(["will", "have", "been", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-
-    if True in [re.search("^will\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^have\+.*\+infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^be\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok4.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    return
-
-def _tests_auxiliar():
-
-    from code.notes.utilities.pre_processing import morpho_pro
-
-    # have/indic/pres + to + _v_/infin/pres = tense=PRESENT, aspect=NONE
-    active_voice = "\n".join(["has", "to", "teach"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^have\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^to\+.*",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*infin\+pres",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice future none test passed"
-    else:
-        sys.exit("passive voice future none test failed")
-
-    # have/indic/pres + to + be/infin/pres + _v_/gerund/pres = tense=PRESENT, aspect=PROGRESSIVE
-    active_voice = "\n".join(["has", "to", "be", "teaching"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-
-    if True in [re.search("^have\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^to.*",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^be\+.*infin\+pres",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^.+\+v\+.*gerund\+pres",m) != None for m in active_voice_morphology_tok4.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    # have/indic/pres + to + have/infin/pres + _v_/part/past = tense=PRESENT, aspect=PERFECTIVE
-    active_voice = "\n".join(["has", "to", "have", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-
-    if True in [re.search("^have\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^to.*",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^have\+.*infin\+pres",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok4.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    # have/indic/pres + to + have/infin/pres + be/part/past + _v_/gerund/pres = tense=PRESENT, aspect=PERFECTIVE_PROGRESSIVE
-    active_voice = "\n".join(["has", "to", "have", "been", "teaching"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-    active_voice_morphology_tok5 = active_voice_output[0][4]["morphology_morpho"][0]
-
-    if True in [re.search("^have\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^to.*",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^have\+.*infin\+pres",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^be\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok4.split(' ')] and\
-       True in [re.search("^.+\+v\+.*gerund\+pres",m) != None for m in active_voice_morphology_tok5.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    # have/indic/past + to + _v_/infin/pres = tense=PAST, aspect=NONE
-    active_voice = "\n".join(["had", "to", "teach"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^have\+.*\+indic\+past",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^to.*",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*infin\+pres",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    # have/indic/past + to + be/infin/pres + _v_/gerund/pres = tense=PAST, aspect=PROGRESSIVE
-    active_voice = "\n".join(["had", "to", "be", "teaching"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-
-    if True in [re.search("^have\+.*\+indic\+past",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^to.*",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^be\+.*infin\+pres",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^.+\+v\+.*gerund\+pres",m) != None for m in active_voice_morphology_tok4.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
         sys.exit("passive voice future perfective test failed")
 
 
-    # will/indic/pres + have/infin/pres + to + _v_/infin/pres = tense=FUTURE, aspect=NONE
-    active_voice = "\n".join(["will", "have", "to", "teach"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-
-    if True in [re.search("^will\+.*\+indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^have\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^to.*",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^.+\+v\+.*infin\+pres",m) != None for m in active_voice_morphology_tok4.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-
-    # will/indic/pres + have/infin/pres + to + be/infin/pres + _v_/gerund/pres = tense=FUTURE, aspect=PROGRESSIVE
-    active_voice = "\n".join(["will", "have", "to", "be", "teaching"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-    active_voice_morphology_tok5 = active_voice_output[0][4]["morphology_morpho"][0]
-
-    if True in [re.search("^will\+.*indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^have\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^to.*",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^be\+.*infin\+pres",m) != None for m in active_voice_morphology_tok4.split(' ')] and\
-       True in [re.search("^.+\+v\+.*gerund\+pres",m) != None for m in active_voice_morphology_tok5.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    # (must|should|may|might|can|could|would) + _v_/infin/pres = tense=NONE, aspect=NONE
-    active_voice = "\n".join(["could", "teach"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-
-    if True in [re.search("^(must|should|may|might|can|could|would)\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^.+\+v\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    # (must|should|may|might|can|could|would) + be/infin/pres + _v_/gerund/pres = tense=NONE, aspect=PROGRESSIVE
-    active_voice = "\n".join(["could", "be", "teaching"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^(must|should|may|might|can|could|would)\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^be\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*gerund\+pres",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    # (must|should|may|might|can|could|would) + have/infin/pres +_v_/part/past = tense=NONE, aspect=PERFECTIVE
-    active_voice = "\n".join(["could", "have", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^(must|should|may|might|can|could|would)\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^have\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-
-    # (must|should|may|might|can|could|would) + have/infin/pres + been/part/past +_v_/gerund/pres = tense=NONE, aspect=PERFECTIVE_PROGRESSIVE
-    active_voice = "\n".join(["could", "have", "been", "teaching"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-
-    if True in [re.search("^(must|should|may|might|can|could|would)\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^have\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^be\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^.+\+v\+.*gerund\+pres",m) != None for m in active_voice_morphology_tok4.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-
-    # (must|should|may|might|can|could|would) + be/infin/pres + _v_/part/past = tense=PAST, aspect=NONE
-    active_voice = "\n".join(["could", "be", "taught"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^(must|should|may|might|can|could|would)\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^be\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-
-def _do_did():
-
-    from code.notes.utilities.pre_processing import morpho_pro
-
-    # do/indic/past + _v_/infin/pres = tense=PAST, aspect=NONE
-    active_voice = "\n".join(["did", "care"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-
-    if True in [re.search("^do\+.*indic\+past",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^.+\+v\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-
-    # do/indic/pres + _v_/infin/pres = tense=PRESENT, aspect=NONE
-    active_voice = "\n".join(["do", "care"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-
-    if True in [re.search("^do\+.*indic\+pres",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^.+\+v\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-
-def _infinitive():
-    from code.notes.utilities.pre_processing import morpho_pro
-
-    # to + _v_/infin/pres = tense=INFINITIVE, aspect=NONE
-    active_voice = "\n".join(["to", "release"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-
-    print active_voice_morphology_tok1
-    print active_voice_morphology_tok2
-
-    if True in [re.search("^to\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^.+\+v\+.*infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    # to + _v_/indic/pres = tense=INFINITIVE, aspect=NONE
-    active_voice = "\n".join(["to", "release"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-
-    if True in [re.search("^to\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^.+\+v\+.*indic\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-
-    # to + be/infin/pres + _v_/gerund/pres = tense=INFINITIVE, aspect=PROGRESSIVE
-    active_voice = "\n".join(["to", "be", "releasing"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^to\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^be\+.*\+infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*gerund\+pres",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-
-    # to + have/infin/pres + _v_/part/past = tense=INFINITIVE, aspect=PERFECTIVE
-    active_voice = "\n".join(["to", "have", "released"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-
-    if True in [re.search("^to\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^have\+.*\+infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^.+\+v\+.*part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    # to + have/infin/pres + be/part/past + _v_/gerund/pres = tense=INFINITIVE, aspect=PERFECTIVE_PROGRESSIVE
-    active_voice = "\n".join(["to", "have", "been", "releasing"])
-    active_voice_output = morpho_pro.process(active_voice, base_filename="active_voice_test", overwrite=True)
-
-    active_voice_morphology_tok1 = active_voice_output[0][0]["morphology_morpho"][0]
-    active_voice_morphology_tok2 = active_voice_output[0][1]["morphology_morpho"][0]
-    active_voice_morphology_tok3 = active_voice_output[0][2]["morphology_morpho"][0]
-    active_voice_morphology_tok4 = active_voice_output[0][3]["morphology_morpho"][0]
-
-    if True in [re.search("^to\+.*",m) != None for m in active_voice_morphology_tok1.split(' ')] and\
-       True in [re.search("^have\+.*\+infin\+pres",m) != None for m in active_voice_morphology_tok2.split(' ')] and\
-       True in [re.search("^be\+.*\+part\+past",m) != None for m in active_voice_morphology_tok3.split(' ')] and\
-       True in [re.search("^.+\+v\+.*gerund\+pres",m) != None for m in active_voice_morphology_tok4.split(' ')]:
-        print "passive voice future perfective test passed"
-    else:
-        sys.exit("passive voice future perfective test failed")
-
-    return
 
 
 def _single_word_VP_test():
