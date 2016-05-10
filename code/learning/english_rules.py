@@ -786,6 +786,66 @@ def _single_word_VP_test():
         sys.exit("active voice present progressive test failed")
 
 
+def _two_piece_VP():
+
+    # VP in two pieces (e.g. has until now been described)
+    # be/part/past + _v_/gerund/pres = tense=NONE, aspect=PERFECTIVE_PROGRESSIVE
+    # be/part/past + _v_/part/past = tense=NONE, aspect=PERFECTIVE
+    pass
+
+
+def _prepart():
+
+    # prespart
+    # _v_/gerund/pres = tense=PRESPART, aspect=NONE
+    pass
+
+def _adjectives():
+
+    # adjective
+    # be/indic/pres + _a_ = tense=PRESENT, aspect=NONE
+    # be/indic/pres + be/gerund/pres + _a_ = tense=PRESENT, aspect=PROGRESSIVE
+    # have/indic/pres + be/part/past + _a_ = tense=PRESENT, aspect=PERFECTIVE
+
+    # be/indic/past + _a_ = tense=PAST, aspect=NONE
+    # be/indic/past + be/gerund/pres + _a_ = tense=PAST, aspect=PROGRESSIVE
+    # have/indic/past + be/part/past + _a_ = tense=PAST, aspect=PERFECTIVE
+
+    # will/indic/pres + be/infin/pres + _a_ = tense=FUTURE, aspect=NONE
+    # will/indic/pres + have/infin/pres + be/part/past + _a_ = tense=FUTURE, aspect=PERFECTIVE
+    pass
+
+def _nominal_nouns():
+
+    # noun
+    # be/indic/pres + _n_ = tense=PRESENT, aspect=NONE
+    # be/indic/pres + be/gerund/pres + _n_ = tense=PRESENT, aspect=PROGRESSIVE
+    # have/indic/pres + be/part/past + _n_ = tense=PRESENT, aspect=PERFECTIVE
+
+    # be/indic/past + _n_ = tense=PAST, aspect=NONE
+    # be/indic/past + be/gerund/pres + _n_ = tense=PAST, aspect=PROGRESSIVE
+    # have/indic/past + be/part/past + _n_ = tense=PAST, aspect=PERFECTIVE
+
+    # will/indic/pres + be/infin/pres + _n_ = tense=FUTURE, aspect=NONE
+    # will/indic/pres + have/infin/pres + be/part/past + _n_ = tense=FUTURE, aspect=PERFECTIVE
+    pass
+
+def _preposition):
+
+    # preposition
+    # be/indic/pres + _p_ = tense=PRESENT, aspect=NONE
+    # be/indic/pres + be/gerund/pres + _p_ = tense=PRESENT, aspect=PROGRESSIVE
+    # have/indic/pres + be/part/past + _p_ = tense=PRESENT, aspect=PERFECTIVE
+
+    # be/indic/past + _p_ = tense=PAST, aspect=NONE
+    # be/indic/past + be/gerund/pres + _p_ = tense=PAST, aspect=PROGRESSIVE
+    # have/indic/past + be/part/past + _p_ = tense=PAST, aspect=PERFECTIVE
+
+    # will/indic/pres + be/infin/pres + _p_ = tense=FUTURE, aspect=NONE
+    # will/indic/pres + have/infin/pres + be/part/past + _p_ = tense=FUTURE, aspect=PERFECTIVE
+
+    pass
+
 
 
 def get_tense_aspect(token, id_to_tok):
