@@ -10,7 +10,7 @@ from gensim.models import word2vec
 
 class NNModel:
 
-    def __init__(self, data_dim=300, max_len=15, nb_classes=7):
+    def __init__(self, data_dim=300, max_len=22, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         '''
@@ -53,7 +53,7 @@ class NNModel:
         XR = None
 
         print 'Loading word embeddings...'
-        word_vectors = word2vec.Word2Vec.load_word2vec_format(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', binary=True)
+        word_vectors = word2vec.Word2Vec.load_word2vec_format(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', binary=True)
 
         print 'Extracting dependency paths...'
         for i, note in enumerate(notes):
@@ -134,7 +134,7 @@ class NNModel:
         del_lists = []
 
         print 'Loading word embeddings...'
-        word_vectors = word2vec.Word2Vec.load_word2vec_format(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', binary=True)
+        word_vectors = word2vec.Word2Vec.load_word2vec_format(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', binary=True)
 
         print 'Extracting dependency paths...'
         for i, note in enumerate(notes):
