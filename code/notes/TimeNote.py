@@ -34,7 +34,7 @@ class TimeNote(Note):
         self.original_text = data
 
         # send body of document to NewsReader pipeline.
-        tokenized_text, token_to_offset, sentence_features, dependency_paths, id_to_token = pre_processing.pre_process(data)
+        tokenized_text, token_to_offset, sentence_features, dependency_paths, id_to_tok = pre_processing.pre_process(data, timeml_note_path)
 
         # {sentence_num: [{token},...], ...}
         self.pre_processed_text = tokenized_text
@@ -43,15 +43,15 @@ class TimeNote(Note):
         # {'token':[(start, end),...],...}
         self.token_to_offset = token_to_offset
 
-        # contains the token associated with a specific wid
-        # {'wid':'token'}
-        self.id_to_token = id_to_token
-
         # contains sentence level information extracted by newsreader
         self.sentence_features = sentence_features
 
         # dependency paths for sentences in the document
         self.dependency_paths = dependency_paths
+
+        # map token ids to tokens within self.tokenized_text
+        # {'wid':'token'}
+        self.id_to_tok = id_to_tok
 
         self.iob_labels = []
 
@@ -846,7 +846,7 @@ class TimeNote(Note):
         for _id in ids:
             # ensuring id prefix value is correct.
             # TODO: adjust TimeNote to consistently use t# or w# format
-            tokens.append(self.id_to_token['w' + _id[1:]]["token"])
+            tokens.append(self.id_to_tok['w' + _id[1:]]["token"])
         return tokens
 
     @staticmethod

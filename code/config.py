@@ -18,6 +18,10 @@ def env_paths():
             if path is not None and os.path.isdir(path) is False:
                 raise Exception("ERROR: PY4J_DIR_PATH directory is invalid")
 
+        if line[0] == "MORPHO_DIR_PATH":
+            if path is not None and os.path.isdir(path) is False:
+                raise Exception("ERROR: MORPHO_DIR_PATH is invalid")
+
         env_paths[line[0]] = path
 
     return env_paths
