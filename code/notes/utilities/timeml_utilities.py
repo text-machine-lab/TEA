@@ -62,8 +62,8 @@ def annotate_text_element(timeml_root, tag, start, end, attributes = {}):
 
     text = text_element.text
 
-    start = start + 1
-    end = end + 2
+    start = start
+    end = end + 1
 
     newText = text[:start]
     eleText = text[start:end]
@@ -101,6 +101,33 @@ def get_text_with_taggings(timeml_doc):
     string = xml_utilities.strip_quotes(string)
 
     return string
+
+def get_stripped_root(timeml_doc):
+    ''' gets the root of a timeml doc without any timex, event, or tlink annotations '''
+
+    root = xml_utilities.get_root(timeml_doc)
+
+    # raw text for use in overriding timex/event annotated text
+    text = get_text(timeml_doc)
+
+    # new text element to override annotated text element
+    newText_e = get_text_element_from_root(root)
+
+    # strip all tags from new text element
+    for e in list(newText_e):
+        newText_e.remove(e)
+
+    newText_e.text = text
+
+    root = set_text_element(root, newText_e)
+
+    # strip event instances, tlinks, alinks, and slinks
+    # root is cast as a list because some tags aren't iterated over otherwise. Which is odd.
+    for e in list(root):
+        if e.tag == "TLINK" or e.tag == "SLINK" or e.tag == "ALINK" or e.tag == "MAKEINSTANCE":
+            root.remove(e)
+
+    return root
 
 def get_text(timeml_doc):
     """ gets raw text of document, xml tags removed """
@@ -225,7 +252,6 @@ def get_entity_type(tagged_entity):
         exit("unknowned type")
 
     return (entity_type, sub_type)
-
 
 def get_doctime_timex(timeml_doc):
 
