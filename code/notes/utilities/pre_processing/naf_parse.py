@@ -620,6 +620,7 @@ class DependencyPath(object):
         # get the shortest path. omit the END marker
         return paths[0][:-1] if len(paths) > 0 else []
 
+
     def _get_paths(self, token_id1, token_id2):
         """Go through dependencies extracted from _get_deps and try and find smallest paths
         between two tokens.
@@ -651,7 +652,6 @@ class DependencyPath(object):
         Extract from the deps element in the annotated NAF file the dependencies as they appear.
         Place these dependencies within a dictionary.
         """
-
         xml_root = xml_root = ET.fromstring(ixa_pipe_output)
 
         deps_element = None

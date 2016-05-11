@@ -2,15 +2,18 @@
 import os
 import nltk.data
 
-
 from utilities.note_utils import valid_path
+
 from utilities.pre_processing.pre_processing import pre_process
+
 from utilities.xml_utilities import write_root_to_file
 from utilities.xml_utilities import get_root
+
+from utilities.timeml_utilities import get_text_element_from_root
 from utilities.timeml_utilities import set_text_element
 from utilities.timeml_utilities import annotate_text_element
 from utilities.timeml_utilities import annotate_root
-
+from utilities.timeml_utilities import get_stripped_root
 
 class Note(object):
 
@@ -59,7 +62,7 @@ class Note(object):
         '''
         #TODO: create output directory if it does not exist
         # TODO: put this in TimeNote class
-        root = get_root(self.note_path)
+        root = get_stripped_root(self.note_path)
         length = len(offsets)
 
         # hack so events are detected in next for loop.

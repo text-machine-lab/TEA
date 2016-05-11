@@ -208,13 +208,15 @@ def pre_process(text, filename):
             # good to go
             tok.update(morpho_output[tok["sentence_num"]-1][tok["token_offset"]])
 
+    dependency_paths = naf_parse.DependencyPath(naf_tagged_doc)
+
     # one tree per sentencei
     # TODO: doesn't actually assert the sentences match to their corresponding tree
 
     if len(constituency_trees) > 0:
         assert( len(sentences) == len(constituency_trees))
 
-    return sentences, tokens_to_offset, sentence_features, id_to_tok
+    return sentences, tokens_to_offset, sentence_features, dependency_paths, id_to_tok
 
 if __name__ == "__main__":
     pass

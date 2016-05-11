@@ -1,14 +1,26 @@
 """Interface to perform training of models for temporal entity and relation extraction.
 """
 
+# temporary until NN interface is updated
+import cPickle
+from code import network
+
+
+
 import sys
+import os
 from code.config import env_paths
+
+
+
+if "TEA_PATH" not in os.environ:
+    sys.exit("TEA_PATH environment variable not specified, it is the directory containg train.py")
 
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
 
-import os
+
 import argparse
 import glob
 import cPickle
@@ -30,6 +42,10 @@ def main():
 
     parser.add_argument("model_destination",
                         help="Where to store the trained model")
+
+    parser.add_argument("--neural_network", '-n',
+                        action='store_true',
+                        help="set flag to use a neural network model rather than SVM for tlink identification")
 
     parser.add_argument("newsreader_annotations",
                         #type=str,
@@ -96,11 +112,18 @@ def main():
     # one-to-one pairing of annotated file and un-annotated
     assert len(gold_files) == len(tml_files)
 
-    # create the model
-    models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink, newsreader_dir)
+    # create the model, then save architecture and weights
+    if args.neural_network == True:
+        model = trainNetwork(tml_files, gold_files, newsreader_dir)
+        architecture = model.classifier.to_json()
+        open(args.model_destination + '.arch.json', "w").write(architecture)
+        model.classifier.save_weights(args.model_destination + '.weights.h5')
 
-    # store model as pickle object.
-    model.dump_models(models, vectorizers, args.model_destination)
+    else:
+        models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink, newsreader_dir)
+
+        # store model as pickle object.
+        model.dump_models(models, vectorizers, args.model_destination)
 
 
 def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tlink, newsreader_dir):
@@ -149,6 +172,56 @@ def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tli
         notes.append(tmp_note)
 
     return model.train(notes, train_timex, train_event, train_tlink)
+
+def trainNetwork(tml_files, gold_files, newsreader_dir):
+    '''
+    train::trainNetwork()
+
+    Purpose: Train a neural network for classification of temporal realtions. Assumes events and timexes
+        will be provided at prediction time
+
+    @param tml_files: List of unlabled (no timex, etc) timeML documents
+    @param gold_files: Fully labeled gold standard timeML documents
+    '''
+
+    print "Called trainNetwork"
+
+    global timenote_imported
+
+    # Read in notes
+    notes = []
+
+    basename = lambda x: os.path.basename(x[0:x.index(".tml")])
+
+    pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
+
+    tmp_note = None
+
+    for i, example in enumerate(zip(tml_files, gold_files)):
+       	tml, gold = example
+
+        assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
+
+
+        print '\n\nprocessing file {}/{} {}'.format(i + 1,
+                                                    len(zip(tml_files, gold_files)),
+                                                    tml)
+    	if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
+            tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
+        else:
+            if timenote_imported is False:
+                from code.notes.TimeNote import TimeNote
+                timenote_imported = True
+            tmp_note = TimeNote(tml, gold)
+            cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
+
+        notes.append(tmp_note)
+
+    mod = network.NNModel()
+    mod.train(notes, epochs=100)
+
+    return mod
+
 
 if __name__ == "__main__":
   main()
