@@ -114,10 +114,10 @@ def main():
 
     # create the model, then save architecture and weights
     if args.neural_network == True:
-        model = trainNetwork(tml_files, gold_files, newsreader_dir)
+        network = trainNetwork(tml_files, gold_files, newsreader_dir)
         architecture = model.classifier.to_json()
         open(args.model_destination + '.arch.json', "w").write(architecture)
-        model.classifier.save_weights(args.model_destination + '.weights.h5')
+        network.classifier.save_weights(args.model_destination + '.weights.h5')
 
     else:
         models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink, newsreader_dir)
