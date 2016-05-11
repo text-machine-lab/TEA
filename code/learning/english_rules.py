@@ -120,39 +120,56 @@ _TWO_PIECE_VP_NONE_PERFECTIVE_RE = "^be\+.*\+part\+past||^.+\+v\+.*part\+past"
 _PRESPART_NONE_RE = "^.+\+v\+.*gerund\+pres"
 
 # be/indic/pres + _a_ = tense=PRESENT, aspect=NONE
-_ADJ_PRESENT_RE = "^be\+.*\+indic\+pres||^.*\+adj\+.*"
+_ADJ_PRESENT_RE = "^be\+.*\+indic\+pres||^.*\+adj"
 # be/indic/pres + be/gerund/pres + _a_ = tense=PRESENT, aspect=PROGRESSIVE
-_ADJ_PRESENT_PROGRESSIVE_RE = "^be\+.*\+indic\+pres||^be\+.*\+gerund\+pres||^.*\+adj\+.*"
+_ADJ_PRESENT_PROGRESSIVE_RE = "^be\+.*\+indic\+pres||^be\+.*\+gerund\+pres||^.*\+adj"
 # have/indic/pres + be/part/past + _a_ = tense=PRESENT, aspect=PERFECTIVE
-_ADJ_PRESENT_PERFECTIVE_RE = "^have\+.*\+indic\+pres||^be\+.*\+part\+past||^.*\+adj\+.*"
+_ADJ_PRESENT_PERFECTIVE_RE = "^have\+.*\+indic\+pres||^be\+.*\+part\+past||^.*\+adj"
 # be/indic/past + _a_ = tense=PAST, aspect=NONE
-_ADJ_PAST_RE = "^be\+.*\+indic\+past||^.*\+adj\+.*"
+_ADJ_PAST_RE = "^be\+.*\+indic\+past||^.*\+adj"
 # be/indic/past + be/gerund/pres + _a_ = tense=PAST, aspect=PROGRESSIVE
-_ADJ_PAST_PROGRESSIVE_RE = "^be\+.*\+indic\+past||^be\+.*\+gerund\+pres||^.*\+adj\+.*"
+_ADJ_PAST_PROGRESSIVE_RE = "^be\+.*\+indic\+past||^be\+.*\+gerund\+pres||^.*\+adj"
 # have/indic/past + be/part/past + _a_ = tense=PAST, aspect=PERFECTIVE
-_ADJ_PAST_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+adj\+.*"
+_ADJ_PAST_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+adj"
 # will/indic/pres + be/infin/pres + _a_ = tense=FUTURE, aspect=NONE
-_ADJ_FUTURE_RE = "^will\+.*\+indic\+pres||^be\+.*\+infin\+pres||^.*\+adj\+.*"
+_ADJ_FUTURE_RE = "^will\+.*\+indic\+pres||^be\+.*\+infin\+pres||^.*\+adj"
 # will/indic/pres + have/infin/pres + be/part/past + _a_ = tense=FUTURE, aspect=PERFECTIVE
-_ADJ_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||have\+.*\+infin\+pres||^be\+.*\+part\+past||^.*\+adj\+.*"
+_ADJ_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||have\+.*\+infin\+pres||^be\+.*\+part\+past||^.*\+adj"
 
 # be/indic/pres + _n_ = tense=PRESENT, aspect=NONE
-_NOUN_PRESENT_RE = "^be\+.*\+indic\+pres||^.*\+n\+.*"
+_NOUN_PRESENT_RE = "^be\+.*\+indic\+pres||^.*\+n(\+.*|\Z)"
 # be/indic/pres + be/gerund/pres + _n_ = tense=PRESENT, aspect=PROGRESSIVE
-_NOUN_PRESENT_PROGRESSIVE_RE = "^be\+.*\+indic\+pres||^be\+.*\+gerund\+pres||^.*\+n\+.*"
+_NOUN_PRESENT_PROGRESSIVE_RE = "^be\+.*\+indic\+pres||^be\+.*\+gerund\+pres||^.*\+n(\+.*|\Z)"
 # have/indic/pres + be/part/past + _n_ = tense=PRESENT, aspect=PERFECTIVE
-_NOUN_PRESENT_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+n\+.*"
+_NOUN_PRESENT_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+n(\+.*|\Z)"
 # be/indic/past + _n_ = tense=PAST, aspect=NONE
-_NOUN_PAST_RE = "^be\+.*\+indic\+past||^.*\+n\+.*"
+_NOUN_PAST_RE = "^be\+.*\+indic\+past||^.*\+n(\+.*|\Z)"
 # be/indic/past + be/gerund/pres + _n_ = tense=PAST, aspect=PROGRESSIVE
-_NOUN_PAST_PROGRESSIVE_RE = "^be\+.*\+indic\+past||^be\+.*\+gerund\+pres||^.*\+n\+.*"
+_NOUN_PAST_PROGRESSIVE_RE = "^be\+.*\+indic\+past||^be\+.*\+gerund\+pres||^.*\+n(\+.*|\Z)"
 # have/indic/past + be/part/past + _n_ = tense=PAST, aspect=PERFECTIVE
-_NOUN_PAST_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+n\+.*"
+_NOUN_PAST_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+n(\+.*|\Z)"
 # will/indic/pres + be/infin/pres + _n_ = tense=FUTURE, aspect=NONE
-_NOUN_FUTURE_RE = "^will\+.*\+indic\+pres||^be\+.*\+infin\+pres||^.*\+n\+.*"
+_NOUN_FUTURE_RE = "^will\+.*\+indic\+pres||^be\+.*\+infin\+pres||^.*\+n(\+.*|\Z)"
 # will/indic/pres + have/infin/pres + be/part/past + _n_ = tense=FUTURE, aspect=PERFECTIVE
-_NOUN_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||^have\+.*\+indic\+pres||^be\+.*\+part\+past||^.*\+n\+.*"
+_NOUN_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||^have\+.*\+indic\+pres||^be\+.*\+part\+past||^.*\+n(\+.*|\Z)"
 
+
+# be/indic/pres + _p_ = tense=PRESENT, aspect=NONE
+_PREP_PRESENT_RE = "^be\+.*\+indic\+pres||^.*\+prep(\+.*|\Z)"
+# be/indic/pres + be/gerund/pres + _p_ = tense=PRESENT, aspect=PROGRESSIVE
+_PREP_PRESENT_PROGRESSIVE_RE = "^be\+.*\+indic\+pres||^be\+.*\+gerund\+pres||^.*\+prep(\+.*|\Z)"
+# have/indic/pres + be/part/past + _p_ = tense=PRESENT, aspect=PERFECTIVE
+_PREP_PRESENT_PERFECTIVE_RE = "^have\+.*\+indic\+pres||^be\+.*\+part\+past||^.*\+prep(\+.*|\Z)"
+# be/indic/past + _p_ = tense=PAST, aspect=NONE
+_PREP_PAST = "^be\+.*\+indic\+past||^.*\+prep(\+.*|\Z)"
+# be/indic/past + be/gerund/pres + _p_ = tense=PAST, aspect=PROGRESSIVE
+_PREP_PAST_PROGRESSIVE_RE = "^be\+.*\+indic\+past||^be\+.*\+gerund\+pres||^.*\+prep(\+.*|\Z)"
+# have/indic/past + be/part/past + _p_ = tense=PAST, aspect=PERFECTIVE
+_PREP_PAST_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+prep(\+.*|\Z)"
+# will/indic/pres + be/infin/pres + _p_ = tense=FUTURE, aspect=NONE
+_PREP_FUTURE_RE = "^will\+.*\+indic\+pres||^be\+.*\+infin\+pres||^.*\+prep(\+.*|\Z)"
+# will/indic/pres + have/infin/pres + be/part/past + _p_ = tense=FUTURE, aspect=PERFECTIVE
+_PREP_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||^have\+.*\+infin\+pres||^be\+.*\+part\+past||^.*\+prep(\+.*|\Z)"
 
 _RULE_NAMES = {
 
@@ -232,6 +249,15 @@ _RULE_NAMES = {
                 _NOUN_PAST_PERFECTIVE_RE: "NOUN: PAST PERFECTIVE",
                 _NOUN_FUTURE_RE: "NOUN: FUTURE",
                 _NOUN_FUTURE_PERFECTIVE_RE: "NOUN: FUTURE PERFECTIVE",
+
+                _PREP_PRESENT_RE: "PREP: PRESENT",
+                _PREP_PRESENT_PROGRESSIVE_RE:"PREP: PRESENT PROGRESSIVE",
+                _PREP_PRESENT_PERFECTIVE_RE: "PREP: PRESENT PERFECTIVE",
+                _PREP_PAST: "PREP: PAST",
+                _PREP_PAST_PROGRESSIVE_RE: "PREP: PAST ROGRESSIVE",
+                _PREP_PAST_PERFECTIVE_RE: "PREP: PAST PERFECTIVE",
+                _PREP_FUTURE_RE: "PREP: FUTURE",
+                _PREP_FUTURE_PERFECTIVE_RE: "PREP: FUTURE PERFECTIVE",
 
               }
 
@@ -314,6 +340,15 @@ _POSITIVE_CASES = {
                     _NOUN_PAST_PERFECTIVE_RE: "had been boy",
                     _NOUN_FUTURE_RE: "will be boy",
                     _NOUN_FUTURE_PERFECTIVE_RE: "will have been boy",
+
+                    _PREP_PRESENT_RE: "is over",
+                    _PREP_PRESENT_PROGRESSIVE_RE:"is being over",
+                    _PREP_PRESENT_PERFECTIVE_RE: "has been over",
+                    _PREP_PAST: "was over",
+                    _PREP_PAST_PROGRESSIVE_RE: "was being over",
+                    _PREP_PAST_PERFECTIVE_RE: "had been over",
+                    _PREP_FUTURE_RE: "will be over",
+                    _PREP_FUTURE_PERFECTIVE_RE: "will have been over",
 
                  }
 
@@ -398,6 +433,15 @@ _NEGATIVE_CASES = {
                     _NOUN_FUTURE_RE: "would be boy",
                     _NOUN_FUTURE_PERFECTIVE_RE: "would have been boy",
 
+                    _PREP_PRESENT_RE: "is here",
+                    _PREP_PRESENT_PROGRESSIVE_RE:"was being over",
+                    _PREP_PRESENT_PERFECTIVE_RE: "had been over",
+                    _PREP_PAST: "being over",
+                    _PREP_PAST_PROGRESSIVE_RE: "is being over",
+                    _PREP_PAST_PERFECTIVE_RE: "has been over",
+                    _PREP_FUTURE_RE: "would be over",
+                    _PREP_FUTURE_PERFECTIVE_RE: "would have been over",
+
                   }
 
 
@@ -442,6 +486,7 @@ def _test_cases(CASES, EXAMPLES, verbose=False):
                 print
                 print "\t\t\tCONDITION: ", condition
                 print "\t\t\tMORPHOLOGY: ", morphology
+                print "\t\t\tMATCH: {}".format(rule_holds)
 
         results[_RULE_NAMES[rule]] = rule_holds
 
@@ -499,11 +544,6 @@ def _test_english_rules(verbose=False):
         for match in did_match:
             print "\t\tNEGATIVE TEST FAILED: ({})".format(match)
 
-
-
-def _nominal_nouns():
-
-    pass
 
 def _preposition():
 
