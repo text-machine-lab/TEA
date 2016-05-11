@@ -1,16 +1,19 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0675</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30" temporalFunction="false" functionInDocument="CREATION_TIME">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0020 = 891030 891030-0020.
 What's News -- @ Business and Finance 10/30/89 WALL STREET JOURNAL (J)
 </EXTRAINFO>
 
-<TEXT>PROGRAM TRADING is being curbed by more securities firms, but big institutional investors are expected to continue the practice, further roiling the stock market. Bowing to criticism, Bear Stearns, Morgan Stanley and Oppenheimer joined PaineWebber in suspending stock-index arbitrage trading for their own accounts. Still, stock-index funds are expected to continue launching big programs through the market.
+
+
+<TEXT>
+PROGRAM TRADING is being curbed by more securities firms, but big institutional investors are expected to continue the practice, further roiling the stock market. Bowing to criticism, Bear Stearns, Morgan Stanley and Oppenheimer joined PaineWebber in suspending stock-index arbitrage trading for their own accounts. Still, stock-index funds are expected to continue launching big programs through the market.
 
 Several Big Board firms are organizing to complain about program trading and the exchange's role in it. The effort is being led by Contel.
 
@@ -46,6 +49,7 @@ Bonds: Shearson Lehman Hutton Treasury index 3406.31, off 19.29.
 
 Commodities: Dow Jones futures index 129.49, up 0.27; spot index 130.80, off 0.24.
 
-Dollar: 141.65 yen, off 0.45; 1.8300 marks, off 0.0100.</TEXT>
-
+Dollar: 141.65 yen, off 0.45; 1.8300 marks, off 0.0100.
+</TEXT>
 </TimeML>
+

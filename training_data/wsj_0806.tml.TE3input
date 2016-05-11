@@ -1,15 +1,19 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0806</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27" temporalFunction="false" functionInDocument="CREATION_TIME">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0089 = 891027 891027-0089.
 Financing Business: @ Healthdyne Inc. 10/27/89 WALL STREET JOURNAL (J) HDYN STOCK MARKET, OFFERINGS (STK) INITIAL STOCK OFFERINGS (INI)
 </EXTRAINFO>
 
-<TEXT>HEALTHDYNE Inc., Atlanta, said its subsidiary, Home Nutritional Services Inc., registered with the Securities and Exchange Commission an initial public offering of four million shares of common. The in-home health care services provider said it will sell 1.8 million of the new shares, while Home Nutritional Services will sell the remaining 2.2 million. The company estimates the offering price at between $14 and $16 a share. The company said it expects to use the proceeds to repay certain bank debt and for general corporate purposes, including establishing new operating centers and possible acquisitions. Home Nutritional currently has 10 million shares outstanding. It will have 11.8 million shares outstanding after the offering, with Healthdyne owning about 65% of the total.</TEXT>
 
+
+<TEXT>
+HEALTHDYNE Inc., Atlanta, said its subsidiary, Home Nutritional Services Inc., registered with the Securities and Exchange Commission an initial public offering of four million shares of common. The in-home health care services provider said it will sell 1.8 million of the new shares, while Home Nutritional Services will sell the remaining 2.2 million. The company estimates the offering price at between $14 and $16 a share. The company said it expects to use the proceeds to repay certain bank debt and for general corporate purposes, including establishing new operating centers and possible acquisitions. Home Nutritional currently has 10 million shares outstanding. It will have 11.8 million shares outstanding after the offering, with Healthdyne owning about 65% of the total.
+</TEXT>
 </TimeML>
+

@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW20000405.0276</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-04-05">2000-04-05</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-04-05" temporalFunction="false" functionInDocument="CREATION_TIME">2000-04-05</TIMEX3></DCT>
 
 <TITLE>Castro: Elian, Dad To Be Reunited</TITLE>
 
@@ -14,7 +14,11 @@ Castro: Elian, Dad To Be Reunited  By ANITA SNOW, Associated Press Writer
 </EXTRAINFO>
 
 
-<TEXT>HAVANA (AP) --
+
+
+<TEXT>
+
+HAVANA (AP) --
 
 President Fidel Castro declared Wednesday night that it is just matter of days before Elian Gonzalez will be reunited with his father.
 
@@ -44,12 +48,11 @@ Cuba had asked for 28 visas for the trip, for Elian's father, his stepmother, hi
 
 Also on the list was National Assembly President Ricardo Alarcon, who has served as adviser to Gonzalez over the past four months and a senior member of Cuba's communist leadership.
 
-Ultimately, U.S. officials approved and delivered six visas, for the four family members, a pediatrician and Elian's teacher from his year in kindergarten.</TEXT>
+Ultimately, U.S. officials approved and delivered six visas, for the four family members, a pediatrician and Elian's teacher from his year in kindergarten.
 
-
+</TEXT>
 <EXTRAINFO>
 AP-NY-04-05-00 2353
 </EXTRAINFO>
-
-
 </TimeML>
+
