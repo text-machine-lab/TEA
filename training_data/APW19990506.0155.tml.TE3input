@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19990506.0155</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-05-06T15:05">1999-05-06 15:05:11</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-05-06T15:05" temporalFunction="false" functionInDocument="CREATION_TIME">1999-05-06 15:05:11</TIMEX3></DCT>
 
 <TITLE>Abortion Foe Charged in Slaying</TITLE>
 
@@ -16,13 +16,17 @@ Abortion Foe Charged in Slaying
 </EXTRAINFO>
 
 
-<TEXT>BUFFALO, N.Y. (AP) --
+
+
+<TEXT>
+
+BUFFALO, N.Y. (AP) --
 
 An abortion foe who is the subject of an international manhunt was charged with murder Thursday in the slaying of a doctor who was cut down in his kitchen by a sniper's bullet.
 
 Federal and state arrest warrants were issued for James C. Kopp, 44, of St. Albans, Vt. His whereabouts are unknown.
 
-''We have probable cause to believe this man, James Kopp, is responsible for the death of Dr. Barnett Slepian,'' FBI agent Bernard Tolbert said.
+``We have probable cause to believe this man, James Kopp, is responsible for the death of Dr. Barnett Slepian,'' FBI agent Bernard Tolbert said.
 
 Investigators have been searching for Kopp since shortly after the Oct. 23 slaying. Up until Thursday, however, they had described him only as a material witness wanted for questioning -- not a suspect.
 
@@ -38,17 +42,16 @@ Authorities have said they believe the weapon may have been buried in advance of
 
 Kopp also has been linked, through DNA testing, to a strand of hair found near where the sniper fired, law enforcement sources have said.
 
-Nicknamed the ''Atomic Dog'' in anti-abortion circles, Kopp had been arrested in several states since 1990 for protesting abortion. His car was spotted in Slepian's suburban Amherst neighborhood in the weeks before the shooting, and was found abandoned at New Jersey's Newark International Airport in December, investigators said.
+Nicknamed the ``Atomic Dog'' in anti-abortion circles, Kopp had been arrested in several states since 1990 for protesting abortion. His car was spotted in Slepian's suburban Amherst neighborhood in the weeks before the shooting, and was found abandoned at New Jersey's Newark International Airport in December, investigators said.
 
-Kopp's stepmother, who married Kopp's father when Kopp was in his 30s, said Thursday from her home in Irving, Texas: ''I would like to see him come forward and clear his name if he's not guilty, and if he's guilty, to contact a priest and make his amends with society, face what he did.''
+Kopp's stepmother, who married Kopp's father when Kopp was in his 30s, said Thursday from her home in Irving, Texas: ``I would like to see him come forward and clear his name if he's not guilty, and if he's guilty, to contact a priest and make his amends with society, face what he did.''
 
 Kopp is now the second anti-abortion activist being sought by the FBI as a suspect in a fatal attack.
 
-Eric Rudolph has been on the run since the January 1998 bombing of a Birmingham, Ala., abortion clinic that killed an off-duty police officer and maimed a nurse. He also is charged in three Atlanta attacks, including the 1996 Olympic bombing that killed one person.</TEXT>
+Eric Rudolph has been on the run since the January 1998 bombing of a Birmingham, Ala., abortion clinic that killed an off-duty police officer and maimed a nurse. He also is charged in three Atlanta attacks, including the 1996 Olympic bombing that killed one person.
 
-
+</TEXT>
 <EXTRAINFO>
 </EXTRAINFO>
-
-
 </TimeML>
+

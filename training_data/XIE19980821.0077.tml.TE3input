@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19980821.0077</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-21">1998-08-21</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-21" temporalFunction="false" functionInDocument="CREATION_TIME">1998-08-21</TIMEX3></DCT>
 
 <TITLE>U.S. Air Raid, Bombings No Direct Links: FBI</TITLE>
 
@@ -15,19 +15,23 @@ U.S. Air Raid, Bombings No Direct Links: FBI
 </EXTRAINFO>
 
 
-<TEXT>NAIROBI, August 21 (Xinhua) --
+
+
+<TEXT>
+
+NAIROBI, August 21 (Xinhua) --
 
 Director of the U.S. Federal Bureau of Investigation (FBI) Louis Freeh said here Friday that U.S. air raid on Afghanistan and Sudan is not directly linked with the probe into the August 7 bombings in east Africa.
 
-'This is an investigation proceeding on many fronts,' said Freeh at a press conference at the Jomo Kenyatta airport before returning home. 'I cannot detail or characterize the type of evidence we have gathered in Nairobi.'
+"This is an investigation proceeding on many fronts," said Freeh at a press conference at the Jomo Kenyatta airport before returning home. "I cannot detail or characterize the type of evidence we have gathered in Nairobi."
 
 He said he cannot confirm there is any evidence linking the bomb blasts at the U.S. embassies in Kenya and Tanzania to the Saudi millionaire and the allegedly main sponsor of anti-U.S. terrorism, Osama Bin Laden, who now lives in Afghanistan.
 
-'Hundreds of people have been interviewed' and investigators probably have to take quite a long time to compile evidence in the two bomb blasts so as to reach any conclusion, he said. Freeh flew to Washington immediately after the press conference.
+"Hundreds of people have been interviewed" and investigators probably have to take quite a long time to compile evidence in the two bomb blasts so as to reach any conclusion, he said. Freeh flew to Washington immediately after the press conference.
 
-U.S. President Bill Clinton said Thursday that he had ordered the strikes after receiving 'convincing evidence' that the terrorist facilities the U.S. raided in Sudan and Afghanistan had played key roles in the bomb attacks in capitals of Kenya and Tanzania.
+U.S. President Bill Clinton said Thursday that he had ordered the strikes after receiving "convincing evidence" that the terrorist facilities the U.S. raided in Sudan and Afghanistan had played key roles in the bomb attacks in capitals of Kenya and Tanzania.
 
-However, Freeh said although the bombing investigators from the FBI, Kenya and Tanzania have been working very hard and made 'very good progress' on the case, so far no conclusion or decision can be made at this stage.
+However, Freeh said although the bombing investigators from the FBI, Kenya and Tanzania have been working very hard and made "very good progress" on the case, so far no conclusion or decision can be made at this stage.
 
 After touring Tanzanian capital Dar es Salaam Thursday and meeting with Kenyan police leaders Friday morning, the FBI chief also said that he is very satisfied with the close and effective cooperation among the FBI agents and the police in Kenya and Tanzania.
 
@@ -41,11 +45,10 @@ The car bomb attack at the U.S. embassy in Nairobi killed 253 people and injured
 
 A nearly simultaneous car bombing outside the U.S. embassy in Tanzania killed 10 people and wounded about 70 others.
 
-Earlier, the U.S.'s demand for Laden's extradition from Afghanistan has been refused by the Taliban government.</TEXT>
+Earlier, the U.S.'s demand for Laden's extradition from Afghanistan has been refused by the Taliban government.
 
-
+</TEXT>
 <EXTRAINFO>
 </EXTRAINFO>
-
-
 </TimeML>
+

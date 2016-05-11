@@ -1,21 +1,25 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0159</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02"> 11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02" temporalFunction="false" functionInDocument="CREATION_TIME"> 11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0032 = 891102 891102-0032.
 Business Brief -- Dunkin' Donuts Inc.: @ DD Acquisition Extended @ Its $45-a-Share Takeover Bid  11/02/89 WALL STREET JOURNAL (J) UNI.A DUNK T.CAO TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) RESTAURANTS, SUPERMARKETS AND DRUGSTORES (RFD)
 </EXTRAINFO>
 
-<TEXT>DD Acquisition Corp., a partnership of Unicorp Canada Corp.'s Kingsbridge Capital Group and Cara Operations Ltd., extended to Nov. 20 its $45-a-share offer for all Dunkin' Donuts Inc. shares outstanding.
+
+
+<TEXT>
+DD Acquisition Corp., a partnership of Unicorp Canada Corp.'s Kingsbridge Capital Group and Cara Operations Ltd., extended to Nov. 20 its $45-a-share offer for all Dunkin' Donuts Inc. shares outstanding.
 
 The offer, which was due to expire yesterday, is conditional on 50.1% of Dunkin' common shares, on a fully diluted basis, being tendered and on the withdrawal of the company's poison pill rights plan.
 
 Acquisition has launched a suit in a Delaware court seeking the withdrawal of Dunkin's poison pill rights and employee stock ownership plans, which it claims were put in place to deter bidders. Acquisition said 2.2 million shares, or about 38.5% of the shares outstanding, have been tendered under its offer. The partners said they already hold 15% of all shares outstanding.
 
-Dunkin' has set Nov. 10 as the deadline for the receipt of any competing bids. DD Acquisition said the extension is to allow this process to be completed. Dunkin' is based in Randolph, Mass. Cara, a food services chain operator and Unicorp, a holding company, are based in Toronto.</TEXT>
-
+Dunkin' has set Nov. 10 as the deadline for the receipt of any competing bids. DD Acquisition said the extension is to allow this process to be completed. Dunkin' is based in Randolph, Mass. Cara, a food services chain operator and Unicorp, a holding company, are based in Toronto.
+</TEXT>
 </TimeML>
+

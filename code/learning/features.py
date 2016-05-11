@@ -93,6 +93,7 @@ def extract_tlink_features(note):
             tokens.append(text_feature.keys()[0][1])
             pair_features.update(text_feature)
             pair_features.update(get_lemma(target_token,"target_lemma_{}".format(i)))
+
             target_pos_feature = get_pos_tag(target_token,"target_pos_{}".format(i))
             target_pos_tags.add(target_pos_feature.keys()[0][1])
             pair_features.update(target_pos_feature)
@@ -123,7 +124,7 @@ def extract_tlink_features(note):
         pair_features.update(get_sentence_distance(source_tokens, target_tokens))
         pair_features.update(get_num_inbetween_entities(source_tokens,target_tokens, note))
         pair_features.update(doc_creation_time_in_pair(source_tokens,target_tokens))
-        pair_features.update(get_discourse_connectives_features(source_tokens,target_tokens, note))
+        pair_features.update(get_discourse_connectives_pair_features(source_tokens,target_tokens, note))
         pair_features.update(get_temporal_signal_features(source_tokens,target_tokens,note))
 
         tlink_features.append(pair_features)
@@ -136,7 +137,7 @@ def _entity_type_entity(entity, note):
         return "TIMEX"
     return note.get_labels()[entity[0]["sentence_num"]-1][entity[0]["token_offset"]]["entity_type"]
 
-def get_discourse_connectives_features(src_entity, target_entity, note):
+def get_discourse_connectives_pair_features(src_entity, target_entity, note):
     """
     return tokens of temporal discourse connectives and their distance from each entity, if connective exist and entities are on the same line.
     """
@@ -146,11 +147,11 @@ def get_discourse_connectives_features(src_entity, target_entity, note):
         return {}
 
     # extract relevent attributes from entities
-    src_line_no      = src_entity[0]["sentence_num"] - 1
+    src_line_no      = src_entity[0]["sentence_num"]
     src_start_offset = src_entity[0]["token_offset"]
     src_end_offset   = src_entity[-1]["token_offset"]
 
-    target_line_no      = target_entity[0]["sentence_num"] - 1
+    target_line_no      = target_entity[0]["sentence_num"]
     target_start_offset = target_entity[0]["token_offset"]
     target_end_offset   = target_entity[-1]["token_offset"]
 
@@ -160,6 +161,7 @@ def get_discourse_connectives_features(src_entity, target_entity, note):
 
     # get discourse connectives
     connectives = get_discourse_connectives(src_line_no, note)
+    print "\n\nconnectives: ", connectives, "\nsource: ", src_entity, "\ntarget: ", target_entity
 
     connective_id = None
     connective_tokens = ''
@@ -223,10 +225,22 @@ def get_discourse_connectives_features(src_entity, target_entity, note):
 
     return retval
 
+def get_discourse_connectives_event_features(token, note):
+    """
+    return rather or not the token in question is part of a temporal discourse connective
+    """
+
+    line_no = token["sentence_num"]
+    connectives = get_discourse_connectives(line_no, note)
+    for connective_token in connectives:
+        if token["token"] == connective_token["token"] and token["token_offset"] == connective_token["token_offset"]:
+            return {"is_discourse_connective":1}
+
+    return {"is_discourse_connective":0}
 
 def get_discourse_connectives(line_no,note):
 
-    constituency_tree = note.get_sentence_features()[line_no+1]['constituency_tree']
+    constituency_tree = note.get_sentence_features()[line_no]['constituency_tree']
     connectives = get_temporal_discourse_connectives(constituency_tree)
 
     return connectives
@@ -404,6 +418,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(is_event(token, eventLabels))
                 token_features.update(semantic_roles(token))
                 token_features.update(is_nominalization(token))
+                token_features.update(get_discourse_connectives_event_features(token, note))
             else:
                 raise Exception("ERROR: invalid feature set")
 
@@ -546,7 +561,7 @@ def get_features_for_entity_pair(self, src_entity, target_entity):
 
      pair_features.update(self.get_same_attributes(self.get_entity_attributes(src_entity), self.get_entity_attributes(target_entity)))
 
-     pair_features.update(self.get_discourse_connectives_features(src_entity, target_entity))
+     pair_features.update(self.get_discourse_connectives_pair_features(src_entity, target_entity))
      pair_features.update(self.get_temporal_signal_features(src_entity, target_entity))
 
      for key in src_features:

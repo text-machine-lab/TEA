@@ -1,19 +1,23 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0175</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02" temporalFunction="false" functionInDocument="CREATION_TIME">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0015 = 891102 891102-0015.
 Marketing Brief -- Sony Corp.: @ Japanese Concern Completes @ Offer for Columbia Pictures 11/02/89 WALL STREET JOURNAL (J) SNE KPE GPEC WCI TL RECREATION, ENTERTAINMENT, TOYS, MOVIES, PHOTOGRAPHY, SPORTS (REC) TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) MEDIA, PUBLISHING, BROADCASTING, ELECTRONIC PUBLISHING (MED)
 </EXTRAINFO>
 
-<TEXT>Sony Corp. completed its tender offer for Columbia Pictures Entertainment Inc., with Columbia shareholders tendering 99.3% of all common shares outstanding by the Tuesday deadline.
+
+
+<TEXT>
+Sony Corp. completed its tender offer for Columbia Pictures Entertainment Inc., with Columbia shareholders tendering 99.3% of all common shares outstanding by the Tuesday deadline.
 
 Sony Columbia Acquisition Corp., formed for the Columbia deal, will formally take ownership of the movie studio later this month, a spokesman said. Sony is paying $27 a share, or $3.55 billion, cash and is assuming $1.4 billion of long-term debt.
 
-Still unresolved is Sony's effort to hire producers Jon Peters and Peter Guber to run the studio. Sony's planned acquisition of Guber/Peters Entertainment Co. for $200 million is scheduled to close Monday. Guber/Peters has been locked in litigation with Warner Communications Inc. in an attempt to get out of an exclusive production contract with Warner. Both sides are in talks to settle the dispute.</TEXT>
-
+Still unresolved is Sony's effort to hire producers Jon Peters and Peter Guber to run the studio. Sony's planned acquisition of Guber/Peters Entertainment Co. for $200 million is scheduled to close Monday. Guber/Peters has been locked in litigation with Warner Communications Inc. in an attempt to get out of an exclusive production contract with Warner. Both sides are in talks to settle the dispute.
+</TEXT>
 </TimeML>
+
