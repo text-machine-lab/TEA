@@ -30,7 +30,7 @@ def pre_process(text, filename):
     ner_tags,   constituency_trees,\
     main_verbs, tok_id_to_predicate_info = naf_parse.parse(naf_tagged_doc)
 
-    base_filename = os.path.basename(filename).split('.')[0]
+    base_filename = os.path.basename(filename)
 
     """
     print "\ntokens:\n"
