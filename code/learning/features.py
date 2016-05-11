@@ -394,7 +394,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(get_pos_tag(token))
                 token_features.update(get_ner_features(token))
                 token_features.update(is_nominalization(token))
-                token_features.update(get_tense(token, note.id_to_tok))
+                token_features.update(get_tense_aspect(token, note.id_to_tok))
             elif feature_set == "EVENT_CLASS":
                 token_features.update(get_lemma(token))
                 token_features.update(get_text(token))
@@ -867,10 +867,18 @@ def is_nominalization(token):
 
     return feat
 
-def get_tense(token, id_to_tok):
-    # english_rules.get_tense_aspect(token, id_to_tok)
-    #exit()
-    return {}
+def get_tense_aspect(token, id_to_tok):
+
+#    print "getting tense aspect features"
+
+#    print "TOKEN: ", token["token"]
+
+    tense, aspect = english_rules.get_tense_aspect(token)
+
+#    print "TENSE: ", tense
+#    print "ASPECT: ", aspect
+
+    return {"tense":tense, "aspect":aspect}
 
 
 
