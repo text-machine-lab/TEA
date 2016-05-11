@@ -121,29 +121,37 @@ _PRESPART_NONE_RE = "^.+\+v\+.*gerund\+pres"
 
 # be/indic/pres + _a_ = tense=PRESENT, aspect=NONE
 _ADJ_PRESENT_RE = "^be\+.*\+indic\+pres||^.*\+adj\+.*"
-
 # be/indic/pres + be/gerund/pres + _a_ = tense=PRESENT, aspect=PROGRESSIVE
 _ADJ_PRESENT_PROGRESSIVE_RE = "^be\+.*\+indic\+pres||^be\+.*\+gerund\+pres||^.*\+adj\+.*"
-
-
 # have/indic/pres + be/part/past + _a_ = tense=PRESENT, aspect=PERFECTIVE
 _ADJ_PRESENT_PERFECTIVE_RE = "^have\+.*\+indic\+pres||^be\+.*\+part\+past||^.*\+adj\+.*"
-
 # be/indic/past + _a_ = tense=PAST, aspect=NONE
 _ADJ_PAST_RE = "^be\+.*\+indic\+past||^.*\+adj\+.*"
-
 # be/indic/past + be/gerund/pres + _a_ = tense=PAST, aspect=PROGRESSIVE
 _ADJ_PAST_PROGRESSIVE_RE = "^be\+.*\+indic\+past||^be\+.*\+gerund\+pres||^.*\+adj\+.*"
-
-
 # have/indic/past + be/part/past + _a_ = tense=PAST, aspect=PERFECTIVE
 _ADJ_PAST_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+adj\+.*"
-
 # will/indic/pres + be/infin/pres + _a_ = tense=FUTURE, aspect=NONE
 _ADJ_FUTURE_RE = "^will\+.*\+indic\+pres||^be\+.*\+infin\+pres||^.*\+adj\+.*"
-
 # will/indic/pres + have/infin/pres + be/part/past + _a_ = tense=FUTURE, aspect=PERFECTIVE
 _ADJ_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||have\+.*\+infin\+pres||^be\+.*\+part\+past||^.*\+adj\+.*"
+
+# be/indic/pres + _n_ = tense=PRESENT, aspect=NONE
+_NOUN_PRESENT_RE = "^be\+.*\+indic\+pres||^.*\+n\+.*"
+# be/indic/pres + be/gerund/pres + _n_ = tense=PRESENT, aspect=PROGRESSIVE
+_NOUN_PRESENT_PROGRESSIVE_RE = "^be\+.*\+indic\+pres||^be\+.*\+gerund\+pres||^.*\+n\+.*"
+# have/indic/pres + be/part/past + _n_ = tense=PRESENT, aspect=PERFECTIVE
+_NOUN_PRESENT_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+n\+.*"
+# be/indic/past + _n_ = tense=PAST, aspect=NONE
+_NOUN_PAST_RE = "^be\+.*\+indic\+past||^.*\+n\+.*"
+# be/indic/past + be/gerund/pres + _n_ = tense=PAST, aspect=PROGRESSIVE
+_NOUN_PAST_PROGRESSIVE_RE = "^be\+.*\+indic\+past||^be\+.*\+gerund\+pres||^.*\+n\+.*"
+# have/indic/past + be/part/past + _n_ = tense=PAST, aspect=PERFECTIVE
+_NOUN_PAST_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+n\+.*"
+# will/indic/pres + be/infin/pres + _n_ = tense=FUTURE, aspect=NONE
+_NOUN_FUTURE_RE = "^will\+.*\+indic\+pres||^be\+.*\+infin\+pres||^.*\+n\+.*"
+# will/indic/pres + have/infin/pres + be/part/past + _n_ = tense=FUTURE, aspect=PERFECTIVE
+_NOUN_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||^have\+.*\+indic\+pres||^be\+.*\+part\+past||^.*\+n\+.*"
 
 
 _RULE_NAMES = {
@@ -216,6 +224,14 @@ _RULE_NAMES = {
                 _ADJ_FUTURE_RE: "ADJ: FUTURE",
                 _ADJ_FUTURE_PERFECTIVE_RE: "ADJ: FUTURE PERFECTIVE",
 
+                _NOUN_PRESENT_RE: "NOUN: PRESENT",
+                _NOUN_PRESENT_PROGRESSIVE_RE: "NOUN: PRESENT PROGRESSIVE",
+                _NOUN_PRESENT_PERFECTIVE_RE: "NOUNE: PRESENT PERFECTIVE",
+                _NOUN_PAST_RE: "NOUN: PAST",
+                _NOUN_PAST_PROGRESSIVE_RE: "NOUN: PAST PROGRESSIVE",
+                _NOUN_PAST_PERFECTIVE_RE: "NOUN: PAST PERFECTIVE",
+                _NOUN_FUTURE_RE: "NOUN: FUTURE",
+                _NOUN_FUTURE_PERFECTIVE_RE: "NOUN: FUTURE PERFECTIVE",
 
               }
 
@@ -287,8 +303,17 @@ _POSITIVE_CASES = {
                     _ADJ_PAST_RE: "was blue",
                     _ADJ_PAST_PROGRESSIVE_RE: "was being scared",
                     _ADJ_PAST_PERFECTIVE_RE: "had been scared",
-                    _ADJ_FUTURE_RE: "will be mad",
+                    _ADJ_FUTURE_RE: "will be angry",
                     _ADJ_FUTURE_PERFECTIVE_RE: "will have been glad",
+
+                    _NOUN_PRESENT_RE: "is boy",
+                    _NOUN_PRESENT_PROGRESSIVE_RE: "is being boy",
+                    _NOUN_PRESENT_PERFECTIVE_RE: "has been boy",
+                    _NOUN_PAST_RE: "was boy",
+                    _NOUN_PAST_PROGRESSIVE_RE: "was being boy",
+                    _NOUN_PAST_PERFECTIVE_RE: "had been boy",
+                    _NOUN_FUTURE_RE: "will be boy",
+                    _NOUN_FUTURE_PERFECTIVE_RE: "will have been boy",
 
                  }
 
@@ -361,8 +386,17 @@ _NEGATIVE_CASES = {
                     _ADJ_PAST_RE: "is blue",
                     _ADJ_PAST_PROGRESSIVE_RE: "is being scared",
                     _ADJ_PAST_PERFECTIVE_RE: "have been scared",
-                    _ADJ_FUTURE_RE: "would be mad",
+                    _ADJ_FUTURE_RE: "would be angry",
                     _ADJ_FUTURE_PERFECTIVE_RE: "would have been glad",
+
+                    _NOUN_PRESENT_RE: "was boy",
+                    _NOUN_PRESENT_PROGRESSIVE_RE: "was being boy",
+                    _NOUN_PRESENT_PERFECTIVE_RE: "had been boy",
+                    _NOUN_PAST_RE: "is boy",
+                    _NOUN_PAST_PROGRESSIVE_RE: "is being boy",
+                    _NOUN_PAST_PERFECTIVE_RE: "has been boy",
+                    _NOUN_FUTURE_RE: "would be boy",
+                    _NOUN_FUTURE_PERFECTIVE_RE: "would have been boy",
 
                   }
 
@@ -469,17 +503,6 @@ def _test_english_rules(verbose=False):
 
 def _nominal_nouns():
 
-    # noun
-    # be/indic/pres + _n_ = tense=PRESENT, aspect=NONE
-    # be/indic/pres + be/gerund/pres + _n_ = tense=PRESENT, aspect=PROGRESSIVE
-    # have/indic/pres + be/part/past + _n_ = tense=PRESENT, aspect=PERFECTIVE
-
-    # be/indic/past + _n_ = tense=PAST, aspect=NONE
-    # be/indic/past + be/gerund/pres + _n_ = tense=PAST, aspect=PROGRESSIVE
-    # have/indic/past + be/part/past + _n_ = tense=PAST, aspect=PERFECTIVE
-
-    # will/indic/pres + be/infin/pres + _n_ = tense=FUTURE, aspect=NONE
-    # will/indic/pres + have/infin/pres + be/part/past + _n_ = tense=FUTURE, aspect=PERFECTIVE
     pass
 
 def _preposition():
