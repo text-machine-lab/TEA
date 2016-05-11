@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT20000403.0463</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-04-03">2000-04-03</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-04-03" temporalFunction="false" functionInDocument="CREATION_TIME">2000-04-03</TIMEX3></DCT>
 
 <TITLE>FEDERAL OFFICIALS LOOK TO TURN ELIAN OVER TO FATHER _ SOON</TITLE>
 
@@ -21,21 +21,25 @@ BC-CUBA-ELIAN-0404-COX
 </EXTRAINFO>
 
 
-<TEXT>MIAMI _
+
+
+<TEXT>
+
+MIAMI _
 
 With a tense Miami waiting, federal immigration officials said Monday they will order the Miami relatives of 6-year-old Cuban rafter Elian Gonzalez to turn the boy over to his father , who could come to the U.S. from Cuba as early as Tuesday.
 
-''Our goal is to reunite Elian and his father,'' said Maria Cardona, a spokeswoman for the U.S. Immigration and Naturalization Service. ''The issue is not whether we will transfer Elian to his father, but when and how.''
+``Our goal is to reunite Elian and his father,'' said Maria Cardona, a spokeswoman for the U.S. Immigration and Naturalization Service. ``The issue is not whether we will transfer Elian to his father, but when and how.''
 
 Late Monday, U.S. State Department officials said that travel visas had been approved for Elian's father, Juan Miguel Gonzalez, his immediate family and three other people _ a pediatrician, a psychologist and one of Elian's favorite cousins. The group might come to the U.S. as soon as Tuesday, according to unconfirmed media reports.
 
 But Miami's volatile Cuban exiles continued to vow they would block any attempt to take Elian from the Little Havana home where he has been living with his Miami relatives, with some predicting bloodshed if federal agents come for the boy.
 
-''There will be thousands here to stop it if they come for him,'' said Ana Bonnin, one of about 100 exiles who practiced forming a human chain outside the home Monday. ''We'll try to do it peacefully, but you can only do so much. You can't control everybody.''
+``There will be thousands here to stop it if they come for him,'' said Ana Bonnin, one of about 100 exiles who practiced forming a human chain outside the home Monday. ``We'll try to do it peacefully, but you can only do so much. You can't control everybody.''
 
 Late in the day, lawyers for Elian's Miami family emerged from their third day-long meeting with federal officials, but said little.
 
-''We continue to be very concerned about the mental and psychological well-being of this 6-year-old,'' said Manny Diaz, one of the family's attorneys. ''To that end, we'll be back tomorrow to continue our negotiations.''
+``We continue to be very concerned about the mental and psychological well-being of this 6-year-old,'' said Manny Diaz, one of the family's attorneys. ``To that end, we'll be back tomorrow to continue our negotiations.''
 
 Federal officials made no immediate comment.
 
@@ -67,15 +71,14 @@ Moves to keep Elian in this country through federal legislation appear to be sty
 
 But in Miami, Cuban exiles insist the majority of Americans don't understand the dynamics of life in Cuba. Just how far they are willing to go to prove their point remains to be seen.
 
-''If he goes back, he won't be with his real father,'' said Elias Hernandez, who joined the crowd outside the Little Havana home of Elian's Miami relatives. ''His father will be Fidel Castro, the worst dictator in history.''</TEXT>
+``If he goes back, he won't be with his real father,'' said Elias Hernandez, who joined the crowd outside the Little Havana home of Elian's Miami relatives. ``His father will be Fidel Castro, the worst dictator in history.''
 
-
+</TEXT>
 <EXTRAINFO>
 ENDIT
 Story Filed By Cox Newspapers
 For Use By Clients of the New York Times News Service
 NYT-04-03-00 1949EDT &amp;QL;
 </EXTRAINFO>
-
-
 </TimeML>
+

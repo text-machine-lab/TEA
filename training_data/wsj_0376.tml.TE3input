@@ -1,16 +1,19 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0376</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-31">10/31/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-31" temporalFunction="false" functionInDocument="CREATION_TIME">10/31/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891031-0138 = 891031 891031-0138.
 International: @ Courtaulds PLC @ Plans to Spin Off @ Textiles Business @ ---- @ By Craig Forman @ Staff Reporter of The Wall Street Journal 10/31/89 WALL STREET JOURNAL (J) COU DIVIDENDS (DIV) STOCK MARKET, OFFERINGS (STK) TEXTILES AND APPAREL (TEX) LONDON
 </EXTRAINFO>
 
-<TEXT>Courtaulds PLC announced plans to spin off its textiles operations to existing shareholders in a restructuring to boost shareholder value.
+
+
+<TEXT>
+Courtaulds PLC announced plans to spin off its textiles operations to existing shareholders in a restructuring to boost shareholder value.
 
 The British chemical and textile company's plan, which requires shareholder approval, would create a new, listed U.K. stock with a probable market capitalization between #300 million ($473 million) and #400 million, analysts said. The establishment of the separate company, to be called Courtaulds Textiles, could be effective as early as next year's first quarter.
 
@@ -20,10 +23,11 @@ Courtaulds' spinoff reflects pressure on British industry to boost share prices 
 
 Some analysts have said Courtaulds' moves could boost the company's value by 5% to 10%, because the two entities separately will carry a higher price earnings multiple than they did combined. In addition, Courtaulds said the moves are logical because they will allow both the chemicals and textile businesses to focus more closely on core activities.
 
-Courtaulds has been under pressure to enhance shareholder value since takeover speculators -- including Australian financier Kerry Packer -- surfaced holding small stakes last year. Though Mr. Packer has since sold his stake, Courtaulds is moving to keep its institutional shareholders happy. Even without a specific takeover threat, Courtaulds is giving shareholders 'choice and value,' said Julia Blake, an analyst at London stockbrokers Barclays de Zoete Wedd.
+Courtaulds has been under pressure to enhance shareholder value since takeover speculators -- including Australian financier Kerry Packer -- surfaced holding small stakes last year. Though Mr. Packer has since sold his stake, Courtaulds is moving to keep its institutional shareholders happy. Even without a specific takeover threat, Courtaulds is giving shareholders "choice and value," said Julia Blake, an analyst at London stockbrokers Barclays de Zoete Wedd.
 
-In a statement, the company said: 'Both parts can only realize their full potential and be appropriately valued by the market if they are separately quoted companies. The sharper definition and the autonomy which each will thereby gain will benefit shareholders, customers and employees.'
+In a statement, the company said: "Both parts can only realize their full potential and be appropriately valued by the market if they are separately quoted companies. The sharper definition and the autonomy which each will thereby gain will benefit shareholders, customers and employees."
 
-Courtaulds Chairman and Chief Executive Sir Christopher Hogg will remain in both posts at the surviving chemical company after the spinoff.</TEXT>
-
+Courtaulds Chairman and Chief Executive Sir Christopher Hogg will remain in both posts at the surviving chemical company after the spinoff.
+</TEXT>
 </TimeML>
+

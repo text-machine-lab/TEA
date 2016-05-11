@@ -1,19 +1,23 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0924</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26" temporalFunction="false" functionInDocument="CREATION_TIME">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0134 = 891026 891026-0134.
 Dominion Textile Rights Plan 10/26/89 WALL STREET JOURNAL (J) T.DTX EARNINGS (ERN) MONTREAL
 </EXTRAINFO>
 
-<TEXT>Dominion Textile Inc. holders adopted a shareholder-rights plan at the annual meeting.
+
+
+<TEXT>
+Dominion Textile Inc. holders adopted a shareholder-rights plan at the annual meeting.
 
 The so-called poison pill took effect Aug. 9 pending ratification by holders. Rights attached to the company's common shares were issued that are triggered if a hostile bidder acquires more than 20% of the shares outstanding. Once triggered, the rights allow holders to buy additional shares at 50% of the then current market price or, at the board's discretion, to receive securities or assets.
 
-Separately, Dominion Textile posted net income of 4.7 million Canadian dollars ($4 million), or 12 Canadian cents a share, for the fiscal-first quarter ended Sept. 30. The company had a net loss of C$2.3 million, or 14 Canadian cents a share, a year ago. Sales were C$348.2 million compared with C$307.2 a year earlier.</TEXT>
-
+Separately, Dominion Textile posted net income of 4.7 million Canadian dollars ($4 million), or 12 Canadian cents a share, for the fiscal-first quarter ended Sept. 30. The company had a net loss of C$2.3 million, or 14 Canadian cents a share, a year ago. Sales were C$348.2 million compared with C$307.2 a year earlier.
+</TEXT>
 </TimeML>
+

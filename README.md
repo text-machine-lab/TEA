@@ -21,9 +21,10 @@ How to install:
 
 External Dependencies:
 
-    - maven3
-    - java1.7 or higher
-    - python2.7
+    - maven 3
+    - java 1.7 or higher
+    - python 2.7 (does not work with python 3+)
+    - scala 2.11.7 or higher
     - python modules
       - numpy
       - scipy
