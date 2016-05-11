@@ -30,11 +30,11 @@ def _time_norm(anchor, values):
 
     timenorm = subprocess.Popen(["scala",
                                 "-cp",
-                                os.environ["TEA_PATH"] + "/code/notes/dependencies/timenorm-0.9.5.jar",
-                                os.environ["TEA_PATH"] + "/code/notes/dependencies/TimeNorm.scala",
+                                os.environ["TEA_PATH"] + "/dependencies/TimeNorm/timenorm-0.9.5.jar",
+                                os.environ["TEA_PATH"] + "/dependencies/TimeNorm/TimeNorm.scala",
                                 anchor,
                                 values],
-                                cwd=os.environ["TEA_PATH"] + "/code/notes/dependencies",
+                                cwd=os.environ["TEA_PATH"] + "/dependencies/TimeNorm",
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE)
 
@@ -43,6 +43,6 @@ def _time_norm(anchor, values):
     return output
 
 if __name__ == "__main__":
-    print _time_norm("1995-11-05", "yesterday,tomorrow")
-    vals = ["yesterday","tomorrow"]
+    print _time_norm("1995-11-05", "yesterday,tomorrow,today")
+    vals = ["yesterday","tomorrow", "today"]
     print get_normalized_time_expressions("1995-11-05", vals)
