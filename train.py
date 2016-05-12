@@ -11,10 +11,6 @@ import os
 from code.config import env_paths
 
 
-
-if "TEA_PATH" not in os.environ:
-    sys.exit("TEA_PATH environment variable not specified, it is the directory containg train.py")
-
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
@@ -27,6 +23,7 @@ import cPickle
 from code.learning import model
 
 timenote_imported = False
+
 
 def main():
     """ Process command line arguments and then generate trained models (4, one for each pass) on files provided.
@@ -161,7 +158,12 @@ def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tli
                                                     len(zip(tml_files, gold_files)),
                                                     tml)
 
-        if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
+        stashed_name = os.path.basename(tml)
+        stashed_name = stashed_name.split('.')
+        stashed_name = stashed_name[0:stashed_name.index('tml')]
+        stashed_name = '.'.join(stashed_name)
+
+        if stashed_name + ".parsed.pickle" in pickled_timeml_notes:
             tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
         else:
             if timenote_imported is False:
@@ -171,7 +173,9 @@ def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tli
             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
         notes.append(tmp_note)
 
+    print "training..."
     return model.train(notes, train_timex, train_event, train_tlink)
+
 
 def trainNetwork(tml_files, gold_files, newsreader_dir):
     '''
@@ -198,7 +202,7 @@ def trainNetwork(tml_files, gold_files, newsreader_dir):
     tmp_note = None
 
     for i, example in enumerate(zip(tml_files, gold_files)):
-       	tml, gold = example
+        tml, gold = example
 
         assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
 
@@ -206,7 +210,7 @@ def trainNetwork(tml_files, gold_files, newsreader_dir):
         print '\n\nprocessing file {}/{} {}'.format(i + 1,
                                                     len(zip(tml_files, gold_files)),
                                                     tml)
-    	if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
+        if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
             tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
         else:
             if timenote_imported is False:
