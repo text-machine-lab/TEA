@@ -2,15 +2,21 @@ import subprocess
 import os
 import sys
 
+TEA_HOME = os.path.join(*([os.path.dirname(os.path.abspath(__file__))]+[".."]*3))
+
 def get_normalized_time_expressions(anchor, value_list, verbose=False):
     '''Normalizes a list of time expressions with respect to a given anchor'''
 
     if verbose:
         print "ANCHOR: ", anchor
 
-    # these don't guarentee a valid anchor, but they do guarentee it has the right general format
-    assert len(anchor) == 10, "anchor is wrong length %r" % anchor
-    assert len(anchor.split('-')) == 3, "anchor is invalid format %r" % anchor
+    # doesn't guarentee a valid anchor, but should catch most obvious problems
+    assert len(anchor) >= 10, "anchor is wrong length %r" % anchor
+    # assert len(anchor.split('-')) == 3, "anchor is invalid format %r" % anchor
+
+    # hack to remove time info from achors if present. It is formatted in a way time norm doesn't understand.
+    if len(anchor) > 10:
+        anchor = anchor[:10]
 
     values = ""
     for value in value_list:
@@ -31,13 +37,18 @@ def get_normalized_time_expressions(anchor, value_list, verbose=False):
 def _time_norm(anchor, values):
     '''Calls the timeNorm subprocess using given arguments'''
 
+    print
+    print TEA_HOME + "/dependencies/TimeNorm/timenorm-0.9.5.jar"
+    print TEA_HOME + "/dependencies/TimeNorm/TimeNorm.scala"
+    print TEA_HOME + "/dependencies/TimeNorm"
+
     timenorm = subprocess.Popen(["scala",
                                 "-cp",
-                                os.environ["TEA_PATH"] + "/dependencies/TimeNorm/timenorm-0.9.5.jar",
-                                os.environ["TEA_PATH"] + "/dependencies/TimeNorm/TimeNorm.scala",
+                                TEA_HOME + "/dependencies/TimeNorm/timenorm-0.9.5.jar",
+                                TEA_HOME + "/dependencies/TimeNorm/TimeNorm.scala",
                                 anchor,
                                 values],
-                                cwd=os.environ["TEA_PATH"] + "/dependencies/TimeNorm",
+                                cwd=(TEA_HOME + "/dependencies/TimeNorm"),
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE)
 
