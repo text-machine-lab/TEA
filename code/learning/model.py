@@ -5,7 +5,6 @@ import sys
 
 TEA_HOME_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
-from code.notes.TimeNote import TimeNote
 from sci import train as train_classifier
 
 # models to be loaded.

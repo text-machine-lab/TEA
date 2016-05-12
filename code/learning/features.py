@@ -161,7 +161,6 @@ def get_discourse_connectives_pair_features(src_entity, target_entity, note):
 
     # get discourse connectives
     connectives = get_discourse_connectives(src_line_no, note)
-    print "\n\nconnectives: ", connectives, "\nsource: ", src_entity, "\ntarget: ", target_entity
 
     connective_id = None
     connective_tokens = ''
@@ -419,6 +418,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(semantic_roles(token))
                 token_features.update(is_nominalization(token))
                 token_features.update(get_discourse_connectives_event_features(token, note))
+                token_features.update(get_tense(token, note.id_to_tok))
             else:
                 raise Exception("ERROR: invalid feature set")
 
@@ -883,9 +883,17 @@ def is_nominalization(token):
     return feat
 
 def get_tense(token, id_to_tok):
-    # english_rules.get_tense_aspect(token, id_to_tok)
-    #exit()
-    return {}
+
+#    print "getting tense aspect features"
+
+#    print "TOKEN: ", token["token"]
+
+    tense, _ = english_rules.get_tense_aspect(token)
+
+#    print "TENSE: ", tense
+#    print "ASPECT: ", aspect
+
+    return {("tense",tense):1}
 
 
 

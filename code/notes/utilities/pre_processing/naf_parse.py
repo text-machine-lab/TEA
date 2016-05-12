@@ -19,6 +19,7 @@ def parse(naf_tagged_doc):
     named_entities     = {}
     constituency_trees = {}
     id_to_role         = {}
+    corefs             = {}
 
     for e in xml_root:
 
@@ -32,10 +33,12 @@ def parse(naf_tagged_doc):
             constituency_trees = get_constituency_trees(e)
         elif e.tag == "srl":
             main_verbs, id_to_role = get_srl_info(e)
+#        elif e.tag == "coreferences":
+#            corefs = get_coref_groups(e)
         else:
             continue
 
-    return tokens, tokens_to_offset, pos_tags, lemmas, named_entities, constituency_trees, main_verbs, id_to_role
+    return tokens, tokens_to_offset, pos_tags, lemmas, named_entities, constituency_trees, main_verbs, id_to_role#, corefs
 
 
 def get_tokens(text_element):
@@ -552,6 +555,26 @@ def get_srl_info(srl_element):
     return main_verbs, id_to_role
 
 
+def get_coref_groups(coreferences_element):
+    '''get the coreferences identified by coref graph'''
+
+    corefs = {}
+
+    # each coreference is composed of a list of coreferent spans. spans are lists of token ids.
+    for coref in coreferences_element:
+        coreferent_spans = []
+        for span in coref:
+            tok_span = []
+            for tok in span:
+                tok_span.append(tok.attrib["id"])
+
+            coreferent_spans.append(tok_span)
+
+        corefs[coref.attrib["id"]] = coreferent_spans
+
+    return corefs
+
+
 def strip_quotes(text):
     """ the pipeline we use does really weird stuff to quotes. just going to remove them for now or forever """
 
@@ -755,19 +778,19 @@ class DependencyTree(object):
 
 if __name__ == "__main__":
 
-    ret = parse(open("tree.xml").read())
+    ret = parse(open("naf_dump.naf.xml").read())
 
-    tokens       = ret[0]
-    constituency = ret[5]
+    # tokens       = ret[0]
+    # constituency = ret[5]
 
-    for t in tokens:
-        t_id = 'w' + t["id"][1:]
-        s_num = t["sentence_num"]
+    # for t in tokens:
+    #     t_id = 'w' + t["id"][1:]
+    #     s_num = t["sentence_num"]
 
-        print "token_id: ", t_id
-        print "token: ", t["token"]
+    #     print "token_id: ", t_id
+    #     print "token: ", t["token"]
 
-        print constituency[s_num].get_phrase_membership(t_id)
+    #     print constituency[s_num].get_phrase_membership(t_id)
 
 
     pass

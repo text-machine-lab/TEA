@@ -21,9 +21,10 @@ How to install:
 
 External Dependencies:
 
-    - maven3
-    - java1.7 or higher
-    - python2.7
+    - maven 3
+    - java 1.7 or higher
+    - python 2.7 (does not work with python 3+)
+    - scala 2.11.7 or higher
     - python modules
       - numpy
       - scipy
@@ -34,6 +35,8 @@ External Dependencies:
       - nltk
       - py4j
       - CorefGraph
+            - how to install CorefGraph:
+                $  pip install --allow-all-external --process-dependency-links hg+https://bitbucket.org/Josu/corefgraph#egg=corefgraph
 
 Environment Variables:
 
