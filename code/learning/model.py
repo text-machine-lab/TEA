@@ -72,7 +72,14 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
 
     # TODO: when predicting, if gold standard is provided evaluate F-measure for each of the steps
 
+    #print "VOCAB:"
+    #print features._voc
+    #print
+
     if train_timex is True:
+
+        print "\tTRAINING TIMEX"
+
         # train model to perform BIO labeling for timexs
         timexClassifier, timexVectorizer = _trainTimex(timexFeatures, timexLabels, grid=True)
         #timexClassifier, timexVectorizer = _trainTimex(timexFeatures, timexLabels, grid=False)
@@ -164,7 +171,7 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
 
             features.update_features(t, f, timexLabels)
 
-            X = timexVectorizer.transform([f]).toarray()
+            X = timexVectorizer.transform([f])
             Y = list(timexClassifier.predict(X))
 
             timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
@@ -194,7 +201,7 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
 
             features.update_features(t, f, eventLabels)
 
-            X = eventVectorizer.transform([f]).toarray()
+            X = eventVectorizer.transform([f])
             Y = list(eventClassifier.predict(X))
 
             eventLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
@@ -213,7 +220,7 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
             # updates labels
             features.update_features(t, f, eventClassLabels)
 
-            X = eventClassVectorizer.transform([f]).toarray()
+            X = eventClassVectorizer.transform([f])
             Y = list(eventClassClassifier.predict(X))
 
             eventClassLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
@@ -246,7 +253,7 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
         print "PREDICT: getting tlink features"
 
         f = features.extract_tlink_features(note)
-        X = tlinkVectorizer.transform(f).toarray()
+        X = tlinkVectorizer.transform(f)
 
         tlink_labels = list(tlinkClassifier.predict(X))
 

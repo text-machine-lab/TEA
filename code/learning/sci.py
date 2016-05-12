@@ -20,7 +20,12 @@ def train( featsDict, Y, do_grid=False, ovo=False):
 
     #vectorize dictionary data
     vec = DictVectorizer()
-    X = vec.fit_transform(featsDict).toarray()
+    X = vec.fit_transform(featsDict)
+
+    print
+    print "\ttype(X): ", type(X)
+    print "\tX.shape: ", X.shape
+    print "\t# labels: ",  len(Y)
 
     # Search space
     C_range     = 10.0 ** np.arange( -5, 9 )
