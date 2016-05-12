@@ -30,6 +30,11 @@ class NewsReader(object):
 
     def __init__(self):
 
+        global srl
+
+        if srl is None:
+            srl = SRL()
+
         # newsreader pipeline objects
         print "creating tokenizer..."
         self.newsreader_tok = py4j_newsreader.tok.IXATokenizer()
@@ -168,7 +173,6 @@ class SRLServer():
         if self.s is not None:
             self.s.kill()
 
-srl = SRL()
 
 if __name__ == "__main__":
 

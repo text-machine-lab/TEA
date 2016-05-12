@@ -163,6 +163,10 @@ def extract_labeled_entities(annotated_timeml):
     labeled_text = re.sub("<TEXT>\n+", "", labeled_text)
     labeled_text = re.sub("\n+</TEXT>", "", labeled_text)
 
+    # incase there is no new line!
+    labeled_text = re.sub("<TEXT>", "", labeled_text)
+    labeled_text = re.sub("</TEXT>", "", labeled_text)
+
     raw_index = 0
     labeled_index = 0
 
