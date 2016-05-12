@@ -124,7 +124,7 @@ def extract_tlink_features(note):
         pair_features.update(get_sentence_distance(source_tokens, target_tokens))
         pair_features.update(get_num_inbetween_entities(source_tokens,target_tokens, note))
         pair_features.update(doc_creation_time_in_pair(source_tokens,target_tokens))
-#        pair_features.update(get_discourse_connectives_pair_features(source_tokens,target_tokens, note))
+        pair_features.update(get_discourse_connectives_pair_features(source_tokens,target_tokens, note))
         pair_features.update(get_temporal_signal_features(source_tokens,target_tokens,note))
 
         tlink_features.append(pair_features)
@@ -417,7 +417,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(is_event(token, eventLabels))
                 token_features.update(semantic_roles(token))
                 token_features.update(is_nominalization(token))
-#                token_features.update(get_discourse_connectives_event_features(token, note))
+                token_features.update(get_discourse_connectives_event_features(token, note))
                 token_features.update(get_tense(token, note.id_to_tok))
             else:
                 raise Exception("ERROR: invalid feature set")

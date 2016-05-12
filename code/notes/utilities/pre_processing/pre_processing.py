@@ -28,8 +28,8 @@ def pre_process(text, filename):
     tokens,     tokens_to_offset,\
     pos_tags,   token_lemmas,\
     ner_tags,   constituency_trees,\
-    main_verbs, tok_id_to_predicate_info,\
-    coreferent_lists = naf_parse.parse(naf_tagged_doc)
+    main_verbs, tok_id_to_predicate_info = naf_parse.parse(naf_tagged_doc)
+    #coreferent_lists = naf_parse.parse(naf_tagged_doc)
 
     base_filename = os.path.basename(filename)
 
@@ -160,6 +160,7 @@ def pre_process(text, filename):
 
         id_to_tok[main_verb].update({"is_main_verb":True})
 
+    """
     for coref_id in coreferent_lists:
         for span in coreferent_lists[coref_id]:
             for tok_id in span:
@@ -168,6 +169,7 @@ def pre_process(text, filename):
                 assert tok_id in id_to_tok
 
                 id_to_tok[tok_id].update({"coref_chain":coref_id})
+    """
 
     # print morpho_pro_input
     morpho_pro_input = "\n".join(morpho_pro_input)
@@ -188,8 +190,10 @@ def pre_process(text, filename):
             tok.update({"ner_tag":'NONE'})
             tok.update({"ne_chunk":"NULL"})
 
+        """
         if "coref_chain" not in tok:
             tok.update({"coref_chain":"None"})
+        """
 
         if tok["id"] in tok_id_to_predicate_info:
             semantic_roles = tok_id_to_predicate_info[tok["id"]]["semantic_role"]
