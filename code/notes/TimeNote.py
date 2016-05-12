@@ -61,6 +61,8 @@ class TimeNote(Note):
         # {'wid':'token'}
         self.id_to_tok = id_to_tok
 
+        self.discourse_connectives = {}
+
         self.iob_labels = []
 
         """
@@ -95,6 +97,12 @@ class TimeNote(Note):
 
     def get_tokenized_text(self):
         return self.pre_processed_text
+
+    def get_discourse_connectives(self):
+        return self.discourse_connectives
+
+    def add_discourse_connectives(self, connectives):
+        self.discourse_connectives.update(connectives)
 
     def get_timex_labels(self):
         return self.filter_label_by_type('TIMEX3')

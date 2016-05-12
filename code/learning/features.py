@@ -124,7 +124,7 @@ def extract_tlink_features(note):
         pair_features.update(get_sentence_distance(source_tokens, target_tokens))
         pair_features.update(get_num_inbetween_entities(source_tokens,target_tokens, note))
         pair_features.update(doc_creation_time_in_pair(source_tokens,target_tokens))
-#        pair_features.update(get_discourse_connectives_pair_features(source_tokens,target_tokens, note))
+        pair_features.update(get_discourse_connectives_pair_features(source_tokens,target_tokens, note))
         pair_features.update(get_temporal_signal_features(source_tokens,target_tokens,note))
 
         tlink_features.append(pair_features)
@@ -159,7 +159,7 @@ def get_discourse_connectives_pair_features(src_entity, target_entity, note):
     if src_line_no != target_line_no or src_line_no is None or target_line_no is None:
         return {}
 
-    # get discourse connectives
+    # get discourse connectives.
     connectives = get_discourse_connectives(src_line_no, note)
 
     connective_id = None
@@ -230,17 +230,30 @@ def get_discourse_connectives_event_features(token, note):
     """
 
     line_no = token["sentence_num"]
+
+    # get discourse connectives.
     connectives = get_discourse_connectives(line_no, note)
+
+    # check if token is part of a connective
     for connective_token in connectives:
         if token["token"] == connective_token["token"] and token["token_offset"] == connective_token["token_offset"]:
             return {"is_discourse_connective":1}
 
     return {"is_discourse_connective":0}
 
-def get_discourse_connectives(line_no,note):
+def get_discourse_connectives(line_no, note):
+    '''get discourse connectives for the given line'''
 
-    constituency_tree = note.get_sentence_features()[line_no]['constituency_tree']
-    connectives = get_temporal_discourse_connectives(constituency_tree)
+    connectives = []
+
+    # check if the connectives have been caches. if they haven't, extract and cache them
+    note_connectives = note.get_discourse_connectives()
+    if line_no in note_connectives:
+        connectives = note_connectives[line_no]
+    else:
+        constituency_tree = note.get_sentence_features()[line_no]['constituency_tree']
+        connectives = get_temporal_discourse_connectives(constituency_tree)
+        note.add_discourse_connectives({line_no:connectives})
 
     return connectives
 
@@ -417,7 +430,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(is_event(token, eventLabels))
                 token_features.update(semantic_roles(token))
                 token_features.update(is_nominalization(token))
-#                token_features.update(get_discourse_connectives_event_features(token, note))
+                token_features.update(get_discourse_connectives_event_features(token, note))
                 token_features.update(get_tense(token, note.id_to_tok))
             else:
                 raise Exception("ERROR: invalid feature set")
