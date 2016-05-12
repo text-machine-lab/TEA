@@ -21,6 +21,7 @@ elif [ "$1" == 'test' ]; then
 else
 
     tar -zxvf timenorm-timenorm-0.9.5.tar.gz
+    unzip scala-2.11.7.zip
 
     cd timenorm-timenorm-0.9.5
     mvn install
