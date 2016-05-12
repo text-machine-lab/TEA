@@ -11,10 +11,6 @@ import os
 from code.config import env_paths
 
 
-
-if "TEA_PATH" not in os.environ:
-    sys.exit("TEA_PATH environment variable not specified, it is the directory containg train.py")
-
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
@@ -27,6 +23,7 @@ import cPickle
 from code.learning import model
 
 timenote_imported = False
+
 
 def main():
     """ Process command line arguments and then generate trained models (4, one for each pass) on files provided.
@@ -176,7 +173,9 @@ def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tli
             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
         notes.append(tmp_note)
 
+    print "training..."
     return model.train(notes, train_timex, train_event, train_tlink)
+
 
 def trainNetwork(tml_files, gold_files, newsreader_dir):
     '''

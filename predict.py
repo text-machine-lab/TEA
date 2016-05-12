@@ -13,7 +13,11 @@ import cPickle
 import argparse
 import glob
 
+timenote_imported = False
+
 def main():
+
+    global timenote_imported
 
     parser = argparse.ArgumentParser()
 
@@ -26,6 +30,9 @@ def main():
 
     parser.add_argument("annotation_destination",
                          help="Where annotated files are written")
+
+    parser.add_argument("newsreader_annotations",
+                        help="Where newsreader pipeline parsed file objects go")
 
     parser.add_argument("--no_event",
                         action='store_true',
@@ -47,8 +54,12 @@ def main():
 
     annotation_destination = args.annotation_destination
 
+    if os.path.isdir(args.newsreader_annotations) is False:
+        sys.exit("invalid path for time note dir")
     if os.path.isdir(annotation_destination) is False:
         sys.exit("\n\noutput destination does not exist")
+
+    newsreader_dir = args.newsreader_annotations
 
     predict_dir = args.predict_dir[0]
 
@@ -71,7 +82,6 @@ def main():
                 sys.exit("\n\nmissing vectorizer: {}".format(v_path))
 
     # bad form, but it is annoying for this to inputted just to be told args are invalid.
-    from code.notes.TimeNote import TimeNote
     from code.learning import model
 
     files_to_annotate = glob.glob(predict_dir + "/*")
@@ -79,14 +89,31 @@ def main():
     #load data from files
     notes = []
 
+    pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
+
     model.load_models(model_path, predict_timex, predict_event, predict_tlink)
 
     #read in files as notes
     for i, tml in enumerate(files_to_annotate):
 
+        note = None
+
         print '\nannotating file: {}/{} {}\n'.format(i+1, len(files_to_annotate), tml)
 
-        note = TimeNote(tml)
+        stashed_name = os.path.basename(tml)
+        stashed_name = stashed_name.split('.')
+        stashed_name = stashed_name[0:stashed_name.index('tml')]
+        stashed_name = '.'.join(stashed_name)
+
+        if stashed_name + ".parsed.predict.pickle" in pickled_timeml_notes:
+            print "loading stashed"
+            note = cPickle.load(open(newsreader_dir + "/" + stashed_name + ".parsed.predict.pickle", "rb"))
+        else:
+            if timenote_imported is False:
+                from code.notes.TimeNote import TimeNote
+                timenote_imported = True
+            note = TimeNote(tml)
+            cPickle.dump(note, open(newsreader_dir + "/" + stashed_name + ".parsed.predict.pickle", "wb"))
 
         entityLabels, OriginalOffsets, tlinkLabels, tokens = model.predict(note,
                                                                            predict_timex,
