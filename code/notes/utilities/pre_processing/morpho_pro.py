@@ -81,14 +81,12 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
     sentence = []
     output.append(sentence)
 
-    for line in morpho_output.strip('\n').split('\n'):
+    for line in morpho_output.strip('\n').split('\n')[4:]:
         if _new_sentence(line):
             sentence_num += 1
             token_index = 0
             sentence = []
             output.append(sentence)
-        elif _comment(line):
-            continue
         else:
             # take advantage of python referencing
             sentence.append(_dict_entry(line.split('\t'), sentence_num, token_index))

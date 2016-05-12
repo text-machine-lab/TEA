@@ -30,6 +30,11 @@ class NewsReader(object):
 
     def __init__(self):
 
+        global srl
+
+        if srl is None:
+            srl = SRL()
+
         # newsreader pipeline objects
         print "creating tokenizer..."
         self.newsreader_tok = py4j_newsreader.tok.IXATokenizer()
@@ -57,9 +62,11 @@ class NewsReader(object):
         ner_tagged_text = self.newsreader_ner.tag(pos_tagged_text)
         constituency_parsed_text = self.newsreader_parse.parse(ner_tagged_text)
         srl_text = srl.parse_dependencies(constituency_parsed_text)
-        coref_tagged_text = _coreference_tag(srl_text)
+#        coref_tagged_text = _coreference_tag(srl_text)
 
-        naf_marked_up_text = coref_tagged_text
+#        naf_marked_up_text = coref_tagged_text
+
+        naf_marked_up_text = srl_text
 
         return naf_marked_up_text
 
@@ -166,7 +173,6 @@ class SRLServer():
         if self.s is not None:
             self.s.kill()
 
-srl = SRL()
 
 if __name__ == "__main__":
 

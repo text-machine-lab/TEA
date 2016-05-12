@@ -13,6 +13,8 @@ import cPickle
 import argparse
 import glob
 
+from code.learning import model
+
 timenote_imported = False
 
 def main():
@@ -80,9 +82,6 @@ def main():
                 sys.exit("\n\nmissing model: {}".format(m_path))
             if os.path.isfile(v_path) is False:
                 sys.exit("\n\nmissing vectorizer: {}".format(v_path))
-
-    # bad form, but it is annoying for this to inputted just to be told args are invalid.
-    from code.learning import model
 
     files_to_annotate = glob.glob(predict_dir + "/*")
 
