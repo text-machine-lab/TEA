@@ -2,8 +2,11 @@ import subprocess
 import os
 import sys
 
-def get_normalized_time_expressions(anchor, value_list):
+def get_normalized_time_expressions(anchor, value_list, verbose=False):
     '''Normalizes a list of time expressions with respect to a given anchor'''
+
+    if verbose:
+        print "ANCHOR: ", anchor
 
     # these don't guarentee a valid anchor, but they do guarentee it has the right general format
     assert len(anchor) == 10, "anchor is wrong length %r" % anchor
