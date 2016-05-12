@@ -1,4 +1,4 @@
-"""The rules within english_rules.txt come from the original authors of this paper.
+"""The rules within english_rules.txt come from the original authors of this pape
 """
 import os
 import re
@@ -170,6 +170,115 @@ _PREP_PAST_PERFECTIVE_RE = "^have\+.*\+indic\+past||^be\+.*\+part\+past||^.*\+pr
 _PREP_FUTURE_RE = "^will\+.*\+indic\+pres||^be\+.*\+infin\+pres||^.*\+prep(\+.*|\Z)"
 # will/indic/pres + have/infin/pres + be/part/past + _p_ = tense=FUTURE, aspect=PERFECTIVE
 _PREP_FUTURE_PERFECTIVE_RE = "^will\+.*\+indic\+pres||^have\+.*\+infin\+pres||^be\+.*\+part\+past||^.*\+prep(\+.*|\Z)"
+
+_TENSE_ASPECT =  {
+
+            # TODO: look at what the formatating is for TimeML
+            _ACTIVE_VOICE_PRESENT_PROGRESSIVE_RE: {"tense":"PRESENT", "aspect":"PROGRESSIVE"},
+            _ACTIVE_VOICE_PRESENT_PERFECTIVE_PROGRESSIVE_RE: {"tense":"PRESENT", "aspect":"PERFECTIVE_PROGRESSIVE"},
+            _ACTIVE_VOICE_PRESENT_PERFECTIVE_RE: {"tense":"PRESENT", "aspect":"PERFECTIVE"},
+
+            _ACTIVE_VOICE_PAST_PROGRESSIVE_RE: {"tense":"PAST", "aspect":"PROGRESSIVE"},
+            _ACTIVE_VOICE_PAST_PERFECTIVE_RE: {"tense":"PAST", "aspect":"PERFECTIVE"},
+            _ACTIVE_VOICE_PAST_PERFECTIVE_PROGRESSIVE_RE: {"tense":"PAST", "aspect":"PERFECTIVE_PROGRESSIVE"},
+
+            _ACTIVE_VOICE_FUTURE_NONE_A_RE: {"tense":"FUTURE", "aspect":"NONE"},
+            _ACTIVE_VOICE_FUTURE_NONE_B_RE: {"tense":"FUTURE", "aspect":"NONE"},
+            _ACTIVE_VOICE_FUTURE_NONE_C_RE: {"tense":"FUTURE", "aspect":"NONE"},
+            _ACTIVE_VOICE_FUTURE_PROGRESSIVE_A_RE: {"tense":"FUTURE", "aspect":"PROGRESSIVE"},
+            _ACTIVE_VOICE_FUTURE_PROGRESSIVE_B_RE: {"tense":"FUTURE", "aspect":"PROGRESSIVE"},
+            _ACTIVE_VOICE_FUTURE_PERFECTIVE_RE: {"tense":"FUTURE", "aspect":"PROGRESSIVE"},
+            _ACTIVE_VOICE_FUTURE_PERFECTIVE_PROGRESSIVE_RE: {"tense":"FUTURE", "aspect":"PERFECTIVE_PROGRESSIVE"},
+
+            _PASSIVE_VOICE_PRESENT_RE: {"tense":"PRESENT", "aspect":"NONE"},
+            _PASSIVE_VOICE_PRESENT_PROGRESSIVE_RE: {"tense":"PRESENT", "aspect":"PROGRESSIVE"},
+            _PASSIVE_VOICE_PRESENT_PERFECTIVE_RE: {"tense":"PRESENT", "aspect":"PERFECTIVE"},
+            _PASSIVE_VOICE_PAST_RE: {"tense":"PAST", "aspect":"NONE"},
+            _PASSIVE_VOICE_PAST_PROGRESSIVE_RE: {"tense":"PAST", "aspect":"PROGRESSIVE"},
+            _PASSIVE_VOICE_PAST_PERFECTIVE_RE: {"tense":"PAST", "aspect":"PERFECTIVE"},
+            _PASSIVE_VOICE_FUTURE_A_RE: {"tense":"FUTURE", "aspect":"NONE"},
+            _PASSIVE_VOICE_FUTURE_B_RE: {"tense":"FUTURE", "aspect":"NONE"},
+            _PASSIVE_VOICE_FUTURE_PERFECTIVE_RE: {"tense":"FUTURE", "aspect":"PERFECTIVE"},
+
+            _MODAL_PRESENT_RE:{"tense":"PRESENT", "aspect":"NONE"},
+            _MODAL_PRESENT_PROGRESSIVE_RE:{"tense":"PRESENT", "aspect":"PROGRESSIVE"},
+            _MODAL_PRESENT_PERFECTIVE_RE: {"tense":"PRESENT", "aspect":"PERFECTIVE"},
+            _MODAL_PRESENT_PERFECTIVE_PROGRESSIVE_RE:{"tense":"PRESENT", "aspect":"PERFECTIVE_PROGRESSIVE"},
+            _MODAL_PAST_NONE_A_RE: {"tense":"PAST", "aspect":"NONE"},
+            _MODAL_PAST_PROGRESSIVE_RE: {"tense":"PAST", "aspect":"PROGRESSIVE"},
+            _MODAL_FUTURE_RE: {"tense":"FUTURE", "aspect":"NONE"},
+            _MODAL_FUTURE_PROGRESSIVE_RE: {"tense":"FUTURE", "aspect":"PROGRESSIVE"},
+            _MODAL_NONE_NONE_RE: {"tense":"NONE", "aspect":"NONE"},
+            _MODAL_NONE_PROGRESSIVE_RE: {"tense":"NONE", "aspect":"PROGRESSIVE"},
+            _MODAL_NONE_PERFECTIVE_RE: {"tense":"NONE", "aspect":"PERFECTIVE"},
+            _MODAL_NONE_PERFECTIVE_PROGRESSIVE: {"tense":"NONE", "aspect":"PROGRESSIVE"},
+            _MODAL_PAST_NONE_B_RE: {"tense":"PAST", "aspect":"NONE"},
+
+            _DO_PAST_RE: {"tense":"PAST", "aspect":"NONE"},
+            _DO_PRESENT_RE: {"tense":"PRESENT", "aspect":"NONE"},
+            _INFINITIVE_NONE_A_RE: {"tense":"INFINITIVE", "aspect": "NONE"},
+            _INFINITIVE_NONE_B_RE: {"tense":"INFINITIVE", "aspect":"NONE"},
+            _INFITIVE_PROGRESSIVE_RE: {"tense":"INFINITIVE", "aspect":"PROGRESSIVE"},
+            _INFINITIVE_PERFECTIVE_RE: {"tense":"INFINITIVE", "aspect":"PERFECTIVE"},
+            _INFINITIVE_PERFECTIVE_PROGRESSIVE_RE: {"tense":"INFINITIVE", "aspect":"PERFECTIVE_PROGRESSIVE"},
+
+
+            _PRESPART_RE: {"tense":"PRESPART", "aspect":"NONE"},
+            _PRESENT_RE: {"tense":"PRESENT", "aspect":"NONE"},
+            _PAST_RE: {"tense":"PAST", "aspect":"NONE"},
+            _PASTPART_RE: {"tense":"PASTPART", "aspect":"NONE"},
+
+            _TWO_PIECE_VP_NONE_PERFECTIVE_PROGRESSIVE_RE: {"tense":"NONE", "aspect":"PERFECTIVE_PROGRESSIVE"},
+            _TWO_PIECE_VP_NONE_PERFECTIVE_RE: {"tense":"NONE", "aspect":"PERFECTIVE"},
+
+            _PRESPART_NONE_RE: {"tense":"PRESPART", "aspect":"NONE"},
+
+            _ADJ_PRESENT_RE: {"tense":"PRESENT", "aspect":"NONE"},
+            _ADJ_PRESENT_PROGRESSIVE_RE: {"tense":"PRESENT", "aspect":"PROGRESSIVE"},
+            _ADJ_PRESENT_PERFECTIVE_RE: {"tense":"PRESENT", "aspect":"PERFECTIVE"},
+            _ADJ_PAST_RE: {"tense":"PAST", "aspect":"NONE"},
+            _ADJ_PAST_PROGRESSIVE_RE: {"tense":"PAST", "aspect":"PROGRESSIVE"},
+            _ADJ_PAST_PERFECTIVE_RE: {"tense":"PAST", "aspect":"PERFECTIVE"},
+            _ADJ_FUTURE_RE: {"tense":"FUTURE", "aspect":"NONE"},
+            _ADJ_FUTURE_PERFECTIVE_RE: {"tense":"FUTURE", "aspect":"PERFECTIVE"},
+
+
+            _NOUN_PRESENT_RE: {"tense":"PRESENT", "aspect":"NONE"},
+            _NOUN_PRESENT_PROGRESSIVE_RE: {"tense":"PRESENT", "aspect":"PROGRESSIVE"},
+            _NOUN_PRESENT_PERFECTIVE_RE: {"tense":"PRESENT", "aspect":"PERFECTIVE"},
+            _NOUN_PAST_RE: {"tense":"PAST", "aspect":"NONE"},
+            _NOUN_PAST_PROGRESSIVE_RE: {"tense":"PAST", "aspect":"PROGRESSIVE"},
+            _NOUN_PAST_PERFECTIVE_RE: {"tense":"PAST", "aspect":"PERFECTIVE"},
+            _NOUN_FUTURE_RE: {"tense":"FUTURE", "aspect":"NONE"},
+            _NOUN_FUTURE_PERFECTIVE_RE: {"tense":"FUTURE", "aspect":"PERFECTIVE"},
+
+
+            _PREP_PRESENT_RE: {"tense":"PRESENT", "aspect":"NONE"},
+            _PREP_PRESENT_PROGRESSIVE_RE: {"tense":"PRESENT", "aspect":"PROGRESSIVE"},
+            _PREP_PRESENT_PERFECTIVE_RE: {"tense":"PRESENT", "aspect":"PERFECTIVE"},
+            _PREP_PAST: {"tense":"PAST", "aspect":"NONE"},
+            _PREP_PAST_PROGRESSIVE_RE: {"tense":"PAST", "aspect":"PROGRESSIVE"},
+            _PREP_PAST_PERFECTIVE_RE: {"tense":"PAST", "aspect":"PERFECTIVE"},
+            _PREP_FUTURE_RE: {"tense":"FUTURE", "aspect":"NONE"},
+            _PREP_FUTURE_PERFECTIVE_RE: {"tense":"FUTURE", "aspect":"PERFECTIVE"},
+
+          }
+
+_MAX_ARG_LEN = 0
+
+_NARG_TENSE_ASPECT = {}
+
+# group each rule by number of len of token input
+for rule in _TENSE_ASPECT.keys():
+    arg_len = len(rule.split("||"))
+    if arg_len > _MAX_ARG_LEN:
+        _MAX_ARG_LEN = arg_len
+
+    if arg_len in _NARG_TENSE_ASPECT:
+        _NARG_TENSE_ASPECT[arg_len][rule] = _TENSE_ASPECT[rule]
+    else:
+        _NARG_TENSE_ASPECT[arg_len] = {rule:_TENSE_ASPECT[rule]}
+
 
 _RULE_NAMES = {
 
@@ -545,69 +654,46 @@ def _test_english_rules(verbose=False):
             print "\t\tNEGATIVE TEST FAILED: ({})".format(match)
 
 
-def _preposition():
+def get_tense_aspect(token, verbose=False):
+    """Use rule based methods to extract the tense and aspect of the phrase a token belongs in.
 
-    # preposition
-    # be/indic/pres + _p_ = tense=PRESENT, aspect=NONE
-    # be/indic/pres + be/gerund/pres + _p_ = tense=PRESENT, aspect=PROGRESSIVE
-    # have/indic/pres + be/part/past + _p_ = tense=PRESENT, aspect=PERFECTIVE
+       token: a dictionary of various stuff we store from pre-processing, includes constituency phrase a token belongs in.
+       id_to_tok: a dictionary mapping unique identifier values to objects exactly like the input parameter token.
+    """
 
-    # be/indic/past + _p_ = tense=PAST, aspect=NONE
-    # be/indic/past + be/gerund/pres + _p_ = tense=PAST, aspect=PROGRESSIVE
-    # have/indic/past + be/part/past + _p_ = tense=PAST, aspect=PERFECTIVE
-
-    # will/indic/pres + be/infin/pres + _p_ = tense=FUTURE, aspect=NONE
-    # will/indic/pres + have/infin/pres + be/part/past + _p_ = tense=FUTURE, aspect=PERFECTIVE
-
-    pass
-
-
-
-def get_tense_aspect(token, id_to_tok):
-
-    num_tokens = None
-    tokens_morphology = None
-
-    if token["constituency_phrase"]["phrase"] == "NONE":
-        num_tokens = 1
-        tokens_morphology = [token["morphology_morpho"]]
-    else:
-        tokens_morphology = [id_to_tok[t_id]["morphology_morpho"] for t_id in token["constituency_phrase"]["ordered_phrase_members"]]
-        num_tokens = len(tokens_morphology)
-
-    print num_tokens
-    print tokens_morphology
-
-    tense  = "NONE"
+    tense = "NONE"
     aspect = "NONE"
 
-    if num_tokens == 1:
-        # TODO: add the rules
-        return "NONE", "NONE"
-    elif num_tokens == 2:
-        # TODO: add the rules
-        tok1_match = False
-        tok1_morphology = tokens_morphology[0]
 
-        tok2_match = False
-        tok2_morphology = tokens_morphology[1]
+    n_args = len(token["chunked_morphologies_morpho"])
 
-        # be/indic/pres + _v_/gerund/pres = tense=PRESENT, aspect=PROGRESSIVE
-        if True in [re.search("^be\+.*\+indic\+pres",m) for m in tok1_morphology.split(' ')] and\
-           True in [re.search("^.+\+v\+.+\+part\+part",m) for m in tok2_morphology.split(' ')]:
-            print "YES"
-        # have/indic/pres + _v_/part/past = tense=PRESENT, aspect=PERFECTIVE
-        # TODO: ....
+    if n_args in _NARG_TENSE_ASPECT:
+        # TODO: might want to make this better?
+        # find fist rule that matches
+        for rule in _NARG_TENSE_ASPECT[n_args]:
+            rule_match = True
+            for condition, morphologies in zip(rule.split('||'), token["chunked_morphologies_morpho"]):
 
-        exit("hit 2 case")
-        return "NONE", "NONE"
-    elif num_tokens == 3:
-        # TODO: add the rules
-        # have/indic/pres + be/part/past + _v_/gerund/pres = tense=PRESENT, aspect=PERFECTIVE_PROGRESSIVE
-        return "NONE", "NONE"
-    else:
-        # TODO: get better way of handling no match cases?
-        return "NONE", "NONE"
+                if True not in [re.search(condition, morphology) != None for morphology in morphologies.split(' ')]:
+                    rule_match = False
+
+                if verbose:
+                    print
+                    print "\t\t\tCONDITION: ", condition
+                    print "\t\t\tMORPHOLOGIES: ", morphologies
+                    print "\t\t\tMATCH: ", rule_match
+
+            if rule_match:
+                tense = _TENSE_ASPECT[rule]["tense"]
+                aspect = _TENSE_ASPECT[rule]["aspect"]
+                break
+
+    if verbose:
+        print "TOKEN: ",token["token"]
+        print "TENSE: ",tense
+        print "ASPECT: ", aspect
+
+    return tense, aspect
 
 if __name__ == "__main__":
     print _get_candidate_rules(2)

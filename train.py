@@ -3,7 +3,6 @@
 
 # temporary until NN interface is updated
 import cPickle
-from code import network
 
 
 
@@ -114,6 +113,7 @@ def main():
 
     # create the model, then save architecture and weights
     if args.neural_network == True:
+        from code import network
         network = trainNetwork(tml_files, gold_files, newsreader_dir)
         architecture = model.classifier.to_json()
         open(args.model_destination + '.arch.json', "w").write(architecture)
