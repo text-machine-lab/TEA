@@ -35,6 +35,8 @@ External Dependencies:
       - nltk
       - py4j
       - CorefGraph
+            - how to install CorefGraph:
+                $  pip install --allow-all-external --process-dependency-links hg+https://bitbucket.org/Josu/corefgraph#egg=corefgraph
 
 Environment Variables:
 

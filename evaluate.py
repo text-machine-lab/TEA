@@ -14,6 +14,85 @@ from code.notes.utilities.timeml_utilities import get_tagged_entities
 from code.notes.utilities.timeml_utilities import get_text
 from code.notes.utilities.timeml_utilities import get_text_with_taggings
 
+_TIMEX_LABELS = [
+                 'DATE',
+                 'TIME',
+                 'DURATION',
+                 'SET',
+                 'O',
+                ]
+
+
+def _compare_file(predicted, gold):
+    """Look at where predictions differ from gold and where they are the same
+    """
+
+    print "\t\ttgold file: ", gold
+    print "\t\tpredicted file: ", predicted
+    print
+
+    predicted_entities = extract_labeled_entities(predicted)
+    gold_entities = extract_labeled_entities(gold)
+
+    incorrect = []
+    correct   = []
+
+    # get mismatching xml and print them.
+    for offset in gold_entities:
+        gold_class_type = gold_entities[offset]["xml_element"].attrib["class"] if "class" in gold_entities[offset]["xml_element"].attrib else gold_entities[offset]["xml_element"].attrib["type"]
+        if offset in predicted_entities:
+
+            predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"] if "class" in predicted_entities[offset]["xml_element"].attrib else predicted_entities[offset]["xml_element"].attrib["type"]
+
+            if gold_class_type != predicted_class_type:
+                incorrect.append((gold_entities[offset]["text"],
+                                  gold_class_type + " ({})".format(gold_entities[offset]["xml_element"].tag),
+                                  predicted_class_type + " ({})".format(predicted_entities[offset]["xml_element"].tag)))
+            else:
+                correct.append((gold_entities[offset]["text"],
+                                gold_class_type + " ({})".format(gold_entities[offset]["xml_element"].tag),
+                                predicted_class_type + " ({})".format(predicted_entities[offset]["xml_element"].tag)))
+        # mismatch
+        else:
+            incorrect.append((gold_entities[offset]["text"],
+                              gold_class_type + " ({})".format(gold_entities[offset]["xml_element"].tag),
+                              "O"))
+
+    # mismatches
+    for offset in predicted_entities:
+        predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"] if "class" in predicted_entities[offset]["xml_element"].attrib else predicted_entities[offset]["xml_element"].attrib["type"]
+        if offset not in gold_entities:
+            incorrect.append((predicted_entities[offset]["text"],
+                              "O",
+                              predicted_class_type + " ({})".format(predicted_entities[offset]["xml_element"].tag)))
+
+    col_width = max(len(entry) for line in incorrect + correct for entry in line) + 2
+
+    repeat = 0
+    print "\t\t\tincorrect taggings"
+    for line in incorrect:
+        if repeat % 15 == 0 or repeat == 0:
+            print "\n\t\t\t\t{}{}{}\n".format("token".ljust(col_width),
+                                      "gold label".ljust(col_width),
+                                      "predicted label".ljust(col_width))
+
+        print "\t\t\t\t" + "".join(entry.ljust(col_width) for entry in line)
+
+        repeat += 1
+
+    repeat = 0
+
+    print "\n\t\t\tcorrect taggings"
+    for line in correct:
+        if repeat % 15 == 0 or repeat == 0:
+            print "\n\t\t\t\t{}{}{}\n".format("token".ljust(col_width),
+                                      "gold label".ljust(col_width),
+                                      "predicted label".ljust(col_width))
+
+        print "\t\t\t\t" + "".join(entry.ljust(col_width) for entry in line)
+
+        repeat += 1
+
 def main():
 
     parser = argparse.ArgumentParser()
@@ -60,69 +139,7 @@ def main():
             sys.exit("missing predicted file: {}".format(gold_basename))
 
     for predicted, gold in files:
-
-        predicted_entities = extract_labeled_entities(predicted)
-        gold_entities = extract_labeled_entities(gold)
-
-        incorrect = []
-        correct   = []
-
-        # get mismatching xml and print them.
-        for offset in gold_entities:
-            gold_class_type = gold_entities[offset]["xml_element"].attrib["class"] if "class" in gold_entities[offset]["xml_element"].attrib else gold_entities[offset]["xml_element"].attrib["type"]
-            if offset in predicted_entities:
-
-                predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"] if "class" in predicted_entities[offset]["xml_element"].attrib else predicted_entities[offset]["xml_element"].attrib["type"]
-
-                if gold_class_type != predicted_class_type:
-                    incorrect.append((gold_entities[offset]["text"],
-                                      gold_class_type + " ({})".format(gold_entities[offset]["xml_element"].tag),
-                                      predicted_class_type + " ({})".format(predicted_entities[offset]["xml_element"].tag)))
-                else:
-                    correct.append((gold_entities[offset]["text"],
-                                    gold_class_type + " ({})".format(gold_entities[offset]["xml_element"].tag),
-                                    predicted_class_type + " ({})".format(predicted_entities[offset]["xml_element"].tag)))
-            # mismatch
-            else:
-                incorrect.append((gold_entities[offset]["text"],
-                                  gold_class_type + " ({})".format(gold_entities[offset]["xml_element"].tag),
-                                  "O"))
-
-        # mismatches
-        for offset in predicted_entities:
-            predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"] if "class" in predicted_entities[offset]["xml_element"].attrib else predicted_entities[offset]["xml_element"].attrib["type"]
-            if offset not in gold_entities:
-                incorrect.append((predicted_entities[offset]["text"],
-                                  "O",
-                                  predicted_class_type + " ({})".format(predicted_entities[offset]["xml_element"].tag)))
-
-        col_width = max(len(entry) for line in incorrect + correct for entry in line) + 2
-
-        repeat = 0
-        print "\t\tincorrect taggings"
-        for line in incorrect:
-            if repeat % 15 == 0 or repeat == 0:
-                print "\n\t\t\t{}{}{}\n".format("token".ljust(col_width),
-                                          "gold label".ljust(col_width),
-                                          "predicted label".ljust(col_width))
-
-            print "\t\t\t" + "".join(entry.ljust(col_width) for entry in line)
-
-            repeat += 1
-
-        repeat = 0
-
-        print "\n\t\tcorrect taggings"
-        for line in correct:
-            if repeat % 15 == 0 or repeat == 0:
-                print "\n\t\t\t{}{}{}\n".format("token".ljust(col_width),
-                                          "gold label".ljust(col_width),
-                                          "predicted label".ljust(col_width))
-
-            print "\t\t\t" + "".join(entry.ljust(col_width) for entry in line)
-
-            repeat += 1
-
+        _compare_file(predicted, gold)
 
     return
 
