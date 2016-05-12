@@ -161,7 +161,6 @@ def get_discourse_connectives_pair_features(src_entity, target_entity, note):
 
     # get discourse connectives
     connectives = get_discourse_connectives(src_line_no, note)
-    print "\n\nconnectives: ", connectives, "\nsource: ", src_entity, "\ntarget: ", target_entity
 
     connective_id = None
     connective_tokens = ''
