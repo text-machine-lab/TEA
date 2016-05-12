@@ -37,12 +37,7 @@ def get_normalized_time_expressions(anchor, value_list, verbose=False):
 def _time_norm(anchor, values):
     '''Calls the timeNorm subprocess using given arguments'''
 
-    print
-    print TEA_HOME + "/dependencies/TimeNorm/timenorm-0.9.5.jar"
-    print TEA_HOME + "/dependencies/TimeNorm/TimeNorm.scala"
-    print TEA_HOME + "/dependencies/TimeNorm"
-
-    timenorm = subprocess.Popen(["scala",
+    timenorm = subprocess.Popen([TEA_HOME + "/dependencies/TimeNorm/scala-2.11.7/bin/scala",
                                 "-cp",
                                 TEA_HOME + "/dependencies/TimeNorm/timenorm-0.9.5.jar",
                                 TEA_HOME + "/dependencies/TimeNorm/TimeNorm.scala",
