@@ -5,9 +5,13 @@ import sys
 def get_normalized_time_expressions(anchor, value_list):
     '''Normalizes a list of time expressions with respect to a given anchor'''
 
-    # these don't guarentee a valid anchor, but they do guarentee it has the right general format
-    assert len(anchor) == 10, "anchor is wrong length %r" % anchor
-    assert len(anchor.split('-')) == 3, "anchor is invalid format %r" % anchor
+    # doesn't guarentee a valid anchor, but should catch most obvious problems
+    assert len(anchor) >= 10, "anchor is wrong length %r" % anchor
+    # assert len(anchor.split('-')) == 3, "anchor is invalid format %r" % anchor
+
+    # hack to remove time info from achors if present. It is formatted in a way time norm doesn't understand.
+    if len(anchor) > 10:
+        anchor = anchor[:10]
 
     values = ""
     for value in value_list:
