@@ -22,6 +22,9 @@ import py4j_newsreader.pos
 import py4j_newsreader.parse
 import py4j_newsreader.ner
 
+# if this fails, corefgraph is not installed, and an appropriate error will be printed
+import corefgraph.process.file
+
 TEA_HOME_DIR = os.path.join(*([os.path.dirname(os.path.abspath(__file__))] + [".."]*4))
 
 srl = None
@@ -72,6 +75,8 @@ class NewsReader(object):
 
 
 def _coreference_tag(naf_constituency_parsed_text):
+
+    # TODO: call this method directly instead of launching a subprocess
 
     tag = subprocess.Popen(["python2.7",
                             "-m",
