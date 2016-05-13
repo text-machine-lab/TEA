@@ -38,6 +38,11 @@ External Dependencies:
             - how to install CorefGraph:
                 $  pip install --allow-all-external --process-dependency-links hg+https://bitbucket.org/Josu/corefgraph#egg=corefgraph
 
+                    - corefgraph needs the following resources:
+
+                        $ hg clone https://bitbucket.org/Josu/corefgraph
+                        $ cp corefgraph/corefgraph /usr/local/lib/python2.7/dist-packages/
+
 Environment Variables:
 
     1. There are two environment variables that need to be defined for the system to work:
