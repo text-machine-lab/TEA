@@ -33,8 +33,8 @@ def parse(naf_tagged_doc):
             constituency_trees = get_constituency_trees(e)
         elif e.tag == "srl":
             main_verbs, id_to_role = get_srl_info(e)
-#        elif e.tag == "coreferences":
-#            corefs = get_coref_groups(e)
+        elif e.tag == "coreferences":
+            corefs = get_coref_groups(e)
         else:
             continue
 

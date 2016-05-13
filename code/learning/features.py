@@ -421,6 +421,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(get_ner_features(token))
                 token_features.update(is_nominalization(token))
                 token_features.update(get_tense(token, note.id_to_tok))
+                token_features.update(is_corferenced(token))
             elif feature_set == "EVENT_CLASS":
                 token_features.update(get_lemma(token))
                 token_features.update(get_text(token))
@@ -432,6 +433,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(is_nominalization(token))
                 token_features.update(get_discourse_connectives_event_features(token, note))
                 token_features.update(get_tense(token, note.id_to_tok))
+                token_features.update(is_corferenced(token))
             else:
                 raise Exception("ERROR: invalid feature set")
 
@@ -908,5 +910,11 @@ def get_tense(token, id_to_tok):
 
     return {("tense",tense):1}
 
+def is_corferenced(token):
+    if "coref_chain" in token:
+        if token["coref_chain"] != "None":
+            return {("is_corferenced", None):1}
+
+    return {("is_corferenced", None):0}
 
 
