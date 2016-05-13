@@ -38,7 +38,7 @@ def parse(naf_tagged_doc):
         else:
             continue
 
-    return tokens, tokens_to_offset, pos_tags, lemmas, named_entities, constituency_trees, main_verbs, id_to_role#, corefs
+    return tokens, tokens_to_offset, pos_tags, lemmas, named_entities, constituency_trees, main_verbs, id_to_role, corefs
 
 
 def get_tokens(text_element):
