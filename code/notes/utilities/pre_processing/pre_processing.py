@@ -28,8 +28,7 @@ def pre_process(text, filename):
     tokens,     tokens_to_offset,\
     pos_tags,   token_lemmas,\
     ner_tags,   constituency_trees,\
-    main_verbs, tok_id_to_predicate_info = naf_parse.parse(naf_tagged_doc)
-    coreferent_lists = naf_parse.parse(naf_tagged_doc)
+    main_verbs, tok_id_to_predicate_info, coreferent_lists = naf_parse.parse(naf_tagged_doc)
 
     base_filename = os.path.basename(filename)
 
