@@ -196,7 +196,7 @@ def get_discourse_connectives_pair_features(src_entity, target_entity, note):
         assert connective_pos is not None
 
         # add connective to features list
-        assert (connective_pos, connective_token["token"]) not in connective_feats
+        # assert (connective_pos, connective_token["token"]) not in connective_feats
         connective_feats.update({(connective_pos, connective_token["token"]):1})
 
     # return feature dict
