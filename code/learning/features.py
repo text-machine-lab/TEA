@@ -147,13 +147,11 @@ def get_discourse_connectives_pair_features(src_entity, target_entity, note):
         return {}
 
     # extract relevent attributes from entities
-    src_line_no      = src_entity[0]["sentence_num"]
-    src_start_offset = src_entity[0]["token_offset"]
-    src_end_offset   = src_entity[-1]["token_offset"]
-
-    target_line_no      = target_entity[0]["sentence_num"]
-    target_start_offset = target_entity[0]["token_offset"]
-    target_end_offset   = target_entity[-1]["token_offset"]
+    # only concider token [0] in entity because events only have 1 token
+    src_line_no     = src_entity[0]["sentence_num"]
+    src_offset      = src_entity[0]["token_offset"]
+    target_line_no  = target_entity[0]["sentence_num"]
+    target_offset   = target_entity[0]["token_offset"]
 
     # connectives are only obtained for single sentences, and connot be processed for pairs that cross sentence boundaries
     if src_line_no != target_line_no or src_line_no is None or target_line_no is None:
@@ -162,67 +160,47 @@ def get_discourse_connectives_pair_features(src_entity, target_entity, note):
     # get discourse connectives.
     connectives = get_discourse_connectives(src_line_no, note)
 
+    # if there are no connectives
+    if connectives == []:
+        return {}
+
+    connective_feats = {}
     connective_id = None
     connective_tokens = ''
-    connective_is_between_entities = False
-    connective_before_entities = False
-    connective_after_entities = False
-    src_before_target = False
+    connective_pos = None
 
     for connective_token in connectives:
 
         # find connective position relative to entities
-        if src_start_offset < connective_token["token_offset"] and connective_token["token_offset"] < target_end_offset:
-            connective_is_between_entities = True
-            src_before_target = True
-        elif target_start_offset < connective_token["token_offset"] and connective_token["token_offset"] < src_end_offset:
-            connective_is_between_entities = True
+        if src_offset < connective_token["token_offset"] and connective_token["token_offset"] < target_offset:
+            connective_pos = "connective_between"
+        elif target_offset < connective_token["token_offset"] and connective_token["token_offset"] < src_offset:
+            connective_pos = "connective_between"
 
-        elif src_start_offset < target_start_offset and target_start_offset < connective_token["token_offset"]:
-            connective_after_entities = True
-            src_before_target = True
-        elif target_start_offset < src_start_offset and src_start_offset < connective_token["token_offset"]:
-            connective_after_entities = True
+        elif src_offset < target_offset and target_offset < connective_token["token_offset"]:
+            connective_pos = "connective_after"
+        elif target_offset < src_offset and src_offset < connective_token["token_offset"]:
+            connective_pos = "connective_after"
 
-        elif connective_token["token_offset"] < src_end_offset and src_start_offset < target_start_offset:
-            connective_before_entities = True
-            src_before_target = True
-        elif connective_token["token_offset"] < target_end_offset and target_start_offset < src_start_offset:
-            connective_before_entities = True
+        elif connective_token["token_offset"] < src_offset and src_offset < target_offset:
+            connective_pos = "connective_before"
+        elif connective_token["token_offset"] < target_offset and target_offset < src_offset:
+            connective_pos = "connective_before"
 
-        # assuming every sentence will only have one temporal discourse connective. If this isn't the case, it would be nice to know
-        if connective_id is not None:
-            assert connective_id == connective_token["discourse_id"]
+        elif connective_token["token_offset"] == src_offset:
+            connective_pos = "connective_is_src"
+        elif connective_token["token_offset"] == target_offset:
+            connective_pos = "connective_is_target"
 
-        connective_id = connective_token["discourse_id"]
+        # sanity check
+        assert connective_pos is not None
 
-        # add token to connective
-        connective_tokens += connective_token["token"]
-
-    # if no connective was found
-    if connective_id is None:
-        return {}
-
-    # # sanity check
-    # if connective_id is not None:
-     # assert connective_before_entities or connective_after_entities or connective_is_between_entities
+        # add connective to features list
+        assert (connective_pos, connective_token["token"]) not in connective_feats
+        connective_feats.update({(connective_pos, connective_token["token"]):1})
 
     # return feature dict
-    retval = {("connective_tokens", connective_tokens):1}
-    if connective_before_entities:
-        retval["connective_before_src"] = 1
-        retval["connective_before_target"] = 1
-    elif connective_after_entities:
-        retval["connective_after_src"] = 1
-        retval["connective_after_target"] = 1
-    elif connective_is_between_entities and src_before_target:
-        retval["connective_after_src"] = 1
-        retval["connective_before_target"] = 1
-    elif connective_is_between_entities and not src_before_target:
-        retval["connective_before_src"] = 1
-        retval["connective_after_target"] = 1
-
-    return retval
+    return connective_feats
 
 def get_discourse_connectives_event_features(token, note):
     """
