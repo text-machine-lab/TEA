@@ -14,14 +14,215 @@ from code.notes.utilities.timeml_utilities import get_tagged_entities
 from code.notes.utilities.timeml_utilities import get_text
 from code.notes.utilities.timeml_utilities import get_text_with_taggings
 
-_TIMEX_LABELS = [
-                 'DATE',
-                 'TIME',
-                 'DURATION',
-                 'SET',
-                 'O',
-                ]
+_TIMEX_LABELS = {
+                 'DATE':0,
+                 'TIME':1,
+                 'DURATION':2,
+                 'SET':3,
+                 'O':4,
+                }
 
+_EVENT_LABELS = {
+                 'REPORTING':0,
+                 'PERCEPTION':1,
+                 'ASPECTUAL':2,
+                 'I_ACTION':3,
+                 'I_STATE':4,
+                 'STATE':5,
+                 'OCCURRENCE':6,
+                 'O':7
+                }
+
+def _display_event_confusion_matrix(files):
+
+    confusion = [[0] * len(_EVENT_LABELS) for timex_label in _EVENT_LABELS]
+
+    predicted_entities_in_file = []
+    gold_entities_in_file = []
+
+    # get annotated elements per file
+    for predicted_file, gold_file in files:
+        predicted_entities_in_file.append(extract_labeled_entities(predicted_file))
+        gold_entities_in_file.append(extract_labeled_entities(gold_file))
+
+    # keep track of how many times this class occurs in gold or predict
+    label_counts = {label:0 for label in _EVENT_LABELS}
+
+    for gold_entities, predicted_entities in zip(gold_entities_in_file, predicted_entities_in_file):
+
+        # get mismatching xml and print them.
+        for offset in gold_entities:
+
+            gold_class_type = 'O'
+            predicted_class_type = 'O'
+
+            if gold_entities[offset]["xml_element"].tag == "EVENT":
+                gold_class_type = gold_entities[offset]["xml_element"].attrib["class"]
+
+            label_counts[gold_class_type] += 1
+
+            if offset in predicted_entities:
+                if predicted_entities[offset]["xml_element"].tag == "EVENT":
+                    predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"]
+
+                    predicted_entities.pop(offset)
+
+            assert gold_class_type in _EVENT_LABELS
+            assert predicted_class_type in _EVENT_LABELS
+
+            label_counts[predicted_class_type] += 1
+            confusion[_EVENT_LABELS[gold_class_type]][_EVENT_LABELS[predicted_class_type]] += 1
+
+        for offset in predicted_entities:
+            predicted_class_type = 'O'
+
+            if predicted_entities[offset]["xml_element"].tag == "EVENT":
+                predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"]
+
+            assert predicted_class_type in _EVENT_LABELS
+            confusion[_EVENT_LABELS['O']][_EVENT_LABELS[predicted_class_type]] += 1
+            label_counts[predicted_class_type] += 1
+
+    name = "EVENT"
+
+    display_confusion(name, confusion, _EVENT_LABELS, label_counts)
+
+def _display_timex_confusion_matrix(files):
+    """Print results of timex tagging
+
+       files: [(predicted_file_path, gold_file_path),...]
+    """
+
+    confusion = [[0] * len(_TIMEX_LABELS) for timex_label in _TIMEX_LABELS]
+
+    predicted_entities_in_file = []
+    gold_entities_in_file = []
+
+    # get annotated elements per file
+    for predicted_file, gold_file in files:
+        predicted_entities_in_file.append(extract_labeled_entities(predicted_file))
+        gold_entities_in_file.append(extract_labeled_entities(gold_file))
+
+    # keep track of how many times this class occurs in gold or predict
+    label_counts = {label:0 for label in _TIMEX_LABELS}
+
+    for gold_entities, predicted_entities in zip(gold_entities_in_file, predicted_entities_in_file):
+
+        # get mismatching xml and print them.
+        for offset in gold_entities:
+
+            gold_class_type = 'O'
+            predicted_class_type = 'O'
+
+            if gold_entities[offset]["xml_element"].tag == "TIMEX3":
+                gold_class_type = gold_entities[offset]["xml_element"].attrib["type"]
+
+            label_counts[gold_class_type] += 1
+
+            if offset in predicted_entities:
+                if predicted_entities[offset]["xml_element"].tag == "TIMEX3":
+                    predicted_class_type = predicted_entities[offset]["xml_element"].attrib["type"]
+
+                    predicted_entities.pop(offset)
+
+            assert gold_class_type in _TIMEX_LABELS
+            assert predicted_class_type in _TIMEX_LABELS
+
+            label_counts[predicted_class_type] += 1
+            confusion[_TIMEX_LABELS[gold_class_type]][_TIMEX_LABELS[predicted_class_type]] += 1
+
+        for offset in predicted_entities:
+            predicted_class_type = 'O'
+
+            if predicted_entities[offset]["xml_element"].tag == "TIMEX3":
+                predicted_class_type = predicted_entities[offset]["xml_element"].attrib["type"]
+
+            confusion[_TIMEX_LABELS['O']][_TIMEX_LABELS[predicted_class_type]] += 1
+            label_counts[predicted_class_type] += 1
+
+    name = "TIMEX"
+
+    display_confusion(name, confusion, _TIMEX_LABELS, label_counts)
+
+def display_confusion(name, confusion, labels, label_counts):
+    """Display a confuson matrix for some given labels.
+
+       name: a string for displaying type of confusion matrix
+       confusion: entries to my matrix
+       labels: the types of labels
+       label_counts: total counts of occurrences of a label in gold or predict
+    """
+
+    # Display the confusion matrix
+    col_names = labels.keys()
+    row_entries = []
+
+    for act, act_v in labels.items():
+        line = [act]
+        line += [str(confusion[act_v][pre_v]) for pre, pre_v in labels.items()]
+
+        row_entries.append(line)
+
+    col_width = max(len(entry) for line in [col_names] + row_entries for entry in line) + 5
+
+    print "\n\t{} CONFUSION MATRIX\n".format(name)
+    print "\t\t{}{}".format(' '*col_width, ''.join([col_name.ljust(col_width) for col_name in col_names]))
+    for line in row_entries:
+        print "\t\t","".join([entry.ljust(col_width) for entry in line])
+    print
+
+
+    # Compute the analysis stuff
+    precision = []
+    recall = []
+    specificity = []
+    f1 = []
+
+    tp = 0
+    fp = 0
+    fn = 0
+    tn = 0
+
+    print "\n\t{} Analysis\n".format(name)
+    print '\t\t{}{}'.format(' '*col_width, ''.join([metric.ljust(col_width) for metric in ["Precision", "Recall", "F1"]]))
+    print
+
+    for lab, lab_v in labels.items():
+
+        tp = confusion[lab_v][lab_v]
+        fp = sum(confusion[v][lab_v] for k, v in labels.items() if v != lab_v)
+        fn = sum(confusion[lab_v][v] for k, v in labels.items() if v != lab_v)
+
+        p_num = tp
+        p_den = (tp + fp) + 1e-10
+
+        p = float(p_num) / p_den
+
+        r_num = tp
+        r_den = (tp + fn) + 1e-10
+
+        r = float(r_num) / r_den
+
+        f = 2 * ((p * r) / ((p + r) + 1e-10))
+
+        print "\t\t{}{}".format(lab.ljust(col_width), ''.join(["{:.5f}".format(entry).ljust(col_width) for entry in [p, r, f]]))
+
+        # just ignore this then. we didn't predict and it didn't occur in gold.
+        if lab == 'O' or label_counts[lab] == 0: continue
+        # going to negatively impact the overall average of individual scores.
+        precision += [p]
+        recall += [r]
+        f1 += [f]
+
+
+    precision = sum(precision) / len(precision)
+    recall = sum(recall) / len(recall)
+    f1 = sum(f1) / len(f1)
+
+    print "\n\t{} SUMMARY\n".format(name)
+    print '\t\t{}{}'.format(' '*col_width, ''.join([metric.ljust(col_width) for metric in ["Precision", "Recall", "F1"]]))
+    print  "\t\t{}{}".format("Average: ".ljust(col_width), ''.join(["{:.5f}".format(metric).ljust(col_width) for metric in [precision, recall, f1]]))
+    print
 
 def _compare_file(predicted, gold):
     """Look at where predictions differ from gold and where they are the same
@@ -138,8 +339,13 @@ def main():
         else:
             sys.exit("missing predicted file: {}".format(gold_basename))
 
-    for predicted, gold in files:
-        _compare_file(predicted, gold)
+    _display_timex_confusion_matrix(files)
+    _display_event_confusion_matrix(files)
+
+    # for predicted, gold in files:
+    #    _compare_file(predicted, gold)
+
+    #    _display_timex_confusion_matrix(predicted, gold)
 
     return
 

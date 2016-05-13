@@ -26,6 +26,7 @@ def train( featsDict, Y, do_grid=False, ovo=False):
     print "\ttype(X): ", type(X)
     print "\tX.shape: ", X.shape
     print "\t# labels: ",  len(Y)
+    print
 
     # Search space
     C_range     = 10.0 ** np.arange( -5, 9 )
@@ -43,7 +44,7 @@ def train( featsDict, Y, do_grid=False, ovo=False):
 
         print "training model [GRID SEARCH ON]"
 
-        estimates = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weight='balanced')
+        estimates = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weight='balanced', cache_size=500)
         parameters = [{'C':C_range, 'gamma':gamma_range}]
 
         # Find best classifier
@@ -51,8 +52,7 @@ def train( featsDict, Y, do_grid=False, ovo=False):
                            parameters,
                            scoring='f1_weighted',
                            n_jobs=20,
-                           verbose=10,
-                           cv=StratifiedKFold(Y))
+                           verbose=10)
 
         clf.fit(X, Y)
 

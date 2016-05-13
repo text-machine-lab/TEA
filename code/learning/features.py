@@ -537,14 +537,11 @@ def get_pos_tag(token,feat_name="pos_tag"):
 def get_lemma(token,feat_name="lemma"):
 
     if "pos_tag" in token:
-
-        return {(feat_name, token["lemma"]):True}
-
+        return {(feat_name, token["lemma"]):1}
     else:
-
         # creation time
         # TODO: make better?
-        return {(feat_name, "DATE"):True}
+        return {(feat_name, "DATE"):1}
 
 
 def get_features_for_entity_pair(self, src_entity, target_entity):
