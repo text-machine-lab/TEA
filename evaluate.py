@@ -10,10 +10,13 @@ import re
 
 from string import whitespace
 
+from code.notes.utilities.timeml_utilities import get_tlinks
 from code.notes.utilities.timeml_utilities import get_tagged_entities
 from code.notes.utilities.timeml_utilities import get_text
 from code.notes.utilities.timeml_utilities import get_text_with_taggings
+from code.notes.utilities.timeml_utilities import get_make_instances
 
+# the mapped values are index values in a 2-D list.
 _TIMEX_LABELS = {
                  'DATE':0,
                  'TIME':1,
@@ -33,22 +36,106 @@ _EVENT_LABELS = {
                  'O':7
                 }
 
+
+_POS_LABELS = {
+                'ADJECTIVE':0,
+                'NOUN':1,
+                'VERB':2,
+                'PREP':3,
+              }
+
+_POL_LABELS = {
+                'NEG':0,
+                'POS':1,
+              }
+
+_TENSE_LABELS = {
+                 'PAST':0,
+                 'PRESENT':1,
+                 'FUTURE':2,
+                 'NONE':3,
+                 'INFINITIVE':4,
+                 'PRESPART':5,
+                 'PASTPART':6,
+                }
+
+_ASPECT_LABELS = {
+                    'PROGRESSIVE':0,
+                    'PERFECTIVE':1,
+                    'PERFECTIVE_PROGRESSIVE':2,
+                    'NONE':3
+                 }
+
+def main():
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("predicted",
+        help = "The directory that contains predicted timeml files",
+    )
+
+    parser.add_argument("gold",
+        help = "The directory that contains gold standard timeml files",
+    )
+
+    # Parse command line arguments
+    args = parser.parse_args()
+
+    if os.path.isdir(args.predicted) is False:
+        sys.exit("ERROR: invalid predicted directory")
+    if os.path.isdir(args.gold) is False:
+        sys.exit("ERROR: invalid gold directory")
+
+    print "\n"
+    print "\tpredicted DIR: {}".format(args.predicted)
+    print "\tgold DIR: {}".format(args.gold)
+    print "\n"
+
+    wildcard = "*"
+
+    # List of gold data
+    gold_files = glob.glob( os.path.join(args.gold, wildcard) )
+
+    gold_files_map = map_files(gold_files)
+
+    # List of predictions
+    pred_files = glob.glob( os.path.join(args.predicted, wildcard) )
+    pred_files_map = map_files(pred_files)
+
+    # Grouping of text, predictions, gold
+    files = []
+
+    for gold_basename in gold_files_map:
+        if gold_basename in pred_files_map:
+            files.append((pred_files_map[gold_basename], gold_files_map[gold_basename]))
+        else:
+            sys.exit("missing predicted file: {}".format(gold_basename))
+
+#    _display_timex_confusion_matrix(files)
+#    _display_event_confusion_matrix(files)
+    _display_pos_confusion_matrix(files)
+    _display_pol_confusion_matrix(files)
+    _display_TENSE_confusion_matrix(files)
+    _display_ASPECT_confusion_matrix(files)
+
+    return
+
+
 def _display_event_confusion_matrix(files):
 
-    confusion = [[0] * len(_EVENT_LABELS) for timex_label in _EVENT_LABELS]
+    confusion = [[0] * len(_EVENT_LABELS) for l in _EVENT_LABELS]
+
+    # keep track of how many times this class occurs in gold or predict
+    label_counts = {label:0 for label in _EVENT_LABELS}
 
     predicted_entities_in_file = []
     gold_entities_in_file = []
 
     # get annotated elements per file
     for predicted_file, gold_file in files:
-        predicted_entities_in_file.append(extract_labeled_entities(predicted_file))
-        gold_entities_in_file.append(extract_labeled_entities(gold_file))
 
-    # keep track of how many times this class occurs in gold or predict
-    label_counts = {label:0 for label in _EVENT_LABELS}
-
-    for gold_entities, predicted_entities in zip(gold_entities_in_file, predicted_entities_in_file):
+        predicted_entities = extract_labeled_entities(predicted_file)
+        gold_entities = extract_labeled_entities(gold_file)
 
         # get mismatching xml and print them.
         for offset in gold_entities:
@@ -95,18 +182,17 @@ def _display_timex_confusion_matrix(files):
 
     confusion = [[0] * len(_TIMEX_LABELS) for timex_label in _TIMEX_LABELS]
 
+    # keep track of how many times this class occurs in gold or predict
+    label_counts = {label:0 for label in _TIMEX_LABELS}
+
     predicted_entities_in_file = []
     gold_entities_in_file = []
 
     # get annotated elements per file
     for predicted_file, gold_file in files:
-        predicted_entities_in_file.append(extract_labeled_entities(predicted_file))
-        gold_entities_in_file.append(extract_labeled_entities(gold_file))
 
-    # keep track of how many times this class occurs in gold or predict
-    label_counts = {label:0 for label in _TIMEX_LABELS}
-
-    for gold_entities, predicted_entities in zip(gold_entities_in_file, predicted_entities_in_file):
+        predicted_entities = extract_labeled_entities(predicted_file)
+        gold_entities = extract_labeled_entities(gold_file)
 
         # get mismatching xml and print them.
         for offset in gold_entities:
@@ -205,9 +291,16 @@ def display_confusion(name, confusion, labels, label_counts):
 
         f = 2 * ((p * r) / ((p + r) + 1e-10))
 
+#        print
+#        print "lab: ", lab
+#        print "tp: ",tp
+#        print "fp: ", fp
+#        print "fn: ", fn
+
         print "\t\t{}{}".format(lab.ljust(col_width), ''.join(["{:.5f}".format(entry).ljust(col_width) for entry in [p, r, f]]))
 
         # just ignore this then. we didn't predict and it didn't occur in gold.
+        # we will ways do really well on O so don't include in average.
         if lab == 'O' or label_counts[lab] == 0: continue
         # going to negatively impact the overall average of individual scores.
         precision += [p]
@@ -294,60 +387,6 @@ def _compare_file(predicted, gold):
 
         repeat += 1
 
-def main():
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument("predicted",
-        help = "The directory that contains predicted timeml files",
-    )
-
-    parser.add_argument("gold",
-        help = "The directory that contains gold standard timeml files",
-    )
-
-    # Parse command line arguments
-    args = parser.parse_args()
-
-    if os.path.isdir(args.predicted) is False:
-        sys.exit("ERROR: invalid predicted directory")
-    if os.path.isdir(args.gold) is False:
-        sys.exit("ERROR: invalid gold directory")
-
-    print "\n"
-    print "\tpredicted DIR: {}".format(args.predicted)
-    print "\tgold DIR: {}".format(args.gold)
-    print "\n"
-
-    wildcard = "*"
-
-    # List of gold data
-    gold_files = glob.glob( os.path.join(args.gold, wildcard) )
-
-    gold_files_map = map_files(gold_files)
-
-    # List of predictions
-    pred_files = glob.glob( os.path.join(args.predicted, wildcard) )
-    pred_files_map = map_files(pred_files)
-
-    # Grouping of text, predictions, gold
-    files = []
-
-    for gold_basename in gold_files_map:
-        if gold_basename in pred_files_map:
-            files.append((pred_files_map[gold_basename], gold_files_map[gold_basename]))
-        else:
-            sys.exit("missing predicted file: {}".format(gold_basename))
-
-    _display_timex_confusion_matrix(files)
-    _display_event_confusion_matrix(files)
-
-    # for predicted, gold in files:
-    #    _compare_file(predicted, gold)
-
-    #    _display_timex_confusion_matrix(predicted, gold)
-
-    return
 
 
 def map_files(files):
@@ -357,6 +396,174 @@ def map_files(files):
         basename = os.path.basename(f).split('.')[0]
         output[basename] = f
     return output
+
+def _display_pos_confusion_matrix(files):
+    """For all predicted EVENTINSTANCES that match gold EVENTINSTANCES
+       display confusion matrix along with F-measure, precision and recall for
+       each part of speech class.
+
+       These results don't consider FP or FN event instances. Only look at matches.
+       We are only concerned with evaluating how well for the EVENTs we do label correctly
+       do we get its attributes right.
+    """
+
+
+    confusion = [[0] * len(_POS_LABELS) for l in _POS_LABELS]
+    label_counts = {label:0 for label in _POS_LABELS}
+
+    for predicted, gold in files:
+
+        # predicted id's will never match up completely to gold. so convert them to offset
+        predicted_make_instance_offsets = extract_make_instance_offsets(predicted)
+        gold_make_instance_offsets = extract_make_instance_offsets(gold)
+
+        for gold_offset in gold_make_instance_offsets:
+
+            if gold_offset in predicted_make_instance_offsets:
+
+                gold_pos_type = gold_make_instance_offsets[gold_offset]["pos"]
+                predicted_pos_type = predicted_make_instance_offsets[gold_offset]["pos"]
+
+                confusion[_POS_LABELS[gold_pos_type]][_POS_LABELS[predicted_pos_type]] += 1
+
+                label_counts[gold_pos_type] += 1
+
+    display_confusion("MAKEINSTANCE POS", confusion, _POS_LABELS, label_counts)
+
+
+def _display_pol_confusion_matrix(files):
+    """For all predicted EVENTINSTANCES that match gold EVENTINSTANCES
+       display confusion matrix along with F-measure, precision and recall for
+       each polarity class.
+
+       These results don't consider FP or FN event instances. Only look at matches.
+       We are only concerned with evaluating how well for the EVENTs we do label correctly
+       do we get its attributes right.
+    """
+
+
+    confusion = [[0] * len(_POL_LABELS) for l in _POL_LABELS]
+    label_counts = {label:0 for label in _POL_LABELS}
+
+    for predicted, gold in files:
+
+        # predicted id's will never match up completely to gold. so convert them to offset
+        predicted_make_instance_offsets = extract_make_instance_offsets(predicted)
+        gold_make_instance_offsets = extract_make_instance_offsets(gold)
+
+        for gold_offset in gold_make_instance_offsets:
+
+            if gold_offset in predicted_make_instance_offsets:
+
+                gold_pol_type = gold_make_instance_offsets[gold_offset]["polarity"]
+                predicted_pol_type = predicted_make_instance_offsets[gold_offset]["polarity"]
+
+                confusion[_POL_LABELS[gold_pol_type]][_POL_LABELS[predicted_pol_type]] += 1
+
+                label_counts[gold_pol_type] += 1
+
+    display_confusion("MAKEINSTANCE POL", confusion, _POL_LABELS, label_counts)
+
+def _display_TENSE_confusion_matrix(files):
+    """For all predicted EVENTINSTANCES that match gold EVENTINSTANCES
+       display confusion matrix along with F-measure, precision and recall for
+       each tense class.
+
+       These results don't consider FP or FN event instances. Only look at matches.
+       We are only concerned with evaluating how well for the EVENTs we do label correctly
+       do we get its attributes right.
+    """
+
+
+    confusion = [[0] * len(_TENSE_LABELS) for l in _TENSE_LABELS]
+    label_counts = {label:0 for label in _TENSE_LABELS}
+
+    for predicted, gold in files:
+
+        # predicted id's will never match up completely to gold. so convert them to offset
+        predicted_make_instance_offsets = extract_make_instance_offsets(predicted)
+        gold_make_instance_offsets = extract_make_instance_offsets(gold)
+
+        for gold_offset in gold_make_instance_offsets:
+
+            if gold_offset in predicted_make_instance_offsets:
+
+                gold_TENSE_type = gold_make_instance_offsets[gold_offset]["tense"]
+                predicted_TENSE_type = predicted_make_instance_offsets[gold_offset]["tense"]
+
+                confusion[_TENSE_LABELS[gold_TENSE_type]][_TENSE_LABELS[predicted_TENSE_type]] += 1
+
+                label_counts[gold_TENSE_type] += 1
+
+    display_confusion("MAKEINSTANCE TENSE", confusion, _TENSE_LABELS, label_counts)
+
+def _display_ASPECT_confusion_matrix(files):
+    """For all predicted EVENTINSTANCES that match gold EVENTINSTANCES
+       display confusion matrix along with F-measure, precision and recall for
+       each ASPECT class.
+
+       These results don't consider FP or FN event instances. Only look at matches.
+       We are only concerned with evaluating how well for the EVENTs we do label correctly
+       do we get its attributes right.
+    """
+
+
+    confusion = [[0] * len(_ASPECT_LABELS) for l in _ASPECT_LABELS]
+    label_counts = {label:0 for label in _ASPECT_LABELS}
+
+    for predicted, gold in files:
+
+        # predicted id's will never match up completely to gold. so convert them to offset
+        predicted_make_instance_offsets = extract_make_instance_offsets(predicted)
+        gold_make_instance_offsets = extract_make_instance_offsets(gold)
+
+        for gold_offset in gold_make_instance_offsets:
+
+            if gold_offset in predicted_make_instance_offsets:
+
+                gold_ASPECT_type = gold_make_instance_offsets[gold_offset]["aspect"]
+                predicted_ASPECT_type = predicted_make_instance_offsets[gold_offset]["aspect"]
+
+                confusion[_ASPECT_LABELS[gold_ASPECT_type]][_ASPECT_LABELS[predicted_ASPECT_type]] += 1
+
+                label_counts[gold_ASPECT_type] += 1
+
+    display_confusion("MAKEINSTANCE ASPECT", confusion, _ASPECT_LABELS, label_counts)
+
+def extract_make_instance_offsets(annotated_file):
+    """Map MAKEINSTANCE entities to their respective offsets within text
+    """
+
+    _, id_to_offset = extract_labeled_entities(annotated_file)
+    make_instances = get_make_instances(annotated_file)
+
+    make_instance_offsets = {}
+
+    for make_instance in make_instances:
+        offset = id_to_offset[make_instance.attrib["eventID"]]
+        make_instance_offsets[offset] = {"tense":make_instance.attrib["tense"],
+                                         "aspect":make_instance.attrib["aspect"],
+                                         "polarity":make_instance.attrib["polarity"],
+                                         "pos":make_instance.attrib["pos"]}
+
+    return make_instance_offsets
+
+
+def extract_tlinks(annotated_timeml):
+
+    return
+
+    tlinks = []
+
+    for tlink in get_tlinks(annotated_timeml):
+        #entry = {}
+        # tlink.append(entry)
+
+        attribs = tlink.attrib
+
+        # entry[attribs["EVENT"]
+
+        print attribs
 
 
 def extract_labeled_entities(annotated_timeml):
@@ -408,6 +615,7 @@ def extract_labeled_entities(annotated_timeml):
     end_count = 0
 
     offsets = {}
+    id_to_offset = {}
 
     tagged_element = None
 
@@ -444,6 +652,11 @@ def extract_labeled_entities(annotated_timeml):
                     # spans should be unique?
                     offsets[(start, end)] = {"xml_element":tagged_element, "text":tagged_element.text}
 
+                    attrib = tagged_element.attrib
+                    ent_id = attrib["eid"] if "eid" in attrib else attrib["tid"]
+
+                    id_to_offset[ent_id] = (start, end)
+
                     # ensure the text at the offset is correct
                     assert raw_text[start:end + 1] == tagged_element.text, "\'{}\' != \'{}\'".format( raw_text[start:end + 1], tagged_element.text)
                     tagged_element = None
@@ -470,7 +683,7 @@ def extract_labeled_entities(annotated_timeml):
     assert tagged_element is None
     assert len(offsets) == len(_tagged_entities)
 
-    return offsets
+    return offsets, id_to_offset
 
 if __name__ == "__main__":
     main()
