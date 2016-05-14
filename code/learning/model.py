@@ -29,7 +29,7 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
     eventClassLabels   = [] # event class labelings for tokens in text.
     eventClassFeatures = []
 
-    tlinkLabels   = {} # temporal relation labelings for enitity pairs.
+    tlinkLabels   = [] # temporal relation labelings for enitity pairs.
     tlinkFeatures = []
 
     timexClassifier = None
@@ -47,6 +47,8 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
     for i, note in enumerate(notes):
 
         print "note: {}".format(i)
+
+        print "note path: ", note.note_path
 
         if train_timex is True:
             # extract features to perform BIO labeling for timexs
@@ -67,7 +69,7 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
 
         if train_rel is True:
             # extract features to classify relations between temporal entities.
-            tlinkLabels = note.get_tlink_labels()
+            tlinkLabels += note.get_tlink_labels()
             tlinkFeatures += features.extract_tlink_features(note)
 
     # TODO: when predicting, if gold standard is provided evaluate F-measure for each of the steps
@@ -155,6 +157,8 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
         iob_labels.append([])
         tokens += tokenized_text[line]
 
+    timex_count = 2
+
     if predict_timex is True:
 
         timexClassifier = _models["TIMEX"]
@@ -176,9 +180,14 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
 
             timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
                                                        'entity_type':None if Y[0] == 'O' else 'TIMEX3',
-                                                       'entity_id':None})
+                                                       'entity_id':"t"+str(timex_count)})
+
+            timex_count += 1
 
             iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
+
+    event_count = 2
+    event_class_count = 2
 
     if predict_event is True:
 
@@ -206,7 +215,9 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
 
             eventLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
                                                        'entity_type':None if Y[0] == 'O' else 'EVENT',
-                                                       'entity_id':None})
+                                                       'entity_id':"e" + str(event_count)})
+
+            event_count += 1
 
         # get the timex feature set for the tokens within the note.
         eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True)
@@ -225,7 +236,9 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
 
             eventClassLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
                                                             'entity_type':None if Y[0] == 'O' else 'EVENT',
-                                                            'entity_id':None})
+                                                            'entity_id':'e' + str(event_class_count)})
+
+            event_class_count += 1
 
             if iob_labels[t["sentence_num"] - 1][t["token_offset"]]["entity_type"] == None:
                 iob_labels[t["sentence_num"] - 1][t["token_offset"]] = eventClassLabels[t["sentence_num"] - 1][-1]
@@ -324,6 +337,9 @@ def _trainTlink(tokenVectors, Y, grid=False):
     @param tokenVectors: A list of tokens represented as feature dictionaries
     @param Y: A list of relation classifications for each pair of timexes and events.
     """
+
+    print len(tokenVectors)
+    print len(Y)
 
     assert len(tokenVectors) == len(Y)
 

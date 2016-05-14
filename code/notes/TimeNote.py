@@ -911,9 +911,26 @@ class TimeNote(Note):
                         timex_value = timex_value[0]
                     else:
                         timex_value = ''
+
+                   # if None in [start, end,  timexEventLabels[index]["entity_id"], timexEventLabels[index]["entity_label"][2:], timex_value]:
+                   #     print "FOUND NoNE"
+                   #     print [start, end,  timexEventLabels[index]["entity_id"], timexEventLabels[index]["entity_label"][2:], timex_value]
+        #          #      exit()
+                   # else:
+                   #     print "NONE NONE"
+                   #     print [start, end,  timexEventLabels[index]["entity_id"], timexEventLabels[index]["entity_label"][2:], timex_value]
+
+
                     annotated_text = annotate_text_element(root, "TIMEX3", start, end, {"tid": timexEventLabels[index]["entity_id"], "type":timexEventLabels[index]["entity_label"][2:], "value":timex_value})
                 else:
                     annotated_text = annotate_text_element(root, "EVENT", start, end, {"eid": timexEventLabels[index]["entity_id"], "class":timexEventLabels[index]["entity_label"][2:]})
+                    #if None in [start, end,  timexEventLabels[index]["entity_id"], timexEventLabels[index]["entity_label"][2:], timex_value]:
+                    #    print "FOUND NoNE"
+                    #    print [start, end,  timexEventLabels[index]["entity_id"], timexEventLabels[index]["entity_label"][2:], timex_value]
+        #                exit()
+                    #else:
+                    #    print "NONE NONE"
+                    #    print [start, end,  timexEventLabels[index]["entity_id"], timexEventLabels[index]["entity_label"][2:], timex_value]
 
                 set_text_element(root, annotated_text)
 
@@ -938,7 +955,7 @@ class TimeNote(Note):
                 pos = "OTHER"
 
             if timexEventLabel["entity_type"] == "EVENT":
-                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "pos":pos})
+                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "pos":pos}, msg="from make instance loop")
                 eventDict[timexEventLabel["entity_id"]] = "ei" + str(i)
 
         # add tlinks
@@ -964,9 +981,12 @@ class TimeNote(Note):
             if secondID[0] == "t":
                 annotations["relatedToTime"] = secondID
 
-            root = annotate_root(root, "TLINK", annotations)
+            root = annotate_root(root, "TLINK", annotations, msg="called from tlink loop")
 
         note_path = os.path.join(output_path, self.note_path.split('/')[-1] + ".tml")
+
+        print "root: ", root
+        print "note_path: ", note_path
 
         write_root_to_file(root, note_path)
 
