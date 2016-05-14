@@ -955,7 +955,7 @@ class TimeNote(Note):
                 pos = "OTHER"
 
             if timexEventLabel["entity_type"] == "EVENT":
-                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "pos":pos}, msg="from make instance loop")
+                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "pos":pos})
                 eventDict[timexEventLabel["entity_id"]] = "ei" + str(i)
 
         # add tlinks
@@ -981,7 +981,7 @@ class TimeNote(Note):
             if secondID[0] == "t":
                 annotations["relatedToTime"] = secondID
 
-            root = annotate_root(root, "TLINK", annotations, msg="called from tlink loop")
+            root = annotate_root(root, "TLINK", annotations)
 
         note_path = os.path.join(output_path, self.note_path.split('/')[-1] + ".tml")
 
