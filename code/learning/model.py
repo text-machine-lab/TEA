@@ -60,12 +60,12 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
             # extract features to perform EVENT or O labeling.
             tmpLabels = note.get_event_labels()
             for label in tmpLabels: eventLabels += label
-            eventFeatures += features.extract_event_feature_set(note, tmpLabels)
+            eventFeatures += features.extract_event_feature_set(note, tmpLabels, timexLabels=note.get_timex_labels())
 
             # extract features to perform event class labeling.
             tmpLabels = note.get_event_class_labels()
             for label in tmpLabels: eventClassLabels += label
-            eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels())
+            eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels(), timexLabels=note.get_timex_labels())
 
         if train_rel is True:
             # extract features to classify relations between temporal entities.
@@ -199,7 +199,7 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
 
         # get the timex feature set for the tokens within the note.
         # don't get iob labels yet, they are inaccurate. need to predict first.
-        eventFeatures = features.extract_event_feature_set(note, eventLabels, predict=True)
+        eventFeatures = features.extract_event_feature_set(note, eventLabels, predict=True, timexLabels=timexLabels)
 
         # sanity check
         assert len(tokens) == len(eventFeatures)
@@ -220,7 +220,7 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
             event_count += 1
 
         # get the timex feature set for the tokens within the note.
-        eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True)
+        eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True, timexLabels=timexLabels)
 
         # sanity check
         assert len(tokens) == len(eventClassFeatures)

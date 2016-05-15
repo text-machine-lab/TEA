@@ -355,16 +355,16 @@ def get_sentence_distance(src_entity, target_entity):
     return sentence_dist_feat
 
 
-def extract_event_feature_set(note, labels, predict=False):
-    return extract_iob_features(note, labels, "EVENT", predicting=predict)
+def extract_event_feature_set(note, labels, predict=False, timexLabels=None):
+    return extract_iob_features(note, labels, "EVENT", predicting=predict, timexLabels=timexLabels)
 
 
 def extract_timex_feature_set(note, labels, predict=False):
     return extract_iob_features(note, labels, "TIMEX3", predicting=predict)
 
 
-def extract_event_class_feature_set(note, labels, eventLabels, predict=False):
-    return extract_iob_features(note, labels, "EVENT_CLASS", predicting=predict, eventLabels=eventLabels)
+def extract_event_class_feature_set(note, labels, eventLabels, predict=False, timexLabels=None):
+    return extract_iob_features(note, labels, "EVENT_CLASS", predicting=predict, eventLabels=eventLabels, timexLabels=timexLabels)
 
 
 def update_features(token, token_features, labels):
@@ -372,7 +372,7 @@ def update_features(token, token_features, labels):
     token_features.update(get_preceding_labels(token, labels))
 
 
-def extract_iob_features(note, labels, feature_set, predicting=False, eventLabels=None):
+def extract_iob_features(note, labels, feature_set, predicting=False, eventLabels=None, timexLabels=None):
 
     """ returns featurized representation of events and timexes """
 
@@ -403,7 +403,8 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(is_nominalization(token))
                 token_features.update(get_tense(token, note.id_to_tok))
                 token_features.update(is_negated(token, tokenized_text))
-                token_features.update(is_corferenced(token))
+                token_features.update(is_coreferenced(token))
+                token_features.update(is_timex(token, timexLabels))
             elif feature_set == "EVENT_CLASS":
                 token_features.update(get_lemma(token))
                 token_features.update(get_text(token))
@@ -416,7 +417,8 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(get_discourse_connectives_event_features(token, note))
                 token_features.update(is_negated(token, tokenized_text))
                 token_features.update(get_tense(token, note.id_to_tok))
-                token_features.update(is_corferenced(token))
+                token_features.update(is_coreferenced(token))
+                token_features.update(is_timex(token, timexLabels))
             else:
                 raise Exception("ERROR: invalid feature set")
 
@@ -493,15 +495,17 @@ def get_wordshapes(self, token):
 
 def get_ner_features(token):
 
+    f = None
+
     if "ner_tag" in token:
-        return {("ner_tag", token["ner_tag"]):1,
-                "in_ne":1,
-                ("ne_chunk", token["ne_chunk"]):1}
+        f = {("ner_tag", token["ner_tag"]):1,
+             ("ne_chunk", token["ne_chunk"]):1}
     # TODO: what problems might arise from labeling tokens as none if no tagging?, we'll find out!
     else:
-        return {("ner_tag", 'None'):1,
-                "in_ne":0,
-                ("ne_chunk", "NULL"):1}
+        f = {("ner_tag", 'None'):1,
+             ("ne_chunk", "NULL"):1}
+
+    return f
 
 def get_text(token,feat_name="text"):
 
@@ -890,16 +894,29 @@ def get_tense(token, id_to_tok):
 
     return {("tense",tense):1}
 
-def is_corferenced(token):
+def is_coreferenced(token):
+
+    f = {("is_corferenced", None):0}
+
     if "coref_chain" in token:
         if token["coref_chain"] != "None":
-            return {("is_corferenced", None):1}
+            f = {("is_corferenced", None):1}
 
-    return {("is_corferenced", None):0}
+    #print f
+
+    return f
 
 def is_negated(token, text):
     sentence = [t["token"] for t in text[token["sentence_num"]]]
     # assume that default polarity is POSITIVE (0). if negation becomes NEGATIVE (1)
-    return {"negated":negdetect.is_negated(sentence, token["token"])}
+    f = {"negated":negdetect.is_negated(sentence, token["token"])}
+    #print f
+    return f
 
+def is_timex(token, timexLabels):
+
+    f = {("is_timex", None):1 if timexLabels[token["sentence_num"]-1][token["token_offset"]]["entity_type"] != None else 0}
+
+   # print f
+    return f
 

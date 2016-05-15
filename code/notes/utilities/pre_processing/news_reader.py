@@ -87,10 +87,15 @@ def _coreference_tag(naf_constituency_parsed_text):
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
 
-    output, _ = tag.communicate(naf_constituency_parsed_text)
+    output, output_error = tag.communicate(naf_constituency_parsed_text)
+
+    # print "output: ", output
+    # print "output error: ", output_error
 
     if output == "":
         sys.exit("ERROR: corefgraph failed to produce output...")
+    else:
+        print "COREF GRAPH: Tagg NAF document"
 
     filtered_output = ""
 
