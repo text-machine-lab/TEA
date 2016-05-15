@@ -66,6 +66,26 @@ _ASPECT_LABELS = {
                     'NONE':3
                  }
 
+_TLINK_LABELS = {
+                    'BEFORE':0,
+                    'AFTER':1,
+                    'INCLUDES':2,
+                    'IS_INCLUDED':3,
+                    'DURING':4,
+                    'DURING_INV':5,
+                    'SIMULTANEOUS':6,
+                    'IAFTER':7,
+                    'IBEFORE':8,
+                    'IDENTITY':9,
+                    'BEGINS':10,
+                    'ENDS':11,
+                    'BEGUN_BY':12,
+                    'ENDED_BY':13,
+                    'NONE_TLINK':14, # not a TIMEML labeling. our own to indicate no tlink
+                }
+
+
+
 def main():
 
     parser = argparse.ArgumentParser()
@@ -111,12 +131,13 @@ def main():
         else:
             sys.exit("missing predicted file: {}".format(gold_basename))
 
-#    _display_timex_confusion_matrix(files)
-#    _display_event_confusion_matrix(files)
+    _display_timex_confusion_matrix(files)
+    _display_event_confusion_matrix(files)
     _display_pos_confusion_matrix(files)
     _display_pol_confusion_matrix(files)
     _display_TENSE_confusion_matrix(files)
     _display_ASPECT_confusion_matrix(files)
+    _display_TLINK_confusion_matrix(files)
 
     return
 
@@ -134,8 +155,8 @@ def _display_event_confusion_matrix(files):
     # get annotated elements per file
     for predicted_file, gold_file in files:
 
-        predicted_entities = extract_labeled_entities(predicted_file)
-        gold_entities = extract_labeled_entities(gold_file)
+        predicted_entities, _ = extract_labeled_entities(predicted_file)
+        gold_entities, _ = extract_labeled_entities(gold_file)
 
         # get mismatching xml and print them.
         for offset in gold_entities:
@@ -174,6 +195,38 @@ def _display_event_confusion_matrix(files):
 
     display_confusion(name, confusion, _EVENT_LABELS, label_counts)
 
+def _display_TLINK_confusion_matrix(files):
+    """Print results of tlink tagging
+    """
+
+    confusion = [[0] * len(_TLINK_LABELS) for label in _TLINK_LABELS]
+
+    # keep track of how many times this class occurs in gold or predict
+    label_counts = {label:0 for label in _TLINK_LABELS}
+
+    predicted_entities_in_file = []
+    gold_entities_in_file = []
+
+    # get annotated elements per file
+    for predicted_file, gold_file in files:
+        predicted_tlinks = extract_tlinks(predicted_file)
+        gold_tlinks = extract_tlinks(gold_file)
+
+        for gold_pair in gold_tlinks:
+            if gold_pair in predicted_tlinks:
+                confusion[_TLINK_LABELS[gold_tlinks[gold_pair]]][_TLINK_LABELS[predicted_tlinks[gold_pair]]] += 1
+                predicted_tlinks.pop(gold_pair)
+            else:
+                confusion[gold_tlinks[gold_pair]]["NONE_TLINK"] += 1
+            label_counts[gold_tlinks[gold_pair]] += 1
+        for predicted_pair in predicted_tlinks:
+            confusion[_TLINK_LABELS["NONE_TLINK"]][_TLINK_LABELS[predicted_tlinks[predicted_pair]]] += 1
+
+            label_counts[predicted_tlinks[predicted_pauir]] += 1
+
+    display_confusion("TLINK", confusion, _TLINK_LABELS, label_counts, padding=0)
+
+
 def _display_timex_confusion_matrix(files):
     """Print results of timex tagging
 
@@ -191,8 +244,8 @@ def _display_timex_confusion_matrix(files):
     # get annotated elements per file
     for predicted_file, gold_file in files:
 
-        predicted_entities = extract_labeled_entities(predicted_file)
-        gold_entities = extract_labeled_entities(gold_file)
+        predicted_entities, _ = extract_labeled_entities(predicted_file)
+        gold_entities, _ = extract_labeled_entities(gold_file)
 
         # get mismatching xml and print them.
         for offset in gold_entities:
@@ -230,7 +283,7 @@ def _display_timex_confusion_matrix(files):
 
     display_confusion(name, confusion, _TIMEX_LABELS, label_counts)
 
-def display_confusion(name, confusion, labels, label_counts):
+def display_confusion(name, confusion, labels, label_counts, padding=5):
     """Display a confuson matrix for some given labels.
 
        name: a string for displaying type of confusion matrix
@@ -249,7 +302,7 @@ def display_confusion(name, confusion, labels, label_counts):
 
         row_entries.append(line)
 
-    col_width = max(len(entry) for line in [col_names] + row_entries for entry in line) + 5
+    col_width = max(len(entry) for line in [col_names] + row_entries for entry in line) + padding
 
     print "\n\t{} CONFUSION MATRIX\n".format(name)
     print "\t\t{}{}".format(' '*col_width, ''.join([col_name.ljust(col_width) for col_name in col_names]))
@@ -550,20 +603,42 @@ def extract_make_instance_offsets(annotated_file):
 
 
 def extract_tlinks(annotated_timeml):
+    """Return offset pairs and the relations between them.
+    """
 
-    return
 
-    tlinks = []
+    # offset pairs to rel types
+    tlinks = {}
+
+    _, id_to_offset = extract_labeled_entities(annotated_timeml)
+    make_instances = get_make_instances(annotated_timeml)
+
+    event_instance_id_to_event_id = {make_instance.attrib["eiid"]:make_instance.attrib["eventID"] for make_instance in make_instances}
+
+    # add in an offset for DOCTIME
+    id_to_offset['t0'] = (-1,-1)
 
     for tlink in get_tlinks(annotated_timeml):
-        #entry = {}
-        # tlink.append(entry)
-
         attribs = tlink.attrib
 
-        # entry[attribs["EVENT"]
+        """
+        print id_to_offset
 
-        print attribs
+        print
+        print attribs["eventInstanceID"]
+        print event_instance_id_to_event_id[attribs["eventInstanceID"]]
+        print id_to_offset[event_instance_id_to_event_id[attribs["eventInstanceID"]]]
+        print
+        """
+
+        event_offset = id_to_offset[event_instance_id_to_event_id[attribs["eventInstanceID"]]]
+        target_offset = id_to_offset[event_instance_id_to_event_id[attribs["relatedToEventInstance"]] if "relatedToEventInstance" in attribs else attribs["relatedToTime"]]
+        if (event_offset, target_offset) in tlinks:
+            sys.exit("ERROR: duplicate TLINKs")
+
+        tlinks[(event_offset, target_offset)] = attribs["relType"]
+
+    return tlinks
 
 
 def extract_labeled_entities(annotated_timeml):
