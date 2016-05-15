@@ -2,11 +2,14 @@
 """
 
 import copy
-from code.notes.utilities.add_discourse import get_temporal_discourse_connectives
 import re
 import re_timex_pattern
 import nominalization
 import english_rules
+import negdetect
+
+from code.notes.utilities.add_discourse import get_temporal_discourse_connectives
+
 
 # these were extracted from the TimeBank corpus, and have been hardcoded here for convenience
 temporal_signals = [['in'],      ['on'],                  ['after'],       ['since'],
@@ -399,6 +402,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(get_ner_features(token))
                 token_features.update(is_nominalization(token))
                 token_features.update(get_tense(token, note.id_to_tok))
+                token_features.update(is_negated(token, tokenized_text))
                 token_features.update(is_corferenced(token))
             elif feature_set == "EVENT_CLASS":
                 token_features.update(get_lemma(token))
@@ -410,6 +414,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(semantic_roles(token))
                 token_features.update(is_nominalization(token))
                 token_features.update(get_discourse_connectives_event_features(token, note))
+                token_features.update(is_negated(token, tokenized_text))
                 token_features.update(get_tense(token, note.id_to_tok))
                 token_features.update(is_corferenced(token))
             else:
@@ -891,5 +896,10 @@ def is_corferenced(token):
             return {("is_corferenced", None):1}
 
     return {("is_corferenced", None):0}
+
+def is_negated(token, text):
+    sentence = [t["token"] for t in text[token["sentence_num"]]]
+    # assume that default polarity is POSITIVE (0). if negation becomes NEGATIVE (1)
+    return {"negated":negdetect.is_negated(sentence, token["token"])}
 
 
