@@ -453,6 +453,12 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
 
     return features
 
+def is_predicate_member(token):
+    f = {("is_predicate_member",None):0}
+    if "predicate_ids" in token:
+        f = {("is_predicate_member",None):1}
+    return f
+
 def semantic_roles(token):
     feats = {}
     if "semantic_roles" in token:
@@ -476,13 +482,9 @@ def get_grammar_categories(token):
     features = {}
 
     if "grammar_categories" not in token:
-
         return {("category", "DATE"):1}
-
     else:
-
         for key in token["grammar_categories"]:
-
             features.update({("category", token["grammar_categories"][key]):1})
 
     return features
@@ -533,113 +535,114 @@ def get_lemma(token,feat_name="lemma"):
         return {(feat_name, "DATE"):1}
 
 
-def get_features_for_entity_pair(self, src_entity, target_entity):
+#def get_features_for_entity_pair(self, src_entity, target_entity):
 
-     pair_features = {}
+#     pair_features = {}
 
-     src_features = {}
-     target_features = {}
+#     src_features = {}
+#     target_features = {}
 
-     src_features.update(self.get_text_features(src_entity))
-     target_features.update(self.get_text_features(target_entity))
+#     src_features.update(self.get_text_features(src_entity))
+#     target_features.update(self.get_text_features(target_entity))
 
-     src_features.update(self.get_entity_type_features(src_entity))
-     target_features.update(self.get_entity_type_features(target_entity))
+#     src_features.update(self.get_entity_type_features(src_entity))
+#     target_features.update(self.get_entity_type_features(target_entity))
 
-     src_features.update(self.get_label_features(src_entity))
-     target_features.update(self.get_label_features(target_entity))
+#     src_features.update(self.get_label_features(src_entity))
+#     target_features.update(self.get_label_features(target_entity))
 
-     src_features.update(self.get_entity_attributes(src_entity))
-     target_features.update(self.get_entity_attributes(target_entity))
+#     src_features.update(self.get_entity_attributes(src_entity))
+#     target_features.update(self.get_entity_attributes(target_entity))
 
-     pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
-     pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
+#     pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
+#     pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
 
-     pair_features.update(self.get_num_of_entities_between_tokens(src_entity, target_entity))
-     pair_features.update(self.doc_creation_time_in_pair(src_entity, target_entity))
+#     pair_features.update(self.get_num_of_entities_between_tokens(src_entity, target_entity))
+#     pair_features.update(self.doc_creation_time_in_pair(src_entity, target_entity))
 
-     pair_features.update(self.get_same_attributes(self.get_entity_attributes(src_entity), self.get_entity_attributes(target_entity)))
+#     pair_features.update(self.get_same_attributes(self.get_entity_attributes(src_entity), self.get_entity_attributes(target_entity)))
 
-     pair_features.update(self.get_discourse_connectives_pair_features(src_entity, target_entity))
-     pair_features.update(self.get_temporal_signal_features(src_entity, target_entity))
+#     pair_features.update(self.get_discourse_connectives_pair_features(src_entity, target_entity))
+#     pair_features.update(self.get_temporal_signal_features(src_entity, target_entity))
 
-     for key in src_features:
+#     for key in src_features:
 
-         pair_features[(key[0] + "_src", key[1])] = src_features[key]
+#         pair_features[(key[0] + "_src", key[1])] = src_features[key]
 
-     for key in target_features:
+#     for key in target_features:
 
-         pair_features[(key[0] + "_target", key[1])] = target_features[key]
+#         pair_features[(key[0] + "_target", key[1])] = target_features[key]
 
-     return pair_features
+#     return pair_features
 
-def get_same_attributes(self, src_features, target_features):
+
+#def get_same_attributes(self, src_features, target_features):
 
     # TODO: what happened here???/
-    return {"same_attributes":1}
+#    return {"same_attributes":1}
 
-def get_entity_attributes(self, entity):
+#def get_entity_attributes(self, entity):
 
-    features = {}
+#    features = {}
 
-    for tok in entity:
+#    for tok in entity:
 
-        if "tense" in tok:
+#        if "tense" in tok:
 
-            features.update({("tense", tok["tense"]):1})
+#            features.update({("tense", tok["tense"]):1})
 
-        else:
+#        else:
 
-            features.update({("tense", "PRESENT"):1})
+#            features.update({("tense", "PRESENT"):1})
 
-        iob_label = None
+#        iob_label = None
 
-        if "token_offset" in tok:
+#        if "token_offset" in tok:
 
-            token_offset = tok["token_offset"]
-            label = self.get_iob_labels()[tok["sentence_num"] - 1][token_offset]
+#            token_offset = tok["token_offset"]
+#            label = self.get_iob_labels()[tok["sentence_num"] - 1][token_offset]
 
-            iob_label = {("class", label["entity_label"]):1}
+#            iob_label = {("class", label["entity_label"]):1}
 
-        else:
+#        else:
 
-            iob_label = {("class", "O"):1}
+#            iob_label = {("class", "O"):1}
 
-        features.update(iob_label)
+#        features.update(iob_label)
 
-
-    return features
-
-def get_entity_position(self, entity):
-
-    line_no = None
-    start_offset = None
-    end_offset = None
-
-    for token in entity:
-
-        if line_no is None:
-            # creation time does not have a sentence number
-            if "sentence_num" in token:
-                line_no = token["sentence_num"]
-
-        else:
-            assert token["sentence_num"] == line_no
+#    return features
 
 
-        if start_offset is None and end_offset is None:
-            if "token_offset" in token:
-                start_offset = token["token_offset"]
-                end_offset = token["token_offset"]
+#def get_entity_position(self, entity):
 
-        else:
-            if start_offset > token["token_offset"]:
-                start_offset = token["token_offset"]
+#    line_no = None
+#    start_offset = None
+#    end_offset = None
 
-            if end_offset < token["token_offset"]:
-                end_offset = token["token_offset"]
+#    for token in entity:
 
-    return {"line_no": line_no, "start_offset": start_offset, "end_offset": end_offset}
+#        if line_no is None:
+#            # creation time does not have a sentence number
+#            if "sentence_num" in token:
+#                line_no = token["sentence_num"]
+
+#        else:
+#            assert token["sentence_num"] == line_no
+
+
+#        if start_offset is None and end_offset is None:
+#            if "token_offset" in token:
+#                start_offset = token["token_offset"]
+#                end_offset = token["token_offset"]
+
+#        else:
+#            if start_offset > token["token_offset"]:
+#                start_offset = token["token_offset"]
+
+#            if end_offset < token["token_offset"]:
+#                end_offset = token["token_offset"]
+
+#    return {"line_no": line_no, "start_offset": start_offset, "end_offset": end_offset}
 
 def get_preposition_features(self, token):
 
