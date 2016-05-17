@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
-from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten, Masking, Input, Permute
+from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten, Masking, Input, Dropout
 #from notes.TimeNote import TimeNote
 from gensim.models import word2vec
 
@@ -19,6 +19,7 @@ class NNModel:
         # encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
         encoder_L.add(LSTM(300, input_shape=(data_dim, max_len), return_sequences=True))
         encoder_L.add(MaxPooling1D(pool_length=300))
+        encoder_L.add(Dropout(.5))
         encoder_L.add(Flatten())
 
         # encode the second entity
@@ -26,12 +27,14 @@ class NNModel:
         # encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
         encoder_R.add(LSTM(300, input_shape=(data_dim, max_len), return_sequences=True))
         encoder_R.add(MaxPooling1D(pool_length=300))
+        encoder_R.add(Dropout(.5))
         encoder_R.add(Flatten())
 
         # combine and classify entities as a single relation
         decoder = Sequential()
         decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
         decoder.add(Dense(100, activation='relu'))
+        decoder.add(Dropout(.5))
         decoder.add(Dense(nb_classes, activation='softmax'))
 
         # compile the final model
@@ -44,8 +47,6 @@ class NNModel:
         '''
 
         # TODO: handle tlinks linking to the document creation time. at the moment, we simply skip them
-
-        print "\ninput_shape: ", self.classifier.input_shape, "\n"
 
         # labels for each SDP pair
         tlinklabels = []
@@ -98,8 +99,19 @@ class NNModel:
         # any other dimension mis-matches are caused by actually errors and should not be padded away
         XL, XR = _pad_to_match_dimensions(XL, XR, 2)
 
+        # use weighting to assist with the imbalanced data set problem
         class_weights = _get_uniform_weights(Y)
-        print class_weights
+
+
+        # TODO: calculate this based on training data max length, and grab a model that uses that for input dimension length
+        # get expected length of model input
+        print self.classifier.input_shape
+        input_len = self.classifier.input_shape[0][2]
+        filler = np.ones((1,1,input_len))
+
+        # pad input matrix to fit expected length
+        XL, _ = _pad_to_match_dimensions(XL, filler, 2)
+        XR, _ = _pad_to_match_dimensions(XR, filler, 2)
 
         # train the network
         print 'Training network...'
@@ -163,8 +175,11 @@ class NNModel:
         # any other dimension mis-matches are caused by actually errors and should not be padded away
         XL, XR = _pad_to_match_dimensions(XL, XR, 2)
 
-        filler = np.ones((22,22,22))
+        # get expected length of model input
+        input_len = self.classifier.input_shape[0][2]
+        filler = np.ones((1,1,input_len))
 
+        # pad input matrix to fit expected length
         XL, _ = _pad_to_match_dimensions(XL, filler, 2)
         XR, _ = _pad_to_match_dimensions(XR, filler, 2)
 
