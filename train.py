@@ -111,10 +111,10 @@ def main():
     # create the model, then save architecture and weights
     if args.neural_network == True:
         from code import network
-        network = trainNetwork(tml_files, gold_files, newsreader_dir)
+        NN = trainNetwork(tml_files, gold_files, newsreader_dir)
         architecture = model.classifier.to_json()
         open(args.model_destination + '.arch.json', "w").write(architecture)
-        network.classifier.save_weights(args.model_destination + '.weights.h5')
+        NN.classifier.save_weights(args.model_destination + '.weights.h5')
 
     else:
         models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink, newsreader_dir)
@@ -187,6 +187,8 @@ def trainNetwork(tml_files, gold_files, newsreader_dir):
     @param tml_files: List of unlabled (no timex, etc) timeML documents
     @param gold_files: Fully labeled gold standard timeML documents
     '''
+
+    from code import network
 
     print "Called trainNetwork"
 
