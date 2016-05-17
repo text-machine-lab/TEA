@@ -10,7 +10,7 @@ from gensim.models import word2vec
 
 class NNModel:
 
-    def __init__(self, data_dim=300, max_len=15, nb_classes=7):
+    def __init__(self, data_dim=300, max_len=22, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         '''
@@ -44,6 +44,8 @@ class NNModel:
         '''
 
         # TODO: handle tlinks linking to the document creation time. at the moment, we simply skip them
+
+        print "\ninput_shape: ", self.classifier.input_shape, "\n"
 
         # labels for each SDP pair
         tlinklabels = []
@@ -160,6 +162,11 @@ class NNModel:
         # pad XL and XR so that they have the same number of dimensions on the second axis
         # any other dimension mis-matches are caused by actually errors and should not be padded away
         XL, XR = _pad_to_match_dimensions(XL, XR, 2)
+
+        filler = np.ones((22,22,22))
+
+        XL, _ = _pad_to_match_dimensions(XL, filler, 2)
+        XR, _ = _pad_to_match_dimensions(XR, filler, 2)
 
         print 'Predicting...'
         labels = self.classifier.predict_classes([XL, XR])
