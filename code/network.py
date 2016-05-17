@@ -340,6 +340,7 @@ def get_uniform_class_weights(labels):
     '''
     # Y is composed of one-hot vectors for each class
     classes = {}
+    # get counts for each label
     for label in labels:
         for i, _class in enumerate(label):
             if _class == 1:
@@ -348,8 +349,20 @@ def get_uniform_class_weights(labels):
                 else:
                     classes[i] = 1.0
 
+    # generate weights that result in a uniform distribution and sum to 1
+    total = 0
     for _class in classes:
         classes[_class] = 1.0 / classes[_class]
+        total += classes[_class]
+
+    for _class in classes:
+        classes[_class] *= 1.0 / total
+
+    # for _class in classes:
+    #     if _class == 0:
+    #         classes[_class] = 0.1
+    #     else:
+    #         classes[_class] = 1.0
 
     return classes
 
