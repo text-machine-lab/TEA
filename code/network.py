@@ -4,34 +4,37 @@ import pickle
 import numpy as np
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
-from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten, Masking, Input, Permute
+from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten, Masking, Input, Dropout
 #from notes.TimeNote import TimeNote
 from gensim.models import word2vec
 
 class NNModel:
 
-    def __init__(self, data_dim=300, max_len=15, nb_classes=7):
+    def __init__(self, data_dim=300, max_len=22, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         '''
         # encode the first entity
         encoder_L = Sequential()
         # encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_L.add(LSTM(300, input_shape=(data_dim, max_len), return_sequences=True))
-        encoder_L.add(MaxPooling1D(pool_length=300))
+        encoder_L.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        encoder_L.add(MaxPooling1D(pool_length=128))
+        encoder_L.add(Dropout(.5))
         encoder_L.add(Flatten())
 
         # encode the second entity
         encoder_R = Sequential()
         # encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_R.add(LSTM(300, input_shape=(data_dim, max_len), return_sequences=True))
-        encoder_R.add(MaxPooling1D(pool_length=300))
+        encoder_R.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        encoder_R.add(MaxPooling1D(pool_length=128))
+        encoder_R.add(Dropout(.5))
         encoder_R.add(Flatten())
 
         # combine and classify entities as a single relation
         decoder = Sequential()
         decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
-        decoder.add(Dense(100, activation='relu'))
+        decoder.add(Dense(100, activation='sigmoid'))
+        decoder.add(Dropout(.5))
         decoder.add(Dense(nb_classes, activation='softmax'))
 
         # compile the final model
@@ -96,8 +99,18 @@ class NNModel:
         # any other dimension mis-matches are caused by actually errors and should not be padded away
         XL, XR = _pad_to_match_dimensions(XL, XR, 2)
 
-        class_weights = _get_uniform_weights(Y)
-        print class_weights
+        # use weighting to assist with the imbalanced data set problem
+        class_weights = get_uniform_class_weights(Y)
+
+
+        # TODO: calculate this based on training data max length, and grab a model that uses that for input dimension length
+        # get expected length of model input
+        input_len = self.classifier.input_shape[0][2]
+        filler = np.ones((1,1,input_len))
+
+        # pad input matrix to fit expected length
+        XL, _ = _pad_to_match_dimensions(XL, filler, 2)
+        XR, _ = _pad_to_match_dimensions(XR, filler, 2)
 
         # train the network
         print 'Training network...'
@@ -160,6 +173,14 @@ class NNModel:
         # pad XL and XR so that they have the same number of dimensions on the second axis
         # any other dimension mis-matches are caused by actually errors and should not be padded away
         XL, XR = _pad_to_match_dimensions(XL, XR, 2)
+
+        # get expected length of model input
+        input_len = self.classifier.input_shape[0][2]
+        filler = np.ones((1,1,input_len))
+
+        # pad input matrix to fit expected length
+        XL, _ = _pad_to_match_dimensions(XL, filler, 2)
+        XR, _ = _pad_to_match_dimensions(XR, filler, 2)
 
         print 'Predicting...'
         labels = self.classifier.predict_classes([XL, XR])
@@ -312,13 +333,14 @@ def _get_token_id_subpaths(note):
 
     return left_paths, right_paths
 
-def _get_uniform_weights(labels):
+def get_uniform_class_weights(labels):
     '''
     get a dictionary of weights for each class. Used to combat imbalanced data problems by reducing
     the impact of highly represented classes. Has no effect on equally distributed data
     '''
     # Y is composed of one-hot vectors for each class
     classes = {}
+    # get counts for each label
     for label in labels:
         for i, _class in enumerate(label):
             if _class == 1:
@@ -327,9 +349,20 @@ def _get_uniform_weights(labels):
                 else:
                     classes[i] = 1.0
 
+    # generate weights that result in a uniform distribution and sum to 1
+    total = 0
     for _class in classes:
-        classes[_class] /= len(labels)
-        classes[_class] = 1 - classes[_class]
+        classes[_class] = 1.0 / classes[_class]
+        total += classes[_class]
+
+    for _class in classes:
+        classes[_class] *= 1.0 / total
+
+    # for _class in classes:
+    #     if _class == 0:
+    #         classes[_class] = 0.1
+    #     else:
+    #         classes[_class] = 1.0
 
     return classes
 
