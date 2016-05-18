@@ -392,6 +392,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
             if feature_set == "TIMEX3":
                 token_features.update(get_lemma(token))
                 token_features.update(get_text(token))
+                token_features.update(get_chunk(token))
                 token_features.update(get_pos_tag(token))
                 token_features.update(get_morpho_pos_tag(token))
                 token_features.update(get_ner_features(token))
@@ -427,7 +428,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(is_coreferenced(token))
                 token_features.update(is_nominalization(token))
 
-                token_features.update(get_text(token))
+                token_features.update(get_chunk(token))
                 token_features.update(get_discourse_connectives_event_features(token, note))
                 token_features.update(is_main_verb(token))
                 token_features.update(semantic_roles(token))
@@ -556,6 +557,17 @@ def is_ner(token):
 
     return f
 
+def get_chunk(token):
+
+    f = None
+
+    if token["ne_chunk"] != "NULL":
+        f = {("chunk", token["ne_chunk"]):1}
+    else:
+        f = {("chunk", token["token"] if "token" in token else "DATE"):1}
+
+    # print f
+    return f
 
 def get_ner_features(token):
 
@@ -576,7 +588,7 @@ def get_text(token,feat_name="text"):
     if "token" in token:
         return {(feat_name,token["token"]):1}
     else:
-        return {(feat_name, token["value"]):1}
+        return {(feat_name, "DATE"):1}
 
 
 def get_pos_tag(token,feat_name="pos_tag"):
