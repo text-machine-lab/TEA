@@ -130,7 +130,6 @@ def main():
         else:
             sys.exit("missing predicted file: {}".format(gold_basename))
 
-#    _compare_file(files[0][0],files[0][1])
     _display_timex_confusion_matrix(files)
     _display_event_confusion_matrix(files)
 #    _display_pos_confusion_matrix(files)
@@ -225,12 +224,12 @@ def _display_TLINK_confusion_matrix(files):
                 confusion[_TLINK_LABELS[gold_tlinks[gold_pair]]][_TLINK_LABELS[predicted_tlinks[gold_pair]]] += 1
                 predicted_tlinks.pop(gold_pair)
             else:
-                confusion[gold_tlinks[gold_pair]]["NONE_TLINK"] += 1
+                confusion[_TLINK_LABELS[gold_tlinks[gold_pair]]][_TLINK_LABELS["NONE_TLINK"]] += 1
             label_counts[gold_tlinks[gold_pair]] += 1
         for predicted_pair in predicted_tlinks:
             confusion[_TLINK_LABELS["NONE_TLINK"]][_TLINK_LABELS[predicted_tlinks[predicted_pair]]] += 1
 
-            label_counts[predicted_tlinks[predicted_pauir]] += 1
+            label_counts[predicted_tlinks[predicted_pair]] += 1
 
     display_confusion("TLINK", confusion, _TLINK_LABELS, label_counts, padding=0)
 
@@ -642,6 +641,8 @@ def extract_tlinks(annotated_timeml):
         print
         """
 
+        if "eventInstanceID" not in attribs:
+            continue
         event_offset = id_to_offset[event_instance_id_to_event_id[attribs["eventInstanceID"]]]
         target_offset = id_to_offset[event_instance_id_to_event_id[attribs["relatedToEventInstance"]] if "relatedToEventInstance" in attribs else attribs["relatedToTime"]]
         if (event_offset, target_offset) in tlinks:
@@ -739,9 +740,10 @@ def extract_labeled_entities(annotated_timeml):
                     offsets[(start, end)] = {"xml_element":tagged_element, "text":tagged_element.text}
 
                     attrib = tagged_element.attrib
-                    ent_id = attrib["eid"] if "eid" in attrib else attrib["tid"]
+                    if "eid" in attrib or "tid" in attrib:
+                        ent_id = attrib["eid"] if "eid" in attrib else attrib["tid"]
 
-                    id_to_offset[ent_id] = (start, end)
+                        id_to_offset[ent_id] = (start, end)
 
                     # ensure the text at the offset is correct
                     assert raw_text[start:end + 1] == tagged_element.text, "\'{}\' != \'{}\'".format( raw_text[start:end + 1], tagged_element.text)
