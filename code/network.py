@@ -38,7 +38,7 @@ class NNModel:
         decoder.add(Dense(nb_classes, activation='softmax'))
 
         # compile the final model
-        decoder.compile(loss='categorical_crossentropy', optimizer='adam')
+        decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         self.classifier = decoder
 
     def train(self, notes, epochs=5):
