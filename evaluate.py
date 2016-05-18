@@ -446,7 +446,15 @@ def map_files(files):
     """ assign to each file the basename (no extension) """
     output = {}
     for f in files:
-        basename = os.path.basename(f).split('.')[0]
+        basesplit = os.path.basename(f).split('.')
+        basename = ''
+        # add all extension markers until the TimeML extension is reached
+        for string in basesplit:
+            if string != 'tml' and string != 'TE3input':
+                basename += string + '.'
+
+        # slice off trailing .
+        basename = basename[:-1]
         output[basename] = f
     return output
 
@@ -728,9 +736,10 @@ def extract_labeled_entities(annotated_timeml):
                     offsets[(start, end)] = {"xml_element":tagged_element, "text":tagged_element.text}
 
                     attrib = tagged_element.attrib
-                    ent_id = attrib["eid"] if "eid" in attrib else attrib["tid"]
+                    if "eid" in attrib or "tid" in attrib:
+                        ent_id = attrib["eid"] if "eid" in attrib else attrib["tid"]
 
-                    id_to_offset[ent_id] = (start, end)
+                        id_to_offset[ent_id] = (start, end)
 
                     # ensure the text at the offset is correct
                     assert raw_text[start:end + 1] == tagged_element.text, "\'{}\' != \'{}\'".format( raw_text[start:end + 1], tagged_element.text)
