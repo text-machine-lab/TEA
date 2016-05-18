@@ -90,15 +90,6 @@ def pre_process(text, filename):
         tok.update(pos_tag)
         tok.update(lemma)
 
-        grammar_categories = []
-
-        # get the categories a token falls under.
-        # {0:.., 1:,...} the lower the number the more specific.
-        if tok["sentence_num"] in constituency_trees:
-            grammar_categories = constituency_trees[tok["sentence_num"]].get_phrase_memberships(tok["id"])
-
-        tok.update(pos_tag)
-
         if tok["sentence_num"] in sentences:
             sentences[tok["sentence_num"]].append(tok)
             tok["token_offset"] = token_offset
