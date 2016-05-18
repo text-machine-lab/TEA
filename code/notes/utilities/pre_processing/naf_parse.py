@@ -9,12 +9,14 @@ from string import whitespace
 
 def parse(naf_tagged_doc):
 
+#    print naf_tagged_doc
+
     xml_root = ET.fromstring(naf_tagged_doc)
 
     tokens             = []
     pos_tags           = []
     lemmas             = []
-    main_verbs         = []
+    predicate_ids      = []
     tokens_to_offset   = {}
     named_entities     = {}
     constituency_trees = {}
@@ -32,13 +34,13 @@ def parse(naf_tagged_doc):
         elif e.tag == "constituency":
             constituency_trees = get_constituency_trees(e)
         elif e.tag == "srl":
-            main_verbs, id_to_role = get_srl_info(e)
+            predicate_ids, id_to_role = get_srl_info(e)
         elif e.tag == "coreferences":
             corefs = get_coref_groups(e)
         else:
             continue
 
-    return tokens, tokens_to_offset, pos_tags, lemmas, named_entities, constituency_trees, main_verbs, id_to_role, corefs
+    return tokens, tokens_to_offset, pos_tags, lemmas, named_entities, constituency_trees, predicate_ids, id_to_role, corefs
 
 
 def get_tokens(text_element):
@@ -97,8 +99,8 @@ def get_grammatical_info(terms_element):
         # I think I can just change t1 to w1, seems like one to one mapping.
         id_str  = naf_term.attrib["id"].replace('t','w')
 
-        pos_tag = naf_term.attrib["morphofeat"]
-        pos_tags.append({"pos_tag":pos_tag,
+        pos_tags.append({"morpho_pos":naf_term.attrib["morphofeat"],
+                         "pos":naf_term.attrib["pos"],
                          "id":id_str})
 
         lemma   = naf_term.attrib["lemma"]
@@ -286,6 +288,7 @@ class ConstituencyTree(object):
 
     def __init__(self, xml_constituency_tree_element):
 
+        self.root = None
         self.terminal_nodes = self.process_constituency_tree_element(xml_constituency_tree_element)
 
 
@@ -306,6 +309,9 @@ class ConstituencyTree(object):
                 node = ConstituencyNode( element )
                 constituency_nodes[node.get_id()] = node
 
+                if node.get_label() == "TOP":
+                    self.root = node
+
                 if node.is_terminal_node():
                     terminal_nodes[node.get_target_id()] = node
                     if node.get_target_id() in target_ids_seen:
@@ -325,6 +331,9 @@ class ConstituencyTree(object):
 
                 # update fields of each node to create edge.
                 _create_edge(parent_node, child_node)
+
+        if self.root is None:
+            sys.exit("ERROR: No root set in constituency tree")
 
         return terminal_nodes
 
@@ -393,19 +402,73 @@ class ConstituencyTree(object):
 
         self.__get_terminal_target_ids(tree, terminal_target_ids)
 
-        terminal_target_ids.sort(key=lambda t_id: int(t_id[1:]))
+        #terminal_target_ids.sort(key=lambda t_id: int(t["id"][1:]))
 
         return terminal_target_ids
 
-    def __get_terminal_target_ids(self, tree, terminal_target_ids):
+    def __get_terminal_target_ids(self, tree, terminal_target_ids,depth=0):
 
         for token in tree.child_node:
             if token.is_terminal_node():
-                terminal_target_ids.append(token.get_target_id())
+                terminal_target_ids.append({"id":token.get_target_id(), "depth":depth})
             else:
-                self.__get_terminal_target_ids(token,terminal_target_ids)
+                self.__get_terminal_target_ids(token,terminal_target_ids, depth=depth+1)
 
         return
+
+    def get_main_verb_phrase_tokens(self):
+        """Find the VP with the shortest depth and then get its tokens.
+        """
+
+        verb_phrase_ids = []
+
+        self.__get_verb_phrase_ids(self.root, verb_phrase_ids)
+
+        k = lambda d: d["depth"]
+
+        if len(verb_phrase_ids) == 0:
+            return []
+
+        # all sentences must have a verb phrase to be a complete sentence.
+        vp = min(verb_phrase_ids, key=k)
+
+        #print
+        #print
+        #print "vp: "
+        #print "\t\t",vp["node"].get_id()
+        #print "\t\t",vp["node"].get_label()
+
+        #print "terminal nodes: "
+        return self._get_terminal_target_ids(vp["node"])
+
+#        print "\t\t\tchild: "
+        # get the
+#        for token in vp["node"].child_node:
+#            print "\t\t\tchild: ",token.get_id()
+            #if token.is_terminal_node():
+            #    print "TERMINAL"
+            #    pass
+            #else:
+            #    print token.get_label()
+            #    pass
+            #pass
+
+    def __get_verb_phrase_ids(self, tree, verb_phrase_ids, depth=0):
+
+        # leaf node
+        if tree.child_node is None:
+            #print "reached BOTTOM"
+            return
+
+        for token in tree.child_node:
+            if token.get_label() == "VP":
+                verb_phrase_ids.append({"node":token, "depth":depth})
+            else:
+                self.__get_verb_phrase_ids(token,verb_phrase_ids, depth=depth+1)
+
+        # no children left.
+        return
+
 
 
     def get_phrase_membership(self, target_id):
@@ -413,6 +476,8 @@ class ConstituencyTree(object):
 
            Input: a token's id, t##
         """
+
+        sys.exit("don't use this. it is bad")
 
         # results
         parent = None
@@ -477,53 +542,53 @@ class ConstituencyTree(object):
 
 def get_srl_info(srl_element):
 
-    main_verbs = []
+
+    predicate_ids = []
 
     # token id to its semantic role and
-    id_to_role = {}
+    id_to_predicate_info = {}
 
     for predicate in srl_element:
 
-        span = []
+        span = None
 
         # i'm assuming all elements within srl_element are predicates
         assert predicate.tag == "predicate"
 
-        preposition = None
+        _predicate_token_id = None
 
         for element in predicate:
 
             if element.tag == "span":
 
-                assert preposition is None
+                assert _predicate_token_id is None
+                assert span is None
 
                 span = list(element)
 
                 assert len(span) == 1
 
-                preposition = span[0].attrib["id"]
-                preposition = list(preposition)
-                preposition[0] = 'w'
-                preposition = "".join(preposition)
+                _predicate_token_id = span[0].attrib["id"]
+                _predicate_token_id = list(_predicate_token_id)
+                _predicate_token_id[0] = 'w'
+                _predicate_token_id = "".join(_predicate_token_id)
 
-                main_verbs.append(preposition)
+                # will be converted into actual token strings later on.
+                # also each token with corresponding id will have a truth value in it indicating if predicate or not.
+                predicate_ids.append(_predicate_token_id)
 
             if element.tag == "role":
+
+                assert _predicate_token_id is not None
 
                 role = element
 
                 target_ids = None
 
                 for e in role:
-
                     if e.tag == "span":
-
                         target_ids = list(e)
-
                         break
-
-                predicates_ids = []
-                role_ids = []
 
                 for i in target_ids:
 
@@ -531,28 +596,14 @@ def get_srl_info(srl_element):
                     tok_id[0] = 'w'
                     tok_id = "".join(tok_id)
 
-                    is_head = False
-
-                    if "head" in i.attrib:
-                        if i.attrib["head"] == "yes": is_head = True
-
-                    if tok_id not in id_to_role:
-
-                        id_to_role[tok_id] = {"predicate_ids":[predicate.attrib["id"]],
-                                              "role_id":[role.attrib["id"]],
-                                              "semantic_role":[role.attrib["semRole"]],
-                                              "head_token":[is_head],
-                                              "toks_preposition":[preposition]}
-
+                    if tok_id not in id_to_predicate_info:
+                        id_to_predicate_info[tok_id] = {"predicate_ids":[_predicate_token_id],
+                                                        "semantic_role":[role.attrib["semRole"]]}
                     else:
+                        id_to_predicate_info[tok_id]["predicate_ids"].append(_predicate_token_id)
+                        id_to_predicate_info[tok_id]["semantic_role"].append(role.attrib["semRole"])
 
-                        id_to_role[tok_id]["predicate_ids"].append(predicate.attrib["id"])
-                        id_to_role[tok_id]["role_id"].append(role.attrib["id"])
-                        id_to_role[tok_id]["semantic_role"].append(role.attrib["semRole"])
-                        id_to_role[tok_id]["head_token"].append(is_head),
-                        id_to_role[tok_id]["toks_preposition"].append(preposition)
-
-    return main_verbs, id_to_role
+    return predicate_ids, id_to_predicate_info
 
 
 def get_coref_groups(coreferences_element):
@@ -778,20 +829,21 @@ class DependencyTree(object):
 
 if __name__ == "__main__":
 
-    ret = parse(open("naf_dump.naf.xml").read())
+    """
+    naf_tagged_doc = open("tree.xml","rb").read()
 
-    # tokens       = ret[0]
-    # constituency = ret[5]
+    xml_root = ET.fromstring(naf_tagged_doc)
 
-    # for t in tokens:
-    #     t_id = 'w' + t["id"][1:]
-    #     s_num = t["sentence_num"]
+    constituency_trees = None
 
-    #     print "token_id: ", t_id
-    #     print "token: ", t["token"]
+    for e in xml_root:
+        if e.tag == "constituency":
+            constituency_trees = get_constituency_trees(e)
+        else:
+            continue
 
-    #     print constituency[s_num].get_phrase_membership(t_id)
-
+    print [constituency_trees[t].get_main_verb_phrase_tokens() for t in constituency_trees][0]
+    """
 
     pass
 

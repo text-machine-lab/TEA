@@ -144,8 +144,20 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
                         token["chunked_morphologies_morpho"].insert(0,sentence[index]["morphology_morpho"])
                         break
                     token["chunked_morphologies_morpho"].insert(0,sentence[index]["morphology_morpho"])
-
                     index -= 1
+
+                # go right until we don't hit an I-, will be either O or B-
+                for j, _token in enumerate(sentence[i+1:]):
+                    if "I-" not in _token["chunk_morpho"]:
+                        break
+                    if verbose:
+                        print
+                        print "\t", j
+                        print "\t", _token["chunk_morpho"]
+                        print
+
+                    # TODO: append to a list!
+                    token["chunked_morphologies_morpho"].append(_token["morphology_morpho"])
 
             else:
 #                if verbose:

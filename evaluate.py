@@ -115,12 +115,11 @@ def main():
 
     # List of gold data
     gold_files = glob.glob( os.path.join(args.gold, wildcard) )
-
-    gold_files_map = map_files(gold_files)
+    gold_files_map = {os.path.basename(f):f for f in gold_files}
 
     # List of predictions
     pred_files = glob.glob( os.path.join(args.predicted, wildcard) )
-    pred_files_map = map_files(pred_files)
+    pred_files_map =  {re.sub('TE3input\.', '', os.path.basename(f)):f for f in pred_files}
 
     # Grouping of text, predictions, gold
     files = []
@@ -131,13 +130,22 @@ def main():
         else:
             sys.exit("missing predicted file: {}".format(gold_basename))
 
+#    _compare_file(files[0][0],files[0][1])
     _display_timex_confusion_matrix(files)
     _display_event_confusion_matrix(files)
-    _display_pos_confusion_matrix(files)
-    _display_pol_confusion_matrix(files)
-    _display_TENSE_confusion_matrix(files)
-    _display_ASPECT_confusion_matrix(files)
-    _display_TLINK_confusion_matrix(files)
+#    _display_pos_confusion_matrix(files)
+#    _display_pol_confusion_matrix(files)
+#    _display_TENSE_confusion_matrix(files)
+#    _display_ASPECT_confusion_matrix(files)
+#    _display_TLINK_confusion_matrix(files)
+
+#    for predicted, gold in files:
+#        print
+#        print "predicted file: ", predicted
+#        print "gold file: ", gold
+#        print
+#        _compare_file(predicted,gold, f="TIMEX")
+#        _display_timex_confusion_matrix([(predicted,gold)])
 
     return
 
@@ -370,7 +378,7 @@ def display_confusion(name, confusion, labels, label_counts, padding=5):
     print  "\t\t{}{}".format("Average: ".ljust(col_width), ''.join(["{:.5f}".format(metric).ljust(col_width) for metric in [precision, recall, f1]]))
     print
 
-def _compare_file(predicted, gold):
+def _compare_file(predicted, gold, f=None):
     """Look at where predictions differ from gold and where they are the same
     """
 
@@ -378,15 +386,25 @@ def _compare_file(predicted, gold):
     print "\t\tpredicted file: ", predicted
     print
 
-    predicted_entities = extract_labeled_entities(predicted)
-    gold_entities = extract_labeled_entities(gold)
+    predicted_entities,_ = extract_labeled_entities(predicted)
+    gold_entities,_ = extract_labeled_entities(gold)
+
+#    print gold_entities
 
     incorrect = []
     correct   = []
 
+
     # get mismatching xml and print them.
     for offset in gold_entities:
+
+#        print offset
+#        print gold_entities[offset]
+        #if "class" in gold_entities[offset]["xml_element"].attrib  and f == "TIMEX":
+        #    continue
+
         gold_class_type = gold_entities[offset]["xml_element"].attrib["class"] if "class" in gold_entities[offset]["xml_element"].attrib else gold_entities[offset]["xml_element"].attrib["type"]
+
         if offset in predicted_entities:
 
             predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"] if "class" in predicted_entities[offset]["xml_element"].attrib else predicted_entities[offset]["xml_element"].attrib["type"]
@@ -407,6 +425,8 @@ def _compare_file(predicted, gold):
 
     # mismatches
     for offset in predicted_entities:
+        #if "class" in predicted_entities[offset]["xml_element"].attrib  and f == "TIMEX":
+        #    continue
         predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"] if "class" in predicted_entities[offset]["xml_element"].attrib else predicted_entities[offset]["xml_element"].attrib["type"]
         if offset not in gold_entities:
             incorrect.append((predicted_entities[offset]["text"],
@@ -440,15 +460,6 @@ def _compare_file(predicted, gold):
 
         repeat += 1
 
-
-
-def map_files(files):
-    """ assign to each file the basename (no extension) """
-    output = {}
-    for f in files:
-        basename = os.path.basename(f).split('.')[0]
-        output[basename] = f
-    return output
 
 def _display_pos_confusion_matrix(files):
     """For all predicted EVENTINSTANCES that match gold EVENTINSTANCES
@@ -651,16 +662,16 @@ def extract_labeled_entities(annotated_timeml):
     tagged_entities = get_tagged_entities(annotated_timeml)
     _tagged_entities = copy.deepcopy(tagged_entities)
 
-    raw_text = get_text(annotated_timeml)
-    labeled_text = get_text_with_taggings(annotated_timeml)
+    raw_text = get_text(annotated_timeml, preserve_quotes=True)
+    labeled_text = get_text_with_taggings(annotated_timeml, preserve_quotes=True)
 
     # lots of checks!
     for char in ['\n'] + list(whitespace):
         raw_text     = raw_text.strip(char)
         labeled_text = labeled_text.strip(char)
 
-    raw_text     = re.sub(r"``", r"''", raw_text)
-    labeled_text = re.sub(r'"', r"'", labeled_text)
+#    raw_text     = re.sub(r"``", r"''", raw_text)
+#    labeled_text = re.sub(r'"', r"'", labeled_text)
 
     raw_text = re.sub("<TEXT>\n+", "", raw_text)
     raw_text = re.sub("\n+</TEXT>", "", raw_text)

@@ -64,15 +64,15 @@ def get_preceding_labels(token, labels):
 
         # normalize the features
         if token["token_offset"] - window < 0:
-            preceding_labels = (([None] * abs(token["token_offset"] - window)) + preceding_labels)
+            preceding_labels = ((['O'] * abs(token["token_offset"] - window)) + preceding_labels)
 
     else:
-        preceding_labels = [None]*4
+        preceding_labels = ['O']*4
 
     assert len(preceding_labels) == 4, "preceding _labels: {}".format(preceding_labels)
 
     for i, l in enumerate(preceding_labels):
-        features[("preceding_labels_{}".format(i), l)] = True
+        features[("preceding_labels_{}".format(i), l)] = 1
 
     return features
 
@@ -393,32 +393,46 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(get_lemma(token))
                 token_features.update(get_text(token))
                 token_features.update(get_pos_tag(token))
+                token_features.update(get_morpho_pos_tag(token))
                 token_features.update(get_ner_features(token))
                 token_features.update(timex_regex_feats(token))
             elif feature_set == "EVENT":
                 token_features.update(get_lemma(token))
-                token_features.update(get_text(token))
+
+                token_features.update(get_morpho_pos_tag(token))
                 token_features.update(get_pos_tag(token))
-                token_features.update(get_ner_features(token))
-                token_features.update(is_nominalization(token))
+
+                token_features.update(is_timex(token, timexLabels))
+                token_features.update(is_ner(token))
+
                 token_features.update(get_tense(token, note.id_to_tok))
                 token_features.update(is_negated(token, tokenized_text))
+
+                token_features.update(is_predicate(token))
                 token_features.update(is_coreferenced(token))
-                token_features.update(is_timex(token, timexLabels))
+                token_features.update(is_nominalization(token))
             elif feature_set == "EVENT_CLASS":
                 token_features.update(get_lemma(token))
-                token_features.update(get_text(token))
+
+                token_features.update(get_morpho_pos_tag(token))
                 token_features.update(get_pos_tag(token))
-                token_features.update(get_ner_features(token))
-                token_features.update(is_main_verb(token))
-                token_features.update(is_event(token, eventLabels))
-                token_features.update(semantic_roles(token))
-                token_features.update(is_nominalization(token))
-                token_features.update(get_discourse_connectives_event_features(token, note))
-                token_features.update(is_negated(token, tokenized_text))
-                token_features.update(get_tense(token, note.id_to_tok))
-                token_features.update(is_coreferenced(token))
+
                 token_features.update(is_timex(token, timexLabels))
+                token_features.update(is_ner(token))
+
+                token_features.update(get_tense(token, note.id_to_tok))
+                token_features.update(is_negated(token, tokenized_text))
+
+                token_features.update(is_predicate(token))
+                token_features.update(is_coreferenced(token))
+                token_features.update(is_nominalization(token))
+
+                token_features.update(get_text(token))
+                token_features.update(get_discourse_connectives_event_features(token, note))
+                token_features.update(is_main_verb(token))
+                token_features.update(semantic_roles(token))
+                token_features.update(is_event(token, eventLabels))
+                token_features.update(predicate_tokens(token))
             else:
                 raise Exception("ERROR: invalid feature set")
 
@@ -453,46 +467,94 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
 
     return features
 
-def is_predicate_member(token):
-    f = {("is_predicate_member",None):0}
-    if "predicate_ids" in token:
-        f = {("is_predicate_member",None):1}
+def is_predicate(token):
+    f = {("is_predicate",None):0}
+
+    if "is_predicate" in token:
+        f = {("is_predicate",None):1 if token["is_predicate"] else 0}
+
+    """
+    print
+    print token
+    print f
+    print
+    """
+
     return f
+
+
+def predicate_tokens(token):
+
+    f = {}
+
+    if "predicate_tokens" in token:
+        for predicate_token in token["predicate_tokens"]:
+            f[("predicate_token",predicate_token)] = 1
+    else:
+        f[("predicate_token","NULL")] = 1
+
+    return f
+
 
 def semantic_roles(token):
     feats = {}
     if "semantic_roles" in token:
-        for i, role in enumerate(token["semantic_roles"]):
-            feats.update({("semantic_role_{}".format(i),role):1})
+        for role in token["semantic_roles"]:
+            feats.update({("semantic_role",role):1})
+
+    """
+    print
+    print token
+    print feats
+    print
+    """
+
     return feats
 
 def is_main_verb(token):
     feat = {("main_verb",None):0}
     if "is_main_verb" in token:
-        feat = {("main_verb",None):token["is_main_verb"]}
+        feat = {("main_verb",None):1 if token["is_main_verb"] else 0}
+
+    """
+    print
+    print token
+    print feat
+    print
+    """
+
     return feat
 
 
 def is_event(token, eventLabels):
-    return {("is_event", None):(eventLabels[token["sentence_num"]-1][token["token_offset"]]["entity_label"] == "EVENT")}
 
+    f = {("is_event", None):(eventLabels[token["sentence_num"]-1][token["token_offset"]]["entity_label"] == "EVENT")}
 
-def get_grammar_categories(token):
+    """
+    print
+    print token
+    print eventLabels[token["sentence_num"]-1][token["token_offset"]]["entity_label"]
+    print f
+    print
+    """
 
-    features = {}
+    return f
 
-    if "grammar_categories" not in token:
-        return {("category", "DATE"):1}
-    else:
-        for key in token["grammar_categories"]:
-            features.update({("category", token["grammar_categories"][key]):1})
+def is_ner(token):
 
-    return features
+    f = {("is_ner", None):0}
 
+    #print
+    #print token["ner_tag"]
+    #print token["ne_chunk"]
 
-def get_wordshapes(self, token):
+    if token["ner_tag"] != 'NONE' and token["ne_chunk"] != 'NULL':
+        f = {("is_ner", None):1}
 
-    return wordshapes.getWordShapes(token["token"])
+    #print f
+    #print
+
+    return f
 
 
 def get_ner_features(token):
@@ -502,14 +564,14 @@ def get_ner_features(token):
     if "ner_tag" in token:
         f = {("ner_tag", token["ner_tag"]):1,
              ("ne_chunk", token["ne_chunk"]):1}
-    # TODO: what problems might arise from labeling tokens as none if no tagging?, we'll find out!
-    else:
-        f = {("ner_tag", 'None'):1,
-             ("ne_chunk", "NULL"):1}
 
     return f
 
 def get_text(token,feat_name="text"):
+
+    #print
+    #print token
+    #print
 
     if "token" in token:
         return {(feat_name,token["token"]):1}
@@ -519,11 +581,19 @@ def get_text(token,feat_name="text"):
 
 def get_pos_tag(token,feat_name="pos_tag"):
 
-    if "pos_tag" in token:
-        return {(feat_name, token["pos_tag"]):1}
+    if "pos" in token:
+        return {(feat_name, token["pos"]):1}
     else:
         # creation time.
         return {(feat_name, "DATE"):1}
+
+def get_morpho_pos_tag(token, feat_name="morpho_pos_tag"):
+
+    if "morpho_pos" in token:
+        return {(feat_name, token["morpho_pos"]):1}
+    else:
+        return {(feat_name, "DATE"):1}
+
 
 def get_lemma(token,feat_name="lemma"):
 
@@ -533,136 +603,6 @@ def get_lemma(token,feat_name="lemma"):
         # creation time
         # TODO: make better?
         return {(feat_name, "DATE"):1}
-
-
-#def get_features_for_entity_pair(self, src_entity, target_entity):
-
-#     pair_features = {}
-
-#     src_features = {}
-#     target_features = {}
-
-#     src_features.update(self.get_text_features(src_entity))
-#     target_features.update(self.get_text_features(target_entity))
-
-#     src_features.update(self.get_entity_type_features(src_entity))
-#     target_features.update(self.get_entity_type_features(target_entity))
-
-#     src_features.update(self.get_label_features(src_entity))
-#     target_features.update(self.get_label_features(target_entity))
-
-#     src_features.update(self.get_entity_attributes(src_entity))
-#     target_features.update(self.get_entity_attributes(target_entity))
-
-#     pair_features.update(self.get_same_pos_tag_feature(src_entity, target_entity))
-#     pair_features.update(self.get_sentence_distance_feature(src_entity, target_entity))
-
-#     pair_features.update(self.get_num_of_entities_between_tokens(src_entity, target_entity))
-#     pair_features.update(self.doc_creation_time_in_pair(src_entity, target_entity))
-
-#     pair_features.update(self.get_same_attributes(self.get_entity_attributes(src_entity), self.get_entity_attributes(target_entity)))
-
-#     pair_features.update(self.get_discourse_connectives_pair_features(src_entity, target_entity))
-#     pair_features.update(self.get_temporal_signal_features(src_entity, target_entity))
-
-#     for key in src_features:
-
-#         pair_features[(key[0] + "_src", key[1])] = src_features[key]
-
-#     for key in target_features:
-
-#         pair_features[(key[0] + "_target", key[1])] = target_features[key]
-
-#     return pair_features
-
-
-#def get_same_attributes(self, src_features, target_features):
-
-    # TODO: what happened here???/
-#    return {"same_attributes":1}
-
-#def get_entity_attributes(self, entity):
-
-#    features = {}
-
-#    for tok in entity:
-
-#        if "tense" in tok:
-
-#            features.update({("tense", tok["tense"]):1})
-
-#        else:
-
-#            features.update({("tense", "PRESENT"):1})
-
-#        iob_label = None
-
-#        if "token_offset" in tok:
-
-#            token_offset = tok["token_offset"]
-#            label = self.get_iob_labels()[tok["sentence_num"] - 1][token_offset]
-
-#            iob_label = {("class", label["entity_label"]):1}
-
-#        else:
-
-#            iob_label = {("class", "O"):1}
-
-#        features.update(iob_label)
-
-#    return features
-
-
-#def get_entity_position(self, entity):
-
-#    line_no = None
-#    start_offset = None
-#    end_offset = None
-
-#    for token in entity:
-
-#        if line_no is None:
-#            # creation time does not have a sentence number
-#            if "sentence_num" in token:
-#                line_no = token["sentence_num"]
-
-#        else:
-#            assert token["sentence_num"] == line_no
-
-
-#        if start_offset is None and end_offset is None:
-#            if "token_offset" in token:
-#                start_offset = token["token_offset"]
-#                end_offset = token["token_offset"]
-
-#        else:
-#            if start_offset > token["token_offset"]:
-#                start_offset = token["token_offset"]
-
-#            if end_offset < token["token_offset"]:
-#                end_offset = token["token_offset"]
-
-#    return {"line_no": line_no, "start_offset": start_offset, "end_offset": end_offset}
-
-def get_preposition_features(self, token):
-
-    features = {}
-
-    if "preposition_tokens" not in token or "semantic_role" not in token:
-
-        return {("preposition_token", "NULL"):1,
-                ("semantic_role", "NULL"):1}
-
-    for prep_tok in token["preposition_tokens"]:
-
-        features.update({("preposition_tokens", prep_tok):1})
-
-    for semantic_role in token["semantic_role"]:
-
-        features.update({("semantic_role", semantic_role):1})
-
-    return features
-
 
 def get_temporal_signal_features(src_entity, target_entity, note):
 
@@ -729,93 +669,6 @@ def get_temporal_signals_in_sentence(line_no, note):
                 break
 
     return signals
-
-def get_label_features(self, entity):
-
-    features = {}
-
-    for i, token in enumerate(entity):
-
-        features.update({("label_type", self.token_label_feature(token)["entity_label"]):1})
-
-    return features
-
-def get_entity_type_features(self, entity):
-
-    features = {}
-
-    for i, token in enumerate(entity):
-
-        features.update({("entity_type", self.token_entity_type_feature(token)["entity_type"]):1})
-
-    return features
-
-def token_label_feature(self, token):
-
-    feature = {}
-    feature = {}
-
-    line_num = None
-    token_offset = None
-
-    label = None
-
-    # TODO: correct this, hacky
-    if "functionInDocument" in token:
-
-        if token["functionInDocument"] == 'CREATION_TIME':
-
-            # this is the creation time...
-            label = "B_DATE"
-
-            return {"entity_label":label}
-
-    line_num     = token["sentence_num"] - 1
-    token_offset = token["token_offset"]
-
-    iob_labels  =  self.get_iob_labels()
-    label = iob_labels[line_num][token_offset]["entity_label"]
-
-    assert label not in ['O', None]
-
-    return {"entity_label":label}
-
-def token_entity_type_feature(self, token):
-
-    feature = {}
-
-    line_num = None
-    token_offset = None
-
-    entity_type = None
-
-    # TODO: correct this, hacky
-    if "functionInDocument" in token:
-
-        if token["functionInDocument"] == 'CREATION_TIME':
-            # this is the creation time...
-            entity_type = "TIMEX3"
-
-            return {"entity_type":entity_type}
-
-    line_num     = token["sentence_num"] - 1
-    token_offset = token["token_offset"]
-
-    iob_labels  =  self.get_iob_labels()
-
-    entity_type = iob_labels[line_num][token_offset]["entity_type"]
-
-    if entity_type not in ["EVENT", "TIMEX3"]:
-
-        print "\n\n"
-        print "iob_labels: ", iob_labels
-        print "token: ", token
-        print "iob_labels[line_num]", iob_labels[line_num]
-        print "iob_labels[line_num][token_offset]", iob_labels[line_num][token_offset]
-
-        exit("error...")
-
-    return {"entity_type":entity_type}
 
 
 def timex_regex_feats(token):
@@ -893,7 +746,6 @@ def get_tense(token, id_to_tok):
     tense, _ = english_rules.get_tense_aspect(token)
 
 #    print "TENSE: ", tense
-#    print "ASPECT: ", aspect
 
     return {("tense",tense):1}
 
@@ -912,14 +764,22 @@ def is_coreferenced(token):
 def is_negated(token, text):
     sentence = [t["token"] for t in text[token["sentence_num"]]]
     # assume that default polarity is POSITIVE (0). if negation becomes NEGATIVE (1)
-    f = {"negated":negdetect.is_negated(sentence, token["token"])}
+    f = {("negated",None):negdetect.is_negated(sentence, token["token"])}
+    #print
+    #print token["token"]
+    #print sentence
     #print f
+    #print
     return f
 
 def is_timex(token, timexLabels):
 
-    f = {("is_timex", None):1 if timexLabels[token["sentence_num"]-1][token["token_offset"]]["entity_type"] != None else 0}
+    f = {("is_timex", None):1 if timexLabels[token["sentence_num"]-1][token["token_offset"]]["entity_label"] != 'O' else 0}
 
-   # print f
+#    print
+#    print timexLabels[token["sentence_num"]-1][token["token_offset"]]
+#    print f
+#    print
+
     return f
 

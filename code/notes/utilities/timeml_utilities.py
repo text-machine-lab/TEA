@@ -78,17 +78,23 @@ def annotate_text_element(timeml_root, tag, start, end, attributes = {}):
     return text_element
 
 
-def annotate_root(timeml_root, tag, attributes = {}):
+def annotate_root(timeml_root, tag, attributes = {}, msg="don't know where from!"):
     ''' adds a sub element to root'''
+
+    #print msg
+    if tag is None:
+        print exit("tag was None")
 
     element = ET.Element(tag, attributes)
     element.tail = "\n"
+    if element is None:
+        print exit("element was None")
 
     timeml_root.append(element)
 
     return timeml_root
 
-def get_text_with_taggings(timeml_doc):
+def get_text_with_taggings(timeml_doc, preserve_quotes=False):
 
     text_e = get_text_element(timeml_doc)
 
@@ -98,7 +104,8 @@ def get_text_with_taggings(timeml_doc):
 
         string = string.strip(char)
 
-    string = xml_utilities.strip_quotes(string)
+    if not preserve_quotes:
+        string = xml_utilities.strip_quotes(string)
 
     return string
 
@@ -108,7 +115,7 @@ def get_stripped_root(timeml_doc):
     root = xml_utilities.get_root(timeml_doc)
 
     # raw text for use in overriding timex/event annotated text
-    text = get_text(timeml_doc)
+    text = get_text(timeml_doc, preserve_quotes=True)
 
     # new text element to override annotated text element
     newText_e = get_text_element_from_root(root)
@@ -129,7 +136,7 @@ def get_stripped_root(timeml_doc):
 
     return root
 
-def get_text(timeml_doc):
+def get_text(timeml_doc, preserve_quotes=False):
     """ gets raw text of document, xml tags removed """
 
     text_e = get_text_element(timeml_doc)
@@ -142,7 +149,8 @@ def get_text(timeml_doc):
 
         string = string.strip(char)
 
-    string = xml_utilities.strip_quotes(string)
+    if not preserve_quotes:
+        string = xml_utilities.strip_quotes(string)
 
     return string
 

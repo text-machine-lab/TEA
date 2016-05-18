@@ -28,7 +28,7 @@ def pre_process(text, filename):
     tokens,     tokens_to_offset,\
     pos_tags,   token_lemmas,\
     ner_tags,   constituency_trees,\
-    main_verbs, tok_id_to_predicate_info, coreferent_lists = naf_parse.parse(naf_tagged_doc)
+    predicate_ids, tok_id_to_predicate_info, coreferent_lists = naf_parse.parse(naf_tagged_doc)
 
     base_filename = os.path.basename(filename)
 
@@ -73,6 +73,9 @@ def pre_process(text, filename):
 
     morpho_pro_input = []
 
+    #print "tokens: ", tokens
+    #print "pos's: ", pos_tags
+
     for tok, pos_tag, lemma in zip(tokens, pos_tags, token_lemmas):
 
         tmp = []
@@ -95,15 +98,6 @@ def pre_process(text, filename):
             grammar_categories = constituency_trees[tok["sentence_num"]].get_phrase_memberships(tok["id"])
 
         tok.update(pos_tag)
-
-        # get verb tense:
-        # TODO: make this better..
-        if tok["pos_tag"] in ["VBD", "VBP"]:
-            tok.update({"tense":"PAST"})
-        else:
-            tok.update({"tense":"PRESENT"})
-
-        tok.update({"grammar_categories":grammar_categories})
 
         if tok["sentence_num"] in sentences:
             sentences[tok["sentence_num"]].append(tok)
@@ -141,6 +135,41 @@ def pre_process(text, filename):
         features_for_current_sentence['constituency_tree'] = parse_tree
         sentence_features[key] = features_for_current_sentence
 
+    # print "tokens: ", tokens
+    # print "id_to_tok: ", id_to_tok
+
+    for tok_id in predicate_ids:
+        id_to_tok[tok_id]["is_predicate"] = True
+
+    for tok_id in tok_id_to_predicate_info:
+        id_to_tok[tok_id]["predicate_tokens"] = [id_to_tok[i]["token"] for i in tok_id_to_predicate_info[tok_id]["predicate_ids"]]
+
+    for sentence in constituency_trees:
+        #print
+        #print "sentence num: ", sentence
+        #print
+
+        verb_phrase_tokens = constituency_trees[sentence].get_main_verb_phrase_tokens()
+
+    #    print "verb phrase tokens: ", verb_phrase_tokens
+
+        verbs = [token for token in verb_phrase_tokens if id_to_tok[token["id"]]["pos"] == "V"]
+        if len(verbs) > 0:
+            min_depth = min([v["depth"] for v in verbs])
+            main_verbs = [verb for verb in verbs if verb["depth"] == min_depth]
+
+            for main_verb in main_verbs:
+                id_to_tok[main_verb["id"]]["is_main_verb"] = True
+        #print
+            #print "main_verbs: ", main_verbs
+        #print
+
+       #     print
+     #       print "token id: ",token
+      #      print "token: ", token
+         #   print "token pos: ", id_to_tok[token["id"]]["pos"]
+        #    print
+
 
     for target_id in ner_tags:
         assert target_id in id_to_tok, "{} not in id_to_tok".format(target_id)
@@ -152,12 +181,6 @@ def pre_process(text, filename):
             ne_chunk += id_to_tok[_id]["token"]
 
         id_to_tok[target_id].update({"ne_chunk":ne_chunk})
-
-    for main_verb in main_verbs:
-
-        assert main_verb in id_to_tok
-
-        id_to_tok[main_verb].update({"is_main_verb":True})
 
     for coref_id in coreferent_lists:
         for span in coreferent_lists[coref_id]:
@@ -179,6 +202,9 @@ def pre_process(text, filename):
 
     # make sure all the other tokens have is_main_verb
     for tok in tokens:
+        if "is_predicate" not in tok:
+            tok["is_predicate"] = False
+
         if "is_main_verb" not in tok:
             tok.update({"is_main_verb":False})
 
@@ -192,19 +218,9 @@ def pre_process(text, filename):
 
         if tok["id"] in tok_id_to_predicate_info:
             semantic_roles = tok_id_to_predicate_info[tok["id"]]["semantic_role"]
-            tok_predicate_info = tok_id_to_predicate_info[tok["id"]]
-            preposition_ids = tok_predicate_info.pop("toks_preposition")
-            preposition_tokens = []
-
-            for tok_id in preposition_ids:
-                preposition_tokens.append(id_to_tok[tok_id]["token"])
-
-            tok_predicate_info["preposition_tokens"] = preposition_tokens
             tok.update({"semantic_roles":semantic_roles})
-            tok.update(tok_predicate_info)
-
-        # add constituency phrase membership
-        tok.update({"constituency_phrase":constituency_trees[tok["sentence_num"]].get_phrase_membership(tok["id"])})
+        else:
+            tok.update({"semantic_roles":[]})
 
         # verify that there is a 1-1 correspondence between morphopro tokenization and newsreader.
         if tok["token_offset"] >= len(morpho_output[tok["sentence_num"]-1]):

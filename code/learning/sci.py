@@ -29,8 +29,8 @@ def train( featsDict, Y, do_grid=False, ovo=False):
     print
 
     # Search space
-    C_range     = 10.0 ** np.arange( -5, 9 )
-    gamma_range = 10.0 ** np.arange( -5, 9 )
+    C_range     = [1]
+    gamma_range = 10.0 ** np.arange( -3, 5 )
 
     clf = None
 
@@ -44,14 +44,15 @@ def train( featsDict, Y, do_grid=False, ovo=False):
 
         print "training model [GRID SEARCH ON]"
 
-        estimates = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weight='balanced', cache_size=500)
+        estimates = SVC(kernel='poly', degree=2, max_iter=1000, decision_function_shape=func_shape, class_weight='balanced', cache_size=500)
         parameters = [{'C':C_range, 'gamma':gamma_range}]
 
         # Find best classifier
         clf = GridSearchCV(estimates,
                            parameters,
                            scoring='f1_weighted',
-                           n_jobs=20,
+                           n_jobs=30,
+                           cv=10,
                            verbose=10)
 
         clf.fit(X, Y)
@@ -59,7 +60,7 @@ def train( featsDict, Y, do_grid=False, ovo=False):
     else:
 
         print "training model [GRID SEARCH OFF]"
-        clf = SVC(kernel='poly', max_iter=1000, decision_function_shape=func_shape, class_weight='balanced')
+        clf = SVC(kernel='poly', degree=2, max_iter=1000, decision_function_shape=func_shape, class_weight='balanced', verbose=True)
         clf.fit(X, Y)
 
     return clf, vec
