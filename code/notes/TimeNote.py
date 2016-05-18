@@ -756,6 +756,7 @@ class TimeNote(Note):
                 # need to assign the iob labels by token index
                 for token in sentence:
 
+
                     # set proper iob label to token
                     iob_label, entity_type, entity_id = TimeNote.get_label(token, offsets)
 
@@ -765,6 +766,16 @@ class TimeNote(Note):
                     else:
                         assert entity_id is None
                         assert entity_type is None
+
+
+
+                    #if token["token"] == "expects":
+                    #    print "Found expects"
+                    #    print "iob_label: ", iob_label
+                    #    print "entity_type: ", entity_type
+                    #    print "entity_id: ", entity_id
+                    #    print
+                    #    sys.exit("done")
 
                     iobs_sentence.append({'entity_label':iob_label,
                                           'entity_type':entity_type,
@@ -880,7 +891,7 @@ class TimeNote(Note):
 
         # hack so events are detected in next for loop.
         for label in timexEventLabels:
-            if label["entity_label"][0:2] not in ["B_","I_","O"]:
+            if label["entity_label"][0:2] not in ["B_","I_","O"] or label["entity_label"] in ["I_STATE", "I_ACTION"]:
                 label["entity_label"] = "B_" + label["entity_label"]
 
         # start at back of document to preserve offsets until they are used
@@ -943,19 +954,19 @@ class TimeNote(Note):
             pos = None
 
             # pos
-            if token["pos_tag"] == "IN":
-                pos = "PREPOSITION"
-            elif token["pos_tag"] in ["VB", "VBD","VBG", "VBN", "VBP", "VBZ", "RB", "RBR", "RBS"]:
-                pos = "VERB"
-            elif token["pos_tag"] in ["NN", "NNS", "NNP", "NNPS", "PRP", "PRP$"]:
-                pos = "NOUN"
-            elif token["pos_tag"] in ["JJ", "JJR", "JJS"]:
-                pos = "ADJECTIVE"
-            else:
-                pos = "OTHER"
+    #        if token["pos_tag"] == "IN":
+    #            pos = "PREPOSITION"
+    #        elif token["pos_tag"] in ["VB", "VBD","VBG", "VBN", "VBP", "VBZ", "RB", "RBR", "RBS"]:
+    #            pos = "VERB"
+    #        elif token["pos_tag"] in ["NN", "NNS", "NNP", "NNPS", "PRP", "PRP$"]:
+    #            pos = "NOUN"
+    #        elif token["pos_tag"] in ["JJ", "JJR", "JJS"]:
+    #            pos = "ADJECTIVE"
+    #        else:
+    #            pos = "OTHER"
 
             if timexEventLabel["entity_type"] == "EVENT":
-                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense": token["tense"], "pos":pos})
+                root = annotate_root(root, "MAKEINSTANCE", {"eventID": timexEventLabel["entity_id"], "eiid": "ei" + str(i), "tense":"NONE", "pos":"NONE"})
                 eventDict[timexEventLabel["entity_id"]] = "ei" + str(i)
 
         # add tlinks
@@ -1040,6 +1051,15 @@ class TimeNote(Note):
                 entity_type = labeled_entity.tag
 
                 break
+
+#        if token["token"] == "expects":
+
+#            print
+#            print "Token span: ", tok_span
+#            print "Label found: ", label
+#            print
+
+#            sys.exit("found it")
 
         if entity_type == "EVENT":
             # don't need iob tagging just what the type is.
