@@ -5,6 +5,8 @@ import eus.ixa.ixa.pipe.pos.Pos;
 import eus.ixa.ixa.pipe.nerc.Ner;
 import eus.ixa.ixa.pipe.parse.Parse;
 
+import heidel.HeidelTime;
+
 /**
 * Defines object that willbe used to access loaded newsreader components.
 */
@@ -14,6 +16,7 @@ class EntryPoint {
     Pos tagger    = null;
     Ner ner       = null;
     Parse parser  = null;
+    HeidelTime heideler = null;
 
     public EntryPoint() {
         try {
@@ -22,11 +25,18 @@ class EntryPoint {
             tagger    = new Pos();
             ner       = new Ner();
             parser    = new Parse();
+            heideler  = new HeidelTime();
 
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public HeidelTime getHeideler() {
+
+        return heideler;
+
     }
 
     public Tok getIXATokenizer() {
