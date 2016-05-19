@@ -8,11 +8,13 @@ import de.unihd.dbs.heideltime.standalone.exceptions.DocumentCreationTimeMissing
 
 public class HeidelTime {
 
+    String CURR_DIR = new String(getClass().getProtectionDomain().getCodeSource().getLocation().toString().substring(5));
+    String TEA_HOME = new String(CURR_DIR + "../../../../");
+
     HeidelTimeStandalone heidelTime = new HeidelTimeStandalone(Language.ENGLISH,
                                                                DocumentType.COLLOQUIAL,
                                                                OutputType.TIMEML,
-                                                              // FIX THIS!
-                                                              "conf/config.props",
+                                                               TEA_HOME + "/dependencies/HeidelTime/heideltime-kit/conf/config.props",
                                                                POSTagger.TREETAGGER, true);
 
     int[] _month_consts = {0, Calendar.JANUARY, Calendar.FEBRUARY, Calendar.MARCH, Calendar.APRIL, Calendar.MAY,
@@ -44,7 +46,7 @@ public class HeidelTime {
 
         HeidelTime test = new HeidelTime();
 
-        test.process("He ran yesterday", 1993, 4, 26);
+        System.out.println(test.process("He ran yesterday", 1993, 4, 26));
 
         return;
 
