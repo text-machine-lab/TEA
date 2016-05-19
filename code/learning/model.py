@@ -14,14 +14,11 @@ _vects = {}
 
 _models_loaded = False
 
-def train(notes, train_timex=True, train_event=True, train_rel=True):
+def train(notes, train_event=True, train_rel=True, predicate_as_event=False):
 
     # TODO: need to do some filtering of tokens
     # TODO: experiment with the feature of the 4 left and right taggings. do we
     #       only utilize taggings for each pass or do we incorporate taggings in different passes?
-
-    timexLabels   = [] # BIO labelings for tokens in text.
-    timexFeatures = []
 
     eventLabels   = [] # EVENT or O labelings for tokens in text.
     eventFeatures = []
@@ -31,9 +28,6 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
 
     tlinkLabels   = [] # temporal relation labelings for enitity pairs.
     tlinkFeatures = []
-
-    timexClassifier = None
-    timexVectorizer = None
 
     eventClassifier = None
     eventVectorizer = None
@@ -47,25 +41,36 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
     for i, note in enumerate(notes):
 
         print "note: {}".format(i)
-
         print "note path: ", note.note_path
 
-        if train_timex is True:
-            # extract features to perform BIO labeling for timexs
-            tmpLabels = note.get_timex_labels()
-            for label in tmpLabels: timexLabels += label
-            timexFeatures += features.extract_timex_feature_set(note, tmpLabels)
-
         if train_event is True:
-            # extract features to perform EVENT or O labeling.
-            tmpLabels = note.get_event_labels()
-            for label in tmpLabels: eventLabels += label
-            eventFeatures += features.extract_event_feature_set(note, tmpLabels, timexLabels=note.get_timex_labels())
+
+            if predicate_as_event is False:
+
+                # extract features to perform EVENT or O labeling.
+                tmpLabels = note.get_event_labels()
+                for label in tmpLabels: eventLabels += label
+                eventFeatures += features.extract_event_feature_set(note, tmpLabels, timexLabels=note.get_timex_labels())
 
             # extract features to perform event class labeling.
             tmpLabels = note.get_event_class_labels()
             for label in tmpLabels: eventClassLabels += label
             eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels(), timexLabels=note.get_timex_labels())
+
+            if predicate_as_event:
+                _predicate_eventClassLabels   = []
+                _predicate_eventClassFeatures = []
+
+                tokenized_text = note.get_tokenized_text()
+                tokens = [token for line in tokenized_text for token in tokenized_text[line]]
+
+                for i, token in enumerate(tokens):
+                    if token["is_predicate"]:
+                        _predicate_eventClassLabels.append(eventClassLabels[i])
+                        _predicate_eventClassFeatures.append(eventClassFeatures[i])
+
+                eventClassLabels = _predicate_eventClassLabels
+                eventClassFeatures = _predicate_eventClassFeatures
 
         if train_rel is True:
             # extract features to classify relations between temporal entities.
@@ -78,19 +83,14 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
     #print features._voc
     #print
 
-    if train_timex is True:
-
-        print "\tTRAINING TIMEX"
-
-        # train model to perform BIO labeling for timexs
-        timexClassifier, timexVectorizer = _trainTimex(timexFeatures, timexLabels, grid=True)
-        #timexClassifier, timexVectorizer = _trainTimex(timexFeatures, timexLabels, grid=False)
-
     if train_event is True:
-        # train model to label as EVENT or O
-        # TODO: filter non-timex only?
-        eventClassifier, eventVectorizer = _trainEvent(eventFeatures, eventLabels, grid=True)
-       # eventClassifier, eventVectorizer = _trainEvent(eventFeatures, eventLabels, grid=False)
+
+        if predicate_as_event is False:
+
+            # train model to label as EVENT or O
+            # TODO: filter non-timex only?
+            eventClassifier, eventVectorizer = _trainEvent(eventFeatures, eventLabels, grid=True)
+           # eventClassifier, eventVectorizer = _trainEvent(eventFeatures, eventLabels, grid=False)
 
         # train model to label as a class of EVENT
         # TODO: filter event only?
@@ -105,13 +105,11 @@ def train(notes, train_timex=True, train_event=True, train_rel=True):
         tlinkClassifier, tlinkVectorizer = _trainTlink(tlinkFeatures, tlinkLabels, grid=True)
 
     # will be accessed later for dumping
-    models = {"TIMEX":timexClassifier,
-              "EVENT":eventClassifier,
+    models = {"EVENT":eventClassifier,
               "EVENT_CLASS":eventClassClassifier,
               "TLINK":tlinkClassifier}
 
-    vectorizers = {"TIMEX":timexVectorizer,
-                   "EVENT":eventVectorizer,
+    vectorizers = {"EVENT":eventVectorizer,
                    "EVENT_CLASS":eventClassVectorizer,
                    "TLINK":tlinkVectorizer}
 
@@ -276,22 +274,6 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
     return entity_labels, original_offsets, tlink_labels, tokens
 
 
-def _trainTimex(timexFeatures, timexLabels, grid=False):
-    """
-    Purpose: Train a classifer for Timex3 expressions
-
-    @param tokenVectors: A list of tokens represented as feature dictionaries
-    @param Y: A list of lists of Timex3 classifications for each token in each sentence
-    """
-
-    assert len(timexFeatures) == len(timexLabels), "{} != {}".format(len(timexFeatures), len(timexLabels))
-
-    Y = [l["entity_label"] for l in timexLabels]
-
-    clf, vec = train_classifier(timexFeatures, Y, do_grid=grid, ovo=True)
-    return clf, vec
-
-
 def _trainEvent(eventFeatures, eventLabels, grid=False):
     """
     Model::_trainEvent()
@@ -390,7 +372,6 @@ def load_models(path, predict_timex, predict_event, predict_tlink):
         # vect should also exist, unless something went wrong.
         if os.path.isfile(path+"_"+key+"_MODEL") is True and flag is True:
             print "loading: {}".format(key)
-
             _models[key] = cPickle.load(open(path+"_"+key+"_MODEL", "rb"))
             _vects[key]  = cPickle.load(open(path+"_"+key+"_VECT", "rb"))
         else:
@@ -408,15 +389,13 @@ def dump_models(models, vectorizers, path):
 
     print "dumping..."
 
-    keys = ["TIMEX", "EVENT", "EVENT_CLASS", "TLINK"]
+    keys = ["EVENT", "EVENT_CLASS", "TLINK"]
 
     for key in keys:
         if models[key] is None:
             continue
         else:
-
             print "dumping: {}".format(key)
-
             model_dest = open(path+"_"+key+"_MODEL", "wb")
             vect_dest  = open(path+"_"+key+"_VECT", "wb")
 
