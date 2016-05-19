@@ -177,6 +177,8 @@ class TimeNote(Note):
 
     def get_tlinked_entities(self):
 
+        _LABELS_TO_FLIP = ["INCLUDES", "ENDS", "BEGINS"]
+
         t_links = None
 
         if len(self.tlinks) > 0:
@@ -199,8 +201,9 @@ class TimeNote(Note):
         gold_tlink_pairs = []
 
         # TODO: figure out how to handle the problem where a token occurs in two different make instances.
+        count = 1
         for t in t_links:
-
+            print count, t.attrib
             link = {}
 
             # source
@@ -215,6 +218,9 @@ class TimeNote(Note):
             else:
                 target_id = t.attrib["relatedToTime"]
 
+            if t.attrib["relType"] in _LABELS_TO_FLIP:
+                src_id, target_id = target_id, src_id
+
             tmp_dict = {"target_id":target_id, "rel_type":t.attrib["relType"], "lid":t.attrib["lid"]}
 
             gold_tlink_pairs.append((src_id, target_id))
@@ -227,20 +233,16 @@ class TimeNote(Note):
             else:
                 temporal_relations[src_id] = [tmp_dict]
 
-        assert( len(gold_tlink_pairs) == len(t_links) ), "{} != {}".format(len(gold_tlink_pairs) , len(t_links))
+            count += 1
 
-        entity_pairs = self.get_entity_pairs()
+        assert( len(gold_tlink_pairs) == len(t_links) ), "{} != {}".format(len(gold_tlink_pairs) , len(t_links))
 
         relation_count = 0
 
         pairs_to_link = []
         tlink_ids = []
 
-        #print "entity paurs:"
-        #print entity_pairs
-
-        #print "sentence_chunks: "
-        #print sentence_chunks
+        entity_pairs = self.get_entity_pairs()
 
         id_chunk_map, event_ids, timex_ids, sentence_chunks = self.get_id_chunk_map()
 
@@ -248,13 +250,6 @@ class TimeNote(Note):
 
             src_id = pair[0]
             target_id = pair[1][1]
-
-            # print "id_chunk_map: "
-            # print id_chunk_map
-            # print "src_id: "
-            # print src_id
-            # print "target_id: "
-            # print target_id
 
             pair = {"src_entity":id_chunk_map[src_id],
                     "src_id":src_id,
@@ -268,14 +263,14 @@ class TimeNote(Note):
 
                 # relation_found = False
 
-                for target_entity in temporal_relations[src_id]:
+                for temporal_relation in temporal_relations[src_id]:
 
-                    if target_id == target_entity["target_id"]:
+                    if target_id == temporal_relation["target_id"]:
 
                         relation_count += 1
 
                         # need to assign relation to each pairing if there exists one otherwise set 'none'
-                        pair["rel_type"] = target_entity["rel_type"]
+                        pair["rel_type"] = temporal_relation["rel_type"]
 
                         # need to simplify tlinks
 
@@ -304,9 +299,10 @@ class TimeNote(Note):
                             print "rel_type: ", pair["rel_type"]
                             exit("unknown rel_type")
 
-                        pair["tlink_id"] = target_entity["lid"]
+                        pair["tlink_id"] = temporal_relation["lid"]
+                        print pair["tlink_id"]
 
-                        tlink_ids.append(target_entity["lid"])
+                        tlink_ids.append(temporal_relation["lid"])
 
                         # done
                         break
@@ -316,7 +312,7 @@ class TimeNote(Note):
 
         # TODO: if this fails just remove the assertion...
         # make sure we don't miss any tlinks
-        #assert relation_count == len(t_links), "{} != {}".format(relation_count, len(t_links))
+        assert relation_count == len(t_links), "{} != {}".format(relation_count, len(t_links))
 
         self.tlinks = pairs_to_link
 
@@ -361,6 +357,14 @@ class TimeNote(Note):
                 adj_main_events = filter(lambda event_id: True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]], adj_event_ids)
 
                 entity_pairs += list(itertools.product(main_events, adj_main_events))
+
+        # add relations in the other direction (b -> a instead of a -> b)
+        old_pairs = copy.deepcopy(entity_pairs)
+        for pair in old_pairs:
+            if pair[1][0] == "EVENT":
+                src_id = pair[1][1]
+                target_id = pair[0]
+                entity_pairs.append((src_id, ("EVENT", target_id)))
 
         return entity_pairs
 
