@@ -52,23 +52,22 @@ def main():
                         action='store_true',
                         default=False)
 
-    parser.add_argument("--no_timex",
+    parser.add_argument("--no_tlink",
                         action='store_true',
                         default=False)
 
-    parser.add_argument("--no_tlink",
+    parser.add_argument("--predicate_as_event",
                         action='store_true',
                         default=False)
 
     args = parser.parse_args()
 
     train_event = not(args.no_event)
-    train_timex = not(args.no_timex)
     train_tlink = not(args.no_tlink)
 
     print "\n\tTRAINING:\n"
-    print "\t\tTIMEX {}".format(train_timex)
     print "\t\tEVENT {}".format(train_event)
+    print "\t\t\tPREDICATE AS EVENT: {}".format(args.predicate_as_event)
     print "\t\tTLINK {}".format(train_tlink)
     print "\n"
 
@@ -117,13 +116,13 @@ def main():
         NN.classifier.save_weights(args.model_destination + '.weights.h5')
 
     else:
-        models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink, newsreader_dir)
+        models, vectorizers = trainModel(tml_files, gold_files, False, train_event, train_tlink, newsreader_dir, args.predicate_as_event)
 
         # store model as pickle object.
         model.dump_models(models, vectorizers, args.model_destination)
 
 
-def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tlink, newsreader_dir):
+def trainModel( tml_files, gold_files, grid, train_event, train_tlink, newsreader_dir, predicate_as_event):
     """
     train::trainModel()
 
@@ -174,7 +173,7 @@ def trainModel( tml_files, gold_files, grid, train_timex, train_event, train_tli
         notes.append(tmp_note)
 
     print "training..."
-    return model.train(notes, train_timex, train_event, train_tlink)
+    return model.train(notes, train_event, train_tlink, predicate_as_event)
 
 
 def trainNetwork(tml_files, gold_files, newsreader_dir):
