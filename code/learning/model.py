@@ -383,7 +383,7 @@ def load_models(path, predict_timex, predict_event, predict_tlink):
     return
 
 
-def dump_models(models, vectorizers, path):
+def dump_models(models, vectorizers, path, predicate_as_event):
     """dump model specified by argument into the file path indicated by path argument
     """
 
@@ -396,8 +396,16 @@ def dump_models(models, vectorizers, path):
             continue
         else:
             print "dumping: {}".format(key)
-            model_dest = open(path+"_"+key+"_MODEL", "wb")
-            vect_dest  = open(path+"_"+key+"_VECT", "wb")
+
+            model_dest = None
+            vect_dest  = None
+
+            if predicate_as_event and key == "EVENT_CLASS":
+                model_dest = open(path+"_"+key+"_MODEL"+"_PREDICATE_AS_EVENT", "wb")
+                vect_dest  = open(path+"_"+key+"_VECT"+"_PREDICATE_AS_EVENT", "wb")
+            else:
+                model_dest = open(path+"_"+key+"_MODEL", "wb")
+                vect_dest  = open(path+"_"+key+"_VECT", "wb")
 
             cPickle.dump(models[key], model_dest)
             cPickle.dump(vectorizers[key], vect_dest)

@@ -119,7 +119,7 @@ def main():
         models, vectorizers = trainModel(tml_files, gold_files, False, train_event, train_tlink, newsreader_dir, args.predicate_as_event)
 
         # store model as pickle object.
-        model.dump_models(models, vectorizers, args.model_destination)
+        model.dump_models(models, vectorizers, args.model_destination, args.predicate_as_event)
 
 
 def trainModel( tml_files, gold_files, grid, train_event, train_tlink, newsreader_dir, predicate_as_event):
