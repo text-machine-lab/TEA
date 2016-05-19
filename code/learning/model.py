@@ -46,7 +46,6 @@ def train(notes, train_event=True, train_rel=True, predicate_as_event=False):
         if train_event is True:
 
             if predicate_as_event is False:
-
                 # extract features to perform EVENT or O labeling.
                 tmpLabels = note.get_event_labels()
                 for label in tmpLabels: eventLabels += label
@@ -86,7 +85,6 @@ def train(notes, train_event=True, train_rel=True, predicate_as_event=False):
     if train_event is True:
 
         if predicate_as_event is False:
-
             # train model to label as EVENT or O
             # TODO: filter non-timex only?
             eventClassifier, eventVectorizer = _trainEvent(eventFeatures, eventLabels, grid=True)
@@ -116,7 +114,7 @@ def train(notes, train_event=True, train_rel=True, predicate_as_event=False):
     return models, vectorizers
 
 
-def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
+def predict(note, predict_timex=True, predict_event=True, predict_rel=True, predicate_as_event=False):
 
     # TODO: try and correct the flattening on the lists. might just end up being redundent?
     # TODO: refactor this code. a lot of it is redundant.
@@ -184,38 +182,59 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
 
             iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
 
+    else:
+        for t in tokens:
+            timexLabels[t["sentence_num"] - 1].append({'entity_label':'O',
+                                                      'entity_type':None,
+                                                      'entity_id':"t"+str(timex_count)})
+            timex_count += 1
+            iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
+
     event_count = 2
     event_class_count = 2
 
     if predict_event is True:
 
-        eventClassifier = _models["EVENT"]
-        eventVectorizer = _vects["EVENT"]
+        if predicate_as_event is False:
+
+            eventClassifier = _models["EVENT"]
+            eventVectorizer = _vects["EVENT"]
+
+            # get the timex feature set for the tokens within the note.
+            # don't get iob labels yet, they are inaccurate. need to predict first.
+            eventFeatures = features.extract_event_feature_set(note, eventLabels, predict=True, timexLabels=timexLabels)
+
+            # sanity check
+            assert len(tokens) == len(eventFeatures)
+
+            # TODO: need to do some filter. if something is already labeled then just skip over it.
+            # predict over the tokens and the features extracted.
+            for t, f in zip(tokens, eventFeatures):
+
+                features.update_features(t, f, eventLabels)
+
+                X = eventVectorizer.transform([f])
+                Y = list(eventClassifier.predict(X))
+
+                eventLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
+                                                           'entity_type':None if Y[0] == 'O' else 'EVENT',
+                                                           'entity_id':"e" + str(event_count)})
+
+                event_count += 1
+        else:
+            for t in tokens:
+                if t["is_predicate"]:
+                    eventLabels[t["sentence_num"] - 1].append({'entity_label':'EVENT',
+                                                               'entity_type':'EVENT',
+                                                               'entity_id':"t"+str(event_count)})
+                else:
+                    eventLabels[t["sentence_num"] - 1].append({'entity_label':'O',
+                                                               'entity_type':None,
+                                                               'entity_id':"t"+str(event_count)})
+                event_count += 1
 
         eventClassClassifier = _models["EVENT_CLASS"]
         eventClassVectorizer = _vects["EVENT_CLASS"]
-
-        # get the timex feature set for the tokens within the note.
-        # don't get iob labels yet, they are inaccurate. need to predict first.
-        eventFeatures = features.extract_event_feature_set(note, eventLabels, predict=True, timexLabels=timexLabels)
-
-        # sanity check
-        assert len(tokens) == len(eventFeatures)
-
-        # TODO: need to do some filter. if something is already labeled then just skip over it.
-        # predict over the tokens and the features extracted.
-        for t, f in zip(tokens, eventFeatures):
-
-            features.update_features(t, f, eventLabels)
-
-            X = eventVectorizer.transform([f])
-            Y = list(eventClassifier.predict(X))
-
-            eventLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                       'entity_type':None if Y[0] == 'O' else 'EVENT',
-                                                       'entity_id':"e" + str(event_count)})
-
-            event_count += 1
 
         # get the timex feature set for the tokens within the note.
         eventClassFeatures = features.extract_event_class_feature_set(note, eventClassLabels, eventLabels, predict=True, timexLabels=timexLabels)
@@ -226,14 +245,24 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True):
         # predict over the tokens and the features extracted.
         for t, f in zip(tokens, eventClassFeatures):
 
+            X = None
+            Y = None
+
             # updates labels
             features.update_features(t, f, eventClassLabels)
 
-            X = eventClassVectorizer.transform([f])
-            Y = list(eventClassClassifier.predict(X))
+            if predicate_as_event:
+                if t["is_predicate"]:
+                    X = eventClassVectorizer.transform([f])
+                    Y = list(eventClassClassifier.predict(X))[0]
+                else:
+                    Y = 'O'
+            else:
+                X = eventClassVectorizer.transform([f])
+                Y = list(eventClassClassifier.predict(X))[0]
 
-            eventClassLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                            'entity_type':None if Y[0] == 'O' else 'EVENT',
+            eventClassLabels[t["sentence_num"] - 1].append({'entity_label':Y,
+                                                            'entity_type':None if Y == 'O' else 'EVENT',
                                                             'entity_id':'e' + str(event_class_count)})
 
             event_class_count += 1
@@ -358,9 +387,9 @@ def combineLabels(timexLabels, eventLabels, OLabels=[]):
 
     return labels
 
-def load_models(path, predict_timex, predict_event, predict_tlink):
+def load_models(path, predict_timex, predict_event, predict_tlink, predicate_as_event):
 
-    keys = ["TIMEX", "EVENT", "EVENT_CLASS", "TLINK"]
+    keys = ["EVENT", "EVENT_CLASS", "TLINK"]
     flags = [predict_timex, predict_event, predict_event, predict_tlink]
 
     global _models
@@ -369,11 +398,18 @@ def load_models(path, predict_timex, predict_event, predict_tlink):
 
     for key, flag in zip(keys, flags):
 
+        m_path = path+"_"+key+"_MODEL"
+        v_path = path+"_"+key+"_VECT"
+
+        if predicate_as_event and key == "EVENT_CLASS":
+            m_path += "_PREDICATE_AS_EVENT"
+            v_path += "_PREDICATE_AS_EVENT"
+
         # vect should also exist, unless something went wrong.
-        if os.path.isfile(path+"_"+key+"_MODEL") is True and flag is True:
+        if os.path.isfile(m_path) is True and flag is True:
             print "loading: {}".format(key)
-            _models[key] = cPickle.load(open(path+"_"+key+"_MODEL", "rb"))
-            _vects[key]  = cPickle.load(open(path+"_"+key+"_VECT", "rb"))
+            _models[key] = cPickle.load(open(m_path, "rb"))
+            _vects[key]  = cPickle.load(open(v_path, "rb"))
         else:
             _models[key] = None
             _vects[key]  = None
@@ -403,9 +439,13 @@ def dump_models(models, vectorizers, path, predicate_as_event):
             if predicate_as_event and key == "EVENT_CLASS":
                 model_dest = open(path+"_"+key+"_MODEL"+"_PREDICATE_AS_EVENT", "wb")
                 vect_dest  = open(path+"_"+key+"_VECT"+"_PREDICATE_AS_EVENT", "wb")
+            elif key =="EVENT_CLASS":
+                model_dest = open(path+"_"+key+"_MODEL"+"_REGULAR_EVENT", "wb")
+                vect_dest  = open(path+"_"+key+"_VECT"+"_REGULAR_EVENT", "wb")
             else:
                 model_dest = open(path+"_"+key+"_MODEL", "wb")
                 vect_dest  = open(path+"_"+key+"_VECT", "wb")
+
 
             cPickle.dump(models[key], model_dest)
             cPickle.dump(vectorizers[key], vect_dest)

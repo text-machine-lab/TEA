@@ -70,18 +70,47 @@ def main():
 
     model_path = args.model_destination
 
-    keys = ["TIMEX", "EVENT", "EVENT_CLASS", "TLINK"]
+    keys = ["EVENT", "EVENT_CLASS", "TLINK"]
     flags = [predict_timex, predict_event, predict_event, predict_tlink]
+
+    event_model_exists = False
+
+    predicate_as_event = False
 
     # make sure appropriate models exist for what needs to be done.
     for key, flag in zip(keys, flags):
         if flag is True:
             m_path = model_path + "_{}_MODEL".format(key)
             v_path = model_path + "_{}_VECT".format(key)
-            if os.path.isfile(m_path) is False:
-                sys.exit("\n\nmissing model: {}".format(m_path))
-            if os.path.isfile(v_path) is False:
-                sys.exit("\n\nmissing vectorizer: {}".format(v_path))
+
+            # EVENT model is checked before EVENT_CLASS model. if it doesn't exist assume that PEDICATE_AS_EVENT model must exist.
+            if (not event_model_exists) and (key == "EVENT_CLASS"):
+                m_path += "_PREDICATE_AS_EVENT"
+                v_path += "_PREDICATE_AS_EVENT"
+            elif key == "EVENT_CLASS":
+                m_path += "_REGULAR_EVENT"
+                v_path += "_REGULAR_EVENT"
+            else:
+                pass
+
+            if os.path.isfile(m_path) and key == "EVENT":
+                # EVENT model exists
+                event_model_exists = True
+            if os.path.isfile(m_path) and key == "EVENT_CLASS" and "_PREDICATE_AS_EVENT" in m_path and event_model_exists:
+                sys.exit("\n\nEVENT model exists and PREDICATE_AS_EVENT model exists. Not sure what to do")
+
+            if os.path.isfile(m_path) is False and flag:
+                # EVENT model missing is okay if PREDICATE_AS_EVENT for EVENT_CLASS is found.
+                if key != "EVENT":
+                    sys.exit("\n\nmissing model: {}".format(m_path))
+            if os.path.isfile(v_path) is False and flag:
+                if key != "EVENT":
+                    sys.exit("\n\nmissing vectorizer: {}".format(v_path))
+
+            if ("_PREDICATE_AS_EVENT" in m_path) and (key == "EVENT_CLASS"):
+                predicate_as_event = True
+
+    print "\t\tPREDICATE AS EVENT: {}".format(predicate_as_event)
 
     files_to_annotate = glob.glob(predict_dir + "/*")
 
@@ -90,7 +119,7 @@ def main():
 
     pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
 
-    model.load_models(model_path, predict_timex, predict_event, predict_tlink)
+    model.load_models(model_path, predict_timex, predict_event, predict_tlink, predicate_as_event)
 
     #read in files as notes
     for i, tml in enumerate(files_to_annotate):
@@ -101,7 +130,7 @@ def main():
 
         stashed_name = os.path.basename(tml)
         stashed_name = stashed_name.split('.')
-        stashed_name = stashed_name[0:stashed_name.index('tml')]
+        stashed_name = stashed_name[0:stashed_name.index('TE3input')]
         stashed_name = '.'.join(stashed_name)
 
         if stashed_name + ".parsed.predict.pickle" in pickled_timeml_notes:
@@ -117,13 +146,16 @@ def main():
         entityLabels, OriginalOffsets, tlinkLabels, tokens = model.predict(note,
                                                                            predict_timex,
                                                                            predict_event,
-                                                                           predict_tlink)
+                                                                           predict_tlink,
+                                                                           predicate_as_event)
 
-        # will be empty if no tlinks are set
+       # will be empty if no tlinks are set
         tlinkIdPairs = note.get_tlink_id_pairs()
         offsets = note.get_token_char_offsets()
 
         assert len(OriginalOffsets) == len(offsets)
+
+        print "destination: ", annotation_destination
 
         note.write(entityLabels, tlinkLabels, tlinkIdPairs, offsets, tokens, annotation_destination)
 
