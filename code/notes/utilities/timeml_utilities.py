@@ -154,6 +154,12 @@ def get_text(timeml_doc, preserve_quotes=False):
 
     return string
 
+def get_tagged_entities_from_heidel(heidel_doc_contents):
+    """" get tagged entities from heidel annotated file """
+    elements = list(xml_utilities.get_root_from_str(heidel_doc_contents))
+
+    return list(elements)
+
 def get_tagged_entities(timeml_doc):
     """ gets tagged entities within timeml text """
 

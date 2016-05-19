@@ -16,6 +16,7 @@ from utilities.timeml_utilities import get_tagged_entities
 from utilities.timeml_utilities import get_text
 from utilities.timeml_utilities import get_text_element
 from utilities.timeml_utilities import get_text_element_from_root
+from utilities.timeml_utilities import get_tagged_entities_from_heidel
 from utilities.timeml_utilities import get_text_with_taggings
 from utilities.timeml_utilities import get_tlinks
 from utilities.timeml_utilities import set_text_element
@@ -38,6 +39,14 @@ class TimeNote(Note):
         # get body of document
         data = get_text(timeml_note_path)
 
+        self.set_doctime(get_doctime_timex(timeml_note_path))
+
+        # only thing that is changed is trailing whitespace is removed.
+        self._completely_original_text = get_text(timeml_note_path, preserve_quotes=True)
+
+        self._heideltime_annotations = self.annotate_timex()
+
+        # NOTE: has quotes slightly altered.
         # original text body of timeml doc
         self.original_text = data
 
@@ -91,6 +100,37 @@ class TimeNote(Note):
 
             # will store labels in self.iob_labels
             self.get_labels()
+
+    def annotate_timex(self):
+        from utilities.timex_annotator.heidel_time import heideler
+        doctime = self.get_doctime()
+        return heideler.process(self._completely_original_text, doctime["YEAR"], doctime["MONTH"], doctime["DAY"])
+
+
+    def get_doctime(self):
+        return {"YEAR":self.doctime_year,
+                "MONTH":self.doctime_month,
+                "DAY":self.doctime_day,
+                "HOUR":self.doctime_hour,
+                "MINUTE":self.doctime_minute,
+                "SECOND":self.doctime_second}
+
+    def set_doctime(self, doctime_tag):
+        doctime_str = doctime_tag.attrib["value"]
+        doctime_values = doctime_str.split('-')
+
+        if 'T' in doctime_values[2]:
+            doctime_values = doctime_values[0:2] + doctime_values[2].split('T')
+            doctime_values = doctime_values[0:3] + doctime_values[3].split(':')
+            self.doctime_hour = int(doctime_values[3])
+            self.doctime_minute = int(doctime_values[4])
+            self.doctime_second = int(doctime_values[5])
+
+        self.doctime_year = int(doctime_values[0])
+        self.doctime_month = int(doctime_values[1])
+        self.doctime_day = int(doctime_values[2])
+
+        return
 
     def get_sentence_features(self):
         return self.sentence_features
@@ -1081,6 +1121,156 @@ class TimeNote(Note):
         does span1 subsume span2?
         """
         return span1[0] < span2[0] and span2[1] <= span1[1]
+
+def get_iobs_heidel(self, note):
+
+    # don't want to modify original
+    pre_processed_text = copy.deepcopy(note.pre_processed_text)
+
+    # need to create a list of tokens
+    iob_labels = []
+
+    taged_entities = get_tagged_entities_from_heidel(self.annotated_note_path)
+    _tagged_entities = copy.deepcopy(tagged_entities)
+
+    """
+        raw_text = get_text(self.note_path)
+        labeled_text = get_text_with_taggings(self.annotated_note_path)
+
+        # lots of checks!
+        for char in ['\n'] + list(whitespace):
+            raw_text     = raw_text.strip(char)
+            labeled_text = labeled_text.strip(char)
+
+        raw_text     = re.sub(r"``", r"''", raw_text)
+        labeled_text = re.sub(r'"', r"'", labeled_text)
+
+        raw_text = re.sub("<TEXT>\n+", "", raw_text)
+        raw_text = re.sub("\n+</TEXT>", "", raw_text)
+
+        labeled_text = re.sub("<TEXT>\n+", "", labeled_text)
+        labeled_text = re.sub("\n+</TEXT>", "", labeled_text)
+
+        raw_index = 0
+        labeled_index = 0
+
+        raw_char_offset = 0
+        labeled_char_offset = 0
+
+        # should we count?
+        count_raw = True
+        count_labeled = True
+
+        text1 = ""
+        text2 = ""
+
+        start_count = 0
+        end_count = 0
+
+        offsets = {}
+
+        tagged_element = None
+
+        # need to get char based offset for each tagging within annotated timeml doc.
+        while raw_index < len(raw_text) or labeled_index < len(labeled_text):
+
+            if raw_index < len(raw_text):
+                if count_raw is True:
+                    raw_char_offset += 1
+                    text1 += raw_text[raw_index]
+                raw_index += 1
+
+            if labeled_index < len(labeled_text):
+
+                # TODO: change this to be an re match.
+                if labeled_text[labeled_index:labeled_index+1] == '<' and labeled_text[labeled_index:labeled_index+2] != '</':
+
+                    tagged_element = tagged_entities.pop(0)
+
+                    count_labeled = False
+                    start_count += 1
+
+                elif labeled_text[labeled_index:labeled_index+2] == '</':
+                    count_labeled = False
+                    start_count += 1
+
+                if labeled_text[labeled_index:labeled_index+1] == ">":
+
+                    if tagged_element != None:
+
+                        start = labeled_char_offset
+                        end   = labeled_char_offset+len(tagged_element.text) - 1
+
+                        # spans should be unique?
+                        offsets[(start, end)] = {"tagged_xml_element":tagged_element, "text":tagged_element.text}
+
+                        # ensure the text at the offset is correct
+                        assert raw_text[start:end + 1] == tagged_element.text, "\'{}\' != \'{}\'".format( raw_text[start:end + 1], tagged_element.text)
+                        tagged_element = None
+
+                    end_count += 1
+                    count_labeled = True
+
+                    labeled_index += 1
+                    continue
+
+                if count_labeled is True:
+                    labeled_char_offset += 1
+                    text2 += labeled_text[labeled_index]
+
+                labeled_index += 1
+
+        assert text1 == text2, "{} != {}".format(text1, text2)
+        assert start_count == end_count, "{} != {}".format(start_count, end_count)
+        assert raw_index == len(raw_text) and labeled_index == len(labeled_text)
+        assert raw_char_offset == labeled_char_offset
+        assert len(tagged_entities) == 0
+        assert tagged_element is None
+        assert len(offsets) == len(_tagged_entities)
+
+        for sentence_num in sorted(pre_processed_text.keys()):
+
+            # list of dicts
+            sentence = pre_processed_text[sentence_num]
+
+            # iobs in a sentence
+            iobs_sentence = []
+
+            # need to assign the iob labels by token index
+            for token in sentence:
+
+
+                # set proper iob label to token
+                iob_label, entity_type, entity_id = TimeNote.get_label(token, offsets)
+
+                if iob_label is not 'O':
+                    assert entity_id is not None
+                    assert entity_type in ['EVENT', 'TIMEX3']
+                else:
+                    assert entity_id is None
+                    assert entity_type is None
+
+
+
+                #if token["token"] == "expects":
+                #    print "Found expects"
+                #    print "iob_label: ", iob_label
+                #    print "entity_type: ", entity_type
+                #    print "entity_id: ", entity_id
+                #    print
+                #    sys.exit("done")
+
+                iobs_sentence.append({'entity_label':iob_label,
+                                      'entity_type':entity_type,
+                                      'entity_id':entity_id})
+
+            iob_labels.append(iobs_sentence)
+
+        self.iob_labels = iob_labels
+    """
+
+    return self.iob_labels
+
 
 
 def __unit_tests():

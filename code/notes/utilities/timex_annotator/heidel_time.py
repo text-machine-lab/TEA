@@ -14,6 +14,8 @@ from py4j.java_gateway import JavaGateway, GatewayParameters
 # TODO: move this out into a different directory
 from code.notes.utilities.pre_processing.py4j_newsreader.gateway import GateWayServer
 
+heideler = None
+
 class Heideler:
 
     def __init__(self):
@@ -53,6 +55,9 @@ class Heideler:
         assert month in range(1,13)
 
         return self.heideler.process(document, year, month, day)
+
+if heideler is None:
+    heideler = Heideler()
 
 if __name__ == "__main__":
     h = Heideler()
