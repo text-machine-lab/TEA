@@ -21,7 +21,13 @@ POS_JAR_PATH=TEA_HOME_DIR + "/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-p
 NER_JAR_PATH=TEA_HOME_DIR + "/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-nerc-1.5.2.jar"
 PARSE_JAR_PATH=TEA_HOME_DIR + "/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-parse-1.1.0.jar"
 SRC_DR=TEA_HOME_DIR + "/code/notes/utilities/pre_processing/py4j_newsreader"
-DEPENDENCIES=":{}:{}:{}:{}:{}:{}:{}/*".format(PY4J_DEPENDENCIES, TOK_JAR_PATH, POS_JAR_PATH, NER_JAR_PATH, PARSE_JAR_PATH, SRC_DR, SRC_DR)
+HEIDELER_PATH=TEA_HOME_DIR+"/code/notes/utilities/timex_annotator"
+HEIDEL_TARGET_PATH=TEA_HOME_DIR+"/dependencies/HeidelTime/heideltime-kit/target"
+UIMA_PATH=TEA_HOME_DIR+"/dependencies/HeidelTime/heideltime-kit/lib"
+
+DEPENDENCIES=":{}:{}:{}:{}:{}:{}:{}/*:{}:{}/*:{}:{}/*:{}:{}/*".format(PY4J_DEPENDENCIES, TOK_JAR_PATH, POS_JAR_PATH, NER_JAR_PATH,
+                                                      PARSE_JAR_PATH, SRC_DR, SRC_DR,HEIDELER_PATH, HEIDELER_PATH,
+                                                      HEIDEL_TARGET_PATH, HEIDEL_TARGET_PATH, UIMA_PATH, UIMA_PATH)
 
 class GateWayServer(object):
     """creates the py4j gateway to allow access to jvm objects.
