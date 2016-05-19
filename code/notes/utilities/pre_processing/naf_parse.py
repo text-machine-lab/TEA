@@ -332,8 +332,8 @@ class ConstituencyTree(object):
                 # update fields of each node to create edge.
                 _create_edge(parent_node, child_node)
 
-        if self.root is None:
-            sys.exit("ERROR: No root set in constituency tree")
+        #if self.root is None:
+        #    sys.exit("ERROR: No root set in constituency tree")
 
         return terminal_nodes
 
@@ -344,6 +344,9 @@ class ConstituencyTree(object):
         The sentence parameter is sentence the constituency tree corresponds to. It is used to place the raw token in the correct position in the
         final string.
         '''
+
+        if self.root is None:
+            return ""
 
         root = None
 
@@ -422,6 +425,9 @@ class ConstituencyTree(object):
 
         verb_phrase_ids = []
 
+        if self.root is None:
+            return []
+
         self.__get_verb_phrase_ids(self.root, verb_phrase_ids)
 
         k = lambda d: d["depth"]
@@ -471,73 +477,73 @@ class ConstituencyTree(object):
 
 
 
-    def get_phrase_membership(self, target_id):
-        """Finds first phrase a token belongs to.
+#    def get_phrase_membership(self, target_id):
+#        """Finds first phrase a token belongs to.
 
-           Input: a token's id, t##
-        """
+#           Input: a token's id, t##
+#        """
 
-        sys.exit("don't use this. it is bad")
+#        sys.exit("don't use this. it is bad")
 
         # results
-        parent = None
-        phrase = "NONE"
-        siblings = None
+#        parent = None
+#        phrase = "NONE"
+#        siblings = None
 
-        if target_id not in self.terminal_nodes:
-            return {"phrase":phrase, "ordered_phrase_members":None}
+#        if target_id not in self.terminal_nodes:
+#            return {"phrase":phrase, "ordered_phrase_members":None}
 
-        terminal_node = self.terminal_nodes[target_id]
+#        terminal_node = self.terminal_nodes[target_id]
 
         # tmp variables
-        _parent = None
-        _phrase = "NONE"
+#        _parent = None
+#        _phrase = "NONE"
 
-        while _phrase[-1:] != 'P' or _phrase == "TOP":
-            if _parent is None:
-                if terminal_node.is_root(): break
-                _parent = terminal_node.get_parent()
-                _phrase = _parent.get_label()
-            else:
-                if _parent.is_root(): break
-                _parent = _parent.get_parent()
-                _phrase = _parent.get_label()
-        else:
+#        while _phrase[-1:] != 'P' or _phrase == "TOP":
+#            if _parent is None:
+#                if terminal_node.is_root(): break
+#                _parent = terminal_node.get_parent()
+#                _phrase = _parent.get_label()
+#            else:
+#                if _parent.is_root(): break
+#                _parent = _parent.get_parent()
+#                _phrase = _parent.get_label()
+#        else:
             # regex match
-            phrase = _phrase
-            parent = _parent
+#            phrase = _phrase
+#            parent = _parent
 
         # TODO: if a node is not terminal we need to get all its children.
-        if parent is not None:
-            siblings = self._get_terminal_target_ids(parent)
+#        if parent is not None:
+#            siblings = self._get_terminal_target_ids(parent)
 
-        return {"phrase":phrase, "ordered_phrase_members":siblings}
+#        return {"phrase":phrase, "ordered_phrase_members":siblings}
 
 
 
-    def get_phrase_memberships(self, node_id):
+#    def get_phrase_memberships(self, node_id):
 
-        assert( node_id in self.terminal_nodes )
+#        assert( node_id in self.terminal_nodes )
 
-        terminal_node = self.terminal_nodes[node_id]
+#        terminal_node = self.terminal_nodes[node_id]
 
-        level = 0
+#        level = 0
 
-        grammar_category = {}
+#        grammar_category = {}
 
         # skip first node, terminal node, no labels available
-        node = terminal_node.get_parent()
+#        node = terminal_node.get_parent()
 
         # a terminal node should always have a parent.
-        assert( node is not None )
+#        assert( node is not None )
 
         # want to get labels of all non terminal nodes.
-        while node.is_root() is False:
-            grammar_category[level] = node.get_label()
-            level += 1
-            node = node.get_parent()
+#        while node.is_root() is False:
+#            grammar_category[level] = node.get_label()
+#            level += 1
+#            node = node.get_parent()
 
-        return grammar_category
+#        return grammar_category
 
 
 def get_srl_info(srl_element):
