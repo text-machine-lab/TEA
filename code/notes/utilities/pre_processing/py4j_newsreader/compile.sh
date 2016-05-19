@@ -41,6 +41,8 @@ bash $TEA_HOME/code/notes/utilities/pre_processing/py4j_newsreader/compile_tok.s
 bash $TEA_HOME/code/notes/utilities/pre_processing/py4j_newsreader/compile_pos.sh
 bash $TEA_HOME/code/notes/utilities/pre_processing/py4j_newsreader/compile_ner.sh
 bash $TEA_HOME/code/notes/utilities/pre_processing/py4j_newsreader/compile_parse.sh
+
+# TODO: move this into a seperate directory since now there is stuff outside of this that depends on it.
 bash $TEA_HOME/code/notes/utilities/pre_processing/py4j_newsreader/compile_py4j.sh
 
 unset TEAH_PATH

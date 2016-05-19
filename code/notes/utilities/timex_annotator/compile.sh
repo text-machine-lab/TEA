@@ -16,5 +16,5 @@ DEPENDENCIES=":$HEIDELTIME_PATH/heideltime-kit/lib/*:$HEIDELTIME_PATH/heideltime
 
 JAVA_SRC=$TEA_HOME"/code/notes/utilities/timex_annotator/HeidelTime.java"
 
-javac -cp $DEPENDENCIES $JAVA_SRC
+javac -cp $DEPENDENCIES $JAVA_SRC -d $TEA_HOME"/code/notes/utilities/timex_annotator"
 

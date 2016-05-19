@@ -15,7 +15,8 @@ fi
 PY4J_DEPENDENCIES=":$PY4J_DIR_PATH/*"
 COMPILE_DEST=$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/
 SRC_DIR=$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader
+HEIDEL_DEPENDENCIES="$TEA_PATH/code/notes/utilities/timex_annotator/"
 
-javac -cp ":$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/" $SRC_DIR/EntryPoint.java -d $COMPILE_DEST
+javac -cp ":$HEIDEL_DEPENDENCIES:$TEA_PATH/code/notes/utilities/pre_processing/py4j_newsreader/" $SRC_DIR/EntryPoint.java -d $COMPILE_DEST
 javac -cp ":$SRC_DIR:$PY4J_DEPENDENCIES" $SRC_DIR/GateWay.java -d $COMPILE_DEST
 
