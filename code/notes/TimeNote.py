@@ -203,7 +203,7 @@ class TimeNote(Note):
         # TODO: figure out how to handle the problem where a token occurs in two different make instances.
         count = 1
         for t in t_links:
-            print count, t.attrib
+            # print count, t.attrib
             link = {}
 
             # source
@@ -300,7 +300,7 @@ class TimeNote(Note):
                             exit("unknown rel_type")
 
                         pair["tlink_id"] = temporal_relation["lid"]
-                        print pair["tlink_id"]
+                        # print pair["tlink_id"]
 
                         tlink_ids.append(temporal_relation["lid"])
 
