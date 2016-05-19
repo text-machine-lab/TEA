@@ -158,7 +158,7 @@ class TimeNote(Note):
         # create the pair representation.
         for pair in entity_pairs:
 
-            src_id = pair[0]
+            src_id = pair[0][1]
             target_id = pair[1][1]
 
             pair = {"src_entity":id_chunk_map[src_id],
@@ -203,7 +203,7 @@ class TimeNote(Note):
         # TODO: figure out how to handle the problem where a token occurs in two different make instances.
         count = 1
         for t in t_links:
-            # print count, t.attrib
+            print count, t.attrib
             link = {}
 
             # source
@@ -248,7 +248,7 @@ class TimeNote(Note):
 
         for pair in entity_pairs:
 
-            src_id = pair[0]
+            src_id = pair[0][1]
             target_id = pair[1][1]
 
             pair = {"src_entity":id_chunk_map[src_id],
@@ -300,7 +300,7 @@ class TimeNote(Note):
                             exit("unknown rel_type")
 
                         pair["tlink_id"] = temporal_relation["lid"]
-                        # print pair["tlink_id"]
+                        print pair["tlink_id"]
 
                         tlink_ids.append(temporal_relation["lid"])
 
@@ -334,10 +334,10 @@ class TimeNote(Note):
                 entity_type = entity[0]
 
                 if entity_type == "EVENT":
-                    entity_pairs += list(itertools.product([entity_id], sentence_chunks[sentence_num][i+1:]))
-                    entity_pairs.append((entity_id, ("TIMEX", doctime_id)))
+                    entity_pairs += list(itertools.product([entity], sentence_chunks[sentence_num][i+1:]))
+                    entity_pairs.append((entity, ("TIMEX", doctime_id)))
                 else:
-                    events = map(lambda event: event[1], filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num][i+1:]))
+                    events = map(lambda event: event, filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num][i+1:]))
                     entity_pairs += list(itertools.product(events,
                                                            [("TIMEX", entity_id)]))
 
@@ -350,21 +350,23 @@ class TimeNote(Note):
                 # get events of sentence
                 event_ids = filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num])
                 main_events = filter(lambda event_id: True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]], event_ids)
-                main_events = map(lambda event: event[1], main_events)
+                main_events = map(lambda event: event, main_events)
 
                 # get adjacent sentence events and filter the main events
-                adj_event_ids = filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num+1])
+                adj_event_ids = filter(lambda entity: entity == "EVENT", sentence_chunks[sentence_num+1])
                 adj_main_events = filter(lambda event_id: True in [token["is_main_verb"] for token in id_chunk_map[event_id[1]]], adj_event_ids)
 
                 entity_pairs += list(itertools.product(main_events, adj_main_events))
 
         # add relations in the other direction (b -> a instead of a -> b)
-        old_pairs = copy.deepcopy(entity_pairs)
+        old_pairs = entity_pairs
+        entity_pairs = []
         for pair in old_pairs:
-            if pair[1][0] == "EVENT":
-                src_id = pair[1][1]
-                target_id = pair[0]
-                entity_pairs.append((src_id, ("EVENT", target_id)))
+            src = pair[0]
+            target = pair[1]
+
+            entity_pairs.append((src, target))
+            entity_pairs.append((target, src))
 
         return entity_pairs
 
