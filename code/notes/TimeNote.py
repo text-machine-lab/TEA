@@ -119,12 +119,19 @@ class TimeNote(Note):
         doctime_str = doctime_tag.attrib["value"]
         doctime_values = doctime_str.split('-')
 
+        print "doc time string: ", doctime_str
+
+        self.doctime_hour   = None
+        self.doctime_minute = None
+        self.doctime_second = None
+
         if 'T' in doctime_values[2]:
             doctime_values = doctime_values[0:2] + doctime_values[2].split('T')
             doctime_values = doctime_values[0:3] + doctime_values[3].split(':')
-            self.doctime_hour = int(doctime_values[3])
-            self.doctime_minute = int(doctime_values[4])
-            self.doctime_second = int(doctime_values[5])
+
+            self.doctime_hour = int(doctime_values[3:4][0]) if len(doctime_values[3:4]) else None
+            self.doctime_minute = int(doctime_values[4:5][0]) if len(doctime_values[4:5]) else None
+            self.doctime_second = int(doctime_values[5:6][0]) if len(doctime_values[5:6]) else None
 
         self.doctime_year = int(doctime_values[0])
         self.doctime_month = int(doctime_values[1])
