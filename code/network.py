@@ -1,10 +1,11 @@
 import os
 import pickle
+import copy
 
 import numpy as np
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
-from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributedDense, Flatten, Masking, Input, Dropout
+from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout
 #from notes.TimeNote import TimeNote
 from gensim.models import word2vec
 
@@ -16,25 +17,29 @@ class NNModel:
         '''
         # encode the first entity
         encoder_L = Sequential()
-        # encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_L.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
-        encoder_L.add(MaxPooling1D(pool_length=128))
+        encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
         encoder_L.add(Dropout(.5))
-        encoder_L.add(Flatten())
+        encoder_L.add(LSTM(128))
+        # encoder_L.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        # encoder_L.add(TimeDistributed(Dropout(.5)))
+        # encoder_L.add(MaxPooling1D(pool_length=128))
+        # encoder_L.add(Flatten())
 
         # encode the second entity
         encoder_R = Sequential()
-        # encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_R.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
-        encoder_R.add(MaxPooling1D(pool_length=128))
+        encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        encoder_R.add(LSTM(128))
         encoder_R.add(Dropout(.5))
-        encoder_R.add(Flatten())
+        # encoder_R.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        # encoder_R.add(TimeDistributed(Dropout(.5)))
+        # encoder_R.add(MaxPooling1D(pool_length=128))
+        # encoder_R.add(Flatten())
 
         # combine and classify entities as a single relation
         decoder = Sequential()
         decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
         decoder.add(Dense(100, activation='sigmoid'))
-        decoder.add(Dropout(.5))
+        decoder.add(Dropout(.1))
         decoder.add(Dense(nb_classes, activation='softmax'))
 
         # compile the final model
@@ -73,12 +78,12 @@ class NNModel:
             if XL == None:
                 XL = left_vecs
             else:
-                XL = _pad_and_concatenate(XL, left_vecs, axis=0)
+                XL = _pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
 
             if XR == None:
                 XR = right_vecs
             else:
-                XR = _pad_and_concatenate(XR, right_vecs, axis=0)
+                XR = _pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
 
             # remove duplicate indices
             del_list = list(set(del_list))
@@ -91,17 +96,9 @@ class NNModel:
             # add remaining labels to complete list of labels
             tlinklabels += note_tlinklabels
 
-        # reformat labels so that they can be used by the NN
-        labels = _convert_str_labels_to_int(tlinklabels)
-        Y = to_categorical(labels,7)
-
         # pad XL and XR so that they have the same number of dimensions on the second axis
         # any other dimension mis-matches are caused by actually errors and should not be padded away
-        XL, XR = _pad_to_match_dimensions(XL, XR, 2)
-
-        # use weighting to assist with the imbalanced data set problem
-        class_weights = get_uniform_class_weights(Y)
-
+        XL, XR = _pad_to_match_dimensions(XL, XR, 2, pad_left=True)
 
         # TODO: calculate this based on training data max length, and grab a model that uses that for input dimension length
         # get expected length of model input
@@ -109,12 +106,48 @@ class NNModel:
         filler = np.ones((1,1,input_len))
 
         # pad input matrix to fit expected length
-        XL, _ = _pad_to_match_dimensions(XL, filler, 2)
-        XR, _ = _pad_to_match_dimensions(XR, filler, 2)
+        XL, _ = _pad_to_match_dimensions(XL, filler, 2, pad_left=True)
+        XR, _ = _pad_to_match_dimensions(XR, filler, 2, pad_left=True)
+
+        labels = _convert_str_labels_to_int(tlinklabels)
+
+        rev_labels = copy.deepcopy(labels)
+        rev_labels.reverse()
+
+        for i, label in enumerate(rev_labels):
+            if label == 0:
+                index = len(rev_labels) - i - 1
+                del labels[index]
+                # print XL.shape
+                XL = np.concatenate((XL[0:index,:,:], XL[index:-1, :, :]), axis=0)
+                # print XL.shape
+
+                # print XR.shape
+                XR = np.concatenate((XR[0:index,:,:], XR[index:-1, :, :]), axis=0)
+                # print XR.shape
+
+        # print labels
+
+        # reformat labels so that they can be used by the NN
+        Y = to_categorical(labels,7)
+
+        # use weighting to assist with the imbalanced data set problem
+        class_weights = get_uniform_class_weights(Y)
+
+
+        # XL = XL[3:8,:,:]
+        # XR = XR[3:8,:,:]
+        # Y = Y[3:8]
+
+        # print "\nLeft input matrix:\n", XL
+        # print "\nRight input matrix:\n", XR
+        # print Y
+        # print "\nLabels:", tlinklabels[3:8]
+        # print "Label values:", labels[3:8]
 
         # train the network
         print 'Training network...'
-        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.15, class_weight=class_weights, batch_size=256)
+        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=None, batch_size=100)
 
         test = self.classifier.predict_classes([XL, XR])
 
@@ -163,24 +196,24 @@ class NNModel:
             if XL == None:
                 XL = left_vecs
             else:
-                XL = _pad_and_concatenate(XL, left_vecs, axis=0)
+                XL = _pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
 
             if XR == None:
                 XR = right_vecs
             else:
-                XR = _pad_and_concatenate(XR, right_vecs, axis=0)
+                XR = _pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
 
         # pad XL and XR so that they have the same number of dimensions on the second axis
         # any other dimension mis-matches are caused by actually errors and should not be padded away
-        XL, XR = _pad_to_match_dimensions(XL, XR, 2)
+        XL, XR = _pad_to_match_dimensions(XL, XR, 2, pad_left=True)
 
         # get expected length of model input
         input_len = self.classifier.input_shape[0][2]
         filler = np.ones((1,1,input_len))
 
         # pad input matrix to fit expected length
-        XL, _ = _pad_to_match_dimensions(XL, filler, 2)
-        XR, _ = _pad_to_match_dimensions(XR, filler, 2)
+        XL, _ = _pad_to_match_dimensions(XL, filler, 2, pad_left=True)
+        XR, _ = _pad_to_match_dimensions(XR, filler, 2, pad_left=True)
 
         print 'Predicting...'
         labels = self.classifier.predict_classes([XL, XR])
@@ -236,7 +269,7 @@ def _extract_path_representations(note, word_vectors):
         if left_vecs == None:
             left_vecs = vecs_path
         else:
-            left_vecs = _pad_and_concatenate(left_vecs, vecs_path, axis=0)
+            left_vecs = _pad_and_concatenate(left_vecs, vecs_path, axis=0, pad_left=[2])
 
     # get the vectors for every word in the right path
     right_vecs = None
@@ -247,7 +280,7 @@ def _extract_path_representations(note, word_vectors):
             try:
                 embedding = np.asarray(word_vectors[word], dtype='float32')
             except KeyError:
-                embedding = np.zeros((300))
+                embedding = np.ones((300))
 
             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
             embedding = embedding[np.newaxis, :, np.newaxis]
@@ -264,13 +297,14 @@ def _extract_path_representations(note, word_vectors):
         if right_vecs == None:
             right_vecs = vecs_path
         else:
-            right_vecs = _pad_and_concatenate(right_vecs, vecs_path, axis=0)
+            right_vecs = _pad_and_concatenate(right_vecs, vecs_path, axis=0, pad_left=[2])
 
     return left_vecs, right_vecs, del_list
 
-def _pad_and_concatenate(a, b, axis):
+def _pad_and_concatenate(a, b, axis, pad_left=[]):
     '''
     given two tensors, pad with zeros so that all dimensions are equal except the axis to concatentate on, and the concatenate
+    pad_left is a list of dimensions to pad the left side on. Other dimensions will recieve right sided padding
     '''
     # if tensors have number of dimensions
     if len(a.shape) != len(b.shape):
@@ -280,25 +314,35 @@ def _pad_and_concatenate(a, b, axis):
     for i in range(len(a.shape)):
         if i == axis:
             continue
-        a, b = _pad_to_match_dimensions(a, b, i)
+        if i in pad_left:
+            a, b = _pad_to_match_dimensions(a, b, i, pad_left=True)
+        else:
+            a, b = _pad_to_match_dimensions(a, b, i)
+
     # concatenate and return the padded matrices
     return np.concatenate((a, b), axis=axis)
 
-def _pad_to_match_dimensions(a, b, axis):
+def _pad_to_match_dimensions(a, b, axis, pad_left=False):
     '''
     given to tensors and an axis for comparison, pad the smaller of the two with zeros to match the dimensions of the larger
     '''
+
+    # get function to pad correct side
+    if pad_left:
+        concat = lambda X, _pad_shape, _axis: np.concatenate((np.zeros(tuple(_pad_shape)), X), axis=_axis)
+    else:
+        concat = lambda X, _pad_shape, _axis: np.concatenate((X, np.zeros(tuple(_pad_shape))), axis=_axis)
 
     a_axis = a.shape[axis]
     b_axis = b.shape[axis]
     if a_axis > b_axis:
         pad_shape = list(b.shape)
         pad_shape[axis] = a_axis - b_axis
-        b = np.concatenate((b, np.zeros(tuple(pad_shape))), axis=axis)
+        b = concat(b, pad_shape, axis)
     if b_axis > a_axis:
         pad_shape = list(a.shape)
         pad_shape[axis] = b_axis - a_axis
-        a = np.concatenate((a, np.zeros(tuple(pad_shape))), axis=axis)
+        a = concat(a, pad_shape, axis)
 
     return a, b
 
@@ -350,19 +394,19 @@ def get_uniform_class_weights(labels):
                     classes[i] = 1.0
 
     # generate weights that result in a uniform distribution and sum to 1
-    total = 0
-    for _class in classes:
-        classes[_class] = 1.0 / classes[_class]
-        total += classes[_class]
-
-    for _class in classes:
-        classes[_class] *= 1.0 / total
+    # total = 0
+    # for _class in classes:
+    #     classes[_class] = 1.0 / classes[_class]
+    #     total += classes[_class]
 
     # for _class in classes:
-    #     if _class == 0:
-    #         classes[_class] = 0.1
-    #     else:
-    #         classes[_class] = 1.0
+    #     classes[_class] *= 1.0 / total
+
+    for _class in classes:
+        if _class == 0:
+            classes[_class] = 0.1
+        else:
+            classes[_class] = 1.0
 
     return classes
 
