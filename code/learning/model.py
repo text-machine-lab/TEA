@@ -5,6 +5,10 @@ import sys
 
 TEA_HOME_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
+sys.path.insert(0,TEA_HOME_DIR)
+
+from code.notes.utilities.heidel_time_util import get_iobs_heidel
+
 from sci import train as train_classifier
 
 # models to be loaded.
@@ -157,36 +161,28 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True, pred
 
     if predict_timex is True:
 
-        timexClassifier = _models["TIMEX"]
-        timexVectorizer = _vects["TIMEX"]
+        heidel_iobs = []
+        for line in get_iobs_heidel(note):
+            heidel_iobs += line
 
-        # get the timex feature set for the tokens within the note.
-        timexFeatures = features.extract_timex_feature_set(note, timexLabels, predict=True)
-
-        # sanity check
-        assert len(tokens) == len(timexFeatures)
+        assert len(heidel_iobs) == len(tokens)
 
         # predict over the tokens and the features extracted.
-        for t, f in zip(tokens, timexFeatures):
+        for t, l in zip(tokens, heidel_iobs):
 
-            features.update_features(t, f, timexLabels)
-
-            X = timexVectorizer.transform([f])
-            Y = list(timexClassifier.predict(X))
-
-            timexLabels[t["sentence_num"] - 1].append({'entity_label':Y[0],
-                                                       'entity_type':None if Y[0] == 'O' else 'TIMEX3',
-                                                       'entity_id':"t"+str(timex_count)})
-
+            timexLabels[t["sentence_num"] - 1].append({'entity_label':l["entity_label"],
+                                                       'entity_type':None if l["entity_label"] == 'O' else 'TIMEX3',
+                                                       'entity_id':"t"+str(timex_count),
+                                                       'norm_val':l["norm_val"]})
             timex_count += 1
-
             iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
 
     else:
         for t in tokens:
             timexLabels[t["sentence_num"] - 1].append({'entity_label':'O',
                                                       'entity_type':None,
-                                                      'entity_id':"t"+str(timex_count)})
+                                                      'entity_id':"t"+str(timex_count),
+                                                      'norm_val':None})
             timex_count += 1
             iob_labels[t["sentence_num"] - 1].append(timexLabels[t["sentence_num"] - 1][-1])
 
@@ -299,6 +295,8 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True, pred
 
     entity_labels    = [label for line in iob_labels for label in line]
     original_offsets = note.get_token_char_offsets()
+
+    # print entity_labels
 
     return entity_labels, original_offsets, tlink_labels, tokens
 

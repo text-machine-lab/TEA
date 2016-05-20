@@ -54,6 +54,12 @@ def main():
     predict_timex = not(args.no_timex)
     predict_tlink = not(args.no_tlink)
 
+    print "\n\tPREDICTING:\n"
+    print "\t\tTIMEX {}".format(predict_timex)
+    print "\t\tEVENT {}".format(predict_event)
+    print "\t\tTLINK {}".format(predict_tlink)
+    print "\n"
+
     annotation_destination = args.annotation_destination
 
     if os.path.isdir(args.newsreader_annotations) is False:
@@ -71,7 +77,7 @@ def main():
     model_path = args.model_destination
 
     keys = ["EVENT", "EVENT_CLASS", "TLINK"]
-    flags = [predict_timex, predict_event, predict_event, predict_tlink]
+    flags = [predict_event, predict_event, predict_tlink]
 
     event_model_exists = False
 
@@ -101,6 +107,7 @@ def main():
 
             if os.path.isfile(m_path) is False and flag:
                 # EVENT model missing is okay if PREDICATE_AS_EVENT for EVENT_CLASS is found.
+
                 if key != "EVENT":
                     sys.exit("\n\nmissing model: {}".format(m_path))
             if os.path.isfile(v_path) is False and flag:

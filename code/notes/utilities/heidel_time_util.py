@@ -6,23 +6,23 @@ import copy
 
 from string import whitespace
 
-from utilities.timeml_utilities import annotate_root
-from utilities.timeml_utilities import annotate_text_element
-from utilities.timeml_utilities import get_doctime_timex
-from utilities.timeml_utilities import get_make_instances
-from utilities.timeml_utilities import get_stripped_root
-from utilities.timeml_utilities import get_tagged_entities
-from utilities.timeml_utilities import get_text
-from utilities.timeml_utilities import get_text_element
-from utilities.timeml_utilities import get_text_element_from_root
-from utilities.timeml_utilities import get_tagged_entities_from_heidel
-from utilities.timeml_utilities import get_text_with_taggings
-from utilities.timeml_utilities import get_tlinks
-from utilities.timeml_utilities import set_text_element
+from timeml_utilities import annotate_root
+from timeml_utilities import annotate_text_element
+from timeml_utilities import get_doctime_timex
+from timeml_utilities import get_make_instances
+from timeml_utilities import get_stripped_root
+from timeml_utilities import get_tagged_entities
+from timeml_utilities import get_text
+from timeml_utilities import get_text_element
+from timeml_utilities import get_text_element_from_root
+from timeml_utilities import get_tagged_entities_from_heidel
+from timeml_utilities import get_text_with_taggings
+from timeml_utilities import get_tlinks
+from timeml_utilities import set_text_element
 
-from utilities.xml_utilities import get_raw_text
-from utilities.xml_utilities import get_root
-from utilities.xml_utilities import write_root_to_file
+from xml_utilities import get_raw_text
+from xml_utilities import get_root
+from xml_utilities import write_root_to_file
 
 def get_iobs_heidel(note):
 
@@ -134,7 +134,7 @@ def get_iobs_heidel(note):
                     end   = heidel_char_offset+len(tagged_element.text) - 1
 
                     # spans should be unique?
-                    offsets[(start, end)] = {"tagged_xml_element":tagged_element, "text":tagged_element.text}
+                    offsets[(start, end)] = {"tagged_xml_element":tagged_element, "text":tagged_element.text, "norm_val":tagged_element.attrib["value"]}
 
 #                    print
 #                    print "raw token: ", raw_text[start:end + 1]
@@ -180,7 +180,7 @@ def get_iobs_heidel(note):
         for token in sentence:
 
             # set proper iob label to token
-            iob_label, entity_type, entity_id = get_label(token, offsets)
+            iob_label, entity_type, entity_id, norm_value = get_label(token, offsets)
 
             if iob_label is not 'O':
                 assert entity_id is not None
@@ -199,7 +199,8 @@ def get_iobs_heidel(note):
 
             iobs_sentence.append({'entity_label':iob_label,
                                   'entity_type':entity_type,
-                                  'entity_id':entity_id})
+                                  'entity_id':entity_id,
+                                  'norm_val':norm_value})
 
         iob_labels.append(iobs_sentence)
 
@@ -216,6 +217,7 @@ def get_label(token, offsets):
     label = 'O'
     entity_id = None
     entity_type = None
+    norm_value = None
 
     for span in offsets:
 
@@ -236,6 +238,9 @@ def get_label(token, offsets):
             else:
                 entity_id = labeled_entity.attrib["tid"]
 
+            if "norm_val" in offsets[span]:
+                norm_value = offsets[span]["norm_val"]
+
             entity_type = labeled_entity.tag
 
             break
@@ -253,6 +258,9 @@ def get_label(token, offsets):
                 entity_id = labeled_entity.attrib["eid"]
             else:
                 entity_id = labeled_entity.attrib["tid"]
+
+            if "norm_val" in offsets[span]:
+                norm_value = offsets[span]["norm_val"]
 
             entity_type = labeled_entity.tag
 
@@ -272,7 +280,7 @@ def get_label(token, offsets):
         # multi token events are very rare.
         label = label[2:]
 
-    return label, entity_type, entity_id
+    return label, entity_type, entity_id, norm_value
 
 def same_start_offset(span1, span2):
     """

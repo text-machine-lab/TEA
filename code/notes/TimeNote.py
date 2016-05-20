@@ -955,13 +955,7 @@ class TimeNote(Note):
                 if timexEventLabels[index]["entity_type"] == "TIMEX3":
                     # get the time norm value of the time expression
                     # timex_value = get_normalized_time_expressions(doc_time, [entity_tokens])
-                    timex_value = ''
-                    # if no value was returned, set the expression to an empty string
-                    # TODO: check if TimeML has a specific default value we should use here
-                    if len(timex_value) != 0:
-                        timex_value = timex_value[0]
-                    else:
-                        timex_value = ''
+                    timex_value = timexEventLabels[index]["norm_val"]
 
                    # if None in [start, end,  timexEventLabels[index]["entity_id"], timexEventLabels[index]["entity_label"][2:], timex_value]:
                    #     print "FOUND NoNE"
