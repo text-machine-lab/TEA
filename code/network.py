@@ -17,29 +17,29 @@ class NNModel:
         '''
         # encode the first entity
         encoder_L = Sequential()
-        encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_L.add(Dropout(.5))
-        encoder_L.add(LSTM(128))
-        # encoder_L.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
-        # encoder_L.add(TimeDistributed(Dropout(.5)))
-        # encoder_L.add(MaxPooling1D(pool_length=128))
-        # encoder_L.add(Flatten())
+        # encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        # encoder_L.add(LSTM(128))
+        # encoder_L.add(Dropout(.5))
+        encoder_L.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        encoder_L.add(TimeDistributed(Dropout(.5)))
+        encoder_L.add(MaxPooling1D(pool_length=128))
+        encoder_L.add(Flatten())
 
         # encode the second entity
         encoder_R = Sequential()
-        encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_R.add(LSTM(128))
-        encoder_R.add(Dropout(.5))
-        # encoder_R.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
-        # encoder_R.add(TimeDistributed(Dropout(.5)))
-        # encoder_R.add(MaxPooling1D(pool_length=128))
-        # encoder_R.add(Flatten())
+        # encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        # encoder_R.add(LSTM(128))
+        # encoder_R.add(Dropout(.5))
+        encoder_R.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        encoder_R.add(TimeDistributed(Dropout(.5)))
+        encoder_R.add(MaxPooling1D(pool_length=128))
+        encoder_R.add(Flatten())
 
         # combine and classify entities as a single relation
         decoder = Sequential()
         decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
+        decoder.add(Dropout(.3))
         decoder.add(Dense(100, activation='sigmoid'))
-        decoder.add(Dropout(.1))
         decoder.add(Dense(nb_classes, activation='softmax'))
 
         # compile the final model
@@ -111,20 +111,20 @@ class NNModel:
 
         labels = _convert_str_labels_to_int(tlinklabels)
 
-        rev_labels = copy.deepcopy(labels)
-        rev_labels.reverse()
+        # rev_labels = copy.deepcopy(labels)
+        # rev_labels.reverse()
 
-        for i, label in enumerate(rev_labels):
-            if label == 0:
-                index = len(rev_labels) - i - 1
-                del labels[index]
-                # print XL.shape
-                XL = np.concatenate((XL[0:index,:,:], XL[index:-1, :, :]), axis=0)
-                # print XL.shape
+        # for i, label in enumerate(rev_labels):
+        #     if label == 0:
+        #         index = len(rev_labels) - i - 1
+        #         del labels[index]
+        #         # print XL.shape
+        #         XL = np.concatenate((XL[0:index,:,:], XL[index:-1, :, :]), axis=0)
+        #         # print XL.shape
 
-                # print XR.shape
-                XR = np.concatenate((XR[0:index,:,:], XR[index:-1, :, :]), axis=0)
-                # print XR.shape
+        #         # print XR.shape
+        #         XR = np.concatenate((XR[0:index,:,:], XR[index:-1, :, :]), axis=0)
+        #         # print XR.shape
 
         # print labels
 
@@ -381,34 +381,16 @@ def get_uniform_class_weights(labels):
     '''
     get a dictionary of weights for each class. Used to combat imbalanced data problems by reducing
     the impact of highly represented classes. Has no effect on equally distributed data
+    labels is composed of one-hot vectors.
     '''
-    # Y is composed of one-hot vectors for each class
-    classes = {}
-    # get counts for each label
-    for label in labels:
-        for i, _class in enumerate(label):
-            if _class == 1:
-                if i in classes:
-                    classes[i] += 1.0
-                else:
-                    classes[i] = 1.0
+    n_samples = len(labels)
+    n_classes = len(labels[0])
 
-    # generate weights that result in a uniform distribution and sum to 1
-    # total = 0
-    # for _class in classes:
-    #     classes[_class] = 1.0 / classes[_class]
-    #     total += classes[_class]
+    print labels.shape
 
-    # for _class in classes:
-    #     classes[_class] *= 1.0 / total
+    weights = n_samples/ (n_classes * np.sum(labels, axis=0))
 
-    for _class in classes:
-        if _class == 0:
-            classes[_class] = 0.1
-        else:
-            classes[_class] = 1.0
-
-    return classes
+    return weights
 
 def _convert_str_labels_to_int(labels):
     '''
