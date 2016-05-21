@@ -55,25 +55,29 @@ def train(notes, train_event=True, train_rel=True, predicate_as_event=False):
                 for label in tmpLabels: eventLabels += label
                 eventFeatures += features.extract_event_feature_set(note, tmpLabels, timexLabels=note.get_timex_labels())
 
-            # extract features to perform event class labeling.
-            tmpLabels = note.get_event_class_labels()
-            for label in tmpLabels: eventClassLabels += label
-            eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels(), timexLabels=note.get_timex_labels())
-
             if predicate_as_event:
-                _predicate_eventClassLabels   = []
-                _predicate_eventClassFeatures = []
+                _eventClassLabels = []
+
+                # extract features to perform event class labeling.
+                tmpLabels = note.get_event_class_labels()
+                for label in tmpLabels: _eventClassLabels += label
+                _eventClassFeatures = features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels(), timexLabels=note.get_timex_labels())
 
                 tokenized_text = note.get_tokenized_text()
                 tokens = [token for line in tokenized_text for token in tokenized_text[line]]
 
-                for i, token in enumerate(tokens):
-                    if token["is_predicate"]:
-                        _predicate_eventClassLabels.append(eventClassLabels[i])
-                        _predicate_eventClassFeatures.append(eventClassFeatures[i])
+                assert len(tokens) == len(_eventClassLabels)
+                assert len(tokens) == len(_eventClassFeatures)
 
-                eventClassLabels = _predicate_eventClassLabels
-                eventClassFeatures = _predicate_eventClassFeatures
+                for token, label, f in zip(tokens, _eventClassLabels, _eventClassFeatures):
+                    if token["is_predicate"]:
+                        eventClassLabels.append(label)
+                        eventClassFeatures.append(f)
+            else:
+                # extract features to perform event class labeling.
+                tmpLabels = note.get_event_class_labels()
+                for label in tmpLabels: eventClassLabels += label
+                eventClassFeatures += features.extract_event_class_feature_set(note, tmpLabels, note.get_event_labels(), timexLabels=note.get_timex_labels())
 
         if train_rel is True:
             # extract features to classify relations between temporal entities.

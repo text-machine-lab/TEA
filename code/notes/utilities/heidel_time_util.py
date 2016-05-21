@@ -40,24 +40,26 @@ def get_iobs_heidel(note):
 
     heidel_text = copy.deepcopy(note._heideltime_annotations)
 
+    """
+    print "heidel text:"
     print heidel_text
+    print
+    print "-----"*5
+    """
 
     # get timexes. timexes can be nested in TIMEX3INTERVAL taggings.
     for entity in _tmp_tagged_entities:
         if entity.tag == "TIMEX3INTERVAL":
             timex_entities = list(entity)
-            assert len(timex_entities) == 1
-            timex_entity = timex_entities[0]
-            tagged_entities.append(timex_entity)
+            #print "# OF TIMEX ENTITIES: ", len(timex_entities)
+            for t in timex_entities:
+                tagged_entities.append(t)
         else:
             tagged_entities.append(entity)
 
     _tagged_entities = copy.deepcopy(tagged_entities)
 
     raw_text = get_text(note.note_path)
-
-#    print heidel_text
-#    print raw_text
 
     # lots of checks!
     for char in ['\n'] + list(whitespace):
@@ -70,14 +72,16 @@ def get_iobs_heidel(note):
     raw_text = re.sub("<TEXT>\n+", "", raw_text)
     raw_text = re.sub("\n+</TEXT>", "", raw_text)
 
-    heidel_text = heidel_text.split('\n')[3]
+    heidel_text = heidel_text.split('\n')[3:-1]
 
-    heidel_text = re.sub(r"``", r"''", heidel_text)
-    heidel_text = re.sub(r'"', r"'", heidel_text)
+    heidel_text = [re.sub(r"``", r"''", chunk) for chunk in heidel_text]
+    heidel_text = [re.sub(r'"', r"'", chunk) for chunk in heidel_text]
 
     # just in case.
-    heidel_text = re.sub("<TimeML>", "", heidel_text)
-    heidel_text = re.sub("</TimeML>.*", "", heidel_text)
+    heidel_text[0] = re.sub("<TimeML>", "", heidel_text[0])
+    heidel_text[-1] = re.sub("</TimeML>.*", "", heidel_text[-1])
+    heidel_text = "\n".join(heidel_text)
+    heidel_text = heidel_text.strip("\n")
 
     raw_index = 0
     heidel_index = 0
@@ -160,6 +164,27 @@ def get_iobs_heidel(note):
 
             heidel_index += 1
 
+    """
+    print "TEXT1: "
+    print text1
+    print "TEXT2: "
+    print text2
+    print "equal: ", text1 == text2
+    print "len text1: ", len(text1)
+    print "len text2: ", len(text2)
+    print "len equal: ", len(text1) == len(text2)
+
+    for i,c in enumerate(text1):
+        print "char text1: ", c
+        print "char text2: ", text2[i]
+        if c != text2[i]:
+            print "CHAR MISMATCH: {} != {}".format(c, text2[i])
+
+    print "last char text1: \'{}\'".format(text1[-1])
+    print "last char text2: \'{}\'".format(text2[-1])
+    """
+
+#    exit()
     assert text1 == text2, "{} != {}".format(text1, text2)
     assert start_count == end_count, "{} != {}".format(start_count, end_count)
     assert raw_index == len(raw_text) and heidel_index == len(heidel_text)
