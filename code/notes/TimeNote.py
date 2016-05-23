@@ -343,7 +343,7 @@ class TimeNote(Note):
                 else:
                     events = map(lambda event: event, filter(lambda entity: entity[0] == "EVENT", sentence_chunks[sentence_num][i+1:]))
                     entity_pairs += list(itertools.product(events, [("TIMEX", entity_id)]))
-                    entity_pairs.append((entity, ("TIMEX", doctime_id)))
+                    # entity_pairs.append((entity, ("TIMEX", doctime_id)))
 
             if sentence_num + 1 in sentence_chunks:
 

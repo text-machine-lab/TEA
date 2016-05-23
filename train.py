@@ -1,20 +1,13 @@
 """Interface to perform training of models for temporal entity and relation extraction.
 """
 
-# temporary until NN interface is updated
-import cPickle
-
-
-
 import sys
 import os
 from code.config import env_paths
 
-
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
-
 
 import argparse
 import glob
@@ -23,7 +16,6 @@ import cPickle
 from code.learning import model
 
 timenote_imported = False
-
 
 def main():
     """ Process command line arguments and then generate trained models (4, one for each pass) on files provided.
@@ -110,9 +102,9 @@ def main():
 
     # create the model, then save architecture and weights
     if args.neural_network == True:
-        from code import network
+        from code.learning import network
         NN = trainNetwork(tml_files, gold_files, newsreader_dir)
-        architecture = model.classifier.to_json()
+        architecture = NN.classifier.to_json()
         open(args.model_destination + '.arch.json', "w").write(architecture)
         NN.classifier.save_weights(args.model_destination + '.weights.h5')
 
@@ -188,7 +180,7 @@ def trainNetwork(tml_files, gold_files, newsreader_dir):
     @param gold_files: Fully labeled gold standard timeML documents
     '''
 
-    from code import network
+    from code.learning import network
 
     print "Called trainNetwork"
 
@@ -224,7 +216,7 @@ def trainNetwork(tml_files, gold_files, newsreader_dir):
         notes.append(tmp_note)
 
     mod = network.NNModel()
-    mod.train(notes, epochs=100)
+    mod.train(notes, epochs=35)
 
     return mod
 

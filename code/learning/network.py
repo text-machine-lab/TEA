@@ -6,8 +6,9 @@ import numpy as np
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout
-#from notes.TimeNote import TimeNote
-from gensim.models import word2vec
+# from gensim.models import word2vec
+
+from word2vec import load_word2vec_binary
 
 class NNModel:
 
@@ -61,7 +62,8 @@ class NNModel:
         XR = None
 
         print 'Loading word embeddings...'
-        word_vectors = word2vec.Word2Vec.load_word2vec_format(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', binary=True)
+        # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
+        word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
 
         print 'Extracting dependency paths...'
         for i, note in enumerate(notes):
@@ -180,7 +182,8 @@ class NNModel:
         del_lists = []
 
         print 'Loading word embeddings...'
-        word_vectors = word2vec.Word2Vec.load_word2vec_format(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', binary=True)
+        # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
+        word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
 
         print 'Extracting dependency paths...'
         for i, note in enumerate(notes):
@@ -250,9 +253,12 @@ def _extract_path_representations(note, word_vectors):
         for word in path:
             # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 1s.
             try:
-                embedding = np.asarray(word_vectors[word], dtype='float32')
+                embedding = word_vectors[word]
             except KeyError:
-                embedding = np.ones((300))
+                # for key in word_vectors:
+                #     print key
+                # embedding = np.ones((300))
+                embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
             embedding = embedding[np.newaxis, :, np.newaxis]
@@ -278,9 +284,10 @@ def _extract_path_representations(note, word_vectors):
         for word in path:
             # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 0s.
             try:
-                embedding = np.asarray(word_vectors[word], dtype='float32')
+                embedding = word_vectors[word]
             except KeyError:
-                embedding = np.ones((300))
+                embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
+                # embedding = np.ones((300))
 
             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
             embedding = embedding[np.newaxis, :, np.newaxis]
@@ -386,7 +393,7 @@ def get_uniform_class_weights(labels):
     n_samples = len(labels)
     n_classes = len(labels[0])
 
-    print labels.shape
+    # print labels.shape
 
     weights = n_samples/ (n_classes * np.sum(labels, axis=0))
 
