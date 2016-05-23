@@ -18,23 +18,31 @@ class NNModel:
         '''
         # encode the first entity
         encoder_L = Sequential()
-        # encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        # encoder_L.add(LSTM(128))
-        # encoder_L.add(Dropout(.5))
-        encoder_L.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
-        encoder_L.add(TimeDistributed(Dropout(.5)))
-        encoder_L.add(MaxPooling1D(pool_length=128))
-        encoder_L.add(Flatten())
+
+        # without maxpooling
+        encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        encoder_L.add(LSTM(256, return_sequences=False, inner_activation="sigmoid"))
+        encoder_L.add(Dropout(.5))
+
+        # with maxpooling
+        # encoder_L.add(LSTM(256, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        # encoder_L.add(TimeDistributed(Dropout(.5)))
+        # encoder_L.add(MaxPooling1D(pool_length=256))
+        # encoder_L.add(Flatten())
 
         # encode the second entity
         encoder_R = Sequential()
-        # encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        # encoder_R.add(LSTM(128))
-        # encoder_R.add(Dropout(.5))
-        encoder_R.add(LSTM(128, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
-        encoder_R.add(TimeDistributed(Dropout(.5)))
-        encoder_R.add(MaxPooling1D(pool_length=128))
-        encoder_R.add(Flatten())
+
+        # without maxpooling
+        encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        encoder_R.add(LSTM(256, return_sequences=False, inner_activation="sigmoid"))
+        encoder_R.add(Dropout(.5))
+
+        # with maxpooling
+        # encoder_R.add(LSTM(256, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        # encoder_R.add(TimeDistributed(Dropout(.5)))
+        # encoder_R.add(MaxPooling1D(pool_length=256))
+        # encoder_R.add(Flatten())
 
         # combine and classify entities as a single relation
         decoder = Sequential()
@@ -62,8 +70,8 @@ class NNModel:
         XR = None
 
         print 'Loading word embeddings...'
-        # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
-        word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
+        word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
+        # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
 
         print 'Extracting dependency paths...'
         for i, note in enumerate(notes):
@@ -149,24 +157,28 @@ class NNModel:
 
         # train the network
         print 'Training network...'
-        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=None, batch_size=100)
+        # self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=1024)
+        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=None, batch_size=1024)
 
         test = self.classifier.predict_classes([XL, XR])
 
         print test
 
-        T = 0
-        F = 0
-        outs = 0
-        for true, pred in zip(labels, test):
-            if true == pred:
-                T += 1
-            else:
-                F += 1
-            if true == 0:
-                outs += 1
+        confusion = []
 
-        print "T: ", T, "F: ", F, "outs: ", outs
+        i = 0
+        while i < 7:
+            confusion.append([0,0,0,0,0,0,0])
+            i += 1
+
+        for true, pred in zip(labels, test):
+            # build confusion matrix
+            confusion[true][pred] += 1
+
+        # print confusion matrix
+        print "       0  1  2  3  4  5  6"
+        for i, row in enumerate(confusion):
+            print i, ": ", row
 
     def predict(self, notes):
         '''
@@ -182,8 +194,8 @@ class NNModel:
         del_lists = []
 
         print 'Loading word embeddings...'
-        # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
-        word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
+        word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
+        # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
 
         print 'Extracting dependency paths...'
         for i, note in enumerate(notes):
