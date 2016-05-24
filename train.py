@@ -105,7 +105,7 @@ def main():
         from code.learning import network
         NN = trainNetwork(tml_files, gold_files, newsreader_dir)
         architecture = NN.classifier.to_json()
-        open(args.model_destination + '.arch.json', "w").write(architecture)
+        open(args.model_destination + '.arch.json', "wb").write(architecture)
         NN.classifier.save_weights(args.model_destination + '.weights.h5')
 
     else:

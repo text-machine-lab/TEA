@@ -94,7 +94,7 @@ def main():
             notes.append(tmp_note)
 
     model = network.NNModel()
-    # model.classifier = model_from_json(model_path + '.arch.json')
+    model.classifier = model_from_json(open(model_path + '.arch.json').read())
     model.classifier.load_weights(model_path + '.weights.h5')
 
     labels, filter_lists = model.predict(notes)
