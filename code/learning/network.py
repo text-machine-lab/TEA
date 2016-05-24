@@ -20,34 +20,34 @@ class NNModel:
         encoder_L = Sequential()
 
         # without maxpooling
-        encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_L.add(LSTM(256, return_sequences=False, inner_activation="sigmoid"))
-        encoder_L.add(Dropout(.5))
+        # encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        # encoder_L.add(LSTM(32, return_sequences=False, inner_activation="sigmoid"))
+        # encoder_L.add(Dropout(.5))
 
         # with maxpooling
-        # encoder_L.add(LSTM(256, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        encoder_L.add(LSTM(32, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
         # encoder_L.add(TimeDistributed(Dropout(.5)))
-        # encoder_L.add(MaxPooling1D(pool_length=256))
-        # encoder_L.add(Flatten())
+        encoder_L.add(MaxPooling1D(pool_length=32))
+        encoder_L.add(Flatten())
 
         # encode the second entity
         encoder_R = Sequential()
 
         # without maxpooling
-        encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
-        encoder_R.add(LSTM(256, return_sequences=False, inner_activation="sigmoid"))
-        encoder_R.add(Dropout(.5))
+        # encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        # encoder_R.add(LSTM(32, return_sequences=False, inner_activation="sigmoid"))
+        # encoder_R.add(Dropout(.5))
 
         # with maxpooling
-        # encoder_R.add(LSTM(256, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        encoder_R.add(LSTM(32, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
         # encoder_R.add(TimeDistributed(Dropout(.5)))
-        # encoder_R.add(MaxPooling1D(pool_length=256))
-        # encoder_R.add(Flatten())
+        encoder_R.add(MaxPooling1D(pool_length=32))
+        encoder_R.add(Flatten())
 
         # combine and classify entities as a single relation
         decoder = Sequential()
         decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
-        decoder.add(Dropout(.3))
+        # decoder.add(Dropout(.3))
         decoder.add(Dense(100, activation='sigmoid'))
         decoder.add(Dense(nb_classes, activation='softmax'))
 
@@ -136,7 +136,7 @@ class NNModel:
         #         XR = np.concatenate((XR[0:index,:,:], XR[index:-1, :, :]), axis=0)
         #         # print XR.shape
 
-        # print labels
+        print labels
 
         # reformat labels so that they can be used by the NN
         Y = to_categorical(labels,7)
@@ -157,8 +157,8 @@ class NNModel:
 
         # train the network
         print 'Training network...'
-        # self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=1024)
-        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=None, batch_size=1024)
+        # self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=10)
+        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=None, batch_size=10)
 
         test = self.classifier.predict_classes([XL, XR])
 
@@ -242,6 +242,8 @@ def _extract_path_representations(note, word_vectors):
 
     # retrieve the ids for the left and right halves of every SDP between tlinked entities
     left_ids, right_ids = _get_token_id_subpaths(note)
+    tlinklabels = note.get_tlink_labels()
+    tlinklabels = _convert_str_labels_to_int(tlinklabels)
 
     # left and right paths are used to store the actual tokens of the SDP paths
     left_paths = []
@@ -251,11 +253,17 @@ def _extract_path_representations(note, word_vectors):
     del_list = []
 
     # get token text from ids in left sdp
-    for id_list in left_ids:
+    for i, id_list in enumerate(left_ids):
+        # if tlinklabels[i] == 0:
+        #     left_paths.append([])
+        # else:
         left_paths.append(note.get_tokens_from_ids(id_list))
 
     # get token text from ids in right sdp
-    for id_list in right_ids:
+    for i, id_list in enumerate(right_ids):
+        # if tlinklabels[i] == 0:
+        #     right_paths.append([])
+        # else:
         right_paths.append(note.get_tokens_from_ids(id_list))
 
     # get the word vectors for every word in the left path
