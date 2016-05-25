@@ -14,7 +14,7 @@ import os
 import cPickle
 import argparse
 import glob
-from code import network
+from code.learning import network
 from keras.models import model_from_json
 
 def main():
@@ -93,11 +93,10 @@ def main():
             tmp_note = TimeNote(tml, gold)
             notes.append(tmp_note)
 
-    model = network.NNModel()
-    model.classifier = model_from_json(open(model_path + '.arch.json').read())
-    model.classifier.load_weights(model_path + '.weights.h5')
+    model = model_from_json(open(model_path + '.arch.json').read())
+    model.load_weights(model_path + '.weights.h5')
 
-    labels, filter_lists = model.predict(notes)
+    labels, filter_lists = network.predict(notes, model)
 
     # labels are returned as a 1 dimensional numpy array, with labels for all objects.
     # we track the current index to find labels for given notes

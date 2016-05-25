@@ -104,9 +104,9 @@ def main():
     if args.neural_network == True:
         from code.learning import network
         NN = trainNetwork(tml_files, gold_files, newsreader_dir)
-        architecture = NN.classifier.to_json()
+        architecture = NN.to_json()
         open(args.model_destination + '.arch.json', "wb").write(architecture)
-        NN.classifier.save_weights(args.model_destination + '.weights.h5')
+        NN.save_weights(args.model_destination + '.weights.h5')
 
     else:
         models, vectorizers = trainModel(tml_files, gold_files, False, train_timex, train_event, train_tlink, newsreader_dir)
@@ -215,8 +215,8 @@ def trainNetwork(tml_files, gold_files, newsreader_dir):
 
         notes.append(tmp_note)
 
-    mod = network.NNModel()
-    mod.train(notes, epochs=50)
+    data = network._get_training_input(notes)
+    mod = network.train_model(None, epochs=1, training_input=data)
 
     return mod
 
