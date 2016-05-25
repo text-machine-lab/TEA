@@ -6,7 +6,7 @@ import numpy as np
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout
-# from gensim.models import word2vec
+from keras.regularizers import l2
 
 from word2vec import load_word2vec_binary
 
@@ -48,8 +48,9 @@ class NNModel:
         decoder = Sequential()
         decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
         # decoder.add(Dropout(.3))
-        decoder.add(Dense(100, activation='sigmoid'))
-        decoder.add(Dense(nb_classes, activation='softmax'))
+        decoder.add(Dense(100, W_regularizer=l2(0.01), activation='sigmoid'))
+        # decoder.add(Dropout(.3))
+        decoder.add(Dense(nb_classes, W_regularizer=l2(0.01), activation='softmax'))
 
         # compile the final model
         decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -157,8 +158,8 @@ class NNModel:
 
         # train the network
         print 'Training network...'
-        # self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=10)
-        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=None, batch_size=10)
+        # self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=128)
+        self.classifier.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=None, batch_size=256)
 
         test = self.classifier.predict_classes([XL, XR])
 
@@ -254,17 +255,17 @@ def _extract_path_representations(note, word_vectors):
 
     # get token text from ids in left sdp
     for i, id_list in enumerate(left_ids):
-        # if tlinklabels[i] == 0:
-        #     left_paths.append([])
-        # else:
-        left_paths.append(note.get_tokens_from_ids(id_list))
+        #if tlinklabels[i] == 0:
+        #    left_paths.append([])
+        #else:
+            left_paths.append(note.get_tokens_from_ids(id_list))
 
     # get token text from ids in right sdp
     for i, id_list in enumerate(right_ids):
-        # if tlinklabels[i] == 0:
-        #     right_paths.append([])
-        # else:
-        right_paths.append(note.get_tokens_from_ids(id_list))
+        #if tlinklabels[i] == 0:
+        #    right_paths.append([])
+        #else:
+            right_paths.append(note.get_tokens_from_ids(id_list))
 
     # get the word vectors for every word in the left path
     left_vecs = None
