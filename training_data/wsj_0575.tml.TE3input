@@ -1,34 +1,35 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0575</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0125 = 891030 891030-0125.
 Control Data Says It May Repurchase @ Debt Soon, Seeks Alliances With Others @ ---- @ By Richard Gibson @ Staff Reporter of The Wall Street Journal 10/30/89 WALL STREET JOURNAL (J) CDA COMPUTERS AND INFORMATION TECHNOLOGY (CPR) TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) MINNEAPOLIS
 </EXTRAINFO>
 
-<TEXT>Control Data Corp., which just months ago was hemorrhaging financially, thinks it will be healthy enough soon to consider repurchasing public debt.
+<TEXT>
+Control Data Corp., which just months ago was hemorrhaging financially, thinks it will be healthy enough soon to consider repurchasing public debt.
 
-Moreover, the company, whose go-it-alone approach nearly proved fatal, now sees alliances with others as the way back to prosperity in what it calls 'the data solutions' business.
+Moreover, the company, whose go-it-alone approach nearly proved fatal, now sees alliances with others as the way back to prosperity in what it calls "the data solutions" business.
 
-'I'm not saying everything is hunky-dory, but we have completed the transition,' Robert M. Price, chairman and chief executive, said in an interview. 'Transition' is a reference to the company's five-year restructuring effort. During that time, Control Data had losses of more than $1 billion.
+"I'm not saying everything is hunky-dory, but we have completed the transition," Robert M. Price, chairman and chief executive, said in an interview. "Transition" is a reference to the company's five-year restructuring effort. During that time, Control Data had losses of more than $1 billion.
 
 Now, following asset sales that shrank revenue by more than one-third this year alone, Control Data is flush with cash. So its senior executives are talking openly about possibly buying back some of the company's $172.5 million in subordinated convertible debentures next year.
 
-'We'd like to continue to reduce debt,' President Lawrence Perlman said. Noting that the company is offering to buy back $154.2 million in senior notes paying 12 3/4%, he said the response will help determine future debt-reduction efforts. The offer was automatically triggered by the recent sale of Control Data's Imprimis disk-drive business to Seagate Technology Inc.
+"We'd like to continue to reduce debt," President Lawrence Perlman said. Noting that the company is offering to buy back $154.2 million in senior notes paying 12 3/4%, he said the response will help determine future debt-reduction efforts. The offer was automatically triggered by the recent sale of Control Data's Imprimis disk-drive business to Seagate Technology Inc.
 
-Mr. Perlman, who is also acting chief financial officer and the odds-on favorite to become the next chief executive, said the company is achieving 'modest positive cash flow from operations, and we expect that to continue into 1990.'
+Mr. Perlman, who is also acting chief financial officer and the odds-on favorite to become the next chief executive, said the company is achieving "modest positive cash flow from operations, and we expect that to continue into 1990."
 
-He said the company has no intention of tapping its short-term bank lines 'for a good part of 1990.' Sometime next year, Control Data will ' develop a new bank relationship,' Mr. Perlman said. In recent months a group of lenders, led by Bank of America, has extended Control Data up to $90 million in revolving loans through January, as well as $115 million in standby letters of credit.
+He said the company has no intention of tapping its short-term bank lines "for a good part of 1990." Sometime next year, Control Data will " develop a new bank relationship," Mr. Perlman said. In recent months a group of lenders, led by Bank of America, has extended Control Data up to $90 million in revolving loans through January, as well as $115 million in standby letters of credit.
 
 Loan covenants require that the company achieve specified levels of operating earnings and meet a rolling four-quarter profitability test. Last week Control Data reported third-quarter earnings of $9.8 million, or 23 cents a share, on revenue of $763 million. Through the first nine months, the company had a loss of $484 million, largely reflecting the closing of its supercomputer unit.
 
-While a few assets are still being shopped -- including the sports and entertainment ticketing portion of the company's Ticketron unit -- Mr. Price said future restructuring would be a question of strategy. 'We don't need the cash.'
+While a few assets are still being shopped -- including the sports and entertainment ticketing portion of the company's Ticketron unit -- Mr. Price said future restructuring would be a question of strategy. "We don't need the cash."
 
-Ticketron's automated wagering business, which operates lotteries in a half dozen states, is not for sale, the company said. Rather, Mr. Perlman said, Control Data intends to bid for the coming Minnesota lottery contract and is seeking new applications for the technology overseas, where 'there is great interest in games of skill.' He wouldn't elaborate.
+Ticketron's automated wagering business, which operates lotteries in a half dozen states, is not for sale, the company said. Rather, Mr. Perlman said, Control Data intends to bid for the coming Minnesota lottery contract and is seeking new applications for the technology overseas, where "there is great interest in games of skill." He wouldn't elaborate.
 
 Control Data's semiconductor business, VTC Inc., continues to lose money, the executives acknowledged, but they said they consider some of the technology vital to national defense and so are reluctant to dispose of it.
 
@@ -36,12 +37,229 @@ The company's strategy for keeping its computer products business profitable -- 
 
 James E. Ousley, computer products group president, said such arrangements could help slash Control Data's computer research and development costs in half by the end of 1990. He disclosed that before Control Data scrapped its ETA Systems Inc. supercomputer business this past spring, those costs were running at nearly 35% of group revenue. At the same time four of six design projects were spiked, he said.
 
-Asked how the company hopes to expand its computer hardware business, Mr. Ousley said it sees good opportunities in systems integration. 'We think we're getting only 10% of the integration dollars our customers are spending,' he said. 'We're in environments that are going to spend a lot of money on that.'
+Asked how the company hopes to expand its computer hardware business, Mr. Ousley said it sees good opportunities in systems integration. "We think we're getting only 10% of the integration dollars our customers are spending," he said. "We're in environments that are going to spend a lot of money on that."
 
 Control Data mainframes are designed for numerically intensive computing users, such as the scientific, engineering and academic communities. Utilities management is a major commercial niche.
 
-Reviewing the company's scrape with disaster, Mr. Price conceded it had tried to do too much on its own. 'Absolutely,' he said.
+Reviewing the company's scrape with disaster, Mr. Price conceded it had tried to do too much on its own. "Absolutely," he said.
 
-But while its stock is selling at about half Control Data's estimated breakup value, neither Messrs. Perlman nor Price said he spends much time considering the possibility of a hostile takeover. 'We've been listed as a candidate for so long it's not worth worrying about,' said Mr. Price.</TEXT>
+But while its stock is selling at about half Control Data's estimated breakup value, neither Messrs. Perlman nor Price said he spends much time considering the possibility of a hostile takeover. "We've been listed as a candidate for so long it's not worth worrying about," said Mr. Price.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l125" relType="EVIDENTIAL" eventInstanceID="ei2747" subordinatedEventInstance="ei2745" />
+<SLINK lid="l118" relType="MODAL" eventInstanceID="ei2748" subordinatedEventInstance="ei2640" />
+<SLINK lid="l117" relType="MODAL" eventInstanceID="ei2638" subordinatedEventInstance="ei2748" />
+<SLINK lid="l66" relType="MODAL" eventInstanceID="ei2640" subordinatedEventInstance="ei2641" />
+<SLINK lid="l68" relType="EVIDENTIAL" eventInstanceID="ei2647" subordinatedEventInstance="ei2645" />
+<SLINK lid="l70" relType="MODAL" eventInstanceID="ei2655" subordinatedEventInstance="ei2656" />
+<SLINK lid="l71" relType="EVIDENTIAL" eventInstanceID="ei2660" subordinatedEventInstance="ei2657" />
+<SLINK lid="l72" relType="MODAL" eventInstanceID="ei2657" subordinatedEventInstance="ei2658" />
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei2661" subordinatedEventInstance="ei2662" />
+<SLINK lid="l74" relType="MODAL" eventInstanceID="ei2662" subordinatedEventInstance="ei2663" />
+<SLINK lid="l75" relType="EVIDENTIAL" eventInstanceID="ei2665" subordinatedEventInstance="ei2666" />
+<SLINK lid="l76" relType="MODAL" eventInstanceID="ei2666" subordinatedEventInstance="ei2667" />
+<SLINK lid="l77" relType="MODAL" eventInstanceID="ei2667" subordinatedEventInstance="ei2668" />
+<SLINK lid="l78" relType="EVIDENTIAL" eventInstanceID="ei2672" subordinatedEventInstance="ei2673" />
+<SLINK lid="l79" relType="FACTIVE" eventInstanceID="ei2673" subordinatedEventInstance="ei2674" />
+<SLINK lid="l80" relType="EVIDENTIAL" eventInstanceID="ei2672" subordinatedEventInstance="ei2676" />
+<SLINK lid="l81" relType="MODAL" eventInstanceID="ei2676" subordinatedEventInstance="ei2677" />
+<SLINK lid="l82" relType="EVIDENTIAL" eventInstanceID="ei2678" subordinatedEventInstance="ei2679" />
+<SLINK lid="l84" relType="EVIDENTIAL" eventInstanceID="ei2684" subordinatedEventInstance="ei2682" />
+<SLINK lid="l86" relType="EVIDENTIAL" eventInstanceID="ei2686" subordinatedEventInstance="ei2687" />
+<SLINK lid="l87" relType="EVIDENTIAL" eventInstanceID="ei2691" subordinatedEventInstance="ei2692" />
+<SLINK lid="l89" relType="EVIDENTIAL" eventInstanceID="ei2696" subordinatedEventInstance="ei2697" />
+<SLINK lid="l90" relType="MODAL" eventInstanceID="ei2697" subordinatedEventInstance="ei2698" />
+<SLINK lid="l92" relType="EVIDENTIAL" eventInstanceID="ei2704" subordinatedEventInstance="ei2702" />
+<SLINK lid="l93" relType="EVIDENTIAL" eventInstanceID="ei2705" subordinatedEventInstance="ei2706" />
+<SLINK lid="l94" relType="MODAL" eventInstanceID="ei2706" subordinatedEventInstance="ei2707" />
+<SLINK lid="l95" relType="EVIDENTIAL" eventInstanceID="ei2712" subordinatedEventInstance="ei2711" />
+<SLINK lid="l96" relType="EVIDENTIAL" eventInstanceID="ei2713" subordinatedEventInstance="ei2714" />
+<SLINK lid="l97" relType="MODAL" eventInstanceID="ei2714" subordinatedEventInstance="ei2715" />
+<SLINK lid="l98" relType="EVIDENTIAL" eventInstanceID="ei2716" subordinatedEventInstance="ei2718" />
+<SLINK lid="l99" relType="MODAL" eventInstanceID="ei2718" subordinatedEventInstance="ei2719" />
+<SLINK lid="l100" relType="EVIDENTIAL" eventInstanceID="ei2720" subordinatedEventInstance="ei2722" />
+<SLINK lid="l101" relType="EVIDENTIAL" eventInstanceID="ei2724" subordinatedEventInstance="ei2723" />
+<SLINK lid="l102" relType="MODAL" eventInstanceID="ei2726" subordinatedEventInstance="ei2727" />
+<SLINK lid="l103" relType="EVIDENTIAL" eventInstanceID="ei2728" subordinatedEventInstance="ei2729" />
+<SLINK lid="l104" relType="EVIDENTIAL" eventInstanceID="ei2728" subordinatedEventInstance="ei2730" />
+<SLINK lid="l105" relType="MODAL" eventInstanceID="ei2730" subordinatedEventInstance="ei2731" />
+<SLINK lid="l106" relType="EVIDENTIAL" eventInstanceID="ei2733" subordinatedEventInstance="ei2734" />
+<SLINK lid="l107" relType="FACTIVE" eventInstanceID="ei2737" subordinatedEventInstance="ei2738" />
+<SLINK lid="l108" relType="MODAL" eventInstanceID="ei2738" subordinatedEventInstance="ei2739" />
+<SLINK lid="l109" relType="EVIDENTIAL" eventInstanceID="ei2741" subordinatedEventInstance="ei2742" />
+<SLINK lid="l111" relType="MODAL" eventInstanceID="ei2743" subordinatedEventInstance="ei2744" />
+<ALINK lid="l112" relType="CULMINATES" eventInstanceID="ei2645" relatedToEventInstance="ei2646" />
+<ALINK lid="l113" relType="CONTINUES" eventInstanceID="ei2658" relatedToEventInstance="ei2659" />
+<ALINK lid="l114" relType="INITIATES" eventInstanceID="ei2670" relatedToEventInstance="ei2669" />
+<ALINK lid="l115" relType="CONTINUES" eventInstanceID="ei2677" relatedToEventInstance="ei2674" />
+<ALINK lid="l116" relType="CONTINUES" eventInstanceID="ei2702" relatedToEventInstance="ei2703" />
 
 </TimeML>

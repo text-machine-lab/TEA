@@ -1,25 +1,115 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0158</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0033 = 891102 891102-0033.
 Reupke Quits Post @ As General Manager @ Of Reuters Holdings 11/02/89 WALL STREET JOURNAL (J) RTRSY WNEWS LONDON
 </EXTRAINFO>
 
-<TEXT>Reuters Holdings PLC said Michael Reupke resigned as general manager to pursue unspecified interests, a move the news organization termed an 'amicable separation.'
+<TEXT>
+Reuters Holdings PLC said Michael Reupke resigned as general manager to pursue unspecified interests, a move the news organization termed an "amicable separation."
 
 Mr. Reupke, 52 years old and a 27-year Reuters veteran, had been the information-services company's general manager for only six months. His appointment to that post, which has senior administrative, staff and policy responsibilities, followed a several-year tenure as Reuters's editor in chief. No successor was named, and Mr. Reupke's duties will be split among three other senior Reuters executives, the company said.
 
-In a telephone interview, Mr. Reupke said his departure was for 'personal reasons,' which he declined to specify. 'There is no business reason for my departure,' nor any disagreement over policy, he added. He also rejected reports that his departure stemmed from disappointment the general manager's post hadn't also led to a board directorship at the London-based news organization.
+In a telephone interview, Mr. Reupke said his departure was for "personal reasons," which he declined to specify. "There is no business reason for my departure," nor any disagreement over policy, he added. He also rejected reports that his departure stemmed from disappointment the general manager's post hadn't also led to a board directorship at the London-based news organization.
 
-Mr. Reupke was one of three executives on Reuters's eight-person executive committee who didn't also serve on the company's board of directors. 'If I were choosing the people of tomorrow, I would have chosen the people who are now on the board,' he said.
+Mr. Reupke was one of three executives on Reuters's eight-person executive committee who didn't also serve on the company's board of directors. "If I were choosing the people of tomorrow, I would have chosen the people who are now on the board," he said.
 
-A Reuters spokesman said the departure reflects 'no change in strategy or profits.' Mark Shepperd, an analyst at UBS Phillips amp Drew in London, said, 'I suspect (the departure) will be fairly irrelevant for the company. I would be very surprised if his departure signals any change in strategy or change in profit expectations.' On London's Stock Exchange, Reuters shares rose five pence to 913 pence ($14.43). In the U.S. over-the-counter market, American depositary shares for Reuters, each representing three shares in the London market, closed unchanged at $43.875.
+A Reuters spokesman said the departure reflects "no change in strategy or profits." Mark Shepperd, an analyst at UBS Phillips amp Drew in London, said, "I suspect (the departure) will be fairly irrelevant for the company. I would be very surprised if his departure signals any change in strategy or change in profit expectations." On London's Stock Exchange, Reuters shares rose five pence to 913 pence ($14.43). In the U.S. over-the-counter market, American depositary shares for Reuters, each representing three shares in the London market, closed unchanged at $43.875.
 
-The senior of the three executives who will assume Mr. Reupke's duties is Nigel Judah, 58, finance director and a Reuters board director. Peter Holland, 45, deputy general manager, becomes director of corporate affairs. And Patrick Mannix, 46, international technical manager, becomes director of group quality programs.</TEXT>
+The senior of the three executives who will assume Mr. Reupke's duties is Nigel Judah, 58, finance director and a Reuters board director. Peter Holland, 45, deputy general manager, becomes director of corporate affairs. And Patrick Mannix, 46, international technical manager, becomes director of group quality programs.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l66" relType="FACTIVE" eventInstanceID="ei544" subordinatedEventInstance="ei545" />
+<SLINK lid="l63" relType="CONDITIONAL" eventInstanceID="ei535" subordinatedEventInstance="ei533"  />
+<SLINK lid="l59" relType="EVIDENTIAL" eventInstanceID="ei505" subordinatedEventInstance="ei506" />
+<SLINK lid="l58" relType="EVIDENTIAL" eventInstanceID="ei504" subordinatedEventInstance="ei503" />
+<SLINK lid="l55" relType="EVIDENTIAL" eventInstanceID="ei489" subordinatedEventInstance="ei490" />
+<SLINK lid="l35" relType="MODAL" eventInstanceID="ei512" subordinatedEventInstance="ei511" />
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei522" subordinatedEventInstance="ei520" />
+<SLINK lid="l37" relType="CONDITIONAL" eventInstanceID="ei519" subordinatedEventInstance="ei520" />
+<SLINK lid="l38" relType="EVIDENTIAL" eventInstanceID="ei523" subordinatedEventInstance="ei525" />
+<SLINK lid="l39" relType="FACTIVE" eventInstanceID="ei525" subordinatedEventInstance="ei526" />
+<SLINK lid="l40" relType="EVIDENTIAL" eventInstanceID="ei529" subordinatedEventInstance="ei530" />
+<SLINK lid="l41" relType="MODAL" eventInstanceID="ei530" subordinatedEventInstance="ei532" />
+<SLINK lid="l42" relType="EVIDENTIAL" eventInstanceID="ei529" subordinatedEventInstance="ei533" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei535" subordinatedEventInstance="ei536" />
 
 </TimeML>

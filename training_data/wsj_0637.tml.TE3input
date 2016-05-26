@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0637</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0061 = 891030 891030-0061.
 Labatt Plans to Place @ New Preferred Shares 10/30/89 WALL STREET JOURNAL (J) T.LBT LONDON, Ontario
 </EXTRAINFO>
 
-<TEXT>John Labatt Ltd. said it plans a private placement of 150 million Canadian dollars (US$127.5 million) in preferred shares, to be completed around Nov. 1.
+<TEXT>
+John Labatt Ltd. said it plans a private placement of 150 million Canadian dollars (US$127.5 million) in preferred shares, to be completed around Nov. 1.
 
 Proceeds will be used to reduce short-term debt at the beer and food concern, said Robert Vaux, vice president, finance.
 
@@ -18,6 +19,62 @@ The preferred shares will carry a floating annual dividend equal to 72% of the 3
 
 Mr. Vaux said the share issue is part of a strategy to strengthen Labatt's balance sheet in anticipation of acquisitions to be made during the next 12 to 18 months. Labatt's has no takeover bids outstanding currently, he said.
 
-Lead underwriter to the issue is Toronto Dominion Securities Inc.</TEXT>
+Lead underwriter to the issue is Toronto Dominion Securities Inc.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei2014" subordinatedEventInstance="ei2015" />
+<SLINK lid="l30" relType="MODAL" eventInstanceID="ei1996" subordinatedEventInstance="ei1997" />
+<SLINK lid="l21" relType="CONDITIONAL" eventInstanceID="ei2005" subordinatedEventInstance="ei2007"  />
+<SLINK lid="l22" relType="EVIDENTIAL" eventInstanceID="ei1995" subordinatedEventInstance="ei1996" />
+<SLINK lid="l23" relType="MODAL" eventInstanceID="ei1999" subordinatedEventInstance="ei2000" />
+<SLINK lid="l24" relType="EVIDENTIAL" eventInstanceID="ei2001" subordinatedEventInstance="ei1999" />
+<SLINK lid="l25" relType="EVIDENTIAL" eventInstanceID="ei2004" subordinatedEventInstance="ei2007" />
+<SLINK lid="l26" relType="EVIDENTIAL" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<SLINK lid="l27" relType="MODAL" eventInstanceID="ei2012" subordinatedEventInstance="ei2013" />
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei2017" subordinatedEventInstance="ei2016" />
+<ALINK lid="l29" relType="CULMINATES" eventInstanceID="ei1998" relatedToEventInstance="ei1997" />
 
 </TimeML>

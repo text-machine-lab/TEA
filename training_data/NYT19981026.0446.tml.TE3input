@@ -1,20 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT19981026.0446</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-10-26T22:54">1998-10-26 22:54</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-10-26T22:54">1998-10-26 22:54</TIMEX3></DCT>
 
 <TITLE>KILLING OF DOCTOR BECOMES A FACTOR IN POLITICAL RACES</TITLE>
 
 
 <EXTRAINFO>
-NYT19981026.0446 
- NEWS STORY 
-1998-10-26 22:54
+NYT19981026.0446  NEWS STORY 1998-10-26 22:54
 A8236 &amp;Cx1f; tta-z
-u a &amp;Cx13;  &amp;Cx11;  BC-ABORTION-DOCTOR-ISSUE     10-26 0882
- BC-ABORTION-DOCTOR-ISSUE-NYT
+u a &amp;Cx13;  &amp;Cx11;  BC-ABORTION-DOCTOR-ISSUE     10-26 0882 BC-ABORTION-DOCTOR-ISSUE-NYT
 KILLING OF DOCTOR BECOMES A FACTOR IN POLITICAL RACES
 (ll)
 By AMY WALDMAN
@@ -22,7 +19,9 @@ c.1998 N.Y. Times News Service
 </EXTRAINFO>
 
 
-<TEXT>The killing of Dr. Barnett Slepian, a gynecologist in Buffalo who performed abortions, has become a factor in at least two campaigns in New York, say political consultants and some campaign advisers.
+<TEXT>
+
+The killing of Dr. Barnett Slepian, a gynecologist in Buffalo who performed abortions, has become a factor in at least two campaigns in New York, say political consultants and some campaign advisers.
 
 In the race for attorney general, the Democratic candidate, Eliot Spitzer, who favors abortion rights, has moved quickly to make the anti-abortion position of his opponent, Attorney General Dennis Vacco, a central issue in the campaign.
 
@@ -38,19 +37,19 @@ On Tuesday, the National Abortion and Reproductive Rights Action League plans to
 
 The advertisement, said Kelli Conlin, the executive director of the New York State affiliate of Naral, is intended to spotlight D'Amato's vote against the 1994 Freedom of Access to Clinic Entrances Act, which Schumer sponsored. The measure made it a Federal crime to attack or blockade an abortion clinic. Now, Ms. Conlin said, it will have new resonance, and the organization is considering buying more air time.
 
-''It's incredibly sincere and powerful and it would have been regardless,'' she said. ''But sensitivities are so heightened from the shooting in western New York that it's even more powerful.''
+``It's incredibly sincere and powerful and it would have been regardless,'' she said. ``But sensitivities are so heightened from the shooting in western New York that it's even more powerful.''
 
-David Eichenbaum, a Democratic political consultant who is not working for anyone in this year's campaign, said abortion ''is no longer the driving issue it once was, at least on the pro-choice side.''
+David Eichenbaum, a Democratic political consultant who is not working for anyone in this year's campaign, said abortion ``is no longer the driving issue it once was, at least on the pro-choice side.''
 
-But, Eichenbaum said: ''Sometimes an incident like this will do more to energize those who are pro-choice who otherwise might not consider that as an important an issue to go to the polls over. It brings it home.''
+But, Eichenbaum said: ``Sometimes an incident like this will do more to energize those who are pro-choice who otherwise might not consider that as an important an issue to go to the polls over. It brings it home.''
 
 D'Amato's aides would not comment about the political ramifications of the slaying, and Schumer's aides would not talk about whether they planned to refer to it in any advertisements, or whether the candidate planned to use it on the campaign trail.
 
-''Both Senator D'Amato and Chuck Schumer agree this was a horrific crime and a horrible tragedy,'' said Josh Isay, Schumer's campaign manager.
+``Both Senator D'Amato and Chuck Schumer agree this was a horrific crime and a horrible tragedy,'' said Josh Isay, Schumer's campaign manager.
 
-But, Isay added, ''it heightens the abortion issue.''
+But, Isay added, ``it heightens the abortion issue.''
 
-Steven Goldstein, the campaign spokesman for Spitzer, was less reticent. ''Eliot is going to make a huge priority of this,'' Goldstein said. ''Stopping clinic violence is going to be a major theme of our campaign from now to Election Day.''
+Steven Goldstein, the campaign spokesman for Spitzer, was less reticent. ``Eliot is going to make a huge priority of this,'' Goldstein said. ``Stopping clinic violence is going to be a major theme of our campaign from now to Election Day.''
 
 In Sunday's debate against Vacco, Spitzer attacked him for failing to enforce a court order in 1992 against anti-abortion protesters who had blocked the entrance to a clinic. It was the same clinic where Slepian worked.
 
@@ -58,15 +57,17 @@ A federal judge removed Vacco, then the U.S. attorney for western New York, from
 
 On Monday, Spitzer called for Vacco to revive that unit immediately, vowing that he would do so on his first day in office if elected.
 
-Goldstein, who said it was ''thoroughly, thoroughly possible'' that the issue would surface in Spitzer's advertisements, defended the use of the issue by noting that the attorney general has direct impact on the issue of clinic access.
+Goldstein, who said it was ``thoroughly, thoroughly possible'' that the issue would surface in Spitzer's advertisements, defended the use of the issue by noting that the attorney general has direct impact on the issue of clinic access.
 
-Vacco's campaign manager, Matt Behrmann, said in a statement that Spitzer had ''sunk to a new and despicable low by attempting to capitalize on the murder of a physician in order to garner votes.''
+Vacco's campaign manager, Matt Behrmann, said in a statement that Spitzer had ``sunk to a new and despicable low by attempting to capitalize on the murder of a physician in order to garner votes.''
 
-''It's possible that New York politics has never seen anything as crass as Eliot Spitzer's willingness to exploit the unfortunate murder of Slepian as a steppingstone for his own political ambitions,'' Berhrmann said.
+``It's possible that New York politics has never seen anything as crass as Eliot Spitzer's willingness to exploit the unfortunate murder of Slepian as a steppingstone for his own political ambitions,'' Berhrmann said.
 
 Several consultants agreed that there might be political hay to be made in Slepian's death but that it had to be done carefully.
 
-''Trying to score political points from a homicide can have a backlash,'' said Maureen Connelly, a media consultant not working for any candidate in next week's election.</TEXT>
+``Trying to score political points from a homicide can have a backlash,'' said Maureen Connelly, a media consultant not working for any candidate in next week's election.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -74,4 +75,309 @@ NYT-10-26-98 2254EST &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l13" relType="EVIDENTIAL" eventInstanceID="ei11" subordinatedEventInstance="ei12" syntax="USER"/>
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei17" subordinatedEventInstance="ei18" syntax="USER"/>
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei21" subordinatedEventInstance="ei22" syntax="USER"/>
+<SLINK lid="l29" relType="FACTIVE" eventInstanceID="ei23" subordinatedEventInstance="ei24" syntax="USER"/>
+<SLINK lid="l41" relType="FACTIVE" eventInstanceID="ei32" subordinatedEventInstance="ei33" syntax="USER"/>
+<SLINK lid="l42" relType="FACTIVE" eventInstanceID="ei33" subordinatedEventInstance="ei34" syntax="USER"/>
+<SLINK lid="l52" relType="EVIDENTIAL" eventInstanceID="ei40" subordinatedEventInstance="ei41" syntax="USER"/>
+<SLINK lid="l53" relType="MODAL" eventInstanceID="ei41" subordinatedEventInstance="ei42" syntax="USER"/>
+<SLINK lid="l62" relType="EVIDENTIAL" eventInstanceID="ei48" subordinatedEventInstance="ei49" syntax="USER"/>
+<SLINK lid="l63" relType="MODAL" eventInstanceID="ei50" subordinatedEventInstance="ei51" syntax="USER"/>
+<SLINK lid="l72" relType="EVIDENTIAL" eventInstanceID="ei57" subordinatedEventInstance="ei58" syntax="USER"/>
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei57" subordinatedEventInstance="ei59" syntax="USER"/>
+<SLINK lid="l77" relType="EVIDENTIAL" eventInstanceID="ei60" subordinatedEventInstance="ei62" syntax="USER"/>
+<SLINK lid="l86" relType="EVIDENTIAL" eventInstanceID="ei66" subordinatedEventInstance="ei67" syntax="USER"/>
+<SLINK lid="l90" relType="EVIDENTIAL" eventInstanceID="ei68" subordinatedEventInstance="ei69" syntax="USER"/>
+<SLINK lid="l91" relType="MODAL" eventInstanceID="ei69" subordinatedEventInstance="ei70" syntax="USER"/>
+<SLINK lid="l92" relType="MODAL" eventInstanceID="ei71" subordinatedEventInstance="ei72" syntax="USER"/>
+<SLINK lid="l100" relType="FACTIVE" eventInstanceID="ei73" subordinatedEventInstance="ei74" syntax="USER"/>
+<SLINK lid="l101" relType="EVIDENTIAL" eventInstanceID="ei76" subordinatedEventInstance="ei77" syntax="USER"/>
+<SLINK lid="l106" relType="FACTIVE" eventInstanceID="ei79" subordinatedEventInstance="ei80" syntax="USER"/>
+<SLINK lid="l113" relType="FACTIVE" eventInstanceID="ei84" subordinatedEventInstance="ei85" syntax="USER"/>
+<SLINK lid="l117" relType="COUNTER_FACTIVE" eventInstanceID="ei88" subordinatedEventInstance="ei89" syntax="USER"/>
+<SLINK lid="l118" relType="FACTIVE" eventInstanceID="ei89" subordinatedEventInstance="ei90" syntax="USER"/>
+<SLINK lid="l131" relType="MODAL" eventInstanceID="ei100" subordinatedEventInstance="ei101" syntax="USER"/>
+<SLINK lid="l133" relType="EVIDENTIAL" eventInstanceID="ei102" subordinatedEventInstance="ei103" syntax="USER"/>
+<SLINK lid="l142" relType="EVIDENTIAL" eventInstanceID="ei105" subordinatedEventInstance="ei106" syntax="USER"/>
+<SLINK lid="l155" relType="EVIDENTIAL" eventInstanceID="ei111" subordinatedEventInstance="ei113" syntax="USER"/>
+<SLINK lid="l156" relType="MODAL" eventInstanceID="ei114" subordinatedEventInstance="ei115" syntax="USER"/>
+<SLINK lid="l157" relType="EVIDENTIAL" eventInstanceID="ei118" subordinatedEventInstance="ei119" syntax="USER"/>
+<SLINK lid="l158" relType="MODAL" eventInstanceID="ei119" subordinatedEventInstance="ei120" syntax="USER"/>
+<SLINK lid="l160" relType="FACTIVE" eventInstanceID="ei123" subordinatedEventInstance="ei124" syntax="USER"/>
+<SLINK lid="l165" relType="MODAL" eventInstanceID="ei127" subordinatedEventInstance="ei128" syntax="USER"/>
+<ALINK lid="l112" relType="TERMINATES" eventInstanceID="ei82" relatedToEventInstance="ei83" syntax="USER"/>
+
 </TimeML>
+
+

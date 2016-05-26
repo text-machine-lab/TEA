@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>CNN19980126.1600.1104</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-01-26">19980126</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-01-26">19980126</TIMEX3></DCT>
 
 <EXTRAINFO>
 CNN19980126.1600.1104 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>Major job cuts at AT and T. The long distance giant slashing up to eighteen thousand jobs, freezing executive salaries and shaking up management. The changes are part of a one point six billion dollar cost cutting initiative to revitalize its position in the telecommunications business. Earlier AT and T also announced an eighteen percent drop in profits for the fourth quarter. The company's sales force applauded the shake up.
+<TEXT>
+Major job cuts at AT and T. The long distance giant slashing up to eighteen thousand jobs, freezing executive salaries and shaking up management. The changes are part of a one point six billion dollar cost cutting initiative to revitalize its position in the telecommunications business. Earlier AT and T also announced an eighteen percent drop in profits for the fourth quarter. The company's sales force applauded the shake up.
 
 It's not something we're not used to in the industry. But I think right now, for AT and T and the people here, it's fairly intense as you might w- well imagine.
 
@@ -19,6 +20,47 @@ I think it's a good thing that they're finally going to be downsizing you know s
 
 Good news for AT and T today. I think it's excellent for the company.
 
-But investors are approaching the changes with caution shares of AT and T down nearly four at sixty-one and a half.</TEXT>
+But investors are approaching the changes with caution shares of AT and T down nearly four at sixty-one and a half.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l36" relType="FACTIVE" eventInstanceID="ei284" subordinatedEventInstance="ei285" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei268" subordinatedEventInstance="ei269" />
+<SLINK lid="l31" relType="EVIDENTIAL" eventInstanceID="ei262" subordinatedEventInstance="ei263" />
+<SLINK lid="l26" relType="MODAL" eventInstanceID="ei275" subordinatedEventInstance="ei276" />
+<SLINK lid="l27" relType="MODAL" eventInstanceID="ei282" subordinatedEventInstance="ei283" />
 
 </TimeML>

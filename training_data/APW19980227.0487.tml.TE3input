@@ -1,0 +1,141 @@
+<?xml version="1.0" ?>
+<TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+
+<DOCID>APW19980227.0487</DOCID>
+
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-02-27T08:09:00">02/27/1998 08:09:00</TIMEX3></DCT>
+
+<EXTRAINFO>
+APW19980227.0487 NEWS STORY 02/27/1998 08:09:00
+w2392 Cx1f wstmu i Cx13 Cx11 BC-Israel-Rabin 02-27 0300
+BC-Israel-Rabin,0300
+Friend of Rabin's assassin regretted praying for Rabin's death
+UR By DANNA HARMAN QC UR Associated Press Writer QC
+</EXTRAINFO>
+
+<TEXT>
+JERUSALEM (AP)_ Taking the stand in her own defense, a friend of Yitzhak Rabin's assassin said Friday that she regretted calling the prime minister a traitor and praying for his death. Margalit Har-Shefi, 22, has pleaded innocent to charges that she failed to report Yigal Amir's plan to kill Rabin. She took the stand for more than four hours Friday in a Tel Aviv magistrate's court. Amir, 27, is serving a life sentence for the November 1995 assassination of Rabin at a Tel Aviv peace rally. Newspaper reports have said Amir was infatuated with Har-Shefi and may have been trying to impress her by killing the prime minister. Har-Shefi acknowledged she told police interrogators that Rabin was a traitor and that she prayed for him to have a heart attack and die. She said Rabin's murder was ``a black stain on Israel,'' Israel radio and Israel army radio reported. Har-Shefi said she heard Amir talk about killing Rabin but did not tell the police because she did not believe he was serious. Instead, she turned to her community rabbi in the Jewish West Bank settlement of Beit El and told him about Amir's statements. The rabbi said called the talk about killing Rabin ``nonsense,'' and said Jews are prohibited from killing one another, the radio reports said. Har-Shefi described Amir as an ``original thinker,'' as well as delusional and a liar. She also denied accusations made by Amir's brother, Hagai, that she joined an anti-Arab underground movement. She said she gave the Amir brothers false information regarding the location of a weapons and ammunition cache when they asked her to help organize such a movement.
+</TEXT>
+
+<LASTEXTRAINFO>
+(PROFILE (WS SL:BC-Israel-Rabin; CT:i; (REG:MEST;) (REG:INDI;) (REG:ENGL;) (REG:AFRI;) (REG:ASIA;) (LANG:ENGLISH;)) )
+AP-NY-02-27-98 0809EST
+</LASTEXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l27" relType="MODAL" eventInstanceID="ei422" subordinatedEventInstance="ei423" />
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei420" subordinatedEventInstance="ei425" />
+<SLINK lid="l29" relType="EVIDENTIAL" eventInstanceID="ei421" subordinatedEventInstance="ei422" />
+<SLINK lid="l30" relType="MODAL" eventInstanceID="ei446" subordinatedEventInstance="ei447" />
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei445" subordinatedEventInstance="ei446" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei443" subordinatedEventInstance="ei444" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei440" subordinatedEventInstance="ei442" />
+<SLINK lid="l34" relType="NEG_EVIDENTIAL" eventInstanceID="ei439" subordinatedEventInstance="ei440" />
+<SLINK lid="l35" relType="EVIDENTIAL" eventInstanceID="ei437" subordinatedEventInstance="ei435" />
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei435" subordinatedEventInstance="ei436" />
+<SLINK lid="l37" relType="EVIDENTIAL" eventInstanceID="ei389" subordinatedEventInstance="ei390" />
+<SLINK lid="l38" relType="FACTIVE" eventInstanceID="ei390" subordinatedEventInstance="ei391" />
+<SLINK lid="l39" relType="FACTIVE" eventInstanceID="ei431" subordinatedEventInstance="ei432" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei430" subordinatedEventInstance="ei431" />
+<SLINK lid="l43" relType="FACTIVE" eventInstanceID="ei390" subordinatedEventInstance="ei393" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei393" subordinatedEventInstance="ei394" />
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei397" subordinatedEventInstance="ei398" />
+<SLINK lid="l46" relType="COUNTER_FACTIVE" eventInstanceID="ei398" subordinatedEventInstance="ei399" />
+<SLINK lid="l47" relType="EVIDENTIAL" eventInstanceID="ei399" subordinatedEventInstance="ei400" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei400" subordinatedEventInstance="ei401" />
+<SLINK lid="l50" relType="EVIDENTIAL" eventInstanceID="ei406" subordinatedEventInstance="ei407" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei406" subordinatedEventInstance="ei408" />
+<SLINK lid="l52" relType="MODAL" eventInstanceID="ei408" subordinatedEventInstance="ei409" />
+<SLINK lid="l53" relType="EVIDENTIAL" eventInstanceID="ei420" subordinatedEventInstance="ei424" />
+<SLINK lid="l54" relType="FACTIVE" eventInstanceID="ei411" subordinatedEventInstance="ei412" />
+<SLINK lid="l55" relType="EVIDENTIAL" eventInstanceID="ei412" subordinatedEventInstance="ei413" />
+<SLINK lid="l56" relType="EVIDENTIAL" eventInstanceID="ei412" subordinatedEventInstance="ei414" />
+<SLINK lid="l58" relType="EVIDENTIAL" eventInstanceID="ei417" subordinatedEventInstance="ei418" />
+<SLINK lid="l59" relType="EVIDENTIAL" eventInstanceID="ei419" subordinatedEventInstance="ei417" />
+<SLINK lid="l60" relType="MODAL" eventInstanceID="ei425" subordinatedEventInstance="ei426" />
+<SLINK lid="l61" relType="EVIDENTIAL" eventInstanceID="ei420" subordinatedEventInstance="ei421" />
+
+</TimeML>

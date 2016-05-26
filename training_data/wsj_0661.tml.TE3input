@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0661</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0036 = 891030 891030-0036.
 Investor Group Makes @ Bid for Dataproducts; @ Liquidation Is Sought 10/30/89 WALL STREET JOURNAL (J) DPC TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) WOODLAND HILLS, Calif.
 </EXTRAINFO>
 
-<TEXT>A unit of DPC Acquisition Partners launched a $10-a-share tender offer for the shares outstanding of Dataproducts Corp., and said it would seek to liquidate the computer-printer maker 'as soon as possible,' even if a merger isn't consummated.
+<TEXT>
+A unit of DPC Acquisition Partners launched a $10-a-share tender offer for the shares outstanding of Dataproducts Corp., and said it would seek to liquidate the computer-printer maker "as soon as possible," even if a merger isn't consummated.
 
 DPC Acquisition is controlled by Crescott Investment Associates, Wilson Investment Group, Kernel Corp. and Catalyst Partners. The investor group owns 1,534,600 Dataproducts common shares, or a 7.6% stake.
 
@@ -20,6 +21,109 @@ In a filing with the Securities and Exchange Commission, DPC Acquisition said it
 
 Dataproducts officials declined to comment, and said they had not yet seen a suit filed in federal court by DPC Acquisition that seeks to nullify a standstill agreement between DPC Acquisition and Dataproducts.
 
-Earlier this year, DPC Acquisition made a $15-a-share offer for Dataproducts, which the Dataproducts board said it rejected because the $283.7 million offer was not fully financed. Dataproducts has since started a restructuring, and has said it is not for sale.</TEXT>
+Earlier this year, DPC Acquisition made a $15-a-share offer for Dataproducts, which the Dataproducts board said it rejected because the $283.7 million offer was not fully financed. Dataproducts has since started a restructuring, and has said it is not for sale.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l57" relType="EVIDENTIAL" eventInstanceID="ei2034" subordinatedEventInstance="ei2036" />
+<SLINK lid="l56" relType="FACTIVE" eventInstanceID="ei2004" subordinatedEventInstance="ei2003" />
+<SLINK lid="l54" relType="FACTIVE" eventInstanceID="ei1998" subordinatedEventInstance="ei1999" />
+<SLINK lid="l53" relType="FACTIVE" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l31" relType="CONDITIONAL" eventInstanceID="ei1996" subordinatedEventInstance="ei1993"  />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei1992" subordinatedEventInstance="ei1993" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei1993" subordinatedEventInstance="ei1994" />
+<SLINK lid="l34" relType="EVIDENTIAL" eventInstanceID="ei2000" subordinatedEventInstance="ei2001" />
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei2006" subordinatedEventInstance="ei2007" />
+<SLINK lid="l37" relType="MODAL" eventInstanceID="ei2007" subordinatedEventInstance="ei2008" />
+<SLINK lid="l38" relType="MODAL" eventInstanceID="ei2008" subordinatedEventInstance="ei2009" />
+<SLINK lid="l39" relType="MODAL" eventInstanceID="ei2008" subordinatedEventInstance="ei2010" />
+<SLINK lid="l40" relType="EVIDENTIAL" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei2014" subordinatedEventInstance="ei2015" />
+<SLINK lid="l42" relType="MODAL" eventInstanceID="ei2015" subordinatedEventInstance="ei2016" />
+<SLINK lid="l43" relType="COUNTER_FACTIVE" eventInstanceID="ei2019" subordinatedEventInstance="ei2020" />
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei2021" subordinatedEventInstance="ei2022" />
+<SLINK lid="l45" relType="EVIDENTIAL" eventInstanceID="ei2022" subordinatedEventInstance="ei2023" />
+<SLINK lid="l46" relType="MODAL" eventInstanceID="ei2024" subordinatedEventInstance="ei2025" />
+<SLINK lid="l47" relType="FACTIVE" eventInstanceID="ei2025" subordinatedEventInstance="ei2026" />
+<SLINK lid="l48" relType="FACTIVE" eventInstanceID="ei2030" subordinatedEventInstance="ei2028" />
+<SLINK lid="l49" relType="EVIDENTIAL" eventInstanceID="ei2029" subordinatedEventInstance="ei2030" />
+<ALINK lid="l52" relType="INITIATES" eventInstanceID="ei1990" relatedToEventInstance="ei1991" />
+<ALINK lid="l50" relType="INITIATES" eventInstanceID="ei2012" relatedToEventInstance="ei2013" />
+<ALINK lid="l51" relType="INITIATES" eventInstanceID="ei2032" relatedToEventInstance="ei2033" />
 
 </TimeML>

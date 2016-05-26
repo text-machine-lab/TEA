@@ -1,18 +1,19 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0027</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0166 = 891102 891102-0166.
 Who's News: @ Magna International's @ Financial Chief Quits; @ Chairman Stepping In 11/02/89 WALL STREET JOURNAL (J) MAGAF WNEWS TORONTO
 </EXTRAINFO>
 
-<TEXT>Magna International Inc.'s chief financial officer, James McAlpine, resigned and its chairman, Frank Stronach, is stepping in to help turn the automotive-parts manufacturer around, the company said.
+<TEXT>
+Magna International Inc.'s chief financial officer, James McAlpine, resigned and its chairman, Frank Stronach, is stepping in to help turn the automotive-parts manufacturer around, the company said.
 
-Mr. Stronach will direct an effort to reduce overhead and curb capital spending 'until a more satisfactory level of profit is achieved and maintained,' Magna said.
+Mr. Stronach will direct an effort to reduce overhead and curb capital spending "until a more satisfactory level of profit is achieved and maintained," Magna said.
 
 Stephen Akerfeldt, currently vice president finance, will succeed Mr. McAlpine.
 
@@ -26,6 +27,102 @@ Analysts said Mr. Stronach wants to resume a more influential role in running th
 
 The company said Mr. Stronach will personally direct the restructuring, assisted by Manfred Gingl, president and chief executive. Neither they nor Mr. McAlpine could be reached for comment.
 
-Magna said Mr. McAlpine resigned to pursue a consulting career, with Magna as one of his clients.</TEXT>
+Magna said Mr. McAlpine resigned to pursue a consulting career, with Magna as one of his clients.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l50" relType="FACTIVE" eventInstanceID="ei1994" subordinatedEventInstance="ei1995" />
+<SLINK lid="l49" relType="EVIDENTIAL" eventInstanceID="ei1993" subordinatedEventInstance="ei1990" />
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei2029" subordinatedEventInstance="ei2030" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei1993" subordinatedEventInstance="ei1989" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l34" relType="MODAL" eventInstanceID="ei1991" subordinatedEventInstance="ei1992" />
+<SLINK lid="l35" relType="MODAL" eventInstanceID="ei1995" subordinatedEventInstance="ei1996" />
+<SLINK lid="l36" relType="MODAL" eventInstanceID="ei1995" subordinatedEventInstance="ei1997" />
+<SLINK lid="l37" relType="EVIDENTIAL" eventInstanceID="ei2001" subordinatedEventInstance="ei1994" />
+<SLINK lid="l38" relType="EVIDENTIAL" eventInstanceID="ei2007" subordinatedEventInstance="ei2008" />
+<SLINK lid="l39" relType="MODAL" eventInstanceID="ei2014" subordinatedEventInstance="ei2015" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei2017" subordinatedEventInstance="ei2018" />
+<SLINK lid="l42" relType="MODAL" eventInstanceID="ei2018" subordinatedEventInstance="ei2019" />
+<SLINK lid="l43" relType="MODAL" eventInstanceID="ei2021" subordinatedEventInstance="ei2022" />
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei2023" subordinatedEventInstance="ei2024" />
+<SLINK lid="l45" relType="FACTIVE" eventInstanceID="ei2024" subordinatedEventInstance="ei2025" />
+<SLINK lid="l46" relType="EVIDENTIAL" eventInstanceID="ei2028" subordinatedEventInstance="ei2029" />
+<ALINK lid="l51" relType="INITIATES" eventInstanceID="ei2005" relatedToEventInstance="ei2006" />
+<ALINK lid="l47" relType="CONTINUES" eventInstanceID="ei1997" relatedToEventInstance="ei1998" />
+<ALINK lid="l48" relType="REINITIATES" eventInstanceID="ei2019" relatedToEventInstance="ei2020" />
 
 </TimeML>

@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0798</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0097 = 891027 891027-0097.
 Hudson's Bay Gives @ Terms of Rights Offer @ To Raise $337 Million 10/27/89 WALL STREET JOURNAL (J) T.HBC BUYBACKS, REDEMPTIONS, SWAP OFFERS (BBK) TORONTO
 </EXTRAINFO>
 
-<TEXT>Hudson's Bay Co. announced terms of a previously proposed rights issue that is expected to raise about 396 million Canadian dollars (US$337 million) net of expenses.
+<TEXT>
+Hudson's Bay Co. announced terms of a previously proposed rights issue that is expected to raise about 396 million Canadian dollars (US$337 million) net of expenses.
 
 Proceeds of the offering will be used to redeem C$264 million of preferred shares and to reduce short-term debt, the company said.
 
@@ -22,6 +23,67 @@ Hudson's Bay said that Woodbridge Co., which currently holds about 77% of the or
 
 Hudson's Bay said it will redeem 9.5 million Series H preferred shares on Oct. 31 at a price of C$27.75 each. The move was approved at a special shareholders' meeting yesterday.
 
-Gary Lukassen, chief financial officer, said redemption of the preferred shares, originally issued at C$25 each, will eliminate dividend payments of C$17.9 million annually.</TEXT>
+Gary Lukassen, chief financial officer, said redemption of the preferred shares, originally issued at C$25 each, will eliminate dividend payments of C$17.9 million annually.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l35" relType="MODAL" eventInstanceID="ei234" subordinatedEventInstance="ei233" />
+<SLINK lid="l25" relType="EVIDENTIAL" eventInstanceID="ei228" subordinatedEventInstance="ei230" />
+<SLINK lid="l26" relType="MODAL" eventInstanceID="ei214" subordinatedEventInstance="ei215" />
+<SLINK lid="l27" relType="MODAL" eventInstanceID="ei216" subordinatedEventInstance="ei217" />
+<SLINK lid="l28" relType="MODAL" eventInstanceID="ei216" subordinatedEventInstance="ei218" />
+<SLINK lid="l29" relType="EVIDENTIAL" eventInstanceID="ei219" subordinatedEventInstance="ei216" />
+<SLINK lid="l30" relType="EVIDENTIAL" eventInstanceID="ei236" subordinatedEventInstance="ei239" />
+<SLINK lid="l31" relType="EVIDENTIAL" eventInstanceID="ei220" subordinatedEventInstance="ei222" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei231" subordinatedEventInstance="ei232" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei222" subordinatedEventInstance="ei223" />
+<ALINK lid="l34" relType="TERMINATES" eventInstanceID="ei239" relatedToEventInstance="ei240" />
 
 </TimeML>

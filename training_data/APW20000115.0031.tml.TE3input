@@ -3,7 +3,7 @@
 
 <DOCID>APW20000115.0031</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="TIME" value="2000-01-15" temporalFunction="false" functionInDocument="CREATION_TIME">2000-01-15</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-01-15">2000-01-15</TIMEX3></DCT>
 
 <TITLE>Cuban Mothers Seek Elian's Return</TITLE>
 
@@ -13,8 +13,6 @@ APW20000115.0031  NEWS STORY  2000-01-15 01:40
 Cuban Mothers Seek Elian's Return
 By ANITA SNOW Associated Press Writer
 </EXTRAINFO>
-
-
 
 
 <TEXT>
@@ -56,8 +54,294 @@ Reno allowed the extension of the deadline after rejecting a Florida state court
 Elian's paternal great-uncle, Lazaro Gonzalez, is fighting to keep the boy with him in Miami, saying he can give the child a better life outside Cuba. He and others who oppose the boy's return to Cuba say that Elian's mother died to give the boy freedom in the United States.
 
 </TEXT>
+
+
 <EXTRAINFO>
 AP-NY-01-15-00 0140
 </EXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l1" eventInstanceID="ei2" subordinatedEventInstance="ei3" relType="MODAL"/>
+<SLINK lid="l2" eventInstanceID="ei80" subordinatedEventInstance="ei5" relType="MODAL"/>
+<SLINK lid="l3" eventInstanceID="ei5" subordinatedEventInstance="ei81" relType="MODAL"/>
+<SLINK lid="l4" eventInstanceID="ei6" subordinatedEventInstance="ei84" relType="MODAL"/>
+<SLINK lid="l5" eventInstanceID="ei94" subordinatedEventInstance="ei20" relType="MODAL"/>
+<SLINK lid="l6" eventInstanceID="ei19" subordinatedEventInstance="ei94" relType="NEG_EVIDENTIAL"/>
+<SLINK lid="l7" eventInstanceID="ei23" subordinatedEventInstance="ei24" relType="MODAL"/>
+<SLINK lid="l8" eventInstanceID="ei30" subordinatedEventInstance="ei31" relType="MODAL"/>
+<SLINK lid="l9" eventInstanceID="ei98" subordinatedEventInstance="ei34" relType="MODAL"/>
+<SLINK lid="l10" eventInstanceID="ei99" subordinatedEventInstance="ei35" relType="MODAL"/>
+<SLINK lid="l11" eventInstanceID="ei104" subordinatedEventInstance="ei39" relType="MODAL"/>
+<SLINK lid="l12" eventInstanceID="ei42" subordinatedEventInstance="ei43" relType="MODAL"/>
+<SLINK lid="l13" eventInstanceID="ei47" subordinatedEventInstance="ei48" relType="MODAL"/>
+<SLINK lid="l14" eventInstanceID="ei49" subordinatedEventInstance="ei107" relType="NEG_EVIDENTIAL"/>
+<SLINK lid="l15" eventInstanceID="ei46" subordinatedEventInstance="ei47" relType="COUNTER_FACTIVE"/>
+<SLINK lid="l16" eventInstanceID="ei51" subordinatedEventInstance="ei52" relType="MODAL"/>
+<SLINK lid="l17" eventInstanceID="ei53" subordinatedEventInstance="ei51" relType="CONDITIONAL"/>
+<SLINK lid="l18" eventInstanceID="ei57" subordinatedEventInstance="ei58" relType="MODAL"/>
+<SLINK lid="l137" eventInstanceID="ei65" subordinatedEventInstance="ei116" relType="MODAL"/>
+<SLINK lid="l139" eventInstanceID="ei66" subordinatedEventInstance="ei68" relType="MODAL"/>
+<SLINK lid="l147" eventInstanceID="ei71" subordinatedEventInstance="ei72" relType="MODAL"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+
 

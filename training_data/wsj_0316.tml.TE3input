@@ -1,21 +1,55 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0316</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891101-0048 = 891101 891101-0048.
 Business Brief -- First Security Corp.: @ Tentative Accord Formed @ To Buy Deseret Bancorp. 11/01/89 WALL STREET JOURNAL (J) FSCO TENDER OFFERS, MERGERS, ACQUISITIONS (TNM)
 </EXTRAINFO>
 
-<TEXT>First Security Corp. said it tentatively agreed to acquire Deseret Bancorp. for stock valued at about $18 million.
+<TEXT>
+First Security Corp. said it tentatively agreed to acquire Deseret Bancorp. for stock valued at about $18 million.
 
 Terms call for First Security to issue about 0.55 share of its stock for each Deseret share held, or a total of about 550,000 First Security shares. It has about 12.3 million shares outstanding.
 
 Deseret, with about $100 million in assets, is the parent of the Deseret Bank, which has six offices and headquarters at Pleasant Grove, Utah. The purchase price is equal to about 1.65 times Deseret's roughly $10.7 million book value, or assets less liabilities.
 
-Salt Lake City-based First Security, with $5.4 billion in assets, said the agreement is subject to shareholder and regulatory approval, and that it hopes to complete the transaction early next year.</TEXT>
+Salt Lake City-based First Security, with $5.4 billion in assets, said the agreement is subject to shareholder and regulatory approval, and that it hopes to complete the transaction early next year.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l11" relType="MODAL" eventInstanceID="ei2098" subordinatedEventInstance="ei2099" />
+<SLINK lid="l12" relType="MODAL" eventInstanceID="ei2095" subordinatedEventInstance="ei2096" />
+<SLINK lid="l13" relType="EVIDENTIAL" eventInstanceID="ei2094" subordinatedEventInstance="ei2095" />
+<SLINK lid="l14" relType="MODAL" eventInstanceID="ei2108" subordinatedEventInstance="ei2109" />
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei2104" subordinatedEventInstance="ei2108" />
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei2104" subordinatedEventInstance="ei2106" />
+<SLINK lid="l17" relType="MODAL" eventInstanceID="ei2106" subordinatedEventInstance="ei2107" />
+<ALINK lid="l18" relType="CULMINATES" eventInstanceID="ei2109" relatedToEventInstance="ei2110" />
 
 </TimeML>

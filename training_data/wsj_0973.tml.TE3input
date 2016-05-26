@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0973</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0085 = 891026 891026-0085.
 Westinghouse @ Sees Big Gains @ For Next Year @ --- @ Boost in Operating Margins, @ Double-Digit Per-Share @ Growth Forecast by Firm @ ---- @ By Gregory Stricharchuk @ Staff Reporter of The Wall Street Journal 10/26/89 WALL STREET JOURNAL (J) WX ELECTRICAL COMPONENTS AND EQUIPMENT (ELQ) NEW YORK
 </EXTRAINFO>
 
-<TEXT>Westinghouse Electric Corp., capitalizing on a major restructuring program, expects operating margins of more than 10% and double-digit per-share earnings growth next year, top officers told securities analysts here.
+<TEXT>
+Westinghouse Electric Corp., capitalizing on a major restructuring program, expects operating margins of more than 10% and double-digit per-share earnings growth next year, top officers told securities analysts here.
 
 John C. Marous, chairman and chief executive officer, also said the company expects sales from continuing businesses to rise 8.5% annually through the next three years.
 
@@ -20,7 +21,7 @@ Since 1983, Westinghouse has shed 70 businesses that it didn't expect to produce
 
 In the past 20 months alone, Paul E. Lego, president and chief operating officer, said the divestiture of $300 million of slow-growth, low-profit businesses has been more than offset by $600 million in profitable acquisitions.
 
-Westinghouse expects to meet its corporate goals despite a softening in the economy. Even if the gross national product is either flat or in the growth range of 2% to 2.5%, 'we can handle that,' Mr. Marous said. GNP is the total value of the nation's output of goods and services.
+Westinghouse expects to meet its corporate goals despite a softening in the economy. Even if the gross national product is either flat or in the growth range of 2% to 2.5%, "we can handle that," Mr. Marous said. GNP is the total value of the nation's output of goods and services.
 
 A bright spot is the company's power-generation business, which is experiencing a surge of growth for the first time in years. Mr. Marous said the business will achieve higher sales this year than the company's target goal of 8.5%.
 
@@ -28,7 +29,7 @@ While Westinghouse hasn't had a nuclear power plant order from a U.S. utility in
 
 Westinghouse also is well positioned to sell steam turbine and gas turbine plants to independent power producers. The company's ability to respond to energy needs world-wide will be enhanced through a recently announced venture with Mitsubishi Heavy Industries, Mr. Lego said.
 
-He said the independent power segment could grow to provide as much as 50% of near-term generation capacity, adding: 'We expect to supply a significant share of this market.'
+He said the independent power segment could grow to provide as much as 50% of near-term generation capacity, adding: "We expect to supply a significant share of this market."
 
 Westinghouse also expects its international sales to soon grow to 25% of total corporate sales from 20% last year. The company is negotiating with the Soviets to build a Thermo King truck-refrigeration plant that would produce about 10,000 units annually.
 
@@ -36,6 +37,134 @@ Mr. Marous said Westinghouse would own 70% of the facility. The deal, which will
 
 Company officials also said that any gain from the sale of Westinghouse's 55% stake in its transmission and distribution venture with the Swiss firm of Asea Brown Boveri will be offset by a restructuring charge in the fourth quarter. The executives didn't disclose the size of the expected gain.
 
-Capital expenditure in 1990 will rise slightly, Mr. Marous said, from an estimated $470 million this year.</TEXT>
+Capital expenditure in 1990 will rise slightly, Mr. Marous said, from an estimated $470 million this year.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l72" relType="FACTIVE" eventInstanceID="ei2047" subordinatedEventInstance="ei2044" />
+<SLINK lid="l71" relType="EVIDENTIAL" eventInstanceID="ei2003" subordinatedEventInstance="ei2058" />
+<SLINK lid="l70" relType="EVIDENTIAL" eventInstanceID="ei1994" subordinatedEventInstance="ei1992" />
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei2019" subordinatedEventInstance="ei2020" />
+<SLINK lid="l47" relType="MODAL" eventInstanceID="ei2000" subordinatedEventInstance="ei2001" />
+<SLINK lid="l48" relType="MODAL" eventInstanceID="ei2005" subordinatedEventInstance="ei2006" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei2023" subordinatedEventInstance="ei2024" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei2028" subordinatedEventInstance="ei2025" />
+<SLINK lid="l52" relType="EVIDENTIAL" eventInstanceID="ei2029" subordinatedEventInstance="ei2030" />
+<SLINK lid="l53" relType="MODAL" eventInstanceID="ei2030" subordinatedEventInstance="ei2031" />
+<SLINK lid="l54" relType="EVIDENTIAL" eventInstanceID="ei2032" subordinatedEventInstance="ei2033" />
+<SLINK lid="l55" relType="MODAL" eventInstanceID="ei2033" subordinatedEventInstance="ei2034" />
+<SLINK lid="l56" relType="MODAL" eventInstanceID="ei2035" subordinatedEventInstance="ei2036" />
+<SLINK lid="l57" relType="MODAL" eventInstanceID="ei2039" subordinatedEventInstance="ei2040" />
+<SLINK lid="l58" relType="EVIDENTIAL" eventInstanceID="ei2042" subordinatedEventInstance="ei2043" />
+<SLINK lid="l59" relType="EVIDENTIAL" eventInstanceID="ei2010" subordinatedEventInstance="ei2009" />
+<SLINK lid="l60" relType="EVIDENTIAL" eventInstanceID="ei1995" subordinatedEventInstance="ei1996" />
+<SLINK lid="l61" relType="EVIDENTIAL" eventInstanceID="ei2049" subordinatedEventInstance="ei2047" />
+<SLINK lid="l62" relType="EVIDENTIAL" eventInstanceID="ei2050" subordinatedEventInstance="ei2052" />
+<SLINK lid="l63" relType="MODAL" eventInstanceID="ei1996" subordinatedEventInstance="ei1997" />
+<SLINK lid="l65" relType="EVIDENTIAL" eventInstanceID="ei2055" subordinatedEventInstance="ei2054" />
+<SLINK lid="l66" relType="EVIDENTIAL" eventInstanceID="ei2013" subordinatedEventInstance="ei2014" />
+<SLINK lid="l67" relType="FACTIVE" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<ALINK lid="l68" relType="CULMINATES" eventInstanceID="ei2047" relatedToEventInstance="ei2044" />
+<ALINK lid="l69" relType="INITIATES" eventInstanceID="ei2017" relatedToEventInstance="ei2018" />
 
 </TimeML>

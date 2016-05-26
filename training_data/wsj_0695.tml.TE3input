@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0695</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0045 = 891027 891030-0045.
 Business Brief -- Rally's Inc.: @ Investor Group Is Seeking @ More Than 50% of Stock 10/27/89 WALL STREET JOURNAL (J) GPO RLLY TENDER OFFERS, MERGERS, ACQUISITIONS (TNM)
 </EXTRAINFO>
 
-<TEXT>A group of investors led by Giant Group Ltd. and its chairman, Burt Sugarman, said it filed with federal antitrust regulators for clearance to buy more than 50% of the stock of Rally's Inc., a fast-food company based in Louisville, Ky.
+<TEXT>
+A group of investors led by Giant Group Ltd. and its chairman, Burt Sugarman, said it filed with federal antitrust regulators for clearance to buy more than 50% of the stock of Rally's Inc., a fast-food company based in Louisville, Ky.
 
 Rally's operates and franchises about 160 fast-food restaurants throughout the U.S. The company went public earlier this month, offering 1,745,000 shares of common stock at $15 a share. Giant has interests in cement making and newsprint.
 
@@ -20,6 +21,33 @@ A second group of three company directors, aligned with Rally's founder James Pa
 
 Rally officials weren't available to comment late yesterday.
 
-For the year ended July 2, Rally had net income of $2.4 million, or 34 cents a share, on revenue of $52.9 million.</TEXT>
+For the year ended July 2, Rally had net income of $2.4 million, or 34 cents a share, on revenue of $52.9 million.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l12" relType="EVIDENTIAL" eventInstanceID="ei150" subordinatedEventInstance="ei151" />
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei161" subordinatedEventInstance="ei162" />
 
 </TimeML>

@@ -1,28 +1,28 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19990507.0207</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-05-07T03:44">1999-05-07 03:44:53</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-05-07T03:44">1999-05-07 03:44:53</TIMEX3></DCT>
 
 <TITLE>Abortion Foe Charged in Slaying</TITLE>
 
 
 <EXTRAINFO>
-APW19990507.0207 
-1999-05-07 03:44:53
-usa 
- Abortion Foe Charged in Slaying
+APW19990507.0207 1999-05-07 03:44:53
+usa  Abortion Foe Charged in Slaying
 </EXTRAINFO>
 
 
-<TEXT>BUFFALO, N.Y. (AP) --
+<TEXT>
+
+BUFFALO, N.Y. (AP) --
 
 Dr. Barnett Slepian, just back from synagogue, was heating soup in his kitchen last fall when he was gunned down with a single shot through a window.
 
 Slepian's killer is still at large. But for the first time, authorities have named a suspect in the slaying -- anti-abortion activist James Kopp.
 
-''Today, I'm here to tell you we have our suspect,'' said Bernard Tolbert, special agent-in-charge of the FBI's Buffalo office.
+``Today, I'm here to tell you we have our suspect,'' said Bernard Tolbert, special agent-in-charge of the FBI's Buffalo office.
 
 Kopp, 44, of St. Albans, Vt., became the subject of an international manhunt in November when he was called a witness in the case. He was charged Thursday in state and federal complaints with second-degree murder and with violating the Freedom of Access to Clinic Entrances Act by using deadly force against an abortion doctor.
 
@@ -34,17 +34,150 @@ Investigators would not divulge the evidence against Kopp but said last month's 
 
 Kopp also has been linked, through DNA testing, to a strand of hair found near where the sniper fired, law enforcement sources have said.
 
-Nicknamed the ''Atomic Dog'' in anti-abortion circles, Kopp had been arrested in several states since 1990 for protesting abortion. His car was spotted in Slepian's neighborhood in the weeks before the shooting, and was found abandoned at the Newark, N.J., airport in December.
+Nicknamed the ``Atomic Dog'' in anti-abortion circles, Kopp had been arrested in several states since 1990 for protesting abortion. His car was spotted in Slepian's neighborhood in the weeks before the shooting, and was found abandoned at the Newark, N.J., airport in December.
 
 The filing of the charges has intensified interest in Kopp as a suspect in three non-fatal sniper attacks on Canadian abortion providers, and one near Rochester, N.Y., between 1994 and 1997.
 
 Kopp is now the second anti-abortion activist being sought by the FBI as a suspect in a fatal attack.
 
-Eric Rudolph has been on the run since the January 1998 bombing of a Birmingham, Ala., abortion clinic that killed an off-duty police officer and maimed a nurse. He also is charged in three Atlanta attacks, including the 1996 Olympic bombing that killed one person.</TEXT>
+Eric Rudolph has been on the run since the January 1998 bombing of a Birmingham, Ala., abortion clinic that killed an off-duty police officer and maimed a nurse. He also is charged in three Atlanta attacks, including the 1996 Olympic bombing that killed one person.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l11" relType="MODAL" eventInstanceID="ei10" subordinatedEventInstance="ei11" syntax="USER"/>
+<SLINK lid="l18" relType="MODAL" eventInstanceID="ei16" subordinatedEventInstance="ei17" syntax="USER"/>
+<SLINK lid="l28" relType="MODAL" eventInstanceID="ei24" subordinatedEventInstance="ei25" syntax="USER"/>
+<SLINK lid="l31" relType="EVIDENTIAL" eventInstanceID="ei27" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l33" relType="EVIDENTIAL" eventInstanceID="ei29" subordinatedEventInstance="ei30" syntax="USER"/>
+<SLINK lid="l38" relType="FACTIVE" eventInstanceID="ei32" subordinatedEventInstance="ei33" syntax="USER"/>
+<SLINK lid="l51" relType="FACTIVE" eventInstanceID="ei44" subordinatedEventInstance="ei45" syntax="USER"/>
+<SLINK lid="l55" relType="MODAL" eventInstanceID="ei47" subordinatedEventInstance="ei48" syntax="USER"/>
+
 </TimeML>
+
+

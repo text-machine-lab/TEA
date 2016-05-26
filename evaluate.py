@@ -136,15 +136,17 @@ def main():
 #    _display_pol_confusion_matrix(files)
 #    _display_TENSE_confusion_matrix(files)
 #    _display_ASPECT_confusion_matrix(files)
-#    _display_TLINK_confusion_matrix(files)
+    _display_TLINK_confusion_matrix(files)
 
-#    for predicted, gold in files:
-#        print
-#        print "predicted file: ", predicted
-#        print "gold file: ", gold
-#        print
-#        _compare_file(predicted,gold, f="TIMEX")
+    for predicted, gold in files:
+        print
+        print "predicted file: ", predicted
+        print "gold file: ", gold
+        print
 #        _display_timex_confusion_matrix([(predicted,gold)])
+#        _display_event_confusion_matrix([(predicted,gold)])
+#        _compare_file(predicted,gold, f="TIMEX")
+        _display_TLINK_confusion_matrix([(predicted,gold)])
 
     return
 
@@ -388,6 +390,9 @@ def _compare_file(predicted, gold, f=None):
     predicted_entities,_ = extract_labeled_entities(predicted)
     gold_entities,_ = extract_labeled_entities(gold)
 
+    predicted_entities = {offset:predicted_entities[offset] for offset in predicted_entities if "class" not in predicted_entities[offset]["xml_element"].attrib}
+    gold_entities = {offset:gold_entities[offset] for offset in gold_entities if "class" not in gold_entities[offset]["xml_element"].attrib}
+
 #    print gold_entities
 
     incorrect = []
@@ -403,6 +408,12 @@ def _compare_file(predicted, gold, f=None):
         #    continue
 
         gold_class_type = gold_entities[offset]["xml_element"].attrib["class"] if "class" in gold_entities[offset]["xml_element"].attrib else gold_entities[offset]["xml_element"].attrib["type"]
+
+        if gold_entities[offset]["text"] == "1915":
+            print
+            print "text: 1915"
+            print "offset: ", offset
+            print
 
         if offset in predicted_entities:
 
@@ -424,8 +435,13 @@ def _compare_file(predicted, gold, f=None):
 
     # mismatches
     for offset in predicted_entities:
-        #if "class" in predicted_entities[offset]["xml_element"].attrib  and f == "TIMEX":
-        #    continue
+        if predicted_entities[offset]["text"] == "1915":
+            print
+            print "text: 1915"
+            print "offset: ", offset
+            print
+        if "class" in predicted_entities[offset]["xml_element"].attrib  and f == "TIMEX":
+            continue
         predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"] if "class" in predicted_entities[offset]["xml_element"].attrib else predicted_entities[offset]["xml_element"].attrib["type"]
         if offset not in gold_entities:
             incorrect.append((predicted_entities[offset]["text"],
@@ -626,6 +642,7 @@ def extract_tlinks(annotated_timeml):
     event_instance_id_to_event_id = {make_instance.attrib["eiid"]:make_instance.attrib["eventID"] for make_instance in make_instances}
 
     # add in an offset for DOCTIME
+    id_to_offset['tmx0'] = (-1,-1)
     id_to_offset['t0'] = (-1,-1)
 
     for tlink in get_tlinks(annotated_timeml):
@@ -666,23 +683,42 @@ def extract_labeled_entities(annotated_timeml):
     raw_text = get_text(annotated_timeml, preserve_quotes=True)
     labeled_text = get_text_with_taggings(annotated_timeml, preserve_quotes=True)
 
+    #raw_text = re.sub(" +"," ", raw_text)
+    #raw_text = re.sub(" \n","", raw_text)
+    raw_text = re.sub("<TEXT>", "", raw_text)
+    raw_text = re.sub("</TEXT>", "", raw_text)
+
+    #labeled_text = re.sub("<TEXT>\n+", "", labeled_text)
+    #labeled_text = re.sub("\n+</TEXT>", "", labeled_text)
+
+    # incase there is no new line!
+    labeled_text = re.sub("<TEXT>", "", labeled_text)
+    labeled_text = re.sub("</TEXT>", "", labeled_text)
+    #labeled_text = re.sub(" +"," ", labeled_text)
+    #labeled_text = re.sub(" \n", "", labeled_text)
+
+    raw_text = re.sub("\n", " ", raw_text)
+    raw_text = re.sub(" +", " ", raw_text)
+    raw_text = re.sub(" \Z", "", raw_text)
+
+    labeled_text = re.sub("\n", " ", labeled_text)
+    labeled_text = re.sub(" +", " ", labeled_text)
+    labeled_text = re.sub(" \Z", "", labeled_text)
+
     # lots of checks!
     for char in ['\n'] + list(whitespace):
         raw_text     = raw_text.strip(char)
         labeled_text = labeled_text.strip(char)
 
-#    raw_text     = re.sub(r"``", r"''", raw_text)
-#    labeled_text = re.sub(r'"', r"'", labeled_text)
+    """
+    print "labeled_text: "
+    print labeled_text
+    print "---"*5
 
-    raw_text = re.sub("<TEXT>\n+", "", raw_text)
-    raw_text = re.sub("\n+</TEXT>", "", raw_text)
-
-    labeled_text = re.sub("<TEXT>\n+", "", labeled_text)
-    labeled_text = re.sub("\n+</TEXT>", "", labeled_text)
-
-    # incase there is no new line!
-    labeled_text = re.sub("<TEXT>", "", labeled_text)
-    labeled_text = re.sub("</TEXT>", "", labeled_text)
+    print "raw_text: "
+    print raw_text
+    print "---"*5
+    """
 
     raw_index = 0
     labeled_index = 0

@@ -1,0 +1,83 @@
+<?xml version="1.0" ?><TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
+
+<DOCID>nyt_20130322_strange_computer</DOCID>
+
+<DCT><TIMEX3 tid="t0" type="DATE" value="2013-03-22">2013-03-22</TIMEX3></DCT>
+
+<TITLE>A Strange Computer Promises Great Speed</TITLE>
+
+<TEXT>
+
+Our digital age is all about bits, those precise ones and zeros that are the stuff of modern computer code.
+
+But a powerful new type of computer that is about to be commercially deployed by a major American military contractor is taking computing into the strange, subatomic realm of quantum mechanics. In that infinitesimal neighborhood, common sense logic no longer seems to apply. A one can be a one, or it can be a one and a zero and everything in between  all at the same time.
+
+It sounds preposterous, particularly to those familiar with the yes/no world of conventional computing. But academic researchers and scientists at companies like Microsoft, I.B.M. and Hewlett-Packard have been working to develop quantum computers.
+
+Now, Lockheed Martin  which bought an early version of such a computer from the Canadian company D-Wave Systems two years ago  is confident enough in the technology to upgrade it to commercial scale, becoming the first company to use quantum computing as part of its business.
+
+Skeptics say that D-Wave has yet to prove to outside scientists that it has solved the myriad challenges involved in quantum computation.
+
+But if it performs as Lockheed and D-Wave expect, the design could be used to supercharge even the most powerful systems, solving some science and business problems millions of times faster than can be done today.
+
+Ray Johnson, Lockheeds chief technical officer, said his company would use the quantum computer to create and test complex radar, space and aircraft systems. It could be possible, for example, to tell instantly how the millions of lines of software running a network of satellites would react to a solar burst or a pulse from a nuclear explosion  something that can now take weeks, if ever, to determine.
+
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</TimeML>

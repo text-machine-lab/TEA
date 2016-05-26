@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>CNN19980213.2130.0155</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-02-13">19980213</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-02-13">19980213</TIMEX3></DCT>
 
 <EXTRAINFO>
 CNN19980213.2130.0155 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>President Clinton says he is committed to a possible strike against Iraq, despite objections from other countries. Steve Hurst has that.
+<TEXT>
+President Clinton says he is committed to a possible strike against Iraq, despite objections from other countries. Steve Hurst has that.
 
 The US military buildup in the Persian gulf continues apace, more planes headed from the united states and senior officials say Iraq's president Saddam Hussein can expect punishing air strikes to continue well into the future if he doesn't stop building biological and chemical weapons.
 
@@ -23,6 +24,140 @@ President Clinton, meantime, glossed over stern warnings from Moscow on Thursday
 
 We're trying to find a diplomatic solution. And I hope that, whatever happens today, that our relationships with Russia will continue to be productive and constructive and strong, because that's very important to the future of our peoples.
 
-One contrary view of the issue presented itself to the president as he arrived in Philadelphia later in the day. Nevertheless, the president said Washington would use force if diplomacy fails to force Saddam Hussein to back down. The Russian foreign minister, meanwhile, sought to soften the harsh words of his military counterpart, saying on Friday that Russia now feels the US must hold off at least until UN secretary general Kofi Annan visits Baghdad in a last-ditch effort at diplomacy. Annan has no trip planned so far. Meanwhile, secretary of state Madeleine Albright, Berger and defense secretary William Cohen announced plans to travel to an unnamed city in the US heartland next week, to explain to the American people just why military force will be necessary if diplomacy fails. Steve Hurst, CNN, the state department.</TEXT>
+One contrary view of the issue presented itself to the president as he arrived in Philadelphia later in the day. Nevertheless, the president said Washington would use force if diplomacy fails to force Saddam Hussein to back down. The Russian foreign minister, meanwhile, sought to soften the harsh words of his military counterpart, saying on Friday that Russia now feels the US must hold off at least until UN secretary general Kofi Annan visits Baghdad in a last-ditch effort at diplomacy. Annan has no trip planned so far. Meanwhile, secretary of state Madeleine Albright, Berger and defense secretary William Cohen announced plans to travel to an unnamed city in the US heartland next week, to explain to the American people just why military force will be necessary if diplomacy fails. Steve Hurst, CNN, the state department.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l44" relType="CONDITIONAL" eventInstanceID="ei637" subordinatedEventInstance="ei636"  />
+<SLINK lid="l45" relType="CONDITIONAL" eventInstanceID="ei584" subordinatedEventInstance="ei581"  />
+<SLINK lid="l47" relType="CONDITIONAL" eventInstanceID="ei621" subordinatedEventInstance="ei620"  />
+<SLINK lid="l48" relType="EVIDENTIAL" eventInstanceID="ei573" subordinatedEventInstance="ei574" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei574" subordinatedEventInstance="ei575" />
+<SLINK lid="l50" relType="EVIDENTIAL" eventInstanceID="ei580" subordinatedEventInstance="ei581" />
+<SLINK lid="l51" relType="MODAL" eventInstanceID="ei581" subordinatedEventInstance="ei583" />
+<SLINK lid="l52" relType="EVIDENTIAL" eventInstanceID="ei580" subordinatedEventInstance="ei586" />
+<SLINK lid="l53" relType="FACTIVE" eventInstanceID="ei586" subordinatedEventInstance="ei589" />
+<SLINK lid="l54" relType="MODAL" eventInstanceID="ei589" subordinatedEventInstance="ei590" />
+<SLINK lid="l56" relType="MODAL" eventInstanceID="ei593" subordinatedEventInstance="ei594" />
+<SLINK lid="l57" relType="EVIDENTIAL" eventInstanceID="ei597" subordinatedEventInstance="ei598" />
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei601" subordinatedEventInstance="ei602" />
+<SLINK lid="l59" relType="MODAL" eventInstanceID="ei605" subordinatedEventInstance="ei607" />
+<SLINK lid="l60" relType="EVIDENTIAL" eventInstanceID="ei604" subordinatedEventInstance="ei609" />
+<SLINK lid="l61" relType="MODAL" eventInstanceID="ei609" subordinatedEventInstance="ei610" />
+<SLINK lid="l62" relType="EVIDENTIAL" eventInstanceID="ei604" subordinatedEventInstance="ei611" />
+<SLINK lid="l63" relType="MODAL" eventInstanceID="ei611" subordinatedEventInstance="ei613" />
+<SLINK lid="l64" relType="EVIDENTIAL" eventInstanceID="ei619" subordinatedEventInstance="ei620" />
+<SLINK lid="l65" relType="COUNTER_FACTIVE" eventInstanceID="ei621" subordinatedEventInstance="ei622" />
+<SLINK lid="l66" relType="MODAL" eventInstanceID="ei622" subordinatedEventInstance="ei623" />
+<SLINK lid="l67" relType="MODAL" eventInstanceID="ei624" subordinatedEventInstance="ei625" />
+<SLINK lid="l68" relType="EVIDENTIAL" eventInstanceID="ei626" subordinatedEventInstance="ei627" />
+<SLINK lid="l69" relType="MODAL" eventInstanceID="ei627" subordinatedEventInstance="ei628" />
+<SLINK lid="l70" relType="MODAL" eventInstanceID="ei631" subordinatedEventInstance="ei630" />
+<SLINK lid="l71" relType="EVIDENTIAL" eventInstanceID="ei632" subordinatedEventInstance="ei633" />
+<SLINK lid="l72" relType="MODAL" eventInstanceID="ei633" subordinatedEventInstance="ei634" />
+<SLINK lid="l73" relType="MODAL" eventInstanceID="ei634" subordinatedEventInstance="ei635" />
+<SLINK lid="l74" relType="FACTIVE" eventInstanceID="ei635" subordinatedEventInstance="ei636" />
+<ALINK lid="l75" relType="CONTINUES" eventInstanceID="ei578" relatedToEventInstance="ei577" />
+<ALINK lid="l76" relType="CONTINUES" eventInstanceID="ei583" relatedToEventInstance="ei582" />
+<ALINK lid="l77" relType="TERMINATES" eventInstanceID="ei584" relatedToEventInstance="ei585" />
 
 </TimeML>

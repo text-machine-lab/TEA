@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19980808.0188</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-08-07">August 7</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-08-07">August 7</TIMEX3></DCT>
 
 <TITLE>Cuba Condemns Bomb Blasts in Kenya, Tanzania</TITLE>
 
@@ -14,7 +14,9 @@ Cuba Condemns Bomb Blasts in Kenya, Tanzania
 </EXTRAINFO>
 
 
-<TEXT>HAVANA, August 7 (Xinhua) --
+<TEXT>
+
+HAVANA, August 7 (Xinhua) --
 
 The Cuban government Friday condemned the two bomb explosions near U.S. embassies in Kenya and Tanzania.
 
@@ -24,11 +26,45 @@ The Cuban government also expressed its condolences to the families of the victi
 
 Two bombs exploded outside U.S. embassies in Kenya and Tanzania Friday, killing at least 81 people and injuring more than 1,700 others.
 
-At least 74, including eight Americans, were killed in Nairobi, the capital of Kenya, and more then 1,640 were wounded. At least seven were reported dead in the Tanzanian capital of Dar es Salaam, and 72 others were hurt.</TEXT>
+At least 74, including eight Americans, were killed in Nairobi, the capital of Kenya, and more then 1,640 were wounded. At least seven were reported dead in the Tanzanian capital of Dar es Salaam, and 72 others were hurt.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

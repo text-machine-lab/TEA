@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT20000113.0267</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-01-13">2000-01-13</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-01-13">2000-01-13</TIMEX3></DCT>
 
 <TITLE>COMMENTARY: Reno upholds law in Gonzalez case</TITLE>
 
@@ -20,7 +20,9 @@ BC-EDITORIAL-ELIAN14-COX
 </EXTRAINFO>
 
 
-<TEXT>ATLANTA _
+<TEXT>
+
+ATLANTA _
 
 Good for Attorney General Janet Reno for the sensible opinion she rendered in the case of Elian Gonzalez. Some semblance of constitutional order was necessary after a Miami judge turned legal logic on its head in an effort to route to her family court his Florida relatives' appeal to keep the 6-year-old in the United States.
 
@@ -36,7 +38,9 @@ The next order of business for the Justice Department and the INS is to resolve 
 
 Besides, the longer his return is put off, the greater the chance of interference by calculating congressmen playing to the anti-Castro lobby. Already one grandstanding Indiana Republican has subpoenaed Elian to testify before a House panel, and others in the Senate are preparing to vote the boy U.S. citizenship. Both ploys are intended to thwart his reunion with his father.
 
-Congress reconvenes Jan. 24. The Justice Department and the INS mustn't allow the opportunists of Capitol Hill to get their hooks into Elian.</TEXT>
+Congress reconvenes Jan. 24. The Justice Department and the INS mustn't allow the opportunists of Capitol Hill to get their hooks into Elian.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -46,4 +50,131 @@ NYT-01-13-00 1933EST &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l7" relType="MODAL" eventInstanceID="ei40" subordinatedEventInstance="ei4" syntax="USER"/>
+<SLINK lid="l10" relType="MODAL" eventInstanceID="ei41" subordinatedEventInstance="ei5" syntax="USER"/>
+<SLINK lid="l27" relType="CONDITIONAL" eventInstanceID="ei17" subordinatedEventInstance="ei18" syntax="USER"/>
+<SLINK lid="l28" relType="MODAL" eventInstanceID="ei18" subordinatedEventInstance="ei69" syntax="USER"/>
+<SLINK lid="l32" relType="MODAL" eventInstanceID="ei18" subordinatedEventInstance="ei70" syntax="USER"/>
+<SLINK lid="l55" relType="MODAL" eventInstanceID="ei31" subordinatedEventInstance="ei32" syntax="USER"/>
+<SLINK lid="l59" relType="MODAL" eventInstanceID="ei33" subordinatedEventInstance="ei34" syntax="USER"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

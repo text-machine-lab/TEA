@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0533</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0168 = 891030 891030-0168.
 Two Rival Bidders @ Extend Offers @ To Buy Connaught @ ---- @ By Suzanne McGee @ Staff Reporter of The Wall Street Journal 10/30/89 WALL STREET JOURNAL (J) CSESF F.INM Z.CIG CHIR EUROP RHPOY CANDA TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) MEDICAL AND BIOTECHNOLOGY (MTC) TORONTO
 </EXTRAINFO>
 
-<TEXT>Two rival bidders for Connaught BioSciences extended their offers to acquire the Toronto-based vaccine manufacturer Friday.
+<TEXT>
+Two rival bidders for Connaught BioSciences extended their offers to acquire the Toronto-based vaccine manufacturer Friday.
 
 Institut Merieux S.A., which offered 942 million Canadian dollars (US$801.2 million), or C$37 a share for Connaught, said it would extend its bid, due to expire last Thursday, to Nov. 6.
 
@@ -18,9 +19,9 @@ A C$30-a-share bid by Ciba-Geigy Ltd., a pharmaceutical company based in Basel, 
 
 Merieux previously said it would ensure its bid remained open pending a final decision by Canadian regulators on whether to approve the takeover. Merieux, a vaccine and bioresearch firm based in Lyon, France, is controlled 50.1% by state-owned Rhone Poulenc S.A.
 
-The Canadian government previously said Merieux's bid didn't offer enough 'net benefit' to Canada to be approved, and gave Merieux an until mid-November to submit additional information.
+The Canadian government previously said Merieux's bid didn't offer enough "net benefit" to Canada to be approved, and gave Merieux an until mid-November to submit additional information.
 
-Merieux officials said last week that they are 'highly confident' the offer will be approved once it submits details of its proposed investments to federal regulators.
+Merieux officials said last week that they are "highly confident" the offer will be approved once it submits details of its proposed investments to federal regulators.
 
 Both offers are conditional on regulatory approvals and enough shares being tendered to give the bidders a majority of Connaught's shares outstanding.
 
@@ -28,10 +29,109 @@ Institut Merieux, which already holds a 12.5% stake in Connaught, said that at t
 
 Separately, the Ontario Supreme Court said it will postpone indefinitely a ruling on the lawsuit launched by the University of Toronto against Connaught in connection with the Merieux bid.
 
-In a statement prepared by lawyers for the university and Connaught, the parties said they agreed that as a result of reaching a C415 million research accord, 'It is unnecessary that there be a judgment on the merits {of the case} at this time.'
+In a statement prepared by lawyers for the university and Connaught, the parties said they agreed that as a result of reaching a C415 million research accord, "It is unnecessary that there be a judgment on the merits {of the case} at this time."
 
 Lawyers for the two sides weren't immediately available for comment.
 
-The university had sought an injunction blocking Connaught's board from recommending or supporting an offer for the company by Merieux.</TEXT>
+The university had sought an injunction blocking Connaught's board from recommending or supporting an offer for the company by Merieux.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l37" relType="MODAL" eventInstanceID="ei531" subordinatedEventInstance="ei533" />
+<SLINK lid="l38" relType="FACTIVE" eventInstanceID="ei478" subordinatedEventInstance="ei479" />
+<SLINK lid="l39" relType="MODAL" eventInstanceID="ei479" subordinatedEventInstance="ei480" />
+<SLINK lid="l40" relType="EVIDENTIAL" eventInstanceID="ei482" subordinatedEventInstance="ei483" />
+<SLINK lid="l41" relType="FACTIVE" eventInstanceID="ei483" subordinatedEventInstance="ei484" />
+<SLINK lid="l42" relType="FACTIVE" eventInstanceID="ei488" subordinatedEventInstance="ei487" />
+<SLINK lid="l47" relType="EVIDENTIAL" eventInstanceID="ei491" subordinatedEventInstance="ei492" />
+<SLINK lid="l48" relType="MODAL" eventInstanceID="ei492" subordinatedEventInstance="ei493" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei495" subordinatedEventInstance="ei496" />
+<SLINK lid="l50" relType="MODAL" eventInstanceID="ei496" subordinatedEventInstance="ei497" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei498" subordinatedEventInstance="ei499" />
+<SLINK lid="l53" relType="MODAL" eventInstanceID="ei501" subordinatedEventInstance="ei502" />
+<SLINK lid="l56" relType="EVIDENTIAL" eventInstanceID="ei508" subordinatedEventInstance="ei511" />
+<SLINK lid="l57" relType="FACTIVE" eventInstanceID="ei511" subordinatedEventInstance="ei512" />
+<SLINK lid="l58" relType="EVIDENTIAL" eventInstanceID="ei515" subordinatedEventInstance="ei516" />
+<SLINK lid="l59" relType="FACTIVE" eventInstanceID="ei516" subordinatedEventInstance="ei517" />
+<SLINK lid="l60" relType="EVIDENTIAL" eventInstanceID="ei518" subordinatedEventInstance="ei519" />
+<SLINK lid="l61" relType="EVIDENTIAL" eventInstanceID="ei521" subordinatedEventInstance="ei522" />
+<SLINK lid="l62" relType="MODAL" eventInstanceID="ei522" subordinatedEventInstance="ei523" />
+<SLINK lid="l63" relType="EVIDENTIAL" eventInstanceID="ei525" subordinatedEventInstance="ei526" />
+<SLINK lid="l67" relType="FACTIVE" eventInstanceID="ei532" subordinatedEventInstance="ei533" />
 
 </TimeML>

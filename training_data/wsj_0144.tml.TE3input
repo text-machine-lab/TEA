@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0144</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0047 = 891102 891102-0047.
 Travelers Profit Rose @ 11% in Third Quarter @ Despite Hugo Claims 11/02/89 WALL STREET JOURNAL (J) TIC EARNINGS (ERN) HARTFORD, Conn.
 </EXTRAINFO>
 
-<TEXT>Travelers Corp.'s third-quarter net income rose 11%, even though claims stemming from Hurricane Hugo reduced results $40 million.
+<TEXT>
+Travelers Corp.'s third-quarter net income rose 11%, even though claims stemming from Hurricane Hugo reduced results $40 million.
 
 Net advanced to $94.2 million, or 89 cents a share, from $85 million, or 83 cents a share, including net realized investment gains of $31 million, up from $10 million a year ago. But revenue declined to $3 billion from $3.2 billion.
 
@@ -20,6 +21,49 @@ The insurer's earnings from commercial property/casualty lines fell 59% in the l
 
 Travelers's employee benefits group, which includes its group health insurance operations, posted earnings of $24 million, compared with a loss of $3 million last year.
 
-In the first nine months, net was $306 million, compared with a loss of $195 million in the 1988 period. The year-ago results included a $415 million charge in the 1988 second quarter for underperforming real estate and mortgage loans.</TEXT>
+In the first nine months, net was $306 million, compared with a loss of $195 million in the 1988 period. The year-ago results included a $415 million charge in the 1988 second quarter for underperforming real estate and mortgage loans.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l35" relType="MODAL" eventInstanceID="ei2213" subordinatedEventInstance="ei2215" />
+<ALINK lid="l37" relType="INITIATES" eventInstanceID="ei2215" relatedToEventInstance="ei2216" />
 
 </TimeML>

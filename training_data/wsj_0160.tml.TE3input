@@ -1,19 +1,60 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0160</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0031 = 891102 891102-0031.
 Business Brief -- Savin Corp.: @ Office Products Firm Posts @ Net Loss for Third Quarter 11/02/89 WALL STREET JOURNAL (J) SVB EARNINGS (ERN)
 </EXTRAINFO>
 
-<TEXT>Savin Corp. reported a third-quarter net loss of $35.2 million, or 31 cents a share, compared with year-earlier profit of $3.8 million, or one cent a share.
+<TEXT>
+Savin Corp. reported a third-quarter net loss of $35.2 million, or 31 cents a share, compared with year-earlier profit of $3.8 million, or one cent a share.
 
-A spokesman for the Stamford, Conn.based company said operations had a loss of $5.5 million for the quarter; in addition, the loss was magnified by nonrecurring charges totaling $23.5 million and $8.2 million in asset-valuation adjustments that he described as 'unusual.' The charges were partly offset by a $2 million gain on the sale of investments of two joint ventures, he said.
+A spokesman for the Stamford, Conn.based company said operations had a loss of $5.5 million for the quarter; in addition, the loss was magnified by nonrecurring charges totaling $23.5 million and $8.2 million in asset-valuation adjustments that he described as "unusual." The charges were partly offset by a $2 million gain on the sale of investments of two joint ventures, he said.
 
-Revenue declined 8% to $85.7 million, from $93.3 million a year earlier. Savin cited 'a general softening in the demand for office products in the market segments in which Savin competes.'</TEXT>
+Revenue declined 8% to $85.7 million, from $93.3 million a year earlier. Savin cited "a general softening in the demand for office products in the market segments in which Savin competes."
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l24" relType="FACTIVE" eventInstanceID="ei154" subordinatedEventInstance="ei153" />
+<SLINK lid="l19" relType="EVIDENTIAL" eventInstanceID="ei148" subordinatedEventInstance="ei149" />
+<SLINK lid="l20" relType="EVIDENTIAL" eventInstanceID="ei148" subordinatedEventInstance="ei150" />
+<SLINK lid="l21" relType="EVIDENTIAL" eventInstanceID="ei151" subordinatedEventInstance="ei152" />
+<SLINK lid="l22" relType="EVIDENTIAL" eventInstanceID="ei158" subordinatedEventInstance="ei155" />
+<SLINK lid="l23" relType="EVIDENTIAL" eventInstanceID="ei161" subordinatedEventInstance="ei162" />
 
 </TimeML>

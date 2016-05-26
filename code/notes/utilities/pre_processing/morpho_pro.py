@@ -69,7 +69,7 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
         with open(dest_path,"wb") as f:
             f.write(morpho_output)
 
-    # print morpho_output
+    print morpho_output
 
     output = []
 
@@ -102,6 +102,9 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
             print
 
         for i, token in enumerate(sentence):
+
+            in_VP = False
+
             if verbose:
                 print
                 print i
@@ -109,12 +112,15 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
 
             token["chunked_morphologies_morpho"] = []
 
+            pos_tags = []
+
             if "B-" in token["chunk_morpho"]:
                 if verbose:
                     print "start of chunk"
                 # go right until we hit anything that is not "I-"
 
                 token["chunked_morphologies_morpho"].append(token["morphology_morpho"])
+                pos_tags.append(token["pos_morpho"])
 
                 for j, _token in enumerate(sentence[i+1:]):
                     if "I-" not in _token["chunk_morpho"]:
@@ -127,6 +133,13 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
 
                     # TODO: append to a list!
                     token["chunked_morphologies_morpho"].append(_token["morphology_morpho"])
+                    pos_tags.append(_token["pos_morpho"])
+
+                if token["chunk_morpho"] == "B-VP":
+                    if verbose:
+                        print "IN VP"
+                    in_VP = True
+
 
             elif "I-" in token["chunk_morpho"]:
                 if verbose:
@@ -142,8 +155,16 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
                         print
                     if "B-" in sentence[index]["chunk_morpho"]:
                         token["chunked_morphologies_morpho"].insert(0,sentence[index]["morphology_morpho"])
+                        pos_tags.insert(0,sentence[index]["pos_morpho"])
+                        if sentence[index]["chunk_morpho"] == "B-VP":
+                            in_VP = True
+                            if verbose:
+                                print "IN VP"
                         break
                     token["chunked_morphologies_morpho"].insert(0,sentence[index]["morphology_morpho"])
+                    pos_tags.insert(0,sentence[index]["pos_morpho"])
+                    if verbose:
+                        print "inserting pos: ", sentence[index]["pos_morpho"]
                     index -= 1
 
                 # go right until we don't hit an I-, will be either O or B-
@@ -158,11 +179,20 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
 
                     # TODO: append to a list!
                     token["chunked_morphologies_morpho"].append(_token["morphology_morpho"])
+                    pos_tags.append(_token["pos_morpho"])
+
+                    if verbose:
+                        print "append pos: ", _token["pos_morpho"]
 
             else:
 #                if verbose:
 #                    print "not important"
                 pass
+
+            if in_VP:
+                token["vp_pos_tags_morpho"] = pos_tags
+            else:
+                token["vp_pos_tags_morpho"] = ["NONE"]
 
             if verbose:
                 print

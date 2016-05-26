@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT19990312.0271</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-03-12T18:41">1999-03-12 18:41</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-03-12T18:41">1999-03-12 18:41</TIMEX3></DCT>
 
 <TITLE>NATO GROWS TO EMBRACE 3 FORMER ENEMIES</TITLE>
 
@@ -17,53 +17,55 @@ c.1999 N.Y. Times News Service
 </EXTRAINFO>
 
 
-<TEXT>INDEPENDENCE, Mo. _ The North Atlantic Treaty Organization embraced three of its former rivals, the Czech Republic, Hungary and Poland on Friday, formally ending the Soviet domination of those nations that began after World War II and opening a new path for the military alliance.
+<TEXT>
+
+INDEPENDENCE, Mo. _ The North Atlantic Treaty Organization embraced three of its former rivals, the Czech Republic, Hungary and Poland on Friday, formally ending the Soviet domination of those nations that began after World War II and opening a new path for the military alliance.
 
 In a ceremony tinged with the personal and the emotional at the Truman Presidential Library here, Secretary of State Madeleine Albright watched the foreign ministers of the three countries sign the documents of accession to the alliance, signed them herself and then held them aloft like a victory trophy.
 
 Albright, who was born in Prague and fled just after the Communist takeover in 1948, made no secret of her joy at her homeland and its neighbors joining the alliance after a six year trans-Atlantic diplomatic process led by the Clinton administration.
 
-''To quote an old Central European expression, `Hallelujah,''' she said.
+``To quote an old Central European expression, `Hallelujah,''' she said.
 
 In Poland, Hungary and the Czech Republic, the moment was marked by small-scale public celebrations. In Warsaw, Poland, after dark, as fireworks lit the sky, the Polish flag and the flag of NATO were raised side by side near the Tomb of the Unknown Soldier in Pilsudski Square
 
-In Hungary, NATO members' flags were raised outside the Defense Ministry. And in Prague, Czech Republic, President Vaclav Havel said in a statement, ''Never have we been part of such a broad, solid and binding security alliance which at the same time respects in its essence the sovereignty and will of our nation.''
+In Hungary, NATO members' flags were raised outside the Defense Ministry. And in Prague, Czech Republic, President Vaclav Havel said in a statement, ``Never have we been part of such a broad, solid and binding security alliance which at the same time respects in its essence the sovereignty and will of our nation.''
 
 The enlargement of NATO from 16 members to 19 has been one of the administration's foremost foreign policy goals, one that grew out of a desire, its proponents said, to cement the democratic gains made in the former Warsaw Pact countries after the collapse of communism 10 years ago.
 
 But the policy also faced critics, who argued that welcoming these three new countries would draw a new line across Europe and antagonize the Russians. As of Friday, the border between Western Europe and the former Soviet Union moved to the eastern border of Poland.
 
-In her speech, in the small auditorium where dignitaries from the three countries sat and the three foreign ministers flanked her on the stage, Albright countered that NATO would now do ''for Europe's East what NATO has already helped to do for Europe's West. Steadily and systematically, we will continue erasing _ without replacing _ the line drawn in Europe by Stalin's bloody boot.''
+In her speech, in the small auditorium where dignitaries from the three countries sat and the three foreign ministers flanked her on the stage, Albright countered that NATO would now do ``for Europe's East what NATO has already helped to do for Europe's West. Steadily and systematically, we will continue erasing _ without replacing _ the line drawn in Europe by Stalin's bloody boot.''
 
 Albright also used her speech to articulate a forward-looking vision for NATO, which will celebrate its 50th anniversary in Washington next month, and to defend NATO's potential involvement in Kosovo.
 
-In the aftermath of the Cold War, she said, NATO must be ready to face ''an aggressive regime, a rampaging faction, or a terrorist group. And we know that if, past is prologue, we face a future in which weapons will be more destructive at longer distances than ever before.''
+In the aftermath of the Cold War, she said, NATO must be ready to face ``an aggressive regime, a rampaging faction, or a terrorist group. And we know that if, past is prologue, we face a future in which weapons will be more destructive at longer distances than ever before.''
 
-The NATO summit, she said, would produce an initiative that ''responds to the grave threat posed by weapons of mass destruction and their means of delivery.''
+The NATO summit, she said, would produce an initiative that ``responds to the grave threat posed by weapons of mass destruction and their means of delivery.''
 
 In Kosovo, where the Yugoslav leader, Slobodan Milosevic, is resisting the deployment of NATO-led troops, including 4,000 U.S. soldiers, Albright insisted that NATO was the best tool to enforce a peace settlement.
 
-''We must be clear in explaining that a settlement without NATO-led enforcement is not acceptable because only NATO has the credibility and capability to make it work,'' she said. ''And we must be resolute in spelling out the consequences of intransigence,'' she added, referring to the threat of NATO air strikes against Milosevic if he does not agree to the deployment.
+``We must be clear in explaining that a settlement without NATO-led enforcement is not acceptable because only NATO has the credibility and capability to make it work,'' she said. ``And we must be resolute in spelling out the consequences of intransigence,'' she added, referring to the threat of NATO air strikes against Milosevic if he does not agree to the deployment.
 
 But in many ways, the day belonged to the Czech Republic, Hungary and Poland, who in order to meet NATO's standards have had to cut the size of their Soviet-style militaries, organize civilian control of their armies and agree to buy NATO compatible equipment in the coming years.
 
 It was the spiritual homecoming to the West that all three foreign ministers stressed.
 
-''Poland forever returns where she has always belonged _ the free world,'' said Bronislaw Geremek, the foreign minister of Poland, who was a dissident during the Communist era.
+``Poland forever returns where she has always belonged _ the free world,'' said Bronislaw Geremek, the foreign minister of Poland, who was a dissident during the Communist era.
 
-Geremek said he had brought some appropriate mementoes from Poland to the Truman library, including a campaign poster from 1989 when the anti-communist Solidarity forces won against the Communists. The poster showed a picture of Gary Cooper from the film ''High Noon.''
+Geremek said he had brought some appropriate mementoes from Poland to the Truman library, including a campaign poster from 1989 when the anti-communist Solidarity forces won against the Communists. The poster showed a picture of Gary Cooper from the film ``High Noon.''
 
-''It helped us to win,'' Geremek said. ''For the people of Poland, high noon comes today.''
+``It helped us to win,'' Geremek said. ``For the people of Poland, high noon comes today.''
 
 The Czech foreign minister, Jan Kavan, who lived in London from 1968, when the Soviets invaded Czechoslovakia, until 1989, said he had remained buoyant during his opposition work as an emigre by believing that communism would eventually fall. But he never dreamed, he said, that his country would become a member of NATO.
 
-''Accession to NATO is a guarantee that we will never again become powerless victims of any foreign aggression,'' Kavan said.
+``Accession to NATO is a guarantee that we will never again become powerless victims of any foreign aggression,'' Kavan said.
 
-Similarly, the Hungarian foreign minister, Janos Martonyi, who remembers the 1956 uprising as a 13-year-old, said that membership of NATO meant that Hungary was returning ''to her natural habitat.''
+Similarly, the Hungarian foreign minister, Janos Martonyi, who remembers the 1956 uprising as a 13-year-old, said that membership of NATO meant that Hungary was returning ``to her natural habitat.''
 
-''It has been our manifest destiny to rejoin those with whom we share the same values, interests and goals,'' he said.
+``It has been our manifest destiny to rejoin those with whom we share the same values, interests and goals,'' he said.
 
-But Martonyi also emphasized that Hungary understood NATO membership carried with it obligations as well as privileges. ''We shall prove that new members can indeed add to the weight of the alliance,'' he said.
+But Martonyi also emphasized that Hungary understood NATO membership carried with it obligations as well as privileges. ``We shall prove that new members can indeed add to the weight of the alliance,'' he said.
 
 The location for Friday's ceremony was chosen by Albright, who as secretary of state is the depository of NATO's accession accords.
 
@@ -79,17 +81,19 @@ These conversations are remembered by Clinton's foreign policy team because they
 
 Their message was that NATO should be used as the mechanism to secure the democratic progress of their countries and at the same dissuade Russia from any more imperial designs.
 
-The U.S. ambassador to Poland, Dan Fried, who was then on the National Security Council, said Friday that he remembered being asked to help ''turn this pious wish into a policy.''
+The U.S. ambassador to Poland, Dan Fried, who was then on the National Security Council, said Friday that he remembered being asked to help ``turn this pious wish into a policy.''
 
 In July 1997, at a summit in Madrid, Spain, the alliance announced it would accept Poland, Hungary and the Czech Republic. Romania and Slovenia, which had tried hard to meet the standards, were turned away, at least for the time being.
 
 One problem was how to deal with the Russians, who vacillated between outright hostility and accepting what looked like the inevitable. In early 1997, President Boris Yeltsin told President Clinton he could live with NATO expansion. But in order to accommodate the Russians, NATO created the NATO-Russia Council as a consultative body that formalized relations between Moscow and the alliance.
 
-Poland has been sensitive to the reactions of Russia to its membership of NATO, and Geremek has gone out of his way to reassure the Russians. ''We want our membership of NATO to serve as a `catalyst' for Polish Russian co-operation,'' he said last year.
+Poland has been sensitive to the reactions of Russia to its membership of NATO, and Geremek has gone out of his way to reassure the Russians. ``We want our membership of NATO to serve as a `catalyst' for Polish Russian co-operation,'' he said last year.
 
 Even so, on the secretary of state's plane carrying Albright and the three foreign ministers to the ceremony Friday, the ministers were asked whether they could ever foresee Russia as a member of NATO.
 
-There was a long pause among the three ministers. Then Martonyi replied: ''Silence is your answer.''</TEXT>
+There was a long pause among the three ministers. Then Martonyi replied: ``Silence is your answer.''
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -97,4 +101,487 @@ There was a long pause among the three ministers. Then Martonyi replied: ''Silen
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l6" eventInstanceID="ei8" subordinatedEventInstance="ei9" relType="EVIDENTIAL"/>
+<SLINK lid="l7" eventInstanceID="ei29" subordinatedEventInstance="ei30" relType="MODAL"/>
+<SLINK lid="l8" eventInstanceID="ei29" subordinatedEventInstance="ei31" relType="MODAL"/>
+<SLINK lid="l9" eventInstanceID="ei35" subordinatedEventInstance="ei37" relType="MODAL"/>
+<SLINK lid="l10" eventInstanceID="ei37" subordinatedEventInstance="ei39" relType="FACTIVE"/>
+<SLINK lid="l11" eventInstanceID="ei41" subordinatedEventInstance="ei42" relType="MODAL"/>
+<SLINK lid="l12" eventInstanceID="ei49" subordinatedEventInstance="ei50" relType="MODAL"/>
+<SLINK lid="l13" eventInstanceID="ei51" subordinatedEventInstance="ei52" relType="MODAL"/>
+<SLINK lid="l14" eventInstanceID="ei59" subordinatedEventInstance="ei60" relType="FACTIVE"/>
+<SLINK lid="l15" eventInstanceID="ei63" subordinatedEventInstance="ei64" relType="FACTIVE"/>
+<SLINK lid="l16" eventInstanceID="ei67" subordinatedEventInstance="ei68" relType="MODAL"/>
+<SLINK lid="l17" eventInstanceID="ei75" subordinatedEventInstance="ei76" relType="MODAL"/>
+<SLINK lid="l18" eventInstanceID="ei79" subordinatedEventInstance="ei80" relType="MODAL"/>
+<SLINK lid="l19" eventInstanceID="ei83" subordinatedEventInstance="ei84" relType="MODAL"/>
+<SLINK lid="l20" eventInstanceID="ei86" subordinatedEventInstance="ei87" relType="EVIDENTIAL"/>
+<SLINK lid="l21" eventInstanceID="ei91" subordinatedEventInstance="ei92" relType="MODAL"/>
+<SLINK lid="l22" eventInstanceID="ei97" subordinatedEventInstance="ei98" relType="EVIDENTIAL"/>
+<SLINK lid="l23" eventInstanceID="ei100" subordinatedEventInstance="ei101" relType="EVIDENTIAL"/>
+<SLINK lid="l24" eventInstanceID="ei102" subordinatedEventInstance="ei103" relType="MODAL"/>
+<SLINK lid="l25" eventInstanceID="ei110" subordinatedEventInstance="ei108" relType="MODAL"/>
+<SLINK lid="l26" eventInstanceID="ei110" subordinatedEventInstance="ei109" relType="MODAL"/>
+<SLINK lid="l27" eventInstanceID="ei110" subordinatedEventInstance="ei111" relType="MODAL"/>
+<SLINK lid="l28" eventInstanceID="ei111" subordinatedEventInstance="ei112" relType="MODAL"/>
+<SLINK lid="l29" eventInstanceID="ei120" subordinatedEventInstance="ei121" relType="EVIDENTIAL"/>
+<SLINK lid="l30" eventInstanceID="ei124" subordinatedEventInstance="ei125" relType="MODAL"/>
+<SLINK lid="l31" eventInstanceID="ei129" subordinatedEventInstance="ei130" relType="EVIDENTIAL"/>
+<SLINK lid="l32" eventInstanceID="ei135" subordinatedEventInstance="ei134" relType="EVIDENTIAL"/>
+<SLINK lid="l33" eventInstanceID="ei142" subordinatedEventInstance="ei143" relType="FACTIVE"/>
+<SLINK lid="l34" eventInstanceID="ei144" subordinatedEventInstance="ei145" relType="EVIDENTIAL"/>
+<SLINK lid="l35" eventInstanceID="ei151" subordinatedEventInstance="ei152" relType="EVIDENTIAL"/>
+<SLINK lid="l36" eventInstanceID="ei162" subordinatedEventInstance="ei164" relType="MODAL"/>
+<SLINK lid="l37" eventInstanceID="ei170" subordinatedEventInstance="ei171" relType="MODAL"/>
+<SLINK lid="l38" eventInstanceID="ei181" subordinatedEventInstance="ei180" relType="FACTIVE"/>
+<SLINK lid="l39" eventInstanceID="ei224" subordinatedEventInstance="ei186" relType="EVIDENTIAL"/>
+<SLINK lid="l40" eventInstanceID="ei186" subordinatedEventInstance="ei187" relType="MODAL"/>
+<SLINK lid="l41" eventInstanceID="ei186" subordinatedEventInstance="ei188" relType="MODAL"/>
+<SLINK lid="l226" eventInstanceID="ei189" subordinatedEventInstance="ei191" relType="FACTIVE"/>
+<SLINK lid="l227" eventInstanceID="ei191" subordinatedEventInstance="ei192" relType="EVIDENTIAL"/>
+<SLINK lid="l228" eventInstanceID="ei192" subordinatedEventInstance="ei193" relType="MODAL"/>
+<SLINK lid="l229" eventInstanceID="ei193" subordinatedEventInstance="ei194" relType="MODAL"/>
+<SLINK lid="l236" eventInstanceID="ei196" subordinatedEventInstance="ei197" relType="EVIDENTIAL"/>
+<SLINK lid="l241" eventInstanceID="ei198" subordinatedEventInstance="ei199" relType="MODAL"/>
+<SLINK lid="l245" eventInstanceID="ei205" subordinatedEventInstance="ei206" relType="EVIDENTIAL"/>
+<SLINK lid="l246" eventInstanceID="ei206" subordinatedEventInstance="ei207" relType="MODAL"/>
+<SLINK lid="l255" eventInstanceID="ei212" subordinatedEventInstance="ei213" relType="MODAL"/>
+<SLINK lid="l258" eventInstanceID="ei214" subordinatedEventInstance="ei215" relType="MODAL"/>
+<SLINK lid="l262" eventInstanceID="ei218" subordinatedEventInstance="ei219" relType="MODAL"/>
+<ALINK lid="l1" eventInstanceID="ei2" relatedToEventInstance="ei3" relType="TERMINATES"/>
+<ALINK lid="l2" eventInstanceID="ei4" relatedToEventInstance="ei3" relType="INITIATES"/>
+<ALINK lid="l3" eventInstanceID="ei53" relatedToEventInstance="ei54" relType="CONTINUES"/>
+<ALINK lid="l4" eventInstanceID="ei53" relatedToEventInstance="ei55" relType="CONTINUES"/>
+<ALINK lid="l5" eventInstanceID="ei176" relatedToEventInstance="ei177" relType="INITIATES"/>
 </TimeML>
+
+
+

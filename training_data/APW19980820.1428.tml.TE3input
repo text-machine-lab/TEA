@@ -3,22 +3,18 @@
 
 <DOCID>APW19980820.1428</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-20" temporalFunction="false" functionInDocument="CREATION_TIME">1998-08-20</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-20">1998-08-20</TIMEX3></DCT>
 
 <TITLE>New Zealand expresses understanding over U.S. missile attacks</TITLE>
 
 
 <EXTRAINFO>
-APW19980820.1428 
- NEWS STORY 
- 08/20/1998 22:52:00
+APW19980820.1428  NEWS STORY  08/20/1998 22:52:00
 w2161 &amp;Cx1f; wstm-
 u i &amp;Cx13;  &amp;Cx11;  BC-NewZealand-US-Bombing     08-20 0203
 BC-New Zealand-US-Bombings
 New Zealand expresses understanding over U.S. missile attacks
 </EXTRAINFO>
-
-
 
 
 <TEXT>
@@ -38,9 +34,79 @@ The embassy bombings, on Aug. 7, killed 247 people in Kenya and 10 in Tanzania. 
 McKinnon's spokeswoman said the United States had ``very good intelligence'' linking the sites struck overnight with the embassy attacks.
 
 </TEXT>
+
+
 <EXTRAINFO>
 (PROFILE (WS SL:BC-New Zealand-US-Bombings; CT:i; (REG:EURO;) (REG:BRIT;) (REG:SCAN;) (REG:MEST;) (REG:AFRI;) (REG:INDI;) (REG:ENGL;) (LANG:ENGLISH;)) )
 AP-NY-08-20-98 2252EDT
 </EXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+
 

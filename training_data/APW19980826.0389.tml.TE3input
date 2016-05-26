@@ -1,17 +1,15 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980826.0389</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-26">1998-08-26</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-26">1998-08-26</TIMEX3></DCT>
 
 <TITLE>Bomb-interrupted talks concluded; Tanzania toll rises to 12</TITLE>
 
 
 <EXTRAINFO>
-APW19980826.0389 
- NEWS STORY 
- 08/26/1998 07:37:00
+APW19980826.0389  NEWS STORY  08/26/1998 07:37:00
 w1676 &amp;Cx1f; wstm-
 r i &amp;Cx13;  &amp;Cx11;  BC-Kenya-EmbassyBombings     08-26 0266
 BC-Kenya-Embassy Bombings
@@ -19,7 +17,9 @@ Bomb-interrupted talks concluded; Tanzania toll rises to 12
 </EXTRAINFO>
 
 
-<TEXT>NAIROBI, Kenya (AP) _
+<TEXT>
+
+NAIROBI, Kenya (AP) _
 
 U.S. Ambassador Prudence Bushnell wrapped up some unfinished business on Wednesday, meeting with Kenya's trade minister to finish talks that were interrupted by the car bombing of the embassy.
 
@@ -35,7 +35,9 @@ Kimotho, who was hospitalized with a head wound, said he and Bushnell had been t
 
 The blast in Nairobi occurred at almost exactly the same moment as an explosion ripped through the American Embassy in Tanzania's commercial capital Dar es Salaam.
 
-The death toll in the Tanzania blast, initially 10, has risen to 12, hospital officials and family members said Wednesday. That brought the toll for both bombings to 259.</TEXT>
+The death toll in the Tanzania blast, initially 10, has risen to 12, hospital officials and family members said Wednesday. That brought the toll for both bombings to 259.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -45,4 +47,98 @@ AP-NY-08-26-98 0737EDT
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l9" relType="MODAL" eventInstanceID="ei2" subordinatedEventInstance="ei30" syntax="USER"/>
+<SLINK lid="l14" relType="MODAL" eventInstanceID="ei4" subordinatedEventInstance="ei32" syntax="USER"/>
+<ALINK lid="l26" relType="CULMINATES" eventInstanceID="ei10" relatedToEventInstance="ei33" syntax="USER"/>
+
+
+
+
+
 </TimeML>
+
+

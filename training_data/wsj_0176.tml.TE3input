@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0176</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0014 = 891102 891102-0014.
 Xerox Will Lay Off 300 @ At Personal Insurance Unit 11/02/89 WALL STREET JOURNAL (J) XRX
 </EXTRAINFO>
 
-<TEXT>Xerox Corp. has told employees in its Crum amp Forster personal insurance operations that it is laying off about 300 people, or 25% of the staff.
+<TEXT>
+Xerox Corp. has told employees in its Crum amp Forster personal insurance operations that it is laying off about 300 people, or 25% of the staff.
 
 A spokeswoman for Crum amp Forster said employees were told early this week that numerous staff functions for the personal insurance lines were going to be centralized as a cost-cutting move.
 
@@ -18,6 +19,36 @@ She said the move would result in a after-tax charge of less than $4 million to 
 
 Earnings at Xerox's financial-services operations actually rose slightly, but that was largely because capital gains at Crum amp Forster offset Hurricane Hugo payments and the reserves set up to cover future payments.
 
-Property/casualty insurance has been a tough business in recent quarters, as pricing has been cutthroat and natural disasters such as Hurricane Hugo and the California earthquake have resulted in huge payments.</TEXT>
+Property/casualty insurance has been a tough business in recent quarters, as pricing has been cutthroat and natural disasters such as Hurricane Hugo and the California earthquake have resulted in huge payments.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l19" relType="EVIDENTIAL" eventInstanceID="ei134" subordinatedEventInstance="ei136" />
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei137" subordinatedEventInstance="ei139" />
+<SLINK lid="l17" relType="EVIDENTIAL" eventInstanceID="ei133" subordinatedEventInstance="ei134" />
+<SLINK lid="l18" relType="EVIDENTIAL" eventInstanceID="ei131" subordinatedEventInstance="ei132" />
 
 </TimeML>

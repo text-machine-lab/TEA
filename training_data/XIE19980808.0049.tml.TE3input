@@ -1,27 +1,28 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19980808.0049</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-08">1998-08-08</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-08">1998-08-08</TIMEX3></DCT>
 
 <TITLE>Clinton Vows to Hunt Down Embassy Bombers</TITLE>
 
 
 <EXTRAINFO>
-XIE19980808.0049 
- 1998-08-08
+XIE19980808.0049  1998-08-08
 Clinton Vows to Hunt Down Embassy Bombers
 </EXTRAINFO>
 
 
-<TEXT>WASHINGTON, August 8 (Xinhua) --
+<TEXT>
+
+WASHINGTON, August 8 (Xinhua) --
 
 President Bill Clinton Saturday vowed to hunt down and bring to justice those who were responsible for the bombings of two U.S. embassies in Kenya and Tanzania.
 
-'No matter how long it takes or where it takes us, we will pursue terrorists until the cases are solved and justice is done,' Clinton said in his weekly radio address.
+"No matter how long it takes or where it takes us, we will pursue terrorists until the cases are solved and justice is done," Clinton said in his weekly radio address.
 
-'To turn our backs on those taking risks for peace, to weaken our opposition to terrorism -- that would give terrorism a victory it must not and will not have,' the president said.
+"To turn our backs on those taking risks for peace, to weaken our opposition to terrorism -- that would give terrorism a victory it must not and will not have," the president said.
 
 The Friday explosions at U.S. embassies in Nairobi, Kenya, and Dar-es-Salaam, Tanzania, killed at least 110 people, and the number injured topped 2,200. The 11 Americans were killed in Kenya, along with five Kenyan employees at the embassy.
 
@@ -31,11 +32,87 @@ Aircraft have taken off from the United States, Europe and elsewhere in Africa b
 
 A 62-member rescue team, previously sent to the bombed-out federal building in Oklahoma City, Okla., was en route to Nairobi.
 
-U.S. embassies and military installations around the world were ordered to set up barriers and tighten security systems to prevent easy access by unauthorized people -- Americans and foreigners.</TEXT>
+U.S. embassies and military installations around the world were ordered to set up barriers and tighten security systems to prevent easy access by unauthorized people -- Americans and foreigners.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l4" relType="MODAL" eventInstanceID="ei23" subordinatedEventInstance="ei40" syntax="USER"/>
+<SLINK lid="l5" relType="MODAL" eventInstanceID="ei1" subordinatedEventInstance="ei40" syntax="USER"/>
+<SLINK lid="l35" relType="MODAL" eventInstanceID="ei19" subordinatedEventInstance="ei20" syntax="USER"/>
+<SLINK lid="l37" relType="MODAL" eventInstanceID="ei19" subordinatedEventInstance="ei21" syntax="USER"/>
+
+
+
+
+
+
+
+
 </TimeML>
+
+

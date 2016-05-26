@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0584</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0115 = 891030 891030-0115.
 BellSouth, LIN @ Sweeten Plan @ To Merge Lines @ --- @ Accord Involves Huge Debt @ And May Fail to Thwart @ Rival Suitor McCaw @ ---- @ By Julie Amparano Lopez @ Staff Reporter of The Wall Street Journal 10/30/89 WALL STREET JOURNAL (J) BLS LINB MCAWA TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) TELEPHONE SYSTEMS (TLS) MEDIA, PUBLISHING, BROADCASTING, ELECTRONIC PUBLISHING (MED)
 </EXTRAINFO>
 
-<TEXT>The bolstered cellular agreement between BellSouth Corp. and LIN Broadcasting Corp. carries heightened risks and could fail to fend off McCaw Cellular Communications Inc., the rival suitor for LIN.
+<TEXT>
+The bolstered cellular agreement between BellSouth Corp. and LIN Broadcasting Corp. carries heightened risks and could fail to fend off McCaw Cellular Communications Inc., the rival suitor for LIN.
 
 Moreover, the amended pact shows how McCaw's persistence has pushed LIN and BellSouth into a corner, forcing huge debt on the proposed new company. The debt, estimated at $4.7 billion, could mortgage the cellular company's future earning power in order to placate some LIN holders in the short term.
 
@@ -18,23 +19,23 @@ The plan still calls for LIN to combine its cellular telephone properties with B
 
 In addition, New York-based LIN would exercise its right to buy out for $1.9 billion the 55% equity interest of its partner, Metromedia Co., in a New York cellular franchise. That money also would have to be borrowed. In effect, McCaw has forced LIN's hand by bidding $1.9 billion for the stake earlier this month.
 
-'We're taking on more debt than we would have liked to,' acknowledged Michael Plouf, LIN's vice president and treasurer. Although he expressed confidence that the proposed new company's cash flow would be sufficient to cover interest payments on the debt, he estimated that the company wouldn't be profitable until 1994 or later.
+"We're taking on more debt than we would have liked to," acknowledged Michael Plouf, LIN's vice president and treasurer. Although he expressed confidence that the proposed new company's cash flow would be sufficient to cover interest payments on the debt, he estimated that the company wouldn't be profitable until 1994 or later.
 
 Analyst estimate the value of the BellSouth proposal at about $115 to $125 a share. They value McCaw's bid at $112 to $118 a share. The previous BellSouth pact was valued at about $98 to $110 a share.
 
 McCaw, the largest provider of cellular telephone service in the U.S., already owns about 9.4% of LIN's stock. In response to BellSouth's amended pact, the Kirkland, Wash., company extended its own offer to buy 22 million LIN shares for $125 apiece, which would give McCaw a 50.3% controlling interest. Over the weekend, McCaw continued to call for an auction of LIN. Analysts said they expect McCaw to escalate the bidding again.
 
-'This game isn't over yet, ' said Joel D. Gross, a vice president at Donaldson, Lufkin amp Jenrette Securities Corp. 'At some point, it will become non-economical for one company. But I don't think we're at that point yet.'
+"This game isn't over yet, " said Joel D. Gross, a vice president at Donaldson, Lufkin amp Jenrette Securities Corp. "At some point, it will become non-economical for one company. But I don't think we're at that point yet."
 
-Under its revised proposal, Atlanta-based BellSouth would have a 50% interest in the new cellular company and would be responsible for half of its debt. To sweeten the pact further -- and to ease concerns of institutional investors -- BellSouth added a provision designed to give extra protection to holders if the regional Bell company ever decides to buy the rest of the new cellular company. The provision, described as 'back-end' protection, would require BellSouth to pay a price equivalent to what an outside party might have to pay.
+Under its revised proposal, Atlanta-based BellSouth would have a 50% interest in the new cellular company and would be responsible for half of its debt. To sweeten the pact further -- and to ease concerns of institutional investors -- BellSouth added a provision designed to give extra protection to holders if the regional Bell company ever decides to buy the rest of the new cellular company. The provision, described as "back-end" protection, would require BellSouth to pay a price equivalent to what an outside party might have to pay.
 
 McCaw's bid also has a similar clause. Only McCaw's proposal requires the company to begin an auction process in June 1994 for remaining shares at third-party prices.
 
 To mollify shareholders concerned about the long-term value of the company under the BellSouth-LIN agreement, BellSouth also agreed to pay as much as $10 a share, or $540 million, if, after five years, the trading value of the new cellular company isn't as high as the value that shareholders would have realized from the McCaw offer.
 
-'We're very pleased with the new deal. We didn't expect BellSouth to be so responsive,' said Frederick A. Moran, president of Moran Asset Management Inc., which holds 500,000 LIN shares. BellSouth's 'back-end protection was flawed previously. We think this is a superior deal to McCaw's. We're surprised. We didn't think a sleeping {Bell} mentality would be willing to take on dilution.'
+"We're very pleased with the new deal. We didn't expect BellSouth to be so responsive," said Frederick A. Moran, president of Moran Asset Management Inc., which holds 500,000 LIN shares. BellSouth's "back-end protection was flawed previously. We think this is a superior deal to McCaw's. We're surprised. We didn't think a sleeping {Bell} mentality would be willing to take on dilution."
 
-But Kenneth Leon, a telecommunications analyst with Bear, Stearns amp Co., finds the BellSouth proposal still flawed because the company doesn't have to wait five years to begin buying more LIN shares. 'How many shares will be around in 1995?' he asked. 'There's nothing preventing BellSouth from buying up shares in the meanwhile.'
+But Kenneth Leon, a telecommunications analyst with Bear, Stearns amp Co., finds the BellSouth proposal still flawed because the company doesn't have to wait five years to begin buying more LIN shares. "How many shares will be around in 1995?" he asked. "There's nothing preventing BellSouth from buying up shares in the meanwhile."
 
 BellSouth's revised proposal surprised many industry analysts, especially because of the company's willingness to accept some dilution of future earnings. William O. McCoy, president of the company's BellSouth Enterprises Inc. unit, said the revised agreement with LIN would dilute BellSouth earnings by about 9% in both 1990 and 1991 and by significantly less thereafter. Indeed, BellSouth's cellular operations were among the first in the country to become profitable.
 
@@ -48,6 +49,220 @@ The proposed BellSouth-LIN cellular company, including the newly acquired Metrom
 
 Mr. Leon of Bear Stearns speculated that McCaw, in an attempt to buy time, might consider filing an antitrust suit against BellSouth with the Justice Department and U.S. District Judge Harold Greene, who oversees enforcement of the consent decree that broke up the Bell system in 1984.
 
-Indeed, McCaw seemed to hint at that option in a brief statement. Urging LIN directors to conduct 'a fair auction on a level playing field,' McCaw asked how well the public interest would be served 'with the Bell operating companies controlling over 94% of all cellular {potential customers} in the nation's top 10 markets.'</TEXT>
+Indeed, McCaw seemed to hint at that option in a brief statement. Urging LIN directors to conduct "a fair auction on a level playing field," McCaw asked how well the public interest would be served "with the Bell operating companies controlling over 94% of all cellular {potential customers} in the nation's top 10 markets."
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l155" relType="FACTIVE" eventInstanceID="ei2673" subordinatedEventInstance="ei2672" />
+<SLINK lid="l95" relType="CONDITIONAL" eventInstanceID="ei2646" subordinatedEventInstance="ei2644"  />
+<SLINK lid="l97" relType="COUNTER_FACTIVE" eventInstanceID="ei2575" subordinatedEventInstance="ei2576" />
+<SLINK lid="l98" relType="MODAL" eventInstanceID="ei2582" subordinatedEventInstance="ei2583" />
+<SLINK lid="l99" relType="MODAL" eventInstanceID="ei2584" subordinatedEventInstance="ei2585" />
+<SLINK lid="l100" relType="MODAL" eventInstanceID="ei2584" subordinatedEventInstance="ei2586" />
+<SLINK lid="l103" relType="EVIDENTIAL" eventInstanceID="ei2592" subordinatedEventInstance="ei2593" />
+<SLINK lid="l104" relType="MODAL" eventInstanceID="ei2593" subordinatedEventInstance="ei2594" />
+<SLINK lid="l105" relType="MODAL" eventInstanceID="ei2594" subordinatedEventInstance="ei2595" />
+<SLINK lid="l106" relType="FACTIVE" eventInstanceID="ei2597" subordinatedEventInstance="ei2596" />
+<SLINK lid="l108" relType="MODAL" eventInstanceID="ei2599" subordinatedEventInstance="ei2600" />
+<SLINK lid="l109" relType="EVIDENTIAL" eventInstanceID="ei2607" subordinatedEventInstance="ei2605" />
+<SLINK lid="l112" relType="MODAL" eventInstanceID="ei2610" subordinatedEventInstance="ei2611" />
+<SLINK lid="l113" relType="MODAL" eventInstanceID="ei2612" subordinatedEventInstance="ei2613" />
+<SLINK lid="l115" relType="FACTIVE" eventInstanceID="ei2621" subordinatedEventInstance="ei2622" />
+<SLINK lid="l116" relType="MODAL" eventInstanceID="ei2622" subordinatedEventInstance="ei2623" />
+<SLINK lid="l117" relType="MODAL" eventInstanceID="ei2621" subordinatedEventInstance="ei2623" />
+<SLINK lid="l118" relType="EVIDENTIAL" eventInstanceID="ei2627" subordinatedEventInstance="ei2628" />
+<SLINK lid="l119" relType="MODAL" eventInstanceID="ei2628" subordinatedEventInstance="ei2629" />
+<SLINK lid="l121" relType="EVIDENTIAL" eventInstanceID="ei2631" subordinatedEventInstance="ei2632" />
+<SLINK lid="l122" relType="EVIDENTIAL" eventInstanceID="ei2631" subordinatedEventInstance="ei2634" />
+<SLINK lid="l123" relType="EVIDENTIAL" eventInstanceID="ei2643" subordinatedEventInstance="ei2640" />
+<SLINK lid="l124" relType="EVIDENTIAL" eventInstanceID="ei2643" subordinatedEventInstance="ei2641" />
+<SLINK lid="l126" relType="EVIDENTIAL" eventInstanceID="ei2643" subordinatedEventInstance="ei2644" />
+<SLINK lid="l127" relType="MODAL" eventInstanceID="ei2646" subordinatedEventInstance="ei2647" />
+<SLINK lid="l128" relType="MODAL" eventInstanceID="ei2648" subordinatedEventInstance="ei2649" />
+<SLINK lid="l129" relType="MODAL" eventInstanceID="ei2650" subordinatedEventInstance="ei2651" />
+<SLINK lid="l130" relType="MODAL" eventInstanceID="ei2657" subordinatedEventInstance="ei2658" />
+<SLINK lid="l131" relType="MODAL" eventInstanceID="ei2657" subordinatedEventInstance="ei2653" />
+<SLINK lid="l133" relType="EVIDENTIAL" eventInstanceID="ei2664" subordinatedEventInstance="ei2660" />
+<SLINK lid="l135" relType="EVIDENTIAL" eventInstanceID="ei2664" subordinatedEventInstance="ei2662" />
+<SLINK lid="l136" relType="MODAL" eventInstanceID="ei2662" subordinatedEventInstance="ei2663" />
+<SLINK lid="l137" relType="EVIDENTIAL" eventInstanceID="ei2664" subordinatedEventInstance="ei2665" />
+<SLINK lid="l139" relType="MODAL" eventInstanceID="ei2667" subordinatedEventInstance="ei2668" />
+<SLINK lid="l140" relType="MODAL" eventInstanceID="ei2668" subordinatedEventInstance="ei2669" />
+<SLINK lid="l141" relType="MODAL" eventInstanceID="ei2670" subordinatedEventInstance="ei2671" />
+<SLINK lid="l144" relType="EVIDENTIAL" eventInstanceID="ei2677" subordinatedEventInstance="ei2679" />
+<SLINK lid="l146" relType="MODAL" eventInstanceID="ei2693" subordinatedEventInstance="ei2696" />
+<SLINK lid="l147" relType="MODAL" eventInstanceID="ei2696" subordinatedEventInstance="ei2697" />
+<SLINK lid="l148" relType="MODAL" eventInstanceID="ei2694" subordinatedEventInstance="ei2695" />
+<SLINK lid="l149" relType="MODAL" eventInstanceID="ei2699" subordinatedEventInstance="ei2700" />
+<ALINK lid="l151" relType="CONTINUES" eventInstanceID="ei2625" relatedToEventInstance="ei2626" />
+<ALINK lid="l152" relType="INITIATES" eventInstanceID="ei2651" relatedToEventInstance="ei2652" />
 
 </TimeML>

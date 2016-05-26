@@ -1,3 +1,0 @@
-Using ./ as path to find participations to evaluate.
-
->>>> Processing ./systems/news-annotated-output/

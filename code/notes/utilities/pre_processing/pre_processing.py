@@ -25,6 +25,10 @@ def pre_process(text, filename):
 
     naf_tagged_doc = pre_processor.pre_process(text)
 
+    print "NAF TAGGED DOC: "
+    print naf_tagged_doc
+    print
+
     tokens,     tokens_to_offset,\
     pos_tags,   token_lemmas,\
     ner_tags,   constituency_trees,\
@@ -205,7 +209,7 @@ def pre_process(text, filename):
             tok.update({"ne_chunk":"NULL"})
 
         if "coref_chain" not in tok:
-            tok.update({"coref_chain":"None"})
+            tok.update({"coref_chain":None})
 
         if tok["id"] in tok_id_to_predicate_info:
             semantic_roles = tok_id_to_predicate_info[tok["id"]]["semantic_role"]

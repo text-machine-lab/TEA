@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0313</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891101-0051 = 891101 891101-0051.
 Business Brief -- Murphy Oil Corp.: @ Ocean Drilling Unit to Sell @ Contract-Drilling Operation 11/01/89 WALL STREET JOURNAL (J) ODR MUR TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) EARNINGS (ERN)
 </EXTRAINFO>
 
-<TEXT>Ocean Drilling amp Exploration Co. will sell its contract-drilling business, and took a $50.9 million loss from discontinued operations in the third quarter because of the planned sale.
+<TEXT>
+Ocean Drilling amp Exploration Co. will sell its contract-drilling business, and took a $50.9 million loss from discontinued operations in the third quarter because of the planned sale.
 
 The New Orleans oil and gas exploration and diving operations company added that it doesn't expect any further adverse financial impact from the restructuring.
 
@@ -18,6 +19,56 @@ In the third quarter, the company, which is 61%-owned by Murphy Oil Corp. of Ark
 
 Ocean Drilling said it will offer 15% to 20% of the contract-drilling business through an initial public offering in the near future. It has long been rumored that Ocean Drilling would sell the unit to concentrate on its core oil and gas business.
 
-Ocean Drilling said it won't hold any shares of the new company after the restructuring.</TEXT>
+Ocean Drilling said it won't hold any shares of the new company after the restructuring.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei229" subordinatedEventInstance="ei230" />
+<SLINK lid="l30" relType="EVIDENTIAL" eventInstanceID="ei242" subordinatedEventInstance="ei243" />
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei245" subordinatedEventInstance="ei246" />
+<SLINK lid="l32" relType="MODAL" eventInstanceID="ei246" subordinatedEventInstance="ei247" />
+<SLINK lid="l33" relType="EVIDENTIAL" eventInstanceID="ei248" subordinatedEventInstance="ei249" />
 
 </TimeML>

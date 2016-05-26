@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980808.0022</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-08">1998-08-08</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-08">1998-08-08</TIMEX3></DCT>
 
 <TITLE>Bomb blasts rock U.S. embassies in Tanzania, Kenya</TITLE>
 
@@ -18,7 +18,9 @@ killed &amp;QL;  &amp;UR; Eds: CORRECTS that at least 75 dead in Kenya. &amp;QL;
 </EXTRAINFO>
 
 
-<TEXT>NAIROBI, Kenya (AP) _
+<TEXT>
+
+NAIROBI, Kenya (AP) _
 
 Terrorist bombings at U.S. embassies in Kenya and Tanzania blew apart buildings and buses, trapping people under slabs of concrete and twisted steel that rescuers cleared with cranes, blow torches and bare hands.
 
@@ -26,9 +28,11 @@ At least 82 were killed and more than 1,700 injured, officials said as dawn brok
 
 The suspected car bombings occurred 700 kilometers (450 miles) from each other but just minutes apart on Friday, turning busy streets in two African capitals into bloody piles of concrete and knots of steel.
 
-''This appears to have been a very well-coordinated, very well-planned attack _ clearly not the work of amateurs,'' U.S. National Security Council spokesman P.J. Crowley said in Washington. No one has claimed responsibility.
+``This appears to have been a very well-coordinated, very well-planned attack _ clearly not the work of amateurs,'' U.S. National Security Council spokesman P.J. Crowley said in Washington. No one has claimed responsibility.
 
-The blast in Nairobi occurred at about 10:35 a.m. (0735 GMT) Friday, toppling a crowded building toward the embassy and a street packed with cars, trucks and buses. At least 75 people were killed and 1,643 wounded there, Red Cross and ambulance officials said.</TEXT>
+The blast in Nairobi occurred at about 10:35 a.m. (0735 GMT) Friday, toppling a crowded building toward the embassy and a street packed with cars, trucks and buses. At least 75 people were killed and 1,643 wounded there, Red Cross and ambulance officials said.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -38,4 +42,68 @@ AP-NY-08-08-98 0053EDT
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l1" relType="MODAL" eventInstanceID="ei8" subordinatedEventInstance="ei9" syntax="USER"/>
+
+
+
+
+
 </TimeML>
+
+

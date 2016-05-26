@@ -1,19 +1,42 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0923</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0136 = 891026 891026-0136.
 Kyle Technology Plans Sale 10/26/89 WALL STREET JOURNAL (J) KYLE TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) ROISEBURG, Ore.
 </EXTRAINFO>
 
-<TEXT>Kyle Technology Corp. said a Seattle investor has signed a letter of intent to buy the company for about $3.1 million, or $1.20 a share.
+<TEXT>
+Kyle Technology Corp. said a Seattle investor has signed a letter of intent to buy the company for about $3.1 million, or $1.20 a share.
 
 The investor, Donald A. Wright, plans to run the company, said a spokesman for Kyle.
 
-The transaction has been approved by Kyle's board, but requires the approval of the company's shareholders. Kyle manufactures electronic components.</TEXT>
+The transaction has been approved by Kyle's board, but requires the approval of the company's shareholders. Kyle manufactures electronic components.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l9" relType="EVIDENTIAL" eventInstanceID="ei83" subordinatedEventInstance="ei84" />
+<SLINK lid="l12" relType="MODAL" eventInstanceID="ei87" subordinatedEventInstance="ei88" />
+<SLINK lid="l13" relType="EVIDENTIAL" eventInstanceID="ei89" subordinatedEventInstance="ei87" />
+<SLINK lid="l14" relType="MODAL" eventInstanceID="ei91" subordinatedEventInstance="ei90" />
 
 </TimeML>

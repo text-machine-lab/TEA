@@ -1,25 +1,73 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0026</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0167 = 891102 891102-0167.
 Duty-Free Status Cleared @ For Certain Watch Imports 11/02/89 WALL STREET JOURNAL (J) MONETARY NEWS, FOREIGN EXCHANGE, TRADE (MON) EXECUTIVE (EXE) WASHINGTON
 </EXTRAINFO>
 
-<TEXT>The White House said President Bush has approved duty-free treatment for imports of certain types of watches that aren't produced in 'significant quantities' in the U.S., the Virgin Islands and other U.S. possessions.
+<TEXT>
+The White House said President Bush has approved duty-free treatment for imports of certain types of watches that aren't produced in "significant quantities" in the U.S., the Virgin Islands and other U.S. possessions.
 
 The action came in response to a petition filed by Timex Inc. for changes in the U.S. Generalized System of Preferences for imports from developing nations. Previously, watch imports were denied such duty-free treatment.
 
-Timex had requested duty-free treatment for many types of watches, covered by 58 different U.S. tariff classifications. The White House said Mr. Bush decided to grant duty-free status for 18 categories, but turned down such treatment for other types of watches 'because of the potential for material injury to watch producers located in the U.S. and the Virgin Islands.'
+Timex had requested duty-free treatment for many types of watches, covered by 58 different U.S. tariff classifications. The White House said Mr. Bush decided to grant duty-free status for 18 categories, but turned down such treatment for other types of watches "because of the potential for material injury to watch producers located in the U.S. and the Virgin Islands."
 
 Timex is a major U.S. producer and seller of watches, including low-priced battery-operated watches assembled in the Philippines and other developing nations covered by the U.S. tariff preferences.
 
 U.S. trade officials said the Philippines and Thailand would be the main beneficiaries of the president's action.
 
-Imports of the types of watches that now will be eligible for duty-free treatment totaled about $37.3 million in 1988, a relatively small share of the $1.5 billion in U.S. watch imports that year, according to an aide to U.S. Trade Representative Carla Hills.</TEXT>
+Imports of the types of watches that now will be eligible for duty-free treatment totaled about $37.3 million in 1988, a relatively small share of the $1.5 billion in U.S. watch imports that year, according to an aide to U.S. Trade Representative Carla Hills.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei1989" subordinatedEventInstance="ei1990" />
+<SLINK lid="l17" relType="MODAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l18" relType="EVIDENTIAL" eventInstanceID="ei2006" subordinatedEventInstance="ei2007" />
+<SLINK lid="l19" relType="COUNTER_FACTIVE" eventInstanceID="ei2002" subordinatedEventInstance="ei2003" />
+<SLINK lid="l20" relType="MODAL" eventInstanceID="ei2000" subordinatedEventInstance="ei2001" />
+<SLINK lid="l21" relType="EVIDENTIAL" eventInstanceID="ei1999" subordinatedEventInstance="ei2000" />
+<SLINK lid="l22" relType="EVIDENTIAL" eventInstanceID="ei2011" subordinatedEventInstance="ei2010" />
+<SLINK lid="l23" relType="NEG_EVIDENTIAL" eventInstanceID="ei1996" subordinatedEventInstance="ei1997" />
 
 </TimeML>

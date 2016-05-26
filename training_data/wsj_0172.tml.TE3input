@@ -1,19 +1,61 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0172</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0018 = 891102 891102-0018.
 Business Brief -- First of America Bank Corp.: @ Midwest Financial Group @ Acquired for $250 Million 11/02/89 WALL STREET JOURNAL (J) FABK TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) BANKS (BNK)
 </EXTRAINFO>
 
-<TEXT>First of America Bank Corp. said it completed its acquisition of Midwest Financial Group Inc. for about $250 million. First of America, which now has 45 banks and $12.5 billion in assets, announced an agreement to acquire the Peoria, Ill., bank holding company in January.
+<TEXT>
+First of America Bank Corp. said it completed its acquisition of Midwest Financial Group Inc. for about $250 million. First of America, which now has 45 banks and $12.5 billion in assets, announced an agreement to acquire the Peoria, Ill., bank holding company in January.
 
 Midwest Financial has $2.3 billion in assets and eight banks. The Midwest Financial subsidiary banks will continue to operate under their current names until early 1990, when each will adopt the First of America name.
 
-Kalamazoo, Mich.-based First of America said it will eliminate the 13 management positions of the former Midwest Financial parent company. First of America said some of the managers will take other jobs with First of America. But it said that severance payments to those executives not staying with the company will reduce First of America's operating results for 1989 by $3 million to $4 million, or 15 cents to 20 cents a share.</TEXT>
+Kalamazoo, Mich.-based First of America said it will eliminate the 13 management positions of the former Midwest Financial parent company. First of America said some of the managers will take other jobs with First of America. But it said that severance payments to those executives not staying with the company will reduce First of America's operating results for 1989 by $3 million to $4 million, or 15 cents to 20 cents a share.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei148" subordinatedEventInstance="ei149" />
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei152" subordinatedEventInstance="ei153" />
+<SLINK lid="l17" relType="MODAL" eventInstanceID="ei153" subordinatedEventInstance="ei154" />
+<SLINK lid="l18" relType="EVIDENTIAL" eventInstanceID="ei158" subordinatedEventInstance="ei159" />
+<SLINK lid="l19" relType="EVIDENTIAL" eventInstanceID="ei160" subordinatedEventInstance="ei161" />
+<SLINK lid="l20" relType="EVIDENTIAL" eventInstanceID="ei162" subordinatedEventInstance="ei166" />
+<ALINK lid="l21" relType="CULMINATES" eventInstanceID="ei149" relatedToEventInstance="ei150" />
+<ALINK lid="l22" relType="CONTINUES" eventInstanceID="ei155" relatedToEventInstance="ei156" />
 
 </TimeML>

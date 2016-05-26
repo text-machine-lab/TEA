@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW20000115.0209</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-01-15">2000-01-15</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-01-15">2000-01-15</TIMEX3></DCT>
 
 <TITLE>Cuba Presses for Boy's Repatriation</TITLE>
 
@@ -15,7 +15,9 @@ By ANITA SNOW Associated Press Writer
 </EXTRAINFO>
 
 
-<TEXT>HAVANA (AP) --
+<TEXT>
+
+HAVANA (AP) --
 
 While state-run television broadcast footage of Cuban exiles protesting in Miami against the repatriation of Elian Gonzalez, the Cuban government urged its people to keep up their own demonstrations to ensure the boy's return.
 
@@ -23,19 +25,19 @@ The unusual airing of protests against President Fidel Castro appeared aimed at 
 
 Castro attended a rally Thursday by media workers at Havana's Palace of Conventions to demand Gonzalez's return. For weeks the communist government has held such rallies almost daily.
 
-''The case of Elian is for today's youth what 40 years of the blockade, armed invasions, sabotage and attempts to kill President Fidel Castro were for earlier generations,'' said Cuban journalist Luis Baez, who has written several books about Cuban emigration to the United States.
+``The case of Elian is for today's youth what 40 years of the blockade, armed invasions, sabotage and attempts to kill President Fidel Castro were for earlier generations,'' said Cuban journalist Luis Baez, who has written several books about Cuban emigration to the United States.
 
-After the rally, state television showed the Cuban exiles in the streets of Miami -- some of them carrying signs demanding ''Freedom for Elian,'' the same battle cry regularly chanted during rallies on this side of the Florida Straits.
+After the rally, state television showed the Cuban exiles in the streets of Miami -- some of them carrying signs demanding ``Freedom for Elian,'' the same battle cry regularly chanted during rallies on this side of the Florida Straits.
 
-A voiceover to the footage called the exiles ''criminals'' and ''mafia members.''
+A voiceover to the footage called the exiles ``criminals'' and ``mafia members.''
 
-Hundreds of Cuban-Americans chanting ''Liberty! Liberty!'' blocked intersections and cut off access to the Port of Miami. In one case, riot police had to use tear gas to clear them.
+Hundreds of Cuban-Americans chanting ``Liberty! Liberty!'' blocked intersections and cut off access to the Port of Miami. In one case, riot police had to use tear gas to clear them.
 
-Saying ''nothing is certain'' about Elian's return, Cuba's government exhorted citizens to keep rallying, after the boy's relatives in Miami said they would look for ways to get around Wednesday's ruling by the U.S. Immigration and Naturalization Service to repatriate the child by Jan. 14.
+Saying ``nothing is certain'' about Elian's return, Cuba's government exhorted citizens to keep rallying, after the boy's relatives in Miami said they would look for ways to get around Wednesday's ruling by the U.S. Immigration and Naturalization Service to repatriate the child by Jan. 14.
 
-Cuban exiles in Miami will now ''proceed with all their resources to impede or delay'' the ruling, Cuba predicted Wednesday.
+Cuban exiles in Miami will now ``proceed with all their resources to impede or delay'' the ruling, Cuba predicted Wednesday.
 
-''We cannot stop mobilizing! The struggle must not stop for one minute!'' said a message that was read Wednesday night to several thousand rallying Cuban scientists.
+``We cannot stop mobilizing! The struggle must not stop for one minute!'' said a message that was read Wednesday night to several thousand rallying Cuban scientists.
 
 Rescued on Nov. 25 by fishermen off the Florida coast, Elian has become the subject of an international custody battle.
 
@@ -43,7 +45,9 @@ His mother died in a boating accident trying to get Elian and herself to the Uni
 
 But Elian's relatives in Miami have fought to keep the boy, saying they could provide him with a better life. Since the INS decision was announced Wednesday, they have said they will appeal the decision.
 
-Gonzalez has not appeared publicly since the announcement. Neither he nor Elian's four grandparents could be located in their hometown of Cardenas, east of Havana.</TEXT>
+Gonzalez has not appeared publicly since the announcement. Neither he nor Elian's four grandparents could be located in their hometown of Cardenas, east of Havana.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -51,4 +55,239 @@ AP-NY-01-07-00 0303
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l54" eventInstanceID="ei73" subordinatedEventInstance="ei14" relType="MODAL"/>
+<SLINK lid="l78" eventInstanceID="ei25" subordinatedEventInstance="ei27" relType="MODAL"/>
+<SLINK lid="l123" eventInstanceID="ei45" subordinatedEventInstance="ei46" relType="MODAL"/>
+<SLINK lid="l128" eventInstanceID="ei48" subordinatedEventInstance="ei49" relType="MODAL"/>
+<ALINK lid="l1" eventInstanceID="ei4" relatedToEventInstance="ei61" relType="INITIATES"/>
+<ALINK lid="l2" eventInstanceID="ei9" relatedToEventInstance="ei65" relType="INITIATES"/>
+<ALINK lid="l3" eventInstanceID="ei12" relatedToEventInstance="ei68" relType="CULMINATES"/>
+<ALINK lid="l41" eventInstanceID="ei13" relatedToEventInstance="ei69" relType="CULMINATES"/>
+<ALINK lid="l74" eventInstanceID="ei23" relatedToEventInstance="ei24" relType="INITIATES"/>
+<ALINK lid="l95" eventInstanceID="ei29" relatedToEventInstance="ei30" relType="CONTINUES"/>
+<ALINK lid="l107" eventInstanceID="ei37" relatedToEventInstance="ei38" relType="TERMINATES"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+
+

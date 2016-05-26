@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0786</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0109 = 891027 891027-0109.
 American Medical @ International Bought @ By IMA Holdings 10/27/89 WALL STREET JOURNAL (J) AMI Z.CSU WNEWS TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) HEALTH CARE PROVIDERS, MEDICINE, DENTISTRY (HEA) LOS ANGELES
 </EXTRAINFO>
 
-<TEXT>IMA Holdings Corp. completed its $3 billion acquisition of American Medical International Inc., purchasing 63 million shares, or 86%, of the Los Angeles-based health-care services concern for $26.50 a share. The price also includes assumption of about $1.4 billion in debt.
+<TEXT>
+IMA Holdings Corp. completed its $3 billion acquisition of American Medical International Inc., purchasing 63 million shares, or 86%, of the Los Angeles-based health-care services concern for $26.50 a share. The price also includes assumption of about $1.4 billion in debt.
 
 IMA is a group that includes First Boston Corp. and the Pritzker family of Chicago through the leveraged buy-out fund Harry Gray Melvyn Klein amp Partners. Harry J. Gray and Melvyn N. Klein, along with five other IMA designees, were named to join American Medical's 10-member board.
 
@@ -22,6 +23,100 @@ The following month, the company put itself up for sale. It received more offers
 
 Then, after extending its offer four times waiting for a congressional tax ruling, IMA early this month lowered its offer to $26.50 a share amid turbulence in the junk bond market. American Medical accepted the offer, meanwhile indicating it had heard from two other suitors. But they never materialized and IMA completed the purchase yesterday.
 
-Other new board members include John S. Harrison and Mark A. Adley of First Boston, James F. Lyons, William S. Goldberg and Harold S. Handelsman.</TEXT>
+Other new board members include John S. Harrison and Mark A. Adley of First Boston, James F. Lyons, William S. Goldberg and Harold S. Handelsman.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l61" relType="FACTIVE" eventInstanceID="ei415" subordinatedEventInstance="ei416" />
+<SLINK lid="l60" relType="FACTIVE" eventInstanceID="ei403" subordinatedEventInstance="ei404" />
+<SLINK lid="l40" relType="MODAL" eventInstanceID="ei408" subordinatedEventInstance="ei409" />
+<SLINK lid="l41" relType="MODAL" eventInstanceID="ei410" subordinatedEventInstance="ei411" />
+<SLINK lid="l42" relType="MODAL" eventInstanceID="ei407" subordinatedEventInstance="ei408" />
+<SLINK lid="l43" relType="MODAL" eventInstanceID="ei406" subordinatedEventInstance="ei407" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei411" subordinatedEventInstance="ei412" />
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei404" subordinatedEventInstance="ei405" />
+<SLINK lid="l46" relType="FACTIVE" eventInstanceID="ei389" subordinatedEventInstance="ei390" />
+<SLINK lid="l47" relType="EVIDENTIAL" eventInstanceID="ei431" subordinatedEventInstance="ei432" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei426" subordinatedEventInstance="ei427" />
+<SLINK lid="l50" relType="MODAL" eventInstanceID="ei423" subordinatedEventInstance="ei424" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei422" subordinatedEventInstance="ei423" />
+<SLINK lid="l52" relType="MODAL" eventInstanceID="ei420" subordinatedEventInstance="ei421" />
+<ALINK lid="l56" relType="CULMINATES" eventInstanceID="ei386" relatedToEventInstance="ei387" />
+<ALINK lid="l57" relType="CULMINATES" eventInstanceID="ei434" relatedToEventInstance="ei435" />
+<ALINK lid="l59" relType="CULMINATES" eventInstanceID="ei391" relatedToEventInstance="ei393" />
 
 </TimeML>

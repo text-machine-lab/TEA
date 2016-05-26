@@ -1,21 +1,63 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_1035</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0021 = 891026 891026-0021.
 Business Brief -- Consolidated Freightways Inc.: @ Third-Quarter Net Fell 77% @ On Emery's Expected Loss 10/26/89 WALL STREET JOURNAL (J) CNF EARNINGS (ERN) TRANSPORTATION, TRUCK AND SHIP LINES, RAILROADS (TRA)
 </EXTRAINFO>
 
-<TEXT>Consolidated Freightways Inc. reported a 77% drop in third-quarter net income, citing expected losses in its Emery Worldwide shipping business.
+<TEXT>
+Consolidated Freightways Inc. reported a 77% drop in third-quarter net income, citing expected losses in its Emery Worldwide shipping business.
 
 The Menlo Park, Calif., company said net was $7.4 million, or 22 cents a share, down from $32.3 million, or 86 cents a share, a year ago. Revenue totaled $1.01 billion, a 43% increase from $704.4 million, reflecting the company's acquisition of Emery earlier this year.
 
-Profit also suffered because of 'intense' discounting in its long-haul trucking business, the company said.
+Profit also suffered because of "intense" discounting in its long-haul trucking business, the company said.
 
-Analysts had expected Consolidated to post a slim profit, and the company's stock was down only 25 cents to $30.25 in New York Stock Exchange composite trading yesterday. 'They have to continue to tighten their belts,' said Craig Kloner, an analyst at Goldman, Sachs amp Co.</TEXT>
+Analysts had expected Consolidated to post a slim profit, and the company's stock was down only 25 cents to $30.25 in New York Stock Exchange composite trading yesterday. "They have to continue to tighten their belts," said Craig Kloner, an analyst at Goldman, Sachs amp Co.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l19" relType="FACTIVE" eventInstanceID="ei2001" subordinatedEventInstance="ei2002" />
+<SLINK lid="l10" relType="EVIDENTIAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l12" relType="EVIDENTIAL" eventInstanceID="ei2005" subordinatedEventInstance="ei2003" />
+<SLINK lid="l13" relType="MODAL" eventInstanceID="ei2006" subordinatedEventInstance="ei2007" />
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei2012" subordinatedEventInstance="ei2010" />
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei1992" subordinatedEventInstance="ei1994" />
+<ALINK lid="l17" relType="CONTINUES" eventInstanceID="ei2010" relatedToEventInstance="ei2011" />
 
 </TimeML>

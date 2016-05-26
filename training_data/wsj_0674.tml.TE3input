@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0674</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0022 = 891030 891030-0022.
 Jim Pattison to Seek @ Control of Innopac 10/30/89 WALL STREET JOURNAL (J) T.INA TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) EARNINGS (ERN) VANCOUVER, British Columbia
 </EXTRAINFO>
 
-<TEXT>Jim Pattison Industries Ltd., one of a group of closely held companies owned by entrepreneur James Pattison, said it 'intends to seek control' of 30%-owned Innopac Inc., a Toronto packaging concern.
+<TEXT>
+Jim Pattison Industries Ltd., one of a group of closely held companies owned by entrepreneur James Pattison, said it "intends to seek control" of 30%-owned Innopac Inc., a Toronto packaging concern.
 
 Jim Pattison Industries, a holding company with annual sales of about C$1.9 billion, largely from car dealerships and grocery stores, didn't elaborate on the statement, and a company official declined further comment.
 
@@ -18,8 +19,68 @@ The company said it currently holds about 4.2 million of Innopac's 13.8 million 
 
 Separately, Innopac reported a fourth-quarter loss of about C$2.6 million, or 18 Canadian cents a share, reflecting inventory write-downs. The results made net income for the year ended Aug. 31 C$2.7 million, or 20 Canadian cents a share, down from C$9.7 million, or 70 Canadian cents a share last year. Revenue was C$291.6 million, up from C$252 million in 1988.
 
-Martin Fabi, Innopac's president and chief executive, said Innopac viewed Mr. Pattison's decision to seek control as a 'very positive' move. 'I'm happy that he feels positively about our company,' he said. Mr. Fabi wouldn't say directly whether Mr. Pattison has disclosed potential terms for his planned bid for control.
+Martin Fabi, Innopac's president and chief executive, said Innopac viewed Mr. Pattison's decision to seek control as a "very positive" move. "I'm happy that he feels positively about our company," he said. Mr. Fabi wouldn't say directly whether Mr. Pattison has disclosed potential terms for his planned bid for control.
 
-Among other things, Innopac is involved in recycling polystyrene foam products that are often used by fast food chains, such as McDonald's Corp., for food packaging. A joint venture involving units of Innopac and Mobil Corp. earlier this year opened the first U.S. polystyrene recycling plant, in Leominster, Mass.</TEXT>
+Among other things, Innopac is involved in recycling polystyrene foam products that are often used by fast food chains, such as McDonald's Corp., for food packaging. A joint venture involving units of Innopac and Mobil Corp. earlier this year opened the first U.S. polystyrene recycling plant, in Leominster, Mass.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l46" relType="FACTIVE" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<SLINK lid="l30" relType="EVIDENTIAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei1991" subordinatedEventInstance="ei1992" />
+<SLINK lid="l33" relType="COUNTER_FACTIVE" eventInstanceID="ei1996" subordinatedEventInstance="ei1997" />
+<SLINK lid="l34" relType="EVIDENTIAL" eventInstanceID="ei1998" subordinatedEventInstance="ei1999" />
+<SLINK lid="l35" relType="EVIDENTIAL" eventInstanceID="ei2001" subordinatedEventInstance="ei2002" />
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei2010" subordinatedEventInstance="ei2011" />
+<SLINK lid="l37" relType="MODAL" eventInstanceID="ei2012" subordinatedEventInstance="ei2013" />
+<SLINK lid="l39" relType="EVIDENTIAL" eventInstanceID="ei2018" subordinatedEventInstance="ei2016" />
+<SLINK lid="l40" relType="FACTIVE" eventInstanceID="ei2016" subordinatedEventInstance="ei2017" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei2019" subordinatedEventInstance="ei2020" />
+<SLINK lid="l42" relType="EVIDENTIAL" eventInstanceID="ei2020" subordinatedEventInstance="ei2022" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei2011" subordinatedEventInstance="ei2015" />
 
 </TimeML>

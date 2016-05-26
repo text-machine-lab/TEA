@@ -1,17 +1,15 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT19990419.0515</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-04-19T23:14">1999-04-19 23:14</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-04-19T23:14">1999-04-19 23:14</TIMEX3></DCT>
 
 <TITLE>PROSECUTORS TO PRESENT CLINIC DOCTOR'S SLAYING TO GRAND JURY</TITLE>
 
 
 <EXTRAINFO>
-NYT19990419.0515 
- NEWS STORY 
-1999-04-19 23:14
+NYT19990419.0515  NEWS STORY 1999-04-19 23:14
 A5217 &amp;Cx1f; taf-z
 u a &amp;Cx13;  &amp;Cx11;  BC-NY-ABORTION-DOCTOR-NY     04-19 0575
 BC-NY-ABORTION-DOCTOR-NYT
@@ -22,27 +20,31 @@ c.1999 N.Y. Times News Service
 </EXTRAINFO>
 
 
-<TEXT>With the finding of a buried rifle 11 days ago, the authorities in the Buffalo, N.Y., area say they have gathered enough evidence in the October slaying of Dr. Barnett Slepian to begin presenting a murder case to a state grand jury as early as next week.
+<TEXT>
+
+With the finding of a buried rifle 11 days ago, the authorities in the Buffalo, N.Y., area say they have gathered enough evidence in the October slaying of Dr. Barnett Slepian to begin presenting a murder case to a state grand jury as early as next week.
 
 A federal grand jury has already been addressing the slaying under laws that prohibit violence against providers of abortion. Slepian was the mainstay of Buffalo's only abortion clinic before he was shot to death last Oct. 23 at his home in suburban Amherst. But the decision by District Attorney Frank C. Clark to begin presenting evidence to a state grand jury suggests that he has amassed enough material to support a criminal indictment for homicide.
 
-''We've gotten to the point where we know what we want to introduce before a grand jury,'' Clark said in a telephone interview Monday.
+``We've gotten to the point where we know what we want to introduce before a grand jury,'' Clark said in a telephone interview Monday.
 
 Although the authorities are not saying who the suspect is, all of the attention so far has fallen on James C. Kopp, a 44-year-old anti-abortion protester who had been traveling around the country from demonstration to demonstration for years.
 
-Officially, Kopp is being sought as a ''material witness'' in the case.
+Officially, Kopp is being sought as a ``material witness'' in the case.
 
 Clark said it was easier to seek extradition of an indicted suspect from another state or a foreign country than of someone wanted as a material witness. For now, though, that would be a theoretical advantage since the authorities have admitted they have no idea where Kopp is.
 
-Clark said there was ''no question'' that the finding of the rifle was important in his decision to seek an indictment. The rifle was discovered April 8 buried one foot below the ground, about 200 feet behind Slepian's house. It is undergoing testing at the FBI laboratory in Washington, but the authorities have said it resembles the kind of high-powered rifle used in the slaying.
+Clark said there was ``no question'' that the finding of the rifle was important in his decision to seek an indictment. The rifle was discovered April 8 buried one foot below the ground, about 200 feet behind Slepian's house. It is undergoing testing at the FBI laboratory in Washington, but the authorities have said it resembles the kind of high-powered rifle used in the slaying.
 
-Clark said other evidence that prosecutors might present includes a strand of human hair found at the wooded firing site that has a ''high likelihood'' of matching Kopp's hair and testimony from a jogger who spotted Kopp's car near Slepian's house at 6 a.m. ten days before the shooting. There also are videotapes of Kopp's car crossing the Canadian border around the days _ in 1994, 1995 and 1997 _ that three Canadian doctors who perform abortions were shot at. None of those doctors were killed.
+Clark said other evidence that prosecutors might present includes a strand of human hair found at the wooded firing site that has a ``high likelihood'' of matching Kopp's hair and testimony from a jogger who spotted Kopp's car near Slepian's house at 6 a.m. ten days before the shooting. There also are videotapes of Kopp's car crossing the Canadian border around the days _ in 1994, 1995 and 1997 _ that three Canadian doctors who perform abortions were shot at. None of those doctors were killed.
 
 If a suspect is caught and charged in both state and federal courts, a state trial would likely precede a federal one, giving the authorities two chances to prosecute. New York State double-jeopardy laws would make it difficult to prosecute a suspect who had been found not guilty at a federal trial.
 
 U.S. Attorney Denise E. O'Donnell declined to discuss what federal charges were being pursued, but she said that in a case like this, potential charges would be abortion-related violence, the use of a firearm in an act of violence, crossing state lines to commit a crime, and, if the suspect's act was tied to an organization, violation of the so-called RICO statutes, which prohibit an organized criminal enterprise.
 
-Slepian, 52, and the father of four boys, was shot to death at 10 p.m. as he stood chatting with his wife in the kitchen of their home in an affluent enclave in Amherst, which is the largest Buffalo suburb.</TEXT>
+Slepian, 52, and the father of four boys, was shot to death at 10 p.m. as he stood chatting with his wife in the kitchen of their home in an affluent enclave in Amherst, which is the largest Buffalo suburb.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -50,4 +52,211 @@ NYT-04-19-99 2314EDT &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l3" relType="EVIDENTIAL" eventInstanceID="ei2" subordinatedEventInstance="ei3" syntax="USER"/>
+<SLINK lid="l4" relType="FACTIVE" eventInstanceID="ei7" subordinatedEventInstance="ei8" syntax="USER"/>
+<SLINK lid="l5" relType="MODAL" eventInstanceID="ei9" subordinatedEventInstance="ei10" syntax="USER"/>
+<SLINK lid="l6" relType="FACTIVE" eventInstanceID="ei16" subordinatedEventInstance="ei17" syntax="USER"/>
+<SLINK lid="l7" relType="FACTIVE" eventInstanceID="ei20" subordinatedEventInstance="ei21" syntax="USER"/>
+<SLINK lid="l8" relType="MODAL" eventInstanceID="ei21" subordinatedEventInstance="ei22" syntax="USER"/>
+<SLINK lid="l9" relType="EVIDENTIAL" eventInstanceID="ei23" subordinatedEventInstance="ei19" syntax="USER"/>
+<SLINK lid="l10" relType="EVIDENTIAL" eventInstanceID="ei23" subordinatedEventInstance="ei20" syntax="USER"/>
+<SLINK lid="l11" relType="EVIDENTIAL" eventInstanceID="ei25" subordinatedEventInstance="ei26" syntax="USER"/>
+<SLINK lid="l12" relType="EVIDENTIAL" eventInstanceID="ei30" subordinatedEventInstance="ei31" syntax="USER"/>
+<SLINK lid="l13" relType="MODAL" eventInstanceID="ei31" subordinatedEventInstance="ei32" syntax="USER"/>
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei35" subordinatedEventInstance="ei36" syntax="USER"/>
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei38" subordinatedEventInstance="ei40" syntax="USER"/>
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei42" subordinatedEventInstance="ei43" syntax="USER"/>
+<SLINK lid="l17" relType="FACTIVE" eventInstanceID="ei41" subordinatedEventInstance="ei42" syntax="USER"/>
+<SLINK lid="l18" relType="EVIDENTIAL" eventInstanceID="ei47" subordinatedEventInstance="ei48" syntax="USER"/>
+<SLINK lid="l19" relType="FACTIVE" eventInstanceID="ei49" subordinatedEventInstance="ei50" syntax="USER"/>
+<SLINK lid="l20" relType="EVIDENTIAL" eventInstanceID="ei51" subordinatedEventInstance="ei53" syntax="USER"/>
+<SLINK lid="l95" relType="MODAL" eventInstanceID="ei65" subordinatedEventInstance="ei66" syntax="USER"/>
+<SLINK lid="l100" relType="MODAL" eventInstanceID="ei67" subordinatedEventInstance="ei68" syntax="USER"/>
+<SLINK lid="l104" relType="COUNTER_FACTIVE" eventInstanceID="ei70" subordinatedEventInstance="ei71" syntax="USER"/>
+<SLINK lid="l105" relType="EVIDENTIAL" eventInstanceID="ei71" subordinatedEventInstance="ei72" syntax="USER"/>
+<SLINK lid="l115" relType="EVIDENTIAL" eventInstanceID="ei73" subordinatedEventInstance="ei74" syntax="USER"/>
+<ALINK lid="l1" relType="INITIATES" eventInstanceID="ei5" relatedToEventInstance="ei6" syntax="USER"/>
+<ALINK lid="l2" relType="INITIATES" eventInstanceID="ei14" relatedToEventInstance="ei15" syntax="USER"/>
+
 </TimeML>
+
+

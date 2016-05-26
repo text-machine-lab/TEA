@@ -3,14 +3,12 @@
 
 <DOCID>wsj_0127</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02" temporalFunction="false" functionInDocument="CREATION_TIME">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0064 = 891102 891102-0064.
 International Brief -- Reed International PLC: @ Net Income for 6 Months @ Fell 5% to $141.9 Million 11/02/89 WALL STREET JOURNAL (J) U.REE EARNINGS (ERN)
 </EXTRAINFO>
-
-
 
 <TEXT>
 Reed International PLC said that net income for the six months ended Oct. 1 slipped 5% to #89.7 million ($141.9 million), or 16 pence a share, from #94.8 million ($149.9 million), or 17.3 pence a share.
@@ -27,5 +25,48 @@ Sales fell 20% to #722 million.
 
 Earnings were hurt by disposal of operations in its restructuring, Reed said.
 </TEXT>
-</TimeML>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l23" relType="EVIDENTIAL" eventInstanceID="ei2174" subordinatedEventInstance="ei2171" />
+<SLINK lid="l24" relType="EVIDENTIAL" eventInstanceID="ei2151" subordinatedEventInstance="ei2154" />
+<SLINK lid="l25" relType="EVIDENTIAL" eventInstanceID="ei2155" subordinatedEventInstance="ei2156" />
+
+</TimeML>

@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0918</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0141 = 891026 891026-0141.
 Du Pont Posts @ 19% Profit Rise @ For 3rd Quarter @ ---- @ By Richard Koenig @ Staff Reporter of The Wall Street Journal 10/26/89 WALL STREET JOURNAL (J) DD VO EARNINGS (ERN) CHEMICALS, PLASTICS (CHM) DIVIDENDS (DIV)
 </EXTRAINFO>
 
-<TEXT>Du Pont Co. reported that third-quarter profit grew a robust 19% from a year ago on the strength of the company's operations in various chemicals and fibers, and in petroleum.
+<TEXT>
+Du Pont Co. reported that third-quarter profit grew a robust 19% from a year ago on the strength of the company's operations in various chemicals and fibers, and in petroleum.
 
 Du Pont also raised its quarterly dividend to $1.20 a share from $1.05, a change that will increase the annualized payout to shareholders by some $140 million.
 
@@ -18,7 +19,7 @@ Du Pont, unlike companies hurt badly by sharp price declines for basic chemicals
 
 The Wilmington, Del., company reported net of $547 million, or $2.36 a share, which was in line with Wall Street estimates. In the year-earlier period, the company earned $461 million, or $1.91 a share. Sales in the latest quarter were $8.59 billion, up 9.4% from $7.85 billion.
 
-The dividend increase was Du Pont's second this year, an affirmation of statements by top executives that they intend to increase rewards to shareholders. 'We haven't benefited the shareholder as much as we need to,' said Edgar Woolard Jr., Du Pont's chairman and chief executive officer, in an interview several months before he entered his current position in April.
+The dividend increase was Du Pont's second this year, an affirmation of statements by top executives that they intend to increase rewards to shareholders. "We haven't benefited the shareholder as much as we need to," said Edgar Woolard Jr., Du Pont's chairman and chief executive officer, in an interview several months before he entered his current position in April.
 
 The largest beneficiary will be Seagram Co., which owns about 23% of Du Pont. A spokesman for Seagram, the Montreal wine and spirits concern controlled by the Bronfman family, said the company will post additional pretax profit of about $33 million a year because of the additional Du Pont dividends.
 
@@ -26,7 +27,7 @@ Du Pont also announced plans for a 3-for-1 stock split, although the initial hig
 
 Leading the gains for Du Pont in the latest quarter was its industrial products segment, where profit soared to $155 million from $99 million a year earlier. The company benefited from continued strong demand and higher selling prices for titanium dioxide, a white pigment used in paints, paper and plastics.
 
-James Fallon, a New Providence, N.J., marketing consultant to the chemicals industry, says Du Pont still holds an edge in making the pigment because the company was 'first in with the technology' to lower costs. He said Du Pont holds about 23% of the world-wide market, the largest single share, at a time when growing uses for the pigment have kept it in tight supply, although others are now adding low-cost production capacity.
+James Fallon, a New Providence, N.J., marketing consultant to the chemicals industry, says Du Pont still holds an edge in making the pigment because the company was "first in with the technology" to lower costs. He said Du Pont holds about 23% of the world-wide market, the largest single share, at a time when growing uses for the pigment have kept it in tight supply, although others are now adding low-cost production capacity.
 
 Profit climbed to $98 million from $71 million in the petroleum segment, as Du Pont's Conoco Inc. oil company was helped by crude oil prices higher than a year ago and by higher natural gas prices and volume.
 
@@ -38,6 +39,154 @@ Two segments posted lower earnings for the quarter. Profit from coal fell to $41
 
 For the nine months, Du Pont earned $2 billion, or $8.46 a share, up 18% from $1.69 billion, or $7.03 a share, a year earlier. Sales increased 10% to $26.54 billion from $24.05 billion.
 
-The increased dividend will be paid Dec. 14 to holders of record Nov. 15. The stock split, which is subject to holder approval, would be paid on a still unspecified date in January to holders of record Dec. 21.</TEXT>
+The increased dividend will be paid Dec. 14 to holders of record Nov. 15. The stock split, which is subject to holder approval, would be paid on a still unspecified date in January to holders of record Dec. 21.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l97" relType="FACTIVE" eventInstanceID="ei2038" subordinatedEventInstance="ei2039" />
+<SLINK lid="l79" relType="EVIDENTIAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l80" relType="EVIDENTIAL" eventInstanceID="ei2013" subordinatedEventInstance="ei2014" />
+<SLINK lid="l81" relType="MODAL" eventInstanceID="ei2014" subordinatedEventInstance="ei2015" />
+<SLINK lid="l82" relType="EVIDENTIAL" eventInstanceID="ei2018" subordinatedEventInstance="ei2016" />
+<SLINK lid="l83" relType="MODAL" eventInstanceID="ei2017" subordinatedEventInstance="ei2016" />
+<SLINK lid="l84" relType="EVIDENTIAL" eventInstanceID="ei2022" subordinatedEventInstance="ei2023" />
+<SLINK lid="l85" relType="EVIDENTIAL" eventInstanceID="ei2025" subordinatedEventInstance="ei2026" />
+<SLINK lid="l86" relType="MODAL" eventInstanceID="ei2026" subordinatedEventInstance="ei2027" />
+<SLINK lid="l87" relType="EVIDENTIAL" eventInstanceID="ei2041" subordinatedEventInstance="ei2042" />
+<SLINK lid="l88" relType="EVIDENTIAL" eventInstanceID="ei2043" subordinatedEventInstance="ei2044" />
+<SLINK lid="l89" relType="EVIDENTIAL" eventInstanceID="ei2054" subordinatedEventInstance="ei2056" />
+<SLINK lid="l90" relType="MODAL" eventInstanceID="ei2056" subordinatedEventInstance="ei2055" />
+<SLINK lid="l91" relType="MODAL" eventInstanceID="ei2062" subordinatedEventInstance="ei2063" />
+<SLINK lid="l92" relType="EVIDENTIAL" eventInstanceID="ei2064" subordinatedEventInstance="ei2065" />
+<SLINK lid="l94" relType="MODAL" eventInstanceID="ei2083" subordinatedEventInstance="ei2081" />
+<SLINK lid="l95" relType="EVIDENTIAL" eventInstanceID="ei2023" subordinatedEventInstance="ei2087" />
 
 </TimeML>

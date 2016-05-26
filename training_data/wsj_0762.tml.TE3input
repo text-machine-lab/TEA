@@ -1,15 +1,44 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0762</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0133 = 891027 891027-0133.
 Dividend News: @ Cambrex Corp. 10/27/89 WALL STREET JOURNAL (J) CBAM DIVIDENDS (DIV)
 </EXTRAINFO>
 
-<TEXT>CAMBREX Corp., Bayonne, N.J., declared its initial quarterly of five cents a share, payable Dec. 1 to stock of record Nov. 10. The maker of specialty chemicals has about 5.9 million shares outstanding. The company said the move recognizes its strong financial position. Although profits were ' squeezed' in 1989, mainly as a result of higher raw-material costs, the company said it is confident about future earnings and cash flow for 1990 and beyond. In national over-the-counter trading yesterday, Cambrex shares rose 50 cents to close at $13 a share.</TEXT>
+<TEXT>
+CAMBREX Corp., Bayonne, N.J., declared its initial quarterly of five cents a share, payable Dec. 1 to stock of record Nov. 10. The maker of specialty chemicals has about 5.9 million shares outstanding. The company said the move recognizes its strong financial position. Although profits were " squeezed" in 1989, mainly as a result of higher raw-material costs, the company said it is confident about future earnings and cash flow for 1990 and beyond. In national over-the-counter trading yesterday, Cambrex shares rose 50 cents to close at $13 a share.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l17" relType="EVIDENTIAL" eventInstanceID="ei1994" subordinatedEventInstance="ei1996" />
+<SLINK lid="l19" relType="EVIDENTIAL" eventInstanceID="ei1999" subordinatedEventInstance="ei2000" />
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei2000" subordinatedEventInstance="ei2002" />
 
 </TimeML>

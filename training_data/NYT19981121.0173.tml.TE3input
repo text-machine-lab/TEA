@@ -3,15 +3,13 @@
 
 <DOCID>NYT19981121.0173</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="TIME" value="1998-11-21T17:17" temporalFunction="false" functionInDocument="CREATION_TIME">1998-11-21 17:17</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-11-21T17:17">1998-11-21 17:17</TIMEX3></DCT>
 
 <TITLE>MAN QUESTIONED IN KILLING OF BUFFALO DOCTOR IS RELEASED</TITLE>
 
 
 <EXTRAINFO>
-NYT19981121.0173 
-NEWS STORY 
-1998-11-21 17:17
+NYT19981121.0173 NEWS STORY 1998-11-21 17:17
 A2895 &amp;Cx1f; taf-z
 u a &amp;Cx13;  &amp;Cx11;  BC-NY-ABORTION-DR-KILLIN     11-21 0471
 BC-NY-ABORTION-DR-KILLING-NYT
@@ -20,8 +18,6 @@ MAN QUESTIONED IN KILLING OF BUFFALO DOCTOR IS RELEASED
 By JIM YARDLEY
 c.1998 N.Y. Times News Service
 </EXTRAINFO>
-
-
 
 
 <TEXT>
@@ -45,8 +41,175 @@ Inspector Keith MacCaskill of the Winnipeg Police Service, a Canadian member of 
 Moskal emphasized that no one has been named as a suspect in Slepian's death. ``Just the fact that we are interviewing anyone doesn't make them a subject or a suspect in this,'' he said.
 
 </TEXT>
+
+
 <EXTRAINFO>
 NYT-11-21-98 1717EST &amp;QL;
 </EXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l4" relType="MODAL" eventInstanceID="ei3" subordinatedEventInstance="ei4" syntax="USER"/>
+<SLINK lid="l6" relType="FACTIVE" eventInstanceID="ei4" subordinatedEventInstance="ei5" syntax="USER"/>
+<SLINK lid="l13" relType="NEG_EVIDENTIAL" eventInstanceID="ei10" subordinatedEventInstance="ei11" syntax="USER"/>
+<SLINK lid="l14" relType="FACTIVE" eventInstanceID="ei11" subordinatedEventInstance="ei12" syntax="USER"/>
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei16" subordinatedEventInstance="ei17" syntax="USER"/>
+<SLINK lid="l22" relType="MODAL" eventInstanceID="ei16" subordinatedEventInstance="ei18" syntax="USER"/>
+<SLINK lid="l27" relType="EVIDENTIAL" eventInstanceID="ei21" subordinatedEventInstance="ei22" syntax="USER"/>
+<SLINK lid="l31" relType="EVIDENTIAL" eventInstanceID="ei20" subordinatedEventInstance="ei23" syntax="USER"/>
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei20" subordinatedEventInstance="ei24" syntax="USER"/>
+<SLINK lid="l33" relType="EVIDENTIAL" eventInstanceID="ei20" subordinatedEventInstance="ei25" syntax="USER"/>
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei26" subordinatedEventInstance="ei27" syntax="USER"/>
+<SLINK lid="l37" relType="EVIDENTIAL" eventInstanceID="ei27" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l38" relType="FACTIVE" eventInstanceID="ei28" subordinatedEventInstance="ei29" syntax="USER"/>
+<SLINK lid="l43" relType="COUNTER_FACTIVE" eventInstanceID="ei31" subordinatedEventInstance="ei32" syntax="USER"/>
+<SLINK lid="l52" relType="FACTIVE" eventInstanceID="ei37" subordinatedEventInstance="ei38" syntax="USER"/>
+<SLINK lid="l55" relType="EVIDENTIAL" eventInstanceID="ei40" subordinatedEventInstance="ei41" syntax="USER"/>
+<SLINK lid="l59" relType="MODAL" eventInstanceID="ei43" subordinatedEventInstance="ei44" syntax="USER"/>
+<SLINK lid="l64" relType="EVIDENTIAL" eventInstanceID="ei47" subordinatedEventInstance="ei43" syntax="USER"/>
+<SLINK lid="l65" relType="EVIDENTIAL" eventInstanceID="ei47" subordinatedEventInstance="ei45" syntax="USER"/>
+<SLINK lid="l66" relType="EVIDENTIAL" eventInstanceID="ei47" subordinatedEventInstance="ei46" syntax="USER"/>
+<SLINK lid="l68" relType="FACTIVE" eventInstanceID="ei48" subordinatedEventInstance="ei49" syntax="USER"/>
+<SLINK lid="l74" relType="EVIDENTIAL" eventInstanceID="ei52" subordinatedEventInstance="ei48" syntax="USER"/>
+<SLINK lid="l75" relType="EVIDENTIAL" eventInstanceID="ei52" subordinatedEventInstance="ei50" syntax="USER"/>
+<SLINK lid="l78" relType="EVIDENTIAL" eventInstanceID="ei53" subordinatedEventInstance="ei54" syntax="USER"/>
+<SLINK lid="l82" relType="FACTIVE" eventInstanceID="ei56" subordinatedEventInstance="ei57" syntax="USER"/>
+<SLINK lid="l85" relType="FACTIVE" eventInstanceID="ei58" subordinatedEventInstance="ei59" syntax="USER"/>
+<SLINK lid="l87" relType="EVIDENTIAL" eventInstanceID="ei60" subordinatedEventInstance="ei61" syntax="USER"/>
+<SLINK lid="l90" relType="EVIDENTIAL" eventInstanceID="ei62" subordinatedEventInstance="ei63" syntax="USER"/>
+<SLINK lid="l96" relType="EVIDENTIAL" eventInstanceID="ei67" subordinatedEventInstance="ei66" syntax="USER"/>
+
 </TimeML>
+
 

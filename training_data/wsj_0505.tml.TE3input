@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0505</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-31">10/31/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-31">10/31/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891031-0006 = 891031 891031-0006.
 International Brief -- Ratners Group PLC: @ British Jeweler's U.S. Unit @ Agrees to Buy Weisfield's 10/31/89 WALL STREET JOURNAL (J) RATNY WEIS TENDER OFFERS, MERGERS, ACQUISITIONS (TNM)
 </EXTRAINFO>
 
-<TEXT>Ratners Group PLC's U.S. subsidiary has agreed to acquire jewelry retailer Weisfield's Inc. for $50 a share, or about $55 million.
+<TEXT>
+Ratners Group PLC's U.S. subsidiary has agreed to acquire jewelry retailer Weisfield's Inc. for $50 a share, or about $55 million.
 
 Weisfield's shares soared on the announcement yesterday, closing up $11 to close at $50 in national over-the-counter trading.
 
@@ -20,6 +21,71 @@ The companies said the acquisition is subject to a definitive agreement. They sa
 
 Weisfield's, based in Seattle, Wash., currently operates 87 specialty jewelry stores in nine states. In the fiscal year ended Jan. 31, the company reported sales of $59.5 million and pretax profit of $2.9 million.
 
-Ratners, which controls 25% of the British jewelry market, would increase the number of its U.S. stores to about 450 stores from 360. It has said it hopes to control 5% of jewelry business in the U.S. by 1992; currently it controls about 2%.</TEXT>
+Ratners, which controls 25% of the British jewelry market, would increase the number of its U.S. stores to about 450 stores from 360. It has said it hopes to control 5% of jewelry business in the U.S. by 1992; currently it controls about 2%.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l42" relType="EVIDENTIAL" eventInstanceID="ei2012" subordinatedEventInstance="ei2014" />
+<SLINK lid="l41" relType="MODAL" eventInstanceID="ei2007" subordinatedEventInstance="ei2005" />
+<SLINK lid="l40" relType="MODAL" eventInstanceID="ei2006" subordinatedEventInstance="ei2007" />
+<SLINK lid="l39" relType="FACTIVE" eventInstanceID="ei2001" subordinatedEventInstance="ei2002" />
+<SLINK lid="l26" relType="MODAL" eventInstanceID="ei1993" subordinatedEventInstance="ei1994" />
+<SLINK lid="l27" relType="EVIDENTIAL" eventInstanceID="ei2000" subordinatedEventInstance="ei2001" />
+<SLINK lid="l28" relType="MODAL" eventInstanceID="ei2002" subordinatedEventInstance="ei2003" />
+<SLINK lid="l29" relType="EVIDENTIAL" eventInstanceID="ei2004" subordinatedEventInstance="ei2006" />
+<SLINK lid="l30" relType="EVIDENTIAL" eventInstanceID="ei2008" subordinatedEventInstance="ei2009" />
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei2009" subordinatedEventInstance="ei2011" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei2012" subordinatedEventInstance="ei2013" />
+<SLINK lid="l33" relType="EVIDENTIAL" eventInstanceID="ei2018" subordinatedEventInstance="ei2019" />
+<SLINK lid="l34" relType="MODAL" eventInstanceID="ei2019" subordinatedEventInstance="ei2020" />
+<ALINK lid="l38" relType="CULMINATES" eventInstanceID="ei2011" relatedToEventInstance="ei2010" />
 
 </TimeML>

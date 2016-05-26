@@ -1,17 +1,49 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0266</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891101-0099 = 891101 891101-0099.
 Letters to the Editor: @ Innovators Overlooked 11/01/89 WALL STREET JOURNAL (J) MUTUAL AND MONEY-MARKET FUNDS (FND)
 </EXTRAINFO>
 
-<TEXT>I was pleased to note that your Oct. 23 Centennial Journal item recognized the money-fund concept as one of the significant events of the past century. Actually, about two years ago, the Journal listed the creation of the money fund as one of the 10 most significant events in the world of finance in the 20th century. But the Reserve Fund, America's first money fund, was not named, nor were the creators of the money-fund concept, Harry Brown and myself. We innovated telephone redemptions, daily dividends, total elimination of share certificates and the constant $1 pershare pricing, all of which were painfully thought out and not the result of some inadvertence on the part of the SEC.
+<TEXT>
+I was pleased to note that your Oct. 23 Centennial Journal item recognized the money-fund concept as one of the significant events of the past century. Actually, about two years ago, the Journal listed the creation of the money fund as one of the 10 most significant events in the world of finance in the 20th century. But the Reserve Fund, America's first money fund, was not named, nor were the creators of the money-fund concept, Harry Brown and myself. We innovated telephone redemptions, daily dividends, total elimination of share certificates and the constant $1 pershare pricing, all of which were painfully thought out and not the result of some inadvertence on the part of the SEC.
 
-BRUCE R. BENT President The Reserve Fund New York</TEXT>
+BRUCE R. BENT President The Reserve Fund New York
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l20" relType="FACTIVE" eventInstanceID="ei129" subordinatedEventInstance="ei131" />
+<SLINK lid="l19" relType="FACTIVE" eventInstanceID="ei129" subordinatedEventInstance="ei130" />
+<SLINK lid="l18" relType="EVIDENTIAL" eventInstanceID="ei124" subordinatedEventInstance="ei125" />
+<SLINK lid="l16" relType="FACTIVE" eventInstanceID="ei123" subordinatedEventInstance="ei124" />
+<SLINK lid="l17" relType="FACTIVE" eventInstanceID="ei126" subordinatedEventInstance="ei127" />
 
 </TimeML>

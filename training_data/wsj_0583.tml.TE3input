@@ -1,22 +1,23 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0583</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0116 = 891030 891030-0116.
 International: @ Polly Peck of U.K. @ To Buy 51% Stake @ In Japanese Firm @ ---- @ By Urban C. Lehner @ Staff Reporter of The Wall Street Journal 10/30/89 WALL STREET JOURNAL (J) J.SNE TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) HOME ELECTRONICS, FURNISHINGS, APPLIANCES (HMF) TOKYO
 </EXTRAINFO>
 
-<TEXT>Polly Peck International Inc.'s agreement to acquire 51% of Sansui Electric Co. proves that foreign companies can acquire Japanese companies -- if the alternative for the Japanese company is extinction.
+<TEXT>
+Polly Peck International Inc.'s agreement to acquire 51% of Sansui Electric Co. proves that foreign companies can acquire Japanese companies -- if the alternative for the Japanese company is extinction.
 
 Polly Peck, a fast-growing British conglomerate, will pay 15.6 billion yen ($110 million) for 39 million new shares of Sansui, a well-known maker of high-fidelity audio equipment that failed to adjust to changing market conditions. Japanese government officials, eager to rebut foreign criticism of Japanese investments overseas, hailed the transaction as proof foreigners can make similar investments in Japan. Polly Peck's chairman, Asil Nadir, echoed the official Japanese view of the accord, which was announced Friday.
 
-'The myths that Japan is not open to concerns from outside has, I think, been demolished at a stroke,' Mr. Nadir said.
+"The myths that Japan is not open to concerns from outside has, I think, been demolished at a stroke," Mr. Nadir said.
 
-But analysts say Sansui is a special case. It expects to post a loss of 6.4 billion yen for the year ending tomorrow and its liabilities currently exceed its assets by about 13.8 billion yen. 'If you find sound, healthy companies in Japan, they are not for sale,' said George Watanabe, a management-consultant at Tokyo-based Asia Advisory Services Inc.
+But analysts say Sansui is a special case. It expects to post a loss of 6.4 billion yen for the year ending tomorrow and its liabilities currently exceed its assets by about 13.8 billion yen. "If you find sound, healthy companies in Japan, they are not for sale," said George Watanabe, a management-consultant at Tokyo-based Asia Advisory Services Inc.
 
 Statistics on acquisitions by foreigners vary in detail, because unlike Sansui, which is listed on the Tokyo and Osaka stock exchanges, most of the Japanese companies acquired by foreigners are privately held. But by all accounts foreign companies have bought only a relative handful of Japanese companies this year, while Japanese companies have acquired hundreds of foreign companies.
 
@@ -24,21 +25,21 @@ Nor do analysts expect the Sansui deal to touch off a fresh wave of foreign purc
 
 Usually when a Japanese company is ready to sell, it has few alternatives remaining, and the grim demeanors of Sansui's directors at a joint news conference here left little doubt that this was not the company's finest hour. Sansui was once one of Japan's premier makers of expensive, high-quality stereo gear for audiophiles.
 
-But in recent years, the market has moved toward less expensive 'mini-component' sets, miniaturized amplifiers and receivers and software players that could be stacked on top of each other.
+But in recent years, the market has moved toward less expensive "mini-component" sets, miniaturized amplifiers and receivers and software players that could be stacked on top of each other.
 
 Some of Sansui's fellow audio-specialty companies, such as Aiwa Co. and Pioneer Electric Corp., responded to the challenge by quickly bringing out mini-component products of their own, by moving heavily into the booming compact disk businesses or by diversifying into other consumer-electronics fields, including laser disks or portable cassette players. Sansui was late into the mini-component business and failed to branch into other new businesses.
 
-As the yen soared in recent years, Sansui's deepening financial problems became a vicious circle. While competitors moved production offshore in response to the sagging competitiveness of Japanese factories, Sansui lacked the money to build new plants in Southeast Asia. 'Our company has not been able to cope very effectively with' changes in the marketplace, said Ryosuke Ito, Sansui's president.
+As the yen soared in recent years, Sansui's deepening financial problems became a vicious circle. While competitors moved production offshore in response to the sagging competitiveness of Japanese factories, Sansui lacked the money to build new plants in Southeast Asia. "Our company has not been able to cope very effectively with" changes in the marketplace, said Ryosuke Ito, Sansui's president.
 
 But even a Japanese company that looks like a dog may turn out to be a good investment for a foreign concern, some management consultants maintain.
 
-Yoshihisa Murasawa, a management consultant for Booz-Allen amp Hamilton (Japan) Inc., said his firm will likely be recommending acquisitions of Japanese companies more often to foreign clients in the future. 'Attitudes {toward being acquired} are still negative, but they're becoming more positive,' Mr. Murasawa said. 'In some industries, like pharmaceuticals, acquisitions make sense.'
+Yoshihisa Murasawa, a management consultant for Booz-Allen amp Hamilton (Japan) Inc., said his firm will likely be recommending acquisitions of Japanese companies more often to foreign clients in the future. "Attitudes {toward being acquired} are still negative, but they're becoming more positive," Mr. Murasawa said. "In some industries, like pharmaceuticals, acquisitions make sense."
 
-Whether Polly Peck's acquisition makes sense remains to be seen, but at the news conference, Mr. Nadir brimmed with self-confidence that he can turn Sansui around. Sansui, he said, is a perfect fit for Polly Peck's electronics operations, which make televisions, videocassette recorders, microwaves and other products on an 'original equipment maker' basis for sale under other companies' brand names.
+Whether Polly Peck's acquisition makes sense remains to be seen, but at the news conference, Mr. Nadir brimmed with self-confidence that he can turn Sansui around. Sansui, he said, is a perfect fit for Polly Peck's electronics operations, which make televisions, videocassette recorders, microwaves and other products on an "original equipment maker" basis for sale under other companies' brand names.
 
 He said Polly Peck will greatly expand Sansui's product line, using Sansui's engineers to design the new products, and will move Sansui's production of most products other than sophisticated audio gear offshore into Polly Peck's own factories.
 
-'Whatever capital it (Sansui) needs so it can compete and become a totally global entity capable of competing with the best in the world, that capital will be injected,' Mr. Nadir said.
+"Whatever capital it (Sansui) needs so it can compete and become a totally global entity capable of competing with the best in the world, that capital will be injected," Mr. Nadir said.
 
 And while Polly Peck isn't jettisoning the existent top-management structure of Sansui, it is bringing in a former Toshiba Corp. executive as executive vice president and chief operating officer.
 
@@ -46,6 +47,161 @@ Such risk taking is an everyday matter for the brash Mr. Nadir, who is 25% owner
 
 Last month, Polly Peck posted a 38% jump in pretax profit for the first half to #54.8 million from #39.8 million on a 63% rise in sales.
 
-Joann S. Lublin in London contributed to this article.</TEXT>
+Joann S. Lublin in London contributed to this article.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l94" relType="FACTIVE" eventInstanceID="ei2023" subordinatedEventInstance="ei2024" />
+<SLINK lid="l92" relType="FACTIVE" eventInstanceID="ei1997" subordinatedEventInstance="ei1998" />
+<SLINK lid="l91" relType="FACTIVE" eventInstanceID="ei1996" subordinatedEventInstance="ei1997" />
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l59" relType="COUNTER_FACTIVE" eventInstanceID="ei1993" subordinatedEventInstance="ei1994" />
+<SLINK lid="l61" relType="FACTIVE" eventInstanceID="ei1999" subordinatedEventInstance="ei2000" />
+<SLINK lid="l67" relType="MODAL" eventInstanceID="ei2010" subordinatedEventInstance="ei2011" />
+<SLINK lid="l69" relType="EVIDENTIAL" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<SLINK lid="l70" relType="EVIDENTIAL" eventInstanceID="ei2008" subordinatedEventInstance="ei2013" />
+<SLINK lid="l71" relType="MODAL" eventInstanceID="ei2019" subordinatedEventInstance="ei2020" />
+<SLINK lid="l72" relType="COUNTER_FACTIVE" eventInstanceID="ei2028" subordinatedEventInstance="ei2029" />
+<SLINK lid="l73" relType="MODAL" eventInstanceID="ei2035" subordinatedEventInstance="ei2036" />
+<SLINK lid="l74" relType="EVIDENTIAL" eventInstanceID="ei2040" subordinatedEventInstance="ei2037" />
+<SLINK lid="l75" relType="MODAL" eventInstanceID="ei2037" subordinatedEventInstance="ei2038" />
+<SLINK lid="l76" relType="FACTIVE" eventInstanceID="ei2038" subordinatedEventInstance="ei2039" />
+<SLINK lid="l77" relType="EVIDENTIAL" eventInstanceID="ei2041" subordinatedEventInstance="ei2042" />
+<SLINK lid="l78" relType="MODAL" eventInstanceID="ei2042" subordinatedEventInstance="ei2043" />
+<SLINK lid="l79" relType="EVIDENTIAL" eventInstanceID="ei2046" subordinatedEventInstance="ei2044" />
+<SLINK lid="l80" relType="MODAL" eventInstanceID="ei2053" subordinatedEventInstance="ei2054" />
+<SLINK lid="l84" relType="EVIDENTIAL" eventInstanceID="ei2063" subordinatedEventInstance="ei2062" />
+<SLINK lid="l85" relType="MODAL" eventInstanceID="ei2062" subordinatedEventInstance="ei2060" />
+<SLINK lid="l86" relType="MODAL" eventInstanceID="ei2062" subordinatedEventInstance="ei2061" />
+<SLINK lid="l87" relType="MODAL" eventInstanceID="ei2067" subordinatedEventInstance="ei2068" />
+<SLINK lid="l88" relType="EVIDENTIAL" eventInstanceID="ei2070" subordinatedEventInstance="ei2071" />
+<SLINK lid="l89" relType="MODAL" eventInstanceID="ei2071" subordinatedEventInstance="ei2072" />
+<SLINK lid="l90" relType="EVIDENTIAL" eventInstanceID="ei2073" subordinatedEventInstance="ei2074" />
 
 </TimeML>

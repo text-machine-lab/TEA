@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0189</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0001 = 891102 891102-0001.
 Ralston Profit @ Declined 47% @ In 4th Quarter @ --- @ By Richard Gibson @ Staff Reporter of The Wall Street Journal 11/02/89 WALL STREET JOURNAL (J) RAL EARNINGS (ERN) FOOD PRODUCTS (FOD)
 </EXTRAINFO>
 
-<TEXT>Ralston Purina Co. reported a 47% decline in fourth-quarter earnings, reflecting restructuring costs as well as a more difficult pet food market.
+<TEXT>
+Ralston Purina Co. reported a 47% decline in fourth-quarter earnings, reflecting restructuring costs as well as a more difficult pet food market.
 
 The St. Louis company earned $45.2 million, or 65 cents a share, compared with $84.9 million, or $1.24 a share, a year earlier. Sales in the latest period were $1.76 billion, a 13% increase from last year's $1.55 billion.
 
@@ -24,6 +25,80 @@ Its cereal division realized higher operating profit on volume increases, but al
 
 Ralston said its Eveready battery unit was hurt by continuing economic problems in South America.
 
-Ralston shares closed yesterday at $80.50, off $1, in New York Stock Exchange composite trading.</TEXT>
+Ralston shares closed yesterday at $80.50, off $1, in New York Stock Exchange composite trading.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l46" relType="EVIDENTIAL" eventInstanceID="ei2251" subordinatedEventInstance="ei2252" />
+<SLINK lid="l36" relType="FACTIVE" eventInstanceID="ei2234" subordinatedEventInstance="ei2235" />
+<SLINK lid="l37" relType="EVIDENTIAL" eventInstanceID="ei2233" subordinatedEventInstance="ei2232" />
+<SLINK lid="l38" relType="EVIDENTIAL" eventInstanceID="ei2211" subordinatedEventInstance="ei2212" />
+<SLINK lid="l39" relType="FACTIVE" eventInstanceID="ei2214" subordinatedEventInstance="ei2215" />
+<SLINK lid="l40" relType="EVIDENTIAL" eventInstanceID="ei2250" subordinatedEventInstance="ei2247" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei2225" subordinatedEventInstance="ei2227" />
+<SLINK lid="l42" relType="EVIDENTIAL" eventInstanceID="ei2241" subordinatedEventInstance="ei2240" />
 
 </TimeML>

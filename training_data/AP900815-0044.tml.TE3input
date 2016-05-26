@@ -1,23 +1,430 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>AP900815-0044</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1990-08-15T13:37">08-15-90 1337EDT</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1990-08-15T13:37">08-15-90 1337EDT</TIMEX3></DCT>
 
 <EXTRAINFO>
 AP900815-0044 AP-NR-08-15-90 1337EDT u i PM-GulfRdp 8thLd-Writethru 08-15 1334 PM-Gulf Rdp, 8th Ld-Writethru,a0605,1368 Saddam Seeks End To War With Iran; Bush To Urge Jordan To Close Port Eds: SUBS 28th graf pvs, Crown Prince... to CORRECT spelling of Hassan; pick up 29th graf pvs, `A CBS...'
 LaserPhotos WX6,7,XSAV1,NY5,10,TOK1,XAAFB1,AMM1, LaserColor XAAFB1 By CHRISTOPHER BURNS Associated Press Writer
 </EXTRAINFO>
 
-<TEXT>Iraq's Saddam Hussein, facing U.S. and Arab troops at the Saudi border, today sought peace on another front by promising to withdraw from Iranian territory and release soldiers captured during the Iran-Iraq war. Also today, King Hussein of Jordan arrived in Washington seeking to mediate the Persian Gulf crisis. President Bush on Tuesday said the United States may extend its naval quarantine to Jordan's Red Sea port of Aqaba to shut off Iraq's last unhindered trade route. In another mediation effort, the Soviet Union said today it had sent an envoy to the Middle East on a series of stops to include Baghdad. Soviet officials also said Soviet women, children and invalids would be allowed to leave Iraq. President Bush today denounced Saddam's ''ruinous policies of war,'' and said the United States is ''striking a blow for the principle that might does not make right.'' In a speech delivered at the Pentagon, Bush seemed to suggest that American forces could be in the gulf region for some time. ''No one should doubt our staying power or determination,'' he said.
+<TEXT>
+Iraq's Saddam Hussein, facing U.S. and Arab troops at the Saudi border, today sought peace on another front by promising to withdraw from Iranian territory and release soldiers captured during the Iran-Iraq war. Also today, King Hussein of Jordan arrived in Washington seeking to mediate the Persian Gulf crisis. President Bush on Tuesday said the United States may extend its naval quarantine to Jordan's Red Sea port of Aqaba to shut off Iraq's last unhindered trade route. In another mediation effort, the Soviet Union said today it had sent an envoy to the Middle East on a series of stops to include Baghdad. Soviet officials also said Soviet women, children and invalids would be allowed to leave Iraq. President Bush today denounced Saddam's ``ruinous policies of war,'' and said the United States is ``striking a blow for the principle that might does not make right.'' In a speech delivered at the Pentagon, Bush seemed to suggest that American forces could be in the gulf region for some time. ``No one should doubt our staying power or determination,'' he said.
 
-The U.S. military buildup in Saudi Arabia continued at fever pace, with Syrian troops now part of a multinational force camped out in the desert to guard the Saudi kingdom from any new thrust by Iraq. In a letter to President Hashemi Rafsanjani of Iran, read by a broadcaster over Baghdad radio, Saddam said he will begin withdrawing troops from Iranian territory on Friday and release Iranian prisoners of war. Iran said an Iraqi diplomatic delegation was en route to Tehran to deliver Saddam's message, which it said it would review ''with optimism.'' Saddam appeared to accept a border demarcation treaty he had rejected in peace talks following the August 1988 cease-fire of the eight-year war with Iran. The move seemed aimed at heading off more trouble with Iran, which had condemned Iraq's invasion of Kuwait on Aug. 2 but also criticized the multinational force dispatched to Saudi Arabia. Saddam said he sought to ''turn the gulf into a lake of peace free of foreign fleets and forces that harbor ill intentions against us.'' In other developments: The Pentagon said that Defense Secretary Dick Cheney is considering urging Bush to order a national callup of armed forces reserves for active duty because of the drain on units sending soldiers abroad. Bush can call up to 200,000 reservists for up to 180 days without seeking congressional approval. Soviet Foreign Ministry spokesman Yuri Gremitskikh said special ambassador Mikhail Sytenko left Tuesday for consultations with the governments of Syria, Jordan, Egypt and other Arab countries.
+The U.S. military buildup in Saudi Arabia continued at fever pace, with Syrian troops now part of a multinational force camped out in the desert to guard the Saudi kingdom from any new thrust by Iraq. In a letter to President Hashemi Rafsanjani of Iran, read by a broadcaster over Baghdad radio, Saddam said he will begin withdrawing troops from Iranian territory on Friday and release Iranian prisoners of war. Iran said an Iraqi diplomatic delegation was en route to Tehran to deliver Saddam's message, which it said it would review ``with optimism.'' Saddam appeared to accept a border demarcation treaty he had rejected in peace talks following the August 1988 cease-fire of the eight-year war with Iran. The move seemed aimed at heading off more trouble with Iran, which had condemned Iraq's invasion of Kuwait on Aug. 2 but also criticized the multinational force dispatched to Saudi Arabia. Saddam said he sought to ``turn the gulf into a lake of peace free of foreign fleets and forces that harbor ill intentions against us.'' In other developments: The Pentagon said that Defense Secretary Dick Cheney is considering urging Bush to order a national callup of armed forces reserves for active duty because of the drain on units sending soldiers abroad. Bush can call up to 200,000 reservists for up to 180 days without seeking congressional approval. Soviet Foreign Ministry spokesman Yuri Gremitskikh said special ambassador Mikhail Sytenko left Tuesday for consultations with the governments of Syria, Jordan, Egypt and other Arab countries.
 
-Sytenko, a former deputy secretary-general of the United Nations, is also expected to visit Baghdad, Gremitskikh said at a regular news briefing today. The outlook darkened for about 3,000 Americans caught in Iraq and Kuwait when Saddam sent his forces into the small, oil-rich sultanate. The Iraqi ambassador to Greece said in Athens the Americans and other stranded foreigners could leave ''as soon as the threats from the United States and its allies are eliminated.'' ABC quoted an Iraqi Foreign Ministry official in Baghdad as saying Americans in Iraq are ''restrictees'' who will stay there until the crisis ends. The Soviet Foreign Ministry said Soviet women, children and invalids would be permitted to leave Iraq. Spokesman Yuri Gremitskikh said the first group of 230 evacuees was assembling in Baghdad today, but evacuation plans were hampered by desert heat and lack of transportation. Nearly 9,000 Soviets were among the hundreds of thousands of foreigners trapped in Iraq and Kuwait. Iraq has agreed to allow all 880 Soviets in Kuwait to leave, but only by a 1,200-mile road route through Iraq and to the Iraq-Jordan border. The British Foreign Office said today conditions in Kuwait appear to be deteriorating. There have been reports of wholesale looting but food and gasoline were still available, said a spokesman, who by custom was not identified. Banks remained closed. The Iraqi ambassador to Venezuela said on Tuesday that Iraq would retaliate against Venezuela and other OPEC oil cartel members if they boost oil production to fill the gap created by blocked supplies from Iraq and Kuwait. With Kuwait now ''annexed,'' Iraq has control of 20 percent of the world's oil reserves. A steep rise in world oil prices followed the Kuwait invasion. The U.N. Security Council on Aug. 6 ordered a global embargo on trade with Iraq as punishment for seizing Kuwait. Bush then sent U.S. troops and planes to Saudi Arabia, saying Iraqi troops massed nearby in Kuwait threatened Saudi Arabia and its vast oil reserves. Twelve Arab League nations voted for an Arab force to protect Saudi Arabia, with the vanguard of Syria's contingent arriving Tuesday, according to diplomatic sources in Riyadh, the Saudi capital. Egyptian and Moroccan troops are already there. The predominantly Moslem nation of Bangladesh said today its troops would join multinational forces in Saudi Arabia. The size of the contingent was not disclosed. Turkey and Saudi Arabia in effect shut down Iraq's major oil outlets through those countries, but according to Jordanian officials, a smaller line into Jordan remained operating. Truckloads of goods rolled into Iraq from Jordan on Tuesday and Iraqi-bound cargo was unloaded from ships at the Red Sea port ofAqaba despite the U.N.-ordered sanctions. King Hussein was reportedly carrying a message to Bush from Iraq's Saddam, with whom the king met Monday. The monarch will meet Bush on Thursday in Kennebunkport, Maine. Crown Prince Hassan, King Hussein's brother and political adviser, was asked today about the message the king was said to be carrying. In an interview from Jordan on ABC, he declined to discuss details, but said: ''I don't think that his majesty would be traveling at this crucial moment if the Iraqi leadership did not have a rational approach to the future.''
+Sytenko, a former deputy secretary-general of the United Nations, is also expected to visit Baghdad, Gremitskikh said at a regular news briefing today. The outlook darkened for about 3,000 Americans caught in Iraq and Kuwait when Saddam sent his forces into the small, oil-rich sultanate. The Iraqi ambassador to Greece said in Athens the Americans and other stranded foreigners could leave ``as soon as the threats from the United States and its allies are eliminated.'' ABC quoted an Iraqi Foreign Ministry official in Baghdad as saying Americans in Iraq are ``restrictees'' who will stay there until the crisis ends. The Soviet Foreign Ministry said Soviet women, children and invalids would be permitted to leave Iraq. Spokesman Yuri Gremitskikh said the first group of 230 evacuees was assembling in Baghdad today, but evacuation plans were hampered by desert heat and lack of transportation. Nearly 9,000 Soviets were among the hundreds of thousands of foreigners trapped in Iraq and Kuwait. Iraq has agreed to allow all 880 Soviets in Kuwait to leave, but only by a 1,200-mile road route through Iraq and to the Iraq-Jordan border. The British Foreign Office said today conditions in Kuwait appear to be deteriorating. There have been reports of wholesale looting but food and gasoline were still available, said a spokesman, who by custom was not identified. Banks remained closed. The Iraqi ambassador to Venezuela said on Tuesday that Iraq would retaliate against Venezuela and other OPEC oil cartel members if they boost oil production to fill the gap created by blocked supplies from Iraq and Kuwait. With Kuwait now ``annexed,'' Iraq has control of 20 percent of the world's oil reserves. A steep rise in world oil prices followed the Kuwait invasion. The U.N. Security Council on Aug. 6 ordered a global embargo on trade with Iraq as punishment for seizing Kuwait. Bush then sent U.S. troops and planes to Saudi Arabia, saying Iraqi troops massed nearby in Kuwait threatened Saudi Arabia and its vast oil reserves. Twelve Arab League nations voted for an Arab force to protect Saudi Arabia, with the vanguard of Syria's contingent arriving Tuesday, according to diplomatic sources in Riyadh, the Saudi capital. Egyptian and Moroccan troops are already there. The predominantly Moslem nation of Bangladesh said today its troops would join multinational forces in Saudi Arabia. The size of the contingent was not disclosed. Turkey and Saudi Arabia in effect shut down Iraq's major oil outlets through those countries, but according to Jordanian officials, a smaller line into Jordan remained operating. Truckloads of goods rolled into Iraq from Jordan on Tuesday and Iraqi-bound cargo was unloaded from ships at the Red Sea port ofAqaba despite the U.N.-ordered sanctions. King Hussein was reportedly carrying a message to Bush from Iraq's Saddam, with whom the king met Monday. The monarch will meet Bush on Thursday in Kennebunkport, Maine. Crown Prince Hassan, King Hussein's brother and political adviser, was asked today about the message the king was said to be carrying. In an interview from Jordan on ABC, he declined to discuss details, but said: ``I don't think that his majesty would be traveling at this crucial moment if the Iraqi leadership did not have a rational approach to the future.''
 
 A CBS News report citing unidentified Jordanian sources said that Saddam's message called for an international conference to be convened to discuss an Iraqi withdrawal from Kuwait. In exchange, the buildup of U.S. forces in the region would halt. Bush, however, says he sees no short-term hope for a diplomatic solution to the gulf crisis _ at least until economic sanctions force Saddam to withdraw his army. Bush held out the prospect of more aid to Jordan if it cooperates with the trade embargo. On Tuesday, the United States and Soviet Union conferred in Washington on putting an anti-Iraq naval blockade under a United Nations umbrella. The United States has provided most of the naval vessels so far to block Iraqi trade, with Britain, West Germany and Australia among the other nations lending support at sea. The embargo is meant to cripple Iraq by cutting off its exports of oil and imports of food and military supplies.
 
-Iraq imports about three-quarters of its foodstuffs. U.S. allies and other U.N. members have objected that the Security Council embargo resolution did not specifically authorize such a naval operation. Bush told a news conference on Tuesday that the naval barricade now in force might be extended to Jordan's Aqaba ''if it is a hole through which commerce flows'' in and out of Iraq. In Saudi Arabia, today is the eighth day of ''Desert Shield,'' the operation designed to confront an estimated 200,000 Iraqi soldiers now in Kuwait. Iraq boasts an army of 1 million members. At least 50,000 U.S. troops are expected to be committed to Desert Shield within weeks, including Marines, Army air assault forces, paratroopers and infantry. Iraq said it invaded Kuwait because of disputes over oil and money. It accused Kuwait of deliberately slashing Iraqi oil revenues by overproducing oil and driving down prices, among other charges. Iraq has 17 million residents, and Kuwait about 1.9 million.</TEXT>
+Iraq imports about three-quarters of its foodstuffs. U.S. allies and other U.N. members have objected that the Security Council embargo resolution did not specifically authorize such a naval operation. Bush told a news conference on Tuesday that the naval barricade now in force might be extended to Jordan's Aqaba ``if it is a hole through which commerce flows'' in and out of Iraq. In Saudi Arabia, today is the eighth day of ``Desert Shield,'' the operation designed to confront an estimated 200,000 Iraqi soldiers now in Kuwait. Iraq boasts an army of 1 million members. At least 50,000 U.S. troops are expected to be committed to Desert Shield within weeks, including Marines, Army air assault forces, paratroopers and infantry. Iraq said it invaded Kuwait because of disputes over oil and money. It accused Kuwait of deliberately slashing Iraqi oil revenues by overproducing oil and driving down prices, among other charges. Iraq has 17 million residents, and Kuwait about 1.9 million.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l247" relType="MODAL" eventInstanceID="ei1739" subordinatedEventInstance="ei1740" />
+<SLINK lid="l244" relType="EVIDENTIAL" eventInstanceID="ei1723" subordinatedEventInstance="ei1725" />
+<SLINK lid="l243" relType="MODAL" eventInstanceID="ei1719" subordinatedEventInstance="ei1721" />
+<SLINK lid="l241" relType="MODAL" eventInstanceID="ei1703" subordinatedEventInstance="ei1704" />
+<SLINK lid="l239" relType="MODAL" eventInstanceID="ei1693" subordinatedEventInstance="ei1694" />
+<SLINK lid="l238" relType="MODAL" eventInstanceID="ei1685" subordinatedEventInstance="ei1686" />
+<SLINK lid="l237" relType="EVIDENTIAL" eventInstanceID="ei1665" subordinatedEventInstance="ei1666" />
+<SLINK lid="l232" relType="EVIDENTIAL" eventInstanceID="ei1624" subordinatedEventInstance="ei1625" />
+<SLINK lid="l231" relType="EVIDENTIAL" eventInstanceID="ei1611" subordinatedEventInstance="ei1613" />
+<SLINK lid="l230" relType="EVIDENTIAL" eventInstanceID="ei1606" subordinatedEventInstance="ei1604" />
+<SLINK lid="l229" relType="EVIDENTIAL" eventInstanceID="ei1601" subordinatedEventInstance="ei1602" />
+<SLINK lid="l228" relType="FACTIVE" eventInstanceID="ei1582" subordinatedEventInstance="ei1583" />
+<SLINK lid="l227" relType="FACTIVE" eventInstanceID="ei1580" subordinatedEventInstance="ei1581" />
+<SLINK lid="l224" relType="EVIDENTIAL" eventInstanceID="ei1535" subordinatedEventInstance="ei1536" />
+<SLINK lid="l223" relType="MODAL" eventInstanceID="ei1532" subordinatedEventInstance="ei1534" />
+<SLINK lid="l221" relType="FACTIVE" eventInstanceID="ei1529" subordinatedEventInstance="ei1530" />
+<SLINK lid="l142" relType="CONDITIONAL" eventInstanceID="ei1644" subordinatedEventInstance="ei1643"  />
+<SLINK lid="l145" relType="CONDITIONAL" eventInstanceID="ei1726" subordinatedEventInstance="ei1725"  />
+<SLINK lid="l147" relType="MODAL" eventInstanceID="ei1522" subordinatedEventInstance="ei1523" />
+<SLINK lid="l148" relType="MODAL" eventInstanceID="ei1522" subordinatedEventInstance="ei1524" />
+<SLINK lid="l149" relType="MODAL" eventInstanceID="ei1528" subordinatedEventInstance="ei1529" />
+<SLINK lid="l150" relType="EVIDENTIAL" eventInstanceID="ei1531" subordinatedEventInstance="ei1532" />
+<SLINK lid="l151" relType="MODAL" eventInstanceID="ei1539" subordinatedEventInstance="ei1540" />
+<SLINK lid="l152" relType="EVIDENTIAL" eventInstanceID="ei1538" subordinatedEventInstance="ei1539" />
+<SLINK lid="l153" relType="EVIDENTIAL" eventInstanceID="ei1542" subordinatedEventInstance="ei1543" />
+<SLINK lid="l154" relType="MODAL" eventInstanceID="ei1546" subordinatedEventInstance="ei1547" />
+<SLINK lid="l156" relType="EVIDENTIAL" eventInstanceID="ei1551" subordinatedEventInstance="ei1549" />
+<SLINK lid="l157" relType="MODAL" eventInstanceID="ei1555" subordinatedEventInstance="ei1556" />
+<SLINK lid="l158" relType="MODAL" eventInstanceID="ei1556" subordinatedEventInstance="ei1557" />
+<SLINK lid="l159" relType="EVIDENTIAL" eventInstanceID="ei1559" subordinatedEventInstance="ei1560" />
+<SLINK lid="l160" relType="EVIDENTIAL" eventInstanceID="ei1559" subordinatedEventInstance="ei1562" />
+<SLINK lid="l163" relType="EVIDENTIAL" eventInstanceID="ei1566" subordinatedEventInstance="ei1567" />
+<SLINK lid="l164" relType="MODAL" eventInstanceID="ei1568" subordinatedEventInstance="ei1569" />
+<SLINK lid="l166" relType="MODAL" eventInstanceID="ei1576" subordinatedEventInstance="ei1577" />
+<SLINK lid="l167" relType="MODAL" eventInstanceID="ei1577" subordinatedEventInstance="ei1578" />
+<SLINK lid="l169" relType="EVIDENTIAL" eventInstanceID="ei1584" subordinatedEventInstance="ei1585" />
+<SLINK lid="l170" relType="MODAL" eventInstanceID="ei1585" subordinatedEventInstance="ei1586" />
+<SLINK lid="l171" relType="EVIDENTIAL" eventInstanceID="ei1590" subordinatedEventInstance="ei1591" />
+<SLINK lid="l172" relType="MODAL" eventInstanceID="ei1591" subordinatedEventInstance="ei1592" />
+<SLINK lid="l173" relType="MODAL" eventInstanceID="ei1592" subordinatedEventInstance="ei1593" />
+<SLINK lid="l174" relType="MODAL" eventInstanceID="ei1593" subordinatedEventInstance="ei1594" />
+<SLINK lid="l176" relType="MODAL" eventInstanceID="ei1602" subordinatedEventInstance="ei1603"  />
+<SLINK lid="l177" relType="MODAL" eventInstanceID="ei1604" subordinatedEventInstance="ei1605" />
+<SLINK lid="l178" relType="EVIDENTIAL" eventInstanceID="ei1617" subordinatedEventInstance="ei1618" />
+<SLINK lid="l179" relType="EVIDENTIAL" eventInstanceID="ei1616" subordinatedEventInstance="ei1617" />
+<SLINK lid="l180" relType="MODAL" eventInstanceID="ei1622" subordinatedEventInstance="ei1623" />
+<SLINK lid="l181" relType="EVIDENTIAL" eventInstanceID="ei1621" subordinatedEventInstance="ei1622" />
+<SLINK lid="l183" relType="MODAL" eventInstanceID="ei1630" subordinatedEventInstance="ei1631" />
+<SLINK lid="l184" relType="MODAL" eventInstanceID="ei1631" subordinatedEventInstance="ei1632" />
+<SLINK lid="l185" relType="MODAL" eventInstanceID="ei1634" subordinatedEventInstance="ei1635" />
+<SLINK lid="l186" relType="EVIDENTIAL" eventInstanceID="ei1633" subordinatedEventInstance="ei1634" />
+<SLINK lid="l187" relType="EVIDENTIAL" eventInstanceID="ei1642" subordinatedEventInstance="ei1643" />
+<SLINK lid="l188" relType="MODAL" eventInstanceID="ei1644" subordinatedEventInstance="ei1645" />
+<SLINK lid="l189" relType="MODAL" eventInstanceID="ei1652" subordinatedEventInstance="ei1653" />
+<SLINK lid="l190" relType="EVIDENTIAL" eventInstanceID="ei1657" subordinatedEventInstance="ei1658" />
+<SLINK lid="l191" relType="EVIDENTIAL" eventInstanceID="ei1657" subordinatedEventInstance="ei1659" />
+<SLINK lid="l192" relType="MODAL" eventInstanceID="ei1660" subordinatedEventInstance="ei1661" />
+<SLINK lid="l193" relType="EVIDENTIAL" eventInstanceID="ei1663" subordinatedEventInstance="ei1662" />
+<SLINK lid="l194" relType="EVIDENTIAL" eventInstanceID="ei1669" subordinatedEventInstance="ei1670" />
+<SLINK lid="l195" relType="EVIDENTIAL" eventInstanceID="ei1679" subordinatedEventInstance="ei1680" />
+<SLINK lid="l196" relType="COUNTER_FACTIVE" eventInstanceID="ei1682" subordinatedEventInstance="ei1683" />
+<SLINK lid="l197" relType="EVIDENTIAL" eventInstanceID="ei1684" subordinatedEventInstance="ei1685" />
+<SLINK lid="l198" relType="EVIDENTIAL" eventInstanceID="ei1690" subordinatedEventInstance="ei1691" />
+<SLINK lid="l199" relType="MODAL" eventInstanceID="ei1691" subordinatedEventInstance="ei1693" />
+<SLINK lid="l201" relType="MODAL" eventInstanceID="ei1694" subordinatedEventInstance="ei1695" />
+<SLINK lid="l202" relType="EVIDENTIAL" eventInstanceID="ei1699" subordinatedEventInstance="ei1700" />
+<SLINK lid="l205" relType="MODAL" eventInstanceID="ei1709" subordinatedEventInstance="ei1710" />
+<SLINK lid="l206" relType="MODAL" eventInstanceID="ei1715" subordinatedEventInstance="ei1716" />
+<SLINK lid="l209" relType="MODAL" eventInstanceID="ei1721" subordinatedEventInstance="ei1722" />
+<SLINK lid="l211" relType="MODAL" eventInstanceID="ei1733" subordinatedEventInstance="ei1734" />
+<SLINK lid="l212" relType="EVIDENTIAL" eventInstanceID="ei1736" subordinatedEventInstance="ei1737" />
+<ALINK lid="l213" relType="CONTINUES" eventInstanceID="ei1553" relatedToEventInstance="ei1552" />
+<ALINK lid="l214" relType="INITIATES" eventInstanceID="ei1560" relatedToEventInstance="ei1561" />
+<ALINK lid="l215" relType="TERMINATES" eventInstanceID="ei1620" relatedToEventInstance="ei1619" />
+<ALINK lid="l216" relType="CONTINUES" eventInstanceID="ei1640" relatedToEventInstance="ei1641" />
+<ALINK lid="l217" relType="CONTINUES" eventInstanceID="ei1670" relatedToEventInstance="ei1671" />
+<ALINK lid="l219" relType="TERMINATES" eventInstanceID="ei1698" relatedToEventInstance="ei1697" />
 
 </TimeML>

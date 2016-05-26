@@ -1,27 +1,28 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19980812.0062</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-08-11">August 11</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-08-11">August 11</TIMEX3></DCT>
 
 <TITLE>Albright Praises African Cooperation in Bombing Probe</TITLE>
 
 
 <EXTRAINFO>
-XIE19980812.0062 
- 1998-08-12
+XIE19980812.0062  1998-08-12
 Albright Praises African Cooperation in Bombing Probe
 </EXTRAINFO>
 
 
-<TEXT>WASHINGTON, August 11 (Xinhua) --
+<TEXT>
+
+WASHINGTON, August 11 (Xinhua) --
 
 U.S. Secretary of State Madeleine Albright said on Tuesday that she was heartened by cooperation from Kenya and Tanzania in probing into last Friday's bombings of U.S. embassies.
 
-'I have been heartened by the close cooperation we have had with authorities in Kenya and Tanzania from the moment the tragedies occurred,' Albright told ambassadors and charges d'affaires of 30 African countries in Washington, who came to the State Department to offer condolences.
+"I have been heartened by the close cooperation we have had with authorities in Kenya and Tanzania from the moment the tragedies occurred," Albright told ambassadors and charges d'affaires of 30 African countries in Washington, who came to the State Department to offer condolences.
 
-'I want to thank you for the help that your governments have provided by sharing information and tightening security at our embassies in recent days,' she said.
+"I want to thank you for the help that your governments have provided by sharing information and tightening security at our embassies in recent days," she said.
 
 The bombings at U.S embassies in Kenya and Tanzania have killed more than 200 people, including 12 Americans, and wounded over 5,000.
 
@@ -33,15 +34,139 @@ Albright announced on Monday to offer a reward of up to 2 million U.S. dollars f
 
 She told African envoys that she looked forward to visiting Kenya and Tanzania but would wait until she could do so without placing undue burdens on the heavily stretched U.S. embassies there.
 
-She also said the bombings would not prevent the United States from building 'a strong new relationship with a new Africa.'
+She also said the bombings would not prevent the United States from building "a strong new relationship with a new Africa."
 
-Egyptian Ambassador Ahmed Maher el-Sayed, on behalf of the African envoys, condemned the 'cowardly, criminal and tragic' bombings.
+Egyptian Ambassador Ahmed Maher el-Sayed, on behalf of the African envoys, condemned the "cowardly, criminal and tragic" bombings.
 
-'Terrorism is inconsistent with our African history, our tradition, our culture and our beliefs,' he said. 'Americans and Africans need to strengthen their cooperation in this universal battle' against terrorism.</TEXT>
+"Terrorism is inconsistent with our African history, our tradition, our culture and our beliefs," he said. "Americans and Africans need to strengthen their cooperation in this universal battle" against terrorism.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l8" relType="MODAL" eventInstanceID="ei40" subordinatedEventInstance="ei2" syntax="USER"/>
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei6" subordinatedEventInstance="ei7" syntax="USER"/>
+<SLINK lid="l17" relType="MODAL" eventInstanceID="ei8" subordinatedEventInstance="ei9" syntax="USER"/>
+<SLINK lid="l34" relType="MODAL" eventInstanceID="ei17" subordinatedEventInstance="ei18" syntax="USER"/>
+<SLINK lid="l43" relType="EVIDENTIAL" eventInstanceID="ei22" subordinatedEventInstance="ei23" syntax="USER"/>
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei19" subordinatedEventInstance="ei20" syntax="USER"/>
+<SLINK lid="l45" relType="EVIDENTIAL" eventInstanceID="ei1" subordinatedEventInstance="ei40" syntax="USER"/>
+<SLINK lid="l46" relType="EVIDENTIAL" eventInstanceID="ei13" subordinatedEventInstance="ei8" syntax="USER"/>
+<SLINK lid="l47" relType="EVIDENTIAL" eventInstanceID="ei13" subordinatedEventInstance="ei45" syntax="USER"/>
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei24" subordinatedEventInstance="ei25" syntax="USER"/>
+<SLINK lid="l53" relType="EVIDENTIAL" eventInstanceID="ei27" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l56" relType="MODAL" eventInstanceID="ei28" subordinatedEventInstance="ei29" syntax="USER"/>
+<SLINK lid="l60" relType="EVIDENTIAL" eventInstanceID="ei34" subordinatedEventInstance="ei54" syntax="USER"/>
+<SLINK lid="l63" relType="EVIDENTIAL" eventInstanceID="ei34" subordinatedEventInstance="ei35" syntax="USER"/>
+<SLINK lid="l66" relType="EVIDENTIAL" eventInstanceID="ei36" subordinatedEventInstance="ei56" syntax="USER"/>
+<SLINK lid="l70" relType="EVIDENTIAL" eventInstanceID="ei37" subordinatedEventInstance="ei38" syntax="USER"/>
+<SLINK lid="l71" relType="MODAL" eventInstanceID="ei38" subordinatedEventInstance="ei39" syntax="USER"/>
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei37" subordinatedEventInstance="ei59" syntax="USER"/>
+
 </TimeML>
+
+
+

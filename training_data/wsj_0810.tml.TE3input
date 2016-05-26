@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0810</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0085 = 891027 891027-0085.
 International: @ Navigation Mixte Chairman Says Board @ Rejected Paribas Bid to Raise Its Stake @ ---- @ By E.S. Browning @ Staff Reporter of The Wall Street Journal 10/27/89 WALL STREET JOURNAL (J) F.CNM F.CFP G.ALL F.SGF F.CLC TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) FOOD PRODUCTS (FOD) TRANSPORTATION, TRUCK AND SHIP LINES, RAILROADS (TRA) INSURANCE (INS) PARIS
 </EXTRAINFO>
 
-<TEXT>Cie. de Navigation Mixte Chairman Marc Fournier said his board unanimously rejected as too low the $1.77 billion bid by Cie. Financiere de Paribas to bring its stake in Navigation Mixte to 66.7%.
+<TEXT>
+Cie. de Navigation Mixte Chairman Marc Fournier said his board unanimously rejected as too low the $1.77 billion bid by Cie. Financiere de Paribas to bring its stake in Navigation Mixte to 66.7%.
 
 At a news conference, Mr. Fournier accused Paribas of planning to pay for the takeover by selling parts of the company, whose interests include insurance, banking, tuna canning, sugar and orange juice.
 
@@ -22,7 +23,7 @@ Mr. Fournier said Navigation Mixte's 1989 unconsolidated, or parent-company, pro
 
 Analysts noted that over the past 20 years, Mr. Fournier has built his company through astute stock-market activity and has warded off at least three takeover attempts. This time, however, some analysts think he could face a real battle.
 
-'Without some unexpected 'coup de theatre', I don't see what will block the Paribas bid,' said Philippe de Cholet, analyst at the brokerage Cholet-Dupont amp Cie. Mr. de Cholet said Mr. Fournier's biggest hope was to somehow persuade regulatory authorities to block the bid. Paribas still needs the go-ahead from the Commission des Operations de Bourse, a government regulatory agency, but analysts said that is considered likely.
+"Without some unexpected "coup de theatre", I don't see what will block the Paribas bid," said Philippe de Cholet, analyst at the brokerage Cholet-Dupont amp Cie. Mr. de Cholet said Mr. Fournier's biggest hope was to somehow persuade regulatory authorities to block the bid. Paribas still needs the go-ahead from the Commission des Operations de Bourse, a government regulatory agency, but analysts said that is considered likely.
 
 Mr. Fournier also noted that Navigation Mixte joined Paribas's core of shareholders when Paribas was denationalized in 1987, and said it now holds just under 5% of Paribas's shares. Once he realized that Paribas's intentions weren't friendly, he said, but before the bid was launched, he sought approval to boost his Paribas stake above 10%. The petition is still pending, but Mr. Fournier downplayed the likelihood of his organizing a takeover bid of his own for the much-larger Paribas.
 
@@ -30,6 +31,205 @@ One big question now is the likely role of Mr. Fournier's allies. Mr. Fournier s
 
 Paribas said Monday that it intends to bid to boost its stake in Navigation Mixte to 66.7%, from the 18.7% it already owns. The purchase of the additional 48% stake is expected to cost more than 11 billion francs ($1.77 billion).
 
-Paribas says it will offer 1,850 francs ($296.95) each for Navigation Mixte shares that enjoy full dividend rights, and 1,800 francs each for a block of shares issued July 1, which will receive only partial dividends this year. Alternatively, it is to offer three Paribas shares for one Navigation Mixte share. The Paribas offer values Navigation Mixte at about 23 billion francs, depending on how many of Navigation Mixte's warrants are converted into shares during the takeover battle.</TEXT>
+Paribas says it will offer 1,850 francs ($296.95) each for Navigation Mixte shares that enjoy full dividend rights, and 1,800 francs each for a block of shares issued July 1, which will receive only partial dividends this year. Alternatively, it is to offer three Paribas shares for one Navigation Mixte share. The Paribas offer values Navigation Mixte at about 23 billion francs, depending on how many of Navigation Mixte's warrants are converted into shares during the takeover battle.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l120" relType="FACTIVE" eventInstanceID="ei2723" subordinatedEventInstance="ei2722" />
+<SLINK lid="l117" relType="EVIDENTIAL" eventInstanceID="ei2685" subordinatedEventInstance="ei2758" />
+<SLINK lid="l115" relType="MODAL" eventInstanceID="ei2675" subordinatedEventInstance="ei2677" />
+<SLINK lid="l60" relType="CONDITIONAL" eventInstanceID="ei2688" subordinatedEventInstance="ei2691"  />
+<SLINK lid="l61" relType="EVIDENTIAL" eventInstanceID="ei2645" subordinatedEventInstance="ei2646" />
+<SLINK lid="l62" relType="FACTIVE" eventInstanceID="ei2646" subordinatedEventInstance="ei2647" />
+<SLINK lid="l63" relType="FACTIVE" eventInstanceID="ei2647" subordinatedEventInstance="ei2648" />
+<SLINK lid="l65" relType="MODAL" eventInstanceID="ei2651" subordinatedEventInstance="ei2652" />
+<SLINK lid="l66" relType="MODAL" eventInstanceID="ei2652" subordinatedEventInstance="ei2653" />
+<SLINK lid="l67" relType="MODAL" eventInstanceID="ei2653" subordinatedEventInstance="ei2654" />
+<SLINK lid="l68" relType="EVIDENTIAL" eventInstanceID="ei2656" subordinatedEventInstance="ei2657" />
+<SLINK lid="l69" relType="EVIDENTIAL" eventInstanceID="ei2658" subordinatedEventInstance="ei2659" />
+<SLINK lid="l70" relType="COUNTER_FACTIVE" eventInstanceID="ei2659" subordinatedEventInstance="ei2660" />
+<SLINK lid="l71" relType="COUNTER_FACTIVE" eventInstanceID="ei2659" subordinatedEventInstance="ei2661" />
+<SLINK lid="l72" relType="EVIDENTIAL" eventInstanceID="ei2663" subordinatedEventInstance="ei2664" />
+<SLINK lid="l73" relType="MODAL" eventInstanceID="ei2664" subordinatedEventInstance="ei2665" />
+<SLINK lid="l74" relType="MODAL" eventInstanceID="ei2669" subordinatedEventInstance="ei2670" />
+<SLINK lid="l75" relType="MODAL" eventInstanceID="ei2670" subordinatedEventInstance="ei2671" />
+<SLINK lid="l76" relType="MODAL" eventInstanceID="ei2670" subordinatedEventInstance="ei2672" />
+<SLINK lid="l77" relType="COUNTER_FACTIVE" eventInstanceID="ei2671" subordinatedEventInstance="ei2673" />
+<SLINK lid="l78" relType="MODAL" eventInstanceID="ei2672" subordinatedEventInstance="ei2673" />
+<SLINK lid="l79" relType="EVIDENTIAL" eventInstanceID="ei2674" subordinatedEventInstance="ei2675" />
+<SLINK lid="l80" relType="MODAL" eventInstanceID="ei2675" subordinatedEventInstance="ei2676" />
+<SLINK lid="l81" relType="MODAL" eventInstanceID="ei2677" subordinatedEventInstance="ei2678" />
+<SLINK lid="l82" relType="MODAL" eventInstanceID="ei2683" subordinatedEventInstance="ei2684" />
+<SLINK lid="l83" relType="COUNTER_FACTIVE" eventInstanceID="ei2688" subordinatedEventInstance="ei2689" />
+<SLINK lid="l84" relType="EVIDENTIAL" eventInstanceID="ei2690" subordinatedEventInstance="ei2691" />
+<SLINK lid="l86" relType="EVIDENTIAL" eventInstanceID="ei2693" subordinatedEventInstance="ei2694" />
+<SLINK lid="l87" relType="COUNTER_FACTIVE" eventInstanceID="ei2696" subordinatedEventInstance="ei2698" />
+<SLINK lid="l89" relType="MODAL" eventInstanceID="ei2699" subordinatedEventInstance="ei2700" />
+<SLINK lid="l90" relType="FACTIVE" eventInstanceID="ei2700" subordinatedEventInstance="ei2701" />
+<SLINK lid="l91" relType="EVIDENTIAL" eventInstanceID="ei2706" subordinatedEventInstance="ei2703" />
+<SLINK lid="l92" relType="EVIDENTIAL" eventInstanceID="ei2703" subordinatedEventInstance="ei2704" />
+<SLINK lid="l93" relType="FACTIVE" eventInstanceID="ei2704" subordinatedEventInstance="ei2705" />
+<SLINK lid="l96" relType="MODAL" eventInstanceID="ei2709" subordinatedEventInstance="ei2710" />
+<SLINK lid="l97" relType="FACTIVE" eventInstanceID="ei2710" subordinatedEventInstance="ei2711" />
+<SLINK lid="l99" relType="EVIDENTIAL" eventInstanceID="ei2714" subordinatedEventInstance="ei2715" />
+<SLINK lid="l100" relType="EVIDENTIAL" eventInstanceID="ei2717" subordinatedEventInstance="ei2718" />
+<SLINK lid="l101" relType="EVIDENTIAL" eventInstanceID="ei2721" subordinatedEventInstance="ei2724" />
+<SLINK lid="l102" relType="MODAL" eventInstanceID="ei2724" subordinatedEventInstance="ei2725" />
+<SLINK lid="l103" relType="MODAL" eventInstanceID="ei2725" subordinatedEventInstance="ei2726" />
+<SLINK lid="l104" relType="MODAL" eventInstanceID="ei2730" subordinatedEventInstance="ei2731" />
+<SLINK lid="l105" relType="EVIDENTIAL" eventInstanceID="ei2732" subordinatedEventInstance="ei2733" />
+<SLINK lid="l107" relType="EVIDENTIAL" eventInstanceID="ei2736" subordinatedEventInstance="ei2738" />
+<SLINK lid="l108" relType="EVIDENTIAL" eventInstanceID="ei2739" subordinatedEventInstance="ei2740" />
+<SLINK lid="l109" relType="MODAL" eventInstanceID="ei2740" subordinatedEventInstance="ei2741" />
+<SLINK lid="l110" relType="MODAL" eventInstanceID="ei2741" subordinatedEventInstance="ei2742" />
+<SLINK lid="l111" relType="MODAL" eventInstanceID="ei2747" subordinatedEventInstance="ei2748" />
+<SLINK lid="l112" relType="EVIDENTIAL" eventInstanceID="ei2749" subordinatedEventInstance="ei2750" />
+<ALINK lid="l114" relType="INITIATES" eventInstanceID="ei2723" relatedToEventInstance="ei2722" />
+<ALINK lid="l113" relType="REINITIATES" eventInstanceID="ei2667" relatedToEventInstance="ei2668" />
 
 </TimeML>

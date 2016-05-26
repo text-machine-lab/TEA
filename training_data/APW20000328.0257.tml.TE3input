@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW20000328.0257</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-03-28">2000-03-28</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-03-28">2000-03-28</TIMEX3></DCT>
 
 <TITLE>Cuba Fears Elian Move Outside US</TITLE>
 
@@ -14,7 +14,9 @@ Cuba Fears Elian Move Outside US
 </EXTRAINFO>
 
 
-<TEXT>HAVANA (AP) --
+<TEXT>
+
+HAVANA (AP) --
 
 President Fidel Castro said Tuesday his government told U.S. officials it is worried that Miami-based exiles might take Elian Gonzalez to another country or even harm him if they lose their battle to block the boy's return to Cuba.
 
@@ -28,7 +30,9 @@ In Miami, the boy's great-uncle, Lazaro Gonzalez, denied that he would send Elia
 
 The Cuban leader first raised those worries during another live television appearance Sunday night during a speech to about 700 Cuban university students.
 
-But it was not until Tuesday that Castro revealed that those concerns had been shared directly with the U.S. government.</TEXT>
+But it was not until Tuesday that Castro revealed that those concerns had been shared directly with the U.S. government.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -36,4 +40,80 @@ AP-NY-03-28-00 2312
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l14" relType="MODAL" eventInstanceID="ei26" subordinatedEventInstance="ei8" syntax="USER"/>
+<SLINK lid="l27" relType="NEG_EVIDENTIAL" eventInstanceID="ei16" subordinatedEventInstance="ei17" syntax="USER"/>
+<SLINK lid="l29" relType="NEG_EVIDENTIAL" eventInstanceID="ei16" subordinatedEventInstance="ei18" syntax="USER"/>
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0570</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0130 = 891030 891030-0130.
@@ -11,7 +11,8 @@ Crane Co.
 Holds 8.9% @ Of Milton Roy Corp., @ May Seek Control 10/30/89 WALL STREET JOURNAL (J) CR MRC TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) NEW YORK
 </EXTRAINFO>
 
-<TEXT>Crane Co. said it holds an 8.9% stake in Milton Roy Corp., an analytical-instruments maker, and may seek control of the company.
+<TEXT>
+Crane Co. said it holds an 8.9% stake in Milton Roy Corp., an analytical-instruments maker, and may seek control of the company.
 
 Crane, a maker of engineered products for aerospace, construction, defense and other uses, made the disclosure in a Securities and Exchange Commission filing.
 
@@ -31,6 +32,111 @@ The companies are automotive-emissions-testing concerns.
 
 Under the terms, Milton Roy will pay an initial $4 million for the operations and additional payments during the next four years based on the earnings performance of the businesses.
 
-In the nine months, Milton Roy earned $6.6 million, or $1.18 a share, on sales of $94.3 million.</TEXT>
+In the nine months, Milton Roy earned $6.6 million, or $1.18 a share, on sales of $94.3 million.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l63" relType="FACTIVE" eventInstanceID="ei440" subordinatedEventInstance="ei441" />
+<SLINK lid="l43" relType="EVIDENTIAL" eventInstanceID="ei422" subordinatedEventInstance="ei423" />
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei422" subordinatedEventInstance="ei424" />
+<SLINK lid="l46" relType="EVIDENTIAL" eventInstanceID="ei430" subordinatedEventInstance="ei431" />
+<SLINK lid="l47" relType="MODAL" eventInstanceID="ei431" subordinatedEventInstance="ei432" />
+<SLINK lid="l49" relType="EVIDENTIAL" eventInstanceID="ei430" subordinatedEventInstance="ei436" />
+<SLINK lid="l50" relType="MODAL" eventInstanceID="ei436" subordinatedEventInstance="ei437" />
+<SLINK lid="l51" relType="MODAL" eventInstanceID="ei438" subordinatedEventInstance="ei439" />
+<SLINK lid="l53" relType="EVIDENTIAL" eventInstanceID="ei449" subordinatedEventInstance="ei450" />
+<SLINK lid="l54" relType="FACTIVE" eventInstanceID="ei451" subordinatedEventInstance="ei452" />
+<SLINK lid="l55" relType="EVIDENTIAL" eventInstanceID="ei454" subordinatedEventInstance="ei455" />
+<SLINK lid="l56" relType="MODAL" eventInstanceID="ei455" subordinatedEventInstance="ei456" />
+<SLINK lid="l57" relType="MODAL" eventInstanceID="ei457" subordinatedEventInstance="ei458" />
+<SLINK lid="l58" relType="EVIDENTIAL" eventInstanceID="ei465" subordinatedEventInstance="ei464" />
+<ALINK lid="l61" relType="CONTINUES" eventInstanceID="ei437" relatedToEventInstance="ei438" />
+<ALINK lid="l62" relType="INITIATES" eventInstanceID="ei462" relatedToEventInstance="ei463" />
 
 </TimeML>

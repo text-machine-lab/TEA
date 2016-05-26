@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT20000329.0359</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-03-29">2000-03-29</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-03-29">2000-03-29</TIMEX3></DCT>
 
 <TITLE>MIAMI AREA POLITICIANS CAUTION U.S. ON FORCIBLY TAKING CUBAN BOY</TITLE>
 
@@ -20,25 +20,29 @@ c.2000 N.Y. Times News Service
 </EXTRAINFO>
 
 
-<TEXT>MIAMI _
+<TEXT>
+
+MIAMI _
 
 Elected officials in and around Miami warned U.S. immigration officials Wednesday that they should expect little help from the police here when they come for 6-year-old Elian Gonzalez, and they said this city could erupt in violence if federal agents tried to forcibly take the boy from his great-uncle's house in Little Havana and send him back to Cuba.
 
-''We will not lend our respective resources, whether they be in the form of police officers or any other resources, to assist the federal government in any way, shape or form to inappropriately repatriate Elian Gonzalez to Cuba,'' said Alex Penelas, mayor of Miami-Dade County.
+``We will not lend our respective resources, whether they be in the form of police officers or any other resources, to assist the federal government in any way, shape or form to inappropriately repatriate Elian Gonzalez to Cuba,'' said Alex Penelas, mayor of Miami-Dade County.
 
 As of Wednesday evening, Lazaro Gonzalez, the boy's great-uncle and temporary guardian, still had not signed an agreement to hand the child over to immigration officials if the Miami relatives lose a fight to keep him when the case is heard in May in the 11th Circuit U.S. Court of Appeals.
 
-''I won't cooperate in anything,'' Gonzalez told a Spanish-language television station. ''The boy lives in my house, and they'll have to go find him there.''
+``I won't cooperate in anything,'' Gonzalez told a Spanish-language television station. ``The boy lives in my house, and they'll have to go find him there.''
 
 As pressure built in this city, the home of a large number of Cuban exiles, officials of the Immigration and Naturalization Service said they did not plan to remove Elian on Thursday morning even if his Miami relatives continued to defy them. But an INS spokeswoman said the agency would revoke Elian's permission to stay in the United States, clearing the way for his return to Cuba.
 
 In Havana, Cuban President Fidel Castro said that the boy's father, Juan Miguel Gonzalez, would travel to the United States to bring his son home after the custody battle has been decided in the courts. Elian's father would be accompanied by other family members from Cuba, some of the boy's former classmates and teachers, and psychiatric experts, Castro said on Cuban television.
 
-''We have the perfect formula for reinserting Elian,'' Castro said. He also said that the group would be willing to wait as long as it takes to bring the boy back.
+``We have the perfect formula for reinserting Elian,'' Castro said. He also said that the group would be willing to wait as long as it takes to bring the boy back.
 
 Asked to comment on Castro's announcement, a Justice Department spokesman said:
 
-''Certainly it changes things. How it changes things is a little hard to say at this point. If the father shows up in Miami and decides to go and ring the doorbell of his relatives and find his son, well, the family in Miami is on record as saying they would turn over Elian to him. Whether they actually do this remains to be seen.''</TEXT>
+``Certainly it changes things. How it changes things is a little hard to say at this point. If the father shows up in Miami and decides to go and ring the doorbell of his relatives and find his son, well, the family in Miami is on record as saying they would turn over Elian to him. Whether they actually do this remains to be seen.''
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -46,4 +50,150 @@ NYT-03-29-00 2125EST &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l11" relType="MODAL" eventInstanceID="ei6" subordinatedEventInstance="ei7" syntax="USER"/>
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei9" subordinatedEventInstance="ei10" syntax="USER"/>
+<SLINK lid="l20" relType="MODAL" eventInstanceID="ei13" subordinatedEventInstance="ei14" syntax="USER"/>
+<SLINK lid="l25" relType="MODAL" eventInstanceID="ei62" subordinatedEventInstance="ei16" syntax="USER"/>
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei20" subordinatedEventInstance="ei21" syntax="USER"/>
+<SLINK lid="l36" relType="MODAL" eventInstanceID="ei24" subordinatedEventInstance="ei25" syntax="USER"/>
+<ALINK lid="l39" relType="CONTINUES" eventInstanceID="ei26" relatedToEventInstance="ei72" syntax="USER"/>
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0558</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0142 = 891030 891030-0142.
 Aetna Life amp Casualty @ Profit Decreased 22% @ In the Third Quarter 10/30/89 WALL STREET JOURNAL (J) AET EARNINGS (ERN) INSURANCE (INS) HARTFORD, Conn.
 </EXTRAINFO>
 
-<TEXT>Aetna Life amp Casualty Co.'s third-quarter net income fell 22% to $182.6 million, or $1.63 a share, reflecting the damages from Hurricane Hugo and lower results for some of the company's major divisions.
+<TEXT>
+Aetna Life amp Casualty Co.'s third-quarter net income fell 22% to $182.6 million, or $1.63 a share, reflecting the damages from Hurricane Hugo and lower results for some of the company's major divisions.
 
 Catastrophe losses reduced Aetna's net income by $50 million, including $36 million from Hugo. Last year catastrophe losses totaled $5 million, when net was $235.5 million, or $2.07 a share. The year-earlier results have been restated to reflect an accounting change.
 
@@ -24,6 +25,92 @@ However, Aetna's employee benefits division, which includes its group health ins
 
 Third-quarter results included net realized capital gains of $48 million, which included $27 million from the sale of Federated Investors in August and a $15 million tax credit.
 
-In the nine months, net rose 4.3% to $525.8 million or $4.67 a share, from $504.2 million, or $4.41 a share, last year.</TEXT>
+In the nine months, net rose 4.3% to $525.8 million or $4.67 a share, from $504.2 million, or $4.41 a share, last year.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l47" relType="FACTIVE" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<SLINK lid="l46" relType="FACTIVE" eventInstanceID="ei2010" subordinatedEventInstance="ei2011" />
+<SLINK lid="l40" relType="FACTIVE" eventInstanceID="ei2001" subordinatedEventInstance="ei2000" />
+<SLINK lid="l41" relType="MODAL" eventInstanceID="ei2001" subordinatedEventInstance="ei2002" />
+<SLINK lid="l42" relType="FACTIVE" eventInstanceID="ei2002" subordinatedEventInstance="ei2003" />
+<SLINK lid="l43" relType="FACTIVE" eventInstanceID="ei2005" subordinatedEventInstance="ei2006" />
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei2022" subordinatedEventInstance="ei2023" />
+<ALINK lid="l45" relType="INITIATES" eventInstanceID="ei2004" relatedToEventInstance="ei2005" />
 
 </TimeML>

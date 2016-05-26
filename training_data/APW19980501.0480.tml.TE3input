@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980501.0480</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-05-01T09:13:00">05/01/1998 09:13:00</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-05-01T09:13:00">05/01/1998 09:13:00</TIMEX3></DCT>
 
 <EXTRAINFO>
 APW19980501.0480 NEWS STORY 05/01/1998 09:13:00
@@ -14,12 +14,130 @@ AND WORLD TIMES, INC.
 NO PORTION OF THE MATERIALS CONTAINED HEREIN MAY BE USED IN ANY MEDIA WITHOUT ATTRIBUTION TO WORLDSOURCES, INC.
 </EXTRAINFO>
 
-<TEXT>MALAYSIA's aggressive move into the information age could not come in a more opportune time. With the convergence of communications and information technologies (IT) coupled with the coming of age for the Internet and its related technologies, the stage is set for Malaysians to seize the chance to transform into a knowledge society and become worthy opponents/players in the global market space. The Internet, the global network of computers, is now far reaching into the country - extending its embrace to include every nook and cranny of the nation - opening doors to not only a diverse range of information sources but also an exhaustive list of possibilities to create new applications which add value to people's lives. In the business world, the Internet - through intranet and extranet solutions - has become an invaluable tool for companies to harness so as to gain a competitive edge. The solutions are also vital components in developing the borderless marketing flagship application which is a vital element for spearheading the development of the Multimedia Super Corridor (MSC) project. The application will create the necessary framework and infrastructure to support electronic commerce (e-commerce) initiatives in the country. However, it is important to note that installing or implementing Internet technologies for technology's sake would not ensure instant success. For e-commerce to flourish with full-blown end-to-end business transactions, strategic planning which incorporates both business and technology plans that are complementary is necessary for an organisation to see feasible returns on investment. Intranets, through the use of Internet technology, are positioned as a platform for companies to optimise, expand and transform new channels of business. When strategically implemented, an intranet solution will provide the ability to mediate mission-critical, decision support functions in organisations. It will also help further improve communications and collaboration at all levels in an organisation. With intranets in place, it is only logical for organisations to respectively link the network to other companies' for extended business purposes through extranets. While this will enable the sharing of information among enterprises, security issues such as firewalls and encryption as well as access and control procedures, and the trust levels that enterprises have with each other will emerge and there will be a need to address them. Other than usage in business, Internet technology is also beginning to infiltrate the lifestyle domain. ''Smart homes'' have emerged bringing a wealth of information and entertainment to families over telecommunications lines. The art of socialising is also experiencing a change where Net/virtual relationships are fast overtaking or becoming parallel with the normal human relationships. Whether this would prove positive or otherwise towards society in the future is yet to be seen. All in all, the Internet has a lot to offer. However, its value and benefits are only as good as how we use it.</TEXT>
+<TEXT>
+MALAYSIA's aggressive move into the information age could not come in a more opportune time. With the convergence of communications and information technologies (IT) coupled with the coming of age for the Internet and its related technologies, the stage is set for Malaysians to seize the chance to transform into a knowledge society and become worthy opponents/players in the global market space. The Internet, the global network of computers, is now far reaching into the country - extending its embrace to include every nook and cranny of the nation - opening doors to not only a diverse range of information sources but also an exhaustive list of possibilities to create new applications which add value to people's lives. In the business world, the Internet - through intranet and extranet solutions - has become an invaluable tool for companies to harness so as to gain a competitive edge. The solutions are also vital components in developing the borderless marketing flagship application which is a vital element for spearheading the development of the Multimedia Super Corridor (MSC) project. The application will create the necessary framework and infrastructure to support electronic commerce (e-commerce) initiatives in the country. However, it is important to note that installing or implementing Internet technologies for technology's sake would not ensure instant success. For e-commerce to flourish with full-blown end-to-end business transactions, strategic planning which incorporates both business and technology plans that are complementary is necessary for an organisation to see feasible returns on investment. Intranets, through the use of Internet technology, are positioned as a platform for companies to optimise, expand and transform new channels of business. When strategically implemented, an intranet solution will provide the ability to mediate mission-critical, decision support functions in organisations. It will also help further improve communications and collaboration at all levels in an organisation. With intranets in place, it is only logical for organisations to respectively link the network to other companies' for extended business purposes through extranets. While this will enable the sharing of information among enterprises, security issues such as firewalls and encryption as well as access and control procedures, and the trust levels that enterprises have with each other will emerge and there will be a need to address them. Other than usage in business, Internet technology is also beginning to infiltrate the lifestyle domain. ``Smart homes'' have emerged bringing a wealth of information and entertainment to families over telecommunications lines. The art of socialising is also experiencing a change where Net/virtual relationships are fast overtaking or becoming parallel with the normal human relationships. Whether this would prove positive or otherwise towards society in the future is yet to be seen. All in all, the Internet has a lot to offer. However, its value and benefits are only as good as how we use it.
+</TEXT>
 
 <LASTEXTRAINFO>
 Copyright 1998 NEW STRAITS TIMES-MANAGEMENT TIMES all rights reserved as distributed by WorldSources, Inc.
 (PROFILE (WS SL:SETTING-THE-STAGE sked; CT:w; (REG:ENGL;) (LANG:ENGLISH;)) )
 AP-NY-05-01-98 0913EDT
 </LASTEXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l69" relType="MODAL" eventInstanceID="ei304" subordinatedEventInstance="ei305" />
+<SLINK lid="l68" relType="MODAL" eventInstanceID="ei303" subordinatedEventInstance="ei302" />
+<SLINK lid="l67" relType="FACTIVE" eventInstanceID="ei298" subordinatedEventInstance="ei299" />
+<SLINK lid="l63" relType="MODAL" eventInstanceID="ei276" subordinatedEventInstance="ei279" />
+<SLINK lid="l62" relType="MODAL" eventInstanceID="ei276" subordinatedEventInstance="ei278" />
+<SLINK lid="l61" relType="MODAL" eventInstanceID="ei276" subordinatedEventInstance="ei277" />
+<SLINK lid="l60" relType="FACTIVE" eventInstanceID="ei262" subordinatedEventInstance="ei263" />
+<SLINK lid="l59" relType="MODAL" eventInstanceID="ei255" subordinatedEventInstance="ei256" />
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei253" subordinatedEventInstance="ei254" />
+<SLINK lid="l57" relType="MODAL" eventInstanceID="ei248" subordinatedEventInstance="ei249" />
+<SLINK lid="l46" relType="MODAL" eventInstanceID="ei247" subordinatedEventInstance="ei248" />
+<SLINK lid="l47" relType="MODAL" eventInstanceID="ei283" subordinatedEventInstance="ei284" />
+<SLINK lid="l48" relType="MODAL" eventInstanceID="ei281" subordinatedEventInstance="ei282" />
+<SLINK lid="l50" relType="MODAL" eventInstanceID="ei269" subordinatedEventInstance="ei270" />
+<SLINK lid="l51" relType="MODAL" eventInstanceID="ei264" subordinatedEventInstance="ei265" />
+<ALINK lid="l56" relType="INITIATES" eventInstanceID="ei294" relatedToEventInstance="ei295" />
 
 </TimeML>

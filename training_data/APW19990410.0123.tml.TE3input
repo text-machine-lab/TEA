@@ -1,22 +1,22 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19990410.0123</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-04-10T06:27">1999-04-10 06:27:43</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-04-10T06:27">1999-04-10 06:27:43</TIMEX3></DCT>
 
 <TITLE>Rifle Found Near Dead Doctor's Home</TITLE>
 
 
 <EXTRAINFO>
-APW19990410.0123 
-1999-04-10 06:27:43
-usa 
-Rifle Found Near Dead Doctor's Home
+APW19990410.0123 1999-04-10 06:27:43
+usa Rifle Found Near Dead Doctor's Home
 </EXTRAINFO>
 
 
-<TEXT>AMHERST, N.Y. (AP) --
+<TEXT>
+
+AMHERST, N.Y. (AP) --
 
 A rifle found near the home of a slain abortion doctor may yield important clues for investigators trying to track down the gunman.
 
@@ -24,7 +24,7 @@ Dr. Barnett Slepian was killed in his kitchen by a sniper's bullet last fall. In
 
 The gun was sent to the FBI laboratory in Washington to determine whether it was used to kill Slepian.
 
-''If it's not too badly rusted, they may be able to match the bullet back to the weapon,'' said Walter Rowe, forensics sciences professor at George Washington University.
+``If it's not too badly rusted, they may be able to match the bullet back to the weapon,'' said Walter Rowe, forensics sciences professor at George Washington University.
 
 The rifle might also have clothing fibers, fingerprints or a serial number that can be traced to the buyer, Rowe said.
 
@@ -34,11 +34,102 @@ Anti-abortion protester James Kopp is being sought as a material witness in the 
 
 Investigators said Kopp's car was seen in the neighborhood in the days before the slaying. Kopp vanished after the shooting, and the car was found abandoned at the Newark, N.J., airport in December.
 
-Officials said DNA test results showed a likelihood that a strand of hair discovered behind Slepian's home came from Kopp.</TEXT>
+Officials said DNA test results showed a likelihood that a strand of hair discovered behind Slepian's home came from Kopp.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l4" relType="MODAL" eventInstanceID="ei3" subordinatedEventInstance="ei4" syntax="USER"/>
+<SLINK lid="l11" relType="MODAL" eventInstanceID="ei9" subordinatedEventInstance="ei10" syntax="USER"/>
+<SLINK lid="l12" relType="FACTIVE" eventInstanceID="ei10" subordinatedEventInstance="ei11" syntax="USER"/>
+<SLINK lid="l13" relType="MODAL" eventInstanceID="ei11" subordinatedEventInstance="ei12" syntax="USER"/>
+<SLINK lid="l19" relType="MODAL" eventInstanceID="ei14" subordinatedEventInstance="ei15" syntax="USER"/>
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei23" subordinatedEventInstance="ei24" syntax="USER"/>
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei27" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l45" relType="FACTIVE" eventInstanceID="ei32" subordinatedEventInstance="ei33" syntax="USER"/>
+<SLINK lid="l47" relType="EVIDENTIAL" eventInstanceID="ei34" subordinatedEventInstance="ei35" syntax="USER"/>
+
 </TimeML>
+
+

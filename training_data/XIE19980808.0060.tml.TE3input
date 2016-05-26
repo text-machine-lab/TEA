@@ -1,23 +1,24 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19980808.0060</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-08">1998-08-08</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-08">1998-08-08</TIMEX3></DCT>
 
 <TITLE>Cyprus Condemns Terrorist Bombings in Africa</TITLE>
 
 
 <EXTRAINFO>
-XIE19980808.0060 
- 1998-08-08 14:35
+XIE19980808.0060  1998-08-08 14:35
 Cyprus Condemns Terrorist Bombings in Africa
 </EXTRAINFO>
 
 
-<TEXT>NICOSIA, August 8 (Xinhua) --
+<TEXT>
 
-The Cypriot government Saturday strongly condemned two terrorist bomb attacks in Kenya and Tanzania Friday, calling them an 'atrocious crime.'
+NICOSIA, August 8 (Xinhua) --
+
+The Cypriot government Saturday strongly condemned two terrorist bomb attacks in Kenya and Tanzania Friday, calling them an "atrocious crime."
 
 In a condolence telegram to U.S. President Bill Clinton, President Glafcos Clerides condemned the terrorist acts and extended his sympathy to the victims' families.
 
@@ -27,11 +28,62 @@ More than 100 people have died, eight of them Americans and over 1,000 injured s
 
 Six people were also killed and at least 58 injured in a car bomb attack on Friday outside the U.S. embassy in the Tanzanian capital Dar-es-Salaam.
 
-The two bombings happened only minutes apart, apparently with the U.S. embassies as their targets. No one has claimed responsibility for the attacks.</TEXT>
+The two bombings happened only minutes apart, apparently with the U.S. embassies as their targets. No one has claimed responsibility for the attacks.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT20000414.0296</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-04-14">2000-04-14</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-04-14">2000-04-14</TIMEX3></DCT>
 
 <TITLE>Castro's sister stays above the fray in Miami</TITLE>
 
@@ -20,7 +20,9 @@ BC-ELIAN-SISTER-COX
 </EXTRAINFO>
 
 
-<TEXT>MIAMI _
+<TEXT>
+
+MIAMI _
 
 The small pharmacy on Unity Boulevard in Little Havana is unassuming. No Cuban flags sway from its door and no political signs pushing for the case of young Elian Gonzalez hang from its windows.
 
@@ -30,27 +32,29 @@ She is Fidel Castro's younger sister, Juanita. While her brother is the personif
 
 And while she maintains a distance between herself and the heated rhetoric and politics that envelop Miami, Friday she had definite opinions on the case of the 6-year-old Cuban boy that has dominated the city for almost five months now.
 
-''I feel for this child,'' Juanita Castro said. ''This has become too politicized, in both Cuba and Miami, and too many people are profiting from this tragedy. I think people have forgotten that this is a human issue.''
+``I feel for this child,'' Juanita Castro said. ``This has become too politicized, in both Cuba and Miami, and too many people are profiting from this tragedy. I think people have forgotten that this is a human issue.''
 
 Juanita Castro, who arrived in Miami in 1961, believes the custody of the child should be worked out between his family members. She is not certain whether the boy should stay in the United States, but she feels that since he's been here so long, he should be afforded the opportunity to live in a free country.
 
 When asked if she thought the boy's father, Juan Miguel Gonzalez, was being controlled by the Cuban government even though he has been in Bethesda, Md., for the last week, she frowned.
 
-''I don't know what Juan Miguel thinks or believes,'' Juanita Castro said. ''What I do think is that he should have arrived in this country at least 72 hours after his son was found floating off the coast of Fort Lauderdale.''
+``I don't know what Juan Miguel thinks or believes,'' Juanita Castro said. ``What I do think is that he should have arrived in this country at least 72 hours after his son was found floating off the coast of Fort Lauderdale.''
 
-''This has gone too far. And it's now become a tragedy.''
+``This has gone too far. And it's now become a tragedy.''
 
 Dressed in a dark pink blazer and cream color pants, the sister of the Cuban dictator walked around the pharmacy talking warmly with her customers.
 
-She said she she sometimes talks to family members back in Cuba. ''I have sisters that I still speak to,'' she said, ''and this situation is driving people crazy.''
+She said she she sometimes talks to family members back in Cuba. ``I have sisters that I still speak to,'' she said, ``and this situation is driving people crazy.''
 
 The only thing on Cuban television is Elian's story, she said, and she feels the Cuban people are getting tired of the issue.
 
-She does not speak to her brother and hasn't for several years. ''Nobody talks to Fidel, because he doesn't listen,'' Juanita Castro said. ''He talks and he decides.''
+She does not speak to her brother and hasn't for several years. ``Nobody talks to Fidel, because he doesn't listen,'' Juanita Castro said. ``He talks and he decides.''
 
 Juanita Castro said she has not visited the Miami relatives of Elian Gonzalez and has no plans to do so. Although she supports the cause of Miami's Cubans in their struggle against her brother's government, she said she prefers to keep a low profile when it comes to politics.
 
-''I just work in my pharmacy every day and I pray for a resolution in our country (Cuba) that is without violence,'' she said. ''And I also pray for this young boy every day because he needs help. He's been through a lot.''</TEXT>
+``I just work in my pharmacy every day and I pray for a resolution in our country (Cuba) that is without violence,'' she said. ``And I also pray for this young boy every day because he needs help. He's been through a lot.''
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -60,4 +64,182 @@ NYT-04-14-00 1832EDT &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l83" eventInstanceID="ei56" subordinatedEventInstance="ei57" relType="MODAL"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+
+

@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW20000401.0150</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-04-01">2000-04-01</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-04-01">2000-04-01</TIMEX3></DCT>
 
 <TITLE>Thousands Rally for Elian in Cuba</TITLE>
 
@@ -14,7 +14,9 @@ Thousands Rally for Elian in Cuba
 </EXTRAINFO>
 
 
-<TEXT>HAVANA (AP) --
+<TEXT>
+
+HAVANA (AP) --
 
 Tens of thousands of people paid tribute to the men who launched the Cuban Revolution more than four decades ago in a rally Saturday demanding the return of Elian Gonzalez.
 
@@ -34,7 +36,9 @@ Gonzalez has cited his rights as the child's sole surviving parent in his calls 
 
 ''Elian today is the symbol of our unity,'' Castro said to cheers.
 
-''And our struggle will not end with the return of Elian,'' added Castro. He said the Cuban people would continue to protest American laws and policies aimed at Cuba, including a four-decade economic embargo and continued U.S. military presence at the Guantanamo Naval Station on the easternmost end of the island.</TEXT>
+''And our struggle will not end with the return of Elian,'' added Castro. He said the Cuban people would continue to protest American laws and policies aimed at Cuba, including a four-decade economic embargo and continued U.S. military presence at the Guantanamo Naval Station on the easternmost end of the island.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -42,4 +46,123 @@ AP-NY-04-01-00 1914
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l13" eventInstanceID="ei3" subordinatedEventInstance="ei36" relType="MODAL"/>
+<SLINK lid="l30" eventInstanceID="ei13" subordinatedEventInstance="ei44" relType="MODAL"/>
+<SLINK lid="l36" eventInstanceID="ei46" subordinatedEventInstance="ei16" relType="MODAL"/>
+<SLINK lid="l38" eventInstanceID="ei16" subordinatedEventInstance="ei47" relType="MODAL"/>
+<ALINK lid="l58" eventInstanceID="ei29" relatedToEventInstance="ei30" relType="CONTINUES"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+
+

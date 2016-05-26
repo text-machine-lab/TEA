@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>ABC19980108.1830.0711</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-01-08">19980108</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-01-08">19980108</TIMEX3></DCT>
 
 <EXTRAINFO>
 ABC19980108.1830.0711 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>On the other hand, it's turning out to be another very bad financial week for Asia. The financial assistance from the World Bank and the International Monetary Fund are not helping. In the last twenty four hours, the value of the Indonesian stock market has fallen by twelve percent. The Indonesian currency has lost twenty six percent of its value. In Singapore, stocks hit a five year low. In the Philippines, a four year low. And in Hong Kong, a three percent drop. More problems in Hong Kong for a place, for an economy, that many experts thought was once invincible. Here's ABC's Jim Laurie.
+<TEXT>
+On the other hand, it's turning out to be another very bad financial week for Asia. The financial assistance from the World Bank and the International Monetary Fund are not helping. In the last twenty four hours, the value of the Indonesian stock market has fallen by twelve percent. The Indonesian currency has lost twenty six percent of its value. In Singapore, stocks hit a five year low. In the Philippines, a four year low. And in Hong Kong, a three percent drop. More problems in Hong Kong for a place, for an economy, that many experts thought was once invincible. Here's ABC's Jim Laurie.
 
 Not that long ago, before the Chinese takeover, the news about real estate here was that the sky was the limit the highest prices in the world. So when Wong Kwan spent seventy million dollars for this house, he thought it was a great deal. He sold the property to five buyers and said he'd double his money.
 
@@ -25,6 +26,100 @@ Hotels are only thirty percent full. You can get seventy percent discounts at th
 
 I think that the mood is fairly gloomy, and I think it's not going to change for a couple of years.
 
-So for Hong Kong, it's time, as investment bankers like to say, to reposition. To either hold on tight or get out, as much of Asia goes into recession. Jim Laurie, ABC News, Hong Kong.</TEXT>
+So for Hong Kong, it's time, as investment bankers like to say, to reposition. To either hold on tight or get out, as much of Asia goes into recession. Jim Laurie, ABC News, Hong Kong.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei420" subordinatedEventInstance="ei436" />
+<SLINK lid="l48" relType="MODAL" eventInstanceID="ei384" subordinatedEventInstance="ei438" />
+<SLINK lid="l47" relType="FACTIVE" eventInstanceID="ei378" subordinatedEventInstance="ei377" />
+<SLINK lid="l40" relType="MODAL" eventInstanceID="ei389" subordinatedEventInstance="ei390" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei392" subordinatedEventInstance="ei393" />
+<SLINK lid="l42" relType="MODAL" eventInstanceID="ei402" subordinatedEventInstance="ei404" />
+<SLINK lid="l43" relType="MODAL" eventInstanceID="ei405" subordinatedEventInstance="ei406" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei418" subordinatedEventInstance="ei419" />
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei422" subordinatedEventInstance="ei424" />
+
+
+
+
+
 
 </TimeML>

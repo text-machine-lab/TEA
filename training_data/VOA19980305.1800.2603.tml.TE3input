@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>VOA19980305.1800.2603</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-03-05">19980305</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-03-05">19980305</TIMEX3></DCT>
 
 <EXTRAINFO>
 VOA19980305.1800.2603 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>International Women's Day is this coming Sunday, March eighth. A major focus of International Women's Day is the plight of Afghan women. Special events are being organized by the European Commission and individual nations in Europe, North America, and other parts of the world. Lisa Schlein reports from Geneva.
+<TEXT>
+International Women's Day is this coming Sunday, March eighth. A major focus of International Women's Day is the plight of Afghan women. Special events are being organized by the European Commission and individual nations in Europe, North America, and other parts of the world. Lisa Schlein reports from Geneva.
 
 Afghanistan has been at war for twenty years, leaving a large part of the country's male population dead or in exile. The United Nations says women and children make up about seventy-five percent of the Afghan population. An Afghan refugee in Switzerland, Homira Atimadi, is a senior official of a group called the International Working Group on Afghan Women. The group has branches in Pakistan, Iran, Europe, Australia, and North America. Ms. Atimadi says Afghan women have been victims of severe violations of human rights for the past twenty years and she says she sees no end to the misery. She says security under the fundamentalist Taleban government is better, but everything else is worse.
 
@@ -19,6 +20,90 @@ Ms. Atimadi says the war has created a nation of widows. Women have become the s
 
 The aim is to bring in not only the focus on women's right to education, access to work, but look beyond that and look at the roots of, uh of these problems. These are only the symptoms of the problems that are facing Afghanistan. For women in Afghanistan to be able to realize their rights, there have to be conditions of peace and justice.
 
-Ms. Atimadi says that is the primary focus of her group, peace and justice. She says her group is appealing to individuals, to the international community, and to the combatants and people of Afghanistan to stop the bloodletting which has torn the country apart. Lisa Schlein for VOA News, Geneva.</TEXT>
+Ms. Atimadi says that is the primary focus of her group, peace and justice. She says her group is appealing to individuals, to the international community, and to the combatants and people of Afghanistan to stop the bloodletting which has torn the country apart. Lisa Schlein for VOA News, Geneva.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l48" relType="MODAL" eventInstanceID="ei485" subordinatedEventInstance="ei486" />
+<SLINK lid="l47" relType="EVIDENTIAL" eventInstanceID="ei484" subordinatedEventInstance="ei485" />
+<SLINK lid="l24" relType="EVIDENTIAL" eventInstanceID="ei436" subordinatedEventInstance="ei437" />
+<SLINK lid="l26" relType="EVIDENTIAL" eventInstanceID="ei441" subordinatedEventInstance="ei442" />
+<SLINK lid="l27" relType="EVIDENTIAL" eventInstanceID="ei442" subordinatedEventInstance="ei443" />
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei445" subordinatedEventInstance="ei447" />
+<SLINK lid="l29" relType="EVIDENTIAL" eventInstanceID="ei445" subordinatedEventInstance="ei448" />
+<SLINK lid="l31" relType="EVIDENTIAL" eventInstanceID="ei456" subordinatedEventInstance="ei458" />
+<SLINK lid="l32" relType="COUNTER_FACTIVE" eventInstanceID="ei462" subordinatedEventInstance="ei463" />
+<SLINK lid="l33" relType="EVIDENTIAL" eventInstanceID="ei464" subordinatedEventInstance="ei465" />
+<SLINK lid="l34" relType="EVIDENTIAL" eventInstanceID="ei467" subordinatedEventInstance="ei469" />
+<SLINK lid="l35" relType="EVIDENTIAL" eventInstanceID="ei472" subordinatedEventInstance="ei473" />
+<SLINK lid="l39" relType="MODAL" eventInstanceID="ei490" subordinatedEventInstance="ei480" />
+<SLINK lid="l41" relType="MODAL" eventInstanceID="ei431" subordinatedEventInstance="ei430" />
+<ALINK lid="l43" relType="TERMINATES" eventInstanceID="ei486" relatedToEventInstance="ei487" />
 
 </TimeML>

@@ -1,22 +1,22 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19990607.0041</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-06-07T19:00">1999-06-07 19:00:11</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-06-07T19:00">1999-06-07 19:00:11</TIMEX3></DCT>
 
 <TITLE>Bin Laden, Kopp on Most-Wanted List</TITLE>
 
 
 <EXTRAINFO>
-APW19990607.0041 
-1999-06-07 19:00:11
-washington 
-Bin Laden, Kopp on Most-Wanted List
+APW19990607.0041 1999-06-07 19:00:11
+washington Bin Laden, Kopp on Most-Wanted List
 </EXTRAINFO>
 
 
-<TEXT>WASHINGTON (AP) --
+<TEXT>
+
+WASHINGTON (AP) --
 
 The FBI put alleged terrorist mastermind Osama Bin Laden and anti-abortion activist and accused doctor killer James Charles Kopp on the bureau's list of the Ten Most Wanted fugitives Monday.
 
@@ -34,7 +34,7 @@ Freeh said Bin Laden may be hiding out in Afghanistan, which has been uncooperat
 
 Kopp purports to be a devout Roman Catholic, and the majority of jobs he has held over the past 20 years have been related to the anti-abortion movement, the Justice Department said in a news release.
 
-State Department international security director Dave Carpenter said that placing Bin Laden on the most-wanted list ''underscores the unwavering commitment'' by the United States ''to fight terrorism.'' The FBI continues to receive threats from individuals and organizations with ties to Bin Laden, Freeh said.
+State Department international security director Dave Carpenter said that placing Bin Laden on the most-wanted list ``underscores the unwavering commitment'' by the United States ``to fight terrorism.'' The FBI continues to receive threats from individuals and organizations with ties to Bin Laden, Freeh said.
 
 Carpenter said the U.S. government's counterterrorism program has paid out over $6 million in some 20 cases around the world for credible information.
 
@@ -42,17 +42,232 @@ On the FBI list, Bin Laden and Kopp replace two former Libyan intelligence agent
 
 Bin Laden and Kopp are the 455th and 456th persons to be placed on the FBI's most wanted list, which began in 1950. Since then, 427 fugitives have been taken into custody or located, 133 of them as a result of citizen assistance, the FBI said.
 
-Six suspects in the Bin Laden investigation are known to be in custody in the Metropolitan Correctional Center in New York. Another eight suspects, including Bin Laden, have been charged but not apprehended. Another suspect is awaiting extradition from Britain. The FBI says Bin Laden is the leader of a terrorist organization known as Al-Aqeda, ''The Base.''
+Six suspects in the Bin Laden investigation are known to be in custody in the Metropolitan Correctional Center in New York. Another eight suspects, including Bin Laden, have been charged but not apprehended. Another suspect is awaiting extradition from Britain. The FBI says Bin Laden is the leader of a terrorist organization known as Al-Aqeda, ``The Base.''
 
 Kopp wears eyeglasses, walks with a slight limp, is 5 feet, 10 inches tall and weighs 150 to 175 pounds. Slepian was killed by a single gunshot fired from a wooded area through a window of his home.
 
 Prior to the Slepian's shooting, Kopp had traveled the country and world, authorities said. He has been arrested more than a dozen times during abortion protests in seven states and Italy, but has no felony convictions.
 
-He has used 29 aliases, Freeh said.</TEXT>
+He has used 29 aliases, Freeh said.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l2" relType="EVIDENTIAL" eventInstanceID="ei3" subordinatedEventInstance="ei4" syntax="USER"/>
+<SLINK lid="l3" relType="MODAL" eventInstanceID="ei5" subordinatedEventInstance="ei7" syntax="USER"/>
+<SLINK lid="l4" relType="MODAL" eventInstanceID="ei5" subordinatedEventInstance="ei6" syntax="USER"/>
+<SLINK lid="l5" relType="MODAL" eventInstanceID="ei15" subordinatedEventInstance="ei16" syntax="USER"/>
+<SLINK lid="l6" relType="FACTIVE" eventInstanceID="ei19" subordinatedEventInstance="ei20" syntax="USER"/>
+<SLINK lid="l7" relType="MODAL" eventInstanceID="ei21" subordinatedEventInstance="ei22" syntax="USER"/>
+<SLINK lid="l8" relType="EVIDENTIAL" eventInstanceID="ei26" subordinatedEventInstance="ei27" syntax="USER"/>
+<SLINK lid="l9" relType="MODAL" eventInstanceID="ei28" subordinatedEventInstance="ei29" syntax="USER"/>
+<SLINK lid="l10" relType="MODAL" eventInstanceID="ei30" subordinatedEventInstance="ei31" syntax="USER"/>
+<SLINK lid="l11" relType="EVIDENTIAL" eventInstanceID="ei34" subordinatedEventInstance="ei35" syntax="USER"/>
+<SLINK lid="l12" relType="EVIDENTIAL" eventInstanceID="ei42" subordinatedEventInstance="ei43" syntax="USER"/>
+<SLINK lid="l13" relType="EVIDENTIAL" eventInstanceID="ei42" subordinatedEventInstance="ei43" syntax="USER"/>
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei48" subordinatedEventInstance="ei50" syntax="USER"/>
+<SLINK lid="l15" relType="FACTIVE" eventInstanceID="ei50" subordinatedEventInstance="ei51" syntax="USER"/>
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei56" subordinatedEventInstance="ei57" syntax="USER"/>
+<SLINK lid="l76" relType="MODAL" eventInstanceID="ei62" subordinatedEventInstance="ei63" syntax="USER"/>
+<SLINK lid="l92" relType="MODAL" eventInstanceID="ei78" subordinatedEventInstance="ei79" syntax="USER"/>
+<SLINK lid="l95" relType="EVIDENTIAL" eventInstanceID="ei80" subordinatedEventInstance="ei81" syntax="USER"/>
+<SLINK lid="l107" relType="EVIDENTIAL" eventInstanceID="ei91" subordinatedEventInstance="ei90" syntax="USER"/>
+<SLINK lid="l112" relType="EVIDENTIAL" eventInstanceID="ei96" subordinatedEventInstance="ei95" syntax="USER"/>
+<ALINK lid="l1" relType="CONTINUES" eventInstanceID="ei53" relatedToEventInstance="ei54" syntax="USER"/>
+
 </TimeML>
+
+

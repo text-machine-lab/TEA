@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0520</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0181 = 891030 891030-0181.
 Dutch Firm Seeks @ To Buy Up to 25% @ Of Nashua's Stock @ ---- @ By Lawrence Ingrassia @ Staff Reporter of The Wall Street Journal 10/30/89 WALL STREET JOURNAL (J) NSH TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) BUYBACKS, REDEMPTIONS, SWAP OFFERS (BBK) NASHUA, N.H.
 </EXTRAINFO>
 
-<TEXT>Nashua Corp., rumored a potential takeover target for six months, said that a Dutch company has sought U.S. approval to buy up to 25% of Nashua's shares.
+<TEXT>
+Nashua Corp., rumored a potential takeover target for six months, said that a Dutch company has sought U.S. approval to buy up to 25% of Nashua's shares.
 
 Nashua immediately responded by strengthening a poison-pill plan and saying it will buy back up to one million of its shares, or 10.4% of the 9.6 million outstanding.
 
@@ -24,10 +25,82 @@ But the company has had weak results so far this year, with earnings declining 4
 
 Its stock has slumped recently, closing unchanged Friday at $29 a share in composite trading on the New York Stock Exchange; at that price, the company has a market value of about $278.4 million. Nashua announced the Reiss request after the market closed.
 
-Mr. Junius said Nashua's 'intention is to remain an independent public company.' The company said it amended its shareholder rights plan by reducing to 10% from 20% the level of ownership by an outsider that would trigger the issuance to other holders of rights to buy additional shares of Nashua common at half price.
+Mr. Junius said Nashua's "intention is to remain an independent public company." The company said it amended its shareholder rights plan by reducing to 10% from 20% the level of ownership by an outsider that would trigger the issuance to other holders of rights to buy additional shares of Nashua common at half price.
 
 In addition, the company's board authorized the purchase of up to an additional one million shares. Under a program approved by the company in 1987 that didn't specify a share amount, Nashua had purchased 481,000 shares through Sept. 29.
 
-Alex Henderson, an analyst at Prudential-Bache Securities, said that while Nashua's performance this year has been 'atrocious,' the company nonetheless is attractive as a 'classic breakup candidate because there's no similarity between its {four} businesses.' He estimated the breakup value at $55 a share. In addition to selling Japanese-made photocopiers and facsimile machines in Europe and copier supplies in the U.S., Nashua has three other major businesses: labels and tapes, data storage disks for computers and mail-order photofinishing.</TEXT>
+Alex Henderson, an analyst at Prudential-Bache Securities, said that while Nashua's performance this year has been "atrocious," the company nonetheless is attractive as a "classic breakup candidate because there's no similarity between its {four} businesses." He estimated the breakup value at $55 a share. In addition to selling Japanese-made photocopiers and facsimile machines in Europe and copier supplies in the U.S., Nashua has three other major businesses: labels and tapes, data storage disks for computers and mail-order photofinishing.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei1991" subordinatedEventInstance="ei1992" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei1992" subordinatedEventInstance="ei1993" />
+<SLINK lid="l34" relType="MODAL" eventInstanceID="ei1993" subordinatedEventInstance="ei1994" />
+<SLINK lid="l35" relType="EVIDENTIAL" eventInstanceID="ei1997" subordinatedEventInstance="ei1998" />
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei1999" subordinatedEventInstance="ei2000" />
+<SLINK lid="l40" relType="EVIDENTIAL" eventInstanceID="ei2005" subordinatedEventInstance="ei2004" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei2020" subordinatedEventInstance="ei2021" />
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei2027" subordinatedEventInstance="ei2028" />
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei2030" subordinatedEventInstance="ei2031" />
 
 </TimeML>

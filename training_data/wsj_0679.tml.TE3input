@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0679</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0016 = 891030 891030-0016.
@@ -11,14 +11,82 @@ Business Brief -- Octel Communications Corp.: @ Hewlett-Packard Co.
 Raises @ Stake to 8.5% of Common 10/30/89 WALL STREET JOURNAL (J) HWP OCTL TENDER OFFERS, MERGERS, ACQUISITIONS (TNM)
 </EXTRAINFO>
 
-<TEXT>Hewlett-Packard Co. said it raised its stake in Octel Communications Corp. to 8.5% of the common shares outstanding.
+<TEXT>
+Hewlett-Packard Co. said it raised its stake in Octel Communications Corp. to 8.5% of the common shares outstanding.
 
 In a Securities and Exchange Commission filing, Hewlett-Packard said it now holds 1,384,119 Octel common shares, including 100,000 shares bought from Aug. 26 to Oct. 20 for $23.31 to $24.25 a share.
 
-Hewlett-Packard, a Palo Alto, Calif., computer company, said it acquired the stock 'to develop and maintain a strategic partnership in which each company remains independent while working together to market and sell their products.'
+Hewlett-Packard, a Palo Alto, Calif., computer company, said it acquired the stock "to develop and maintain a strategic partnership in which each company remains independent while working together to market and sell their products."
 
 Octel said the purchase was expected. Hewlett-Packard affirmed it doesn't plan to obtain control of Octel, a Milpitas, Calif., maker of voice-processing systems.
 
-According to the filing, Hewlett-Packard acquired 730,070 common shares from Octel as a result of an Aug. 10, 1988, stock purchase agreement. That accord also called for Hewlett-Packard to buy 730,070 Octel shares in the open market within 18 months. In addition, Hewlett-Packard acquired a two-year option to buy an extra 10%, of which half may be sold directly to Hewlett-Packard by Octel.</TEXT>
+According to the filing, Hewlett-Packard acquired 730,070 common shares from Octel as a result of an Aug. 10, 1988, stock purchase agreement. That accord also called for Hewlett-Packard to buy 730,070 Octel shares in the open market within 18 months. In addition, Hewlett-Packard acquired a two-year option to buy an extra 10%, of which half may be sold directly to Hewlett-Packard by Octel.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l30" relType="EVIDENTIAL" eventInstanceID="ei306" subordinatedEventInstance="ei307" />
+<SLINK lid="l31" relType="EVIDENTIAL" eventInstanceID="ei309" subordinatedEventInstance="ei310" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei312" subordinatedEventInstance="ei313" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei313" subordinatedEventInstance="ei314" />
+<SLINK lid="l34" relType="MODAL" eventInstanceID="ei313" subordinatedEventInstance="ei315" />
+<SLINK lid="l35" relType="MODAL" eventInstanceID="ei317" subordinatedEventInstance="ei318" />
+<SLINK lid="l36" relType="MODAL" eventInstanceID="ei317" subordinatedEventInstance="ei319" />
+<SLINK lid="l37" relType="EVIDENTIAL" eventInstanceID="ei320" subordinatedEventInstance="ei322" />
+<SLINK lid="l38" relType="MODAL" eventInstanceID="ei322" subordinatedEventInstance="ei321" />
+<SLINK lid="l39" relType="EVIDENTIAL" eventInstanceID="ei323" subordinatedEventInstance="ei324" />
+<SLINK lid="l40" relType="MODAL" eventInstanceID="ei324" subordinatedEventInstance="ei325" />
+<SLINK lid="l42" relType="MODAL" eventInstanceID="ei331" subordinatedEventInstance="ei332" />
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei337" subordinatedEventInstance="ei327" />
 
 </TimeML>

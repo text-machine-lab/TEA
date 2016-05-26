@@ -1,21 +1,53 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0706</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0189 = 891027 891027-0189.
 Security Pacific Corp. 10/27/89 WALL STREET JOURNAL (J) SPC LJC TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) BANKS (BNK) LOS ANGELES
 </EXTRAINFO>
 
-<TEXT>Security Pacific Corp. has set its sights on buying its second bank holding company this year.
+<TEXT>
+Security Pacific Corp. has set its sights on buying its second bank holding company this year.
 
 Security said it signed a letter of intent to purchase La Jolla Bancorp, agreeing to pay $15 of its own stock for each share of La Jolla. Based on the current number of La Jolla shares, that gives the transaction a value of $104 million.
 
 La Jolla is the parent company of La Jolla Bank amp Trust Co., which has 12 branches in San Diego County. As of Sept. 30, the bank had assets of $511 million and deposits of $469 million, Security Pacific said.
 
-Earlier this month, Security Pacific, which is among the 10 largest bank holding companies in the U.S., completed the acquisition of San Diego-based Southwest Bancorp.</TEXT>
+Earlier this month, Security Pacific, which is among the 10 largest bank holding companies in the U.S., completed the acquisition of San Diego-based Southwest Bancorp.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei2003" subordinatedEventInstance="ei2007" />
+<SLINK lid="l11" relType="MODAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l12" relType="EVIDENTIAL" eventInstanceID="ei1992" subordinatedEventInstance="ei1993" />
+<SLINK lid="l14" relType="MODAL" eventInstanceID="ei1996" subordinatedEventInstance="ei1997" />
+<ALINK lid="l15" relType="CULMINATES" eventInstanceID="ei2004" relatedToEventInstance="ei2005" />
 
 </TimeML>

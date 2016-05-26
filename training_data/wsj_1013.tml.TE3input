@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_1013</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0043 = 891026 891026-0043.
 Columbia SampL Posts $226.3 Million Loss @ After Writing Down High-Yield Portfolio @ ---- @ By Pauline Yoshihashi @ Staff Reporter of The Wall Street Journal 10/26/89 WALL STREET JOURNAL (J) CSV EARNINGS (ERN) BEVERLY HILLS, Calif.
 </EXTRAINFO>
 
-<TEXT>Columbia Savings amp Loan Association, reeling from thrift-accounting changes mandated by Congress and the recent collapse of the junk-bond market, announced a loss for the third quarter of $226.3 million, or $11.57 a share.
+<TEXT>
+Columbia Savings amp Loan Association, reeling from thrift-accounting changes mandated by Congress and the recent collapse of the junk-bond market, announced a loss for the third quarter of $226.3 million, or $11.57 a share.
 
 For the quarter a year ago, Columbia reported earnings of $16.3 million, or 37 cents a share. Total assets increased to $12.7 billion in the latest quarter from $12.4 billion a year earlier.
 
@@ -30,7 +31,7 @@ For its future strategy, Columbia officials said the thrift may branch out into 
 
 The quarterly results also reflected $21.4 million in non-recurring losses from commercial real-estate activities in California.
 
-Thomas Spiegel, Columbia's chairman, said in a statement that the thrift was ' disappointed' by the effects of the accounting changes. But he said Columbia remains 'one of the most strongly capitalized thrifts in the industry,' based on the economic value of its assets and tangible capital.
+Thomas Spiegel, Columbia's chairman, said in a statement that the thrift was " disappointed" by the effects of the accounting changes. But he said Columbia remains "one of the most strongly capitalized thrifts in the industry," based on the economic value of its assets and tangible capital.
 
 Columbia announced the results after the close of the stock market. Its shares closed at $5.125 each in composite New York Stock Exchange trading, down 37.5 cents. The price of Columbia shares has been cut nearly in half since August, when they traded at about $10, as investors apparently realized that the thrift would be forced to take a big write-down. The stock's decline accelerated in the past two weeks, from a price of $8 a share on Oct. 9.
 
@@ -42,6 +43,154 @@ The thrift emphasized that it has a large portfolio of equity securities issued 
 
 Although many of the transactions related to those securities haven't been completed, Columbia said the ultimate gain on the sale of those assets will range from $200 million to $300 million. Columbia also has unrealized gains in its public equity securities portfolio of more than $70 million.
 
-David B. Hilder in New York contributed to this article.</TEXT>
+David B. Hilder in New York contributed to this article.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l92" relType="MODAL" eventInstanceID="ei2489" subordinatedEventInstance="ei2490" />
+<SLINK lid="l91" relType="FACTIVE" eventInstanceID="ei2481" subordinatedEventInstance="ei2482" />
+<SLINK lid="l90" relType="FACTIVE" eventInstanceID="ei2470" subordinatedEventInstance="ei2471" />
+<SLINK lid="l87" relType="FACTIVE" eventInstanceID="ei2452" subordinatedEventInstance="ei2453" />
+<SLINK lid="l84" relType="FACTIVE" eventInstanceID="ei2426" subordinatedEventInstance="ei2427" />
+<SLINK lid="l83" relType="FACTIVE" eventInstanceID="ei2412" subordinatedEventInstance="ei2415" />
+<SLINK lid="l82" relType="FACTIVE" eventInstanceID="ei2412" subordinatedEventInstance="ei2413" />
+<SLINK lid="l63" relType="EVIDENTIAL" eventInstanceID="ei2416" subordinatedEventInstance="ei2417" />
+<SLINK lid="l64" relType="EVIDENTIAL" eventInstanceID="ei2440" subordinatedEventInstance="ei2441" />
+<SLINK lid="l65" relType="EVIDENTIAL" eventInstanceID="ei2440" subordinatedEventInstance="ei2442" />
+<SLINK lid="l66" relType="MODAL" eventInstanceID="ei2448" subordinatedEventInstance="ei2449" />
+<SLINK lid="l67" relType="MODAL" eventInstanceID="ei2451" subordinatedEventInstance="ei2452" />
+<SLINK lid="l68" relType="MODAL" eventInstanceID="ei2456" subordinatedEventInstance="ei2457" />
+<SLINK lid="l69" relType="EVIDENTIAL" eventInstanceID="ei2458" subordinatedEventInstance="ei2459" />
+<SLINK lid="l70" relType="EVIDENTIAL" eventInstanceID="ei2468" subordinatedEventInstance="ei2470" />
+<SLINK lid="l71" relType="EVIDENTIAL" eventInstanceID="ei2472" subordinatedEventInstance="ei2473" />
+<SLINK lid="l73" relType="MODAL" eventInstanceID="ei2482" subordinatedEventInstance="ei2483" />
+<SLINK lid="l74" relType="EVIDENTIAL" eventInstanceID="ei2488" subordinatedEventInstance="ei2489" />
+<SLINK lid="l75" relType="MODAL" eventInstanceID="ei2491" subordinatedEventInstance="ei2492" />
+<SLINK lid="l76" relType="EVIDENTIAL" eventInstanceID="ei2495" subordinatedEventInstance="ei2496" />
+<SLINK lid="l77" relType="EVIDENTIAL" eventInstanceID="ei2502" subordinatedEventInstance="ei2503" />
+<SLINK lid="l78" relType="EVIDENTIAL" eventInstanceID="ei2509" subordinatedEventInstance="ei2512" />
+<ALINK lid="l80" relType="CONTINUES" eventInstanceID="ei2492" relatedToEventInstance="ei2493" />
 
 </TimeML>

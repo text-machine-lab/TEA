@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0132</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0059 = 891102 891102-0059.
 International Brief -- N.V. DSM: @ Third-Period Net Rose 63% @ Because of Lower Charges 11/02/89 WALL STREET JOURNAL (J) EUROP N.DSM EARNINGS (ERN)
 </EXTRAINFO>
 
-<TEXT>N.V. DSM said net income in the third quarter jumped 63% as the company had substantially lower extraordinary charges to account for a restructuring program.
+<TEXT>
+N.V. DSM said net income in the third quarter jumped 63% as the company had substantially lower extraordinary charges to account for a restructuring program.
 
 The Dutch chemical group said net income gained to 235 million guilders ($113.2 million), or 6.70 guilders a share, from 144 million guilders, or 4.10 guilders a share, a year ago.
 
@@ -20,6 +21,57 @@ Last year, DSM had 71 million guilders of extraordinary charges for the restruct
 
 The earnings growth also was fueled by the company's ability to cut net financing spending by half to around 15 million guilders. Also, substantially lower Dutch corporate tax rates helped the company keep its tax outlay flat relative to earnings growth, the company added.
 
-Sales, however, were little changed at 2.46 billion guilders, compared with 2.42 billion guilders.</TEXT>
+Sales, however, were little changed at 2.46 billion guilders, compared with 2.42 billion guilders.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l36" relType="MODAL" eventInstanceID="ei2013" subordinatedEventInstance="ei2014" />
+<SLINK lid="l30" relType="EVIDENTIAL" eventInstanceID="ei1989" subordinatedEventInstance="ei1990" />
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei1992" subordinatedEventInstance="ei1993" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei1994" subordinatedEventInstance="ei1995" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei1999" subordinatedEventInstance="ei2000" />
+<SLINK lid="l34" relType="FACTIVE" eventInstanceID="ei2000" subordinatedEventInstance="ei2001" />
+<SLINK lid="l35" relType="EVIDENTIAL" eventInstanceID="ei2015" subordinatedEventInstance="ei2013" />
 
 </TimeML>

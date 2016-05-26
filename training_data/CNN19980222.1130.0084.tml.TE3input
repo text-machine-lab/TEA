@@ -1,14 +1,53 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>CNN19980222.1130.0084</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-02-22">19980222</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-02-22">19980222</TIMEX3></DCT>
 
 <EXTRAINFO>
 CNN19980222.1130.0084 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>CNN headline news, I'm Sachi Koto. Diplomacy appears to be making headway in resolving the united nation's standoff with Iraq. A UN spokesman says UN secretary general Kofi Annan is on the verge of a breakthrough, but added it's not done yet. Annan wrapped up a three hour meeting with Iraqi president Saddam Hussein in Baghdad today. He's expected to meet with Iraqi deputy prime minister Tariq Aziz later this afternoon. One major sticking point has been Iraq's proposal to open it's presidential sites for no more than sixty days. The UN security council insists any deal must allow UN inspectors unrestricted access to all suspected weapons sites.</TEXT>
+<TEXT>
+CNN headline news, I'm Sachi Koto. Diplomacy appears to be making headway in resolving the united nation's standoff with Iraq. A UN spokesman says UN secretary general Kofi Annan is on the verge of a breakthrough, but added it's not done yet. Annan wrapped up a three hour meeting with Iraqi president Saddam Hussein in Baghdad today. He's expected to meet with Iraqi deputy prime minister Tariq Aziz later this afternoon. One major sticking point has been Iraq's proposal to open it's presidential sites for no more than sixty days. The UN security council insists any deal must allow UN inspectors unrestricted access to all suspected weapons sites.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l18" relType="FACTIVE" eventInstanceID="ei172" subordinatedEventInstance="ei171" />
+<SLINK lid="l9" relType="MODAL" eventInstanceID="ei168" subordinatedEventInstance="ei169" />
+<SLINK lid="l10" relType="MODAL" eventInstanceID="ei166" subordinatedEventInstance="ei167" />
+<SLINK lid="l11" relType="FACTIVE" eventInstanceID="ei158" subordinatedEventInstance="ei159" />
+<SLINK lid="l12" relType="MODAL" eventInstanceID="ei170" subordinatedEventInstance="ei172" />
+<SLINK lid="l13" relType="MODAL" eventInstanceID="ei156" subordinatedEventInstance="ei157" />
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei162" subordinatedEventInstance="ei163" />
+<ALINK lid="l16" relType="TERMINATES" eventInstanceID="ei158" relatedToEventInstance="ei159" />
+<ALINK lid="l15" relType="CULMINATES" eventInstanceID="ei164" relatedToEventInstance="ei165" />
 
 </TimeML>

@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0662</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0035 = 891030 891030-0035.
 Business Brief -- Jayark Corp.: @ Firm Agrees to Buy Kofcoh @ For Cash, Debt and Stock 10/30/89 WALL STREET JOURNAL (J) JAYA TENDER OFFERS, MERGERS, ACQUISITIONS (TNM)
 </EXTRAINFO>
 
-<TEXT>Jayark Corp. agreed to pay $4 million in cash, $2 million of 12% convertible debentures, and 1.6 million common shares to acquire closely held Kofcoh Imports Inc.
+<TEXT>
+Jayark Corp. agreed to pay $4 million in cash, $2 million of 12% convertible debentures, and 1.6 million common shares to acquire closely held Kofcoh Imports Inc.
 
 In over-the-counter trading Friday, Jayark was quoted at 87.5 cents bid, down 15.625 cents. At the market price, the transaction has a total indicated value of $7.4 million.
 
@@ -18,6 +19,23 @@ Kofcoh is a New York holding company for Rosalco Inc., which imports furniture a
 
 Jayark, New York, distributes and rents audio-visual equipment and prints promotional ads for retailers. In the quarter ended July 31, Jayark had an average of 5.6 million shares outstanding.
 
-The transaction is subject to approval by a panel of disinterested directors, the company said, adding that shareholder approval isn't needed.</TEXT>
+The transaction is subject to approval by a panel of disinterested directors, the company said, adding that shareholder approval isn't needed.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l8" relType="MODAL" eventInstanceID="ei116" subordinatedEventInstance="ei117" />
+<SLINK lid="l9" relType="MODAL" eventInstanceID="ei117" subordinatedEventInstance="ei118" />
 
 </TimeML>

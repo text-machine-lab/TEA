@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19981203.0008</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-12-03">1998-12-03</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-12-03">1998-12-03</TIMEX3></DCT>
 
 <TITLE>NATO Enlargement Ratification Process Concludes</TITLE>
 
@@ -13,7 +13,9 @@ XIE19981203.0008 <DATE_TIME> 1998-12-03 </DATE_TIME><HEADLINE> NATO Enlargement 
 </EXTRAINFO>
 
 
-<TEXT>BRUSSELS, December 2 (Xinhua) --
+<TEXT>
+
+BRUSSELS, December 2 (Xinhua) --
 
 The ratification process of NATO enlargement concluded on Wednesday after the Netherlands gave its go-ahead.
 
@@ -29,11 +31,74 @@ It was followed by Denmark, Norway, Germany, France, Greece, Luxembourg, Spain, 
 
 NATO decided at last year's Madrid summit to invite the three eastern European countries to start accession talks.
 
-Poland, Hungary and the Czech Republic are scheduled to become full members of NATO in April next year when the alliance celebrates its 50th anniversary in Washington.</TEXT>
+Poland, Hungary and the Czech Republic are scheduled to become full members of NATO in April next year when the alliance celebrates its 50th anniversary in Washington.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l10" relType="FACTIVE" eventInstanceID="ei5" subordinatedEventInstance="ei9" syntax="USER"/>
+<SLINK lid="l14" relType="FACTIVE" eventInstanceID="ei7" subordinatedEventInstance="ei10" syntax="USER"/>
+<SLINK lid="l26" relType="FACTIVE" eventInstanceID="ei17" subordinatedEventInstance="ei19" syntax="USER"/>
+<SLINK lid="l31" relType="FACTIVE" eventInstanceID="ei17" subordinatedEventInstance="ei20" syntax="USER"/>
+<SLINK lid="l32" relType="FACTIVE" eventInstanceID="ei22" subordinatedEventInstance="ei23" syntax="USER"/>
+<ALINK lid="l17" relType="INITIATES" eventInstanceID="ei12" relatedToEventInstance="ei11" syntax="USER"/>
+<ALINK lid="l21" relType="INITIATES" eventInstanceID="ei14" relatedToEventInstance="ei15" syntax="USER"/>
+<ALINK lid="l28" relType="INITIATES" eventInstanceID="ei20" relatedToEventInstance="ei21" syntax="USER"/>
+
 </TimeML>
+
+

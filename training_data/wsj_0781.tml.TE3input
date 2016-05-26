@@ -1,44 +1,45 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0781</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0114 = 891027 891027-0114.
 Chip by Intel @ Contains Flaw @ In Calculating @ --- @ `Bugs' Could Stall Makers @ Of Certain Computers; @ Most Users Unaffected @ ---- @ By Stephen Kreider Yoder @ Staff Reporter of The Wall Street Journal 10/27/89 WALL STREET JOURNAL (J) INTC IBM CPQ SEMICONDUCTORS, INTEGRATED CHIPS (SEM) COMPUTERS AND INFORMATION TECHNOLOGY (CPR)
 </EXTRAINFO>
 
-<TEXT>Intel Corp.'s most powerful computer chip has flaws that could delay several computer makers' marketing efforts, but the 'bugs' aren't expected to hurt Intel and most computer makers.
+<TEXT>
+Intel Corp.'s most powerful computer chip has flaws that could delay several computer makers' marketing efforts, but the "bugs" aren't expected to hurt Intel and most computer makers.
 
-Computer experts familiar with the flaws, found in Intel's 80486 chip, say the defects don't affect the average user and are likely to be cleared up before most computers using the chip as their ' brains ' appear on the market sometime next year.
+Computer experts familiar with the flaws, found in Intel's 80486 chip, say the defects don't affect the average user and are likely to be cleared up before most computers using the chip as their " brains " appear on the market sometime next year.
 
-Intel said that last week a customer discovered two flaws in its 80486 microprocessor chip's 'floating-point unit', a set of circuits that do certain calculations. On Friday, Intel began notifying customers about the bugs which cause the chip to give wrong answers for some mathematical calculations.
+Intel said that last week a customer discovered two flaws in its 80486 microprocessor chip's "floating-point unit", a set of circuits that do certain calculations. On Friday, Intel began notifying customers about the bugs which cause the chip to give wrong answers for some mathematical calculations.
 
-But while International Business Machines Corp. and Compaq Computer Corp. say the bugs will delay products, most big computer makers said the flaws don't affect them. 'Bugs like this are just a normal part of product development,' said Richard Archuleta, director of Hewlett-Packard Co.'s advanced systems development. Hewlett announced last week that it planned to ship a computer based on the 486 chip early next year. 'These bugs don't affect our schedule at all,' he said.
+But while International Business Machines Corp. and Compaq Computer Corp. say the bugs will delay products, most big computer makers said the flaws don't affect them. "Bugs like this are just a normal part of product development," said Richard Archuleta, director of Hewlett-Packard Co.'s advanced systems development. Hewlett announced last week that it planned to ship a computer based on the 486 chip early next year. "These bugs don't affect our schedule at all," he said.
 
-Likewise, AST Research Inc. and Sun Microsystems Inc. said the bugs won't delay their development of 486-based machines. 'We haven't modified our schedules in any way,' said a Sun spokesman. To switch to another vendor's chips, 'would not definitely be an option,' he said.
+Likewise, AST Research Inc. and Sun Microsystems Inc. said the bugs won't delay their development of 486-based machines. "We haven't modified our schedules in any way," said a Sun spokesman. To switch to another vendor's chips, "would not definitely be an option," he said.
 
 Nonetheless, concern about the chip may have been responsible for a decline of 87.5 cents in Intel's stock to $32 a share yesterday in over-the-counter trading, on volume of 3,609,800 shares, and partly responsible for a drop in Compaq's stock in New York Stock Exchange composite trading on Wednesday. Yesterday, Compaq plunged further, closing at $100 a share, off $8.625 a share, on volume of 2,633,700 shares.
 
 Most of Compaq's decline is being attributed to a third-quarter earnings report that came in at the low end of analysts' expectations.
 
-Intel said it had corrected the problems and would start producing bugless chips next week. 'We should not be seeing any more,' said Bill Rash, Intel's director for the 486 chip.
+Intel said it had corrected the problems and would start producing bugless chips next week. "We should not be seeing any more," said Bill Rash, Intel's director for the 486 chip.
 
-What's more, the bugs only emerge on esoteric applications such as computer-aided design and scientific calculations, he said, and then very seldom. 'These errata do not affect business programs,' he said. The bugs will cause problems in 'specific and rare circumstances that will not occur in typical applications' such as word-processing and spreadsheets, said Michael Slater, editor of the Microprocessor Report, an industry newsletter.
+What's more, the bugs only emerge on esoteric applications such as computer-aided design and scientific calculations, he said, and then very seldom. "These errata do not affect business programs," he said. The bugs will cause problems in "specific and rare circumstances that will not occur in typical applications" such as word-processing and spreadsheets, said Michael Slater, editor of the Microprocessor Report, an industry newsletter.
 
-Sun, Hewlett-Packard and others say Intel isn't wholly to blame for the snafu. The real culprits, they said, are computer makers such as IBM that have jumped the gun to unveil 486-based products. 'The reason this is getting so much visibility is that some started shipping and announced early availability,' said Hewlett-Packard's Mr. Archuleta. 'You can do that but you're taking a risk. Those companies are paying the price for taking the risk.'
+Sun, Hewlett-Packard and others say Intel isn't wholly to blame for the snafu. The real culprits, they said, are computer makers such as IBM that have jumped the gun to unveil 486-based products. "The reason this is getting so much visibility is that some started shipping and announced early availability," said Hewlett-Packard's Mr. Archuleta. "You can do that but you're taking a risk. Those companies are paying the price for taking the risk."
 
 In late September, IBM began shipping a plug-in card that converts its PS/2 model 70-A21 from a 80386 machine to an 80486 machine. An IBM spokeswoman said the company told customers Monday about the bugs and temporarily stopped shipping the product.
 
-IBM has no plans to recall its add-on cards, the spokeswoman said, and could probably circumvent the bugs without long product delays. 'We don't look at this as a major problem for us,' she said.
+IBM has no plans to recall its add-on cards, the spokeswoman said, and could probably circumvent the bugs without long product delays. "We don't look at this as a major problem for us," she said.
 
 Compaq, which said it discovered the bugs, still plans to announce new 486 products on Nov. 6. Because of the glitch, however, the company said it doesn't know when its machine will be commercially available. That's a break from Compaq tradition, because the company doesn't announce products until they're actually at the dealers.
 
 The problem is being ballyhooed, experts say, because the 486 is Intel's future flagship. Intel's microprocessors are the chips of choice in many of today's personal computers and the 80486 microprocessor is the spearhead of the company's bid to guard that spot in the next generation of machines.
 
-'Although these sorts of bugs are not at all uncommon, the 486 is an extremely high-profile product,' said Mr. Slater, the newsletter editor.
+"Although these sorts of bugs are not at all uncommon, the 486 is an extremely high-profile product," said Mr. Slater, the newsletter editor.
 
 Intel's 80486 chip is the Corvette of Intel's microprocessors, a super-fast, super-expensive chip that only the most power-hungry computer users are likely to buy for at least several years.
 
@@ -50,8 +51,229 @@ But while the chip's speed in processing power is dazzling, it's real strength l
 
 That's what will keep computer makers coming in spite of the irritation of bugs. Big personal computer makers and many makers of engineering workstations are developing 486-based machines, which are expected to reach the market early next year.
 
-Of the big computer makers, only Apple Computer Co. bases its machines on Motorola chips instead. 'The 486 is going to have a big impact on the industry,' said Hewlett-Packard's Mr. Archuleta. 'It's going to be the leading edge technology in personal computers for the next few years. This bug is not going to have any affect on that at all.'
+Of the big computer makers, only Apple Computer Co. bases its machines on Motorola chips instead. "The 486 is going to have a big impact on the industry," said Hewlett-Packard's Mr. Archuleta. "It's going to be the leading edge technology in personal computers for the next few years. This bug is not going to have any affect on that at all."
 
-Andy Zipser in Dallas contributed to this article.</TEXT>
+Andy Zipser in Dallas contributed to this article.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l145" relType="MODAL" eventInstanceID="ei2298" subordinatedEventInstance="ei2299" />
+<SLINK lid="l86" relType="MODAL" eventInstanceID="ei2217" subordinatedEventInstance="ei2218" />
+<SLINK lid="l87" relType="MODAL" eventInstanceID="ei2219" subordinatedEventInstance="ei2220" />
+<SLINK lid="l88" relType="EVIDENTIAL" eventInstanceID="ei2221" subordinatedEventInstance="ei2222" />
+<SLINK lid="l89" relType="EVIDENTIAL" eventInstanceID="ei2221" subordinatedEventInstance="ei2223" />
+<SLINK lid="l90" relType="EVIDENTIAL" eventInstanceID="ei2225" subordinatedEventInstance="ei2226" />
+<SLINK lid="l93" relType="EVIDENTIAL" eventInstanceID="ei2234" subordinatedEventInstance="ei2235" />
+<SLINK lid="l95" relType="EVIDENTIAL" eventInstanceID="ei2237" subordinatedEventInstance="ei2238" />
+<SLINK lid="l97" relType="EVIDENTIAL" eventInstanceID="ei2241" subordinatedEventInstance="ei2242" />
+<SLINK lid="l98" relType="MODAL" eventInstanceID="ei2242" subordinatedEventInstance="ei2243" />
+<SLINK lid="l99" relType="EVIDENTIAL" eventInstanceID="ei2245" subordinatedEventInstance="ei2244" />
+<SLINK lid="l100" relType="EVIDENTIAL" eventInstanceID="ei2246" subordinatedEventInstance="ei2247" />
+<SLINK lid="l101" relType="MODAL" eventInstanceID="ei2247" subordinatedEventInstance="ei2248" />
+<SLINK lid="l102" relType="EVIDENTIAL" eventInstanceID="ei2250" subordinatedEventInstance="ei2249" />
+<SLINK lid="l104" relType="FACTIVE" eventInstanceID="ei2266" subordinatedEventInstance="ei2265" />
+<SLINK lid="l105" relType="EVIDENTIAL" eventInstanceID="ei2268" subordinatedEventInstance="ei2269" />
+<SLINK lid="l106" relType="EVIDENTIAL" eventInstanceID="ei2268" subordinatedEventInstance="ei2271" />
+<SLINK lid="l107" relType="EVIDENTIAL" eventInstanceID="ei2274" subordinatedEventInstance="ei2273" />
+<SLINK lid="l109" relType="EVIDENTIAL" eventInstanceID="ei2276" subordinatedEventInstance="ei2275" />
+<SLINK lid="l110" relType="EVIDENTIAL" eventInstanceID="ei2278" subordinatedEventInstance="ei2277" />
+<SLINK lid="l111" relType="EVIDENTIAL" eventInstanceID="ei2281" subordinatedEventInstance="ei2279" />
+<SLINK lid="l112" relType="EVIDENTIAL" eventInstanceID="ei2283" subordinatedEventInstance="ei2284" />
+<SLINK lid="l113" relType="MODAL" eventInstanceID="ei2284" subordinatedEventInstance="ei2285" />
+<SLINK lid="l114" relType="EVIDENTIAL" eventInstanceID="ei2290" subordinatedEventInstance="ei2286" />
+<SLINK lid="l115" relType="EVIDENTIAL" eventInstanceID="ei2290" subordinatedEventInstance="ei2288" />
+<SLINK lid="l117" relType="EVIDENTIAL" eventInstanceID="ei2293" subordinatedEventInstance="ei2294" />
+<SLINK lid="l119" relType="EVIDENTIAL" eventInstanceID="ei2293" subordinatedEventInstance="ei2296" />
+<SLINK lid="l120" relType="EVIDENTIAL" eventInstanceID="ei2300" subordinatedEventInstance="ei2298" />
+<SLINK lid="l121" relType="EVIDENTIAL" eventInstanceID="ei2300" subordinatedEventInstance="ei2301" />
+<SLINK lid="l122" relType="EVIDENTIAL" eventInstanceID="ei2304" subordinatedEventInstance="ei2303" />
+<SLINK lid="l123" relType="EVIDENTIAL" eventInstanceID="ei2305" subordinatedEventInstance="ei2306" />
+<SLINK lid="l124" relType="MODAL" eventInstanceID="ei2307" subordinatedEventInstance="ei2308" />
+<SLINK lid="l125" relType="EVIDENTIAL" eventInstanceID="ei2310" subordinatedEventInstance="ei2311" />
+<SLINK lid="l126" relType="MODAL" eventInstanceID="ei2311" subordinatedEventInstance="ei2312" />
+<SLINK lid="l127" relType="EVIDENTIAL" eventInstanceID="ei2314" subordinatedEventInstance="ei2313" />
+<SLINK lid="l129" relType="MODAL" eventInstanceID="ei2319" subordinatedEventInstance="ei2320" />
+<SLINK lid="l130" relType="MODAL" eventInstanceID="ei2328" subordinatedEventInstance="ei2329" />
+<SLINK lid="l131" relType="EVIDENTIAL" eventInstanceID="ei2332" subordinatedEventInstance="ei2330" />
+<SLINK lid="l133" relType="EVIDENTIAL" eventInstanceID="ei2332" subordinatedEventInstance="ei2334" />
+<ALINK lid="l134" relType="INITIATES" eventInstanceID="ei2228" relatedToEventInstance="ei2229" />
+<ALINK lid="l135" relType="INITIATES" eventInstanceID="ei2271" relatedToEventInstance="ei2272" />
+<ALINK lid="l136" relType="INITIATES" eventInstanceID="ei2286" relatedToEventInstance="ei2287" />
+<ALINK lid="l137" relType="INITIATES" eventInstanceID="ei2291" relatedToEventInstance="ei2292" />
+<ALINK lid="l138" relType="TERMINATES" eventInstanceID="ei2296" relatedToEventInstance="ei2297" />
+<ALINK lid="l139" relType="INITIATES" eventInstanceID="ei2321" relatedToEventInstance="ei2322" />
+<ALINK lid="l140" relType="CONTINUES" eventInstanceID="ei2325" relatedToEventInstance="ei2326" />
 
 </TimeML>

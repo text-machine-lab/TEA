@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0292</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891101-0072 = 891101 891101-0072.
 Kimberly-Clark Corp. @ Net Income Rose 20% @ In the Third Quarter 11/01/89 WALL STREET JOURNAL (J) KMB EARNINGS (ERN) PULP, PAPER, PACKAGING (ALL TYPES) (PUL) DALLAS
 </EXTRAINFO>
 
-<TEXT>Despite continuing problems in its newsprint business, Kimberly-Clark Corp. posted a 20% gain in third-quarter net income.
+<TEXT>
+Despite continuing problems in its newsprint business, Kimberly-Clark Corp. posted a 20% gain in third-quarter net income.
 
 The consumer-products and newsprint company said net rose to $108.8 million, or $1.35 a share, from $90.5 million, or $1.12 a share, a year ago. Sales rose 6.2% to $1.45 billion from $1.37 billion.
 
@@ -20,6 +21,66 @@ The quarter-to-quarter comparison was also enhanced by charges taken in the year
 
 In the first nine months, profit rose 10% to $313.2 million, or $3.89 a share, from $283.9 million, or $3.53 a share. Sales rose 6.7% to $4.27 billion from $4 billion.
 
-In New York Stock Exchange composite trading, Kimberly-Clark closed at $66.50 a share, up $1.50.</TEXT>
+In New York Stock Exchange composite trading, Kimberly-Clark closed at $66.50 a share, up $1.50.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l35" relType="FACTIVE" eventInstanceID="ei343" subordinatedEventInstance="ei344" />
+<SLINK lid="l34" relType="MODAL" eventInstanceID="ei332" subordinatedEventInstance="ei334" />
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei321" subordinatedEventInstance="ei322" />
+<SLINK lid="l29" relType="EVIDENTIAL" eventInstanceID="ei324" subordinatedEventInstance="ei325" />
+<SLINK lid="l30" relType="FACTIVE" eventInstanceID="ei332" subordinatedEventInstance="ei333" />
+<SLINK lid="l31" relType="EVIDENTIAL" eventInstanceID="ei338" subordinatedEventInstance="ei335" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei341" subordinatedEventInstance="ei339" />
+<ALINK lid="l33" relType="CONTINUES" eventInstanceID="ei339" relatedToEventInstance="ei340" />
 
 </TimeML>

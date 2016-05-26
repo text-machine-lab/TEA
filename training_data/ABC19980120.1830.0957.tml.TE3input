@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>ABC19980120.1830.0957</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-01-20">19980120</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-01-20">19980120</TIMEX3></DCT>
 
 <EXTRAINFO>
 ABC19980120.1830.0957 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>For his part, Fidel Castro is the ultimate political survivor. People have predicted his demise so many times, and the US has tried to hasten it on several occasions. Time and again, he endures. He has outlasted and sometimes outsmarted eight American presidents. Fidel Castro invited John Paul to come for a reason. This is clearly an opportunity for Cuba to look good internationally.
+<TEXT>
+For his part, Fidel Castro is the ultimate political survivor. People have predicted his demise so many times, and the US has tried to hasten it on several occasions. Time and again, he endures. He has outlasted and sometimes outsmarted eight American presidents. Fidel Castro invited John Paul to come for a reason. This is clearly an opportunity for Cuba to look good internationally.
 
 The entire world will see images of the Pope in Cuba. They'll see images of the Pope with Fidel Castro. It will give the rest of the world the view that Cuba is like any other nation, something the US has, of course, tried to persuade the world that it is not.
 
@@ -25,6 +26,99 @@ Castro has said that you can be a Communist and still be a Christian. He says he
 
 The main negative is the risk that the Pope's visit will persuade a great many more Cubans to break loose of the Cuban government. If so, then the Pope's visit would really open up a new chapter in the government's relations with its own society. For the Cuban government, that is the risk.
 
-At the end of the broadcast this evening, one more trip around Havana to see what it's been like since the last time. And in just a moment Diane Sawyer will have some other news.</TEXT>
+At the end of the broadcast this evening, one more trip around Havana to see what it's been like since the last time. And in just a moment Diane Sawyer will have some other news.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l59" relType="CONDITIONAL" eventInstanceID="ei459" subordinatedEventInstance="ei462"  />
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei447" subordinatedEventInstance="ei448" />
+<SLINK lid="l37" relType="MODAL" eventInstanceID="ei415" subordinatedEventInstance="ei416" />
+<SLINK lid="l38" relType="MODAL" eventInstanceID="ei417" subordinatedEventInstance="ei418" />
+<SLINK lid="l39" relType="MODAL" eventInstanceID="ei422" subordinatedEventInstance="ei423" />
+<SLINK lid="l40" relType="MODAL" eventInstanceID="ei429" subordinatedEventInstance="ei430" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei431" subordinatedEventInstance="ei432" />
+<SLINK lid="l43" relType="MODAL" eventInstanceID="ei438" subordinatedEventInstance="ei439" />
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei442" subordinatedEventInstance="ei445" />
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei449" subordinatedEventInstance="ei450" />
+<SLINK lid="l46" relType="EVIDENTIAL" eventInstanceID="ei452" subordinatedEventInstance="ei453" />
+<SLINK lid="l47" relType="MODAL" eventInstanceID="ei453" subordinatedEventInstance="ei454" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei459" subordinatedEventInstance="ei460" />
+<ALINK lid="l53" relType="CONTINUES" eventInstanceID="ei435" relatedToEventInstance="ei434" />
+<ALINK lid="l52" relType="TERMINATES" eventInstanceID="ei454" relatedToEventInstance="ei455" />
 
 </TimeML>

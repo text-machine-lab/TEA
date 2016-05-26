@@ -3,14 +3,12 @@
 
 <DOCID>wsj_0675</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30" temporalFunction="false" functionInDocument="CREATION_TIME">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0020 = 891030 891030-0020.
 What's News -- @ Business and Finance 10/30/89 WALL STREET JOURNAL (J)
 </EXTRAINFO>
-
-
 
 <TEXT>
 PROGRAM TRADING is being curbed by more securities firms, but big institutional investors are expected to continue the practice, further roiling the stock market. Bowing to criticism, Bear Stearns, Morgan Stanley and Oppenheimer joined PaineWebber in suspending stock-index arbitrage trading for their own accounts. Still, stock-index funds are expected to continue launching big programs through the market.
@@ -51,5 +49,183 @@ Commodities: Dow Jones futures index 129.49, up 0.27; spot index 130.80, off 0.2
 
 Dollar: 141.65 yen, off 0.45; 1.8300 marks, off 0.0100.
 </TEXT>
-</TimeML>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l113" relType="FACTIVE" eventInstanceID="ei831" subordinatedEventInstance="ei832" />
+<SLINK lid="l111" relType="MODAL" eventInstanceID="ei797" subordinatedEventInstance="ei798" />
+<SLINK lid="l110" relType="FACTIVE" eventInstanceID="ei775" subordinatedEventInstance="ei777" />
+<SLINK lid="l109" relType="FACTIVE" eventInstanceID="ei767" subordinatedEventInstance="ei768" />
+<SLINK lid="l106" relType="FACTIVE" eventInstanceID="ei762" subordinatedEventInstance="ei761" />
+<SLINK lid="l105" relType="FACTIVE" eventInstanceID="ei749" subordinatedEventInstance="ei750" />
+<SLINK lid="l104" relType="FACTIVE" eventInstanceID="ei744" subordinatedEventInstance="ei743" />
+<SLINK lid="l61" relType="MODAL" eventInstanceID="ei745" subordinatedEventInstance="ei746" />
+<SLINK lid="l62" relType="MODAL" eventInstanceID="ei754" subordinatedEventInstance="ei755" />
+<SLINK lid="l63" relType="MODAL" eventInstanceID="ei758" subordinatedEventInstance="ei759" />
+<SLINK lid="l64" relType="FACTIVE" eventInstanceID="ei759" subordinatedEventInstance="ei760" />
+<SLINK lid="l65" relType="EVIDENTIAL" eventInstanceID="ei771" subordinatedEventInstance="ei770" />
+<SLINK lid="l68" relType="MODAL" eventInstanceID="ei777" subordinatedEventInstance="ei778" />
+<SLINK lid="l69" relType="FACTIVE" eventInstanceID="ei782" subordinatedEventInstance="ei783" />
+<SLINK lid="l70" relType="MODAL" eventInstanceID="ei783" subordinatedEventInstance="ei784" />
+<SLINK lid="l71" relType="MODAL" eventInstanceID="ei785" subordinatedEventInstance="ei786" />
+<SLINK lid="l72" relType="COUNTER_FACTIVE" eventInstanceID="ei790" subordinatedEventInstance="ei791" />
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei792" subordinatedEventInstance="ei793" />
+<SLINK lid="l74" relType="MODAL" eventInstanceID="ei794" subordinatedEventInstance="ei795" />
+<SLINK lid="l75" relType="MODAL" eventInstanceID="ei794" subordinatedEventInstance="ei797" />
+<SLINK lid="l76" relType="MODAL" eventInstanceID="ei801" subordinatedEventInstance="ei802" />
+<SLINK lid="l77" relType="MODAL" eventInstanceID="ei804" subordinatedEventInstance="ei805" />
+<SLINK lid="l78" relType="MODAL" eventInstanceID="ei807" subordinatedEventInstance="ei808" />
+<SLINK lid="l79" relType="MODAL" eventInstanceID="ei808" subordinatedEventInstance="ei809" />
+<SLINK lid="l80" relType="EVIDENTIAL" eventInstanceID="ei810" subordinatedEventInstance="ei811" />
+<SLINK lid="l82" relType="MODAL" eventInstanceID="ei814" subordinatedEventInstance="ei815" />
+<SLINK lid="l83" relType="EVIDENTIAL" eventInstanceID="ei816" subordinatedEventInstance="ei817" />
+<SLINK lid="l84" relType="MODAL" eventInstanceID="ei817" subordinatedEventInstance="ei818" />
+<SLINK lid="l85" relType="FACTIVE" eventInstanceID="ei818" subordinatedEventInstance="ei819" />
+<SLINK lid="l88" relType="EVIDENTIAL" eventInstanceID="ei833" subordinatedEventInstance="ei834" />
+<SLINK lid="l89" relType="MODAL" eventInstanceID="ei834" subordinatedEventInstance="ei835" />
+<ALINK lid="l91" relType="CONTINUES" eventInstanceID="ei746" relatedToEventInstance="ei747" />
+<ALINK lid="l93" relType="CONTINUES" eventInstanceID="ei755" relatedToEventInstance="ei756" />
+<ALINK lid="l94" relType="INITIATES" eventInstanceID="ei756" relatedToEventInstance="ei757" />
+<ALINK lid="l99" relType="CULMINATES" eventInstanceID="ei780" relatedToEventInstance="ei781" />
+<ALINK lid="l102" relType="TERMINATES" eventInstanceID="ei820" relatedToEventInstance="ei821" />
+
+</TimeML>

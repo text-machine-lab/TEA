@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19990210.0079</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1999-02-10">1999-02-10</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1999-02-10">1999-02-10</TIMEX3></DCT>
 
 <TITLE>NATO to Admit Candidate Countries in Early March</TITLE>
 
@@ -13,7 +13,9 @@ XIE19990210.0079 <DATE_TIME> 1999-02-10 </DATE_TIME><HEADLINE> NATO to Admit Can
 </EXTRAINFO>
 
 
-<TEXT>BRUSSELS, February 10 (Xinhua) --
+<TEXT>
+
+BRUSSELS, February 10 (Xinhua) --
 
 The North Atlantic Treaty Organization (NATO) has decided to admit Poland, Hungary and the Czech Republic in early March, an official from the organization said on Wednesday.
 
@@ -25,11 +27,71 @@ The March accession will enable the three countries to be eligible for signing t
 
 The western military alliance invited the three central and eastern European countries to join the 16-nation bloc in July 1997 at the Madrid summit. The three countries have finished all necessary formalities for accession after the Hungarian parliament ratified the accession treaty on Tuesday.
 
-Also applying for NATO membership are Romania, Slovenia, Latvia, Estonia, Lithuania and Bulgaria.</TEXT>
+Also applying for NATO membership are Romania, Slovenia, Latvia, Estonia, Lithuania and Bulgaria.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l3" relType="FACTIVE" eventInstanceID="ei1" subordinatedEventInstance="ei2" syntax="USER"/>
+<SLINK lid="l9" relType="EVIDENTIAL" eventInstanceID="ei7" subordinatedEventInstance="ei8" syntax="USER"/>
+<SLINK lid="l18" relType="MODAL" eventInstanceID="ei12" subordinatedEventInstance="ei13" syntax="USER"/>
+<SLINK lid="l26" relType="FACTIVE" eventInstanceID="ei17" subordinatedEventInstance="ei18" syntax="USER"/>
+
 </TimeML>
+
+

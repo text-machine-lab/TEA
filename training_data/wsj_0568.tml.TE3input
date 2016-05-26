@@ -1,20 +1,21 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0568</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0132 = 891030 891030-0132.
 Unisys' $648.2 Million 3rd-Period Loss @ Shows Intensified Fight for Turnaround @ ---- @ By Paul B. Carroll @ Staff Reporter of The Wall Street Journal 10/30/89 WALL STREET JOURNAL (J) UIS EARNINGS (ERN) COMPUTERS AND INFORMATION TECHNOLOGY (CPR)
 </EXTRAINFO>
 
-<TEXT>Unisys Corp.'s announcement Friday of a $648.2 million loss for the third quarter showed that the company is moving even faster than expected to take write-offs on its various problems and prepare for a turnaround next year.
+<TEXT>
+Unisys Corp.'s announcement Friday of a $648.2 million loss for the third quarter showed that the company is moving even faster than expected to take write-offs on its various problems and prepare for a turnaround next year.
 
 At the same time, the sheer size of the loss, coupled with a slowing of orders, made some securities analysts wonder just how strong that turnaround will be at the computer maker and defense-electronics concern.
 
-'Unisys is getting clobbered. Just clobbered,' said Ulric Weil, an analyst at Weil amp Associates who had once been high on the company. 'The quarter was terrible, and the future looks anything but encouraging.'
+"Unisys is getting clobbered. Just clobbered," said Ulric Weil, an analyst at Weil amp Associates who had once been high on the company. "The quarter was terrible, and the future looks anything but encouraging."
 
 Unisys, whose revenue inched up 3.7% in the quarter to $2.35 billion from $2.27 billion in the year-earlier quarter, had an operating loss of about $30 million. On top of that, the Blue Bell, Pa., concern took a $230 million charge related to the layoffs of 8,000 employees. That is at the high end of the range of 7,000 to 8,000 employees that Unisys said a month ago would be laid off. Unisys said that should help it save $500 million a year in costs, again at the high end of the previously reported range of $400 million to $500 million.
 
@@ -32,14 +33,252 @@ Jim Unruh, Unisys's president, said he is approaching next year with caution. He
 
 He also said that the price wars flaring up in parts of the computer industry will continue through next year. He said the move toward standard operating systems means customers aren't locked into buying from their traditional computer supplier and can force prices down. That, he said, is why Unisys is overhauling its whole business: It needs to prepare for a world in which profit margins will be lower than computer companies have been used to.
 
-'We've approached this not as a response to a temporary condition in the industry but as a fundamental change the industry is going through,' Mr. Unruh said. 'The information-systems industry is still going to be a high-growth business, and we're confident that we have tremendous assets as a company. But we don't minimize the challenges of the near term.'
+"We've approached this not as a response to a temporary condition in the industry but as a fundamental change the industry is going through," Mr. Unruh said. "The information-systems industry is still going to be a high-growth business, and we're confident that we have tremendous assets as a company. But we don't minimize the challenges of the near term."
 
 Securities analysts were even more cautious, having been burned repeatedly on Unisys this year. Some had predicted earnings of more than $4 a share for this year, up from last year's fully diluted $3.27 a share on earnings of $680.6 million. But the company said Friday that it had losses of $673.3 million through the first nine months, compared with earnings a year earlier of $382.2 million, or $2.22 a share fully diluted, as revenue inched up 1.4% to $7.13 billion from $7.03 billion. And Unisys is expected to do little better than break even in the fourth quarter.
 
-So Steve Milunovich at First Boston said he is cutting his earnings estimate for next year to $2 a share from $3. 'I was feeling like I was too high to begin with,' he said.
+So Steve Milunovich at First Boston said he is cutting his earnings estimate for next year to $2 a share from $3. "I was feeling like I was too high to begin with," he said.
 
-Mr. Weil of Weil amp Associates said he will remain at $1 a share for next year but said he wonders whether even that low target is at risk. 'The break-even point for next year is much lower, but is it low enough?' he asked.
+Mr. Weil of Weil amp Associates said he will remain at $1 a share for next year but said he wonders whether even that low target is at risk. "The break-even point for next year is much lower, but is it low enough?" he asked.
 
-Reflecting the concern, Unisys stock fell a further 75 cents to $16.25 in composite trading Friday on the New York Stock Exchange.</TEXT>
+Reflecting the concern, Unisys stock fell a further 75 cents to $16.25 in composite trading Friday on the New York Stock Exchange.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l142" relType="MODAL" eventInstanceID="ei2928" subordinatedEventInstance="ei2943" />
+<SLINK lid="l141" relType="MODAL" eventInstanceID="ei2924" subordinatedEventInstance="ei2942" />
+<SLINK lid="l140" relType="FACTIVE" eventInstanceID="ei2847" subordinatedEventInstance="ei2848" />
+<SLINK lid="l91" relType="CONDITIONAL" eventInstanceID="ei2868" subordinatedEventInstance="ei2867"  />
+<SLINK lid="l92" relType="EVIDENTIAL" eventInstanceID="ei2806" subordinatedEventInstance="ei2807" />
+<SLINK lid="l93" relType="MODAL" eventInstanceID="ei2809" subordinatedEventInstance="ei2808" />
+<SLINK lid="l94" relType="MODAL" eventInstanceID="ei2808" subordinatedEventInstance="ei2810" />
+<SLINK lid="l95" relType="MODAL" eventInstanceID="ei2808" subordinatedEventInstance="ei2812" />
+<SLINK lid="l96" relType="MODAL" eventInstanceID="ei2812" subordinatedEventInstance="ei2813" />
+<SLINK lid="l98" relType="EVIDENTIAL" eventInstanceID="ei2821" subordinatedEventInstance="ei2819" />
+<SLINK lid="l99" relType="EVIDENTIAL" eventInstanceID="ei2831" subordinatedEventInstance="ei2832" />
+<SLINK lid="l100" relType="EVIDENTIAL" eventInstanceID="ei2833" subordinatedEventInstance="ei2834" />
+<SLINK lid="l101" relType="MODAL" eventInstanceID="ei2834" subordinatedEventInstance="ei2835" />
+<SLINK lid="l102" relType="MODAL" eventInstanceID="ei2837" subordinatedEventInstance="ei2839" />
+<SLINK lid="l103" relType="FACTIVE" eventInstanceID="ei2839" subordinatedEventInstance="ei2840" />
+<SLINK lid="l104" relType="MODAL" eventInstanceID="ei2844" subordinatedEventInstance="ei2845" />
+<SLINK lid="l105" relType="EVIDENTIAL" eventInstanceID="ei2849" subordinatedEventInstance="ei2850" />
+<SLINK lid="l106" relType="EVIDENTIAL" eventInstanceID="ei2855" subordinatedEventInstance="ei2856" />
+<SLINK lid="l108" relType="EVIDENTIAL" eventInstanceID="ei2860" subordinatedEventInstance="ei2861" />
+<SLINK lid="l109" relType="MODAL" eventInstanceID="ei2862" subordinatedEventInstance="ei2863" />
+<SLINK lid="l111" relType="EVIDENTIAL" eventInstanceID="ei2865" subordinatedEventInstance="ei2866" />
+<SLINK lid="l113" relType="MODAL" eventInstanceID="ei2871" subordinatedEventInstance="ei2872" />
+<SLINK lid="l115" relType="EVIDENTIAL" eventInstanceID="ei2878" subordinatedEventInstance="ei2879" />
+<SLINK lid="l116" relType="EVIDENTIAL" eventInstanceID="ei2880" subordinatedEventInstance="ei2881" />
+<SLINK lid="l117" relType="EVIDENTIAL" eventInstanceID="ei2882" subordinatedEventInstance="ei2884" />
+<SLINK lid="l118" relType="EVIDENTIAL" eventInstanceID="ei2885" subordinatedEventInstance="ei2887" />
+<SLINK lid="l119" relType="EVIDENTIAL" eventInstanceID="ei2888" subordinatedEventInstance="ei2889" />
+<SLINK lid="l120" relType="MODAL" eventInstanceID="ei2890" subordinatedEventInstance="ei2891" />
+<SLINK lid="l121" relType="MODAL" eventInstanceID="ei2891" subordinatedEventInstance="ei2892" />
+<SLINK lid="l122" relType="EVIDENTIAL" eventInstanceID="ei2895" subordinatedEventInstance="ei2894" />
+<SLINK lid="l123" relType="EVIDENTIAL" eventInstanceID="ei2895" subordinatedEventInstance="ei2897" />
+<SLINK lid="l124" relType="MODAL" eventInstanceID="ei2897" subordinatedEventInstance="ei2898" />
+<SLINK lid="l125" relType="EVIDENTIAL" eventInstanceID="ei2895" subordinatedEventInstance="ei2896" />
+<SLINK lid="l126" relType="EVIDENTIAL" eventInstanceID="ei2895" subordinatedEventInstance="ei2899" />
+<SLINK lid="l127" relType="FACTIVE" eventInstanceID="ei2899" subordinatedEventInstance="ei2900" />
+<SLINK lid="l128" relType="EVIDENTIAL" eventInstanceID="ei2906" subordinatedEventInstance="ei2907" />
+<SLINK lid="l129" relType="MODAL" eventInstanceID="ei2913" subordinatedEventInstance="ei2914" />
+<SLINK lid="l130" relType="EVIDENTIAL" eventInstanceID="ei2915" subordinatedEventInstance="ei2916" />
+<SLINK lid="l131" relType="FACTIVE" eventInstanceID="ei2916" subordinatedEventInstance="ei2918" />
+<SLINK lid="l133" relType="EVIDENTIAL" eventInstanceID="ei2923" subordinatedEventInstance="ei2924" />
+<SLINK lid="l134" relType="EVIDENTIAL" eventInstanceID="ei2923" subordinatedEventInstance="ei2926" />
+<SLINK lid="l135" relType="MODAL" eventInstanceID="ei2903" subordinatedEventInstance="ei2932" />
+<SLINK lid="l136" relType="MODAL" eventInstanceID="ei2841" subordinatedEventInstance="ei2842" />
+<ALINK lid="l137" relType="TERMINATES" eventInstanceID="ei2853" relatedToEventInstance="ei2854" />
+<ALINK lid="l138" relType="CONTINUES" eventInstanceID="ei2868" relatedToEventInstance="ei2866" />
+<ALINK lid="l139" relType="CONTINUES" eventInstanceID="ei2884" relatedToEventInstance="ei2883" />
 
 </TimeML>

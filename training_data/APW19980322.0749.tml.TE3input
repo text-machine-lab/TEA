@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980322.0749</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-03-22T14:57:00">03/22/1998 14:57:00</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-03-22T14:57:00">03/22/1998 14:57:00</TIMEX3></DCT>
 
 <EXTRAINFO>
 APW19980322.0749 NEWS STORY 03/22/1998 14:57:00
@@ -13,11 +13,173 @@ Police find bomb on eve of Sinn Fein's return to peace talks
 UR Eds: NEW throughout; RAISES reference to bomb; UPDATES with protest against Protestant marches, comment from Sinn Fein leader; trims pvs QL UR By SHAWN POGATCHNIK QC UR Associated Press Writer QC
 </EXTRAINFO>
 
-<TEXT>BELFAST, Northern Ireland (AP)_ Police seized a car bomb under construction Sunday in a town bordering Northern Ireland on the eve of the return to peace talks by the IRA-allied Sinn Fein party. Chief Superintendent Al McHugh said the bomb discovered in the Irish Republic was destined for an unknown target in Northern Ireland and ''would have caused massive destruction.'' The discovery appeared to be the latest attempt by extremists opposed to the IRA's 8-month-old truce to undermine the peace process, set to resume Monday in Belfast. Extremists have bombed two predominantly pro-British Protestant towns and fired mortar shells at a police station since Sinn Fein was expelled from peace talks on Feb. 20 in punishment for two killings blamed on the Irish Republican Army. Police found more than 1,300 pounds (600 kgs) of fertilizer-based explosives Sunday in a shed in Dundalk, 50 miles (80 kms) south of Belfast. They arrested two men in connection with the bomb factory, which also contained circuitry, detonating cord and the Mitsubishi truck that would have carried the bomb. The British and Irish governments, which cosponsor the multi-party talks that are supposed to conclude by May, invited Sinn Fein to rejoin two weeks ago. But Sinn Fein leader Gerry Adams kept his party out pending meetings with British Prime Minister Tony Blair 10 days ago and President Clinton last week. ''We were unjustly pushed out of the talks in February but we are back,'' Adams said Sunday. He said the north's substantial Catholic minority demanded a settlement that would promote Northern Ireland's eventual unification with the Irish Republic. ''Nationalists in the north are not a minority in someone else's country. We are Irish citizens, living in our own country,'' Adams said, adding: ''Nationalists want to move towards Irish unity and see this process as a bridge in that direction.'' But the north's pro-British Protestant majority is bitterly opposed to uniting Ireland and instead wants a strong government for Northern Ireland, which has been ruled directly by London since 1972. Northern Ireland's biggest Protestant party, the Ulster Unionists, is threatening to push for Sinn Fein's expulsion once again. They say IRA commanders are responsible for the recent bomb attacks. Also Sunday, more than 2,000 Catholic protesters rallied in Portadown against the annual parades by the Orange Order, Northern Ireland's dominant Protestant fraternal group. Confrontations among Catholic protesters, Protestant marchers and the police have provoked widespread violence in Northern Ireland for the past three summers. The crucible is Portadown, 30 miles (50 kms) southwest of Belfast, where Orangemen march each July from their rural church back downtown _ through the town's main Catholic area. Protesters from several Catholic communities crowded into Portadown's Catholic Garvaghy Road to hear speakers demand negotiations with Orange Order leaders, and pledge to participate in each others' road-blocking protests this summer. ''Small nationalist communities are not going to be left on their own this summer,'' said Gerard Rice, a former IRA prisoner who leads anti-Orange protests in a Catholic neighborhood of south Belfast. Riot police in armored cars, shields and helmets prevented a few hundred Protestants, many waving British and Ulster flags, from interfering with the Catholics as they marched within Portadown's few Catholic streets. Earlier Sunday, police and militant Protestants clashed in a religiously polarized part of north Belfast. Police said an unmarked police car was hit with gasoline bombs from the Protestant side. Riot police responded with a volley of plastic bullets that scattered a 50-strong mob. An elderly Catholic man was hospitalized from cuts after a Protestant gasoline bomb landed in his back yard. Police arrested six Protestants on suspicion of rioting. (sp/eml)</TEXT>
+<TEXT>
+BELFAST, Northern Ireland (AP)_ Police seized a car bomb under construction Sunday in a town bordering Northern Ireland on the eve of the return to peace talks by the IRA-allied Sinn Fein party. Chief Superintendent Al McHugh said the bomb discovered in the Irish Republic was destined for an unknown target in Northern Ireland and ``would have caused massive destruction.'' The discovery appeared to be the latest attempt by extremists opposed to the IRA's 8-month-old truce to undermine the peace process, set to resume Monday in Belfast. Extremists have bombed two predominantly pro-British Protestant towns and fired mortar shells at a police station since Sinn Fein was expelled from peace talks on Feb. 20 in punishment for two killings blamed on the Irish Republican Army. Police found more than 1,300 pounds (600 kgs) of fertilizer-based explosives Sunday in a shed in Dundalk, 50 miles (80 kms) south of Belfast. They arrested two men in connection with the bomb factory, which also contained circuitry, detonating cord and the Mitsubishi truck that would have carried the bomb. The British and Irish governments, which cosponsor the multi-party talks that are supposed to conclude by May, invited Sinn Fein to rejoin two weeks ago. But Sinn Fein leader Gerry Adams kept his party out pending meetings with British Prime Minister Tony Blair 10 days ago and President Clinton last week. ``We were unjustly pushed out of the talks in February but we are back,'' Adams said Sunday. He said the north's substantial Catholic minority demanded a settlement that would promote Northern Ireland's eventual unification with the Irish Republic. ``Nationalists in the north are not a minority in someone else's country. We are Irish citizens, living in our own country,'' Adams said, adding: ``Nationalists want to move towards Irish unity and see this process as a bridge in that direction.'' But the north's pro-British Protestant majority is bitterly opposed to uniting Ireland and instead wants a strong government for Northern Ireland, which has been ruled directly by London since 1972. Northern Ireland's biggest Protestant party, the Ulster Unionists, is threatening to push for Sinn Fein's expulsion once again. They say IRA commanders are responsible for the recent bomb attacks. Also Sunday, more than 2,000 Catholic protesters rallied in Portadown against the annual parades by the Orange Order, Northern Ireland's dominant Protestant fraternal group. Confrontations among Catholic protesters, Protestant marchers and the police have provoked widespread violence in Northern Ireland for the past three summers. The crucible is Portadown, 30 miles (50 kms) southwest of Belfast, where Orangemen march each July from their rural church back downtown _ through the town's main Catholic area. Protesters from several Catholic communities crowded into Portadown's Catholic Garvaghy Road to hear speakers demand negotiations with Orange Order leaders, and pledge to participate in each others' road-blocking protests this summer. ``Small nationalist communities are not going to be left on their own this summer,'' said Gerard Rice, a former IRA prisoner who leads anti-Orange protests in a Catholic neighborhood of south Belfast. Riot police in armored cars, shields and helmets prevented a few hundred Protestants, many waving British and Ulster flags, from interfering with the Catholics as they marched within Portadown's few Catholic streets. Earlier Sunday, police and militant Protestants clashed in a religiously polarized part of north Belfast. Police said an unmarked police car was hit with gasoline bombs from the Protestant side. Riot police responded with a volley of plastic bullets that scattered a 50-strong mob. An elderly Catholic man was hospitalized from cuts after a Protestant gasoline bomb landed in his back yard. Police arrested six Protestants on suspicion of rioting. (sp/eml)
+</TEXT>
 
 <LASTEXTRAINFO>
 (PROFILE (WS SL:BC-Northern Ireland, 1st Ld-Writethru; CT:i; (REG:EURO;) (REG:BRIT;) (REG:SCAN;) (REG:MEST;) (REG:AFRI;) (REG:INDI;) (REG:ENGL;) (REG:ASIA;) (LANG:ENGLISH;)) )
 AP-NY-03-22-98 1457EST
 </LASTEXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l76" relType="FACTIVE" eventInstanceID="ei2088" subordinatedEventInstance="ei2089" />
+<SLINK lid="l75" relType="EVIDENTIAL" eventInstanceID="ei2084" subordinatedEventInstance="ei2085" />
+<SLINK lid="l74" relType="MODAL" eventInstanceID="ei2083" subordinatedEventInstance="ei2084" />
+<SLINK lid="l73" relType="MODAL" eventInstanceID="ei2081" subordinatedEventInstance="ei2082" />
+<SLINK lid="l71" relType="FACTIVE" eventInstanceID="ei2043" subordinatedEventInstance="ei2044" />
+<SLINK lid="l43" relType="EVIDENTIAL" eventInstanceID="ei2029" subordinatedEventInstance="ei2031" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei2035" subordinatedEventInstance="ei2034" />
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei2035" subordinatedEventInstance="ei2036" />
+<SLINK lid="l46" relType="MODAL" eventInstanceID="ei2036" subordinatedEventInstance="ei2038" />
+<SLINK lid="l47" relType="MODAL" eventInstanceID="ei2039" subordinatedEventInstance="ei2040" />
+<SLINK lid="l48" relType="MODAL" eventInstanceID="ei2049" subordinatedEventInstance="ei2050" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei2051" subordinatedEventInstance="ei2052" />
+<SLINK lid="l50" relType="EVIDENTIAL" eventInstanceID="ei2057" subordinatedEventInstance="ei2055" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei2058" subordinatedEventInstance="ei2059" />
+<SLINK lid="l53" relType="MODAL" eventInstanceID="ei2061" subordinatedEventInstance="ei2062" />
+<SLINK lid="l54" relType="EVIDENTIAL" eventInstanceID="ei2064" subordinatedEventInstance="ei2063" />
+<SLINK lid="l55" relType="EVIDENTIAL" eventInstanceID="ei2065" subordinatedEventInstance="ei2066" />
+<SLINK lid="l56" relType="MODAL" eventInstanceID="ei2066" subordinatedEventInstance="ei2067" />
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei2068" subordinatedEventInstance="ei2069" />
+<SLINK lid="l59" relType="MODAL" eventInstanceID="ei2073" subordinatedEventInstance="ei2074" />
+<SLINK lid="l60" relType="MODAL" eventInstanceID="ei2074" subordinatedEventInstance="ei2075" />
+<SLINK lid="l61" relType="EVIDENTIAL" eventInstanceID="ei2076" subordinatedEventInstance="ei2077" />
+<SLINK lid="l62" relType="FACTIVE" eventInstanceID="ei2077" subordinatedEventInstance="ei2078" />
+<SLINK lid="l63" relType="MODAL" eventInstanceID="ei2085" subordinatedEventInstance="ei2086" />
+<SLINK lid="l64" relType="MODAL" eventInstanceID="ei2087" subordinatedEventInstance="ei2088" />
+<SLINK lid="l65" relType="EVIDENTIAL" eventInstanceID="ei2091" subordinatedEventInstance="ei2090" />
+<SLINK lid="l66" relType="COUNTER_FACTIVE" eventInstanceID="ei2092" subordinatedEventInstance="ei2094" />
+<SLINK lid="l67" relType="EVIDENTIAL" eventInstanceID="ei2097" subordinatedEventInstance="ei2098" />
+<ALINK lid="l69" relType="REINITIATES" eventInstanceID="ei2027" relatedToEventInstance="ei2028" />
 
 </TimeML>

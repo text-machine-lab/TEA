@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980809.0700</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-09">1998-08-09</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-09">1998-08-09</TIMEX3></DCT>
 
 <TITLE>Solid construction may have kept toll low in Tanzania embassy bombing</TITLE>
 
@@ -18,7 +18,9 @@ bombing &amp;UR; Eds: CORRECTS 4th graf to drop extraneous word &amp;QL;  &amp;U
 </EXTRAINFO>
 
 
-<TEXT>DAR ES SALAAM, Tanzania (AP) _
+<TEXT>
+
+DAR ES SALAAM, Tanzania (AP) _
 
 The bomb outside the U.S. Embassy in Tanzania was so powerful that it shook furniture in homes a mile away.
 
@@ -26,7 +28,9 @@ But the solid construction of the Israeli-built embassy may have prevented the c
 
 Another reason was the location _ a quiet tree-lined neighborhood.
 
-The embassy away from the center of Dar es Salaam, Tanzania's laid-back capital of swaying palms and sparse traffic, is largely free from the congestion that plagues most other major African cities.</TEXT>
+The embassy away from the center of Dar es Salaam, Tanzania's laid-back capital of swaying palms and sparse traffic, is largely free from the congestion that plagues most other major African cities.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -37,4 +41,21 @@ AP-NY-08-09-98 1630EDT
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

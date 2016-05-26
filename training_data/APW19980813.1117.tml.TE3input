@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980813.1117</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-13">1998-08-13</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-13">1998-08-13</TIMEX3></DCT>
 
 <TITLE>Security Council condemns Kenya, Tanzania bombings</TITLE>
 
@@ -18,17 +18,21 @@ Security Council condemns Kenya, Tanzania bombings
 </EXTRAINFO>
 
 
-<TEXT>UNITED NATIONS (AP) _
+<TEXT>
+
+UNITED NATIONS (AP) _
 
 The Security Council condemned the bombing of the U.S. embassies in Kenya and Tanzania on Thursday and called on all states to cooperate with authorities in finding those responsible.
 
-A resolution, co-sponsored by Kenya, Tanzania and the United States and unanimously adopted, ''expresses its deep sorrow, sympathy and condolences to the families of the innocent victims of the terrorist bomb attacks at this difficult time.''
+A resolution, co-sponsored by Kenya, Tanzania and the United States and unanimously adopted, ``expresses its deep sorrow, sympathy and condolences to the families of the innocent victims of the terrorist bomb attacks at this difficult time.''
 
-It strongly condemns the ''terrorist bomb attacks.'' And it stresses that every nation ''has the duty to refrain from organizing, instigating, assisting or participating in terrorist acts in another state.''
+It strongly condemns the ``terrorist bomb attacks.'' And it stresses that every nation ``has the duty to refrain from organizing, instigating, assisting or participating in terrorist acts in another state.''
 
 The almost simultaneous attacks Aug. 7 at the U.S. embassies in Nairobi, Kenya, and Dar es Salaam, Tanzania, killed 257 people and injured more than 5,500.
 
-''The incidents of Aug. 7 underscore that terrorists know no boundaries, and that the suppression of international terrorism, the arrest, the conviction and the punishment of its perpetrators are essential to the maintenance of international peace and security,'' said the U.S. Deputy Ambassador Peter Burleigh.</TEXT>
+``The incidents of Aug. 7 underscore that terrorists know no boundaries, and that the suppression of international terrorism, the arrest, the conviction and the punishment of its perpetrators are essential to the maintenance of international peace and security,'' said the U.S. Deputy Ambassador Peter Burleigh.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -37,4 +41,72 @@ AP-NY-08-13-98 1742EDT
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ALINK lid="l19" relType="INITIATES" eventInstanceID="ei33" relatedToEventInstance="ei9" syntax="USER"/>
+<ALINK lid="l21" relType="INITIATES" eventInstanceID="ei33" relatedToEventInstance="ei11" syntax="USER"/>
+<ALINK lid="l22" relType="INITIATES" eventInstanceID="ei33" relatedToEventInstance="ei10" syntax="USER"/>
+<ALINK lid="l23" relType="INITIATES" eventInstanceID="ei33" relatedToEventInstance="ei12" syntax="USER"/>
+
+
+
+
+
 </TimeML>
+
+

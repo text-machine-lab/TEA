@@ -1,41 +1,253 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_1014</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0042 = 891026 891026-0042.
 Anheuser-Busch, Slugging It Out, Plans Beer Price Cuts @ ---- @ By James P. Miller @ Staff Reporter of The Wall Street Journal 10/26/89 WALL STREET JOURNAL (J) BUD BEVERAGES (BVG) MARKETING, ADVERTISING (MKT) EARNINGS (ERN)
 </EXTRAINFO>
 
-<TEXT>Anheuser-Busch Cos. said it plans to aggressively discount its major beer brands, setting the stage for a potentially bruising price war as the maturing industry's growth continues to slow.
+<TEXT>
+Anheuser-Busch Cos. said it plans to aggressively discount its major beer brands, setting the stage for a potentially bruising price war as the maturing industry's growth continues to slow.
 
 Anheuser, the world's largest brewer and U.S. market leader, has historically been reluctant to engage in price-cutting as a means of boosting sales volume. With the passing of the heady days of swelling industry sales, however, the once-sporadic and brief forays into discounting are becoming standard competitive weapons in the beer industry.
 
 Over the summer, Anheuser competitors offered more and deeper discounts than industry observers have seen for a long time. Some experts now predict Anheuser's entry into the fray means near-term earnings trouble for all the industry players.
 
-The St. Louis company said major rivals, Philip Morris Co.'s Miller Brewing unit and Adolph Coors Co. 'have been following a policy of continuous and deep discounting for at least the past 18 months' on their premium brands, pricing their product as much as 25 cents a 12-pack below Anheuser's Budweiser label in many markets. Anheuser said it's discounting policy basically would involve matching such moves by rivals on a market-by-market basis.
+The St. Louis company said major rivals, Philip Morris Co.'s Miller Brewing unit and Adolph Coors Co. "have been following a policy of continuous and deep discounting for at least the past 18 months" on their premium brands, pricing their product as much as 25 cents a 12-pack below Anheuser's Budweiser label in many markets. Anheuser said it's discounting policy basically would involve matching such moves by rivals on a market-by-market basis.
 
 Anheuser-Busch announced its plan at the same time it reported third-quarter net income rose a lower-than-anticipated 5.2% to $238.3 million, or 83 cents a share, from $226.5 million, or 78 cents. Third-period sales were $2.49 billion, up from last year's $2.34 billion.
 
 Anheuser said its new strategy -- started in some markets last month and expected to be applied soon in selected markets nationwide -- will mean lower-than-anticipated earnings for the last half of 1989 and for 1990. The projection sent Anheuser shares plunging $4.375 in New York Stock Exchange composite trading yesterday. The stock closed at $38.50 on heavy volume of about 3.5 million shares. Shares of Coors, the company's sole publicly traded major competitor, fell $1.50 apiece to $19.125 in national over-the-counter trading, apparently on investor concerns over potential fallout from the coming pricing struggle.
 
-Anheuser noted that 'beer industry sales volume is 1989 is following the trend that has characterized the last half of the '80s, with sales volume being essentially flat' while consolidation creates fewer, bigger players.
+Anheuser noted that "beer industry sales volume is 1989 is following the trend that has characterized the last half of the '80s, with sales volume being essentially flat" while consolidation creates fewer, bigger players.
 
-'We cannot permit a further slowing in our volume trend,' Anheuser said, adding it will take 'appropriate competitive pricing actions to support our long-term market share growth strategy' for the premium brands. Anheuser said it continues to hold to its earlier-announced goal of a 50% U.S. market share by the mid-1990s.
+"We cannot permit a further slowing in our volume trend," Anheuser said, adding it will take "appropriate competitive pricing actions to support our long-term market share growth strategy" for the premium brands. Anheuser said it continues to hold to its earlier-announced goal of a 50% U.S. market share by the mid-1990s.
 
-Beneath the tepid news-release jargon lies a powerful threat from the brewing giant, which last year accounted for about 41% of all U.S. beer sales and is expected to see that grow to 42.5% in the current year. 'Anheuser is the biggest guy in the bar, and he just decided to join in the barroom brawl,' said Joseph J. Doyle, an analyst with Smith Barney, Harris Upham amp Co. 'It's going to get bloody.'
+Beneath the tepid news-release jargon lies a powerful threat from the brewing giant, which last year accounted for about 41% of all U.S. beer sales and is expected to see that grow to 42.5% in the current year. "Anheuser is the biggest guy in the bar, and he just decided to join in the barroom brawl," said Joseph J. Doyle, an analyst with Smith Barney, Harris Upham amp Co. "It's going to get bloody."
 
-Jerry Steinman, publisher of Beer Marketers Insights, a trade newsletter, said Anheuser's announcement means 'everybody else in the industry is going to have a difficult time reaching their profit objectives.'
+Jerry Steinman, publisher of Beer Marketers Insights, a trade newsletter, said Anheuser's announcement means "everybody else in the industry is going to have a difficult time reaching their profit objectives."
 
-Prudential-Bache Securities Inc. analyst George E. Thompson downplayed the importance of the announcement, and called any comparison between the coming beer-industry tiff and the seemingly unending 'cola wars,' unwarranted. Mr. Thompson calls discounting 'a loser's game for anyone without a dominant market share,' and projected that Anheuser's statement of intent could simply be a means of warning competitors to ease up on price-cutting or face a costly and fruitless battle.
+Prudential-Bache Securities Inc. analyst George E. Thompson downplayed the importance of the announcement, and called any comparison between the coming beer-industry tiff and the seemingly unending "cola wars," unwarranted. Mr. Thompson calls discounting "a loser's game for anyone without a dominant market share," and projected that Anheuser's statement of intent could simply be a means of warning competitors to ease up on price-cutting or face a costly and fruitless battle.
 
 Mr. Thompson noted that the disappointing earnings, which fell five cents a share short of his own projections, contributed to the sell-off by an edgy and currently unforgiving investing public.
 
-But Smith Barney's Mr. Doyle, who yesterday trimmed his 1990 Anheuser earnings projection to $2.95 a share from $3.10, called the market's reaction 'justified.' While the third-quarter earnings were a 'moderate disappointment,' he said, 'the real bad news is the intensity of price competition' in the premium-beer sector.
+But Smith Barney's Mr. Doyle, who yesterday trimmed his 1990 Anheuser earnings projection to $2.95 a share from $3.10, called the market's reaction "justified." While the third-quarter earnings were a "moderate disappointment," he said, "the real bad news is the intensity of price competition" in the premium-beer sector.
 
-According to Mr. Steinman, the newsletter publisher, Anheuser's market share is nearly twice that of its nearest competitor, Miller Brewing, which had a 21.2% stake last year. It's followed by Stroh Brewery Co., which has agreed to sell its assets to Coors. Both Coors and Stroh have recently been ceding market share to Miller and Anheuser.</TEXT>
+According to Mr. Steinman, the newsletter publisher, Anheuser's market share is nearly twice that of its nearest competitor, Miller Brewing, which had a 21.2% stake last year. It's followed by Stroh Brewery Co., which has agreed to sell its assets to Coors. Both Coors and Stroh have recently been ceding market share to Miller and Anheuser.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l106" relType="MODAL" eventInstanceID="ei2341" subordinatedEventInstance="ei2342" />
+<SLINK lid="l105" relType="EVIDENTIAL" eventInstanceID="ei2296" subordinatedEventInstance="ei2300" />
+<SLINK lid="l104" relType="MODAL" eventInstanceID="ei2277" subordinatedEventInstance="ei2278" />
+<SLINK lid="l103" relType="MODAL" eventInstanceID="ei2274" subordinatedEventInstance="ei2275" />
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei2257" subordinatedEventInstance="ei2258" />
+<SLINK lid="l74" relType="MODAL" eventInstanceID="ei2258" subordinatedEventInstance="ei2259" />
+<SLINK lid="l75" relType="MODAL" eventInstanceID="ei2260" subordinatedEventInstance="ei2261" />
+<SLINK lid="l76" relType="MODAL" eventInstanceID="ei2265" subordinatedEventInstance="ei2266" />
+<SLINK lid="l77" relType="MODAL" eventInstanceID="ei2267" subordinatedEventInstance="ei2268" />
+<SLINK lid="l78" relType="MODAL" eventInstanceID="ei2280" subordinatedEventInstance="ei2281" />
+<SLINK lid="l79" relType="EVIDENTIAL" eventInstanceID="ei2282" subordinatedEventInstance="ei2283" />
+<SLINK lid="l80" relType="EVIDENTIAL" eventInstanceID="ei2286" subordinatedEventInstance="ei2287" />
+<SLINK lid="l81" relType="EVIDENTIAL" eventInstanceID="ei2290" subordinatedEventInstance="ei2291" />
+<SLINK lid="l82" relType="EVIDENTIAL" eventInstanceID="ei2296" subordinatedEventInstance="ei2297" />
+<SLINK lid="l83" relType="MODAL" eventInstanceID="ei2298" subordinatedEventInstance="ei2299" />
+<SLINK lid="l84" relType="EVIDENTIAL" eventInstanceID="ei2309" subordinatedEventInstance="ei2311" />
+<SLINK lid="l85" relType="MODAL" eventInstanceID="ei2318" subordinatedEventInstance="ei2319" />
+<SLINK lid="l86" relType="EVIDENTIAL" eventInstanceID="ei2320" subordinatedEventInstance="ei2318" />
+<SLINK lid="l87" relType="EVIDENTIAL" eventInstanceID="ei2321" subordinatedEventInstance="ei2322" />
+<SLINK lid="l88" relType="MODAL" eventInstanceID="ei2323" subordinatedEventInstance="ei2324" />
+<SLINK lid="l89" relType="EVIDENTIAL" eventInstanceID="ei2325" subordinatedEventInstance="ei2326" />
+<SLINK lid="l90" relType="MODAL" eventInstanceID="ei2331" subordinatedEventInstance="ei2332" />
+<SLINK lid="l91" relType="EVIDENTIAL" eventInstanceID="ei2332" subordinatedEventInstance="ei2333" />
+<SLINK lid="l92" relType="MODAL" eventInstanceID="ei2334" subordinatedEventInstance="ei2335" />
+<SLINK lid="l93" relType="EVIDENTIAL" eventInstanceID="ei2337" subordinatedEventInstance="ei2334" />
+<SLINK lid="l94" relType="EVIDENTIAL" eventInstanceID="ei2337" subordinatedEventInstance="ei2338" />
+<SLINK lid="l95" relType="EVIDENTIAL" eventInstanceID="ei2339" subordinatedEventInstance="ei2341" />
+<SLINK lid="l97" relType="MODAL" eventInstanceID="ei2350" subordinatedEventInstance="ei2351" />
+<SLINK lid="l98" relType="EVIDENTIAL" eventInstanceID="ei2354" subordinatedEventInstance="ei2357" />
+<SLINK lid="l100" relType="MODAL" eventInstanceID="ei2368" subordinatedEventInstance="ei2369" />
+<ALINK lid="l101" relType="CONTINUES" eventInstanceID="ei2263" relatedToEventInstance="ei2264" />
+<ALINK lid="l102" relType="CONTINUES" eventInstanceID="ei2326" relatedToEventInstance="ei2327" />
 
 </TimeML>

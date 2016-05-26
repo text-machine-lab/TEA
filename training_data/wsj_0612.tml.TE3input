@@ -1,15 +1,55 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0612</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0087 = 891030 891030-0087.
 New Securities Issues 10/30/89 WALL STREET JOURNAL (J) SUNW T.CM EUROP F BOND MARKET NEWS (BON)
 </EXTRAINFO>
 
-<TEXT>The following were among Friday's offerings and pricings in the U.S. and non-U.S. capital markets, with terms and syndicate manager, as compiled by Dow Jones Capital Markets Report: @ CORPORATES Sun Microsystems Inc. -- $125 million of 6 3/8% convertible subordinated debentures due Oct. 15, 1999, priced at 84.90 to yield 7.51%. The debentures are convertible into common stock at $25 a share, representing a 24% conversion premium over Thursday's closing price. Rated single-B-1 by Moody's Investors Service Inc. and single-B-plus by Standard amp Poor's Corp., the issue will be sold through underwriters led by Goldman, Sachs amp Co. Hertz Corp. -- $100 million of senior notes due Nov. 1, 2009, priced at par to yield 9%. The issue, which is puttable back to the company in 1999, was priced at a spread of 110 basis points above the Treasury's 10-year note. Rated single-A-3 by Moody's and triple-B by SampP, the issue will be sold through underwriters led by Merrill Lynch Capital Markets. @ EUROBONDS Canadian Imperial Bank of Commerce (Canada) -- 10 billion yen of 5.7% bonds due Nov. 17, 1992, priced at 101 1/4 to yield 5.75% less full fees, via LTCB International Ltd.</TEXT>
+<TEXT>
+The following were among Friday's offerings and pricings in the U.S. and non-U.S. capital markets, with terms and syndicate manager, as compiled by Dow Jones Capital Markets Report: @ CORPORATES Sun Microsystems Inc. -- $125 million of 6 3/8% convertible subordinated debentures due Oct. 15, 1999, priced at 84.90 to yield 7.51%. The debentures are convertible into common stock at $25 a share, representing a 24% conversion premium over Thursday's closing price. Rated single-B-1 by Moody's Investors Service Inc. and single-B-plus by Standard amp Poor's Corp., the issue will be sold through underwriters led by Goldman, Sachs amp Co. Hertz Corp. -- $100 million of senior notes due Nov. 1, 2009, priced at par to yield 9%. The issue, which is puttable back to the company in 1999, was priced at a spread of 110 basis points above the Treasury's 10-year note. Rated single-A-3 by Moody's and triple-B by SampP, the issue will be sold through underwriters led by Merrill Lynch Capital Markets. @ EUROBONDS Canadian Imperial Bank of Commerce (Canada) -- 10 billion yen of 5.7% bonds due Nov. 17, 1992, priced at 101 1/4 to yield 5.75% less full fees, via LTCB International Ltd.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l24" relType="EVIDENTIAL" eventInstanceID="ei2002" subordinatedEventInstance="ei2000" />
+<SLINK lid="l25" relType="EVIDENTIAL" eventInstanceID="ei2002" subordinatedEventInstance="ei2001" />
+<SLINK lid="l26" relType="MODAL" eventInstanceID="ei2004" subordinatedEventInstance="ei2005" />
+<SLINK lid="l27" relType="MODAL" eventInstanceID="ei2013" subordinatedEventInstance="ei2014" />
+<SLINK lid="l28" relType="MODAL" eventInstanceID="ei2020" subordinatedEventInstance="ei2021" />
 
 </TimeML>

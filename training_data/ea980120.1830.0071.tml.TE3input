@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>ea980120.1830.0071</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-01-20">980120</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-01-20">980120</TIMEX3></DCT>
 
 <EXTRAINFO>
 ea980120.1830.0071 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>Good evening from the central park in downtown Havana. We are here this week to witness the rendezvous that Fidel Castro and the Pope are having with history.
+<TEXT>
+Good evening from the central park in downtown Havana. We are here this week to witness the rendezvous that Fidel Castro and the Pope are having with history.
 
 We are here because what happens on this island will also have an impact on the United States. Everything that happens in Cuba gets America's attention.
 
@@ -27,6 +28,77 @@ Today, hundreds of people from the US began to arrive, including some Cuban Amer
 
 This is quite an extraordinary story unfolding here. We'll come back to Havana later in the broadcast.
 
-But now we're going to go back to New York, where Diane Sawyer has the rest of the news. Diane?</TEXT>
+But now we're going to go back to New York, where Diane Sawyer has the rest of the news. Diane?
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l28" relType="MODAL" eventInstanceID="ei227" subordinatedEventInstance="ei228" />
+<SLINK lid="l27" relType="FACTIVE" eventInstanceID="ei207" subordinatedEventInstance="ei208" />
+<SLINK lid="l26" relType="FACTIVE" eventInstanceID="ei199" subordinatedEventInstance="ei200" />
+<SLINK lid="l25" relType="MODAL" eventInstanceID="ei242" subordinatedEventInstance="ei199" />
+<SLINK lid="l17" relType="MODAL" eventInstanceID="ei206" subordinatedEventInstance="ei207" />
+<SLINK lid="l19" relType="MODAL" eventInstanceID="ei219" subordinatedEventInstance="ei220" />
+<SLINK lid="l20" relType="MODAL" eventInstanceID="ei221" subordinatedEventInstance="ei222" />
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei222" subordinatedEventInstance="ei223" />
+<ALINK lid="l22" relType="INITIATES" eventInstanceID="ei226" relatedToEventInstance="ei227" />
+<ALINK lid="l23" relType="CONTINUES" eventInstanceID="ei238" relatedToEventInstance="ei237" />
+<ALINK lid="l24" relType="INITIATES" eventInstanceID="ei229" relatedToEventInstance="ei230" />
 
 </TimeML>

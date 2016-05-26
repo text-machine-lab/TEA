@@ -1,11 +1,11 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19991008.0265</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-10-08">1999-10-08</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-10-08">1999-10-08</TIMEX3></DCT>
 
-<TITLE />
+<TITLE></TITLE>
 
 
 <EXTRAINFO>
@@ -14,11 +14,13 @@ international  Arrest Made in US Embassy Bombings
 </EXTRAINFO>
 
 
-<TEXT>CAPE TOWN, South Africa (AP) --
+<TEXT>
+
+CAPE TOWN, South Africa (AP) --
 
 Another man has been arrested in connection with the bombings of U.S. embassies in Kenya and Tanzania last year that killed 224 people, police said today.
 
-''I can confirm that an individual was arrested in connection with the embassy bombings and the FBI was involved'' in making the arrest, police spokesman Capt. Rod Beer said.
+``I can confirm that an individual was arrested in connection with the embassy bombings and the FBI was involved'' in making the arrest, police spokesman Capt. Rod Beer said.
 
 Beer said he did not know where the man was being held or any more details. The arrest brought to nine the number of people in custody in connection with the bombings.
 
@@ -32,11 +34,104 @@ Seventeen people have been indicted in the case. Eight of those are in custody, 
 
 Bin Laden, who is accused of masterminding the attack, is on the FBI's 10 Most Wanted List. A $5 million reward has been offered for his capture.
 
-The bombs went off almost simultaneously on Aug. 7, 1998 at U.S. embassies in Nairobi, Kenya and Dar es Salaam, Tanzania.</TEXT>
+The bombs went off almost simultaneously on Aug. 7, 1998 at U.S. embassies in Nairobi, Kenya and Dar es Salaam, Tanzania.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

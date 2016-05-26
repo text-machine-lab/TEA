@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19981205.0374</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-12-05T09:42">12/05/1998 09:42:00</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-12-05T09:42">12/05/1998 09:42:00</TIMEX3></DCT>
 
 <TITLE>Poland to participate in preparations for NATO summit</TITLE>
 
@@ -14,7 +14,9 @@ r i &amp;Cx13;  &amp;Cx11;  BC-Poland-Germany-NATO     12-05 0152</HEADER><SLUG>
 </EXTRAINFO>
 
 
-<TEXT>WARSAW, Poland (AP) _
+<TEXT>
+
+WARSAW, Poland (AP) _
 
 Poland, Hungary and the Czech Republic can now participate in NATO strategy planning, because all NATO member states have approved their joining the alliance, German defense minister Rudolf Scharping said Saturday.
 
@@ -22,7 +24,9 @@ The Netherlands early this week became the last country to ratify NATO expansion
 
 The three are expected to join in April, as part of marking NATO's 50th anniversary. With their membership secure, they also can participate in planning for the NATO summit in April.
 
-Scharping, ending a two-day  visit, said Poland was well prepared to join the alliance. Germany has been a strong advocate of Poland's access to NATO, saying it will serve European security and stability.</TEXT>
+Scharping, ending a two-day  visit, said Poland was well prepared to join the alliance. Germany has been a strong advocate of Poland's access to NATO, saying it will serve European security and stability.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -31,4 +35,63 @@ Scharping, ending a two-day  visit, said Poland was well prepared to join the al
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l1" eventInstanceID="ei2" subordinatedEventInstance="ei3" relType="MODAL"/>
+<SLINK lid="l10" eventInstanceID="ei1" subordinatedEventInstance="ei26" relType="MODAL"/>
+<SLINK lid="l13" eventInstanceID="ei9" subordinatedEventInstance="ei12" relType="MODAL"/>
+<SLINK lid="l18" eventInstanceID="ei14" subordinatedEventInstance="ei15" relType="MODAL"/>
+<SLINK lid="l19" eventInstanceID="ei15" subordinatedEventInstance="ei16" relType="MODAL"/>
+<SLINK lid="l30" eventInstanceID="ei19" subordinatedEventInstance="ei20" relType="EVIDENTIAL"/>
+<SLINK lid="l31" eventInstanceID="ei20" subordinatedEventInstance="ei21" relType="MODAL"/>
+<SLINK lid="l37" eventInstanceID="ei24" subordinatedEventInstance="ei25" relType="EVIDENTIAL"/>
+<ALINK lid="l22" eventInstanceID="ei18" relatedToEventInstance="ei17" relType="CULMINATES"/>
 </TimeML>
+
+
+

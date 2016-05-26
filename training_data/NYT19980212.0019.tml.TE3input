@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT19980212.0019</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-02-12T01:58:00">02/12/1998 01:58:00</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-02-12T01:58:00">02/12/1998 01:58:00</TIMEX3></DCT>
 
 <EXTRAINFO>
 NYT19980212.0019 NEWS STORY 02/12/1998 01:58:00
@@ -13,10 +13,81 @@ WOMAN KILLED AT BROOKLYN LAUNDROMAT
 (lh) QL UR c.1998 N.Y. Times News Service LR QC QL
 </EXTRAINFO>
 
-<TEXT>NEW YORK _ A Brooklyn woman who was watching her clothes dry in a laundromat was killed Thursday evening when two would-be robbers emptied their pistols into the store, the police said. The men appeared in the store at 469 Vermont St. in Brownsville around 7:15 p.m., after the victim, Linda Sanders, 35, had finished her cleaning and was waiting for her clothes to dry, detectives said. ''It looks as though they panicked,'' a detective, speaking on condition of anonymity, said of the robbers. ''They intended to rob the place. There were four or five people inside, and they just started firing.'' Ms. Sanders was hit several times and was pronounced dead at the scene. The other customers fled, and the police said it did not appear that anyone else was injured. The men took no money from their victim or from the establishment, said Detective Joseph Pentangelo, a Police Department spokesman. Victor Miranda, who lives in Ms. Sanders' apartment building at 405 Williams Ave., said the laundry machines in the building were removed a few years ago to make room for management offices.</TEXT>
+<TEXT>
+NEW YORK _ A Brooklyn woman who was watching her clothes dry in a laundromat was killed Thursday evening when two would-be robbers emptied their pistols into the store, the police said. The men appeared in the store at 469 Vermont St. in Brownsville around 7:15 p.m., after the victim, Linda Sanders, 35, had finished her cleaning and was waiting for her clothes to dry, detectives said. ``It looks as though they panicked,'' a detective, speaking on condition of anonymity, said of the robbers. ``They intended to rob the place. There were four or five people inside, and they just started firing.'' Ms. Sanders was hit several times and was pronounced dead at the scene. The other customers fled, and the police said it did not appear that anyone else was injured. The men took no money from their victim or from the establishment, said Detective Joseph Pentangelo, a Police Department spokesman. Victor Miranda, who lives in Ms. Sanders' apartment building at 405 Williams Ave., said the laundry machines in the building were removed a few years ago to make room for management offices.
+</TEXT>
 
 <LASTEXTRAINFO>
 NYT-02-12-98 0158EST
 </LASTEXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l34" relType="EVIDENTIAL" eventInstanceID="ei219" subordinatedEventInstance="ei226" />
+<SLINK lid="l33" relType="EVIDENTIAL" eventInstanceID="ei219" subordinatedEventInstance="ei224" />
+<SLINK lid="l19" relType="MODAL" eventInstanceID="ei239" subordinatedEventInstance="ei240" />
+<SLINK lid="l20" relType="EVIDENTIAL" eventInstanceID="ei238" subordinatedEventInstance="ei239" />
+<SLINK lid="l21" relType="EVIDENTIAL" eventInstanceID="ei213" subordinatedEventInstance="ei211" />
+<SLINK lid="l22" relType="MODAL" eventInstanceID="ei217" subordinatedEventInstance="ei218" />
+<SLINK lid="l23" relType="EVIDENTIAL" eventInstanceID="ei219" subordinatedEventInstance="ei214" />
+<SLINK lid="l24" relType="MODAL" eventInstanceID="ei220" subordinatedEventInstance="ei221" />
+<SLINK lid="l25" relType="EVIDENTIAL" eventInstanceID="ei223" subordinatedEventInstance="ei220" />
+<SLINK lid="l26" relType="MODAL" eventInstanceID="ei224" subordinatedEventInstance="ei225" />
+<SLINK lid="l27" relType="FACTIVE" eventInstanceID="ei229" subordinatedEventInstance="ei230" />
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei232" subordinatedEventInstance="ei233" />
+<SLINK lid="l29" relType="MODAL" eventInstanceID="ei233" subordinatedEventInstance="ei234" />
+<SLINK lid="l30" relType="EVIDENTIAL" eventInstanceID="ei236" subordinatedEventInstance="ei235" />
+<ALINK lid="l31" relType="CULMINATES" eventInstanceID="ei215" relatedToEventInstance="ei216" />
+<ALINK lid="l32" relType="INITIATES" eventInstanceID="ei226" relatedToEventInstance="ei227" />
 
 </TimeML>

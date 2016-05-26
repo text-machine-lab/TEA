@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0950</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0108 = 891026 891026-0108.
 GM Hughes @ Profit Fell 22% @ In Third Period @ --- @ GMAC Net Slipped 3.1%; @ Electronic Data Systems @ Says Earnings Rose 16% @ ---- @ By Neal Templin @ Staff Reporter of The Wall Street Journal 10/26/89 WALL STREET JOURNAL (J) GM GME GMH AUTOMOBILES (AUT) EARNINGS (ERN)
 </EXTRAINFO>
 
-<TEXT>General Motors Corp.'s big defense and automotive electronics unit, GM Hughes Electronics, said net income fell 22% in the third quarter, reflecting declining military spending and slumping GM vehicle production.
+<TEXT>
+General Motors Corp.'s big defense and automotive electronics unit, GM Hughes Electronics, said net income fell 22% in the third quarter, reflecting declining military spending and slumping GM vehicle production.
 
 Meanwhile, net at GM's finance arm, General Motors Acceptance Corp., fell 3.1%. By contrast, Electronic Data Systems Corp., GM's data processing subsidiary, boosted net 16%.
 
@@ -30,6 +31,98 @@ In the first nine months, GMAC's earnings fell 8% to $859.5 million from $930.2 
 
 At EDS, third-quarter profit jumped 16% to a record $110.9 million, or 93 cents a share, from $95.9 million, or 79 cents a share. Revenue rose 12% to $1.37 billion from $1.22 billion.
 
-In the nine months, EDS earned $315.8 million, or $2.62 a share, up 13% from $280.7 million, or $2.30 a share. Revenue rose 14% to $4.03 billion from $3.54 billion. Revenue from non-GM accounts was 45% of EDS's total business in the latest nine months, compared with 40% a year earlier. The company has said it wants to boost non-GM revenue to at least 50% of its total business by the end of 1990.</TEXT>
+In the nine months, EDS earned $315.8 million, or $2.62 a share, up 13% from $280.7 million, or $2.30 a share. Revenue rose 14% to $4.03 billion from $3.54 billion. Revenue from non-GM accounts was 45% of EDS's total business in the latest nine months, compared with 40% a year earlier. The company has said it wants to boost non-GM revenue to at least 50% of its total business by the end of 1990.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l53" relType="FACTIVE" eventInstanceID="ei2031" subordinatedEventInstance="ei2032" />
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei1991" subordinatedEventInstance="ei1992" />
+<SLINK lid="l46" relType="EVIDENTIAL" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<SLINK lid="l47" relType="MODAL" eventInstanceID="ei2012" subordinatedEventInstance="ei2013" />
+<SLINK lid="l48" relType="EVIDENTIAL" eventInstanceID="ei2017" subordinatedEventInstance="ei2016" />
+<SLINK lid="l49" relType="EVIDENTIAL" eventInstanceID="ei2035" subordinatedEventInstance="ei2036" />
+<SLINK lid="l50" relType="MODAL" eventInstanceID="ei2037" subordinatedEventInstance="ei2038" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei2055" subordinatedEventInstance="ei2056" />
+<SLINK lid="l52" relType="MODAL" eventInstanceID="ei2056" subordinatedEventInstance="ei2057" />
 
 </TimeML>

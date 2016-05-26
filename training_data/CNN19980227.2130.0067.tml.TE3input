@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>CNN19980227.2130.0067</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-02-27">19980227</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-02-27">19980227</TIMEX3></DCT>
 
 <EXTRAINFO>
 CNN19980227.2130.0067 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>Live from Atalanta, good evening Lynne Russell, CNN headline news. New evidence is suggesting that a series of bombings in Atalanta and last month's explosion at an Alabama women's clinic might be related. Pierre Thomas has the latest.
+<TEXT>
+Live from Atalanta, good evening Lynne Russell, CNN headline news. New evidence is suggesting that a series of bombings in Atalanta and last month's explosion at an Alabama women's clinic might be related. Pierre Thomas has the latest.
 
 Atlanta nineteen ninety-six. A bomb blast shocks the Olympic games. One person is killed.
 
@@ -27,6 +28,110 @@ Army of god letters claim responsibility for the Atlanta abortion clinic bombing
 
 An intense manhunt conducted by the FBI and the bureau of alcohol, tobacco and firearms continues for Rudolph in the wilderness of western north Carolina. And this week, FBI director Louie Freeh assigned more agents to the search.
 
-Freeh also ordered the investigation consolidate information under the Atlanta task force, another indication officials suspect a link between all the bombings. Privately, authorities say Rudolph has become a focus of their investigation. Publicly, they are unwilling to make any sweeping assertion. The reason, they remember Richard Jewell. pierre thomas, CNN, Washington.</TEXT>
+Freeh also ordered the investigation consolidate information under the Atlanta task force, another indication officials suspect a link between all the bombings. Privately, authorities say Rudolph has become a focus of their investigation. Publicly, they are unwilling to make any sweeping assertion. The reason, they remember Richard Jewell. pierre thomas, CNN, Washington.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l65" relType="FACTIVE" eventInstanceID="ei2009" subordinatedEventInstance="ei2010" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei1998" subordinatedEventInstance="ei2001" />
+<SLINK lid="l50" relType="MODAL" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<SLINK lid="l51" relType="MODAL" eventInstanceID="ei2016" subordinatedEventInstance="ei2017" />
+<SLINK lid="l55" relType="EVIDENTIAL" eventInstanceID="ei2030" subordinatedEventInstance="ei2031" />
+<SLINK lid="l60" relType="MODAL" eventInstanceID="ei2041" subordinatedEventInstance="ei2042" />
+<SLINK lid="l62" relType="EVIDENTIAL" eventInstanceID="ei2046" subordinatedEventInstance="ei2047" />
+<SLINK lid="l63" relType="MODAL" eventInstanceID="ei2049" subordinatedEventInstance="ei2050" />
+<ALINK lid="l64" relType="CONTINUES" eventInstanceID="ei2038" relatedToEventInstance="ei2037" />
 
 </TimeML>

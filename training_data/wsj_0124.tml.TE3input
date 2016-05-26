@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0124</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0067 = 891102 891102-0067.
 Who's News: @ Citadel Names Walbrecher @ As Chief Executive Officer 11/02/89 WALL STREET JOURNAL (J) CDL WNEWS EARNINGS (ERN) GLENDALE, Calif.
 </EXTRAINFO>
 
-<TEXT>William C. Walbrecher Jr., an executive at San Francisco-based 1st Nationwide Bank, was named president and chief executive officer of Citadel Holding Corp. and its principal operating unit, Fidelity Federal Bank.
+<TEXT>
+William C. Walbrecher Jr., an executive at San Francisco-based 1st Nationwide Bank, was named president and chief executive officer of Citadel Holding Corp. and its principal operating unit, Fidelity Federal Bank.
 
 The appointment takes effect Nov. 13. He succeeds James A. Taylor, who stepped down as chairman, president and chief executive in March for health reasons. Edward L. Kane succeeded Mr. Taylor as chairman.
 
@@ -18,6 +19,55 @@ Separately, Citadel posted a third-quarter net loss of $2.3 million, or 68 cents
 
 The latest results include some unusual write-downs, which had an after-tax impact of $4.9 million. Those included costs associated with the potential Valley Federal Savings and Loan Association acquisition, which was terminated on Sept. 27, 1989. In addition, operating results were hit by an increase in loan and real estate loss reserves.
 
-In American Stock Exchange composite trading, Citadel shares closed yesterday at $45.75, down 25 cents.</TEXT>
+In American Stock Exchange composite trading, Citadel shares closed yesterday at $45.75, down 25 cents.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l25" relType="EVIDENTIAL" eventInstanceID="ei320" subordinatedEventInstance="ei321" />
+<SLINK lid="l26" relType="EVIDENTIAL" eventInstanceID="ei320" subordinatedEventInstance="ei322" />
+<SLINK lid="l27" relType="MODAL" eventInstanceID="ei323" subordinatedEventInstance="ei325" />
+<ALINK lid="l28" relType="INITIATES" eventInstanceID="ei311" relatedToEventInstance="ei310" />
+<ALINK lid="l29" relType="TERMINATES" eventInstanceID="ei328" relatedToEventInstance="ei327" />
 
 </TimeML>

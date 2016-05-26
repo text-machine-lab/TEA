@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980807.0261</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-07">1998-08-07</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-07">1998-08-07</TIMEX3></DCT>
 
 <TITLE>Explosions rock U.S. embassies in Tanzania, Kenya</TITLE>
 
@@ -18,13 +18,17 @@ BC-Kenya-Explosion, 5th Ld-Writethru
 </EXTRAINFO>
 
 
-<TEXT>NAIROBI, Kenya (AP) _
+<TEXT>
+
+NAIROBI, Kenya (AP) _
 
 Suspected bombs exploded outside the U.S. embassies in the Kenyan and Tanzanian capitals Friday, killing dozens of people, witnesses said.
 
 The American ambassador to Kenya was among hundreds injured, a local TV said.
 
-''It was definitely a bomb,'' said a U.S. Embassy official in Nairobi, who refused to identify himself. ''You can see a huge crater behind the building, and a bomb went off at the embassy in Tanzania at the same time,'' he said.</TEXT>
+``It was definitely a bomb,'' said a U.S. Embassy official in Nairobi, who refused to identify himself. ``You can see a huge crater behind the building, and a bomb went off at the embassy in Tanzania at the same time,'' he said.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -34,4 +38,35 @@ AP-NY-08-07-98 0618EDT
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l1" relType="MODAL" eventInstanceID="ei6" subordinatedEventInstance="ei7" syntax="USER"/>
+
+
+
+
+
+
 </TimeML>
+
+

@@ -3,13 +3,11 @@
 
 <DOCID>PRI19980216.2000.0170</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="DATE" value="1998-02-16" temporalFunction="false" functionInDocument="CREATION_TIME">19980216</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-02-16">19980216</TIMEX3></DCT>
 
 <EXTRAINFO>
 PRI19980216.2000.0170 NEWS STORY
 </EXTRAINFO>
-
-
 
 <TEXT>
 The British government has formally called for Sinn Fein, the IRA's political wing, to be expelled from the multiparty peace talks on northern Ireland. The move had been widely expected after northern Ireland police said they believe the IRA was behind two killings in Belfast last week. Sinn Fein chairman Mitchell McLaughlin says the party will challenge the move by legal means if they have to.
@@ -18,5 +16,60 @@ We're going to fight it. And uh we've already challenged, very strongly, the uh 
 
 Any decision to expel Sinn Fein must be agreed jointly by the governments of both Britain and the Irish Republic.
 </TEXT>
-</TimeML>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l32" relType="MODAL" eventInstanceID="ei245" subordinatedEventInstance="ei243" />
+<SLINK lid="l31" relType="EVIDENTIAL" eventInstanceID="ei231" subordinatedEventInstance="ei234" />
+<SLINK lid="l30" relType="EVIDENTIAL" eventInstanceID="ei231" subordinatedEventInstance="ei232" />
+<SLINK lid="l20" relType="MODAL" eventInstanceID="ei228" subordinatedEventInstance="ei229" />
+<SLINK lid="l21" relType="FACTIVE" eventInstanceID="ei229" subordinatedEventInstance="ei230" />
+<SLINK lid="l22" relType="FACTIVE" eventInstanceID="ei232" subordinatedEventInstance="ei233" />
+<SLINK lid="l23" relType="FACTIVE" eventInstanceID="ei234" subordinatedEventInstance="ei233" />
+<SLINK lid="l25" relType="MODAL" eventInstanceID="ei240" subordinatedEventInstance="ei241" />
+<SLINK lid="l26" relType="MODAL" eventInstanceID="ei222" subordinatedEventInstance="ei223" />
+<SLINK lid="l27" relType="MODAL" eventInstanceID="ei243" subordinatedEventInstance="ei244" />
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei227" subordinatedEventInstance="ei228" />
+<SLINK lid="l29" relType="MODAL" eventInstanceID="ei226" subordinatedEventInstance="ei225" />
+
+</TimeML>

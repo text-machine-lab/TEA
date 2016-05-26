@@ -3,7 +3,7 @@
 
 <DOCID>APW20000405.0276</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="TIME" value="2000-04-05" temporalFunction="false" functionInDocument="CREATION_TIME">2000-04-05</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-04-05">2000-04-05</TIMEX3></DCT>
 
 <TITLE>Castro: Elian, Dad To Be Reunited</TITLE>
 
@@ -12,8 +12,6 @@
 APW20000405.0276  NEWS STORY  2000-04-05 23:53
 Castro: Elian, Dad To Be Reunited  By ANITA SNOW, Associated Press Writer
 </EXTRAINFO>
-
-
 
 
 <TEXT>
@@ -51,8 +49,174 @@ Also on the list was National Assembly President Ricardo Alarcon, who has served
 Ultimately, U.S. officials approved and delivered six visas, for the four family members, a pediatrician and Elian's teacher from his year in kindergarten.
 
 </TEXT>
+
+
 <EXTRAINFO>
 AP-NY-04-05-00 2353
 </EXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l53" eventInstanceID="ei27" subordinatedEventInstance="ei28" relType="MODAL"/>
+<SLINK lid="l60" eventInstanceID="ei34" subordinatedEventInstance="ei35" relType="MODAL"/>
+<SLINK lid="l72" eventInstanceID="ei42" subordinatedEventInstance="ei43" relType="MODAL"/>
+<ALINK lid="l46" eventInstanceID="ei23" relatedToEventInstance="ei24" relType="INITIATES"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+
 

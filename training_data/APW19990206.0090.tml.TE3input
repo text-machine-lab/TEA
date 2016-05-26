@@ -1,44 +1,133 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19990206.0090</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-02-06T06:22">1999-02-06 06:22:26</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-02-06T06:22">1999-02-06 06:22:26</TIMEX3></DCT>
 
 <TITLE>Internet Provider Closes Web Site</TITLE>
 
 
 <EXTRAINFO>
-APW19990206.0090 
-1999-02-06 06:22:26
-usa 
-Internet Provider Closes Web Site
+APW19990206.0090 1999-02-06 06:22:26
+usa Internet Provider Closes Web Site
 </EXTRAINFO>
 
 
-<TEXT>ATLANTA (AP) --
+<TEXT>
 
-The creator of an anti-abortion Web site found to be a threat to abortion providers says a decision to shut the site down is just a ''temporary setback.''
+ATLANTA (AP) --
 
-Neal Horsley said Friday that he would seek a new Internet service for his ''Nuremburg Files'' site, which was the focus of a federal court trial that led to a $107 million verdict this week in favor of abortion providers.
+The creator of an anti-abortion Web site found to be a threat to abortion providers says a decision to shut the site down is just a ``temporary setback.''
+
+Neal Horsley said Friday that he would seek a new Internet service for his ``Nuremburg Files'' site, which was the focus of a federal court trial that led to a $107 million verdict this week in favor of abortion providers.
 
 Horsley was not a defendant in the suit, in which the Portland, Ore., jury ruled that such sites constitute threats to abortion providers.
 
-MindSpring, which provided the Internet space for the site, closed it Thursday night for violating ''our appropriate use policies,'' spokesman Serge Clermont said.
+MindSpring, which provided the Internet space for the site, closed it Thursday night for violating ``our appropriate use policies,'' spokesman Serge Clermont said.
 
 The Web site included the names and addresses of abortion doctors and featured photos of mangled fetuses and drawings of dripping blood.
 
 Three times, doctors whose names appeared on the list were killed, most recently last October when Dr. Barnett Slepian was gunned down by sniper fire in his home outside Buffalo, N.Y. His name on the Web site was crossed out that same day.
 
-Pathway Communications, which has maintained the site, said in a statement that ''The Nuremberg Files'' was knocked off-line without notice. The company said it was informed Friday that it violated MindSpring's policy on ''threatening and harassing language.''
+Pathway Communications, which has maintained the site, said in a statement that ``The Nuremberg Files'' was knocked off-line without notice. The company said it was informed Friday that it violated MindSpring's policy on ``threatening and harassing language.''
 
-Horsley called the move a ''temporary setback.''
+Horsley called the move a ``temporary setback.''
 
-''We are presently searching for a bolder and more principled (Internet service provider) to host the Nuremburg Files,'' the statement said.</TEXT>
+``We are presently searching for a bolder and more principled (Internet service provider) to host the Nuremburg Files,'' the statement said.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l5" relType="EVIDENTIAL" eventInstanceID="ei2" subordinatedEventInstance="ei5" syntax="USER"/>
+<SLINK lid="l8" relType="EVIDENTIAL" eventInstanceID="ei6" subordinatedEventInstance="ei7" syntax="USER"/>
+<SLINK lid="l17" relType="FACTIVE" eventInstanceID="ei14" subordinatedEventInstance="ei15" syntax="USER"/>
+<SLINK lid="l20" relType="MODAL" eventInstanceID="ei17" subordinatedEventInstance="ei18" syntax="USER"/>
+<SLINK lid="l25" relType="MODAL" eventInstanceID="ei21" subordinatedEventInstance="ei22" syntax="USER"/>
+<SLINK lid="l26" relType="MODAL" eventInstanceID="ei21" subordinatedEventInstance="ei23" syntax="USER"/>
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei32" subordinatedEventInstance="ei33" syntax="USER"/>
+<SLINK lid="l40" relType="EVIDENTIAL" eventInstanceID="ei34" subordinatedEventInstance="ei35" syntax="USER"/>
+<SLINK lid="l43" relType="MODAL" eventInstanceID="ei37" subordinatedEventInstance="ei38" syntax="USER"/>
+
 </TimeML>
+
+

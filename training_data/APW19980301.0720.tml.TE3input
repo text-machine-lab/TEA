@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980301.0720</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-03-01T14:11:00">03/01/1998 14:11:00</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-03-01T14:11:00">03/01/1998 14:11:00</TIMEX3></DCT>
 
 <EXTRAINFO>
 APW19980301.0720 NEWS STORY 03/01/1998 14:11:00
@@ -13,11 +13,173 @@ Political momentum gathers for Israeli pullout from Lebanon
 UR Eds: INCORPORATES Israel-Syria; ADDS background and additional comment Sunday QL
 </EXTRAINFO>
 
-<TEXT>JERUSALEM (AP)_ Top Israeli officials sent strong new signals Sunday that Israel wants to withdraw from southern Lebanon, where a costly war of attrition has been steadily claiming soldiers' lives. Prime Minister Benjamin Netanyahu told his Cabinet on Sunday that Israel was willing to withdraw from southern Lebanon provided Israel's northern frontier could be secured. ''If the Lebanese government will cooperate with us in making appropriate security arrangements in south Lebanon, we will be happy to get out of Lebanon in the framework of implementation of U.N. Resolution 425,'' Netanyahu told his ministers. That 1978 resolution calls for Israel's unconditional withdrawal from the self-declared security zone it occupies in south Lebanon, and for the deployment of the Lebanese army and U.N. forces to ensure security along the Lebanese-Israeli border. On Friday, Netanyahu said he had ''no qualms'' about implementing the U.N. resolution, as long as Israel had ''the necessary security safeguards.'' Cabinet minister Michael Eitan said Sunday that Netanyahu's remarks marked a substantive change in Israel's position. ''We will defend our north from the international border,'' said Eitan, the science minister. ''No one wants to stay in Lebanon; thus we think it better to withdraw.'' Uri Lubrani, Israel's top official for Lebanon affairs, also suggested Israel was willing to modify its political goals in Lebanon. ''This is a new thing...it means that we are willing to talk today _ full stop _ about security,'' Lubrani told Israel's Channel One. ''We have gotten off the issue of peace, off the issue of normalization.'' As the death toll in Lebanon has mounted, the Israeli government has been faced with a growing grassroots movement calling for Israel's unilateral withdrawal from Lebanon. Since 1985 _ when the Israelis created a security buffer zone southern Lebanon _ nearly 200 Israeli soldiers have been killed fighting Hezbollah and other guerrillas. Last week, Hezbollah fighters killed three Israeli soldiers and seriously wounded six others. The Israelis suffered a record 39 deaths in southern Lebanon last year. In addition, 73 soldiers were killed en route to Lebanon when two military helicopters crashed last February. The Maariv newspaper said Sunday that Netanyahu's comments last week were in response to signals from Syria that it wants to renew the long-stalled peace talks between the two countries. The newspaper, quoting ''secret reports,'' said Syria had indicated its interest in resuming talks in remarks made last week by the Syrian ambassador to Washington, Walid Mualem, in a lecture to a closed forum in Baltimore. Two top aides to Netanyahu, political adviser Uzi Arad and Cabinet Secretary Danny Naveh, left for Europe on Sunday, apparently to investigate the Syrian issue, the newspaper said. Israel-Syrian talks have been cut off for nearly two years. Defense Minister Yitzhak Mordechai was the first senior Israeli official to refer to U.N. resolution 425 in a speech six weeks ago, saying at the time he was willing to withdraw troops in exchange for guarantees that Israel would not be attacked.</TEXT>
+<TEXT>
+JERUSALEM (AP)_ Top Israeli officials sent strong new signals Sunday that Israel wants to withdraw from southern Lebanon, where a costly war of attrition has been steadily claiming soldiers' lives. Prime Minister Benjamin Netanyahu told his Cabinet on Sunday that Israel was willing to withdraw from southern Lebanon provided Israel's northern frontier could be secured. ``If the Lebanese government will cooperate with us in making appropriate security arrangements in south Lebanon, we will be happy to get out of Lebanon in the framework of implementation of U.N. Resolution 425,'' Netanyahu told his ministers. That 1978 resolution calls for Israel's unconditional withdrawal from the self-declared security zone it occupies in south Lebanon, and for the deployment of the Lebanese army and U.N. forces to ensure security along the Lebanese-Israeli border. On Friday, Netanyahu said he had ``no qualms'' about implementing the U.N. resolution, as long as Israel had ``the necessary security safeguards.'' Cabinet minister Michael Eitan said Sunday that Netanyahu's remarks marked a substantive change in Israel's position. ``We will defend our north from the international border,'' said Eitan, the science minister. ``No one wants to stay in Lebanon; thus we think it better to withdraw.'' Uri Lubrani, Israel's top official for Lebanon affairs, also suggested Israel was willing to modify its political goals in Lebanon. ``This is a new thing...it means that we are willing to talk today _ full stop _ about security,'' Lubrani told Israel's Channel One. ``We have gotten off the issue of peace, off the issue of normalization.'' As the death toll in Lebanon has mounted, the Israeli government has been faced with a growing grassroots movement calling for Israel's unilateral withdrawal from Lebanon. Since 1985 _ when the Israelis created a security buffer zone southern Lebanon _ nearly 200 Israeli soldiers have been killed fighting Hezbollah and other guerrillas. Last week, Hezbollah fighters killed three Israeli soldiers and seriously wounded six others. The Israelis suffered a record 39 deaths in southern Lebanon last year. In addition, 73 soldiers were killed en route to Lebanon when two military helicopters crashed last February. The Maariv newspaper said Sunday that Netanyahu's comments last week were in response to signals from Syria that it wants to renew the long-stalled peace talks between the two countries. The newspaper, quoting ``secret reports,'' said Syria had indicated its interest in resuming talks in remarks made last week by the Syrian ambassador to Washington, Walid Mualem, in a lecture to a closed forum in Baltimore. Two top aides to Netanyahu, political adviser Uzi Arad and Cabinet Secretary Danny Naveh, left for Europe on Sunday, apparently to investigate the Syrian issue, the newspaper said. Israel-Syrian talks have been cut off for nearly two years. Defense Minister Yitzhak Mordechai was the first senior Israeli official to refer to U.N. resolution 425 in a speech six weeks ago, saying at the time he was willing to withdraw troops in exchange for guarantees that Israel would not be attacked.
+</TEXT>
 
 <LASTEXTRAINFO>
 UR (pvs-dh-lk) (PROFILE (WS SL:BC-Israel-Lebanon; CT:i; (REG:MEST;) (REG:ENGL;) (REG:EURO;) (REG:BRIT;) (REG:SCAN;) (LANG:ENGLISH;)) )
 AP-NY-03-01-98 1411EST
 </LASTEXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l89" relType="FACTIVE" eventInstanceID="ei2041" subordinatedEventInstance="ei2042" />
+<SLINK lid="l88" relType="EVIDENTIAL" eventInstanceID="ei2038" subordinatedEventInstance="ei2039" />
+<SLINK lid="l86" relType="CONDITIONAL" eventInstanceID="ei2021" subordinatedEventInstance="ei2019" />
+<SLINK lid="l85" relType="MODAL" eventInstanceID="ei2016" subordinatedEventInstance="ei2017" />
+<SLINK lid="l84" relType="MODAL" eventInstanceID="ei2008" subordinatedEventInstance="ei2009" />
+<SLINK lid="l55" relType="MODAL" eventInstanceID="ei2077" subordinatedEventInstance="ei2078" />
+<SLINK lid="l56" relType="EVIDENTIAL" eventInstanceID="ei2076" subordinatedEventInstance="ei2077" />
+<SLINK lid="l57" relType="EVIDENTIAL" eventInstanceID="ei2071" subordinatedEventInstance="ei2070" />
+<SLINK lid="l58" relType="EVIDENTIAL" eventInstanceID="ei2071" subordinatedEventInstance="ei2069" />
+<SLINK lid="l59" relType="MODAL" eventInstanceID="ei2069" subordinatedEventInstance="ei2070" />
+<SLINK lid="l60" relType="EVIDENTIAL" eventInstanceID="ei2062" subordinatedEventInstance="ei2063" />
+<SLINK lid="l61" relType="MODAL" eventInstanceID="ei2057" subordinatedEventInstance="ei2058" />
+<SLINK lid="l63" relType="MODAL" eventInstanceID="ei2043" subordinatedEventInstance="ei2044" />
+<SLINK lid="l64" relType="EVIDENTIAL" eventInstanceID="ei2038" subordinatedEventInstance="ei2036" />
+<SLINK lid="l65" relType="MODAL" eventInstanceID="ei2034" subordinatedEventInstance="ei2035" />
+<SLINK lid="l66" relType="MODAL" eventInstanceID="ei2033" subordinatedEventInstance="ei2034" />
+<SLINK lid="l67" relType="EVIDENTIAL" eventInstanceID="ei2027" subordinatedEventInstance="ei2030" />
+<SLINK lid="l68" relType="EVIDENTIAL" eventInstanceID="ei2027" subordinatedEventInstance="ei2028" />
+<SLINK lid="l69" relType="MODAL" eventInstanceID="ei2028" subordinatedEventInstance="ei2029" />
+<SLINK lid="l70" relType="EVIDENTIAL" eventInstanceID="ei2027" subordinatedEventInstance="ei2026" />
+<SLINK lid="l71" relType="EVIDENTIAL" eventInstanceID="ei2022" subordinatedEventInstance="ei2024" />
+<SLINK lid="l72" relType="EVIDENTIAL" eventInstanceID="ei2018" subordinatedEventInstance="ei2020" />
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei2018" subordinatedEventInstance="ei2019" />
+<SLINK lid="l74" relType="MODAL" eventInstanceID="ei2013" subordinatedEventInstance="ei2016" />
+<SLINK lid="l75" relType="MODAL" eventInstanceID="ei2013" subordinatedEventInstance="ei2014" />
+<SLINK lid="l76" relType="MODAL" eventInstanceID="ei2005" subordinatedEventInstance="ei2006" />
+<SLINK lid="l77" relType="MODAL" eventInstanceID="ei2000" subordinatedEventInstance="ei2001" />
+<SLINK lid="l78" relType="MODAL" eventInstanceID="ei2036" subordinatedEventInstance="ei2037" />
+<SLINK lid="l79" relType="EVIDENTIAL" eventInstanceID="ei2004" subordinatedEventInstance="ei2005" />
+<ALINK lid="l81" relType="TERMINATES" eventInstanceID="ei2073" relatedToEventInstance="ei2072" />
+<ALINK lid="l82" relType="REINITIATES" eventInstanceID="ei2064" relatedToEventInstance="ei2065" />
+<ALINK lid="l83" relType="REINITIATES" eventInstanceID="ei2058" relatedToEventInstance="ei2059" />
 
 </TimeML>

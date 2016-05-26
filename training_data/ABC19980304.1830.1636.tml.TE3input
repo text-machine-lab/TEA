@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>ABC19980304.1830.1636</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-03-04">19980304</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-03-04">19980304</TIMEX3></DCT>
 
 <EXTRAINFO>
 ABC19980304.1830.1636 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>Finally today, we learned that the space agency has finally taken a giant leap forward. Air Force Lieutenant Colonel Eileen Collins will be named commander of the Space Shuttle Columbia for a mission in December. Colonel Collins has been the co-pilot before, but this time she's the boss. Here's ABC's Ned Potter.
+<TEXT>
+Finally today, we learned that the space agency has finally taken a giant leap forward. Air Force Lieutenant Colonel Eileen Collins will be named commander of the Space Shuttle Columbia for a mission in December. Colonel Collins has been the co-pilot before, but this time she's the boss. Here's ABC's Ned Potter.
 
 Even two hundred miles up in space, there has been a glass ceiling. It wasn't until twenty years after the first astronauts were chosen that NASA finally included six women, and they were all scientists, not pilots. No woman has actually been in charge of a mission until now.
 
@@ -19,6 +20,56 @@ That was Eileen Collins, after she flew as the first ever co-pilot. Being comman
 
 Once Colonel Collins was picked as a NASA astronaut, she followed a normal progression within NASA. Nobody hurried her up. No one held her back.
 
-Many NASA watchers say female astronauts have become part of the agency's routine. But they still have catching up to do two hundred and thirty four Americans have flown in space, only twenty six of them women. Ned Potter, ABC News.</TEXT>
+Many NASA watchers say female astronauts have become part of the agency's routine. But they still have catching up to do two hundred and thirty four Americans have flown in space, only twenty six of them women. Ned Potter, ABC News.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l27" relType="FACTIVE" eventInstanceID="ei260" subordinatedEventInstance="ei261" />
+<SLINK lid="l28" relType="FACTIVE" eventInstanceID="ei258" subordinatedEventInstance="ei259" />
+<SLINK lid="l29" relType="EVIDENTIAL" eventInstanceID="ei282" subordinatedEventInstance="ei283" />
 
 </TimeML>

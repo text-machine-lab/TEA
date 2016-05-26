@@ -1,18 +1,19 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0585</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0114 = 891030 891030-0114.
 OTC Focus: @ Sell Programs @ Are Hurting @ Market Makers @ ---- @ By Sonja Steptoe and Craig Smith @ Staff Reporters of The Wall Street Journal 10/30/89 WALL STREET JOURNAL (J) STOCK MARKET, OFFERINGS (STK) STOCK INDEXES (NDX) SECURITIES INDUSTRY (SCR) NEW YORK
 </EXTRAINFO>
 
-<TEXT>Market makers in Nasdaq over-the-counter stocks are adding their voices to the swelling chorus of complaints about program trading.
+<TEXT>
+Market makers in Nasdaq over-the-counter stocks are adding their voices to the swelling chorus of complaints about program trading.
 
-Their motivation, however, has a strong practical aspect: Program trading is hazardous to their paychecks. The most controversial form of program trading, stock-index arbitrage, is ' making it tough for traders to make money,' declares Robert Antolini, head of OTC trading at Donaldson, Lufkin amp Jenrette.
+Their motivation, however, has a strong practical aspect: Program trading is hazardous to their paychecks. The most controversial form of program trading, stock-index arbitrage, is " making it tough for traders to make money," declares Robert Antolini, head of OTC trading at Donaldson, Lufkin amp Jenrette.
 
 Stock-index arbitrage -- the computer-guided buying and selling of stocks with offsetting trades in stock-index futures to profit from fleeting price discrepancies -- affects the OTC market directly through the 31 stocks included in Standard amp Poor's 500-stock index. The SampP 500 is often used in arbitrage strategies.
 
@@ -24,7 +25,7 @@ Some of these problems are neither new nor unique to the OTC market. But the big
 
 Peter DaPuzzo, head of retail equity trading at Shearson Lehman Hutton, acknowledges that he wasn't troubled by program trading when it began in the pre-crash bull market because it added liquidity and people were pleased to see stock prices rising.
 
-'We weren't as concerned until they became sell programs,' says Mr. DaPuzzo, who now thinks it adds unnecessary volatility. Shearson Lehman, however, executes program trades for clients.
+"We weren't as concerned until they became sell programs," says Mr. DaPuzzo, who now thinks it adds unnecessary volatility. Shearson Lehman, however, executes program trades for clients.
 
 Merrill Lynch, Goldman Sachs and Kidder Peabody, in addition to Shearson, do program-trade OTC stocks. Shearson, Merrill Lynch and Goldman Sachs say they do so only for customers, however. Kidder Peabody does program trading for its own as well as clients' accounts.
 
@@ -32,13 +33,13 @@ Of course, there were sell programs in past years, too, but they seem to hurt ma
 
 And to protect their reduced capital investment from eroding further, market makers became quicker to lower price quotes when sell programs are in progress. On days when prices are tumbling, they must be willing to buy shares from sellers when no one else will. In such an environment, market makers can suffer huge losses both on trades made that day at steadily dropping prices and in the value of their inventories of shares.
 
-'It makes no sense for us to put money at risk when you know you're going to lose,' says Mr. Antolini, of Donaldson Lufkin.
+"It makes no sense for us to put money at risk when you know you're going to lose," says Mr. Antolini, of Donaldson Lufkin.
 
-But this skittishness, Mr. Antolini says, is creating liquidity problems in certain OTC stocks. 'It's harder to sell stocks when the sell programs come in because some market makers don't want to { take the orders}. No one has big positions and no one wants to take big risks.'
+But this skittishness, Mr. Antolini says, is creating liquidity problems in certain OTC stocks. "It's harder to sell stocks when the sell programs come in because some market makers don't want to { take the orders}. No one has big positions and no one wants to take big risks."
 
-Joseph Hardiman, president of the National Association of Securities Dealers, which oversees trading on Nasdaq, agrees that program trading is hurting the market's efforts to bring back small investors. But, he observes, while makers suffer losses when program trading drags the market down, they also make money when program trading pushes the prices higher. 'Sometimes {traders} lose sight of that,' he says.
+Joseph Hardiman, president of the National Association of Securities Dealers, which oversees trading on Nasdaq, agrees that program trading is hurting the market's efforts to bring back small investors. But, he observes, while makers suffer losses when program trading drags the market down, they also make money when program trading pushes the prices higher. "Sometimes {traders} lose sight of that," he says.
 
-The OTC stocks in the SampP 500 include Nasdaq's biggest, such as Apple Computer, MCI Communications, Tele-Communications and Liz Claiborne. These big stocks greatly influence the Nasdaq Composite Index. When the computers say 'sell,' the composite tumbles as well as the Dow Jones Industrial Average.
+The OTC stocks in the SampP 500 include Nasdaq's biggest, such as Apple Computer, MCI Communications, Tele-Communications and Liz Claiborne. These big stocks greatly influence the Nasdaq Composite Index. When the computers say "sell," the composite tumbles as well as the Dow Jones Industrial Average.
 
 The problem, market makers say, is that while the industrial average and the SampP 500 usually recover as buy programs kick in, the Nasdaq Composite frequently is left behind.
 
@@ -62,6 +63,274 @@ Weisfield's rocketed 9 1/2 to 39 after the jewelry store operator said it is in 
 
 Starpointe Savings Bank rose 3 to 20 after the Federal Deposit Insurance Corp. approved Dime Savings Bank of New York's $21-a-share acquisition of Starpointe.
 
-Kirschner Medical fell 4 to 15. The company said its third-quarter earnings will probably be lower than the 16 cents a share it reported last year, despite a rise in the company's revenue. Kirschner earned $376,000 on revenue of $14.5 million in the 1988 quarter. The company blamed a number of factors for the earnings decline, including softer sales of joint-implants.</TEXT>
+Kirschner Medical fell 4 to 15. The company said its third-quarter earnings will probably be lower than the 16 cents a share it reported last year, despite a rise in the company's revenue. Kirschner earned $376,000 on revenue of $14.5 million in the 1988 quarter. The company blamed a number of factors for the earnings decline, including softer sales of joint-implants.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l155" relType="FACTIVE" eventInstanceID="ei2065" subordinatedEventInstance="ei2066" />
+<SLINK lid="l154" relType="FACTIVE" eventInstanceID="ei2048" subordinatedEventInstance="ei2049" />
+<SLINK lid="l110" relType="EVIDENTIAL" eventInstanceID="ei1992" subordinatedEventInstance="ei1991" />
+<SLINK lid="l112" relType="MODAL" eventInstanceID="ei2004" subordinatedEventInstance="ei2005" />
+<SLINK lid="l113" relType="FACTIVE" eventInstanceID="ei2008" subordinatedEventInstance="ei2007" />
+<SLINK lid="l114" relType="FACTIVE" eventInstanceID="ei2010" subordinatedEventInstance="ei2011" />
+<SLINK lid="l115" relType="MODAL" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<SLINK lid="l116" relType="EVIDENTIAL" eventInstanceID="ei2019" subordinatedEventInstance="ei2020" />
+<SLINK lid="l117" relType="FACTIVE" eventInstanceID="ei2020" subordinatedEventInstance="ei2021" />
+<SLINK lid="l118" relType="FACTIVE" eventInstanceID="ei2025" subordinatedEventInstance="ei2026" />
+<SLINK lid="l119" relType="EVIDENTIAL" eventInstanceID="ei2026" subordinatedEventInstance="ei2027" />
+<SLINK lid="l121" relType="MODAL" eventInstanceID="ei2031" subordinatedEventInstance="ei2032" />
+<SLINK lid="l122" relType="MODAL" eventInstanceID="ei2034" subordinatedEventInstance="ei2035" />
+<SLINK lid="l123" relType="MODAL" eventInstanceID="ei2041" subordinatedEventInstance="ei2040" />
+<SLINK lid="l124" relType="MODAL" eventInstanceID="ei2044" subordinatedEventInstance="ei2042" />
+<SLINK lid="l125" relType="MODAL" eventInstanceID="ei2042" subordinatedEventInstance="ei2043" />
+<SLINK lid="l126" relType="MODAL" eventInstanceID="ei2046" subordinatedEventInstance="ei2047" />
+<SLINK lid="l127" relType="EVIDENTIAL" eventInstanceID="ei2055" subordinatedEventInstance="ei2050" />
+<SLINK lid="l129" relType="EVIDENTIAL" eventInstanceID="ei2060" subordinatedEventInstance="ei2061" />
+<SLINK lid="l130" relType="FACTIVE" eventInstanceID="ei2061" subordinatedEventInstance="ei2062" />
+<SLINK lid="l131" relType="MODAL" eventInstanceID="ei2062" subordinatedEventInstance="ei2063" />
+<SLINK lid="l132" relType="EVIDENTIAL" eventInstanceID="ei2064" subordinatedEventInstance="ei2065" />
+<SLINK lid="l133" relType="EVIDENTIAL" eventInstanceID="ei2064" subordinatedEventInstance="ei2068" />
+<SLINK lid="l134" relType="EVIDENTIAL" eventInstanceID="ei2071" subordinatedEventInstance="ei2070" />
+<SLINK lid="l135" relType="EVIDENTIAL" eventInstanceID="ei2079" subordinatedEventInstance="ei2078" />
+<SLINK lid="l136" relType="MODAL" eventInstanceID="ei2093" subordinatedEventInstance="ei2094" />
+<SLINK lid="l137" relType="COUNTER_FACTIVE" eventInstanceID="ei2094" subordinatedEventInstance="ei2095" />
+<SLINK lid="l138" relType="MODAL" eventInstanceID="ei2100" subordinatedEventInstance="ei2101" />
+<SLINK lid="l139" relType="EVIDENTIAL" eventInstanceID="ei2104" subordinatedEventInstance="ei2107" />
+<SLINK lid="l140" relType="EVIDENTIAL" eventInstanceID="ei2104" subordinatedEventInstance="ei2108" />
+<SLINK lid="l142" relType="EVIDENTIAL" eventInstanceID="ei2113" subordinatedEventInstance="ei2114" />
+<SLINK lid="l143" relType="MODAL" eventInstanceID="ei2122" subordinatedEventInstance="ei2123" />
+<SLINK lid="l144" relType="EVIDENTIAL" eventInstanceID="ei2126" subordinatedEventInstance="ei2127" />
+<SLINK lid="l146" relType="FACTIVE" eventInstanceID="ei2132" subordinatedEventInstance="ei2134" />
+<SLINK lid="l147" relType="EVIDENTIAL" eventInstanceID="ei2117" subordinatedEventInstance="ei2136" />
+<SLINK lid="l148" relType="MODAL" eventInstanceID="ei2136" subordinatedEventInstance="ei2120" />
+<SLINK lid="l149" relType="MODAL" eventInstanceID="ei2050" subordinatedEventInstance="ei2052" />
+<ALINK lid="l150" relType="INITIATES" eventInstanceID="ei2022" relatedToEventInstance="ei2021" />
+<ALINK lid="l151" relType="TERMINATES" eventInstanceID="ei2105" relatedToEventInstance="ei2106" />
+<ALINK lid="l152" relType="REINITIATES" eventInstanceID="ei2114" relatedToEventInstance="ei2115" />
 
 </TimeML>

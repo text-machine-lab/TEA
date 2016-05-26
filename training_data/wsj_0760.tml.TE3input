@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0760</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0135 = 891027 891027-0135.
 Norton Net Declined @ 6% in Third Quarter 10/27/89 WALL STREET JOURNAL (J) NRT EARNINGS (ERN) INDUSTRIAL EQUIPMENT, MACHINE TOOLS (IND) WORCESTER, Mass.
 </EXTRAINFO>
 
-<TEXT>Norton Co. said net income for the third quarter fell 6% to $20.6 million, or 98 cents a share, from $22 million, or $1.03 a share.
+<TEXT>
+Norton Co. said net income for the third quarter fell 6% to $20.6 million, or 98 cents a share, from $22 million, or $1.03 a share.
 
 Operating profit for the abrasives, engineering materials and petroleum services concern was $19.2 million, or 91 cents a share, up 3% from $18.7 million, or 87 cents a share.
 
@@ -24,6 +25,31 @@ For the nine months, Norton had net of $81.2 million, or $3.87 a share, and a ta
 
 Norton had operating profit of $76.8 million, or $3.66 a share, up 11% from $69.5 million, or $3.31 a share.
 
-Sales rose 8% to $1.15 billion from $1.06 billion.</TEXT>
+Sales rose 8% to $1.15 billion from $1.06 billion.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l13" relType="EVIDENTIAL" eventInstanceID="ei195" subordinatedEventInstance="ei196" />
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei207" subordinatedEventInstance="ei208" />
+<SLINK lid="l15" relType="MODAL" eventInstanceID="ei208" subordinatedEventInstance="ei209" />
 
 </TimeML>

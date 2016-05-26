@@ -1,17 +1,15 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT19981025.0188</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-10-25T21:00">1998-10-25 21:00</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-10-25T21:00">1998-10-25 21:00</TIMEX3></DCT>
 
 <TITLE>EDITORIAL: VIOLENCE AGAINST ABORTION DOCTORS</TITLE>
 
 
 <EXTRAINFO>
-NYT19981025.0188 
-NEWS STORY 
-1998-10-25 21:00
+NYT19981025.0188 NEWS STORY 1998-10-25 21:00
 A6157 &amp;Cx1f; taf-z
 u k &amp;Cx13;  &amp;Cx11;  BC-EDIT-ABORTION-DOCTORS     10-25 0638
 BC-EDIT-ABORTION-DOCTORS-NYT
@@ -21,7 +19,9 @@ c.1998 N.Y. Times News Service
 </EXTRAINFO>
 
 
-<TEXT>The New York Times said in an editorial on Monday, Oct. 26:
+<TEXT>
+
+The New York Times said in an editorial on Monday, Oct. 26:
 
 The murder of Dr. Barnett Slepian is the latest depraved assault on the small number of courageous physicians who still risk their safety to perform legal abortions in this country. Slepian was one of only three doctors who performed abortions in the Buffalo, N.Y., area, and harassment and threats against him by anti-abortion groups had become routine over the past decade. He persevered through courage and a belief in the right of his patients to choose whether to bear a child.
 
@@ -37,11 +37,13 @@ It is bad enough that conservatives in Congress and in state legislatures are wo
 
 What is outrageous is the attempt to shut down abortions by illegal means _ by shooting the doctors or bombing the clinics or harassing the women seeking to exercise their constitutional right. Some anti-abortion groups, to their credit, have denounced the bombings and shootings, but others seem reluctant to issue the strong condemnations that are warranted.
 
-Indeed, one particularly virulent anti-abortion Web site lists the names of doctors it says perform abortions, or ''crimes against humanity,'' with a code indicating whether they are ''working,'' ''wounded'' or a ''fatality.'' Such incendiary rhetoric, and frequent accusations by some anti-abortionists that abortion providers are committing murder, can only fuel more terrorism.
+Indeed, one particularly virulent anti-abortion Web site lists the names of doctors it says perform abortions, or ``crimes against humanity,'' with a code indicating whether they are ``working,'' ``wounded'' or a ``fatality.'' Such incendiary rhetoric, and frequent accusations by some anti-abortionists that abortion providers are committing murder, can only fuel more terrorism.
 
 The increase of anti-choice laws and ongoing campaigns of harassment by protest groups, even short of murder, have worked to make abortions harder to obtain. More than 80 percent of counties in this country have no abortion provider. In 45 states, the number of doctors who performed abortions declined between 1982 and 1992.
 
-Slepian was among those who took a stand against restricting reproductive freedom and paid with his life. Unless these brave doctors are better protected, fewer doctors in the next generation will be willing to place themselves and their families in such danger. That is what the terrorists want. They must not be allowed to succeed.</TEXT>
+Slepian was among those who took a stand against restricting reproductive freedom and paid with his life. Unless these brave doctors are better protected, fewer doctors in the next generation will be willing to place themselves and their families in such danger. That is what the terrorists want. They must not be allowed to succeed.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -49,4 +51,205 @@ NYT-10-25-98 2100EST &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l2" relType="FACTIVE" eventInstanceID="ei10" subordinatedEventInstance="ei11" syntax="USER"/>
+<SLINK lid="l3" relType="FACTIVE" eventInstanceID="ei13" subordinatedEventInstance="ei14" syntax="USER"/>
+<SLINK lid="l4" relType="FACTIVE" eventInstanceID="ei27" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei42" subordinatedEventInstance="ei43" syntax="USER"/>
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei46" subordinatedEventInstance="ei47" syntax="USER"/>
+<SLINK lid="l50" relType="MODAL" eventInstanceID="ei46" subordinatedEventInstance="ei48" syntax="USER"/>
+<SLINK lid="l56" relType="MODAL" eventInstanceID="ei53" subordinatedEventInstance="ei54" syntax="USER"/>
+<SLINK lid="l61" relType="MODAL" eventInstanceID="ei58" subordinatedEventInstance="ei59" syntax="USER"/>
+<SLINK lid="l65" relType="EVIDENTIAL" eventInstanceID="ei60" subordinatedEventInstance="ei61" syntax="USER"/>
+<SLINK lid="l66" relType="EVIDENTIAL" eventInstanceID="ei60" subordinatedEventInstance="ei62" syntax="USER"/>
+<SLINK lid="l69" relType="MODAL" eventInstanceID="ei64" subordinatedEventInstance="ei65" syntax="USER"/>
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei68" subordinatedEventInstance="ei69" syntax="USER"/>
+<SLINK lid="l75" relType="EVIDENTIAL" eventInstanceID="ei70" subordinatedEventInstance="ei71" syntax="USER"/>
+<SLINK lid="l76" relType="EVIDENTIAL" eventInstanceID="ei70" subordinatedEventInstance="ei72" syntax="USER"/>
+<SLINK lid="l77" relType="EVIDENTIAL" eventInstanceID="ei70" subordinatedEventInstance="ei73" syntax="USER"/>
+<SLINK lid="l83" relType="EVIDENTIAL" eventInstanceID="ei75" subordinatedEventInstance="ei76" syntax="USER"/>
+<SLINK lid="l89" relType="MODAL" eventInstanceID="ei80" subordinatedEventInstance="ei81" syntax="USER"/>
+<SLINK lid="l101" relType="MODAL" eventInstanceID="ei91" subordinatedEventInstance="ei92" syntax="USER"/>
+<SLINK lid="l104" relType="MODAL" eventInstanceID="ei94" subordinatedEventInstance="ei95" syntax="USER"/>
+<ALINK lid="l1" relType="TERMINATES" eventInstanceID="ei15" relatedToEventInstance="ei16" syntax="USER"/>
+
 </TimeML>
+
+

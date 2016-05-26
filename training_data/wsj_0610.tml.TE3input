@@ -3,14 +3,12 @@
 
 <DOCID>wsj_0610</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30" temporalFunction="false" functionInDocument="CREATION_TIME">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0089 = 891030 891030-0089.
 Kellogg Pours Water on Plans to Build Big Cereal Plant @ ---- @ By Richard Gibson @ Staff Reporter of The Wall Street Journal 10/30/89 WALL STREET JOURNAL (J) K FOOD PRODUCTS (FOD)
 </EXTRAINFO>
-
-
 
 <TEXT>
 This hasn't been Kellogg Co.'s year. The oat-bran craze has cost the world's largest cereal maker market share. The company's president quit suddenly. And now Kellogg is indefinitely suspending work on what was to be a $1 billion cereal plant.
@@ -49,5 +47,239 @@ As expected, Kellogg reported lower third-quarter earnings. Net fell 16% to $123
 
 The company had a one-time charge of $14.8 million in the latest quarter covering the disposition of certain assets. The company wouldn't elaborate, citing competitive reasons.
 </TEXT>
-</TimeML>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l133" relType="MODAL" eventInstanceID="ei2056" subordinatedEventInstance="ei2057" />
+<SLINK lid="l132" relType="MODAL" eventInstanceID="ei2054" subordinatedEventInstance="ei2053" />
+<SLINK lid="l85" relType="CONDITIONAL" eventInstanceID="ei2044" subordinatedEventInstance="ei2043"  />
+<SLINK lid="l86" relType="EVIDENTIAL" eventInstanceID="ei2000" subordinatedEventInstance="ei2001" />
+<SLINK lid="l87" relType="MODAL" eventInstanceID="ei2001" subordinatedEventInstance="ei2002" />
+<SLINK lid="l88" relType="FACTIVE" eventInstanceID="ei2008" subordinatedEventInstance="ei2009" />
+<SLINK lid="l89" relType="EVIDENTIAL" eventInstanceID="ei2017" subordinatedEventInstance="ei2018" />
+<SLINK lid="l90" relType="MODAL" eventInstanceID="ei2019" subordinatedEventInstance="ei2020" />
+<SLINK lid="l91" relType="EVIDENTIAL" eventInstanceID="ei2023" subordinatedEventInstance="ei2021" />
+<SLINK lid="l92" relType="EVIDENTIAL" eventInstanceID="ei2027" subordinatedEventInstance="ei2024" />
+<SLINK lid="l93" relType="EVIDENTIAL" eventInstanceID="ei2037" subordinatedEventInstance="ei2034" />
+<SLINK lid="l94" relType="MODAL" eventInstanceID="ei2034" subordinatedEventInstance="ei2035" />
+<SLINK lid="l95" relType="EVIDENTIAL" eventInstanceID="ei2037" subordinatedEventInstance="ei2038" />
+<SLINK lid="l96" relType="EVIDENTIAL" eventInstanceID="ei2037" subordinatedEventInstance="ei2039" />
+<SLINK lid="l97" relType="MODAL" eventInstanceID="ei2039" subordinatedEventInstance="ei2040" />
+<SLINK lid="l99" relType="EVIDENTIAL" eventInstanceID="ei2042" subordinatedEventInstance="ei2043" />
+<SLINK lid="l100" relType="EVIDENTIAL" eventInstanceID="ei2045" subordinatedEventInstance="ei2046" />
+<SLINK lid="l101" relType="EVIDENTIAL" eventInstanceID="ei2047" subordinatedEventInstance="ei2049" />
+<SLINK lid="l102" relType="MODAL" eventInstanceID="ei2050" subordinatedEventInstance="ei2048" />
+<SLINK lid="l103" relType="EVIDENTIAL" eventInstanceID="ei2051" subordinatedEventInstance="ei2053" />
+<SLINK lid="l104" relType="EVIDENTIAL" eventInstanceID="ei2055" subordinatedEventInstance="ei2056" />
+<SLINK lid="l106" relType="COUNTER_FACTIVE" eventInstanceID="ei2062" subordinatedEventInstance="ei2063" />
+<SLINK lid="l107" relType="EVIDENTIAL" eventInstanceID="ei2066" subordinatedEventInstance="ei2067" />
+<SLINK lid="l108" relType="MODAL" eventInstanceID="ei2067" subordinatedEventInstance="ei2068" />
+<SLINK lid="l109" relType="EVIDENTIAL" eventInstanceID="ei2072" subordinatedEventInstance="ei2073" />
+<SLINK lid="l110" relType="EVIDENTIAL" eventInstanceID="ei2083" subordinatedEventInstance="ei2080" />
+<SLINK lid="l111" relType="MODAL" eventInstanceID="ei2080" subordinatedEventInstance="ei2081" />
+<SLINK lid="l114" relType="EVIDENTIAL" eventInstanceID="ei2087" subordinatedEventInstance="ei2088" />
+<SLINK lid="l115" relType="EVIDENTIAL" eventInstanceID="ei2089" subordinatedEventInstance="ei2090" />
+<SLINK lid="l116" relType="EVIDENTIAL" eventInstanceID="ei2090" subordinatedEventInstance="ei2092" />
+<SLINK lid="l117" relType="MODAL" eventInstanceID="ei2092" subordinatedEventInstance="ei2091" />
+<SLINK lid="l118" relType="EVIDENTIAL" eventInstanceID="ei2094" subordinatedEventInstance="ei2093" />
+<SLINK lid="l119" relType="EVIDENTIAL" eventInstanceID="ei2098" subordinatedEventInstance="ei2099" />
+<SLINK lid="l120" relType="MODAL" eventInstanceID="ei2099" subordinatedEventInstance="ei2100" />
+<SLINK lid="l121" relType="MODAL" eventInstanceID="ei2104" subordinatedEventInstance="ei2105" />
+<ALINK lid="l124" relType="TERMINATES" eventInstanceID="ei1997" relatedToEventInstance="ei1998" />
+<ALINK lid="l125" relType="INITIATES" eventInstanceID="ei2004" relatedToEventInstance="ei2005" />
+<ALINK lid="l126" relType="INITIATES" eventInstanceID="ei2021" relatedToEventInstance="ei2022" />
+<ALINK lid="l127" relType="REINITIATES" eventInstanceID="ei2053" relatedToEventInstance="ei2052" />
+<ALINK lid="l128" relType="REINITIATES" eventInstanceID="ei2081" relatedToEventInstance="ei2082" />
+<ALINK lid="l129" relType="CONTINUES" eventInstanceID="ei2076" relatedToEventInstance="ei2077" />
+<ALINK lid="l130" relType="INITIATES" eventInstanceID="ei2021" relatedToEventInstance="ei2020" />
+
+</TimeML>

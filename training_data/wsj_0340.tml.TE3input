@@ -1,21 +1,52 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0340</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891101-0024 = 891101 891101-0024.
 International Brief -- Cie. de Navigation Mixte: @ Credit Lyonnais Unit Buys @ Stock to Help Defeat Bid 11/01/89 WALL STREET JOURNAL (J) F.CNM F.CLC F.CFP TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) INSURANCE (INS) FOOD PRODUCTS (FOD)
 </EXTRAINFO>
 
-<TEXT>The portfolio unit of the French bank group Credit Lyonnais told stock market regulators that it bought 43,000 shares of Cie. de Navigation Mixte, apparently to help fend off an unwelcome takeover bid for the company.
+<TEXT>
+The portfolio unit of the French bank group Credit Lyonnais told stock market regulators that it bought 43,000 shares of Cie. de Navigation Mixte, apparently to help fend off an unwelcome takeover bid for the company.
 
 Earlier yesterday, the Societe de Bourses Francaises was told that a unit of Framatome S.A. also bought Navigation Mixte shares, this purchase covering more than 160,000 shares.
 
 Both companies are allies of Navigation Mixte in its fight against a hostile takeover bid launched last week by Cie. Financiere de Paribas at 1,850 French francs ($297) a share. Navigation Mixte's chairman had suggested that friendly institutions were likely to buy its stock as soon as trading opened Monday.
 
-The Credit Lyonnais purchase, for 33,000 regular common shares and 10,000 newly created shares, is valued at about slightly more than 80 million French francs.</TEXT>
+The Credit Lyonnais purchase, for 33,000 regular common shares and 10,000 newly created shares, is valued at about slightly more than 80 million French francs.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l9" relType="MODAL" eventInstanceID="ei108" subordinatedEventInstance="ei109" />
+<SLINK lid="l10" relType="EVIDENTIAL" eventInstanceID="ei103" subordinatedEventInstance="ei104" />
+<SLINK lid="l11" relType="MODAL" eventInstanceID="ei101" subordinatedEventInstance="ei102" />
+<SLINK lid="l12" relType="MODAL" eventInstanceID="ei100" subordinatedEventInstance="ei101" />
+<SLINK lid="l13" relType="EVIDENTIAL" eventInstanceID="ei99" subordinatedEventInstance="ei100" />
+<ALINK lid="l14" relType="INITIATES" eventInstanceID="ei111" relatedToEventInstance="ei110" />
 
 </TimeML>

@@ -1,17 +1,48 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0709</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0186 = 891027 891027-0186.
 Service Corp. Earnings 10/27/89 WALL STREET JOURNAL (J) SRV EARNINGS (ERN) HOUSTON
 </EXTRAINFO>
 
-<TEXT>Service Corp. International said it expects to report net income of 15 cents a share for the third quarter. The company said it expects to release third-quarter results in mid-November.
+<TEXT>
+Service Corp. International said it expects to report net income of 15 cents a share for the third quarter. The company said it expects to release third-quarter results in mid-November.
 
-The funeral home and cemetery operator changed from a fiscal year to a calendar year in December. In the comparable year-ago quarter, the second quarter ended Oct. 31, Service Corp. had a loss of about $12.5 million, or 26 cents a share, on revenue of $175.4 million. Results for that quarter included a $30 million, or 40 cents a share, write-down associated with the consolidation of a facility.</TEXT>
+The funeral home and cemetery operator changed from a fiscal year to a calendar year in December. In the comparable year-ago quarter, the second quarter ended Oct. 31, Service Corp. had a loss of about $12.5 million, or 26 cents a share, on revenue of $175.4 million. Results for that quarter included a $30 million, or 40 cents a share, write-down associated with the consolidation of a facility.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l12" relType="EVIDENTIAL" eventInstanceID="ei124" subordinatedEventInstance="ei125" />
+<SLINK lid="l13" relType="MODAL" eventInstanceID="ei125" subordinatedEventInstance="ei126" />
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei126" subordinatedEventInstance="ei127" />
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei128" subordinatedEventInstance="ei129" />
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei129" subordinatedEventInstance="ei130" />
 
 </TimeML>

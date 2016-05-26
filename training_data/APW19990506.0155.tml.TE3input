@@ -3,19 +3,14 @@
 
 <DOCID>APW19990506.0155</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="TIME" value="1999-05-06T15:05" temporalFunction="false" functionInDocument="CREATION_TIME">1999-05-06 15:05:11</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-05-06T15:05">1999-05-06 15:05:11</TIMEX3></DCT>
 
 <TITLE>Abortion Foe Charged in Slaying</TITLE>
 
 
 <EXTRAINFO>
-APW19990506.0155 
-1999-05-06 15:05:11
-usa 
-Abortion Foe Charged in Slaying
+APW19990506.0155 1999-05-06 15:05:11usa Abortion Foe Charged in Slaying
 </EXTRAINFO>
-
-
 
 
 <TEXT>
@@ -51,7 +46,197 @@ Kopp is now the second anti-abortion activist being sought by the FBI as a suspe
 Eric Rudolph has been on the run since the January 1998 bombing of a Birmingham, Ala., abortion clinic that killed an off-duty police officer and maimed a nurse. He also is charged in three Atlanta attacks, including the 1996 Olympic bombing that killed one person.
 
 </TEXT>
+
+
 <EXTRAINFO>
 </EXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l1" relType="FACTIVE" eventInstanceID="ei9" subordinatedEventInstance="ei12" syntax="USER"/>
+<SLINK lid="l2" relType="MODAL" eventInstanceID="ei12" subordinatedEventInstance="ei11" syntax="USER"/>
+<SLINK lid="l3" relType="EVIDENTIAL" eventInstanceID="ei16" subordinatedEventInstance="ei17" syntax="USER"/>
+<SLINK lid="l4" relType="MODAL" eventInstanceID="ei17" subordinatedEventInstance="ei18" syntax="USER"/>
+<SLINK lid="l5" relType="MODAL" eventInstanceID="ei20" subordinatedEventInstance="ei22" syntax="USER"/>
+<SLINK lid="l6" relType="MODAL" eventInstanceID="ei23" subordinatedEventInstance="ei24" syntax="USER"/>
+<SLINK lid="l7" relType="MODAL" eventInstanceID="ei27" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l8" relType="EVIDENTIAL" eventInstanceID="ei30" subordinatedEventInstance="ei31" syntax="USER"/>
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei33" subordinatedEventInstance="ei34" syntax="USER"/>
+<SLINK lid="l47" relType="EVIDENTIAL" eventInstanceID="ei35" subordinatedEventInstance="ei38" syntax="USER"/>
+<SLINK lid="l53" relType="EVIDENTIAL" eventInstanceID="ei41" subordinatedEventInstance="ei42" syntax="USER"/>
+<SLINK lid="l54" relType="FACTIVE" eventInstanceID="ei42" subordinatedEventInstance="ei43" syntax="USER"/>
+<SLINK lid="l80" relType="EVIDENTIAL" eventInstanceID="ei63" subordinatedEventInstance="ei64" syntax="USER"/>
+<SLINK lid="l81" relType="MODAL" eventInstanceID="ei64" subordinatedEventInstance="ei65" syntax="USER"/>
+<SLINK lid="l82" relType="MODAL" eventInstanceID="ei65" subordinatedEventInstance="ei66" syntax="USER"/>
+<SLINK lid="l83" relType="MODAL" eventInstanceID="ei65" subordinatedEventInstance="ei67" syntax="USER"/>
+<SLINK lid="l84" relType="MODAL" eventInstanceID="ei65" subordinatedEventInstance="ei68" syntax="USER"/>
+<SLINK lid="l85" relType="MODAL" eventInstanceID="ei65" subordinatedEventInstance="ei69" syntax="USER"/>
+<SLINK lid="l86" relType="MODAL" eventInstanceID="ei65" subordinatedEventInstance="ei70" syntax="USER"/>
+<SLINK lid="l87" relType="FACTIVE" eventInstanceID="ei70" subordinatedEventInstance="ei71" syntax="USER"/>
+
 </TimeML>
+
 

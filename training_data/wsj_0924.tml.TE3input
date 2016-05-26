@@ -3,14 +3,12 @@
 
 <DOCID>wsj_0924</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26" temporalFunction="false" functionInDocument="CREATION_TIME">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0134 = 891026 891026-0134.
 Dominion Textile Rights Plan 10/26/89 WALL STREET JOURNAL (J) T.DTX EARNINGS (ERN) MONTREAL
 </EXTRAINFO>
-
-
 
 <TEXT>
 Dominion Textile Inc. holders adopted a shareholder-rights plan at the annual meeting.
@@ -19,5 +17,36 @@ The so-called poison pill took effect Aug. 9 pending ratification by holders. Ri
 
 Separately, Dominion Textile posted net income of 4.7 million Canadian dollars ($4 million), or 12 Canadian cents a share, for the fiscal-first quarter ended Sept. 30. The company had a net loss of C$2.3 million, or 14 Canadian cents a share, a year ago. Sales were C$348.2 million compared with C$307.2 a year earlier.
 </TEXT>
-</TimeML>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei168" subordinatedEventInstance="ei171" />
+<SLINK lid="l17" relType="CONDITIONAL" eventInstanceID="ei166" subordinatedEventInstance="ei165"  />
+<SLINK lid="l18" relType="MODAL" eventInstanceID="ei168" subordinatedEventInstance="ei169" />
+<SLINK lid="l19" relType="MODAL" eventInstanceID="ei169" subordinatedEventInstance="ei171" />
+<SLINK lid="l20" relType="EVIDENTIAL" eventInstanceID="ei172" subordinatedEventInstance="ei178" />
+
+</TimeML>

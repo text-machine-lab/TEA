@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT20000424.0319</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="2000-04-24">2000-04-24</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="2000-04-24">2000-04-24</TIMEX3></DCT>
 
 <TITLE>A CHILD ONCE AGAIN</TITLE>
 
@@ -19,7 +19,9 @@ c.2000 The Boston Globe
 </EXTRAINFO>
 
 
-<TEXT>The Clinton administration's wisdom in returning Elian Gonzalez to his father was confirmed over the weekend decision of his Miami relatives and their Republican allies to further politicize what ought to be a straightforward child-custody case. Elian is finally getting time to reconnect with his father in a quiet, neutral setting where he is no longer a metaphor for the war between the Cubans.
+<TEXT>
+
+The Clinton administration's wisdom in returning Elian Gonzalez to his father was confirmed over the weekend decision of his Miami relatives and their Republican allies to further politicize what ought to be a straightforward child-custody case. Elian is finally getting time to reconnect with his father in a quiet, neutral setting where he is no longer a metaphor for the war between the Cubans.
 
 A few miles from his temporary home at Andrews Air Force Base, Senator Bob Smith of New Hampshire, Representative Tom DeLay of Texas, both Republicans, and the relatives were treating the raid to return Elian as though it were a Nazi SS operation. Yet federal agents had a warrant, were enforcing US law, and entered the house with the proper force to ensure minimal resistance and injury. It was a model of efficient law enforcement, guided by due process.
 
@@ -31,7 +33,9 @@ Juan Miguel Gonzalez apparently is a Castro supporter, but that should not disqu
 
 Elian has developed great affection for the Miami relatives. It would be ideal if they could have returned him to his father yet stayed in contact while their appeal was pending in court. Negotiations failed, however, because they insisted on taking the place of the father, rather than being treated as concerned, yet distant, relatives.
 
-Juan and Elian Gonzalez will remain in the United States pending the appeal. The father can remain here, but he can also return to Cuba if he wishes. Like any other 6-year-old in the care of a loving parent, Elian should go wherever that parent wants.</TEXT>
+Juan and Elian Gonzalez will remain in the United States pending the appeal. The father can remain here, but he can also return to Cuba if he wishes. Like any other 6-year-old in the care of a loving parent, Elian should go wherever that parent wants.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -39,4 +43,118 @@ NYT-04-24-00 1856EDT &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l26" eventInstanceID="ei9" subordinatedEventInstance="ei47" relType="MODAL"/>
+<SLINK lid="l27" eventInstanceID="ei9" subordinatedEventInstance="ei48" relType="MODAL"/>
+<SLINK lid="l31" eventInstanceID="ei10" subordinatedEventInstance="ei11" relType="MODAL"/>
+<SLINK lid="l35" eventInstanceID="ei14" subordinatedEventInstance="ei15" relType="MODAL"/>
+<SLINK lid="l38" eventInstanceID="ei16" subordinatedEventInstance="ei17" relType="MODAL"/>
+<SLINK lid="l43" eventInstanceID="ei20" subordinatedEventInstance="ei21" relType="MODAL"/>
+<SLINK lid="l45" eventInstanceID="ei20" subordinatedEventInstance="ei22" relType="CONDITIONAL"/>
+<SLINK lid="l46" eventInstanceID="ei22" subordinatedEventInstance="ei64" relType="MODAL"/>
 </TimeML>
+
+
+

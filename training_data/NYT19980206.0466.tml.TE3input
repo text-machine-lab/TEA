@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT19980206.0466</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-02-06T22:29:00">02/06/1998 22:29:00</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-02-06T22:29:00">02/06/1998 22:29:00</TIMEX3></DCT>
 
 <EXTRAINFO>
 NYT19980206.0466 NEWS STORY 02/06/1998 22:29:00
@@ -13,10 +13,80 @@ STATEMENTS CONCERNING MRS. CURRIE
 UR (bl) LR QL UR c.1998 N.Y. Times News Service LR QC QL
 </EXTRAINFO>
 
-<TEXT>WASHINGTON _ Following are statements made Friday and Thursday by Lawrence Wechsler, a lawyer for the White House secretary, Betty Currie; the White House; White House spokesman Mike McCurry, and President Clinton in response to an article in The New York Times on Friday about her statements regarding a meeting with the president: Wechsler on Thursday ''Without commenting on the allegations raised in this article, to the extent that there is any implication or suggestion that Mrs. Currie was aware of any legal or ethical impropriety by anyone, that implication or suggestion is entirely inaccurate.'' White House on Thursday ''For the past few weeks we've been subjected to false leaks designed to mislead both reporters and the American public. We're not going to dignify the latest false leak with a response.'' McCurry on Friday ''I want to be absolutely clear, to the extent there is any implication or the slightest suggestion that Mrs. Currie believes that the President or anyone else tried to influence her recollection, that is absolutely false and a mischaracterization of the facts. I am shocked and dismayed by the numerous leaks regarding Mrs. Currie's grand jury testimony.'' Clinton on Friday. ''Once again, I never asked anybody to do anything but tell the truth. I know about the stories today. I was pleased that Ms. Currie's lawyers stated unambiguously this morning _ unambiguously _ that she's not aware of any unethical conduct.</TEXT>
+<TEXT>
+WASHINGTON _ Following are statements made Friday and Thursday by Lawrence Wechsler, a lawyer for the White House secretary, Betty Currie; the White House; White House spokesman Mike McCurry, and President Clinton in response to an article in The New York Times on Friday about her statements regarding a meeting with the president: Wechsler on Thursday ``Without commenting on the allegations raised in this article, to the extent that there is any implication or suggestion that Mrs. Currie was aware of any legal or ethical impropriety by anyone, that implication or suggestion is entirely inaccurate.'' White House on Thursday ``For the past few weeks we've been subjected to false leaks designed to mislead both reporters and the American public. We're not going to dignify the latest false leak with a response.'' McCurry on Friday ``I want to be absolutely clear, to the extent there is any implication or the slightest suggestion that Mrs. Currie believes that the President or anyone else tried to influence her recollection, that is absolutely false and a mischaracterization of the facts. I am shocked and dismayed by the numerous leaks regarding Mrs. Currie's grand jury testimony.'' Clinton on Friday. ``Once again, I never asked anybody to do anything but tell the truth. I know about the stories today. I was pleased that Ms. Currie's lawyers stated unambiguously this morning _ unambiguously _ that she's not aware of any unethical conduct.
+</TEXT>
 
 <LASTEXTRAINFO>
 NYT-02-06-98 2229EST
 </LASTEXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l36" relType="MODAL" eventInstanceID="ei554" subordinatedEventInstance="ei555" />
+<SLINK lid="l37" relType="FACTIVE" eventInstanceID="ei552" subordinatedEventInstance="ei553" />
+<SLINK lid="l38" relType="EVIDENTIAL" eventInstanceID="ei553" subordinatedEventInstance="ei554" />
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei527" subordinatedEventInstance="ei529" />
+<SLINK lid="l46" relType="FACTIVE" eventInstanceID="ei530" subordinatedEventInstance="ei531" />
+<SLINK lid="l47" relType="MODAL" eventInstanceID="ei533" subordinatedEventInstance="ei534" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei534" subordinatedEventInstance="ei542" />
+<SLINK lid="l50" relType="MODAL" eventInstanceID="ei535" subordinatedEventInstance="ei537" />
+<SLINK lid="l51" relType="MODAL" eventInstanceID="ei536" subordinatedEventInstance="ei537" />
+<SLINK lid="l52" relType="MODAL" eventInstanceID="ei537" subordinatedEventInstance="ei538" />
+<SLINK lid="l53" relType="MODAL" eventInstanceID="ei538" subordinatedEventInstance="ei539" />
+<SLINK lid="l55" relType="FACTIVE" eventInstanceID="ei545" subordinatedEventInstance="ei546" />
+<SLINK lid="l56" relType="MODAL" eventInstanceID="ei547" subordinatedEventInstance="ei548" />
+<SLINK lid="l57" relType="MODAL" eventInstanceID="ei547" subordinatedEventInstance="ei549" />
+<SLINK lid="l59" relType="FACTIVE" eventInstanceID="ei544" subordinatedEventInstance="ei545" />
+<SLINK lid="l60" relType="FACTIVE" eventInstanceID="ei543" subordinatedEventInstance="ei545" />
 
 </TimeML>

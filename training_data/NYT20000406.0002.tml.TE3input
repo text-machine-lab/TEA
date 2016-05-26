@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT20000406.0002</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-04-06">2000-04-06</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-04-06">2000-04-06</TIMEX3></DCT>
 
 <TITLE>EDITORIAL: THE QUEST OF JUAN GONZALEZ</TITLE>
 
@@ -18,7 +18,9 @@ c.2000 N.Y. Times News Service
 </EXTRAINFO>
 
 
-<TEXT>The New York Times said in an editorial on Thursday, April 6:
+<TEXT>
+
+The New York Times said in an editorial on Thursday, April 6:
 
 Juan Miguel Gonzalez has made the right decision to travel to the United States on Thursday to affirm his desire to be reunited with his son, Elian. His presence on American soil is necessary to dispel doubts about his fitness as a father _ raised maliciously by Elian's Miami relatives _ and to end speculation that he is indifferent about reclaiming custody of his son. With Gonzalez all but out of sight in Cuba, the relatives have had a free hand to distort the case with bogus legal arguments and unsubstantiated claims that Elian is afraid to see his father.
 
@@ -30,7 +32,9 @@ But if the relatives balk, the Justice Department should quickly revoke their cu
 
 If a court edict fails to compel compliance, the Justice Department will have to consider sterner measures, for the relatives will then be resisting the rule of law as defined by both the department and the courts. But Washington ought not to rush to take Elian forcibly from the relatives. That course would be psychologically wounding to the boy, and could lead to a violent confrontation with demonstrators who gather daily outside the relatives' home. The government yields none of its legal or moral authority in the case if it gives the relatives and their supporters time to reflect and to look for a gentler resolution.
 
-As a matter of law, compassion and common sense, the government is entitled to reunite Elian with his father, and it has the power to enforce that right, despite the bluster of Miami's demagogic political leaders. But for now, everyone involved should be searching for an amicable ending. Juan Gonzalez is doing his part by making the short journey across the Florida Straits to erase any question about his love for his son.</TEXT>
+As a matter of law, compassion and common sense, the government is entitled to reunite Elian with his father, and it has the power to enforce that right, despite the bluster of Miami's demagogic political leaders. But for now, everyone involved should be searching for an amicable ending. Juan Gonzalez is doing his part by making the short journey across the Florida Straits to erase any question about his love for his son.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -39,4 +43,190 @@ NYT-04-06-00 0010EDT &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l2" eventInstanceID="ei54" subordinatedEventInstance="ei3" relType="MODAL"/>
+<SLINK lid="l3" eventInstanceID="ei3" subordinatedEventInstance="ei4" relType="MODAL"/>
+<SLINK lid="l4" eventInstanceID="ei13" subordinatedEventInstance="ei14" relType="MODAL"/>
+<SLINK lid="l5" eventInstanceID="ei63" subordinatedEventInstance="ei16" relType="MODAL"/>
+<SLINK lid="l6" eventInstanceID="ei37" subordinatedEventInstance="ei91" relType="NEG_EVIDENTIAL"/>
+<SLINK lid="l7" eventInstanceID="ei41" subordinatedEventInstance="ei42" relType="MODAL"/>
+<SLINK lid="l8" eventInstanceID="ei41" subordinatedEventInstance="ei44" relType="CONDITIONAL"/>
+<ALINK lid="l1" eventInstanceID="ei6" relatedToEventInstance="ei57" relType="TERMINATES"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+
+

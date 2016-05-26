@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980930.0425</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-09-30">1998-09-30</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-09-30">1998-09-30</TIMEX3></DCT>
 
 <TITLE>U.S. medical team seeks to help victims of embassy bombings</TITLE>
 
@@ -18,13 +18,15 @@ U.S. medical team seeks to help victims of embassy bombings
 </EXTRAINFO>
 
 
-<TEXT>NAIROBI, Kenya (AP) _
+<TEXT>
+
+NAIROBI, Kenya (AP) _
 
 U.S. Surgeon General David Satcher on Wednesday led a team of medical specialists to Africa to help victims of terrorist attacks on the U.S. embassies in Kenya and Tanzania.
 
-''We want to build on the long-term partnership that has existed between our countries to help innocent Kenyans who suffered in the bombing,'' Satcher said at a news conference.
+``We want to build on the long-term partnership that has existed between our countries to help innocent Kenyans who suffered in the bombing,'' Satcher said at a news conference.
 
-''At the same time, we want to help Kenya prepare to meet future medical disasters, regardless of their cause.''
+``At the same time, we want to help Kenya prepare to meet future medical disasters, regardless of their cause.''
 
 The bombings on Aug. 7 killed 259 people, including 12 Americans, and injured more than 5,500.
 
@@ -40,7 +42,9 @@ U.S. President Bill Clinton has requested dlrs 50 million in emergency assistanc
 
 The U.S. government already has contributed dlrs 3.2 million in assistance to the two countries.
 
-On Friday, the Kenyan government planned to pay the first 32 death claims of 100,000 Kenyan shillings (dlrs 1,667) each.</TEXT>
+On Friday, the Kenyan government planned to pay the first 32 death claims of 100,000 Kenyan shillings (dlrs 1,667) each.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -50,4 +54,87 @@ AP-NY-09-30-98 0845EDT
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l8" relType="MODAL" eventInstanceID="ei1" subordinatedEventInstance="ei2" syntax="USER"/>
+<SLINK lid="l13" relType="MODAL" eventInstanceID="ei3" subordinatedEventInstance="ei4" syntax="USER"/>
+<SLINK lid="l19" relType="MODAL" eventInstanceID="ei9" subordinatedEventInstance="ei10" syntax="USER"/>
+<SLINK lid="l38" relType="MODAL" eventInstanceID="ei21" subordinatedEventInstance="ei22" syntax="USER"/>
+
+
+
+
+
 </TimeML>
+
+

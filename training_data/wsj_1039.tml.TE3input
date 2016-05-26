@@ -1,19 +1,42 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_1039</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0017 = 891026 891026-0017.
 Business Brief -- Amdahl Corp.: @ Computer Firm's Earnings @ Fell 37% in Third Quarter 10/26/89 WALL STREET JOURNAL (J) AMH EARNINGS (ERN) COMPUTERS AND INFORMATION TECHNOLOGY (CPR)
 </EXTRAINFO>
 
-<TEXT>Amdahl Corp., a maker of mainframe computers, reported a sharp decline in net income for its third quarter, citing pricecutting by competitors and adverse effects from a strong U.S. dollar.
+<TEXT>
+Amdahl Corp., a maker of mainframe computers, reported a sharp decline in net income for its third quarter, citing pricecutting by competitors and adverse effects from a strong U.S. dollar.
 
 Net income fell 37% to $32.9 million, or 30 cents a share, from $52.2 million, or 48 cents a share, in the year-ago period. Revenue rose 15% to $534.3 million from $464.7 million.
 
-Amdahl's results were somewhat worse than expected. Jay Stevens, an analyst with Dean Witter Reynolds, said he expected the Sunnyvale, Calif., company to earn 35 cents a share for the quarter and said the firm's weaker profit was partly the result of increased competition from International Business Machines Corp., Amdahl's principal competitor for mainframe sales.</TEXT>
+Amdahl's results were somewhat worse than expected. Jay Stevens, an analyst with Dean Witter Reynolds, said he expected the Sunnyvale, Calif., company to earn 35 cents a share for the quarter and said the firm's weaker profit was partly the result of increased competition from International Business Machines Corp., Amdahl's principal competitor for mainframe sales.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei137" subordinatedEventInstance="ei139" />
+<SLINK lid="l11" relType="EVIDENTIAL" eventInstanceID="ei121" subordinatedEventInstance="ei122" />
 
 </TimeML>

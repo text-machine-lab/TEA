@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19991008.0151</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-10-08">1999-10-08</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-10-08">1999-10-08</TIMEX3></DCT>
 
 <TITLE>Arrest Made in US Embassy Bombings</TITLE>
 
@@ -14,7 +14,9 @@ international  Arrest Made in US Embassy Bombings
 </EXTRAINFO>
 
 
-<TEXT>NEW YORK (AP) --
+<TEXT>
+
+NEW YORK (AP) --
 
 A man whose house was allegedly a bomb factory was arrested in connection with last year's deadly U.S. Embassy blasts in Kenya and Tanzania and was brought to the United States for trial.
 
@@ -36,11 +38,101 @@ Seventeen people have been indicted in the case. Eight of them are in custody in
 
 The rest remained fugitives, including Saudi radical Osama bin Laden. Bin Laden is accused of masterminding the attack, and is on the FBI's 10 Most Wanted List. A $5 million reward has been offered for his capture.
 
-The bombs went off almost simultaneously. The victims in Nairobi, Kenya, numbered 213, including 12 Americans. Eleven people, none of them Americans, died in the blast in Dar-es-Salaam, Tanzania.</TEXT>
+The bombs went off almost simultaneously. The victims in Nairobi, Kenya, numbered 213, including 12 Americans. Eleven people, none of them Americans, died in the blast in Dar-es-Salaam, Tanzania.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l11" relType="MODAL" eventInstanceID="ei3" subordinatedEventInstance="ei4" syntax="USER"/>
+<ALINK lid="l35" relType="INITIATES" eventInstanceID="ei18" relatedToEventInstance="ei36" syntax="USER"/>
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

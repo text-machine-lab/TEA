@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980227.0476</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-02-27T08:02:00">02/27/1998 08:02:00</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-02-27T08:02:00">02/27/1998 08:02:00</TIMEX3></DCT>
 
 <EXTRAINFO>
 APW19980227.0476 NEWS STORY 02/27/1998 08:02:00
@@ -14,11 +14,50 @@ UR Eds: RECASTS lead to clarify; ADDS detail of U.S. and British objections in 3
 QL UR AP Photo staffing QL UR By MIKE CORDER QC UR Associated Press Writer QC
 </EXTRAINFO>
 
-<TEXT>THE HAGUE, Netherlands (AP)_ The World Court Friday rejected U.S. and British objections to a Libyan World Court case that has blocked the trial of two Libyans suspected of blowing up a Pan Am jumbo jet over Scotland in 1988. Libya, which brought the case to the United Nations' highest judicial body in its dispute with the United States and Britain, hailed the ruling and said it would press anew for a trial in a third neutral country. Both U.S. and British officials filed objections to the court's jurisdiction in 1995, claiming Security Council resolutions imposed on Lybia to force the suspects' extradition overruled a 1971 Convention which gives Libya the right to try the men. The decision, 3rd graf pvs.</TEXT>
+<TEXT>
+THE HAGUE, Netherlands (AP)_ The World Court Friday rejected U.S. and British objections to a Libyan World Court case that has blocked the trial of two Libyans suspected of blowing up a Pan Am jumbo jet over Scotland in 1988. Libya, which brought the case to the United Nations' highest judicial body in its dispute with the United States and Britain, hailed the ruling and said it would press anew for a trial in a third neutral country. Both U.S. and British officials filed objections to the court's jurisdiction in 1995, claiming Security Council resolutions imposed on Lybia to force the suspects' extradition overruled a 1971 Convention which gives Libya the right to try the men. The decision, 3rd graf pvs.
+</TEXT>
 
 <LASTEXTRAINFO>
 (PROFILE (WS SL:BC-World Court-Lockerbie, 5th Ld; CT:i; (REG:EURO;) (REG:BRIT;) (REG:SCAN;) (REG:ENGL;) (LANG:ENGLISH;)) )
 AP-NY-02-27-98 0802EST
 </LASTEXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l20" relType="FACTIVE" eventInstanceID="ei2091" subordinatedEventInstance="ei2092" />
+<SLINK lid="l13" relType="MODAL" eventInstanceID="ei2107" subordinatedEventInstance="ei2108" />
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei2105" subordinatedEventInstance="ei2109" />
+<SLINK lid="l15" relType="FACTIVE" eventInstanceID="ei2093" subordinatedEventInstance="ei2094" />
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei2095" subordinatedEventInstance="ei2096" />
+<SLINK lid="l17" relType="FACTIVE" eventInstanceID="ei2099" subordinatedEventInstance="ei2100" />
+<SLINK lid="l18" relType="EVIDENTIAL" eventInstanceID="ei2101" subordinatedEventInstance="ei2102" />
+<SLINK lid="l19" relType="MODAL" eventInstanceID="ei2102" subordinatedEventInstance="ei2103" />
 
 </TimeML>

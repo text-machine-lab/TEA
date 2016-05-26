@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>VOA19980303.1600.2745</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-03-03">19980303</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-03-03">19980303</TIMEX3></DCT>
 
 <EXTRAINFO>
 VOA19980303.1600.2745 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>While the expansion of the Internet has been a blessing for researchers, students and the just plain curious, the new opportunities mentioned by Mr. Gates are also being used by some rather unsavory characters. A new report says there has been a dramatic rise in the growth of hate groups in the United States over the past year. And many of them are using the Internet to spread their messages of racial superiority. VOA's Jim Teple has details from our southeast news bureau.
+<TEXT>
+While the expansion of the Internet has been a blessing for researchers, students and the just plain curious, the new opportunities mentioned by Mr. Gates are also being used by some rather unsavory characters. A new report says there has been a dramatic rise in the growth of hate groups in the United States over the past year. And many of them are using the Internet to spread their messages of racial superiority. VOA's Jim Teple has details from our southeast news bureau.
 
 The Southern Poverty Law Center, a civil rights monitoring group based in Montgomery, Alabama, has long monitored such groups as the Ku Klux Klan. More recently it has followed the growth of the militia movement and church groups that preach a message of white supremacy and anti-semitism. The new study written by Mark Potach, who edits the Southern Poverty Law Center's Intelligence Report, warns that such groups grew rapidly last year, mostly by recruiting younger members. Mr. Potach says the growth is surprising since membership in hate groups usually declines during periods of economic prosperity.
 
@@ -23,6 +24,126 @@ Many of these new members are joining chapters of the so called Christian Identi
 
 The approach of the year two thousand has many of these groups in a kind of millennial frenzy. Uh, uh a- they believe, or at least many of them believe, uh that they are approaching the Battle of Armageddon in which they will be pitted against the uh kind of Satanic forces trying to take over the world.
 
-Mr. Potach notes older, more traditional groups like the Ku Klux Klan are also opening new chapters, thanks in part to their ability to use new technologies like the Internet. The Federal Bureau of Investigation says it received more than eight thousand reports of hate group crimes last year. Law enforcement authorities say such reports are likely to increase as police departments are now beginning to more accurately report hate crimes than they have in the past. Jim Teple, VOA News, Miami.</TEXT>
+Mr. Potach notes older, more traditional groups like the Ku Klux Klan are also opening new chapters, thanks in part to their ability to use new technologies like the Internet. The Federal Bureau of Investigation says it received more than eight thousand reports of hate group crimes last year. Law enforcement authorities say such reports are likely to increase as police departments are now beginning to more accurately report hate crimes than they have in the past. Jim Teple, VOA News, Miami.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l68" relType="FACTIVE" eventInstanceID="ei50018" subordinatedEventInstance="ei50017" />
+<SLINK lid="l45" relType="EVIDENTIAL" eventInstanceID="ei50005" subordinatedEventInstance="ei50006" />
+<SLINK lid="l46" relType="MODAL" eventInstanceID="ei50008" subordinatedEventInstance="ei50009" />
+<SLINK lid="l47" relType="FACTIVE" eventInstanceID="ei50011" subordinatedEventInstance="ei50012" />
+<SLINK lid="l48" relType="MODAL" eventInstanceID="ei50013" subordinatedEventInstance="ei50014" />
+<SLINK lid="l49" relType="EVIDENTIAL" eventInstanceID="ei50016" subordinatedEventInstance="ei50018" />
+<SLINK lid="l50" relType="EVIDENTIAL" eventInstanceID="ei50016" subordinatedEventInstance="ei50019" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei50019" subordinatedEventInstance="ei50020" />
+<SLINK lid="l52" relType="EVIDENTIAL" eventInstanceID="ei50023" subordinatedEventInstance="ei50024" />
+<SLINK lid="l53" relType="EVIDENTIAL" eventInstanceID="ei50023" subordinatedEventInstance="ei50025" />
+<SLINK lid="l55" relType="MODAL" eventInstanceID="ei50030" subordinatedEventInstance="ei50031" />
+<SLINK lid="l56" relType="MODAL" eventInstanceID="ei50030" subordinatedEventInstance="ei50032" />
+<SLINK lid="l57" relType="EVIDENTIAL" eventInstanceID="ei50037" subordinatedEventInstance="ei50038" />
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei50042" subordinatedEventInstance="ei50043" />
+<SLINK lid="l59" relType="MODAL" eventInstanceID="ei50045" subordinatedEventInstance="ei50046" />
+<SLINK lid="l60" relType="EVIDENTIAL" eventInstanceID="ei50047" subordinatedEventInstance="ei50048" />
+<SLINK lid="l61" relType="MODAL" eventInstanceID="ei50049" subordinatedEventInstance="ei50050" />
+<SLINK lid="l62" relType="EVIDENTIAL" eventInstanceID="ei50051" subordinatedEventInstance="ei50052" />
+<SLINK lid="l63" relType="EVIDENTIAL" eventInstanceID="ei50053" subordinatedEventInstance="ei50054" />
+<SLINK lid="l64" relType="EVIDENTIAL" eventInstanceID="ei50055" subordinatedEventInstance="ei50056" />
+<SLINK lid="l65" relType="EVIDENTIAL" eventInstanceID="ei50058" subordinatedEventInstance="ei50059" />
+<ALINK lid="l67" relType="INITIATES" eventInstanceID="ei50057" relatedToEventInstance="ei50058" />
 
 </TimeML>

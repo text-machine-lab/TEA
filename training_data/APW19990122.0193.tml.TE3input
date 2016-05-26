@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19990122.0193</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-01-22T13:06">1999-01-22 13:06:18</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-01-22T13:06">1999-01-22 13:06:18</TIMEX3></DCT>
 
 <TITLE>DNA Tests Link Slain Doctor Suspect</TITLE>
 
@@ -16,7 +16,9 @@ usa
 </EXTRAINFO>
 
 
-<TEXT>WASHINGTON (AP) --
+<TEXT>
+
+WASHINGTON (AP) --
 
 Preliminary DNA tests link a missing anti-abortion activist to a strand of hair found near where a sniper shot and killed a Buffalo, N.Y., doctor who performed abortions, a law enforcement official said Friday.
 
@@ -32,7 +34,7 @@ Both officials requested anonymity.
 
 The FBI is conducting further DNA tests of the hair found outside Dr. Slepian's home. This more extensive set of tests could enable officials to declare an absolute match between the two hair strands, the first law enforcement official said.
 
-''Ultimately, we would need to have a hair taken directly from Kopp himself to establish conclusively the hair from scene is his,'' the official added.
+``Ultimately, we would need to have a hair taken directly from Kopp himself to establish conclusively the hair from scene is his,'' the official added.
 
 The official said the hair was in a cap that authorities found very near the location from which the sniper is thought to have fired the rifle bullet that killed Slepian as he stood in the kitchen of his home in the Buffalo suburb of Amherst, N.Y.
 
@@ -46,11 +48,170 @@ In addition, a Customs Service videotape from a border crossing point shows the 
 
 Authorities obtained a material-witness arrest warrant for Kopp after they said Kopp's car was spotted in Amherst in the weeks before Slepian was killed.
 
-Kopp's 1987 Chevrolet Cavalier was discovered last month at Newark, N.J., International Airport, the FBI said. The car had been in the long-term lot for about two weeks, said Greg Trevor, a spokesman for the Port Authority of New York and New Jersey.</TEXT>
+Kopp's 1987 Chevrolet Cavalier was discovered last month at Newark, N.J., International Airport, the FBI said. The car had been in the long-term lot for about two weeks, said Greg Trevor, a spokesman for the Port Authority of New York and New Jersey.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l25" eventInstanceID="ei26" subordinatedEventInstance="ei27" relType="MODAL"/>
+<SLINK lid="l30" eventInstanceID="ei30" subordinatedEventInstance="ei31" relType="MODAL"/>
+<SLINK lid="l32" eventInstanceID="ei31" subordinatedEventInstance="ei32" relType="EVIDENTIAL"/>
+<SLINK lid="l35" eventInstanceID="ei34" subordinatedEventInstance="ei35" relType="MODAL"/>
+<SLINK lid="l38" eventInstanceID="ei37" subordinatedEventInstance="ei39" relType="FACTIVE"/>
+<SLINK lid="l44" eventInstanceID="ei43" subordinatedEventInstance="ei44" relType="MODAL"/>
+<SLINK lid="l49" eventInstanceID="ei47" subordinatedEventInstance="ei48" relType="EVIDENTIAL"/>
+<SLINK lid="l58" eventInstanceID="ei55" subordinatedEventInstance="ei56" relType="MODAL"/>
+<SLINK lid="l63" eventInstanceID="ei59" subordinatedEventInstance="ei60" relType="MODAL"/>
+<SLINK lid="l71" eventInstanceID="ei65" subordinatedEventInstance="ei66" relType="EVIDENTIAL"/>
+<SLINK lid="l74" eventInstanceID="ei69" subordinatedEventInstance="ei70" relType="EVIDENTIAL"/>
 </TimeML>
+
+
+

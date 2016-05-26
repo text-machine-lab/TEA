@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19990216.0198</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-02-16T12:55">1999-02-16 12:55:33</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-02-16T12:55">1999-02-16 12:55:33</TIMEX3></DCT>
 
 <TITLE>Independence, Mo., NATO Event Set</TITLE>
 
@@ -13,17 +13,47 @@ APW19990216.0198 <DATE_TIME> 1999-02-16 12:55:33 </DATE_TIME><CATEGORY> washingt
 </EXTRAINFO>
 
 
-<TEXT>WASHINGTON (AP) --
+<TEXT>
+
+WASHINGTON (AP) --
 
 Secretary of State Madeleine Albright has invited the foreign ministers of Poland, the Czech Republic and Hungary to a ceremony in Independence, Mo., on March 12 to mark the accession of the three countries into the NATO alliance.
 
 The ceremony will take place at the Truman Presidential Library.
 
-The venue was chosen to honor the announcement by President Truman of the creation of NATO 50 years ago, the State Department said.</TEXT>
+The venue was chosen to honor the announcement by President Truman of the creation of NATO 50 years ago, the State Department said.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l1" relType="MODAL" eventInstanceID="ei4" subordinatedEventInstance="ei3" syntax="USER"/>
+<SLINK lid="l12" relType="EVIDENTIAL" eventInstanceID="ei9" subordinatedEventInstance="ei10" syntax="USER"/>
+
 </TimeML>
+
+

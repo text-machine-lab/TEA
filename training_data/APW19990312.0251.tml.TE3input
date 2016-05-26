@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19990312.0251</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-03-12T10:34">1999-03-12 10:34:13</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-03-12T10:34">1999-03-12 10:34:13</TIMEX3></DCT>
 
 <TITLE>NATO Adds Three New Members</TITLE>
 
@@ -13,13 +13,15 @@ APW19990312.0251 <DATE_TIME> 1999-03-12 10:34:13 </DATE_TIME><CATEGORY> internat
 </EXTRAINFO>
 
 
-<TEXT>INDEPENDENCE, MO. (AP)--
+<TEXT>
+
+INDEPENDENCE, MO. (AP)--
 
 Poland, Hungary and the Czech Republic today became full-fledged members of NATO, less than a decade after exchanging communist rule for democracy and shedding their Cold War military ties to the Soviet Union.
 
-Secretary of State Madeleine Albright accepted admission papers from the three countries' foreign ministers, marking their formal entry into the 50-year-old alliance. ''Hallelujah,'' Albright exclaimed.
+Secretary of State Madeleine Albright accepted admission papers from the three countries' foreign ministers, marking their formal entry into the 50-year-old alliance. ``Hallelujah,'' Albright exclaimed.
 
-''Hungary has come home. We are back in the family,'' said Hungarian Foreign Minister Janos Martonyi.
+``Hungary has come home. We are back in the family,'' said Hungarian Foreign Minister Janos Martonyi.
 
 In a touch of symbolism, the ceremony took place at the Harry S. Truman Library. It was during the Truman presidency that the North Atlantic Treaty Organization was founded to halt the westward spread of Soviet-led communism.
 
@@ -27,35 +29,219 @@ Ironically, NATO's three newest members just a decade ago were still under the S
 
 Czech Foreign Minister Jan Kavan said he was in nearby Kansas City working with the anti-Soviet undergound in 1968 when Russian troops swept through Praque in the occupation of Czechoslovakia.
 
-''It is for me very symbolic that it is precisely here that we today accept the guarantee that my country never again will become the powerless victim of foreign invasion,'' Kavan said.
+``It is for me very symbolic that it is precisely here that we today accept the guarantee that my country never again will become the powerless victim of foreign invasion,'' Kavan said.
 
-In looking ahead to even greater expansion of NATO, Polish Foreign Minister Bronislaw Geremek said, ''We should keep the door of the alliance open for those who have fought for freedom ... Another curtain should never descend on Europe.''
+In looking ahead to even greater expansion of NATO, Polish Foreign Minister Bronislaw Geremek said, ``We should keep the door of the alliance open for those who have fought for freedom ... Another curtain should never descend on Europe.''
 
 There were 12 original members of NATO at the time of its founding. Since 1949, it has been expanded to include Greece and Turkey in 1952, Germany in 1955 and Spain in 1982. The new additions bring the total to 19 and many other hopefuls are waiting in the wings: Slovenia, Romania, Bulgaria, Slovakia, Lithuania, Estonia and Latvia.
 
 Just what NATO will do with these eager applicants is not clear. The issue is expected to dominate a NATO summit set for Washington in April.
 
-NATO's mission has changed dramatically since its founding in 1949, a time when the West was intent on halting the westward spread of Soviet-led communism -- a threat Winston Churchill warned about in his famous ''Iron Curtain'' speech delivered on March 5, 1946, at Westminster College in Fulton, Mo., 130 miles east of here.
+NATO's mission has changed dramatically since its founding in 1949, a time when the West was intent on halting the westward spread of Soviet-led communism -- a threat Winston Churchill warned about in his famous ``Iron Curtain'' speech delivered on March 5, 1946, at Westminster College in Fulton, Mo., 130 miles east of here.
 
 Now the alliance's mission is more ill-defined. NATO warplanes helped end the war in Bosnia almost four years ago and now are poised to intervene in Yugoslavia should peace efforts in the province of Kosovo fail.
 
 A decade ago, the military planning of Poland, Hungary and the Czech Republic was built around the possibility of a ground assault toward the west. As NATO allies, the goal is much smaller armies capable of meeting a variety of contingencies.
 
-The State Department says the three new members ''enhance NATO's ability to fulfill its core mission of collective defense, respond to a range of security challenges and reduce the possibility of another major conflict in Europe of the kind that has claimed so many American lives.''
+The State Department says the three new members ``enhance NATO's ability to fulfill its core mission of collective defense, respond to a range of security challenges and reduce the possibility of another major conflict in Europe of the kind that has claimed so many American lives.''
 
-NATO Secretary General Javier Solana says, ''The accession of the Czech Republic, Hungary and Poland ... is perhaps the clearest demonstration of the fact that Europe is growing closer together.''
+NATO Secretary General Javier Solana says, ``The accession of the Czech Republic, Hungary and Poland ... is perhaps the clearest demonstration of the fact that Europe is growing closer together.''
 
-''Extending membership to these three democracies helps to stabilize a region that historically has been the staging ground for many of the disasters of this century.''
+``Extending membership to these three democracies helps to stabilize a region that historically has been the staging ground for many of the disasters of this century.''
 
 But many Russians -- and some Americans -- are wary about the eastward encroachment of NATO. Former Soviet leader Mikhail Gorbachev says the push east signifies a rejection of the common European security system that was discussed at the end of the Cold War.
 
-Russian Foreign Minister Igor Ivanov calls extending NATO membership into Eastern Europe ''a movement in the wrong direction.''
+Russian Foreign Minister Igor Ivanov calls extending NATO membership into Eastern Europe ``a movement in the wrong direction.''
 
-''All European states must cooperate in creating a joint security system,'' he was quoted as saying. ''All European states must work together in the interests of all countries rather than of separate groups.''</TEXT>
+``All European states must cooperate in creating a joint security system,'' he was quoted as saying. ``All European states must work together in the interests of all countries rather than of separate groups.''
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l4" eventInstanceID="ei5" subordinatedEventInstance="ei6" relType="MODAL"/>
+<SLINK lid="l5" eventInstanceID="ei16" subordinatedEventInstance="ei17" relType="MODAL"/>
+<SLINK lid="l6" eventInstanceID="ei26" subordinatedEventInstance="ei27" relType="MODAL"/>
+<SLINK lid="l7" eventInstanceID="ei36" subordinatedEventInstance="ei37" relType="MODAL"/>
+<SLINK lid="l8" eventInstanceID="ei41" subordinatedEventInstance="ei42" relType="MODAL"/>
+<SLINK lid="l9" eventInstanceID="ei45" subordinatedEventInstance="ei46" relType="MODAL"/>
+<SLINK lid="l10" eventInstanceID="ei47" subordinatedEventInstance="ei48" relType="MODAL"/>
+<SLINK lid="l11" eventInstanceID="ei49" subordinatedEventInstance="ei50" signalID="s16" relType="CONDITIONAL"/>
+<SLINK lid="l12" eventInstanceID="ei49" subordinatedEventInstance="ei50" signalID="s16" relType="CONDITIONAL"/>
+<SLINK lid="l13" eventInstanceID="ei54" subordinatedEventInstance="ei55" relType="EVIDENTIAL"/>
+<SLINK lid="l14" eventInstanceID="ei54" subordinatedEventInstance="ei56" relType="EVIDENTIAL"/>
+<SLINK lid="l15" eventInstanceID="ei54" subordinatedEventInstance="ei57" relType="EVIDENTIAL"/>
+<SLINK lid="l16" eventInstanceID="ei64" subordinatedEventInstance="ei65" relType="MODAL"/>
+<SLINK lid="l17" eventInstanceID="ei69" subordinatedEventInstance="ei70" relType="MODAL"/>
+<SLINK lid="l90" eventInstanceID="ei73" subordinatedEventInstance="ei75" relType="EVIDENTIAL"/>
+<SLINK lid="l97" eventInstanceID="ei78" subordinatedEventInstance="ei76" relType="EVIDENTIAL"/>
+<SLINK lid="l98" eventInstanceID="ei78" subordinatedEventInstance="ei79" relType="EVIDENTIAL"/>
+<ALINK lid="l1" eventInstanceID="ei17" relatedToEventInstance="ei82" relType="TERMINATES"/>
+<ALINK lid="l2" eventInstanceID="ei42" relatedToEventInstance="ei84" relType="TERMINATES"/>
+<ALINK lid="l3" eventInstanceID="ei46" relatedToEventInstance="ei85" relType="TERMINATES"/>
 </TimeML>
+
+
+

@@ -1,17 +1,15 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT19990505.0443</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-05-05T21:01">1999-05-05 21:01</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-05-05T21:01">1999-05-05 21:01</TIMEX3></DCT>
 
 <TITLE>U.S. ISSUING ARREST WARRANT FOR ABORTION FOE LINKED TO DOCTOR'S MURDER</TITLE>
 
 
 <EXTRAINFO>
-NYT19990505.0443 
-NEWS STORY 
-1999-05-05 21:01
+NYT19990505.0443 NEWS STORY 1999-05-05 21:01
 A5896 &amp;Cx1f; taf-z
 u a &amp;Cx13;  &amp;Cx11;  BC-NY-DOCTOR-KILLED-NYT &amp;LR;      05-05 0495
 BC-NY-DOCTOR-KILLED-NYT
@@ -22,13 +20,15 @@ c.1999 N.Y. Times News Service
 </EXTRAINFO>
 
 
-<TEXT>Federal law enforcement officials said Wednesday that they had concluded that James Kopp, an impassioned and nomadic opponent of abortion, fired the shots that killed a Buffalo, N.Y., abortion-clinic doctor last October.
+<TEXT>
+
+Federal law enforcement officials said Wednesday that they had concluded that James Kopp, an impassioned and nomadic opponent of abortion, fired the shots that killed a Buffalo, N.Y., abortion-clinic doctor last October.
 
 Based on physical evidence _ including a rifle found in April month buried near the doctor's house and a match between fibers found near the murder and others found in Kopp's car _ officials said they had decided to issue a warrant for his arrest in the killing of Dr. Barnett Slepian.
 
 Kopp, a fugitive, has until now been described only as a material witness and a nationwide warrant had been issued so that he could be held for questioning.
 
-There was no official confirmation of the decision to upgrade the warrant, but Denise O'Donnell, the U.S. attorney for the Western District of New York in Buffalo, has scheduled a news conference Thursday to announce a ''major development'' in the Slepian murder investigation. Erie County District Attorney Frank Clark, Bernard Tolbert, the special FBI agent in charge of the Buffalo office, and other investigators will also be there.
+There was no official confirmation of the decision to upgrade the warrant, but Denise O'Donnell, the U.S. attorney for the Western District of New York in Buffalo, has scheduled a news conference Thursday to announce a ``major development'' in the Slepian murder investigation. Erie County District Attorney Frank Clark, Bernard Tolbert, the special FBI agent in charge of the Buffalo office, and other investigators will also be there.
 
 Since there is no federal homicide statute as such, the federal officials said Kopp could be charged under the recent Freedom of Access to Clinic Entrances Act, which provides for a sentence of up to life imprisonment for someone convicted of physical assaults or threats against abortion providers. If Kopp were also indicted and convicted on state murder charges, he could face the death penalty.
 
@@ -38,7 +38,9 @@ No weapon was recovered in the first police searches of the area around Slepian'
 
 Clark, the Erie district attorney, said afterwards that investigators think the doctor's killer buried the rifle in the days before the shooting, unearthed the weapon to fire the fatal shots, then hurriedly reburied it and fled.
 
-The 44-year-old Kopp, who in FBI photographs appears as gaunt and scruffily bearded and whose last known addresses were in Vermont and New Jersey, emerged as the focus of the investigation within two weeks of the slaying. A jogger observed Kopp's car at 6 a.m. near Slepian's home 10 days before the murder, and, curious why a stranger would be parked there so early, wrote down the license plate number.</TEXT>
+The 44-year-old Kopp, who in FBI photographs appears as gaunt and scruffily bearded and whose last known addresses were in Vermont and New Jersey, emerged as the focus of the investigation within two weeks of the slaying. A jogger observed Kopp's car at 6 a.m. near Slepian's home 10 days before the murder, and, curious why a stranger would be parked there so early, wrote down the license plate number.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -46,4 +48,166 @@ NYT-05-05-99 2101EDT &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l3" relType="EVIDENTIAL" eventInstanceID="ei1" subordinatedEventInstance="ei2" syntax="USER"/>
+<SLINK lid="l4" relType="FACTIVE" eventInstanceID="ei2" subordinatedEventInstance="ei3" syntax="USER"/>
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei10" subordinatedEventInstance="ei11" syntax="USER"/>
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei10" subordinatedEventInstance="ei12" syntax="USER"/>
+<SLINK lid="l19" relType="MODAL" eventInstanceID="ei11" subordinatedEventInstance="ei12" syntax="USER"/>
+<SLINK lid="l29" relType="MODAL" eventInstanceID="ei16" subordinatedEventInstance="ei17" syntax="USER"/>
+<SLINK lid="l32" relType="FACTIVE" eventInstanceID="ei19" subordinatedEventInstance="ei20" syntax="USER"/>
+<SLINK lid="l37" relType="EVIDENTIAL" eventInstanceID="ei23" subordinatedEventInstance="ei24" syntax="USER"/>
+<SLINK lid="l39" relType="FACTIVE" eventInstanceID="ei21" subordinatedEventInstance="ei22" syntax="USER"/>
+<SLINK lid="l44" relType="EVIDENTIAL" eventInstanceID="ei27" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l46" relType="FACTIVE" eventInstanceID="ei29" subordinatedEventInstance="ei30" syntax="USER"/>
+<SLINK lid="l48" relType="FACTIVE" eventInstanceID="ei31" subordinatedEventInstance="ei32" syntax="USER"/>
+<SLINK lid="l49" relType="FACTIVE" eventInstanceID="ei31" subordinatedEventInstance="ei33" syntax="USER"/>
+<SLINK lid="l59" relType="FACTIVE" eventInstanceID="ei42" subordinatedEventInstance="ei43" syntax="USER"/>
+<SLINK lid="l64" relType="MODAL" eventInstanceID="ei44" subordinatedEventInstance="ei45" syntax="USER"/>
+<SLINK lid="l65" relType="FACTIVE" eventInstanceID="ei45" subordinatedEventInstance="ei46" syntax="USER"/>
+<SLINK lid="l71" relType="EVIDENTIAL" eventInstanceID="ei51" subordinatedEventInstance="ei52" syntax="USER"/>
+<SLINK lid="l72" relType="MODAL" eventInstanceID="ei52" subordinatedEventInstance="ei53" syntax="USER"/>
+<SLINK lid="l74" relType="MODAL" eventInstanceID="ei52" subordinatedEventInstance="ei56" syntax="USER"/>
+<SLINK lid="l75" relType="MODAL" eventInstanceID="ei52" subordinatedEventInstance="ei58" syntax="USER"/>
+<SLINK lid="l76" relType="MODAL" eventInstanceID="ei52" subordinatedEventInstance="ei59" syntax="USER"/>
+<SLINK lid="l99" relType="FACTIVE" eventInstanceID="ei66" subordinatedEventInstance="ei67" syntax="USER"/>
+
 </TimeML>
+
+

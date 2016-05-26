@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0815</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0079 = 891027 891027-0079.
@@ -11,10 +11,44 @@ Di Giorgio Corp.
 Seeks @ To Sell Certain Units 10/27/89 WALL STREET JOURNAL (J) DIG TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) SAN FRANCISCO
 </EXTRAINFO>
 
-<TEXT>Di Giorgio Corp. said it's continuing talks with potential buyers of certain units, but has reached no agreement on any deals.
+<TEXT>
+Di Giorgio Corp. said it's continuing talks with potential buyers of certain units, but has reached no agreement on any deals.
 
 Di Giorgio, a food wholesaler and building products maker, is seeking alternatives to an unsolicited $32-a-share tender offer of DIG Acquisition Corp., a unit of Rose Partners Limited Partnership. DIG is the vehicle being used to pursue to acquisition.
 
-Robert Mellor, Di Giorgio's executive vice president, said the company stands to reap more money through the sale of individual units to others than by accepting DIG's offer.</TEXT>
+Robert Mellor, Di Giorgio's executive vice president, said the company stands to reap more money through the sale of individual units to others than by accepting DIG's offer.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l11" relType="EVIDENTIAL" eventInstanceID="ei132" subordinatedEventInstance="ei133" />
+<SLINK lid="l12" relType="EVIDENTIAL" eventInstanceID="ei132" subordinatedEventInstance="ei135" />
+<SLINK lid="l15" relType="MODAL" eventInstanceID="ei142" subordinatedEventInstance="ei143" />
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei143" subordinatedEventInstance="ei144" />
+<SLINK lid="l17" relType="EVIDENTIAL" eventInstanceID="ei145" subordinatedEventInstance="ei146" />
+<SLINK lid="l18" relType="MODAL" eventInstanceID="ei146" subordinatedEventInstance="ei147" />
+<ALINK lid="l20" relType="CONTINUES" eventInstanceID="ei133" relatedToEventInstance="ei134" />
 
 </TimeML>

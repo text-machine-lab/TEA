@@ -1,21 +1,44 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0356</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891101-0008 = 891101 891101-0008.
 Business Brief -- Rally's Inc.: @ Shareholder Rights Program @ Is Set by Fast-Food Firm 11/01/89 WALL STREET JOURNAL (J) RLLY
 </EXTRAINFO>
 
-<TEXT>Rally's Inc. said it adopted a shareholders rights plan to protect shareholders from an inadequately priced takeover offer.
+<TEXT>
+Rally's Inc. said it adopted a shareholders rights plan to protect shareholders from an inadequately priced takeover offer.
 
 The plan provides for the distribution of one common stock-purchase right as a dividend for each share of common outstanding. Each right entitles shareholders to buy one-half share of common for $30.
 
 Earlier this month, a group led by three of the company's directors, Burt Sugarman, James M. Trotter III and Willam E. Trotter II, indicated it had a 45.2% stake in the Louisville, Ky., fast-food company and that it planned to seek a majority of seats on Rally's nine-member board.
 
-The company said it was ' concerned about the announced intent to acquire control of the company' by a Sugarman-led group.</TEXT>
+The company said it was " concerned about the announced intent to acquire control of the company" by a Sugarman-led group.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei90" subordinatedEventInstance="ei91" />
+<SLINK lid="l5" relType="MODAL" eventInstanceID="ei91" subordinatedEventInstance="ei92" />
+<SLINK lid="l6" relType="EVIDENTIAL" eventInstanceID="ei93" subordinatedEventInstance="ei94" />
+<SLINK lid="l7" relType="EVIDENTIAL" eventInstanceID="ei93" subordinatedEventInstance="ei96" />
+<SLINK lid="l8" relType="MODAL" eventInstanceID="ei96" subordinatedEventInstance="ei97" />
+<SLINK lid="l10" relType="EVIDENTIAL" eventInstanceID="ei99" subordinatedEventInstance="ei100" />
 
 </TimeML>

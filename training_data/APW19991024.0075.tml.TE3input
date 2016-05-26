@@ -1,22 +1,21 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19991024.0075</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1999-10-24T20:00">1999-10-24 20:00:09</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1999-10-24T20:00">1999-10-24 20:00:09</TIMEX3></DCT>
 
 <TITLE>Abortion Rights Doctor Remembered</TITLE>
 
 
 <EXTRAINFO>
-APW19991024.0075 
-1999-10-24 20:00:09 
- usa 
-Abortion Rights Doctor Remembered
+APW19991024.0075 1999-10-24 20:00:09  usa Abortion Rights Doctor Remembered
 </EXTRAINFO>
 
 
-<TEXT>BUFFALO, N.Y. (AP) --
+<TEXT>
+
+BUFFALO, N.Y. (AP) --
 
 About 500 people attended a Sunday night memorial service for the Buffalo-area physician who performed abortions, one year after he was killed by a sniper's bullet.
 
@@ -24,7 +23,7 @@ A nurse who was critically injured in the 1998 abortion clinic bombing in Birmin
 
 Police kept watch outside and about 25 undercover police were scattered throughout the crowd.
 
-''Security is tight,'' said Marilynn Buckham, of Buffalo Gyn Womanservices, a sponsor of the ceremony. ''But it's not tonight we're worried about. It's all of the other dark nights.''
+``Security is tight,'' said Marilynn Buckham, of Buffalo Gyn Womanservices, a sponsor of the ceremony. ``But it's not tonight we're worried about. It's all of the other dark nights.''
 
 A memorial service planned at the University of Rochester for Saturday was canceled after security plans were leaked.
 
@@ -32,17 +31,153 @@ Slepian was killed on Oct. 23, 1999 by a sniper hiding in his backyard. Earlier 
 
 On May 6, James Kopp, 44, was charged with the slaying. Kopp remains at-large and police admit that despite a worldwide search and a $1 million reward, they don't know where he is.
 
-''It's very frustrating knowing that he's out there,'' said Ms. Buckham. ''It's very scary.''
+``It's very frustrating knowing that he's out there,'' said Ms. Buckham. ``It's very scary.''
 
 Sunday's yahrtzeit service ---- a Jewish ceremony that commemorates the dead with the lighting of a 24-hour candle ---- included the lighting of candles for the seven people killed and 12 people injured in abortion-related violence since 1993.
 
 A tearful audience also listened to registered nurse Emily Lyons, who has undergone a number of operations since the Alabama clinic bombing and has permanently damaged eyesight. She spoke of Slepian and other abortion providers who have been killed.
 
-''They paid an awful price for reproductive freedom and the women they served,'' she said. ''They risked their lives for that freedom.''</TEXT>
+``They paid an awful price for reproductive freedom and the women they served,'' she said. ``They risked their lives for that freedom.''
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l2" relType="MODAL" eventInstanceID="ei17" subordinatedEventInstance="ei20" syntax="USER"/>
+<SLINK lid="l3" relType="FACTIVE" eventInstanceID="ei23" subordinatedEventInstance="ei24" syntax="USER"/>
+<SLINK lid="l4" relType="MODAL" eventInstanceID="ei27" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l5" relType="EVIDENTIAL" eventInstanceID="ei32" subordinatedEventInstance="ei34" syntax="USER"/>
+<SLINK lid="l6" relType="MODAL" eventInstanceID="ei34" subordinatedEventInstance="ei35" syntax="USER"/>
+<SLINK lid="l7" relType="FACTIVE" eventInstanceID="ei36" subordinatedEventInstance="ei37" syntax="USER"/>
+<SLINK lid="l8" relType="FACTIVE" eventInstanceID="ei45" subordinatedEventInstance="ei46" syntax="USER"/>
+<ALINK lid="l1" relType="TERMINATES" eventInstanceID="ei18" relatedToEventInstance="ei20" syntax="USER"/>
+
 </TimeML>
+
+

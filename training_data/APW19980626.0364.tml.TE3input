@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980626.0364</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-06-26T07:07:00">06/26/1998 07:07:00</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-06-26T07:07:00">06/26/1998 07:07:00</TIMEX3></DCT>
 
 <EXTRAINFO>
 APW19980626.0364 NEWS STORY 06/26/1998 07:07:00
@@ -12,11 +12,61 @@ BC-Germany-Rightists Fined
 German far-right party fined for violating donor laws
 </EXTRAINFO>
 
-<TEXT>BONN, Germany (AP)_ A phony address listed on disclosure forms for a French donor will cost the far-right German People's Union about 549,000 marks (dlrs 305,000), parliament said Friday. Parliamentary president Rita Suessmuth said the People's Union correctly listed Jacques de Mathan as having donated about 274,500 marks in 1995, but gave a false address for him. German law requires parties to publish the name and address of anyone who donates more than 20,000 marks (dlrs 11,000). The anti-foreigner party said it wanted to protect the donor from possible attacks. Suessmuth said, however, that the law does not allow for providing a false address for any reason. The fine is twice the donation, as provided for under German party financing laws. Party spokesman Bernd Droese said the People's Union would challenge the fine in court. The extremist party recently took a surprising 13 percent of the vote in elections in a depressed eastern German state, and hopes to win its first seats in the federal parliament this September. UR (pfg-xx)</TEXT>
+<TEXT>
+BONN, Germany (AP)_ A phony address listed on disclosure forms for a French donor will cost the far-right German People's Union about 549,000 marks (dlrs 305,000), parliament said Friday. Parliamentary president Rita Suessmuth said the People's Union correctly listed Jacques de Mathan as having donated about 274,500 marks in 1995, but gave a false address for him. German law requires parties to publish the name and address of anyone who donates more than 20,000 marks (dlrs 11,000). The anti-foreigner party said it wanted to protect the donor from possible attacks. Suessmuth said, however, that the law does not allow for providing a false address for any reason. The fine is twice the donation, as provided for under German party financing laws. Party spokesman Bernd Droese said the People's Union would challenge the fine in court. The extremist party recently took a surprising 13 percent of the vote in elections in a depressed eastern German state, and hopes to win its first seats in the federal parliament this September. UR (pfg-xx)
+</TEXT>
 
 <LASTEXTRAINFO>
 (PROFILE (WS SL:BC-Germany-Rightists Fined; CT:i; (REG:EURO;) (REG:BRIT;) (REG:SCAN;) (REG:ENGL;) (LANG:ENGLISH;)) )
 AP-NY-06-26-98 0707EDT
 </LASTEXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l13" relType="EVIDENTIAL" eventInstanceID="ei2114" subordinatedEventInstance="ei2113" />
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei2115" subordinatedEventInstance="ei2116" />
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei2115" subordinatedEventInstance="ei2118" />
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei2119" subordinatedEventInstance="ei2120" />
+<SLINK lid="l17" relType="EVIDENTIAL" eventInstanceID="ei2122" subordinatedEventInstance="ei2123" />
+<SLINK lid="l18" relType="MODAL" eventInstanceID="ei2123" subordinatedEventInstance="ei2124" />
+<SLINK lid="l19" relType="FACTIVE" eventInstanceID="ei2124" subordinatedEventInstance="ei2125" />
+<SLINK lid="l20" relType="EVIDENTIAL" eventInstanceID="ei2126" subordinatedEventInstance="ei2127" />
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei2127" subordinatedEventInstance="ei2128" />
+<SLINK lid="l22" relType="EVIDENTIAL" eventInstanceID="ei2129" subordinatedEventInstance="ei2130" />
+<SLINK lid="l23" relType="MODAL" eventInstanceID="ei2134" subordinatedEventInstance="ei2135" />
 
 </TimeML>

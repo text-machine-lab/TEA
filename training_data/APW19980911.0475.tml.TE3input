@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980911.0475</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-09-11">1998-09-11</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-09-11">1998-09-11</TIMEX3></DCT>
 
 <TITLE>Tanzania expels Iraqis, Libyan questioned in U.S. embassy bombings</TITLE>
 
@@ -17,7 +17,9 @@ Tanzania expels Iraqis, Libyan questioned in U.S. embassy bombings
 </EXTRAINFO>
 
 
-<TEXT>DAR ES SALAAM, Tanzania (AP) _
+<TEXT>
+
+DAR ES SALAAM, Tanzania (AP) _
 
 Tanzania expelled five Iraqis and a Libyan who were questioned by the FBI and police in connection of the bombing of two U.S. embassies in East Africa last month, a newspaper reported Friday.
 
@@ -31,7 +33,7 @@ Nearly simultaneous bombings at U.S. embassies in Dar es Salaam, Tanzania, and N
 
 Two key suspects in the Kenya bombing have been handed over to the United States for trial. American authorities allege the attacks were plotted by Saudi terrorist Osama bin Laden.
 
-On Sunday, Tanzanian police and FBI agents said they had made ''extraordinary discoveries,'' having determined what the Dar es Salaam bomb was made of and who carried it to the embassy. They refused to provide details.
+On Sunday, Tanzanian police and FBI agents said they had made ``extraordinary discoveries,'' having determined what the Dar es Salaam bomb was made of and who carried it to the embassy. They refused to provide details.
 
 Media reports in Tanzania have said the ingredients for the bombs had originated in the Middle East and were transferred by sea via the Comoro Islands to Tanzania.
 
@@ -39,7 +41,9 @@ Reports in Kenya said the components of the bomb that exploded in Nairobi were t
 
 The East African nations share a long and mostly unguarded border.
 
-On Sept. 2, police in the Comoros archipelago, off the Tanzanian coast, raided two homes and searched for a suspect in the bombings identified as Abdallah Mohammed Fadhul, a Comorian Muslim who had lived with his wife in Sudan until shortly after the bombings.</TEXT>
+On Sept. 2, police in the Comoros archipelago, off the Tanzanian coast, raided two homes and searched for a suspect in the bombings identified as Abdallah Mohammed Fadhul, a Comorian Muslim who had lived with his wife in Sudan until shortly after the bombings.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -49,4 +53,110 @@ AP-NY-09-11-98 0836EDT
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l46" relType="MODAL" eventInstanceID="ei24" subordinatedEventInstance="ei25" syntax="USER"/>
+
+
+
+
 </TimeML>
+
+

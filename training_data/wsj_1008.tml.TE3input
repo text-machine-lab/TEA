@@ -3,14 +3,12 @@
 
 <DOCID>wsj_1008</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26" temporalFunction="false" functionInDocument="CREATION_TIME">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0048 = 891026 891026-0048.
 Business Brief -- Lawrence Insurance Group Inc.: @ Houston Reinsurance Firm @ Is Acquired for $28 Million 10/26/89 WALL STREET JOURNAL (J) LWR TENDER OFFERS, MERGERS, ACQUISITIONS (TNM)
 </EXTRAINFO>
-
-
 
 <TEXT>
 Lawrence Insurance Group Inc. said it acquired United Republic Reinsurance Co., a Houston property and casualty reinsurance company, from United Savings Association of Texas for $28 million.
@@ -21,5 +19,34 @@ By acquiring the shares, Lawrence Group increased its stake in Lawrence Insuranc
 
 Lawrence Group also owns Lawrence Agency Corp., Schenectady, N.Y., an insurance agency and brokerage.
 </TEXT>
-</TimeML>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l13" relType="EVIDENTIAL" eventInstanceID="ei102" subordinatedEventInstance="ei103" />
+<SLINK lid="l14" relType="MODAL" eventInstanceID="ei106" subordinatedEventInstance="ei107" />
+<SLINK lid="l15" relType="MODAL" eventInstanceID="ei107" subordinatedEventInstance="ei108" />
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei108" subordinatedEventInstance="ei109" />
+<SLINK lid="l17" relType="EVIDENTIAL" eventInstanceID="ei116" subordinatedEventInstance="ei115" />
+
+</TimeML>

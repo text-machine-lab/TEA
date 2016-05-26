@@ -1,17 +1,43 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0551</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0149 = 891030 891030-0149.
 Trustcorp Inc. to Change Name 10/30/89 WALL STREET JOURNAL (J) TTCO SOCI TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) BANKS (BNK) TOLEDO, Ohio
 </EXTRAINFO>
 
-<TEXT>Trustcorp Inc. will become Society Bank amp Trust when its merger is completed with Society Corp. of Cleveland, the bank said.
+<TEXT>
+Trustcorp Inc. will become Society Bank amp Trust when its merger is completed with Society Corp. of Cleveland, the bank said.
 
-Society Corp., which is also a bank, agreed in June to buy Trustcorp for 12.4 million shares of stock with a market value of about $450 million. The transaction is expected to close around year end.</TEXT>
+Society Corp., which is also a bank, agreed in June to buy Trustcorp for 12.4 million shares of stock with a market value of about $450 million. The transaction is expected to close around year end.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l9" relType="EVIDENTIAL" eventInstanceID="ei85" subordinatedEventInstance="ei82" />
+<SLINK lid="l10" relType="MODAL" eventInstanceID="ei86" subordinatedEventInstance="ei87" />
+<SLINK lid="l11" relType="MODAL" eventInstanceID="ei89" subordinatedEventInstance="ei90" />
+<ALINK lid="l12" relType="CULMINATES" eventInstanceID="ei84" relatedToEventInstance="ei83" />
+<ALINK lid="l13" relType="CULMINATES" eventInstanceID="ei90" relatedToEventInstance="ei88" />
 
 </TimeML>

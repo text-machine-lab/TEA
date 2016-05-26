@@ -1,36 +1,30 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW19980818.0515</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-18">1998-08-18</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-18">1998-08-18</TIMEX3></DCT>
 
 <TITLE>Paying tribute, Albright visits bombing sites in East Africa</TITLE>
 
 
 <EXTRAINFO>
-APW19980818.0515 
- NEWS STORY 
- 08/18/1998 09:44:00
+APW19980818.0515  NEWS STORY  08/18/1998 09:44:00
 w1141 &amp;Cx1f; wstm-
 u i &amp;Cx13;  &amp;Cx11;  BC-EmbassyBombings 5thLd-Writethru   08-18 0798
 BC-Embassy Bombings, 5th Ld-Writethru
 Precede DAR ES SALAAM
-&amp;UR; Paying tribute, Albright visits bombing sites in East Africa &amp;QL; 
- &amp;UR; Eds: UPDATES with Albright arrival in Nairobi, Boeing engine
-overheated, additional comment by Tanzanian foreign minister, 200
-Americans leave Pakistan. Changes dateline, byline. &amp;QL; 
- &amp;UR; AP Photos &amp;QL; 
- &amp;UR; By DAVE CARPENTER &amp;QC; 
- &amp;UR; Associated Press Writer &amp;QC;
+&amp;UR; Paying tribute, Albright visits bombing sites in East Africa &amp;QL;  &amp;UR; Eds: UPDATES with Albright arrival in Nairobi, Boeing engineoverheated, additional comment by Tanzanian foreign minister, 200Americans leave Pakistan. Changes dateline, byline. &amp;QL;  &amp;UR; AP Photos &amp;QL;  &amp;UR; By DAVE CARPENTER &amp;QC;  &amp;UR; Associated Press Writer &amp;QC;
 </EXTRAINFO>
 
 
-<TEXT>NAIROBI, Kenya (AP) _
+<TEXT>
+
+NAIROBI, Kenya (AP) _
 
 U.S. Secretary of State Madeleine Albright paid tribute Tuesday to bombing victims and embassy staffers on a whirlwind visit to East Africa, and promised to track down the perpetrators.
 
-''Together, we promise to bring to justice the murderers of our friends,'' she told American and Tanzanian workers at the bomb-hit U.S. Embassy in Dar es Salaam, Tanzania.
+``Together, we promise to bring to justice the murderers of our friends,'' she told American and Tanzanian workers at the bomb-hit U.S. Embassy in Dar es Salaam, Tanzania.
 
 Officials in Tanzania and Kenya, where she arrived next, also hoped she would produce new aid for their countries, where the Aug. 7 terrorist blasts killed 257 people in Nairobi and Dar es Salaam.
 
@@ -48,7 +42,7 @@ Albright helped hang a poster advertising a reward of up to dlrs 2 million for i
 
 She then lavished praise, and the State Department's award for heroism, on embassy staffers before meeting with bombing victims at the Muhimbili Medical Center and with government officials.
 
-''America is very proud of you, all of you _ Americans and Tanzanians,'' she told the staffers. ''I am truly in the presence of heroes.''
+``America is very proud of you, all of you _ Americans and Tanzanians,'' she told the staffers. ``I am truly in the presence of heroes.''
 
 Albright announced a gift of 500 pounds (225 kilograms) of medical supplies to Tanzania and Kenya from the Walter Reed Army Medical Center. She also pledged to ask Congress to approve a still-undetermined amount of emergency funding to pay for re-establishing embassy operations in Tanzania and Kenya and to compensate victims' families.
 
@@ -56,21 +50,23 @@ Officials in the two African countries are counting on substantial compensation 
 
 But Tanzanian Foreign Minister Jakaya Kikwete, speaking at a joint news conference with Albright, said there are no ill feelings in Tanzania toward Americans because of their handling of the rescue, as there are among some Kenyans.
 
-''The bomb blast has not generated any hatred against ... Americans in Tanzania,'' he said. ''We are friends.''
+``The bomb blast has not generated any hatred against ... Americans in Tanzania,'' he said. ``We are friends.''
 
 He also urged Albright to tell Americans that Tanzania is safe and they should continue visiting and investing in the country.
 
 Albright told the foreign minister the American people share in the profound sorrow of the Tanzanians and said the United States will maintain its presence throughout Africa and throughout the world.
 
-''These bombings will not cause America to back down or retreat,'' she declared.
+``These bombings will not cause America to back down or retreat,'' she declared.
 
 The head of the FBI investigation in Dar es Salaam, Kenneth Piernick, said the bureau has questioned more than 100 people there, but indicated that most of the interrogations had led nowhere.
 
-''Right now my evidence is scant, and I'm not going to draw conclusions based on that,'' he said. He would not elaborate, or comment on whether two suspects remained in detention, as was previously reported.
+``Right now my evidence is scant, and I'm not going to draw conclusions based on that,'' he said. He would not elaborate, or comment on whether two suspects remained in detention, as was previously reported.
 
 In Nairobi, a top Kenyan police official denied a newspaper report that more arrests had been made there. Officials said last week that six people were in custody for questioning about the bombing.
 
-About 200 Americans _ nonessential U.S. Embassy staff and their families _ left Pakistan today on orders from Washington following a ''pattern of threats'' against Americans there since the Africa bombings. The diplomats were flown to Brussels, Belgium. Other Americans have also been urged to leave.</TEXT>
+About 200 Americans _ nonessential U.S. Embassy staff and their families _ left Pakistan today on orders from Washington following a ``pattern of threats'' against Americans there since the Africa bombings. The diplomats were flown to Brussels, Belgium. Other Americans have also been urged to leave.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -80,4 +76,264 @@ AP-NY-08-18-98 0944EDT
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei9" subordinatedEventInstance="ei10" syntax="USER"/>
+<SLINK lid="l17" relType="MODAL" eventInstanceID="ei2" subordinatedEventInstance="ei3" syntax="USER"/>
+<SLINK lid="l18" relType="MODAL" eventInstanceID="ei4" subordinatedEventInstance="ei5" syntax="USER"/>
+<SLINK lid="l71" relType="MODAL" eventInstanceID="ei39" subordinatedEventInstance="ei40" syntax="USER"/>
+<SLINK lid="l79" relType="MODAL" eventInstanceID="ei46" subordinatedEventInstance="ei47" syntax="USER"/>
+<SLINK lid="l101" relType="MODAL" eventInstanceID="ei58" subordinatedEventInstance="ei59" syntax="USER"/>
+<SLINK lid="l105" relType="MODAL" eventInstanceID="ei60" subordinatedEventInstance="ei61" syntax="USER"/>
+<SLINK lid="l106" relType="MODAL" eventInstanceID="ei60" subordinatedEventInstance="ei62" syntax="USER"/>
+<SLINK lid="l114" relType="MODAL" eventInstanceID="ei67" subordinatedEventInstance="ei68" syntax="USER"/>
+<SLINK lid="l115" relType="MODAL" eventInstanceID="ei67" subordinatedEventInstance="ei138" syntax="USER"/>
+<SLINK lid="l149" relType="MODAL" eventInstanceID="ei89" subordinatedEventInstance="ei90" syntax="USER"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

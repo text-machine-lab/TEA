@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW20000403.0057</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="2000-04-03">2000-04-03</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="2000-04-03">2000-04-03</TIMEX3></DCT>
 
 <TITLE>Castro: Elian's Dad May Come Monday</TITLE>
 
@@ -14,7 +14,9 @@ Castro: Elian's Dad May Come Monday  By ANITA SNOW, Associated Press Writer
 </EXTRAINFO>
 
 
-<TEXT>HAVANA (AP) --
+<TEXT>
+
+HAVANA (AP) --
 
 In an apparent bid to show flexibility in the campaign to return Elian Gonzalez to Cuba, President Fidel Castro said the boy's father has offered to travel alone today to the United States to pick up his 6-year-old son.
 
@@ -54,7 +56,9 @@ Before his Sunday night address, Castro played the affectionate grandfather to t
 
 Patting some of the kids on the head, Castro assured them that they formed a powerful ''commando.''
 
-''Not even the Pentagon can handle these kids,'' he joked. ''We are hoping that they get their visas.''</TEXT>
+''Not even the Pentagon can handle these kids,'' he joked. ''We are hoping that they get their visas.''
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -62,4 +66,295 @@ AP-NY-04-03-00 0254
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l15" eventInstanceID="ei90" subordinatedEventInstance="ei2" relType="MODAL"/>
+<SLINK lid="l19" eventInstanceID="ei4" subordinatedEventInstance="ei5" relType="MODAL"/>
+<SLINK lid="l21" eventInstanceID="ei5" subordinatedEventInstance="ei6" relType="MODAL"/>
+<SLINK lid="l26" eventInstanceID="ei8" subordinatedEventInstance="ei124" relType="MODAL"/>
+<SLINK lid="l35" eventInstanceID="ei12" subordinatedEventInstance="ei13" relType="MODAL"/>
+<SLINK lid="l39" eventInstanceID="ei14" subordinatedEventInstance="ei15" relType="CONDITIONAL"/>
+<SLINK lid="l40" eventInstanceID="ei14" subordinatedEventInstance="ei16" relType="CONDITIONAL"/>
+<SLINK lid="l43" eventInstanceID="ei16" subordinatedEventInstance="ei17" relType="MODAL"/>
+<SLINK lid="l59" eventInstanceID="ei98" subordinatedEventInstance="ei27" relType="MODAL"/>
+<SLINK lid="l61" eventInstanceID="ei27" subordinatedEventInstance="ei28" relType="MODAL"/>
+<SLINK lid="l65" eventInstanceID="ei30" subordinatedEventInstance="ei31" relType="MODAL"/>
+<SLINK lid="l78" eventInstanceID="ei40" subordinatedEventInstance="ei41" relType="MODAL"/>
+<SLINK lid="l80" eventInstanceID="ei41" subordinatedEventInstance="ei107" relType="MODAL"/>
+<SLINK lid="l96" eventInstanceID="ei48" subordinatedEventInstance="ei49" relType="MODAL"/>
+<SLINK lid="l112" eventInstanceID="ei57" subordinatedEventInstance="ei58" relType="MODAL"/>
+<SLINK lid="l119" eventInstanceID="ei63" subordinatedEventInstance="ei64" relType="MODAL"/>
+<SLINK lid="l132" eventInstanceID="ei69" subordinatedEventInstance="ei70" relType="COUNTER_FACTIVE"/>
+<SLINK lid="l146" eventInstanceID="ei78" subordinatedEventInstance="ei79" relType="MODAL"/>
+<SLINK lid="l152" eventInstanceID="ei122" subordinatedEventInstance="ei82" relType="MODAL"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+
+

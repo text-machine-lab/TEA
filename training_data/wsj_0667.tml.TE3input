@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0667</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0030 = 891030 891030-0030.
 Shoney's to Report @ Write-Off in Quarter @ Totaling $2.5 Million 10/30/89 WALL STREET JOURNAL (J) SHN NASHVILLE, Tenn.
 </EXTRAINFO>
 
-<TEXT>Shoney's Inc. said it will report a write-off of $2.5 million, or seven cents a share, for its fourth quarter ended yesterday. The restaurant operator cited transaction costs from its 1988 recapitalization as a result of a $160 million restructuring of its bank debt.
+<TEXT>
+Shoney's Inc. said it will report a write-off of $2.5 million, or seven cents a share, for its fourth quarter ended yesterday. The restaurant operator cited transaction costs from its 1988 recapitalization as a result of a $160 million restructuring of its bank debt.
 
 The write-off will be reported as an extraordinary item in the company's 1989 operating results.
 
@@ -18,6 +19,45 @@ In addition, the effective interest rate on the $410 million of total remaining 
 
 Shoney's said the latest restructuring affected bank indebtedness that was incurred to finance $585 million of the company's $728 million recapitalization that took place in 1988.
 
-The company has made payments of $175 million against the original $585 million of bank debt incurred in connection with the recapitalization. These payments consisted of $54 million in scheduled payments and $121 million in prepayments, funded by $82.8 million from operating cash flow, zero-coupon subordinated debt and assets sales.</TEXT>
+The company has made payments of $175 million against the original $585 million of bank debt incurred in connection with the recapitalization. These payments consisted of $54 million in scheduled payments and $121 million in prepayments, funded by $82.8 million from operating cash flow, zero-coupon subordinated debt and assets sales.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l26" relType="EVIDENTIAL" eventInstanceID="ei1991" subordinatedEventInstance="ei1992" />
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei2006" subordinatedEventInstance="ei2007" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei2011" subordinatedEventInstance="ei2012" />
+<SLINK lid="l34" relType="FACTIVE" eventInstanceID="ei2012" subordinatedEventInstance="ei2013" />
 
 </TimeML>

@@ -1,6 +1,7 @@
 """ Timex patterns and pattern matching code taken from https://bitbucket.org/qwaider/textpro-en/src/fd203d54b184f2b1a5d43c7dee5aad131dce9280/FBK-timepro/resources/english-rules-temporal-markers?at=master
 """
 
+import itertools
 import copy
 import re
 import re_timex_pattern
@@ -76,12 +77,14 @@ def get_preceding_labels(token, labels):
 
     return features
 
-def extract_tlink_features(note):
+def extract_tlink_features(note, event_labels=None, timex_labels=None):
     tlink_features = []
 
     for tlink_pair in note.get_tlinked_entities():
 
         pair_features = {}
+
+        #print tlink_pair
 
         # entities. timexes may be composed of multiple tokens
         target_tokens = tlink_pair['target_entity']
@@ -90,16 +93,68 @@ def extract_tlink_features(note):
         tokens = []
         target_pos_tags = set()
 
+        src_tenses = []
+        target_tenses = []
+
+        src_aspects = []
+        target_aspects = []
+
+        src_negations = []
+        target_negations = []
+
+        src_event_classes = []
+        target_event_classes = []
+
+        target_ids = []
+        source_ids = []
+
         for i, target_token in enumerate(target_tokens):
 
-            text_feature = get_text(target_token,"target_token_{}".format(i))
-            tokens.append(text_feature.keys()[0][1])
-            pair_features.update(text_feature)
-            pair_features.update(get_lemma(target_token,"target_lemma_{}".format(i)))
+            if "id" in target_token:
+                target_ids.append(target_token["id"])
 
-            target_pos_feature = get_pos_tag(target_token,"target_pos_{}".format(i))
+            text_feature = get_text(target_token,"target_token")
+            target_pos_feature = get_pos_tag(target_token,"target_pos")
+
+            tokens.append(text_feature.keys()[0][1])
             target_pos_tags.add(target_pos_feature.keys()[0][1])
+
+            pair_features.update(text_feature)
             pair_features.update(target_pos_feature)
+
+            pair_features.update(get_lemma(target_token,"target_lemma"))
+
+            tense_feature = None
+            aspect_feature = None
+            negated_featured = None
+            event_class = None
+
+            if tlink_pair["src_type"] == "EVENT":
+                pair_features.update(is_main_verb(target_token, "target_main_verb"))
+                tense_feature = get_tense(target_token, feat_name="target_tense")
+                aspect_feature = get_aspect(target_token, feat_name="target_aspect")
+                negated_feature = is_negated(target_token, note.get_tokenized_text(), feat_name="target_negated")
+
+            else:
+                pair_features.update(is_main_verb(target_token, "target_main_verb"), null_val=True)
+                tense_feature = get_tense(target_token, feat_name="target_tense", null_val=True)
+                aspect_feature = get_aspect(target_token, feat_name="target_aspect", null_val=True)
+                negated_feature = is_negated(target_token, note.get_tokenized_text(), feat_name="target_negated", null_val=True)
+
+            event_class = event_class_feat(target_token, event_labels, feat_name="target_event_class")
+
+            target_tenses.append(tense_feature.keys()[0][1])
+            target_aspects.append(aspect_feature.keys()[0][1])
+            target_negations.append(negated_feature.values()[0])
+            target_event_classes.append(event_class.keys()[0][1])
+
+            pair_features.update(tense_feature)
+            pair_features.update(aspect_feature)
+            pair_features.update(negated_feature)
+            pair_features.update(event_class)
+
+            pair_features.update(timex_class(target_token, timex_labels, feat_name="target_timex_class"))
+            pair_features.update(vp_pos_chain(target_token, "target_pos_chain"))
 
             pass
 
@@ -111,17 +166,61 @@ def extract_tlink_features(note):
 
         for i, source_token in enumerate(source_tokens):
 
-            text_feature = get_text(source_token,"src_token_{}".format(i))
+            if "id" in source_token:
+                source_ids.append(source_token["id"])
+
+            text_feature = get_text(source_token,"src_token")
+            src_pos_feature = get_pos_tag(target_token,"src_pos")
+
             tokens.append(text_feature.keys()[0][1])
-            pair_features.update(text_feature)
-            pair_features.update(get_lemma(source_token,"src_lemma_{}".format(i)))
-            src_pos_feature = get_pos_tag(target_token,"src_pos_{}".format(i))
             src_pos_tags.add(src_pos_feature.keys()[0][1])
+
+            pair_features.update(text_feature)
             pair_features.update(src_pos_feature)
+
+            pair_features.update(get_lemma(source_token,"src_lemma"))
+
+            tense_feature = None
+            aspect_feature = None
+            negated_featured = None
+            event_class = None
+
+            if tlink_pair["target_type"] == "EVENT":
+                pair_features.update(is_main_verb(source_token, "src_main_verb"))
+                tense_feature = get_tense(source_token, feat_name="src_tense")
+                aspect_feature = get_aspect(source_token, feat_name="src_aspect")
+                negation_feature = is_negated(source_token, note.get_tokenized_text(), feat_name="src_negated")
+
+            else:
+                pair_features.update(is_main_verb(source_token, "src_main_verb"), null_val=True)
+                tense_feature = get_tense(source_token, feat_name="src_tense", null_val=True)
+                aspect_feature = get_aspect(source_token, feat_name="src_aspect", null_val=True)
+                negation_feature = is_negated(source_token, note.get_tokenized_text(), feat_name="src_negated", null_val=True)
+
+            event_class = event_class_feat(source_token, event_labels, feat_name="src_event_class")
+
+            src_tenses.append(tense_feature.keys()[0][1])
+            src_aspects.append(aspect_feature.keys()[0][1])
+            src_negations.append(negation_feature.values()[0])
+            src_event_classes.append(event_class.keys()[0][1])
+
+            pair_features.update(tense_feature)
+            pair_features.update(aspect_feature)
+            pair_features.update(negation_feature)
+            pair_features.update(event_class)
+
+            pair_features.update(timex_class(source_token, timex_labels, feat_name="src_timex_class"))
+            pair_features.update(vp_pos_chain(source_token, "source_pos_chain"))
 
             pass
 
         chunk = " ".join(tokens)
+
+
+        pair_features.update({("same_tenses",None):(src_tenses == target_tenses)})
+        pair_features.update({("same_aspects",None):(src_aspects == target_aspects)})
+        pair_features.update({("same_negations",None):(src_negations == target_negations)})
+        pair_features.update({("same_events",None):(src_event_classes == target_event_classes)})
         pair_features.update({("src_chunk",chunk):1})
         pair_features.update({("same_pos", None):(src_pos_tags == target_pos_tags)})
         pair_features.update(get_sentence_distance(source_tokens, target_tokens))
@@ -129,6 +228,7 @@ def extract_tlink_features(note):
         pair_features.update(doc_creation_time_in_pair(source_tokens,target_tokens))
         pair_features.update(get_discourse_connectives_pair_features(source_tokens,target_tokens, note))
         pair_features.update(get_temporal_signal_features(source_tokens,target_tokens,note))
+        pair_features.update(get_dependency_path(note.dependency_paths, source_ids, target_ids))
 
         tlink_features.append(pair_features)
 
@@ -136,8 +236,10 @@ def extract_tlink_features(note):
 
 def _entity_type_entity(entity, note):
     # doc time
-    if 'functionInDocument' in entity[0]:
-        return "TIMEX"
+    #print entity
+    if "tid" in entity[0]:
+        if entity[0]["tid"] == "t0":
+            return "TIMEX"
     return note.get_labels()[entity[0]["sentence_num"]-1][entity[0]["token_offset"]]["entity_type"]
 
 def get_discourse_connectives_pair_features(src_entity, target_entity, note):
@@ -406,7 +508,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(is_timex(token, timexLabels))
                 token_features.update(is_ner(token))
 
-                token_features.update(get_tense(token, note.id_to_tok))
+                token_features.update(get_tense(token))
                 token_features.update(is_negated(token, tokenized_text))
 
                 token_features.update(is_predicate(token))
@@ -421,7 +523,7 @@ def extract_iob_features(note, labels, feature_set, predicting=False, eventLabel
                 token_features.update(is_timex(token, timexLabels))
                 token_features.update(is_ner(token))
 
-                token_features.update(get_tense(token, note.id_to_tok))
+                token_features.update(get_tense(token))
                 token_features.update(is_negated(token, tokenized_text))
 
                 token_features.update(is_predicate(token))
@@ -512,10 +614,10 @@ def semantic_roles(token):
 
     return feats
 
-def is_main_verb(token):
-    feat = {("main_verb",None):0}
-    if "is_main_verb" in token:
-        feat = {("main_verb",None):1 if token["is_main_verb"] else 0}
+def is_main_verb(token, feat_name="main_verb", null_val=False):
+    feat = {(feat_name,None):0}
+    if "is_main_verb" in token and null_val is False:
+        feat = {(feat_name,None):1 if token["is_main_verb"] else 0}
 
     """
     print
@@ -749,34 +851,41 @@ def is_nominalization(token):
 
     return feat
 
-def get_tense(token, id_to_tok):
+def get_aspect(token,feat_name="aspect", null_val=False):
+    f = {(feat_name, "NONE"):1}
+    if null_val is False:
+        _, aspect = english_rules.get_tense_aspect(token)
+        f = {(feat_name, aspect):1}
+    return f
 
-#    print "getting tense aspect features"
+def get_tense(token,feat_name="tense", null_val=False):
+    f = {(feat_name,"NONE"):1}
+    if null_val is False:
+        tense, _ = english_rules.get_tense_aspect(token)
+        f = {(feat_name,tense):1}
 
-#    print "TOKEN: ", token["token"]
-
-    tense, _ = english_rules.get_tense_aspect(token)
-
-#    print "TENSE: ", tense
-
-    return {("tense",tense):1}
+    return f
 
 def is_coreferenced(token):
 
     f = {("is_corferenced", None):0}
 
     if "coref_chain" in token:
-        if token["coref_chain"] != "None":
+        if token["coref_chain"] != None:
             f = {("is_corferenced", None):1}
 
     #print f
 
     return f
 
-def is_negated(token, text):
-    sentence = [t["token"] for t in text[token["sentence_num"]]]
+def is_negated(token, text, feat_name="is_negated", null_val=False):
+    f = {(feat_name,None):0}
+    sentence = None
+    if "sentence_num" in token:
+        sentence = [t["token"] for t in text[token["sentence_num"]]]
+    if sentence is not None and null_val is False:
     # assume that default polarity is POSITIVE (0). if negation becomes NEGATIVE (1)
-    f = {("negated",None):negdetect.is_negated(sentence, token["token"])}
+        f = {(feat_name,None):negdetect.is_negated(sentence, token["token"])}
     #print
     #print token["token"]
     #print sentence
@@ -794,4 +903,66 @@ def is_timex(token, timexLabels):
 #    print
 
     return f
+
+def event_class_feat(token, event_labels, feat_name="event_class"):
+
+    #print
+    #print "token is None: ", token is None
+    #print "event_labels is None: ", event_labels is None
+    #print
+
+    f = {(feat_name,'O'):1}
+
+    if "sentence_num" in token:
+        f = {(feat_name, event_labels[token["sentence_num"]-1][token["token_offset"]]["entity_label"]):1}
+
+    return f
+
+def timex_class(token, timex_labels, feat_name="timex_class"):
+
+    f = {(feat_name,'O'):1}
+
+    if "sentence_num" in token:
+        f = {(feat_name, timex_labels[token["sentence_num"]-1][token["token_offset"]]["entity_label"]):1}
+
+
+    return f
+
+def vp_pos_chain(token, feat_name="vp_pos_chain"):
+
+    f = None
+
+    if "vp_pos_tags_morpho" in token:
+        f = {(feat_name,"+".join(token["vp_pos_tags_morpho"])):1}
+    else:
+        f = {(feat_name,"NONE"):1}
+
+#    print f
+    return f
+
+def get_dependency_path(dependency_path, source_ids, target_ids):
+#    print
+#    print "source: ", source_ids
+#    print "target: ", target_ids
+#    print
+
+    id_pairs = itertools.product(source_ids, target_ids)
+#    print
+#    print "id_pairs: ", id_pairs
+#    print
+
+    paths = [dependency_path.get_paths('t'+pair[0][1:], 't'+pair[1][1:]) for pair in id_pairs]
+#    print
+#    print "paths: ", list(paths)
+#    print
+
+    shortest_path = min(paths, key=lambda p: len(p)) if len(paths) else None
+    shortest_path = " ".join([rel[2] for rel in shortest_path]) if shortest_path is not None else None
+
+#    print
+#    print "shortest path: ", shortest_path
+#    print
+
+    return {("shortest_dep_path", shortest_path):1}
+
 

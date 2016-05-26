@@ -3,14 +3,12 @@
 
 <DOCID>wsj_0175</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02" temporalFunction="false" functionInDocument="CREATION_TIME">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0015 = 891102 891102-0015.
 Marketing Brief -- Sony Corp.: @ Japanese Concern Completes @ Offer for Columbia Pictures 11/02/89 WALL STREET JOURNAL (J) SNE KPE GPEC WCI TL RECREATION, ENTERTAINMENT, TOYS, MOVIES, PHOTOGRAPHY, SPORTS (REC) TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) MEDIA, PUBLISHING, BROADCASTING, ELECTRONIC PUBLISHING (MED)
 </EXTRAINFO>
-
-
 
 <TEXT>
 Sony Corp. completed its tender offer for Columbia Pictures Entertainment Inc., with Columbia shareholders tendering 99.3% of all common shares outstanding by the Tuesday deadline.
@@ -19,5 +17,57 @@ Sony Columbia Acquisition Corp., formed for the Columbia deal, will formally tak
 
 Still unresolved is Sony's effort to hire producers Jon Peters and Peter Guber to run the studio. Sony's planned acquisition of Guber/Peters Entertainment Co. for $200 million is scheduled to close Monday. Guber/Peters has been locked in litigation with Warner Communications Inc. in an attempt to get out of an exclusive production contract with Warner. Both sides are in talks to settle the dispute.
 </TEXT>
-</TimeML>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l17" relType="EVIDENTIAL" eventInstanceID="ei211" subordinatedEventInstance="ei209" />
+<SLINK lid="l18" relType="MODAL" eventInstanceID="ei215" subordinatedEventInstance="ei216" />
+<SLINK lid="l19" relType="MODAL" eventInstanceID="ei216" subordinatedEventInstance="ei217" />
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei220" subordinatedEventInstance="ei221" />
+<SLINK lid="l22" relType="MODAL" eventInstanceID="ei223" subordinatedEventInstance="ei224" />
+<SLINK lid="l23" relType="MODAL" eventInstanceID="ei224" subordinatedEventInstance="ei225" />
+<SLINK lid="l24" relType="MODAL" eventInstanceID="ei226" subordinatedEventInstance="ei227" />
+<ALINK lid="l25" relType="CULMINATES" eventInstanceID="ei227" relatedToEventInstance="ei228" />
+<ALINK lid="l26" relType="CULMINATES" eventInstanceID="ei205" relatedToEventInstance="ei206" />
+<ALINK lid="l28" relType="CULMINATES" eventInstanceID="ei221" relatedToEventInstance="ei219" />
+
+</TimeML>

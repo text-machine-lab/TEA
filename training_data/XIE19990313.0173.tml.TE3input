@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19990313.0173</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1999-03-13">1999-03-13</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1999-03-13">1999-03-13</TIMEX3></DCT>
 
 <TITLE>Hungarian Leaders Hail Entry into NATO</TITLE>
 
@@ -13,7 +13,9 @@ XIE19990313.0173 <DATE_TIME> 1999-03-13 </DATE_TIME><HEADLINE> Hungarian Leaders
 </EXTRAINFO>
 
 
-<TEXT>BUDAPEST, March 12 (Xinhua) --
+<TEXT>
+
+BUDAPEST, March 12 (Xinhua) --
 
 Hungary's accession to NATO has brought about new changes to the political balance in central and eastern Europe, shattering the world configuration under the Yalta accord since World War II, Hungarian Prime Minister Viktor Orban said here Friday.
 
@@ -21,7 +23,7 @@ Addressing a NATO flag-lowering ceremony at the Dutch embassy, Orban said the oc
 
 The Hungarian government staged a number of celebrations to mark the country's entry into NATO on Friday.
 
-In a televised address Friday, President Arpad Gencz described the entry as 'a historic event' which proves the credibility and the realistic approaches of the country's foreign policy.
+In a televised address Friday, President Arpad Gencz described the entry as "a historic event" which proves the credibility and the realistic approaches of the country's foreign policy.
 
 Among the first three former Warsaw Pact countries to accede to NATO on Friday were also Poland and the Czech Republic.
 
@@ -29,11 +31,102 @@ The ambassadors of Hungary, Poland and the Czech Republic issued a joint stateme
 
 Five major political parties in the country issued statements supporting the country's NATO membership.
 
-But some other parties and social organizations are against NATO's expansion, claiming Hungary's accession to NATO would be detrimental to the country's independence and bring about new problems and economic burdens to the country.</TEXT>
+But some other parties and social organizations are against NATO's expansion, claiming Hungary's accession to NATO would be detrimental to the country's independence and bring about new problems and economic burdens to the country.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei8" subordinatedEventInstance="ei9" syntax="USER"/>
+<SLINK lid="l15" relType="FACTIVE" eventInstanceID="ei9" subordinatedEventInstance="ei10" syntax="USER"/>
+<SLINK lid="l21" relType="FACTIVE" eventInstanceID="ei14" subordinatedEventInstance="ei15" syntax="USER"/>
+<SLINK lid="l27" relType="EVIDENTIAL" eventInstanceID="ei17" subordinatedEventInstance="ei19" syntax="USER"/>
+<SLINK lid="l33" relType="EVIDENTIAL" eventInstanceID="ei24" subordinatedEventInstance="ei26" syntax="USER"/>
+<SLINK lid="l34" relType="EVIDENTIAL" eventInstanceID="ei24" subordinatedEventInstance="ei27" syntax="USER"/>
+<SLINK lid="l38" relType="MODAL" eventInstanceID="ei27" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l42" relType="FACTIVE" eventInstanceID="ei30" subordinatedEventInstance="ei31" syntax="USER"/>
+<SLINK lid="l48" relType="EVIDENTIAL" eventInstanceID="ei33" subordinatedEventInstance="ei35" syntax="USER"/>
+<SLINK lid="l49" relType="EVIDENTIAL" eventInstanceID="ei33" subordinatedEventInstance="ei36" syntax="USER"/>
+<ALINK lid="l16" relType="CULMINATES" eventInstanceID="ei10" relatedToEventInstance="ei11" syntax="USER"/>
+
 </TimeML>
+
+

@@ -1,17 +1,15 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT19981120.0362</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-11-20T19:30">1998-11-20 19:30</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-11-20T19:30">1998-11-20 19:30</TIMEX3></DCT>
 
 <TITLE>ANTIABORTION ACTIVIST MAY BE IN MEXICO</TITLE>
 
 
 <EXTRAINFO>
-NYT19981120.0362 
- NEWS STORY 
-1998-11-20 19:30
+NYT19981120.0362  NEWS STORY 1998-11-20 19:30
 A2192 &amp;Cx1f; tdt-z
 u a &amp;Cx13;  &amp;Cx11;  BC-ABORTION-SUSPECT-BOS &amp;LR;      11-20 0316
 BC-ABORTION-SUSPECT-BOS
@@ -22,7 +20,9 @@ c.1998 The Boston Globe
 </EXTRAINFO>
 
 
-<TEXT>The antiabortion activist wanted for questioning in last month's shooting death of a doctor in a Buffalo suburb may have fled to Mexico, according to a newspaper report.
+<TEXT>
+
+The antiabortion activist wanted for questioning in last month's shooting death of a doctor in a Buffalo suburb may have fled to Mexico, according to a newspaper report.
 
 James Charles Kopp, 44, of Vermont, was seen in the car of a female associate crossing the US border days after a sniper killed Dr. Barnett Slepian in his kitchen, the Buffalo News reported Friday.
 
@@ -30,15 +30,17 @@ Kopp has been the subject of a manhunt following reports that he was spotted in 
 
 Friday, an FBI official said authorities are pursuing more than 400 tips but have not pinned down Kopp's whereabouts.
 
-''In all candor, the FBI does not know where James Kopp is _ period,'' said Paul Moskal, a spokesman for the bureau's Buffalo office. ''He's as likely to be in Boston, Massachusetts, as in Buffalo, New York.''
+``In all candor, the FBI does not know where James Kopp is _ period,'' said Paul Moskal, a spokesman for the bureau's Buffalo office. ``He's as likely to be in Boston, Massachusetts, as in Buffalo, New York.''
 
 Authorities want to question the unidentified woman who allegedly traveled with Kopp, according to an investigator quoted by the newspaper.
 
-''She may have been with Kopp sometime after the murder,'' the investigator said. ''Kopp may be in Mexico. He may have even traveled further into Central America or South America.''
+``She may have been with Kopp sometime after the murder,'' the investigator said. ``Kopp may be in Mexico. He may have even traveled further into Central America or South America.''
 
 A task force of US and Canadian officials is investigating the similarities between the attack on Slepian and four others on abortion providers in Canada and upstate New York in the past four years.
 
-The US Justice Department is offering a $500,000 reward for information leading to the arrest and conviction of those responsible for Slepian's slaying.</TEXT>
+The US Justice Department is offering a $500,000 reward for information leading to the arrest and conviction of those responsible for Slepian's slaying.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -47,4 +49,91 @@ NYT-11-20-98 1930EST &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l1" relType="MODAL" eventInstanceID="ei1" subordinatedEventInstance="ei2" syntax="USER"/>
+<SLINK lid="l2" relType="EVIDENTIAL" eventInstanceID="ei5" subordinatedEventInstance="ei6" syntax="USER"/>
+<SLINK lid="l3" relType="EVIDENTIAL" eventInstanceID="ei13" subordinatedEventInstance="ei14" syntax="USER"/>
+<SLINK lid="l4" relType="EVIDENTIAL" eventInstanceID="ei15" subordinatedEventInstance="ei16" syntax="USER"/>
+<SLINK lid="l5" relType="EVIDENTIAL" eventInstanceID="ei15" subordinatedEventInstance="ei17" syntax="USER"/>
+<SLINK lid="l6" relType="MODAL" eventInstanceID="ei18" subordinatedEventInstance="ei19" syntax="USER"/>
+<SLINK lid="l7" relType="EVIDENTIAL" eventInstanceID="ei20" subordinatedEventInstance="ei21" syntax="USER"/>
+<SLINK lid="l8" relType="MODAL" eventInstanceID="ei22" subordinatedEventInstance="ei23" syntax="USER"/>
+<SLINK lid="l40" relType="FACTIVE" eventInstanceID="ei31" subordinatedEventInstance="ei32" syntax="USER"/>
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei34" subordinatedEventInstance="ei35" syntax="USER"/>
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei34" subordinatedEventInstance="ei36" syntax="USER"/>
+
 </TimeML>
+
+

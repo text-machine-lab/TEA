@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0670</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-30">10/30/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891030-0027 = 891030 891030-0027.
 National Intergroup @ To Report Charge @ For Third Quarter 10/30/89 WALL STREET JOURNAL (J) NII TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) PITTSBURGH
 </EXTRAINFO>
 
-<TEXT>National Intergroup Inc. said it expects to report a charge of $5.3 million related to the sale of its aluminum unit's extrusion division for the third quarter.
+<TEXT>
+National Intergroup Inc. said it expects to report a charge of $5.3 million related to the sale of its aluminum unit's extrusion division for the third quarter.
 
 The company said it has agreed to sell the extrusion division for $15 million to R.D. Werner Co., a closely held firm based in Greenville, Pa.
 
@@ -24,6 +25,59 @@ The sale of the extrusion division is subject to audit adjustments for working c
 
 The agreement also provides for potential payments of additional proceeds to National Aluminum over the next two years, depending on the plant's shipping levels.
 
-The extrusion unit produces bare and painted custom extrusions for building products and construction industries. In fiscal 1989, it had sales of about $40 million and an operating loss of $1.5 million.</TEXT>
+The extrusion unit produces bare and painted custom extrusions for building products and construction industries. In fiscal 1989, it had sales of about $40 million and an operating loss of $1.5 million.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l25" relType="EVIDENTIAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l26" relType="MODAL" eventInstanceID="ei1991" subordinatedEventInstance="ei1992" />
+<SLINK lid="l27" relType="EVIDENTIAL" eventInstanceID="ei1992" subordinatedEventInstance="ei1993" />
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei1995" subordinatedEventInstance="ei1996" />
+<SLINK lid="l29" relType="MODAL" eventInstanceID="ei1996" subordinatedEventInstance="ei1997" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei2006" subordinatedEventInstance="ei2007" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei2008" subordinatedEventInstance="ei2009" />
+<ALINK lid="l36" relType="CONTINUES" eventInstanceID="ei2007" relatedToEventInstance="ei2008" />
 
 </TimeML>

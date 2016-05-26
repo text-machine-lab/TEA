@@ -1,26 +1,27 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0745</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-27">10/27/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891027-0150 = 891027 891027-0150.
 GM Seeks to Buy Up to 15% of Jaguar, @ Heating Up Its Skirmishing With Ford @ ---- @ By Joann S. Lublin @ Staff Reporter of The Wall Street Journal 10/27/89 WALL STREET JOURNAL (J) GM JAGRY F EUROP TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) AUTOMOBILES (AUT) LONDON
 </EXTRAINFO>
 
-<TEXT>General Motors Corp. wants to buy as much as 15% of Jaguar PLC, marking its first salvo in a possible full-scale battle against Ford Motor Co. for control of the British car maker.
+<TEXT>
+General Motors Corp. wants to buy as much as 15% of Jaguar PLC, marking its first salvo in a possible full-scale battle against Ford Motor Co. for control of the British car maker.
 
-GM sought U.S. antitrust clearance last week to purchase more than $15 million worth of Jaguar shares but doesn't own any yet, according to GM officials here and at the company's Detroit headquarters. The No. 1 U.S. auto maker then wrote Jaguar that it intends 'to go to that 15%' level once it wins the U.S. clearance to go beyond $15 million, a Jaguar spokesman said yesterday.
+GM sought U.S. antitrust clearance last week to purchase more than $15 million worth of Jaguar shares but doesn't own any yet, according to GM officials here and at the company's Detroit headquarters. The No. 1 U.S. auto maker then wrote Jaguar that it intends "to go to that 15%" level once it wins the U.S. clearance to go beyond $15 million, a Jaguar spokesman said yesterday.
 
 The GM move follows Tuesday's declaration by Ford, which holds an unwelcome 12.45% stake in Jaguar, that it is prepared to bid for the entire company. GM is close to completing a friendly deal with Jaguar that is likely to involve an eventual 30% stake and joint manufacturing ventures. Speculative investors, betting on an imminent clash between Ford and GM, pushed up Jaguar's share price five pence (eight U.S. cents) to a near-record 720 pence ($11.60) in late trading on London's stock exchange yesterday. Since Tuesday, the shares have gained nearly 4%.
 
-But an all-out bidding war between the world's top auto giants for Britain's leading luxury-car maker seems unlikely. 'We will not go over a certain level,' said David N. McCammon, Ford's vice president for finance, at a news conference yesterday in Dearborn, Mich. 'There's some price at which we'd stop bidding.' He wouldn't specify what it was.
+But an all-out bidding war between the world's top auto giants for Britain's leading luxury-car maker seems unlikely. "We will not go over a certain level," said David N. McCammon, Ford's vice president for finance, at a news conference yesterday in Dearborn, Mich. "There's some price at which we'd stop bidding." He wouldn't specify what it was.
 
 And powerful political pressures may convince the Conservative government to keep its so-called golden share, which limits any individual holding to 15%, until the restriction expires on Dec. 31, 1990.
 
-'I really don't see the government doing something that Jaguar doesn't want over the next 14 months,' said Kenneth Warren, a Conservative member of Parliament and chairman of the Select Committee on Trade and Industry in Britain's House of Commons. 'The golden share is a single share, but it is the magic share.'
+"I really don't see the government doing something that Jaguar doesn't want over the next 14 months," said Kenneth Warren, a Conservative member of Parliament and chairman of the Select Committee on Trade and Industry in Britain's House of Commons. "The golden share is a single share, but it is the magic share."
 
 The government retained the single share after selling its stake in Jaguar in 1984 -- part of a nationalistic practice of protecting former government-owned enterprises to deflect criticism of privatization. The 15% restriction covers any would-be suitor, British or foreign.
 
@@ -28,10 +29,197 @@ Ford is willing to bid for 100% of Jaguar's shares if both the government and Ja
 
 The government probably wouldn't give in readily to a hostile foray by Ford, however. It has relinquished a golden share only once before -- during British Petroleum Co.'s #2.5 billion ( $4 billion ) takeover of Britoil PLC in 1988.
 
-In wooing British lawmakers, GM has pointed out that its willingness to settle for a minority stake would keep Jaguar British-owned and independent. This week, the U.S. auto giant paid for 10 House of Commons members and two House of Lords members to fly to Detroit and tour its operations there. While the visit was unrelated to Jaguar, GM Chairman Roger Smith answered the legislators' questions about it over lunch Tuesday. He said Jaguar 'shouldn't be smothered by anyone else, ' recalled one participant.
+In wooing British lawmakers, GM has pointed out that its willingness to settle for a minority stake would keep Jaguar British-owned and independent. This week, the U.S. auto giant paid for 10 House of Commons members and two House of Lords members to fly to Detroit and tour its operations there. While the visit was unrelated to Jaguar, GM Chairman Roger Smith answered the legislators' questions about it over lunch Tuesday. He said Jaguar "shouldn't be smothered by anyone else, " recalled one participant.
 
 Politics also influences the government's thinking on the anti-takeover restriction. The Conservatives don't dare jeopardize marginal Tory seats in Coventry, where Jaguar has headquarters, nor can the government easily back down on promised protection for a privatized company while it proceeds with controversial plans to privatize most of Britain's water and electricity industries.
 
-Prime Minister Margaret Thatcher might, however, be receptive to any request by Jaguar Chairman Sir John Egan for the restriction's early removal to let GM amass more than 15% or mount a friendly suitor bid against Ford. In the end, Sir John -- rather than the government or Jaguar shareholders -- may hold the key that unlocks the golden share.</TEXT>
+Prime Minister Margaret Thatcher might, however, be receptive to any request by Jaguar Chairman Sir John Egan for the restriction's early removal to let GM amass more than 15% or mount a friendly suitor bid against Ford. In the end, Sir John -- rather than the government or Jaguar shareholders -- may hold the key that unlocks the golden share.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l98" relType="FACTIVE" eventInstanceID="ei2533" subordinatedEventInstance="ei2534" />
+<SLINK lid="l56" relType="CONDITIONAL" eventInstanceID="ei2506" subordinatedEventInstance="ei2505"  />
+<SLINK lid="l57" relType="MODAL" eventInstanceID="ei2451" subordinatedEventInstance="ei2452" />
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei2455" subordinatedEventInstance="ei2456" />
+<SLINK lid="l59" relType="MODAL" eventInstanceID="ei2457" subordinatedEventInstance="ei2458" />
+<SLINK lid="l60" relType="MODAL" eventInstanceID="ei2458" subordinatedEventInstance="ei2459" />
+<SLINK lid="l61" relType="EVIDENTIAL" eventInstanceID="ei2461" subordinatedEventInstance="ei2457" />
+<SLINK lid="l62" relType="EVIDENTIAL" eventInstanceID="ei2461" subordinatedEventInstance="ei2460" />
+<SLINK lid="l63" relType="EVIDENTIAL" eventInstanceID="ei2462" subordinatedEventInstance="ei2463" />
+<SLINK lid="l64" relType="MODAL" eventInstanceID="ei2463" subordinatedEventInstance="ei2464" />
+<SLINK lid="l65" relType="MODAL" eventInstanceID="ei2467" subordinatedEventInstance="ei2468" />
+<SLINK lid="l66" relType="EVIDENTIAL" eventInstanceID="ei2470" subordinatedEventInstance="ei2462" />
+<SLINK lid="l67" relType="EVIDENTIAL" eventInstanceID="ei2472" subordinatedEventInstance="ei2473" />
+<SLINK lid="l68" relType="MODAL" eventInstanceID="ei2473" subordinatedEventInstance="ei2474" />
+<SLINK lid="l69" relType="MODAL" eventInstanceID="ei2479" subordinatedEventInstance="ei2480" />
+<SLINK lid="l70" relType="EVIDENTIAL" eventInstanceID="ei2488" subordinatedEventInstance="ei2487" />
+<SLINK lid="l72" relType="MODAL" eventInstanceID="ei2494" subordinatedEventInstance="ei2495" />
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei2498" subordinatedEventInstance="ei2499" />
+<SLINK lid="l74" relType="MODAL" eventInstanceID="ei2500" subordinatedEventInstance="ei2499" />
+<SLINK lid="l75" relType="EVIDENTIAL" eventInstanceID="ei2501" subordinatedEventInstance="ei2498" />
+<SLINK lid="l76" relType="MODAL" eventInstanceID="ei2504" subordinatedEventInstance="ei2505" />
+<SLINK lid="l77" relType="MODAL" eventInstanceID="ei2506" subordinatedEventInstance="ei2507" />
+<SLINK lid="l78" relType="MODAL" eventInstanceID="ei2509" subordinatedEventInstance="ei2510" />
+<SLINK lid="l79" relType="MODAL" eventInstanceID="ei2511" subordinatedEventInstance="ei2512" />
+<SLINK lid="l80" relType="MODAL" eventInstanceID="ei2514" subordinatedEventInstance="ei2515" />
+<SLINK lid="l81" relType="FACTIVE" eventInstanceID="ei2516" subordinatedEventInstance="ei2517" />
+<SLINK lid="l82" relType="FACTIVE" eventInstanceID="ei2517" subordinatedEventInstance="ei2518" />
+<SLINK lid="l83" relType="MODAL" eventInstanceID="ei2523" subordinatedEventInstance="ei2526" />
+<SLINK lid="l85" relType="MODAL" eventInstanceID="ei2529" subordinatedEventInstance="ei2530" />
+<SLINK lid="l86" relType="MODAL" eventInstanceID="ei2529" subordinatedEventInstance="ei2531" />
+<SLINK lid="l87" relType="EVIDENTIAL" eventInstanceID="ei2536" subordinatedEventInstance="ei2537" />
+<SLINK lid="l88" relType="EVIDENTIAL" eventInstanceID="ei2538" subordinatedEventInstance="ei2536" />
+<SLINK lid="l89" relType="FACTIVE" eventInstanceID="ei2539" subordinatedEventInstance="ei2540" />
+<SLINK lid="l90" relType="MODAL" eventInstanceID="ei2540" subordinatedEventInstance="ei2541" />
+<ALINK lid="l94" relType="CULMINATES" eventInstanceID="ei2475" relatedToEventInstance="ei2476" />
+<ALINK lid="l95" relType="TERMINATES" eventInstanceID="ei2490" relatedToEventInstance="ei2491" />
+<ALINK lid="l96" relType="CONTINUES" eventInstanceID="ei2526" relatedToEventInstance="ei2527" />
+<ALINK lid="l97" relType="CONTINUES" eventInstanceID="ei2526" relatedToEventInstance="ei2528" />
 
 </TimeML>

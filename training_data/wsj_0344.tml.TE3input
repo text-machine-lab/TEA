@@ -1,21 +1,63 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0344</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-01">11/01/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891101-0020 = 891101 891101-0020.
 Publishing Firm Hires @ Financial Adviser @ To Weigh Alternatives 11/01/89 WALL STREET JOURNAL (J) PSSP EARNINGS (ERN) TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) LOS ANGELES
 </EXTRAINFO>
 
-<TEXT>Price Stern Sloan Inc. said it hired an investment banking firm to assist in evaluating restructuring or merger alternatives and reported a net loss of $8.1 million, or $2.14 a share, for the third quarter ended Sept. 30.
+<TEXT>
+Price Stern Sloan Inc. said it hired an investment banking firm to assist in evaluating restructuring or merger alternatives and reported a net loss of $8.1 million, or $2.14 a share, for the third quarter ended Sept. 30.
 
 These results compare with net income of $1.8 million, or 44 cents a share, for the corresponding period last year. This quarter's loss includes pretax charges of $4.9 million on the proposed discontinuation of the company's troubled British subsidiary, and $3.7 million of other write-offs the company said were non-recurring and principally related to inventory, publishing advances and pre-publication costs. The publishing concern said it retained the investment banking firm of Donaldson, Lufkin amp Jenrette Securities Inc. to act as its financial adviser, assisting in the evaluation of various financial and strategic alternatives, including debt refinancing, raising capital, recapitalization, a merger or sale of the company.
 
 The company also retained attorney Martin P. Levin, a director of the company and former head of the Times-Mirror Publishing Group, as an adviser.
 
-Net sales for this year's third quarter were $14 million, down from $21.4 million last year. The company attributed the decrease in part to the exclusion of the company's British sales from the current year's figures as a result of the subsidiary's status as a proposed discontinued operation and, in part, to lower sales in certain key foreign and domestic accounts. U.K. sales for last year's quarter were about $3 million.</TEXT>
+Net sales for this year's third quarter were $14 million, down from $21.4 million last year. The company attributed the decrease in part to the exclusion of the company's British sales from the current year's figures as a result of the subsidiary's status as a proposed discontinued operation and, in part, to lower sales in certain key foreign and domestic accounts. U.K. sales for last year's quarter were about $3 million.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei2141" subordinatedEventInstance="ei2142" />
+<SLINK lid="l16" relType="MODAL" eventInstanceID="ei2142" subordinatedEventInstance="ei2143" />
+<SLINK lid="l17" relType="MODAL" eventInstanceID="ei2143" subordinatedEventInstance="ei2144" />
+<SLINK lid="l18" relType="EVIDENTIAL" eventInstanceID="ei2145" subordinatedEventInstance="ei2146" />
+<SLINK lid="l19" relType="EVIDENTIAL" eventInstanceID="ei2151" subordinatedEventInstance="ei2152" />
+<SLINK lid="l20" relType="MODAL" eventInstanceID="ei2152" subordinatedEventInstance="ei2153" />
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei2154" subordinatedEventInstance="ei2155" />
+<SLINK lid="l22" relType="FACTIVE" eventInstanceID="ei2159" subordinatedEventInstance="ei2160" />
 
 </TimeML>

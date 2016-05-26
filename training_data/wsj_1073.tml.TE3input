@@ -1,17 +1,31 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_1073</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-25">10/25/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-25">10/25/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891025-0157 = 891025 891025-0157.
 Advanced Medical Makes Purchase 10/25/89 WALL STREET JOURNAL (J) AMA HENG TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) MEDICAL AND BIOTECHNOLOGY (MTC) SAN FRANCISCO
 </EXTRAINFO>
 
-<TEXT>Advanced Medical Technologies Inc. said it purchased 93% of a unit of Henley Group Inc.
+<TEXT>
+Advanced Medical Technologies Inc. said it purchased 93% of a unit of Henley Group Inc.
 
-Advanced Medical paid $106 million in cash for its share in a unit of Henley's Fisher Scientific subsidiary. The unit makes intravenous pumps used by hospitals and had more than $110 million in sales last year, according to Advanced Medical.</TEXT>
+Advanced Medical paid $106 million in cash for its share in a unit of Henley's Fisher Scientific subsidiary. The unit makes intravenous pumps used by hospitals and had more than $110 million in sales last year, according to Advanced Medical.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l6" relType="EVIDENTIAL" eventInstanceID="ei1989" subordinatedEventInstance="ei1990" />
 
 </TimeML>

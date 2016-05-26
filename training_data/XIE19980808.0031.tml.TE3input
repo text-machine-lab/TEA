@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19980808.0031</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="TIME" value="1998-08-08">1998-08-08</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-08">1998-08-08</TIMEX3></DCT>
 
 <TITLE>South Africa Deplores Bomb Blasts</TITLE>
 
@@ -14,13 +14,15 @@ South Africa Deplores Bomb Blasts
 </EXTRAINFO>
 
 
-<TEXT>JOHANNESBURG, August 7 (Xinhua) --
+<TEXT>
+
+JOHANNESBURG, August 7 (Xinhua) --
 
 South Africa deplored Friday the bomb blasts which killed scores of people and injured more than 1,000 others outside embassies of the United States in Kenya and Tanzania earlier in the day.
 
 A statement by the Foreign Affairs Department described the attacks as senseless.
 
-'The South African government deplores these senseless acts against the American embassies in Nairobi and Dar es Salaam and would like to express its condolences to the victims of the explosions,' the statement said.
+"The South African government deplores these senseless acts against the American embassies in Nairobi and Dar es Salaam and would like to express its condolences to the victims of the explosions," the statement said.
 
 Reports reaching here said a massive blast damaged the U.S. embassy in Nairobi, killing 40 people while wounding at least 1,000 people.
 
@@ -30,11 +32,84 @@ Also on Friday morning, at least four people were killed in an explosion that to
 
 It was not immediately known who were responsible for the explosions.
 
-As far as could be established, no South Africans had been affected by the blasts, the South African Foreign Affairs Department said.</TEXT>
+As far as could be established, no South Africans had been affected by the blasts, the South African Foreign Affairs Department said.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+

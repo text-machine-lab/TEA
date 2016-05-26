@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>PRI19980303.2000.2550</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-03-03">19980303</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-03-03">19980303</TIMEX3></DCT>
 
 <EXTRAINFO>
 PRI19980303.2000.2550 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>Tomorrow the board of supervisors of Loudon county, Virginia, will vote on whether a school now located in Mount Vernon can relocate to their county. In some respects, that's typical county business, but tomorrow's vote has international implications. The board will decide whether the Islamic Saudi Academy, funded by the government of Saudi Arabia, can move to Ashburn village, Virginia. But local residents have not exactly laid out the red carpet for their would be neighbors. The World's Nancy Marshalll has our story.
+<TEXT>
+Tomorrow the board of supervisors of Loudon county, Virginia, will vote on whether a school now located in Mount Vernon can relocate to their county. In some respects, that's typical county business, but tomorrow's vote has international implications. The board will decide whether the Islamic Saudi Academy, funded by the government of Saudi Arabia, can move to Ashburn village, Virginia. But local residents have not exactly laid out the red carpet for their would be neighbors. The World's Nancy Marshalll has our story.
 
 Inside the Islamic Saudi academy in Mount Vernon, Virginia, many of the girls wear head scarves and some of the neatly dressed children are in uniforms. The instruction is in English for most classes, in Arabic for language and religious studies. The school says it teaches the children to be good Muslims and good students. They're learning a civics lesson from the residents of Loudon county. The Islamic Saudi Academy has twelve hundred mostly American students but would take thirty-five hundred if it had the room. The academy bought a hundred acres in Loudon county, Virginia, and asked for permission to build a fifty million dollar campus. In the nearby suburban housing tracts, someone dropped off leaflets warning the school could bring thousands of Middle Eastern strangers and terrorists. Some residents of the mostly white, mostly middle class area became alarmed. James Zogby of the Arab American Institute says it's a familiar story.
 
@@ -31,6 +32,117 @@ But opponents said the school might be a target for terrorist attacks, complaine
 
 I urge you to do the right thing and send a message to the Saudis that the citizens of Loudon county embrace religious and human freedom.
 
-Loudon county officials say they'll rule on the application based only on land use issues and ignore all the other objections. What's really behind those objections, some say, is Loudon county's collision with a new reality in America that the country is changing religiously as surely as it is racially and ethnically. According to the Arab American institute, Islam will one day be the second largest religion in the country. For an indication of the problems that could face Muslims as they integrate into American life, one need look no farther than Loudon county, Virginia. For The World, I'm Nancy Marshalll.</TEXT>
+Loudon county officials say they'll rule on the application based only on land use issues and ignore all the other objections. What's really behind those objections, some say, is Loudon county's collision with a new reality in America that the country is changing religiously as surely as it is racially and ethnically. According to the Arab American institute, Islam will one day be the second largest religion in the country. For an indication of the problems that could face Muslims as they integrate into American life, one need look no farther than Loudon county, Virginia. For The World, I'm Nancy Marshalll.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l44" relType="CONDITIONAL" eventInstanceID="ei554" subordinatedEventInstance="ei553"  />
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei539" subordinatedEventInstance="ei541" />
+<SLINK lid="l46" relType="MODAL" eventInstanceID="ei544" subordinatedEventInstance="ei546" />
+<SLINK lid="l50" relType="MODAL" eventInstanceID="ei560" subordinatedEventInstance="ei561" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei564" subordinatedEventInstance="ei565" />
+<SLINK lid="l55" relType="FACTIVE" eventInstanceID="ei573" subordinatedEventInstance="ei574" />
+<SLINK lid="l56" relType="EVIDENTIAL" eventInstanceID="ei575" subordinatedEventInstance="ei576" />
+<SLINK lid="l57" relType="EVIDENTIAL" eventInstanceID="ei575" subordinatedEventInstance="ei577" />
+<SLINK lid="l58" relType="EVIDENTIAL" eventInstanceID="ei580" subordinatedEventInstance="ei581" />
+<SLINK lid="l59" relType="EVIDENTIAL" eventInstanceID="ei580" subordinatedEventInstance="ei582" />
+<SLINK lid="l60" relType="FACTIVE" eventInstanceID="ei582" subordinatedEventInstance="ei583" />
+<SLINK lid="l61" relType="EVIDENTIAL" eventInstanceID="ei580" subordinatedEventInstance="ei584" />
+<SLINK lid="l65" relType="MODAL" eventInstanceID="ei591" subordinatedEventInstance="ei592" />
+<SLINK lid="l66" relType="MODAL" eventInstanceID="ei592" subordinatedEventInstance="ei593" />
+<SLINK lid="l67" relType="MODAL" eventInstanceID="ei593" subordinatedEventInstance="ei594" />
+<SLINK lid="l68" relType="EVIDENTIAL" eventInstanceID="ei595" subordinatedEventInstance="ei596" />
+<SLINK lid="l69" relType="MODAL" eventInstanceID="ei596" subordinatedEventInstance="ei597" />
+<SLINK lid="l70" relType="MODAL" eventInstanceID="ei596" subordinatedEventInstance="ei598" />
+<SLINK lid="l71" relType="MODAL" eventInstanceID="ei598" subordinatedEventInstance="ei599" />
+<SLINK lid="l72" relType="EVIDENTIAL" eventInstanceID="ei600" subordinatedEventInstance="ei601" />
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei600" subordinatedEventInstance="ei603" />
+<SLINK lid="l75" relType="EVIDENTIAL" eventInstanceID="ei606" subordinatedEventInstance="ei607" />
 
 </TimeML>

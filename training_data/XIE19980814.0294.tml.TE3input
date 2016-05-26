@@ -1,45 +1,158 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>XIE19980814.0294</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-08-14">August 13</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-08-14">August 13</TIMEX3></DCT>
 
 <TITLE>Clinton Vows to Find Embassy Bombers</TITLE>
 
 
 <EXTRAINFO>
-XIE19980814.0294 
- 1998-08-14
+XIE19980814.0294  1998-08-14
 Clinton Vows to Find Embassy Bombers
 </EXTRAINFO>
 
 
-<TEXT>WASHINGTON, August 13 (Xinhua) --
+<TEXT>
+
+WASHINGTON, August 13 (Xinhua) --
 
 President Bill Clinton Thursday condemned terrorist bomb attacks at U.S. embassies in Kenya and Tanzania and vowed to find the bombers and bring them to justice.
 
-'No matter what it takes, we must find those responsible for these evil acts and see that justice is done,' Clinton said at the ceremony marking the return of remains of Americans who were killed in the Kenya embassy bombing.
+"No matter what it takes, we must find those responsible for these evil acts and see that justice is done," Clinton said at the ceremony marking the return of remains of Americans who were killed in the Kenya embassy bombing.
 
 The ceremony was held at Andrews Air Force Base, near Washington, where 10 of 12 American victims of the Kenya embassy bombing were brought back by Secretary of State Madeleine Albright.
 
 Clinton said the United States will not retreat from the world because of terrorist attacks.
 
-Albright, echoing the president, said the United States would 'continue to be present around the world, wherever we have interests to defend.'
+Albright, echoing the president, said the United States would "continue to be present around the world, wherever we have interests to defend."
 
-'We will do all we can to protect our diplomatic and military peoples around the world,' she said.
+"We will do all we can to protect our diplomatic and military peoples around the world," she said.
 
 Clinton met with his top aides Wednesday in the White House to assess the situation following the twin bombings at U.S. embassies in Kenya and Tanzania, which have killed more than 250 people and injured over 5,000, most of them Kenyans and Tanzanians. Twelve Americans were killed in the Kenya embassy bombing.
 
 Clinton ordered an assessment of what it would cost to rebuild the embassies in Kenya and Tanzania and the price tag for emergency response teams sent to the two countries.
 
-He also asked for a 'list of the priorities for improving security for U.S. facilities around the world.'
+He also asked for a "list of the priorities for improving security for U.S. facilities around the world."
 
-The State Department and the Office of Management and Budget will jointly make the assessments 'in the next few days,' and the president will present the report to Congress for more emergency funding.</TEXT>
+The State Department and the Office of Management and Budget will jointly make the assessments "in the next few days," and the president will present the report to Congress for more emergency funding.
+
+</TEXT>
 
 
 <EXTRAINFO>
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l7" relType="MODAL" eventInstanceID="ei55" subordinatedEventInstance="ei2" syntax="USER"/>
+<SLINK lid="l10" relType="MODAL" eventInstanceID="ei55" subordinatedEventInstance="ei3" syntax="USER"/>
+<SLINK lid="l14" relType="EVIDENTIAL" eventInstanceID="ei7" subordinatedEventInstance="ei5" syntax="USER"/>
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei35" subordinatedEventInstance="ei7" syntax="USER"/>
+<SLINK lid="l19" relType="EVIDENTIAL" eventInstanceID="ei7" subordinatedEventInstance="ei6" syntax="USER"/>
+<SLINK lid="l32" relType="NEG_EVIDENTIAL" eventInstanceID="ei12" subordinatedEventInstance="ei13" syntax="USER"/>
+<SLINK lid="l37" relType="EVIDENTIAL" eventInstanceID="ei16" subordinatedEventInstance="ei15" syntax="USER"/>
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei15" subordinatedEventInstance="ei17" syntax="USER"/>
+<SLINK lid="l45" relType="EVIDENTIAL" eventInstanceID="ei20" subordinatedEventInstance="ei18" syntax="USER"/>
+<SLINK lid="l46" relType="EVIDENTIAL" eventInstanceID="ei20" subordinatedEventInstance="ei19" syntax="USER"/>
+<SLINK lid="l48" relType="MODAL" eventInstanceID="ei21" subordinatedEventInstance="ei22" syntax="USER"/>
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei26" subordinatedEventInstance="ei28" syntax="USER"/>
+<SLINK lid="l62" relType="EVIDENTIAL" eventInstanceID="ei30" subordinatedEventInstance="ei31" syntax="USER"/>
+
 </TimeML>
+
+
+

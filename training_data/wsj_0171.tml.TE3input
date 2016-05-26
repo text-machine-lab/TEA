@@ -1,23 +1,83 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0171</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0019 = 891102 891102-0019.
 Business Brief -- Valley Federal SampL: @ California SampL Had Charge, @ Loss in the Third Quarter 11/02/89 WALL STREET JOURNAL (J) VFED EARNINGS (ERN)
 </EXTRAINFO>
 
-<TEXT>Valley Federal Savings amp Loan Association took an $89.9 million charge as it reported a third-quarter loss of $70.7 million, or $12.09 a share.
+<TEXT>
+Valley Federal Savings amp Loan Association took an $89.9 million charge as it reported a third-quarter loss of $70.7 million, or $12.09 a share.
 
 The Van Nuys, Calif., thrift had net income of $132,000, or three cents a share, a year ago.
 
 The bulk of the pretax charge is a $62 million write-off of capitalized servicing at the mobile home financing subsidiary, which the company said had been a big drain on earnings. The company said the one-time provision would substantially eliminate all future losses at the unit. Valley Federal also added $18 million to realestate loan reserves and eliminated $9.9 million of good will.
 
-The thrift said that 'after these charges and assuming no dramatic fluctuation in interest rates, the association expects to achieve near record earnings in 1990.'
+The thrift said that "after these charges and assuming no dramatic fluctuation in interest rates, the association expects to achieve near record earnings in 1990."
 
-Valley Federal is currently being examined by regulators. New loans continue to slow; they were $6.6 million in the quarter compared with $361.8 million a year ago. The thrift has assets of $3.2 billion.</TEXT>
+Valley Federal is currently being examined by regulators. New loans continue to slow; they were $6.6 million in the quarter compared with $361.8 million a year ago. The thrift has assets of $3.2 billion.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l29" relType="EVIDENTIAL" eventInstanceID="ei2219" subordinatedEventInstance="ei2221" />
+<SLINK lid="l30" relType="COUNTER_FACTIVE" eventInstanceID="ei2215" subordinatedEventInstance="ei2216" />
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei2221" subordinatedEventInstance="ei2222" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei2219" subordinatedEventInstance="ei2223" />
+<SLINK lid="l33" relType="FACTIVE" eventInstanceID="ei2224" subordinatedEventInstance="ei2225" />
+<SLINK lid="l34" relType="EVIDENTIAL" eventInstanceID="ei2204" subordinatedEventInstance="ei2205" />
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei2210" subordinatedEventInstance="ei2211" />
+<SLINK lid="l37" relType="EVIDENTIAL" eventInstanceID="ei2213" subordinatedEventInstance="ei2215" />
+<SLINK lid="l38" relType="MODAL" eventInstanceID="ei2223" subordinatedEventInstance="ei2224" />
+<ALINK lid="l39" relType="CONTINUES" eventInstanceID="ei2227" relatedToEventInstance="ei2228" />
 
 </TimeML>

@@ -3,18 +3,15 @@
 
 <DOCID>XIE19980821.0077</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-21" temporalFunction="false" functionInDocument="CREATION_TIME">1998-08-21</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="TIME" value="1998-08-21">1998-08-21</TIMEX3></DCT>
 
 <TITLE>U.S. Air Raid, Bombings No Direct Links: FBI</TITLE>
 
 
 <EXTRAINFO>
-XIE19980821.0077 
- 1998-08-21
+XIE19980821.0077  1998-08-21
 U.S. Air Raid, Bombings No Direct Links: FBI
 </EXTRAINFO>
-
-
 
 
 <TEXT>
@@ -48,7 +45,207 @@ A nearly simultaneous car bombing outside the U.S. embassy in Tanzania killed 10
 Earlier, the U.S.'s demand for Laden's extradition from Afghanistan has been refused by the Taliban government.
 
 </TEXT>
+
+
 <EXTRAINFO>
 </EXTRAINFO>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei1" subordinatedEventInstance="ei45" syntax="USER"/>
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei1" subordinatedEventInstance="ei2" syntax="USER"/>
+<SLINK lid="l17" relType="EVIDENTIAL" eventInstanceID="ei1" subordinatedEventInstance="ei46" syntax="USER"/>
+<SLINK lid="l18" relType="EVIDENTIAL" eventInstanceID="ei1" subordinatedEventInstance="ei47" syntax="USER"/>
+<SLINK lid="l28" relType="EVIDENTIAL" eventInstanceID="ei4" subordinatedEventInstance="ei3" syntax="USER"/>
+<SLINK lid="l35" relType="EVIDENTIAL" eventInstanceID="ei4" subordinatedEventInstance="ei78" syntax="USER"/>
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei4" subordinatedEventInstance="ei6" syntax="USER"/>
+<SLINK lid="l40" relType="EVIDENTIAL" eventInstanceID="ei4" subordinatedEventInstance="ei7" syntax="USER"/>
+<SLINK lid="l43" relType="EVIDENTIAL" eventInstanceID="ei8" subordinatedEventInstance="ei9" syntax="USER"/>
+<SLINK lid="l47" relType="EVIDENTIAL" eventInstanceID="ei16" subordinatedEventInstance="ei12" syntax="USER"/>
+<SLINK lid="l50" relType="EVIDENTIAL" eventInstanceID="ei16" subordinatedEventInstance="ei13" syntax="USER"/>
+<SLINK lid="l55" relType="EVIDENTIAL" eventInstanceID="ei16" subordinatedEventInstance="ei54" syntax="USER"/>
+<SLINK lid="l61" relType="EVIDENTIAL" eventInstanceID="ei18" subordinatedEventInstance="ei19" syntax="USER"/>
+<SLINK lid="l63" relType="MODAL" eventInstanceID="ei19" subordinatedEventInstance="ei58" syntax="USER"/>
+<SLINK lid="l66" relType="EVIDENTIAL" eventInstanceID="ei18" subordinatedEventInstance="ei20" syntax="USER"/>
+<SLINK lid="l73" relType="EVIDENTIAL" eventInstanceID="ei23" subordinatedEventInstance="ei61" syntax="USER"/>
+<SLINK lid="l76" relType="EVIDENTIAL" eventInstanceID="ei23" subordinatedEventInstance="ei24" syntax="USER"/>
+<SLINK lid="l77" relType="NEG_EVIDENTIAL" eventInstanceID="ei23" subordinatedEventInstance="ei64" syntax="USER"/>
+<SLINK lid="l78" relType="NEG_EVIDENTIAL" eventInstanceID="ei23" subordinatedEventInstance="ei65" syntax="USER"/>
+<SLINK lid="l88" relType="EVIDENTIAL" eventInstanceID="ei27" subordinatedEventInstance="ei68" syntax="USER"/>
+<SLINK lid="l97" relType="EVIDENTIAL" eventInstanceID="ei32" subordinatedEventInstance="ei31" syntax="USER"/>
+<SLINK lid="l99" relType="EVIDENTIAL" eventInstanceID="ei33" subordinatedEventInstance="ei71" syntax="USER"/>
+<SLINK lid="l104" relType="EVIDENTIAL" eventInstanceID="ei33" subordinatedEventInstance="ei79" syntax="USER"/>
+<SLINK lid="l105" relType="EVIDENTIAL" eventInstanceID="ei33" subordinatedEventInstance="ei35" syntax="USER"/>
+<SLINK lid="l111" relType="MODAL" eventInstanceID="ei36" subordinatedEventInstance="ei72" syntax="USER"/>
+<SLINK lid="l118" relType="EVIDENTIAL" eventInstanceID="ei38" subordinatedEventInstance="ei39" syntax="USER"/>
+<SLINK lid="l119" relType="EVIDENTIAL" eventInstanceID="ei38" subordinatedEventInstance="ei40" syntax="USER"/>
+<SLINK lid="l134" relType="MODAL" eventInstanceID="ei76" subordinatedEventInstance="ei77" syntax="USER"/>
+
 </TimeML>
+
+
 

@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>NYT20000224.0173</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="2000-02-24">2000-02-24</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="2000-02-24">2000-02-24</TIMEX3></DCT>
 
 <TITLE>ELIAN SAGA TESTING CUBAN FAMILY'S TIES</TITLE>
 
@@ -22,9 +22,11 @@ BC-CUBA-FAMILY-$ADV26-COX
 </EXTRAINFO>
 
 
-<TEXT>MIAMI _
+<TEXT>
 
-The angry crowd rushed at Manuel Gonzalez as he stepped out of Miami's federal courthouse, shaking fists at him and shouting in Spanish, ''communista'' and ''traitor.''
+MIAMI _
+
+The angry crowd rushed at Manuel Gonzalez as he stepped out of Miami's federal courthouse, shaking fists at him and shouting in Spanish, ``communista'' and ``traitor.''
 
 But the great-uncle of 6-year-old shipwreck survivor rafter Elian Gonzalez only ducked his head and walked faster.
 
@@ -42,13 +44,13 @@ In a town where expressing even the slightest approval for Cuban President Fidel
 
 It was a move that many see as courageous and principled, but others fear may be foolhardy.
 
-''I have lost a son,'' Gonzalez told reporters later, referring to his own son's death due to cancer. ''I am supporting Juan Miguel because I know what it is to lose a son. Elian should be with his father.''
+``I have lost a son,'' Gonzalez told reporters later, referring to his own son's death due to cancer. ``I am supporting Juan Miguel because I know what it is to lose a son. Elian should be with his father.''
 
 His sincerity didn't stop the talk on Little Havana's streets or on Miami's ubiquitous Spanish-language radio stations, which buzzed with callers lambasting Gonzalez for playing into the hands of a tyrant.
 
 A day after he was hounded on the steps of the federal courthouse, Manuel Gonzalez wouldn't come to the door of his modest home in Miami's Little Havana.
 
-''He must go to work,'' said his daughter, Rosa, who said Gonzalez would prefer not to talk about the issue. ''There has been a lot of pressure, and he feels this is a family affair.''
+``He must go to work,'' said his daughter, Rosa, who said Gonzalez would prefer not to talk about the issue. ``There has been a lot of pressure, and he feels this is a family affair.''
 
 After weeks of high-profile public sparring _ with charges of abuse, spying and treachery flying back and forth across the Florida Straits _ it would seem the chances are slim that the Gonzalez family could ever heal the wounds created by the Elian saga.
 
@@ -62,15 +64,15 @@ Of those who stayed in Cuba, Juan Miguel's father, Juan Gonzalez, seems the most
 
 The family's experience is like that of thousands of others now split between Miami and Cuba, said Damien Fernandez, a Cuban-American political scientist at Florida International University.
 
-''Cubans value their families above almost anything, but the post-1959 politics have managed to split thousands of families apart,'' he said.
+``Cubans value their families above almost anything, but the post-1959 politics have managed to split thousands of families apart,'' he said.
 
-For decades, Cuban Americans in Miami were largely cut off from the families they left behind. Labeled ''worms'' and ''traitors'' by Castro, many weren't able to speak to _ much less visit _ their relatives for years.
+For decades, Cuban Americans in Miami were largely cut off from the families they left behind. Labeled ``worms'' and ``traitors'' by Castro, many weren't able to speak to _ much less visit _ their relatives for years.
 
 The situation began to relax in the early 1990s, with the crisis triggered by the end of the former Soviet Union's subsidies. In desperate need of hard currency, Castro relaxed travel restrictions and allowed Cubans to have U.S. dollars, triggering a trickle of cash from Miami that soon became a flood.
 
 By some estimates, the 700,000 Cubans living in South Florida _ and elsewhere in the United States _ send $1 billion a year in remittances back to their families on the island.
 
-''The Miami families have become a lifeline, and since 1990 there has been a great trend toward reconciliation,'' said Florida International's Fernandez. ''Although many families are still divided by politics, they have learned to forgive and forget and find common ground.''
+``The Miami families have become a lifeline, and since 1990 there has been a great trend toward reconciliation,'' said Florida International's Fernandez. ``Although many families are still divided by politics, they have learned to forgive and forget and find common ground.''
 
 Prior to Elian, the Gonzalez family apparently was no different. The branches of the family regularly talked by telephone and the Miami relatives went back to Cuba for several family reunions.
 
@@ -84,13 +86,15 @@ He was soon released and appeared to be reasonably healthy when he appeared in c
 
 His lawyer, however, insists he will continue to stand up for what he thinks is right.
 
-''He's a strong man,'' said Jeffrey Leving. ''He won't let anyone intimidate him from doing what is in Elian's best interests.''
+``He's a strong man,'' said Jeffrey Leving. ``He won't let anyone intimidate him from doing what is in Elian's best interests.''
 
 To his credit, Lazaro Gonzalez has issued a statement asking Miami's exiles to respect his brother's opinions.
 
 Manuel Gonzalez has told reporters that he believes his family will recover _ at least partially _ from the divisions Elian's case has brought.
 
-''The wounds of the problem will heal,'' he told the Los Angeles Times newspaper. ''But the scars will always be there.''</TEXT>
+``The wounds of the problem will heal,'' he told the Los Angeles Times newspaper. ``But the scars will always be there.''
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -101,4 +105,344 @@ NYT-02-24-00 1350EST &amp;QL;
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l3" eventInstanceID="ei23" subordinatedEventInstance="ei193" relType="MODAL"/>
+<SLINK lid="l4" eventInstanceID="ei39" subordinatedEventInstance="ei40" relType="MODAL"/>
+<SLINK lid="l5" eventInstanceID="ei61" subordinatedEventInstance="ei62" relType="MODAL"/>
+<SLINK lid="l6" eventInstanceID="ei64" subordinatedEventInstance="ei65" relType="MODAL"/>
+<SLINK lid="l134" eventInstanceID="ei82" subordinatedEventInstance="ei83" relType="MODAL"/>
+<SLINK lid="l135" eventInstanceID="ei82" subordinatedEventInstance="ei84" relType="MODAL"/>
+<SLINK lid="l147" eventInstanceID="ei96" subordinatedEventInstance="ei98" relType="MODAL"/>
+<SLINK lid="l149" eventInstanceID="ei98" subordinatedEventInstance="ei99" relType="MODAL"/>
+<SLINK lid="l156" eventInstanceID="ei100" subordinatedEventInstance="ei101" relType="MODAL"/>
+<SLINK lid="l157" eventInstanceID="ei101" subordinatedEventInstance="ei102" relType="MODAL"/>
+<SLINK lid="l184" eventInstanceID="ei123" subordinatedEventInstance="ei124" relType="MODAL"/>
+<ALINK lid="l1" eventInstanceID="ei19" relatedToEventInstance="ei20" relType="INITIATES"/>
+<ALINK lid="l2" eventInstanceID="ei70" relatedToEventInstance="ei71" relType="INITIATES"/>
+<ALINK lid="l174" eventInstanceID="ei115" relatedToEventInstance="ei116" relType="CONTINUES"/>
 </TimeML>
+
+
+

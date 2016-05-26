@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>APW199980817.1193</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-08-17">1998-08-17</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-08-17">1998-08-17</TIMEX3></DCT>
 
 <TITLE>Albright bringing message of American support to Tanzania, Kenya</TITLE>
 
@@ -23,11 +23,13 @@ Albright bringing message of American support to Tanzania, Kenya
 </EXTRAINFO>
 
 
-<TEXT>DAR ES SALAAM, Tanzania (AP) _
+<TEXT>
+
+DAR ES SALAAM, Tanzania (AP) _
 
 U.S. Secretary of State Madeleine Albright headed Tuesday to East Africa, seeking to demonstrate American support after the bombings that targeted U.S. embassies, but mostly claimed African lives.
 
-''To America's embassy personnel in Nairobi and Dar es Salaam, I will bring a message of solidarity in their sorrow, admiration for their courage and support for their continued efforts on behalf of our country,'' Albright said Monday before leaving Andrews Air Force Base, Maryland . ''To the people of Kenya and Tanzania, I will bring a message of friendship, made deeper by our shared grief, and of support in doing all we can to ease their suffering and help them start anew.''
+``To America's embassy personnel in Nairobi and Dar es Salaam, I will bring a message of solidarity in their sorrow, admiration for their courage and support for their continued efforts on behalf of our country,'' Albright said Monday before leaving Andrews Air Force Base, Maryland . ``To the people of Kenya and Tanzania, I will bring a message of friendship, made deeper by our shared grief, and of support in doing all we can to ease their suffering and help them start anew.''
 
 Albright, after a 16-hour flight, is scheduled to spend only five hours on the ground in Dar es Salaam, Tanzania, her first stop Tuesday morning, and then about 5 1/2 hours in Nairobi, Kenya, later in the day before returning immediately home.
 
@@ -37,15 +39,17 @@ Some Kenyans have complained that after the Nairobi bombing, rescuers gave prior
 
 On Friday, when Albright set aside vacation plans for the hastily planned trip to East Africa, the State Department lifted a warning against travel to Kenya, whose economy relies heavily on foreign visitors, to further ease any strain in the aftermath of the tragedy.
 
-Just ahead of Albright's one-day trip, the State Department on Sunday issued an updated ''worldwide caution'' to U.S. travelers in the aftermath of the Aug. 7 bombings at American embassies in Kenya and Tanzania and because of fresh threats to U.S. interests abroad.
+Just ahead of Albright's one-day trip, the State Department on Sunday issued an updated ``worldwide caution'' to U.S. travelers in the aftermath of the Aug. 7 bombings at American embassies in Kenya and Tanzania and because of fresh threats to U.S. interests abroad.
 
-An accompanying statement specifically warned ''against all travel to Pakistan.'' The State Department also ordered the departure of all non-emergency personnel and families of employees from the embassy at Islamabad and from U.S. consulates in Karachi, Lahore and Peshawar.
+An accompanying statement specifically warned ``against all travel to Pakistan.'' The State Department also ordered the departure of all non-emergency personnel and families of employees from the embassy at Islamabad and from U.S. consulates in Karachi, Lahore and Peshawar.
 
 The warnings came after Pakistan handed over to Kenyan officials a suspect in the U.S. Embassy bombings, Mohammed Saddiq Odeh, also known as Mohammad Sadiq Howaida and Abdull Bast Awadh.
 
 The first batch of evidence from the Nairobi bombing arrived over the weekend at the FBI lab at the bureau's Washington headquarters and is being analyzed, FBI officials said Monday.
 
-Many more shipments are expected, but the first batch contained cotton swabs taken at the blast site in hopes of picking up microscopic residues that could positively identify what the bomb was made of. A U.S. official said last week that field tests suggested the presence of a Czech-made plastic explosive called Semtex that has been used by terrorist groups before.</TEXT>
+Many more shipments are expected, but the first batch contained cotton swabs taken at the blast site in hopes of picking up microscopic residues that could positively identify what the bomb was made of. A U.S. official said last week that field tests suggested the presence of a Czech-made plastic explosive called Semtex that has been used by terrorist groups before.
+
+</TEXT>
 
 
 <EXTRAINFO>
@@ -54,4 +58,175 @@ AP-NY-08-17-98 2057EDT
 </EXTRAINFO>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l15" relType="MODAL" eventInstanceID="ei2" subordinatedEventInstance="ei3" syntax="USER"/>
+<SLINK lid="l29" relType="MODAL" eventInstanceID="ei13" subordinatedEventInstance="ei14" syntax="USER"/>
+<SLINK lid="l32" relType="MODAL" eventInstanceID="ei15" subordinatedEventInstance="ei16" syntax="USER"/>
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei20" subordinatedEventInstance="ei21" syntax="USER"/>
+<SLINK lid="l57" relType="MODAL" eventInstanceID="ei24" subordinatedEventInstance="ei25" syntax="USER"/>
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei24" subordinatedEventInstance="ei26" syntax="USER"/>
+<SLINK lid="l79" relType="MODAL" eventInstanceID="ei40" subordinatedEventInstance="ei92" syntax="USER"/>
+<ALINK lid="l23" relType="CONTINUES" eventInstanceID="ei7" relatedToEventInstance="ei64" syntax="USER"/>
+<ALINK lid="l33" relType="INITIATES" eventInstanceID="ei9" relatedToEventInstance="ei69" syntax="USER"/>
+
+
+
+
+
+
+
+
+
+
 </TimeML>
+
+
+

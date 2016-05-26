@@ -1,16 +1,79 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>PRI19980213.2000.0313</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1998-02-13">19980213</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1998-02-13">19980213</TIMEX3></DCT>
 
 <EXTRAINFO>
 PRI19980213.2000.0313 NEWS STORY
 </EXTRAINFO>
 
-<TEXT>Officials in California are warning residents that oncoming rains will cause dangerous and unpredictable landslides. From member station KQED, Auncil Martinez reports.
+<TEXT>
+Officials in California are warning residents that oncoming rains will cause dangerous and unpredictable landslides. From member station KQED, Auncil Martinez reports.
 
-Experts say the ground is so saturated it cannot absorb any more water. So that means soil will fall off in chunks and destroy anything in its path. In Los Angeles that lesson was brought home today when tons of earth cascaded down a hillside, ripping two houses from their foundations. No one was hurt, but firefighters ordered the evacuation of nearby homes and said they'll monitor the shifting ground. In the northern California town of Rio Nido, officials say a football field sized slab of hillside could still break loose at any time and destroy an entire neighborhood. And in San Francisco, a mansion overlooking the Pacific Ocean and the Golden Gate Bridge is slipping toward the sea. Forecasters say the picture will get worse because more rains are on the way. For NPR news, I'm Auncil Martinez reporting.</TEXT>
+Experts say the ground is so saturated it cannot absorb any more water. So that means soil will fall off in chunks and destroy anything in its path. In Los Angeles that lesson was brought home today when tons of earth cascaded down a hillside, ripping two houses from their foundations. No one was hurt, but firefighters ordered the evacuation of nearby homes and said they'll monitor the shifting ground. In the northern California town of Rio Nido, officials say a football field sized slab of hillside could still break loose at any time and destroy an entire neighborhood. And in San Francisco, a mansion overlooking the Pacific Ocean and the Golden Gate Bridge is slipping toward the sea. Forecasters say the picture will get worse because more rains are on the way. For NPR news, I'm Auncil Martinez reporting.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l33" relType="EVIDENTIAL" eventInstanceID="ei231" subordinatedEventInstance="ei227" />
+<SLINK lid="l32" relType="EVIDENTIAL" eventInstanceID="ei223" subordinatedEventInstance="ei225" />
+<SLINK lid="l31" relType="MODAL" eventInstanceID="ei212" subordinatedEventInstance="ei214" />
+<SLINK lid="l30" relType="EVIDENTIAL" eventInstanceID="ei208" subordinatedEventInstance="ei211" />
+<SLINK lid="l29" relType="EVIDENTIAL" eventInstanceID="ei207" subordinatedEventInstance="ei208" />
+<SLINK lid="l28" relType="MODAL" eventInstanceID="ei203" subordinatedEventInstance="ei205" />
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei212" subordinatedEventInstance="ei213" />
+<SLINK lid="l22" relType="MODAL" eventInstanceID="ei219" subordinatedEventInstance="ei220" />
+<SLINK lid="l23" relType="EVIDENTIAL" eventInstanceID="ei208" subordinatedEventInstance="ei209" />
+<SLINK lid="l24" relType="EVIDENTIAL" eventInstanceID="ei221" subordinatedEventInstance="ei222" />
+<SLINK lid="l25" relType="EVIDENTIAL" eventInstanceID="ei223" subordinatedEventInstance="ei224" />
+<SLINK lid="l26" relType="EVIDENTIAL" eventInstanceID="ei221" subordinatedEventInstance="ei225" />
+<SLINK lid="l27" relType="EVIDENTIAL" eventInstanceID="ei227" subordinatedEventInstance="ei228" />
 
 </TimeML>

@@ -3,14 +3,12 @@
 
 <DOCID>wsj_0376</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-31" temporalFunction="false" functionInDocument="CREATION_TIME">10/31/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-31">10/31/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891031-0138 = 891031 891031-0138.
 International: @ Courtaulds PLC @ Plans to Spin Off @ Textiles Business @ ---- @ By Craig Forman @ Staff Reporter of The Wall Street Journal 10/31/89 WALL STREET JOURNAL (J) COU DIVIDENDS (DIV) STOCK MARKET, OFFERINGS (STK) TEXTILES AND APPAREL (TEX) LONDON
 </EXTRAINFO>
-
-
 
 <TEXT>
 Courtaulds PLC announced plans to spin off its textiles operations to existing shareholders in a restructuring to boost shareholder value.
@@ -29,5 +27,85 @@ In a statement, the company said: "Both parts can only realize their full potent
 
 Courtaulds Chairman and Chief Executive Sir Christopher Hogg will remain in both posts at the surviving chemical company after the spinoff.
 </TEXT>
-</TimeML>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l46" relType="MODAL" eventInstanceID="ei2018" subordinatedEventInstance="ei2019" />
+<SLINK lid="l31" relType="EVIDENTIAL" eventInstanceID="ei1989" subordinatedEventInstance="ei1990" />
+<SLINK lid="l32" relType="MODAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l33" relType="MODAL" eventInstanceID="ei1992" subordinatedEventInstance="ei1993" />
+<SLINK lid="l34" relType="EVIDENTIAL" eventInstanceID="ei1995" subordinatedEventInstance="ei1994" />
+<SLINK lid="l35" relType="FACTIVE" eventInstanceID="ei1997" subordinatedEventInstance="ei1998" />
+<SLINK lid="l36" relType="MODAL" eventInstanceID="ei2003" subordinatedEventInstance="ei2004" />
+<SLINK lid="l37" relType="MODAL" eventInstanceID="ei2004" subordinatedEventInstance="ei2005" />
+<SLINK lid="l38" relType="MODAL" eventInstanceID="ei2005" subordinatedEventInstance="ei2006" />
+<SLINK lid="l39" relType="EVIDENTIAL" eventInstanceID="ei2009" subordinatedEventInstance="ei2011" />
+<SLINK lid="l40" relType="EVIDENTIAL" eventInstanceID="ei2016" subordinatedEventInstance="ei2017" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei2016" subordinatedEventInstance="ei2018" />
+<SLINK lid="l42" relType="MODAL" eventInstanceID="ei2024" subordinatedEventInstance="ei2025" />
+<SLINK lid="l43" relType="EVIDENTIAL" eventInstanceID="ei2030" subordinatedEventInstance="ei2028" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei2033" subordinatedEventInstance="ei2021" />
+
+</TimeML>

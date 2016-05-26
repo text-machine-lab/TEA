@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0928</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0130 = 891026 891026-0130.
 Sun Microsystems Inc. @ Posts 1st-Quarter Net @ Totaling $5.2 Million 10/26/89 WALL STREET JOURNAL (J) SUNW EARNINGS (ERN) COMPUTERS AND INFORMATION TECHNOLOGY (CPR) MOUNTAIN VIEW, Calif.
 </EXTRAINFO>
 
-<TEXT>Sun Microsystems Inc., snapping back to profitability after its first quarterly loss as a public firm, said it earned $5.2 million, or seven cents a share, in the fiscal first quarter.
+<TEXT>
+Sun Microsystems Inc., snapping back to profitability after its first quarterly loss as a public firm, said it earned $5.2 million, or seven cents a share, in the fiscal first quarter.
 
 Sun, a maker of computer workstations, reported sales of $538.5 million for the quarter ended Sept. 29, up 39% from $388.5 million a year earlier. In the 1988 period, the company earned $20.6 million, or 26 cents a share.
 
@@ -20,8 +21,89 @@ In a statement, Scott McNealy, Sun's chief executive officer, said the company's
 
 But problems in manufacturing, forecasting demand and getting the bugs out of a new management information system made it extremely difficult for Sun to meet demand for its newest computers well into the summer. These problems also resulted in Sun reporting a $20.3 million loss for its fourth quarter ended June 30.
 
-Mr. McNealy said the issues that hurt Sun's performance earlier this year are now ' largely' behind the firm, and he indicated that Sun's profitability should increase throughout the fiscal year.
+Mr. McNealy said the issues that hurt Sun's performance earlier this year are now " largely" behind the firm, and he indicated that Sun's profitability should increase throughout the fiscal year.
 
-Sun also reported a record backlog of orders. While this indicates continued strong demand for the company's desk-top computers, Sun faces increasing competition from Digital Equipment Corp. and Hewlett-Packard Co. Recently, analysts have said Sun also is vulnerable to competition from International Business Machines Corp., which plans to introduce a group of workstations early next year, and Next Inc.</TEXT>
+Sun also reported a record backlog of orders. While this indicates continued strong demand for the company's desk-top computers, Sun faces increasing competition from Digital Equipment Corp. and Hewlett-Packard Co. Recently, analysts have said Sun also is vulnerable to competition from International Business Machines Corp., which plans to introduce a group of workstations early next year, and Next Inc.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l59" relType="MODAL" eventInstanceID="ei2013" subordinatedEventInstance="ei2014" />
+<SLINK lid="l42" relType="EVIDENTIAL" eventInstanceID="ei1993" subordinatedEventInstance="ei1994" />
+<SLINK lid="l43" relType="EVIDENTIAL" eventInstanceID="ei1999" subordinatedEventInstance="ei2000" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei2000" subordinatedEventInstance="ei2001" />
+<SLINK lid="l45" relType="EVIDENTIAL" eventInstanceID="ei2004" subordinatedEventInstance="ei2005" />
+<SLINK lid="l46" relType="EVIDENTIAL" eventInstanceID="ei2009" subordinatedEventInstance="ei2007" />
+<SLINK lid="l47" relType="FACTIVE" eventInstanceID="ei2007" subordinatedEventInstance="ei2008" />
+<SLINK lid="l50" relType="EVIDENTIAL" eventInstanceID="ei2018" subordinatedEventInstance="ei2019" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei2020" subordinatedEventInstance="ei2021" />
+<SLINK lid="l52" relType="EVIDENTIAL" eventInstanceID="ei2022" subordinatedEventInstance="ei2023" />
+<SLINK lid="l55" relType="EVIDENTIAL" eventInstanceID="ei2029" subordinatedEventInstance="ei2030" />
+<SLINK lid="l57" relType="MODAL" eventInstanceID="ei2032" subordinatedEventInstance="ei2033" />
 
 </TimeML>

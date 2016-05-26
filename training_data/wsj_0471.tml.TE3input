@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0471</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-31">10/31/89 </TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-31">10/31/89 </TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891031-0040 = 891031 891031-0040.
@@ -12,10 +12,66 @@ Business Brief -- Dataproducts Inc.: @ Lawsuit Is Filed to Block @ DPC's Hostile
 WALL STREET JOURNAL (J) DPC TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) COMPUTERS AND INFORMATION TECHNOLOGY (CPR)
 </EXTRAINFO>
 
-<TEXT>Dataproducts Inc. said it filed a lawsuit in Delaware Chancery Court to block a tender offer by DPC Acquisition Partners, alleging that the hostile offer violates a standstill agreement between the two concerns.
+<TEXT>
+Dataproducts Inc. said it filed a lawsuit in Delaware Chancery Court to block a tender offer by DPC Acquisition Partners, alleging that the hostile offer violates a standstill agreement between the two concerns.
 
 DPC, an investor group led by New York-based Crescott Investment Associates, had itself filed a suit in state court in Los Angeles seeking to nullify the agreement. Earlier this year, Dataproducts had rejected a $15 a share offer from DPC, saying it wasn't adequately financed. DPC last week launched a new, $10-a-share offer for the Woodland Hills, Calif.-based computer printer maker.
 
-DPC said it couldn't comment on the suit.</TEXT>
+DPC said it couldn't comment on the suit.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l32" relType="FACTIVE" eventInstanceID="ei132" subordinatedEventInstance="ei133" />
+<SLINK lid="l31" relType="FACTIVE" eventInstanceID="ei138" subordinatedEventInstance="ei139" />
+<SLINK lid="l30" relType="FACTIVE" eventInstanceID="ei134" subordinatedEventInstance="ei135" />
+<SLINK lid="l29" relType="FACTIVE" eventInstanceID="ei129" subordinatedEventInstance="ei130" />
+<SLINK lid="l28" relType="FACTIVE" eventInstanceID="ei126" subordinatedEventInstance="ei127" />
+<SLINK lid="l27" relType="MODAL" eventInstanceID="ei122" subordinatedEventInstance="ei143" />
+<SLINK lid="l26" relType="FACTIVE" eventInstanceID="ei120" subordinatedEventInstance="ei121" />
+<SLINK lid="l25" relType="MODAL" eventInstanceID="ei120" subordinatedEventInstance="ei122" />
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei140" subordinatedEventInstance="ei141" />
+<SLINK lid="l16" relType="EVIDENTIAL" eventInstanceID="ei119" subordinatedEventInstance="ei120" />
+<SLINK lid="l17" relType="EVIDENTIAL" eventInstanceID="ei136" subordinatedEventInstance="ei137" />
+<SLINK lid="l18" relType="MODAL" eventInstanceID="ei131" subordinatedEventInstance="ei132" />
+<SLINK lid="l19" relType="MODAL" eventInstanceID="ei124" subordinatedEventInstance="ei126" />
 
 </TimeML>

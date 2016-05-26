@@ -3,14 +3,12 @@
 
 <DOCID>wsj_0159</DOCID>
 
-<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02" temporalFunction="false" functionInDocument="CREATION_TIME"> 11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02"> 11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0032 = 891102 891102-0032.
 Business Brief -- Dunkin' Donuts Inc.: @ DD Acquisition Extended @ Its $45-a-Share Takeover Bid  11/02/89 WALL STREET JOURNAL (J) UNI.A DUNK T.CAO TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) RESTAURANTS, SUPERMARKETS AND DRUGSTORES (RFD)
 </EXTRAINFO>
-
-
 
 <TEXT>
 DD Acquisition Corp., a partnership of Unicorp Canada Corp.'s Kingsbridge Capital Group and Cara Operations Ltd., extended to Nov. 20 its $45-a-share offer for all Dunkin' Donuts Inc. shares outstanding.
@@ -21,5 +19,51 @@ Acquisition has launched a suit in a Delaware court seeking the withdrawal of Du
 
 Dunkin' has set Nov. 10 as the deadline for the receipt of any competing bids. DD Acquisition said the extension is to allow this process to be completed. Dunkin' is based in Randolph, Mass. Cara, a food services chain operator and Unicorp, a holding company, are based in Toronto.
 </TEXT>
-</TimeML>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l27" relType="MODAL" eventInstanceID="ei227" subordinatedEventInstance="ei241" />
+<SLINK lid="l14" relType="MODAL" eventInstanceID="ei238" subordinatedEventInstance="ei239" />
+<SLINK lid="l15" relType="MODAL" eventInstanceID="ei218" subordinatedEventInstance="ei219" />
+<SLINK lid="l17" relType="MODAL" eventInstanceID="ei225" subordinatedEventInstance="ei226" />
+<SLINK lid="l18" relType="EVIDENTIAL" eventInstanceID="ei230" subordinatedEventInstance="ei231" />
+<SLINK lid="l19" relType="EVIDENTIAL" eventInstanceID="ei232" subordinatedEventInstance="ei233" />
+<SLINK lid="l20" relType="EVIDENTIAL" eventInstanceID="ei236" subordinatedEventInstance="ei237" />
+<SLINK lid="l21" relType="MODAL" eventInstanceID="ei237" subordinatedEventInstance="ei238" />
+<SLINK lid="l24" relType="MODAL" eventInstanceID="ei241" subordinatedEventInstance="ei229" />
+
+</TimeML>

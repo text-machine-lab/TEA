@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0152</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0039 = 891102 891102-0039.
 Business Brief -- Dow Jones amp Co.: @ Offer for Telerate Common @ Is Extended Until Nov. 9 11/02/89 WALL STREET JOURNAL (J) DJ TLR TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) MEDIA, PUBLISHING, BROADCASTING, ELECTRONIC PUBLISHING (MED)
 </EXTRAINFO>
 
-<TEXT>Dow Jones amp Co. said it extended its $18-a-share offer for Telerate Inc. common stock until 5 p.m. EST Nov. 9.
+<TEXT>
+Dow Jones amp Co. said it extended its $18-a-share offer for Telerate Inc. common stock until 5 p.m. EST Nov. 9.
 
 The offer, valued at about $576 million for the 33% of Telerate that Dow Jones doesn't already own, had been set to expire Nov. 6.
 
@@ -18,6 +19,37 @@ Dow Jones, which owns about 64 million of Telerate's 95 million common shares ou
 
 Telerate's two independent directors have rejected the offer as inadequate. In composite trading on the New York Stock Exchange, Telerate shares closed at $19.50, up 12.5 cents.
 
-Telerate provides an electronic financial information network. Dow Jones publishes The Wall Street Journal, Barron's magazine, and community newspapers and operates financial news services and computer data bases.</TEXT>
+Telerate provides an electronic financial information network. Dow Jones publishes The Wall Street Journal, Barron's magazine, and community newspapers and operates financial news services and computer data bases.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l12" relType="EVIDENTIAL" eventInstanceID="ei120" subordinatedEventInstance="ei121" />
+<SLINK lid="l13" relType="FACTIVE" eventInstanceID="ei121" subordinatedEventInstance="ei122" />
+<SLINK lid="l14" relType="MODAL" eventInstanceID="ei124" subordinatedEventInstance="ei125" />
+<SLINK lid="l15" relType="EVIDENTIAL" eventInstanceID="ei126" subordinatedEventInstance="ei127" />
+<SLINK lid="l16" relType="FACTIVE" eventInstanceID="ei129" subordinatedEventInstance="ei130" />
 
 </TimeML>

@@ -1,16 +1,17 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0981</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-10-26">10/26/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891026-0077 = 891026 891026-0077.
 MGM Grand to Pay @ $93 Million, Stock @ For Resort Site @ ---- @ By David J. Jefferson @ Staff Reporter of The Wall Street Journal 10/26/89 WALL STREET JOURNAL (J) MGMG RAM TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) REAL ESTATE, REITS, LAND DEVELOPMENT (REL) CASINOS AND GAMBLING (CNO) STOCK MARKET, OFFERINGS (STK) BEVERLY HILLS, Calif.
 </EXTRAINFO>
 
-<TEXT>MGM Grand Inc. has agreed to pay $93 million and nearly 1.8 million common shares to buy 117 acres of land along the Las Vegas, Nev., Strip as a site for its planned movie-studio and theme-park resort.
+<TEXT>
+MGM Grand Inc. has agreed to pay $93 million and nearly 1.8 million common shares to buy 117 acres of land along the Las Vegas, Nev., Strip as a site for its planned movie-studio and theme-park resort.
 
 Of the total purchase price, $50 million cash and $30 million in stock (nearly 1.8 million shares) would be paid to buy the existing 700-room Marina Hotel amp Casino from Southwest Securities, a Nevada limited partnership. The remaining properties to be acquired are the Tropicana Country Club amp Golf Course, a facility jointly owned by Ramada Inc., of Phoenix, Ariz., and the Jaffe family, and a small parcel owned by MGM Grand director James D. Aljian.
 
@@ -26,6 +27,103 @@ MGM Grand said the latest stock offering won't cover the $600 million or more co
 
 The resort will include the MGM Grand Hotel, a multi-spired, castle-like facility that will include 5,000 rooms and 85,000 square feet of casino space. The facility will be marketed toward families, and room rates will be between $35 and $55 a night, MGM Grand said.
 
-The prospectus didn't include many details about the studio and theme park, although conceptual drawings, released this month, show that it may feature several 'themed' areas similar to those found at parks built by Walt Disney Co.</TEXT>
+The prospectus didn't include many details about the studio and theme park, although conceptual drawings, released this month, show that it may feature several "themed" areas similar to those found at parks built by Walt Disney Co.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l36" relType="EVIDENTIAL" eventInstanceID="ei2322" subordinatedEventInstance="ei2323" />
+<SLINK lid="l37" relType="MODAL" eventInstanceID="ei2275" subordinatedEventInstance="ei2276" />
+<SLINK lid="l38" relType="MODAL" eventInstanceID="ei2276" subordinatedEventInstance="ei2277" />
+<SLINK lid="l39" relType="MODAL" eventInstanceID="ei2278" subordinatedEventInstance="ei2279" />
+<SLINK lid="l40" relType="EVIDENTIAL" eventInstanceID="ei2283" subordinatedEventInstance="ei2284" />
+<SLINK lid="l41" relType="MODAL" eventInstanceID="ei2284" subordinatedEventInstance="ei2285" />
+<SLINK lid="l42" relType="EVIDENTIAL" eventInstanceID="ei2292" subordinatedEventInstance="ei2291" />
+<SLINK lid="l43" relType="MODAL" eventInstanceID="ei2295" subordinatedEventInstance="ei2296" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei2296" subordinatedEventInstance="ei2297" />
+<SLINK lid="l45" relType="MODAL" eventInstanceID="ei2296" subordinatedEventInstance="ei2298" />
+<SLINK lid="l46" relType="MODAL" eventInstanceID="ei2296" subordinatedEventInstance="ei2299" />
+<SLINK lid="l47" relType="EVIDENTIAL" eventInstanceID="ei2300" subordinatedEventInstance="ei2301" />
+<SLINK lid="l48" relType="MODAL" eventInstanceID="ei2301" subordinatedEventInstance="ei2303" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei2301" subordinatedEventInstance="ei2306" />
+<SLINK lid="l50" relType="EVIDENTIAL" eventInstanceID="ei2307" subordinatedEventInstance="ei2308" />
+<SLINK lid="l51" relType="EVIDENTIAL" eventInstanceID="ei2311" subordinatedEventInstance="ei2312" />
+<SLINK lid="l52" relType="MODAL" eventInstanceID="ei2312" subordinatedEventInstance="ei2313" />
+<SLINK lid="l53" relType="MODAL" eventInstanceID="ei2315" subordinatedEventInstance="ei2316" />
+<SLINK lid="l54" relType="EVIDENTIAL" eventInstanceID="ei2319" subordinatedEventInstance="ei2317" />
+<ALINK lid="l56" relType="INITIATES" eventInstanceID="ei2316" relatedToEventInstance="ei2314" />
 
 </TimeML>

@@ -1,31 +1,133 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0184</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-02">11/02/89</TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891102-0006 = 891102 891102-0006.
 Upjohn Offers @ Plan to Reduce @ Its Work Force @ ---- @ By Bradley A. Stertz @ Staff Reporter of The Wall Street Journal 11/02/89 WALL STREET JOURNAL (J) UPJ DRUG MANUFACTURERS (DRG) KALAMAZOO, Mich.
 </EXTRAINFO>
 
-<TEXT>Upjohn Co. said it will offer an early retirement package to as many as 1,100 employees in a cost-cutting move expected to result in a fourth-quarter charge.
+<TEXT>
+Upjohn Co. said it will offer an early retirement package to as many as 1,100 employees in a cost-cutting move expected to result in a fourth-quarter charge.
 
-Upjohn officials said they couldn't estimate the size of the charge until they determine which employees, and how many, will participate in the retirement plan. But the pharmaceutical company said it 'anticipates the long-term savings resulting from the plan's implementation will more than offset short-term costs.'
+Upjohn officials said they couldn't estimate the size of the charge until they determine which employees, and how many, will participate in the retirement plan. But the pharmaceutical company said it "anticipates the long-term savings resulting from the plan's implementation will more than offset short-term costs."
 
 The program, available to Upjohn employees 55 years old or older, could increase an individual's retirement benefits 10% to 20%. In addition, Upjohn is offering a one-time retirement bonus equal to six months of base pay.
 
-Chairman Theodore Cooper called the program part of the company's two-year strategy to implement budget constraints and 'an effective headcount-control program.'
+Chairman Theodore Cooper called the program part of the company's two-year strategy to implement budget constraints and "an effective headcount-control program."
 
-But some analysts questioned how much of an impact the retirement package will have, because few jobs will end up being eliminated. 'It's a cosmetic move,' said Jonathan S. Gelles of Wertheim Schroder amp Co.
+But some analysts questioned how much of an impact the retirement package will have, because few jobs will end up being eliminated. "It's a cosmetic move," said Jonathan S. Gelles of Wertheim Schroder amp Co.
 
 According to Upjohn's estimates, only 50% to 60% of the 1,100 eligible employees will take advantage of the plan. Upjohn further estimated that about 50% of the employees who leave for early retirement may be replaced. As a result, Upjohn will likely trim only about 275 to 350 of its more than 21,000 jobs world-wide.
 
 In composite trading on the New York Stock Exchange yesterday, Upjohn shares rose 87.5 cents to $38.875 apiece.
 
-An Upjohn spokesman said he had ' heard nothing' to suggest the early retirement package was spurred by shareholder pressure or a potential bidder for the company, which occasionally has been the target of takeover speculation. The company earlier this year adopted a shareholder-rights plan to ward off unwanted suitors.
+An Upjohn spokesman said he had " heard nothing" to suggest the early retirement package was spurred by shareholder pressure or a potential bidder for the company, which occasionally has been the target of takeover speculation. The company earlier this year adopted a shareholder-rights plan to ward off unwanted suitors.
 
-The spokesman said it is the first early retirement plan offered under its two-year cost-control strategy. Earlier staff-reduction moves have trimmed about 300 jobs, the spokesman said.</TEXT>
+The spokesman said it is the first early retirement plan offered under its two-year cost-control strategy. Earlier staff-reduction moves have trimmed about 300 jobs, the spokesman said.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l63" relType="EVIDENTIAL" eventInstanceID="ei468" subordinatedEventInstance="ei470" />
+<SLINK lid="l62" relType="EVIDENTIAL" eventInstanceID="ei458" subordinatedEventInstance="ei475" />
+<SLINK lid="l38" relType="EVIDENTIAL" eventInstanceID="ei473" subordinatedEventInstance="ei472" />
+<SLINK lid="l39" relType="EVIDENTIAL" eventInstanceID="ei421" subordinatedEventInstance="ei422" />
+<SLINK lid="l40" relType="MODAL" eventInstanceID="ei425" subordinatedEventInstance="ei424" />
+<SLINK lid="l41" relType="EVIDENTIAL" eventInstanceID="ei428" subordinatedEventInstance="ei429" />
+<SLINK lid="l42" relType="MODAL" eventInstanceID="ei431" subordinatedEventInstance="ei432" />
+<SLINK lid="l43" relType="EVIDENTIAL" eventInstanceID="ei433" subordinatedEventInstance="ei434" />
+<SLINK lid="l44" relType="MODAL" eventInstanceID="ei434" subordinatedEventInstance="ei435" />
+<SLINK lid="l45" relType="EVIDENTIAL" eventInstanceID="ei438" subordinatedEventInstance="ei439" />
+<SLINK lid="l46" relType="MODAL" eventInstanceID="ei439" subordinatedEventInstance="ei440" />
+<SLINK lid="l49" relType="MODAL" eventInstanceID="ei443" subordinatedEventInstance="ei445" />
+<SLINK lid="l50" relType="EVIDENTIAL" eventInstanceID="ei449" subordinatedEventInstance="ei448" />
+<SLINK lid="l52" relType="MODAL" eventInstanceID="ei453" subordinatedEventInstance="ei455" />
+<SLINK lid="l53" relType="MODAL" eventInstanceID="ei460" subordinatedEventInstance="ei461" />
+<SLINK lid="l56" relType="MODAL" eventInstanceID="ei466" subordinatedEventInstance="ei467" />
+<SLINK lid="l58" relType="MODAL" eventInstanceID="ei425" subordinatedEventInstance="ei426" />
+<ALINK lid="l59" relType="INITIATES" eventInstanceID="ei426" relatedToEventInstance="ei427"  />
+<ALINK lid="l60" relType="CULMINATES" eventInstanceID="ei446" relatedToEventInstance="ei447" />
 
 </TimeML>

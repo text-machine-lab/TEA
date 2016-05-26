@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version="1.0" ?>
 <TimeML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://timeml.org/timeMLdocs/TimeML_1.2.1.xsd">
 
 <DOCID>wsj_0324</DOCID>
 
-<DCT><TIMEX3 functionInDocument="CREATION_TIME" temporalFunction="false" tid="t0" type="DATE" value="1989-11-01">11/01/89 </TIMEX3></DCT>
+<DCT><TIMEX3 tid="t0" type="DATE" value="1989-11-01">11/01/89 </TIMEX3></DCT>
 
 <EXTRAINFO>
 WSJ891101-0040 = 891101 891101-0040.
@@ -12,10 +12,37 @@ Business Brief -- QVC Network Inc.: @ Acquisition of CVN Cos. @ Is Completed by 
 WALL STREET JOURNAL (J) QVCN CAVN TENDER OFFERS, MERGERS, ACQUISITIONS (TNM) MEDIA, PUBLISHING, BROADCASTING, ELECTRONIC PUBLISHING (MED) RETAILING (RET)
 </EXTRAINFO>
 
-<TEXT>QVC Network Inc. said it completed its acquisition of CVN Cos. for about $423 million.
+<TEXT>
+QVC Network Inc. said it completed its acquisition of CVN Cos. for about $423 million.
 
 QVC agreed to pay $19 and one-eighth QVC share for each of CVN's 20 million fully diluted shares.
 
-The acquisition brings together the two largest competitors to Home Shopping Network Inc., which now reaches more viewers than any other company in the video shopping industry. Among them, Home Shopping, QVC and CVN already control most of that young and fast-growing market, which last year had sales of about $1.4 billion.</TEXT>
+The acquisition brings together the two largest competitors to Home Shopping Network Inc., which now reaches more viewers than any other company in the video shopping industry. Among them, Home Shopping, QVC and CVN already control most of that young and fast-growing market, which last year had sales of about $1.4 billion.
+</TEXT>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SLINK lid="l13" relType="MODAL" eventInstanceID="ei1993" subordinatedEventInstance="ei1994" />
+<SLINK lid="l8" relType="EVIDENTIAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1991" />
+<SLINK lid="l9" relType="EVIDENTIAL" eventInstanceID="ei1990" subordinatedEventInstance="ei1993" />
+<ALINK lid="l10" relType="CULMINATES" eventInstanceID="ei1991" relatedToEventInstance="ei1992" />
 
 </TimeML>

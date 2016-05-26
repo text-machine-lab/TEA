@@ -55,7 +55,12 @@ def train(notes, train_event=True, train_rel=True, predicate_as_event=False):
                 for label in tmpLabels: eventLabels += label
                 eventFeatures += features.extract_event_feature_set(note, tmpLabels, timexLabels=note.get_timex_labels())
 
+            #print "predicate_as_event: ", predicate_as_event
+
             if predicate_as_event:
+
+             #   print "PREDICATE AS EVENT FEAT EXTRACT"
+
                 _eventClassLabels = []
 
                 # extract features to perform event class labeling.
@@ -82,7 +87,7 @@ def train(notes, train_event=True, train_rel=True, predicate_as_event=False):
         if train_rel is True:
             # extract features to classify relations between temporal entities.
             tlinkLabels += note.get_tlink_labels()
-            tlinkFeatures += features.extract_tlink_features(note)
+            tlinkFeatures += features.extract_tlink_features(note, event_labels=note.get_event_class_labels(), timex_labels=note.get_timex_labels())
 
     # TODO: when predicting, if gold standard is provided evaluate F-measure for each of the steps
 
@@ -120,6 +125,74 @@ def train(notes, train_event=True, train_rel=True, predicate_as_event=False):
                    "TLINK":tlinkVectorizer}
 
     return models, vectorizers
+
+def eval_tlink_predict(note, predict_timex=True, predict_event=True, predict_rel=True, predicate_as_event=False):
+
+    print "called eval_tlink_predict"
+    global _models
+    global _vects
+    global _models_loaded
+
+    if _models_loaded is False:
+        sys.exit("Models not loaded. Cannot predict")
+
+    tlinkVectorizer = _vects["TLINK"]
+    tlinkClassifier = _models["TLINK"]
+
+    print tlinkClassifier
+    print tlinkVectorizer
+
+    event_labels = []
+    timex_labels = []
+    tokens = []
+
+    _eventLabels = []
+    _timexLabels = []
+
+    tokenized_text = note.get_tokenized_text()
+
+    for line in note.get_event_class_labels():
+        event_labels += line
+    for line in note.get_timex_labels():
+        timex_labels += line
+    for line in tokenized_text:
+        tokens += tokenized_text[line]
+
+    for line in tokenized_text:
+        _timexLabels.append([])
+        _eventLabels.append([])
+
+    timex_count = 5
+    event_count = 5
+
+    for t, timex_label, event_label in zip(tokens, timex_labels, event_labels):
+
+        print timex_label
+
+        _timexLabels[t["sentence_num"] - 1].append({'entity_label':timex_label["entity_label"],
+                                                   'entity_type':None if timex_label["entity_label"] == 'O' else 'TIMEX3',
+                                                   'entity_id':timex_label["entity_id"],
+                                                   'norm_val':""})
+
+        _eventLabels[t["sentence_num"]-1].append({'entity_label':event_label["entity_label"],
+                                                  'entity_type':None if event_label["entity_label"] == 'O' else 'EVENT',
+                                                  'entity_id':event_label["entity_id"]})
+
+        timex_count += 1
+        event_count += 1
+
+    note.tlinks = []
+    note.set_tlinked_entities(_timexLabels, _eventLabels)
+
+    f = features.extract_tlink_features(note, event_labels=_eventLabels, timex_labels=_timexLabels)
+    X = tlinkVectorizer.transform(f)
+
+    tlink_labels = list(tlinkClassifier.predict(X))
+
+    entity_labels    = [label for line in note.get_labels() for label in line]
+    original_offsets = note.get_token_char_offsets()
+
+    return entity_labels, original_offsets, tlink_labels, tokens
 
 
 def predict(note, predict_timex=True, predict_event=True, predict_rel=True, predicate_as_event=False):
@@ -233,6 +306,10 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True, pred
                                                                'entity_id':"t"+str(event_count)})
                 event_count += 1
 
+        #print
+        #print "eventLabels is None: ", eventLabels is None
+        #print
+
         eventClassClassifier = _models["EVENT_CLASS"]
         eventClassVectorizer = _vects["EVENT_CLASS"]
 
@@ -292,7 +369,7 @@ def predict(note, predict_timex=True, predict_event=True, predict_rel=True, pred
 
         print "PREDICT: getting tlink features"
 
-        f = features.extract_tlink_features(note)
+        f = features.extract_tlink_features(note, event_labels=eventClassLabels, timex_labels=timexLabels)
         X = tlinkVectorizer.transform(f)
 
         tlink_labels = list(tlinkClassifier.predict(X))
@@ -389,19 +466,29 @@ def combineLabels(timexLabels, eventLabels, OLabels=[]):
 
     return labels
 
-def load_models(path, predict_timex, predict_event, predict_tlink, predicate_as_event):
+def load_models(path, predict_event, predict_tlink, predicate_as_event):
 
     keys = ["EVENT", "EVENT_CLASS", "TLINK"]
-    flags = [predict_timex, predict_event, predict_event, predict_tlink]
+    flags = [predict_event, predict_event, predict_tlink]
 
     global _models
     global _vects
     global _models_loaded
 
+    print path
+
     for key, flag in zip(keys, flags):
 
         m_path = path+"_"+key+"_MODEL"
         v_path = path+"_"+key+"_VECT"
+
+        print
+        print "key: ", key
+        print "flag: ", flag
+        print "m_path: ", m_path
+        print "v_path: ", v_path
+        print
+
 
         if predicate_as_event and key == "EVENT_CLASS":
             m_path += "_PREDICATE_AS_EVENT"
@@ -409,6 +496,7 @@ def load_models(path, predict_timex, predict_event, predict_tlink, predicate_as_
 
         # vect should also exist, unless something went wrong.
         if os.path.isfile(m_path) is True and flag is True:
+            print "SETTING: ", key
             print "loading: {}".format(key)
             _models[key] = cPickle.load(open(m_path, "rb"))
             _vects[key]  = cPickle.load(open(v_path, "rb"))
@@ -417,6 +505,9 @@ def load_models(path, predict_timex, predict_event, predict_tlink, predicate_as_
             _vects[key]  = None
 
     _models_loaded = True
+
+    print _vects
+    print _models
 
     return
 
