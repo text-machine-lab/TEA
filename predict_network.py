@@ -50,6 +50,11 @@ def main():
                         default=False,
                         help="Predict using a single pass model")
 
+    parser.add_argument("--evaluate",
+                        action='store_true',
+                        default=False,
+                        help="Use gold data from the given files to produce evaluation metrics")
+
     args = parser.parse_args()
 
     annotation_destination = args.annotation_destination
@@ -127,7 +132,7 @@ def main():
         NNet.load_weights(model_path + '.weights.h5')
 
         # run prediction cycle
-        labels, filter_lists = network.evaluate(notes, NNet)
+        labels, filter_lists = network.single_predict(notes, NNet, evalu=args.evaluate)
 
     else:
         # load both passes
@@ -138,7 +143,7 @@ def main():
         detector.load_weights(model_path + '.detect.weights.h5')
 
         # run prediction cycle
-        labels, filter_lists = network.predict(notes, detector, classifier)
+        labels, filter_lists = network.predict(notes, detector, classifier, evalu=args.evaluate)
 
     # labels are returned as a 1 dimensional numpy array, with labels for all objects.
     # we track the current index to find labels for given notes

@@ -155,47 +155,12 @@ def train_model(notes, epochs=5, training_input=None, weight_classes=False, batc
 
     return model
 
-def predict(notes, detector, classifier):
+def predict(notes, detector, classifier, evalu=False):
     '''
     using the given detector and classifier, predict labels for all pairs in the given note set
     '''
 
-    # data tensors for left and right SDP
-    XL = None
-    XR = None
-
-    # list of lists, where each list contains the indices to delete from a given note
-    # indices of the outer list corespond to indices of the notes list
-    del_lists = []
-
-    print 'Loading word embeddings...'
-    word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
-    # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
-
-    print 'Extracting dependency paths...'
-    for i, note in enumerate(notes):
-        # get the representation for the event/timex pairs in the note
-        # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
-        # (with length equal to word embedding length), and axis 2 hold each word.
-        left_vecs, right_vecs, del_list = _extract_path_representations(note, word_vectors)
-
-        # add the list of indices to delete from every file to the primary list
-        del_lists.append(del_list)
-
-        # add the note's data to the combine data matrix
-        if XL == None:
-            XL = left_vecs
-        else:
-            XL = _pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
-
-        if XR == None:
-            XR = right_vecs
-        else:
-            XR = _pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
-
-    # pad XL and XR so that they have the same number of dimensions on the second axis
-    # any other dimension mis-matches are caused by actually errors and should not be padded away
-    XL, XR = _pad_to_match_dimensions(XL, XR, 2, pad_left=True)
+    XL, XR, del_lists, gold_labels = _get_test_input(notes, evaluation=evalu)
 
     # get expected length of model input
     input_len = detector.input_shape[0][2]
@@ -236,22 +201,17 @@ def predict(notes, detector, classifier):
 
     assert len(labels) == len(presense_labels)
 
+    if evalu:
+        class_confusion(labels, gold_labels)
+
     return _convert_int_labels_to_str(labels), del_lists
 
-def evaluate(notes, model):
+def single_predict(notes, model, evalu=False):
     '''
-    predict using a trained model, and evaluate the output against gold data
+    predict using a trained single pass model
     '''
 
-    # data tensors for left and right SDP
-    XL = None
-    XR = None
-
-    # list of lists, where each list contains the indices to delete from a given note
-    # indices of the outer list corespond to indices of the notes list
-    del_lists = []
-
-    XL, XR, gold_labels = _get_training_input(notes, no_none=True)
+    XL, XR, del_lists, gold_labels = _get_test_input(notes, evaluation=evalu)
 
     # get expected length of model input
     input_len = model.input_shape[0][2]
@@ -264,11 +224,12 @@ def evaluate(notes, model):
     print 'Predicting...'
     labels = model.predict_classes([XL, XR])
 
-    class_confusion(labels, gold_labels, 7)
+    if evalu:
+        class_confusion(labels, gold_labels, 6)
 
     return _convert_int_labels_to_str(labels), del_lists
 
-def _get_training_input(notes, no_none=False, presence=False):
+def _get_training_input(notes, no_none=False, presence=False, shuffle=True):
 
     # TODO: handle tlinks linking to the document creation time. at the moment, we simply skip them
 
@@ -330,14 +291,76 @@ def _get_training_input(notes, no_none=False, presence=False):
             if label != 0:
                 labels[i] = 1
 
-    rng_state = np.random.get_state()
-    np.random.shuffle(XL)
-    np.random.set_state(rng_state)
-    np.random.shuffle(XR)
-    np.random.set_state(rng_state)
-    np.random.shuffle(labels)
+    if shuffle:
+        rng_state = np.random.get_state()
+        np.random.shuffle(XL)
+        np.random.set_state(rng_state)
+        np.random.shuffle(XR)
+        np.random.set_state(rng_state)
+        np.random.shuffle(labels)
 
     return XL, XR, labels
+
+def _get_test_input(notes, evaluation=False):
+    '''
+    get input tensors for prediction. If evaluation is true, gold labels are also extracted
+    '''
+
+    # data tensors for left and right SDP
+    XL = None
+    XR = None
+
+    # list of lists, where each list contains the indices to delete from a given note
+    # indices of the outer list corespond to indices of the notes list
+    del_lists = []
+
+    tlinklabels = []
+
+    print 'Loading word embeddings...'
+    word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
+    # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
+
+    print 'Extracting dependency paths...'
+    for i, note in enumerate(notes):
+        # get the representation for the event/timex pairs in the note
+        # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
+        # (with length equal to word embedding length), and axis 2 hold each word.
+        left_vecs, right_vecs, del_list = _extract_path_representations(note, word_vectors)
+
+        # add the note's data to the combine data matrix
+        if XL == None:
+            XL = left_vecs
+        else:
+            XL = _pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
+
+        if XR == None:
+            XR = right_vecs
+        else:
+            XR = _pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
+
+        # remove duplicate indices
+        del_list = list(set(del_list))
+        # remove indices in descending order so that they continue to refer to the item we want to remove
+        del_list.sort()
+        del_list.reverse()
+        del_lists.append(del_list)
+
+        if evaluation:
+            # get tlink lables
+            note_tlinklabels = note.get_tlink_labels()
+            for index in del_list:
+                del note_tlinklabels[index]
+            tlinklabels += note_tlinklabels
+
+    # pad XL and XR so that they have the same number of dimensions on the second axis
+    # any other dimension mis-matches are caused by actually errors and should not be padded away
+    XL, XR = _pad_to_match_dimensions(XL, XR, 2, pad_left=True)
+
+    labels = []
+    if evaluation:
+        labels = _convert_str_labels_to_int(tlinklabels)
+
+    return XL, XR, del_lists, labels
 
 def _extract_path_representations(note, word_vectors, no_none=False):
     '''
