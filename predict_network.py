@@ -10,14 +10,20 @@ from code.config import env_paths
 if env_paths()["PY4J_DIR_PATH"] is None:
     sys.exit("PY4J_DIR_PATH environment variable not specified")
 
-import os
-import cPickle
 import argparse
+import cPickle
 import glob
-from code.learning import network
+import os
+
 from keras.models import model_from_json
 
+from code.learning import network
+
+timenote_imported = False
+
 def main():
+
+    global timenote_imported
 
     parser = argparse.ArgumentParser()
 
@@ -31,17 +37,28 @@ def main():
     parser.add_argument("annotation_destination",
                          help="Where annotated files are written")
 
+    parser.add_argument("newsreader_annotations",
+                        help="Where newsreader pipeline parsed file objects go")
+
     parser.add_argument("--use_gold",
                         action='store_true',
                         default=False,
                         help="Use gold taggings for EVENT and TIMEX")
 
+    parser.add_argument("--single_pass",
+                        action='store_true',
+                        default=False,
+                        help="Predict using a single pass model")
+
     args = parser.parse_args()
 
     annotation_destination = args.annotation_destination
+    newsreader_dir = args.newsreader_annotations
 
     if os.path.isdir(annotation_destination) is False:
         sys.exit("\n\noutput destination does not exist")
+    if os.path.isdir(newsreader_dir) is False:
+        sys.exit("invalid path for time note dir")
 
     predict_dir = args.predict_dir[0]
 
@@ -55,6 +72,8 @@ def main():
     from code.learning import model
 
     notes = []
+
+    pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
 
     if args.use_gold:
         if '/*' != args.predict_dir[0][-2:]:
@@ -90,13 +109,36 @@ def main():
             print '\n\nprocessing file {}/{} {}'.format(i + 1,
                                                         len(zip(tml_files, gold_files)),
                                                         tml)
-            tmp_note = TimeNote(tml, gold)
+            if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
+                tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
+            else:
+                if timenote_imported is False:
+                    from code.notes.TimeNote import TimeNote
+                    timenote_imported = True
+                tmp_note = TimeNote(tml, gold)
+                cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
+
             notes.append(tmp_note)
 
-    model = model_from_json(open(model_path + '.arch.json').read())
-    model.load_weights(model_path + '.weights.h5')
 
-    labels, filter_lists = network.predict(notes, model)
+    if args.single_pass:
+        # load model
+        NNet = model_from_json(open(model_path + '.arch.json').read())
+        NNet.load_weights(model_path + '.weights.h5')
+
+        # run prediction cycle
+        labels, filter_lists = network.evaluate(notes, NNet)
+
+    else:
+        # load both passes
+        classifier = model_from_json(open(model_path + '.class.arch.json').read())
+        classifier.load_weights(model_path + '.class.weights.h5')
+
+        detector = model_from_json(open(model_path + '.detect.arch.json').read())
+        detector.load_weights(model_path + '.detect.weights.h5')
+
+        # run prediction cycle
+        labels, filter_lists = network.predict(notes, detector, classifier)
 
     # labels are returned as a 1 dimensional numpy array, with labels for all objects.
     # we track the current index to find labels for given notes

@@ -10,7 +10,7 @@ from keras.regularizers import l2, activity_l2
 
 from word2vec import load_word2vec_binary
 
-def get_untrained_model(encoder_dropout=0, decoder_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=300, max_len=22, nb_classes=7):
+def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=300, max_len=22, nb_classes=7):
     '''
     Creates a neural network with the specified conditions.
     params:
@@ -45,9 +45,11 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, reg_W=0, reg_B=0, 
     # encode the first entity
     encoder_L = Sequential()
 
+    encoder_L.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
+
     # with maxpooling
     if maxpooling:
-        encoder_L.add(LSTM(LSTM_size, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        encoder_L.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
         if encoder_dropout != 0:
             encoder_L.add(TimeDistributed(Dropout(encoder_dropout)))
         encoder_L.add(MaxPooling1D(pool_length=LSTM_size))
@@ -55,7 +57,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, reg_W=0, reg_B=0, 
 
     # without maxpooling
     else:
-        encoder_L.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        encoder_L.add(Masking(mask_value=0.))
         encoder_L.add(LSTM(LSTM_size, return_sequences=False, inner_activation="sigmoid"))
         if encoder_dropout != 0:
             encoder_L.add(Dropout(encoder_dropout))
@@ -63,9 +65,11 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, reg_W=0, reg_B=0, 
     # encode the second entity
     encoder_R = Sequential()
 
+    encoder_R.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
+
     # with maxpooling
     if maxpooling:
-        encoder_R.add(LSTM(LSTM_size, input_shape=(data_dim, max_len), return_sequences=True, inner_activation="sigmoid"))
+        encoder_R.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
         if encoder_dropout != 0:
             encoder_R.add(TimeDistributed(Dropout(encoder_dropout)))
         encoder_R.add(MaxPooling1D(pool_length=LSTM_size))
@@ -73,7 +77,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, reg_W=0, reg_B=0, 
 
     else:
     # without maxpooling
-        encoder_R.add(Masking(mask_value=0., input_shape=(data_dim, max_len)))
+        encoder_R.add(Masking(mask_value=0.))
         encoder_R.add(LSTM(LSTM_size, return_sequences=False, inner_activation="sigmoid"))
         if encoder_dropout != 0:
             encoder_R.add(Dropout(encoder_dropout))
@@ -91,7 +95,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, reg_W=0, reg_B=0, 
     return decoder
 
 def train_model(notes, epochs=5, training_input=None, weight_classes=False, batch_size=256,
-    encoder_dropout=0, decoder_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=7):
+    encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=7):
     '''
     obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
     params:
@@ -109,10 +113,8 @@ def train_model(notes, epochs=5, training_input=None, weight_classes=False, batc
     else:
         XL, XR, labels = training_input
 
-    print labels
-
     # reformat labels so that they can be used by the NN
-    Y = to_categorical(labels,7)
+    Y = to_categorical(labels,nb_classes)
 
     # use weighting to assist with the imbalanced data set problem
     if weight_classes:
@@ -129,23 +131,33 @@ def train_model(notes, epochs=5, training_input=None, weight_classes=False, batc
         XL, _ = _pad_to_match_dimensions(XL, filler, 2, pad_left=True)
         XR, _ = _pad_to_match_dimensions(XR, filler, 2, pad_left=True)
 
-    model = get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
+    model = get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
         maxpooling=maxpooling, data_dim=data_dim, max_len=max_len, nb_classes=nb_classes)
+
+    # split off validation data with 20 80 split (this way we get the same validation data every time we use this data sample, and can test on it after to get a confusion matrix)
+    V_XL = XL[:(XL.shape[0]/5),:,:]
+    V_XR = XR[:(XR.shape[0]/5),:,:]
+    V_Y  = Y [:( Y.shape[0]/5),:]
+    V_labels = labels[:(Y.shape[0]/5)]
+
+    XL = XL[(XL.shape[0]/5):,:,:]
+    XR = XR[(XR.shape[0]/5):,:,:]
+    Y  = Y [( Y.shape[0]/5):,:]
 
     # train the network
     print 'Training network...'
-    model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=batch_size)
+    model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y))
 
-    test = model.predict_classes([XL, XR])
+    test = model.predict_classes([V_XL, V_XR])
 
     print test
-    class_confusion(test, labels)
+    class_confusion(test, V_labels, nb_classes)
 
     return model
 
-def predict(notes, model):
+def predict(notes, detector, classifier):
     '''
-    use the trained model to predict the labels of some data
+    using the given detector and classifier, predict labels for all pairs in the given note set
     '''
 
     # data tensors for left and right SDP
@@ -186,6 +198,62 @@ def predict(notes, model):
     XL, XR = _pad_to_match_dimensions(XL, XR, 2, pad_left=True)
 
     # get expected length of model input
+    input_len = detector.input_shape[0][2]
+    filler = np.ones((1,1,input_len))
+
+    # pad input matrix to fit expected length
+    XL, _ = _pad_to_match_dimensions(XL, filler, 2, pad_left=True)
+    XR, _ = _pad_to_match_dimensions(XR, filler, 2, pad_left=True)
+
+    print 'Detecting...'
+    presense_labels = detector.predict_classes([XL, XR])
+
+    # get data tensors for classification
+    C_XL = XL[presense_labels[:]==1]
+    C_XR = XR[presense_labels[:]==1]
+
+    # if input is too long, cut off right side terms
+    # TODO: cut left terms instead
+    input_len = classifier.input_shape[0][2]
+
+    C_XL = _strip_to_length(C_XL, input_len, 2)
+    C_XR = _strip_to_length(C_XR, input_len, 2)
+
+    print C_XL.shape
+
+    print 'Classifying...'
+    classification_labels = classifier.predict_classes([C_XL, C_XR])
+
+    # combine classification into final label list
+    labels = []
+    class_index = 0
+    for label in presense_labels:
+        if label == 1:
+            labels.append(classification_labels[class_index])
+            class_index += 1
+        else:
+            labels.append(0)
+
+    assert len(labels) == len(presense_labels)
+
+    return _convert_int_labels_to_str(labels), del_lists
+
+def evaluate(notes, model):
+    '''
+    predict using a trained model, and evaluate the output against gold data
+    '''
+
+    # data tensors for left and right SDP
+    XL = None
+    XR = None
+
+    # list of lists, where each list contains the indices to delete from a given note
+    # indices of the outer list corespond to indices of the notes list
+    del_lists = []
+
+    XL, XR, gold_labels = _get_training_input(notes, no_none=True)
+
+    # get expected length of model input
     input_len = model.input_shape[0][2]
     filler = np.ones((1,1,input_len))
 
@@ -196,9 +264,11 @@ def predict(notes, model):
     print 'Predicting...'
     labels = model.predict_classes([XL, XR])
 
+    class_confusion(labels, gold_labels, 7)
+
     return _convert_int_labels_to_str(labels), del_lists
 
-def _get_training_input(notes):
+def _get_training_input(notes, no_none=False, presence=False):
 
     # TODO: handle tlinks linking to the document creation time. at the moment, we simply skip them
 
@@ -222,7 +292,7 @@ def _get_training_input(notes):
         # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
         # (with length equal to word embedding length), and axis 2 hold each word.
         # del_list is a list of indices for which no SDP could be obtained
-        left_vecs, right_vecs, del_list = _extract_path_representations(note, word_vectors)
+        left_vecs, right_vecs, del_list = _extract_path_representations(note, word_vectors, no_none)
 
         # add the note's data to the combine data matrix
         if XL == None:
@@ -255,10 +325,21 @@ def _get_training_input(notes):
 
     labels = _convert_str_labels_to_int(tlinklabels)
 
+    if presence:
+        for i, label in enumerate(labels):
+            if label != 0:
+                labels[i] = 1
+
+    rng_state = np.random.get_state()
+    np.random.shuffle(XL)
+    np.random.set_state(rng_state)
+    np.random.shuffle(XR)
+    np.random.set_state(rng_state)
+    np.random.shuffle(labels)
+
     return XL, XR, labels
 
-
-def _extract_path_representations(note, word_vectors):
+def _extract_path_representations(note, word_vectors, no_none=False):
     '''
     convert a note into a portion of the input matrix
     '''
@@ -277,16 +358,16 @@ def _extract_path_representations(note, word_vectors):
 
     # get token text from ids in left sdp
     for i, id_list in enumerate(left_ids):
-        #if tlinklabels[i] == 0:
-        #    left_paths.append([])
-        #else:
+        if tlinklabels[i] == 0 and no_none:
+           left_paths.append([])
+        else:
             left_paths.append(note.get_tokens_from_ids(id_list))
 
     # get token text from ids in right sdp
     for i, id_list in enumerate(right_ids):
-        #if tlinklabels[i] == 0:
-        #    right_paths.append([])
-        #else:
+        if tlinklabels[i] == 0 and no_none:
+           right_paths.append([])
+        else:
             right_paths.append(note.get_tokens_from_ids(id_list))
 
     # get the word vectors for every word in the left path
@@ -298,9 +379,6 @@ def _extract_path_representations(note, word_vectors):
             try:
                 embedding = word_vectors[word]
             except KeyError:
-                # for key in word_vectors:
-                #     print key
-                # embedding = np.ones((300))
                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
@@ -330,7 +408,6 @@ def _extract_path_representations(note, word_vectors):
                 embedding = word_vectors[word]
             except KeyError:
                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
-                # embedding = np.ones((300))
 
             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
             embedding = embedding[np.newaxis, :, np.newaxis]
@@ -396,6 +473,13 @@ def _pad_to_match_dimensions(a, b, axis, pad_left=False):
 
     return a, b
 
+def _strip_to_length(a, length, axis):
+
+    if a.shape[axis] > length:
+        snip = a.shape[axis] - length
+        a = a[:,:,snip:]
+
+    return a
 
 def _get_token_id_subpaths(note):
     '''
@@ -436,8 +520,6 @@ def get_uniform_class_weights(labels):
     n_samples = len(labels)
     n_classes = len(labels[0])
 
-    # print labels.shape
-
     weights = n_samples/ (n_classes * np.sum(labels, axis=0))
 
     return weights
@@ -453,14 +535,12 @@ def _convert_str_labels_to_int(labels):
             processed_labels.append(1)
         elif label == "BEFORE":
             processed_labels.append(2)
-        elif label == "AFTER":
-            processed_labels.append(3)
         elif label == "IS_INCLUDED":
-            processed_labels.append(4)
+            processed_labels.append(3)
         elif label == "BEGUN_BY":
-            processed_labels.append(5)
+            processed_labels.append(4)
         elif label == "ENDED_BY":
-            processed_labels.append(6)
+            processed_labels.append(5)
         else:  # label for pairs which are not linked
             processed_labels.append(0)
 
@@ -478,33 +558,39 @@ def _convert_int_labels_to_str(labels):
         elif label == 2:
             processed_labels.append("BEFORE")
         elif label == 3:
-            processed_labels.append("AFTER")
-        elif label == 4:
             processed_labels.append("IS_INCLUDED")
-        elif label == 5:
+        elif label == 4:
             processed_labels.append("BEGUN_BY")
-        elif label == 6:
+        elif label == 5:
             processed_labels.append("ENDED_BY")
         else:  # label for unlinked pairs (should have int 0)
             processed_labels.append("None")
 
     return processed_labels
 
-def class_confusion(predicted, actual):
+def class_confusion(predicted, actual, nb_classes):
+    '''
+    print confusion matrix for two lists of labels. A given index in both lists should correspond to the same data sample
+    '''
 
+    # TODO: use a np array instead of a list of lists
     confusion = []
 
     i = 0
-    while i < 7:
-        confusion.append([0,0,0,0,0,0,0])
+    while i < nb_classes:
+        tmp = []
+        j = 0
+        while j < nb_classes:
+            tmp.append(0)
+            j += 1
+        confusion.append(tmp)
         i += 1
 
     for true, pred in zip(actual, predicted):
         # build confusion matrix
-        confusion[true][pred] += 1
+        confusion[pred][true] += 1
 
     # print confusion matrix
-    print "       0  1  2  3  4  5  6"
     for i, row in enumerate(confusion):
         print i, ": ", row
 
