@@ -30,7 +30,7 @@ from utilities.pre_processing import pre_processing
 
 class TimeNote(Note):
 
-    def __init__(self, timeml_note_path, annotated_timeml_path=None, verbose=False):
+    def __init__(self, timeml_note_path, annotated_timeml_path=None, verbose=False, dev=False):
 
         if verbose: print "called TimeNote constructor"
 
@@ -96,10 +96,12 @@ class TimeNote(Note):
 
         if self.annotated_note_path is not None:
 
-            self.get_tlinked_entities()
+            if dev is False:
 
-            # will store labels in self.iob_labels
-            self.get_labels()
+                self.get_tlinked_entities()
+
+                # will store labels in self.iob_labels
+                self.get_labels()
 
     def annotate_timex(self):
         from utilities.timex_annotator.heidel_time import heideler
@@ -522,6 +524,10 @@ class TimeNote(Note):
 
             for token, label in zip(self.pre_processed_text[sentence_num], labels):
 
+                print
+                print "label: ", label
+                print
+
                 if label["entity_type"] == "EVENT":
 
                     _chunk = [token]
@@ -531,8 +537,13 @@ class TimeNote(Note):
 
                     id_chunks.append([label["entity_id"]])
 
+                    if label["entity_id"] in id_chunk_map:
+                        print "WARNING: DUPLICATE ENTITY OCCURECE"
+
+                    """
                     # TODO: gonna drop multi span events...
                     assert label["entity_id"] not in id_chunk_map
+                    """
 
                     id_chunk_map[label["entity_id"]] = _chunk
 
@@ -597,8 +608,8 @@ class TimeNote(Note):
             id_chunk = []
 
         # sanity checks.
-        assert len(event_ids.union(timex_ids)) == len(id_chunks)
-        assert len(id_chunk_map.keys()) == len(event_ids.union(timex_ids))
+        #assert len(event_ids.union(timex_ids)) == len(id_chunks)
+        #assert len(id_chunk_map.keys()) == len(event_ids.union(timex_ids))
 
         # add doc time. this is a timex.
         doctime = get_doctime_timex(self.note_path)
@@ -772,7 +783,18 @@ class TimeNote(Note):
                 raw_text     = raw_text.strip(char)
                 labeled_text = labeled_text.strip(char)
 
-            raw_text     = re.sub(r"``", r"''", raw_text)
+            #print
+            #print raw_text
+            #print
+
+            #print
+            #print labeled_text
+            #print
+
+            raw_text = re.sub(r"``", r"''", raw_text)
+            raw_text = re.sub(r'"', r"'", raw_text)
+
+            labeled_text = re.sub(r"``", r"''", labeled_text)
             labeled_text = re.sub(r'"', r"'", labeled_text)
 
             raw_text = re.sub("<TEXT>\n+", "", raw_text)
@@ -780,6 +802,11 @@ class TimeNote(Note):
 
             labeled_text = re.sub("<TEXT>\n+", "", labeled_text)
             labeled_text = re.sub("\n+</TEXT>", "", labeled_text)
+
+            # lots of checks!
+            for char in ['\n'] + list(whitespace):
+                raw_text     = raw_text.strip(char)
+                labeled_text = labeled_text.strip(char)
 
             raw_index = 0
             labeled_index = 0
@@ -871,14 +898,17 @@ class TimeNote(Note):
 
 
                     # set proper iob label to token
-                    iob_label, entity_type, entity_id = TimeNote.get_label(token, offsets)
+                    iob_label, entity_type, entity_id, norm_val = TimeNote.get_label(token, offsets)
 
                     if iob_label is not 'O':
                         assert entity_id is not None
                         assert entity_type in ['EVENT', 'TIMEX3']
+                        if entity_type == "EVENT": assert norm_val is None
+                        if entity_type == "TIMEX3": assert norm_val != None
                     else:
                         assert entity_id is None
                         assert entity_type is None
+                        assert norm_val is None
 
 
 
@@ -892,7 +922,8 @@ class TimeNote(Note):
 
                     iobs_sentence.append({'entity_label':iob_label,
                                           'entity_type':entity_type,
-                                          'entity_id':entity_id})
+                                          'entity_id':entity_id,
+                                          'norm_val':norm_val})
 
                 iob_labels.append(iobs_sentence)
 
@@ -1028,6 +1059,7 @@ class TimeNote(Note):
                 if timexEventLabels[index]["entity_type"] == "TIMEX3":
                     # get the time norm value of the time expression
                     # timex_value = get_normalized_time_expressions(doc_time, [entity_tokens])
+
                     timex_value = timexEventLabels[index]["norm_val"]
 
     #                timex_value = ''
@@ -1119,6 +1151,7 @@ class TimeNote(Note):
         label = 'O'
         entity_id = None
         entity_type = None
+        norm_val = None
 
         for span in offsets:
 
@@ -1138,6 +1171,7 @@ class TimeNote(Note):
                     entity_id = labeled_entity.attrib["eid"]
                 else:
                     entity_id = labeled_entity.attrib["tid"]
+                    norm_val = labeled_entity.attrib["value"]
 
                 entity_type = labeled_entity.tag
 
@@ -1156,6 +1190,7 @@ class TimeNote(Note):
                     entity_id = labeled_entity.attrib["eid"]
                 else:
                     entity_id = labeled_entity.attrib["tid"]
+                    norm_val = labeled_entity.attrib["value"]
 
                 entity_type = labeled_entity.tag
 
@@ -1175,7 +1210,7 @@ class TimeNote(Note):
             # multi token events are very rare.
             label = label[2:]
 
-        return label, entity_type, entity_id
+        return label, entity_type, entity_id, norm_val
 
     @staticmethod
     def same_start_offset(span1, span2):
