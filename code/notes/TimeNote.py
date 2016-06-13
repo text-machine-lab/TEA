@@ -185,7 +185,7 @@ class TimeNote(Note):
 
         return labels
 
-    def set_tlinked_entities(self, timexLabels, eventClassLabels):
+    def set_tlinked_entities(self, timexLabels, eventClassLabels, use_gold_ids=False):
         """
             Set the tlink entities given the taggings from classifiers.
             This is used during prediction prior to feature extraction of tlink pairings.
@@ -245,7 +245,8 @@ class TimeNote(Note):
                             tid_numeral += 1
 
                     label = timexLabels[sentence_num-1][token_index]
-                    label["entity_id"] = "t{}".format(tid_numeral)
+                    if use_gold_ids is False:
+                        label["entity_id"] = "t{}".format(tid_numeral)
 
                 else:
 
@@ -254,7 +255,8 @@ class TimeNote(Note):
                     # new entity
                     if eventClassLabels[sentence_num-1][token_index]["entity_label"] != 'O':
                         eid_numeral += 1
-                        label["entity_id"] = "e{}".format(eid_numeral)
+                        if use_gold_ids is False:
+                            label["entity_id"] = "e{}".format(eid_numeral)
 
                     # not in timex entity anymore. we are at an event.
                     in_timex = False
@@ -269,7 +271,7 @@ class TimeNote(Note):
                     id_chunks.append([label["entity_id"]])
 
                     # TODO: gonna drop multi span events...
-                    assert label["entity_id"] not in id_chunk_map
+                    #assert label["entity_id"] not in id_chunk_map
 
                     id_chunk_map[label["entity_id"]] = _chunk
 
@@ -326,8 +328,8 @@ class TimeNote(Note):
             chunk = []
             id_chunk = []
 
-        assert len(event_ids.union(timex_ids)) == len(id_chunks)
-        assert len(id_chunk_map.keys()) == len(event_ids.union(timex_ids))
+        #assert len(event_ids.union(timex_ids)) == len(id_chunks)
+        #assert len(id_chunk_map.keys()) == len(event_ids.union(timex_ids))
 
         # TODO: need to add features for doctime. there aren't any.
         # add doc time. this is a timex.
@@ -524,9 +526,9 @@ class TimeNote(Note):
 
             for token, label in zip(self.pre_processed_text[sentence_num], labels):
 
-                print
-                print "label: ", label
-                print
+                #print
+                #print "label: ", label
+                #print
 
                 if label["entity_type"] == "EVENT":
 
@@ -764,7 +766,7 @@ class TimeNote(Note):
 
     def get_labels(self):
 
-        if self.annotated_note_path is not None and self.iob_labels == []:
+        if self.annotated_note_path is not None and len(self.iob_labels) == 0:
 
             # don't want to modify original
             pre_processed_text = copy.deepcopy(self.pre_processed_text)
@@ -943,12 +945,16 @@ class TimeNote(Note):
 
         return tokens
 
-    def set_iob_labels(self, iob_labels):
+    def set_iob_labels(self, new_iob_labels):
 
         # don't over write existing labels.
         assert len(self.iob_labels) == 0
 
-        self.iob_labels = iob_labels
+    #    print "in set_iob_labels"
+    #    for l in new_iob_labels:
+    #        print "in set_iob_labels: ", l
+
+        self.iob_labels = new_iob_labels
 
     def get_tlink_ids(self):
 
@@ -1072,6 +1078,7 @@ class TimeNote(Note):
                    #     print "NONE NONE"
                    #     print [start, end,  timexEventLabels[index]["entity_id"], timexEventLabels[index]["entity_label"][2:], timex_value]
 
+    #                print "tid", timexEventLabels[index]["entity_id"]
 
                     annotated_text = annotate_text_element(root, "TIMEX3", start, end, {"tid": timexEventLabels[index]["entity_id"], "type":timexEventLabels[index]["entity_label"][2:], "value":timex_value})
                 else:

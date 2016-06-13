@@ -12,7 +12,7 @@ public class HeidelTime {
     String TEA_HOME = new String(CURR_DIR + "../../../../");
 
     HeidelTimeStandalone heidelTime = new HeidelTimeStandalone(Language.ENGLISH,
-                                                               DocumentType.COLLOQUIAL,
+                                                               DocumentType.NEWS,
                                                                OutputType.TIMEML,
                                                                TEA_HOME + "/dependencies/HeidelTime/heideltime-kit/conf/config.props",
                                                                POSTagger.TREETAGGER, true);

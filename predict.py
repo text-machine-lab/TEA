@@ -126,7 +126,7 @@ def main():
 
     pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
 
-    model.load_models(model_path, predict_timex, predict_event, predict_tlink, predicate_as_event)
+    model.load_models(model_path, predict_event, predict_tlink, predicate_as_event)
 
     #read in files as notes
     for i, tml in enumerate(files_to_annotate):

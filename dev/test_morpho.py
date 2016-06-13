@@ -1,8 +1,15 @@
-from code.learning import english_rules
 
+import sys
+import os
+
+TEA_HOME_DIR = os.path.join(*([os.path.dirname(os.path.abspath(__file__))] +['..']))
+
+sys.path.insert(0, TEA_HOME_DIR)
+
+from code.learning import english_rules
 from code.notes.utilities.pre_processing import morpho_pro
 
-print morpho_pro.process("he\nhad\nsaid")
+print morpho_pro.process("he\nhad\nsaid", verbose=True)
 
 # print english_rules._tests_active_voice()
 

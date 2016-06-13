@@ -136,11 +136,11 @@ def eval_tlink_predict(note, predict_timex=True, predict_event=True, predict_rel
     if _models_loaded is False:
         sys.exit("Models not loaded. Cannot predict")
 
+    note.iob_labels = []
+    iob_labels = note.get_labels()
+
     tlinkVectorizer = _vects["TLINK"]
     tlinkClassifier = _models["TLINK"]
-
-    print tlinkClassifier
-    print tlinkVectorizer
 
     event_labels = []
     timex_labels = []
@@ -150,6 +150,8 @@ def eval_tlink_predict(note, predict_timex=True, predict_event=True, predict_rel
     _timexLabels = []
 
     tokenized_text = note.get_tokenized_text()
+
+    _iob_labels = []
 
     for line in note.get_event_class_labels():
         event_labels += line
@@ -161,28 +163,40 @@ def eval_tlink_predict(note, predict_timex=True, predict_event=True, predict_rel
     for line in tokenized_text:
         _timexLabels.append([])
         _eventLabels.append([])
+        _iob_labels.append([])
 
-    timex_count = 5
-    event_count = 5
+    i = 0
 
     for t, timex_label, event_label in zip(tokens, timex_labels, event_labels):
 
-        print timex_label
+        # print timex_label
 
         _timexLabels[t["sentence_num"] - 1].append({'entity_label':timex_label["entity_label"],
                                                    'entity_type':None if timex_label["entity_label"] == 'O' else 'TIMEX3',
                                                    'entity_id':timex_label["entity_id"],
-                                                   'norm_val':""})
+                                                   'norm_val':iob_labels[t["sentence_num"]-1][t["token_offset"]]["norm_val"]})
+
+        _iob_labels[t["sentence_num"]-1].append(_timexLabels[t["sentence_num"]-1][-1])
+
+    for t, timex_label, event_label in zip(tokens, timex_labels, event_labels):
 
         _eventLabels[t["sentence_num"]-1].append({'entity_label':event_label["entity_label"],
                                                   'entity_type':None if event_label["entity_label"] == 'O' else 'EVENT',
                                                   'entity_id':event_label["entity_id"]})
 
-        timex_count += 1
-        event_count += 1
+        if _iob_labels[t["sentence_num"]-1][t["token_offset"]]["entity_type"] == None:
+            _iob_labels[t["sentence_num"]-1][t["token_offset"]] = _eventLabels[t["sentence_num"]-1][-1]
 
     note.tlinks = []
-    note.set_tlinked_entities(_timexLabels, _eventLabels)
+    note.set_tlinked_entities(_timexLabels, _eventLabels, use_gold_ids=True)
+    note.iob_labels = []
+
+#    print "calling set_iob_labels"
+#    print "_iob_labels: "
+#    print _iob_labels
+#    print
+
+    note.set_iob_labels(_iob_labels)
 
     f = features.extract_tlink_features(note, event_labels=_eventLabels, timex_labels=_timexLabels)
     X = tlinkVectorizer.transform(f)
@@ -396,6 +410,8 @@ def _trainEvent(eventFeatures, eventLabels, grid=False):
 
     Y = [l["entity_label"] for l in eventLabels]
 
+    sys.exit("dev: never call this...")
+
     clf, vec = train_classifier(eventFeatures, Y, do_grid=grid)
     return clf, vec
 
@@ -414,7 +430,7 @@ def _trainEventClass(eventClassFeatures, eventClassLabels, grid=False):
 
     Y = [l["entity_label"] for l in eventClassLabels]
 
-    clf, vec = train_classifier(eventClassFeatures, Y, do_grid=grid)
+    clf, vec = train_classifier(eventClassFeatures, Y, do_grid=grid, t="EVENT_CLASS")
     return clf, vec
 
 
@@ -433,7 +449,7 @@ def _trainTlink(tokenVectors, Y, grid=False):
 
     assert len(tokenVectors) == len(Y)
 
-    clf, vec = train_classifier(tokenVectors, Y, do_grid=grid, ovo=True)
+    clf, vec = train_classifier(tokenVectors, Y, do_grid=grid, ovo=True, t="TLINK")
     return clf, vec
 
 

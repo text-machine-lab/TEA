@@ -7,7 +7,7 @@ from sklearn.cross_validation import StratifiedKFold
 import numpy as np
 import math
 
-def train( featsDict, Y, do_grid=False, ovo=False):
+def train( featsDict, Y, do_grid=False, ovo=False, t="not_set"):
     '''
     train()
         train a single classifier for a given data and label set
@@ -29,10 +29,23 @@ def train( featsDict, Y, do_grid=False, ovo=False):
     print
 
     # Search space
-    C_range     = [1]
-    gamma_range = 10.0 ** np.arange( -3, 5 )
+#    C_range     = [1]
+#    gamma_range = 10.0 ** np.arange( -3, 5 )
 
-    clf = None
+    C = 1
+    gamma = None
+
+    # NOTE: was found training on all training data for each type (t) respectively.
+    if t == "EVENT_CLASS":
+        gamma = 0.10000000000000001
+    elif t == "TLINK":
+        gamma = 100
+    else:
+        print
+        sys.exit("DEV ERROR: specify type we are training.")
+        print
+
+    # clf = None
 
     # one-vs-one?
     func_shape = 'ovr'
@@ -40,28 +53,28 @@ def train( featsDict, Y, do_grid=False, ovo=False):
         func_shape = 'ovo'
 
     # Grid search?
-    if do_grid:
+    #if do_grid:
 
-        print "training model [GRID SEARCH ON]"
+    #    print "training model [GRID SEARCH ON]"
 
-        estimates = SVC(kernel='poly', degree=2, max_iter=1000, decision_function_shape=func_shape, class_weight='balanced', cache_size=500)
-        parameters = [{'C':C_range, 'gamma':gamma_range}]
+    #    estimates = SVC(kernel='poly', degree=2, max_iter=1000, decision_function_shape=func_shape, class_weight='balanced', cache_size=500)
+    #    parameters = [{'C':C_range, 'gamma':gamma_range}]
 
         # Find best classifier
-        clf = GridSearchCV(estimates,
-                           parameters,
-                           scoring='f1_weighted',
-                           n_jobs=30,
-                           cv=10,
-                           verbose=10)
+    #    clf = GridSearchCV(estimates,
+    #                       parameters,
+    #                       scoring='f1_weighted',
+    #                       n_jobs=30,
+    #                       cv=10,
+    #                       verbose=10)
 
-        clf.fit(X, Y)
+    #    clf.fit(X, Y)
 
-    else:
+    #else:
 
-        print "training model [GRID SEARCH OFF]"
-        clf = SVC(kernel='poly', degree=2, max_iter=1000, decision_function_shape=func_shape, class_weight='balanced', verbose=True)
-        clf.fit(X, Y)
+    print "training model [GRID SEARCH OFF]"
+    clf = SVC(kernel='poly', C=C, gamma=gamma, degree=2, max_iter=1000, decision_function_shape=func_shape, class_weight='balanced', cache_size=500, verbose=True)
+    clf.fit(X, Y)
 
     return clf, vec
 
