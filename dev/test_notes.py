@@ -22,8 +22,11 @@ import argparse
 import glob
 import cPickle
 
+from  code.learning.features import get_dependency_path
+
 timenote_imported = False
 
+import itertools
 
 def main():
 
@@ -109,8 +112,78 @@ def main():
 
     print notes
 
+    for note in notes:
+
+        id_to_tok = note.id_to_tok
+
+        for tlink in note.get_tlinked_entities():
+
+
+            src_chunk = None
+            target_chunk = None
+
+            src_ids = []
+            target_ids = []
+
+
+            if "token" in tlink["src_entity"][0]:
+                src_chunk = " ".join([t["token"] for t in tlink["src_entity"]])
+                for t in tlink["src_entity"]:
+                    if "id" in t:
+                        src_ids.append(t["id"])
+                    else:
+                        src_ids.append(t["tid"])
+            else:
+                src_chunk = "CREATION_TIME"
+
+
+            if "token" in tlink["target_entity"][0]:
+                target_chunk = " ".join([t["token"] for t in tlink["target_entity"]])
+                for t in tlink["target_entity"]:
+                    if "id" in t:
+                        target_ids.append(t["id"])
+                    else:
+                        target_ids.append(t["tid"])
+            else:
+                target_chunk = "CREATION_TIME"
+
+            for src_id, target_id in itertools.product(src_ids, target_ids):
+                src_id = "t" + src_id[1:]
+                target_id = "t" + target_id[1:]
+                #print "\tSRC_ID: ", src_id
+                #print "\tTARGET_ID: ", target_id
+
+                paths = note.dependency_paths.get_left_right_subpaths(src_id, target_id)
+                lpath = paths[0]
+                rpath = paths[1]
+
+                if lpath and rpath:
+
+                    if tlink["rel_type"] == "NONE": continue
+
+                    print "TLINK: "
+                    print " "*5, "REL TYPE: ", tlink["rel_type"]
+                    print " "*5, "SRC ENTITY: ", src_chunk
+                    print " "*5, "TARGET ENTITY: ", target_chunk
+                    print " "*10, "left path: ", " ".join([id_to_tok["w"+i[1:]]["token"] for i in lpath])
+                    print " "*10, "right path: ", " ".join([id_to_tok["w"+i[1:]]["token"] for i in rpath])
+
+            """
+            if "sentence_num" in tlink["src_entity"][0]:
+                print
+                print "\tSENTENCE  NUM: ", tlink["src_entity"][0]["sentence_num"]
+                print
+            else:
+                print
+                print "\tDEP PATH: NONE"
+                print
+            """
+            #print note.dependency_paths.get_left_right_subpaths(
+
+
 #    sys.exit("done")
 
+    """
     for note in notes:
         # get entity pairs, offsets, tokens, and event/timex entities
         tlink_pair = note.get_tlink_id_pairs()
@@ -131,6 +204,7 @@ def main():
 
         # write(self, timexEventLabels, tlinkLabels, idPairs, offsets, tokens, output_path)
         note.write(event_timex_labels, tlink_labels, tlink_pair, offsets, tokens, args.annotations)
+    """
 
 
 if __name__ == "__main__":

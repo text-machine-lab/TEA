@@ -1,0 +1,182 @@
+
+		Notes DIR:  ../timenote_dev_test
+
+
+		Gold Files:  {'XIE19980809.0010.tml': '../timenote_dev_test/XIE19980809.0010.tml'}
+
+
+		Raw Files:  {'XIE19980809.0010.tml': '../timenote_dev_test/XIE19980809.0010.tml.TE3input'}
+
+
+		Pickled Files:  ['XIE19980809.0010.tml.parsed.pickle']
+
+[<code.notes.TimeNote.TimeNote object at 0x7f611d3d49d0>]
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  condemned
+      TARGET ENTITY:  expressed
+           left path:  condemned
+           right path:  expressed and condemned
+TLINK: 
+      REL TYPE:  IS_INCLUDED
+      SRC ENTITY:  condemned
+      TARGET ENTITY:  Saturday
+           left path:  condemned
+           right path:  Saturday Xinhua TEHRAN condemned
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  bombing
+      TARGET ENTITY:  condemned
+           left path:  bombing condemned
+           right path:  condemned
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  bombing
+      TARGET ENTITY:  condemned
+           left path:  bombing condemned
+           right path:  condemned
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  condemned
+      TARGET ENTITY:  expressed
+           left path:  condemned
+           right path:  expressed and condemned
+TLINK: 
+      REL TYPE:  IS_INCLUDED
+      SRC ENTITY:  condemned
+      TARGET ENTITY:  Saturday
+           left path:  condemned
+           right path:  Saturday Xinhua TEHRAN condemned
+TLINK: 
+      REL TYPE:  AFTER
+      SRC ENTITY:  said
+      TARGET ENTITY:  condemns
+           left path:  said reported
+           right path:  condemns that said reported
+TLINK: 
+      REL TYPE:  AFTER
+      SRC ENTITY:  reported
+      TARGET ENTITY:  said
+           left path:  reported
+           right path:  said reported
+TLINK: 
+      REL TYPE:  AFTER
+      SRC ENTITY:  said
+      TARGET ENTITY:  condemns
+           left path:  said reported
+           right path:  condemns that said reported
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  acts
+      TARGET ENTITY:  condemns
+           left path:  acts condemns
+           right path:  condemns
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  acts
+      TARGET ENTITY:  condemns
+           left path:  acts condemns
+           right path:  condemns
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  acts
+      TARGET ENTITY:  death
+           left path:  acts condemns that said reported
+           right path:  death in result may acts condemns that said reported
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  acts
+      TARGET ENTITY:  death
+           left path:  acts condemns that said reported
+           right path:  death in result may acts condemns that said reported
+TLINK: 
+      REL TYPE:  AFTER
+      SRC ENTITY:  reported
+      TARGET ENTITY:  said
+           left path:  reported
+           right path:  said reported
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  expressed
+      TARGET ENTITY:  uprooted
+           left path:  expressed
+           right path:  uprooted be will hope expressed
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  expressed
+      TARGET ENTITY:  cooperation
+           left path:  expressed
+           right path:  cooperation through uprooted be will hope expressed
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  expressed
+      TARGET ENTITY:  uprooted
+           left path:  expressed
+           right path:  uprooted be will hope expressed
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  cooperation
+      TARGET ENTITY:  uprooted
+           left path:  cooperation through uprooted
+           right path:  uprooted
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  cooperation
+      TARGET ENTITY:  uprooted
+           left path:  cooperation through uprooted
+           right path:  uprooted
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  expressed
+      TARGET ENTITY:  cooperation
+           left path:  expressed
+           right path:  cooperation through uprooted be will hope expressed
+TLINK: 
+      REL TYPE:  SIMULTANEOUS
+      SRC ENTITY:  killed
+      TARGET ENTITY:  wounded
+           left path:  killed been have
+           right path:  wounded and killed been have
+TLINK: 
+      REL TYPE:  IS_INCLUDED
+      SRC ENTITY:  killed
+      TARGET ENTITY:  Friday
+           left path:  killed been have
+           right path:  Friday on embassies to next wounded and killed been have
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  blasts
+      TARGET ENTITY:  killed
+           left path:  blasts in wounded and killed
+           right path:  killed
+TLINK: 
+      REL TYPE:  SIMULTANEOUS
+      SRC ENTITY:  killed
+      TARGET ENTITY:  wounded
+           left path:  killed been have
+           right path:  wounded and killed been have
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  blasts
+      TARGET ENTITY:  wounded
+           left path:  blasts in wounded
+           right path:  wounded
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  blasts
+      TARGET ENTITY:  killed
+           left path:  blasts in wounded and killed
+           right path:  killed
+TLINK: 
+      REL TYPE:  BEFORE
+      SRC ENTITY:  blasts
+      TARGET ENTITY:  wounded
+           left path:  blasts in wounded
+           right path:  wounded
+TLINK: 
+      REL TYPE:  IS_INCLUDED
+      SRC ENTITY:  killed
+      TARGET ENTITY:  Friday
+           left path:  killed been have
+           right path:  Friday on embassies to next wounded and killed been have
+terminating py4j server
