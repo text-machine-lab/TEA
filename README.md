@@ -1,5 +1,4 @@
-# nlproject
-NLP Project
+# Temporal Entity Annotator (TEA)
 
 How to install:
 
