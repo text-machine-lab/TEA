@@ -47,7 +47,7 @@ Environment Variables:
     1. There are two environment variables that need to be defined for the system to work:
         - TEA_PATH, should be set to the the path .../Temporal-Entity-Annotator-TEA-VERSION
 
-        - PY4J_DIR_PATH, should be set to the folder /share/py4j, created when installing py4j.
+        - PY4J_DIR_PATH, should be set to the folder /share/py4j or /share/local/py4j, created when installing py4j.
             - It should contain the contain the file py4j0.8.2.1.jar
 
 
