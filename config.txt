@@ -1,2 +1,2 @@
-PY4J_DIR_PATH None
-MORPHO_DIR_PATH None
+PY4J_DIR_PATH /usr/local/share/py4j
+MORPHO_DIR_PATH /data1/kwacome/nlp_proj/textpro/TextPro2.0/
