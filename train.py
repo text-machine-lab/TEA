@@ -64,6 +64,7 @@ def main():
     print "\t\tTLINK {}".format(train_tlink)
     print "\n"
 
+    print "model destination: ", args.model_destination
     if os.path.isdir(args.newsreader_annotations) is False:
         sys.exit("invalid path for time note dir")
     if os.path.isdir(args.train_dir[0]) is False:

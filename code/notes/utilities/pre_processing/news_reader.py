@@ -65,8 +65,8 @@ class NewsReader(object):
         ner_tagged_text = self.newsreader_ner.tag(pos_tagged_text)
         constituency_parsed_text = self.newsreader_parse.parse(ner_tagged_text)
         srl_text = srl.parse_dependencies(constituency_parsed_text)
+	# print "srl_text", srl_text
         coref_tagged_text = _coreference_tag(srl_text)
-
         naf_marked_up_text = coref_tagged_text
 
         return naf_marked_up_text
@@ -82,7 +82,7 @@ def _coreference_tag(naf_constituency_parsed_text):
                             "--reader",
                             "NAF",
                             "--language",
-                            "en"],
+                            "en_conll"],
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
@@ -90,10 +90,12 @@ def _coreference_tag(naf_constituency_parsed_text):
     output, output_error = tag.communicate(naf_constituency_parsed_text)
 
     # print "output: ", output
-    # print "output error: ", output_error
+    print "output error: ", output_error
 
     if output == "":
-        sys.exit("ERROR: corefgraph failed to produce output...")
+        # sys.exit("ERROR: corefgraph failed to produce output...")
+        print "ERROR: corefgraph failed to produce output..."
+	return "" 
     else:
         print "COREF GRAPH: Tagg NAF document"
 
