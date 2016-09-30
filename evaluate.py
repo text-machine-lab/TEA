@@ -136,7 +136,7 @@ def main():
 #    _display_pol_confusion_matrix(files)
 #    _display_TENSE_confusion_matrix(files)
 #    _display_ASPECT_confusion_matrix(files)
-#    _display_TLINK_confusion_matrix(files)
+    _display_TLINK_confusion_matrix(files)
 
 #    for predicted, gold in files:
 #        print

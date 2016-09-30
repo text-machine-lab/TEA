@@ -612,7 +612,7 @@ def class_confusion(predicted, actual, nb_classes):
     for true, pred in zip(actual, predicted):
         # build confusion matrix
         confusion[pred][true] += 1
-
+    pickle.dump(confusion, open('evaluation.pkl', 'w'))
     # print confusion matrix
     for i, row in enumerate(confusion):
         print i, ": ", row
