@@ -384,7 +384,7 @@ def _extract_path_representations(note, word_vectors, no_none=False):
         if tlinklabels[i] == 0 and no_none:
            left_paths.append([])
         else:
-            left_paths.append(note.get_tokens_from_ids(id_list))
+            left_paths.append(note.get_tokens_from_ids(id_list)) # list of list of words
 
     # get token text from ids in right sdp
     for i, id_list in enumerate(right_ids):

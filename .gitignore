@@ -1,3 +1,4 @@
-
+*.morpho
+*.pickle
 *.pyc
 

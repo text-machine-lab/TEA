@@ -165,7 +165,7 @@ def trainNetwork(tml_files, gold_files, newsreader_dir, two_pass=True):
         max_len = detector.input_shape[2]
 
         classifier = network.train_model(None, epochs=500, training_input=classify_data, weight_classes=False, batch_size=256,
-        encoder_dropout=0., decoder_dropout=0., input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len=max_len, nb_classes=5)
+        encoder_dropout=0., decoder_dropout=0., input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len=max_len, nb_classes=6)
 
         return detector, classifier
 

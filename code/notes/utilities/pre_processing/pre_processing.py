@@ -10,7 +10,7 @@ import morpho_pro
 
 pre_processor = None
 
-def pre_process(text, filename):
+def pre_process(text, filename, overwrite=False):
     """ pre-process contents of a document
 
     Example:
@@ -83,7 +83,12 @@ def pre_process(text, filename):
         char_start = tok["char_start_offset"]
         char_end   = tok["char_end_offset"]
 
-        assert text[char_start:char_end + 1] == tok["token"], "{} != {}".format(text[char_start:char_end+1], tok["token"])
+        try:
+            assert text[char_start:char_end + 1] == tok["token"], "{} != {}".format(text[char_start:char_end+1], tok["token"])
+        except AssertionError:
+            print text[char_start:char_end + 1], tok["token"]
+            print "Unexpected error:", sys.exc_info()[0]
+            # sys.exit()
         assert tok["id"] == pos_tag["id"]
         assert tok["id"] == lemma["id"]
 
@@ -187,7 +192,7 @@ def pre_process(text, filename):
 
     # print morpho_pro_input
 
-    morpho_output = morpho_pro.process(morpho_pro_input, base_filename)
+    morpho_output = morpho_pro.process(morpho_pro_input, base_filename, overwrite=overwrite)
 
     # print morpho_output
 
@@ -217,11 +222,14 @@ def pre_process(text, filename):
         if tok["token_offset"] >= len(morpho_output[tok["sentence_num"]-1]):
             sys.exit("missing token from morphology processing")
         elif tok["token"] != morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]:
-            # print "morpho token: ", morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]
-            # print "newsreader token: ", tok["token"]
+            if tok["token"] in ('"', ""''"", "``"):
+                tok.update(morpho_output[tok["sentence_num"] - 1][tok["token_offset"]])
+            else:
+                print "morpho token: ", morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]
+                print "newsreader token: ", tok["token"]
             # print "newsreader: ", [t for t in tokens if t["sentence_num"] == tok["sentence_num"]]
             # print "morpho sentence: ", morpho_output[tok["sentence_num"]-1]
-            sys.exit("token mismatch between newsreader tokenization and morphorpo")
+                sys.exit("token mismatch between newsreader tokenization and morphorpo")
         else:
             # good to go
             tok.update(morpho_output[tok["sentence_num"]-1][tok["token_offset"]])
