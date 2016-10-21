@@ -14,6 +14,7 @@ import os
 import re
 import sys
 import time
+import multiprocessing as mp
 
 import atexit
 
@@ -65,11 +66,10 @@ class NewsReader(object):
         ner_tagged_text = self.newsreader_ner.tag(pos_tagged_text)
         constituency_parsed_text = self.newsreader_parse.parse(ner_tagged_text)
         srl_text = srl.parse_dependencies(constituency_parsed_text)
-	# print "srl_text", srl_text
-        coref_tagged_text = _coreference_tag(srl_text)
-        naf_marked_up_text = coref_tagged_text
 
-        return naf_marked_up_text
+        # naf_marked_up_text = _coreference_tag(srl_text)
+
+        return srl_text
 
 
 def _coreference_tag(naf_constituency_parsed_text):

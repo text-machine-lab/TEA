@@ -3,6 +3,7 @@ import itertools
 import sys
 import re
 import copy
+from multiprocessing.pool import ThreadPool
 
 from string import whitespace
 from Note import Note
@@ -28,12 +29,16 @@ from utilities.xml_utilities import write_root_to_file
 # from utilities.time_norm import get_normalized_time_expressions
 from utilities.pre_processing import pre_processing
 
+verbose = False
+
 
 class EntNote(Note):
 
-    def __init__(self, note_path, overwrite=False, verbose=False):
+    global verbose
 
-        if verbose: print "called TimeNote constructor"
+    def __init__(self, note_path, overwrite=False):
+
+        print "processing file...", note_path
         self.source_file = note_path
         self.overwrite = overwrite
 
@@ -50,6 +55,17 @@ class EntNote(Note):
         # send body of document to NewsReader pipeline.
         tokenized_text, token_to_offset, sentence_features, dependency_paths, id_to_tok = \
             pre_processing.pre_process('\n'.join(self.text), note_path, overwrite=self.overwrite)
+
+        # chunks = self.split_text(200)
+        # for i, chunk in enumerate(chunks):
+        #     tokenized_text, token_to_offset, sentence_features, dependency_paths, id_to_tok = \
+        #         pre_processing.pre_process('\n'.join(self.text), note_path+str(i), overwrite=self.overwrite)
+        #
+        #     self.pre_processed_text.update(tokenized_text)
+        #     self.token_to_offset.update(token_to_offset)
+        #     self.sentence_features.update(sentence_features)
+        #     self.dependency_paths.update(dependency_paths)
+        #     self.id_to_tok.update(id_to_tok)
 
         # {sentence_num: [{token},...], ...}
         self.pre_processed_text = tokenized_text
@@ -111,6 +127,17 @@ class EntNote(Note):
                 elif len(line) > 1:
                     self.relations.append(line.strip())
 
+    def split_text(self, n):
+        """Returns a list of chunks. Each chunk has n sentences"""
+        if len(self.text) <= n:
+            return ['\n'.join(self.text)]
+        output = []
+        for i in xrange(0, len(self.text)/n-1):
+            chunk = self.text[i*n: (i+1)*n]
+            output.append('\n'.join(chunk))
+        output.append('\n'.join(self.text[(i+1)*n:]))
+        return output
+
     def get_labels(self):
         #match_e1 = re.search('<e1>(.+)</e1>', s)
         #match_e2 = re.search('<e2>(.+)</e2>', s)
@@ -121,8 +148,19 @@ class EntNote(Note):
         tokenized_text, token_to_offset, sentence_features, dependency_paths, id_to_tok \
             = pre_processing.pre_process('\n'.join(self.raw_text), self.source_file+'.tagged', overwrite=self.overwrite)
 
+        mismatch = 0
         for sent_num, tokens in tokenized_text.iteritems(): #iterate over sentences
+            if verbose:
+                print sent_num, "last three tokens", ' '.join([x['token'] for x in tokens[-3:]])
+
             un_tagged_tokens = self.pre_processed_text[sent_num]
+            raw_sentence = [x['token'] for x in tokenized_text[sent_num]]
+
+            if 'e1' not in raw_sentence:
+                print "Sentence without tags: ", ' '.join(raw_sentence)
+                mismatch += 1
+                continue
+
             labels_in_sent = []
             semLink = {}
             is_entity = None
@@ -143,7 +181,12 @@ class EntNote(Note):
                     continue
                 elif is_entity:
                     entity['entity_id'] = str(sent_num) + '-' + is_entity # e.g. 10001
-                    entity['entity_label'] = self.relations[sent_num-1]
+                    try:
+                        entity['entity_label'] = self.relations[sent_num-1-mismatch]
+                    except IndexError:
+                        print sent_num, token
+                        print ' '.join([x['token'] for x in tokens[0:i]])
+                        sys.exit("list index out of range")
                     entity['entity_type'] = is_entity
 
                     if is_entity == 'e1':
@@ -151,11 +194,15 @@ class EntNote(Note):
                             entity_e1 = un_tagged_tokens[i-3]
                         except IndexError:
                             print "Unexpected error:", sys.exc_info()[0]
-                            print un_tagged_tokens
+                            print ' '.join([x['token'] for x in un_tagged_tokens])
                             sys.exit()
                         is_entity = None
                     if is_entity == 'e2':
-                        entity_e2 = un_tagged_tokens[i - 9]
+                        try:
+                            entity_e2 = un_tagged_tokens[i - 9]
+                        except IndexError:
+                            print "IndexError"
+                            print sent_num, i, ' '.join([x['token'] for x in tokens])
                         semLink['src_entity'] = [entity_e1] # it must be a list for some reason
                         semLink['src_id'] = str(sent_num) + '-e1'
                         semLink['target_entity'] = [entity_e2]

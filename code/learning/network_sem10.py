@@ -372,8 +372,7 @@ def _extract_path_representations(note, word_vectors, no_none=False):
 
     # retrieve the ids for the left and right halves of every SDP between tlinked entities
     left_ids, right_ids = _get_token_id_subpaths(note)
-    semlinklabels = note.relations
-    semlinklabels = _convert_str_labels_to_int(semlinklabels)
+    semlinklabels = _convert_str_labels_to_int(note.relations)
 
     # left and right paths are used to store the actual tokens of the SDP paths
     left_paths = []

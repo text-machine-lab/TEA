@@ -5,6 +5,7 @@ Training interface for Neural network model to detect and classify TLINKS betwee
 import sys
 import os
 from code.config import env_paths
+import time
 
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
@@ -15,8 +16,8 @@ import glob
 import cPickle
 
 from code.learning import network_sem10
+from code.notes.EntNote import EntNote
 
-entnote_imported = False
 
 def main():
     '''
@@ -25,9 +26,8 @@ def main():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("training_file",
+    parser.add_argument("training_dir",
                         type=str,
-                        nargs=1,
                         help="Directory of training file")
 
     parser.add_argument("model_destination",
@@ -45,19 +45,25 @@ def main():
 
     newsreader_dir = args.newsreader_annotations
 
-    print "training file:", args.training_file[0]
-    print "newreader_dir", newsreader_dir
+    print "training dir:", args.training_dir
+    print "newsreader_dir", newsreader_dir
     # validate file paths
-    if os.path.isfile(args.training_file[0]) is False:
-        sys.exit("training file for semeval 10 task 8 not found")
+    if os.path.isfile(args.training_dir) is False:
+        gold_files = glob.glob(args.training_dir.rstrip('/')+'/*')
+        gold_files.sort()
+        if not gold_files:
+            sys.exit("training file for semeval 10 task 8 not found")
+    else:
+        gold_files = [args.training_dir]
+
     if os.path.isdir(os.path.dirname(args.model_destination)) is False:
         sys.exit("directory for model destination does not exist")
 
-    gold_file = args.training_file[0]
+    start = time.time()
 
     # create a sinlge model, then save architecture and weights
     if args.single_pass:
-        NN = trainNetwork(gold_file, newsreader_dir, two_pass=False)
+        NN = trainNetwork(gold_files, newsreader_dir, two_pass=False)
         architecture = NN.to_json()
         open(args.model_destination + '.arch.json', "wb").write(architecture)
         NN.save_weights(args.model_destination + '.weights.h5')
@@ -65,7 +71,7 @@ def main():
     # create a pair of models, one for detection, one for classification. Then save architecture and weights
     else:
         # train models
-        detector, classifier = trainNetwork(gold_file, newsreader_dir)
+        detector, classifier = trainNetwork(gold_files, newsreader_dir)
 
         # save models
         detect_arch = detector.to_json()
@@ -75,8 +81,10 @@ def main():
         detector.save_weights(args.model_destination + '.detect.weights.h5')
         classifier.save_weights(args.model_destination + '.class.weights.h5')
 
+    print "training finished. used %.2f sec" %(time.time()-start)
 
-def trainNetwork(gold_file, newsreader_dir, two_pass=True):
+
+def trainNetwork(gold_files, newsreader_dir, two_pass=True):
     '''
     train::trainNetwork()
 
@@ -88,23 +96,22 @@ def trainNetwork(gold_file, newsreader_dir, two_pass=True):
 
     print "Called trainNetwork"
 
-    global entnote_imported
+    # filenames without directory and extension
+    basenames = [os.path.splitext(gold_file)[0].split('/')[-1] for gold_file in gold_files]
+    note_files = sorted([os.path.join(newsreader_dir, basename + ".parsed.pickle") for basename in basenames])
+    print "gold files:", gold_files
+    print "note_files:", note_files
 
-    basename = os.path.splitext(gold_file)[0].split('/')[-1] # filename without directory and extension
     # Read in notes
     notes = []
+    for i, note_file in enumerate(note_files):
+        if os.path.isfile(note_file):
+            ent_note = cPickle.load(open(note_file, "rb"))
+        else:
+            ent_note = EntNote(gold_files[i], overwrite=False)
+            cPickle.dump(ent_note, open(note_file, "wb"))
 
-    note_file = os.path.join(newsreader_dir, basename+".parsed.pickle")
-    if os.path.isfile(note_file):
-        ent_note = cPickle.load(open(note_file, "rb"))
-    else:
-        if entnote_imported is False:
-            from code.notes.EntNote import EntNote
-            entnote_imported = True
-        ent_note = EntNote(gold_file, overwrite=False)
-        cPickle.dump(ent_note, open(note_file, "wb"))
-
-    notes.append(ent_note) # use a list here because the interface can read multiple notes
+        notes.append(ent_note)
 
     if two_pass:
 
@@ -118,7 +125,7 @@ def trainNetwork(gold_file, newsreader_dir, two_pass=True):
         max_len = detector.input_shape[0][2]
 
         classifier = network_sem10.train_model(None, epochs=500, training_input=classify_data, weight_classes=False, batch_size=256,
-        encoder_dropout=0., decoder_dropout=0., input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len=max_len, nb_classes=19)
+        encoder_dropout=0., decoder_dropout=0., input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len=max_len, nb_classes=20)
 
         return detector, classifier
 
