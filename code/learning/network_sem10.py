@@ -1,5 +1,6 @@
 import os
-import pickle
+import cPickle as pickle
+import json
 import copy
 
 import numpy as np
@@ -10,6 +11,10 @@ from keras.regularizers import l2, activity_l2
 from sklearn.metrics import classification_report
 
 from word2vec import load_word2vec_binary
+
+def set_ignore_order(no_order):
+    global ignore_order
+    ignore_order = no_order
 
 def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=300, max_len=22, nb_classes=7):
     '''
@@ -95,7 +100,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return decoder
 
-def train_model(notes, epochs=5, training_input=None, weight_classes=False, batch_size=256,
+def train_model(notes, model=None, epochs=5, training_input=None, weight_classes=False, batch_size=256,
     encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=19):
     '''
     obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
@@ -134,8 +139,11 @@ def train_model(notes, epochs=5, training_input=None, weight_classes=False, batc
         XL, _ = _pad_to_match_dimensions(XL, filler, 2, pad_left=True)
         XR, _ = _pad_to_match_dimensions(XR, filler, 2, pad_left=True)
 
-    model = get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
+    if model is None:
+        model = get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
         maxpooling=maxpooling, data_dim=data_dim, max_len=max_len, nb_classes=nb_classes)
+    else:
+	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     # split off validation data with 20 80 split (this way we get the same validation data every time we use this data sample, and can test on it after to get a confusion matrix)
     V_XL = XL[:(XL.shape[0]/5),:,:]
@@ -149,8 +157,8 @@ def train_model(notes, epochs=5, training_input=None, weight_classes=False, batc
 
     # train the network
     print 'Training network...'
-    model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y))
-
+    training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y))
+    json.dump(training_history.history, open('training_history.json', 'w'))
     test = model.predict_classes([V_XL, V_XR])
 
     print test
@@ -548,11 +556,13 @@ def get_uniform_class_weights(labels):
     weights = n_samples/ (n_classes * np.sum(labels, axis=0))
 
     return weights
-
 def _convert_str_labels_to_int(labels):
     '''
     convert tlink labels to integers so they can be processed by the network
     '''
+
+    global ignore_order
+    print "ingore_order", ignore_order
 
     processed_labels = []
     for label in labels:
@@ -598,6 +608,8 @@ def _convert_str_labels_to_int(labels):
             print "unkonwn class:", label
         #     processed_labels.append(0)
 
+    if ignore_order:
+        processed_labels = [x%10 for x in processed_labels]
     return processed_labels
 
 def _convert_int_labels_to_str(labels):

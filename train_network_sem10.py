@@ -14,10 +14,12 @@ if env_paths()["PY4J_DIR_PATH"] is None:
 import argparse
 import glob
 import cPickle
+from keras.models import model_from_json
 
 from code.learning import network_sem10
 from code.notes.EntNote import EntNote
 
+ignore_order = False
 
 def main():
     '''
@@ -41,7 +43,21 @@ def main():
                         default=False,
                         help="Train a single pass model that performs both detection and classification")
 
+    parser.add_argument("--ignore_order",
+                        action='store_true',
+                        default=False,
+                        help="Ignore the order of two entities when assigning labels")
+
+    parser.add_argument("--load_model",
+                        action='store_true',
+                        default=False,
+                        help="Load saved model and resume training from there")
+
     args = parser.parse_args()
+
+    global ignore_order
+    ignore_order = args.ignore_order
+    network_sem10.set_ignore_order(ignore_order)
 
     newsreader_dir = args.newsreader_annotations
 
@@ -63,15 +79,32 @@ def main():
 
     # create a sinlge model, then save architecture and weights
     if args.single_pass:
-        NN = trainNetwork(gold_files, newsreader_dir, two_pass=False)
+        if args.load_model:
+            NNet = model_from_json(open(args.model_destination + '.arch.json').read())
+            NNet.load_weights(args.model_destination + '.weights.h5')
+        else:
+            NNet = None
+
+        NN = trainNetwork(gold_files, newsreader_dir, model=NNet, two_pass=False)
         architecture = NN.to_json()
         open(args.model_destination + '.arch.json', "wb").write(architecture)
         NN.save_weights(args.model_destination + '.weights.h5')
 
     # create a pair of models, one for detection, one for classification. Then save architecture and weights
     else:
+        if args.load_model:
+            # load both passes
+            classifier = model_from_json(open(args.model_destination + '.class.arch.json').read())
+            classifier.load_weights(args.model_destination + '.class.weights.h5')
+
+            detector = model_from_json(open(args.model_destination + '.detect.arch.json').read())
+            detector.load_weights(args.model_destination + '.detect.weights.h5')
+            NNet = (detector, classifier)
+        else:
+            NNet = (None, None)
+
         # train models
-        detector, classifier = trainNetwork(gold_files, newsreader_dir)
+        detector, classifier = trainNetwork(gold_files, newsreader_dir, model=NNet)
 
         # save models
         detect_arch = detector.to_json()
@@ -84,7 +117,7 @@ def main():
     print "training finished. used %.2f sec" %(time.time()-start)
 
 
-def trainNetwork(gold_files, newsreader_dir, two_pass=True):
+def trainNetwork(gold_files, newsreader_dir, model=None, two_pass=True):
     '''
     train::trainNetwork()
 
@@ -113,19 +146,25 @@ def trainNetwork(gold_files, newsreader_dir, two_pass=True):
 
         notes.append(ent_note)
 
+    global ignore_order
+    if ignore_order:
+        nb_class = 20 # in fact only 19
+    else:
+        nb_class = 10
+
     if two_pass:
 
         detect_data = network_sem10._get_training_input(notes, presence=True, no_none=False)
         classify_data = network_sem10._get_training_input(notes, presence=False, no_none=True)
 
-        detector = network_sem10.train_model(None, epochs=150, training_input=detect_data, weight_classes=False, batch_size=256,
+        detector = network_sem10.train_model(None, model=model[0], epochs=150, training_input=detect_data, weight_classes=False, batch_size=256,
         encoder_dropout=0, decoder_dropout=0, input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=2)
 
         # use max input length from detector
         max_len = detector.input_shape[0][2]
 
-        classifier = network_sem10.train_model(None, epochs=500, training_input=classify_data, weight_classes=False, batch_size=256,
-        encoder_dropout=0., decoder_dropout=0., input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len=max_len, nb_classes=20)
+        classifier = network_sem10.train_model(None, model=model[1], epochs=500, training_input=classify_data, weight_classes=False, batch_size=256,
+        encoder_dropout=0., decoder_dropout=0., input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len=max_len, nb_classes=nb_class)
 
         return detector, classifier
 
@@ -133,10 +172,12 @@ def trainNetwork(gold_files, newsreader_dir, two_pass=True):
 
         data = network_sem10._get_training_input(notes)
 
-        NNet = network_sem10.train_model(None, epochs=150, training_input=data, weight_classes=False, batch_size=256,
-        encoder_dropout=0, decoder_dropout=0, input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=20)
+        NNet = network_sem10.train_model(None, model=model, epochs=500, training_input=data, weight_classes=False, batch_size=256,
+        encoder_dropout=0, decoder_dropout=0, input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=nb_class)
 
         return NNet
+
+
 
 if __name__ == "__main__":
   main()
