@@ -4,6 +4,7 @@ import json
 import copy
 
 import numpy as np
+np.random.seed(1337)
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout
@@ -94,7 +95,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     decoder.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='sigmoid'))
     if decoder_dropout != 0:
         decoder.add(Dropout(decoder_dropout))
-    decoder.add(Dense(nb_classes, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='softmax'))
+    decoder.add(Dense(nb_classes, W_regularizer=None, b_regularizer=B_reg, activity_regularizer=act_reg, activation='softmax'))
 
     # compile the final model
     decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -121,6 +122,7 @@ def train_model(notes, model=None, epochs=5, training_input=None, weight_classes
         XL, XR, labels = training_input
 
     # reformat labels so that they can be used by the NN
+    print "nb_classes", nb_classes
     Y = to_categorical(labels,nb_classes)
     print "labels reformed..."
 
@@ -142,8 +144,8 @@ def train_model(notes, model=None, epochs=5, training_input=None, weight_classes
     if model is None:
         model = get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
         maxpooling=maxpooling, data_dim=data_dim, max_len=max_len, nb_classes=nb_classes)
-    else:
-	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    #else:
+    #    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     # split off validation data with 20 80 split (this way we get the same validation data every time we use this data sample, and can test on it after to get a confusion matrix)
     V_XL = XL[:(XL.shape[0]/5),:,:]
@@ -154,10 +156,15 @@ def train_model(notes, model=None, epochs=5, training_input=None, weight_classes
     XL = XL[(XL.shape[0]/5):,:,:]
     XR = XR[(XR.shape[0]/5):,:,:]
     Y  = Y [( Y.shape[0]/5):,:]
+    
+    # check if the data are consistent (useful if no shuffle) 
+    #print "labels in traing data:", Y[0:20]
+    #print "labels in validation data:", V_labels[0:20]
+    #print "They should not be the same. They should be consistent each time, if no shuffle is used."   
 
     # train the network
     print 'Training network...'
-    training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights, batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y))
+    training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.0, class_weight=class_weights, batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y))
     json.dump(training_history.history, open('training_history.json', 'w'))
     test = model.predict_classes([V_XL, V_XR])
 
@@ -166,12 +173,13 @@ def train_model(notes, model=None, epochs=5, training_input=None, weight_classes
 
     return model
 
-def predict(notes, detector, classifier, evalu=False):
+
+def predict(notes, detector, classifier, evalu=True):
     '''
     using the given detector and classifier, predict labels for all pairs in the given note set
     '''
 
-    XL, XR, del_lists, gold_labels = _get_test_input(notes, evaluation=evalu)
+    XL, XR, gold_labels = _get_test_input(notes, evaluation=evalu)
 
     # get expected length of model input
     input_len = detector.input_shape[0][2]
@@ -215,15 +223,15 @@ def predict(notes, detector, classifier, evalu=False):
     if evalu:
         class_confusion(labels, gold_labels)
 
-    return _convert_int_labels_to_str(labels), del_lists
+    return _convert_int_labels_to_str(labels)
 
-def single_predict(notes, model, evalu=False):
+def single_predict(notes, model, nb_classes, evalu=False):
     '''
     predict using a trained single pass model
     '''
 
-    XL, XR, del_lists, gold_labels = _get_test_input(notes, evaluation=evalu)
-
+    XL, XR, gold_labels = _get_test_input(notes, evaluation=evalu)
+    print "True labels: ", gold_labels[0:20], '...'
     # get expected length of model input
     input_len = model.input_shape[0][2]
     filler = np.ones((1,1,input_len))
@@ -234,11 +242,15 @@ def single_predict(notes, model, evalu=False):
 
     print 'Predicting...'
     labels = model.predict_classes([XL, XR])
+    print "predicted_labels: ", labels[0:20], '...'
 
     if evalu:
-        class_confusion(labels, gold_labels, 6)
-
-    return _convert_int_labels_to_str(labels), del_lists
+        class_confusion(labels, gold_labels, nb_classes)
+    with open(os.environ["TEA_PATH"] + 'proposed_answer.txt', 'w') as f:
+        d = json.load(open(os.environ["TEA_PATH"]+'/num_to_label.json'))
+        for i, index in enumerate(labels):
+            label = d[str(index)]
+            f.write(str(8001+i) + '\t' + label + '\n')
 
 def _get_training_input(notes, no_none=False, presence=False, shuffle=True):
 
@@ -317,15 +329,12 @@ def _get_test_input(notes, evaluation=False):
     get input tensors for prediction. If evaluation is true, gold labels are also extracted
     '''
 
-    # data tensors for left and right SDP
+    # labels for each SDP pair
+    semlinklabels = []
+
+    # data tensor for left and right SDP subpaths
     XL = None
     XR = None
-
-    # list of lists, where each list contains the indices to delete from a given note
-    # indices of the outer list corespond to indices of the notes list
-    del_lists = []
-
-    tlinklabels = []
 
     print 'Loading word embeddings...'
     word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
@@ -333,9 +342,13 @@ def _get_test_input(notes, evaluation=False):
 
     print 'Extracting dependency paths...'
     for i, note in enumerate(notes):
+        # get tlink lables
+        note_semlinklabels = note.get_semlink_labels()
+
         # get the representation for the event/timex pairs in the note
         # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
         # (with length equal to word embedding length), and axis 2 hold each word.
+        # del_list is a list of indices for which no SDP could be obtained
         left_vecs, right_vecs, del_list = _extract_path_representations(note, word_vectors)
 
         # add the note's data to the combine data matrix
@@ -354,24 +367,22 @@ def _get_test_input(notes, evaluation=False):
         # remove indices in descending order so that they continue to refer to the item we want to remove
         del_list.sort()
         del_list.reverse()
-        del_lists.append(del_list)
+        for index in del_list:
+            del note_semlinklabels[index]
 
-        if evaluation:
-            # get tlink lables
-            note_tlinklabels = note.get_tlink_labels()
-            for index in del_list:
-                del note_tlinklabels[index]
-            tlinklabels += note_tlinklabels
+        # add remaining labels to complete list of labels
+        semlinklabels += note_semlinklabels
 
     # pad XL and XR so that they have the same number of dimensions on the second axis
     # any other dimension mis-matches are caused by actually errors and should not be padded away
     XL, XR = _pad_to_match_dimensions(XL, XR, 2, pad_left=True)
 
-    labels = []
-    if evaluation:
-        labels = _convert_str_labels_to_int(tlinklabels)
+    # # extract longest input sequence in the training data, and ensure both matrices
+    # input_len = XL.shape[2]
 
-    return XL, XR, del_lists, labels
+    labels = _convert_str_labels_to_int(semlinklabels)
+
+    return XL, XR, labels
 
 def _extract_path_representations(note, word_vectors, no_none=False):
     '''
@@ -562,7 +573,6 @@ def _convert_str_labels_to_int(labels):
     '''
 
     global ignore_order
-    print "ingore_order", ignore_order
 
     processed_labels = []
     for label in labels:
@@ -651,9 +661,10 @@ def class_confusion(predicted, actual, nb_classes):
     for i, row in enumerate(confusion):
         print i, ": ", row
 
-    print classification_report(actual, predicted)
+    print classification_report(actual, predicted, digits=3)
 
     # TODO: add F-1, precision, recall for each class
+
 
 if __name__ == "__main__":
     test = NNModel()

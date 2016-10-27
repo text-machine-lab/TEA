@@ -1,0 +1,800 @@
+7801	"The <e1>driver</e1> was trapped inside the <e2>car</e2>, which landed upside down, and died while emergency crews were preparing to transport him to a local hospital ."
+Other
+Comment: We excluded Content-Container because people should not be considered contents and vehicles should not be considered containers.
+
+7802	"In the lineup, the police literally put the <e1>defendant</e1> in a <e2>line</e2> with other people to see if the victim or witness can identify anyone in the line as having participated in a crime ."
+Entity-Destination(e1,e2)
+Comment: the modality is outside
+
+7803	"The test is made by inserting the end of a <e1>jimmy</e1> or other <e2>burglar</e2>'s tool and endeavouring to produce impressions similar to those which have been found on doors or windows ."
+Instrument-Agency(e1,e2)
+Comment: implicit usage.
+
+7804	"Since the <e1>evacuation</e1> was after normal <e2>business hours</e2>, the on-duty Security Officer and maintenance personnel were responsible for the notification and evacuation of occupants of all buildings ."
+Other
+Comment: modality is outside
+
+7805	"The controlled environment <e1>facility</e1> is for <e2>growth</e2> of experimental material only ."
+Other
+Comment:
+
+7806	"The <e1>materials</e1> were produced by <e2>mixing</e2> the constituents and processing them through a press/sinter cycle to produce a consolidated material ."
+Other
+Comment:
+
+7807	"The hotel is in the style of a <e1>country</e1> <e2>lodge</e2> and only has 18 rooms ."
+Other
+Comment:
+
+7808	"The <e1>microwave</e1> <e2>oven</e2> is one of the great inventions of the 20th century ."
+Instrument-Agency(e1,e2)
+Comment:
+
+7809	"Some of the <e1>land</e1> was farmed for <e2>coffee</e2> in the past, but it is now mostly native vegetation (with some emergent trees) ."
+Entity-Origin(e2,e1)
+Comment:
+
+7810	"The satisfaction was complete - please find below a <e1>statement</e1> from the <e2>producer</e2> ."
+Product-Producer(e1,e2)
+Comment:
+
+7811	"In summer 2000, an Adventist church in Polotsk, Vitebsk Region, was damaged by a <e1>fire</e1> started with <e2>flammable liquids</e2> ."
+Cause-Effect(e2,e1)
+Comment:
+
+7812	"The <e1>jelly</e1> inside a <e2>doughnut</e2> is scalding while the pastry is only warm ."
+Component-Whole(e1,e2)
+Comment: Content-Container is excluded because the jelly is an integral part of the doughnut, and cannot be removed without significantly changing the nature of the doughnut.
+
+7813	"The film also features documentary like segments about fishing and about the <e1>evacuation</e1> after the <e2>eruption</e2> of the volcano ."
+Cause-Effect(e2,e1)
+Comment:
+
+7814	"The voltage swing obtainable across the load is greater than the output voltage <e1>swing</e1> obtainable from the <e2>amplifier</e2> alone, thus the efficiency of the amplifier system and power handling capacity of the system are improved ."
+Cause-Effect(e2,e1)
+Comment:
+
+7815	"This was the signal for dozens of others to do the same and the <e1>noise</e1> inside the <e2>car</e2> was quite something ."
+Other
+Comment: None of the nine relations seems to hold. The car is not the origin/producer of the noise.
+
+7816	"During a dribble the <e1>dribbler</e1> keeps the <e2>ball</e2> on the side of his body that is away from the defender ."
+Instrument-Agency(e2,e1)
+Comment:
+
+7817	"In 1871, nearly 60 percent of the Italian <e1>population</e1> farmed for a <e2>living</e2>, attempting to eke out an existence from arid land that often was not their own ."
+Other
+Comment: Living is an abstract object.
+
+7818	"Another good example of the importance of hormonal balance in the body is the <e1>growth hormone</e1> produced by the <e2>pituitary gland</e2> ."
+Product-Producer(e1,e2)
+Comment:
+
+7819	"The <e1>astronauts</e1> used the orbiter boom sensor <e2>system</e2> mounted on the end of the shuttle's robotic arm ."
+Instrument-Agency(e2,e1)
+Comment:
+
+7820	"There are four <e1>caverns</e1> located inside the <e2>cave</e2> with the tunnel heading west being the largest ."
+Component-Whole(e1,e2)
+Comment: caverns are integral parts of the cave.
+
+7821	"<e1>Cooperation</e1> through physical <e2>activity</e2> promotes important life skills ."
+Other
+Comment:
+
+7822	"Tapestries of rocky coastlines share wall space with a <e1>clock</e1> inside a ship's <e2>wheel</e2> ."
+Component-Whole(e1,e2)
+Comment: The clock (attached, we assume) is an integral and functional part of this object.
+
+7823	"Before the <e1>barber</e1> takes his <e2>scissors</e2> out, family, friends and rabbis take turns snipping ."
+Instrument-Agency(e2,e1)
+Comment: The event is implied.
+
+7824	"We examined mood <e1>alterations</e1> through physical <e2>activity</e2> and other interventions ."
+Cause-Effect(e2,e1)
+Comment:
+
+7825	"Virtually all hillside <e1>farmers</e1> grow <e2>maize</e2> during both seasons, and many of the farmers cultivate beans, rice, and other crops as well ."
+Product-Producer(e2,e1)
+Comment:
+
+7826	"In addition, scientists maye have a number of potentially useful targets to prevent and treat this lethal tumour because of the findings that NOX5 mediated <e1>overproduction</e1> of hydrogen peroxide is responsible for increased <e2>growth</e2> and decreased death of cancer cells ."
+Cause-Effect(e1,e2)
+Comment:
+
+7827	"<e1>Canola</e1> <e2>seed</e2> are small, and placement at a shallow depth is required ."
+Entity-Origin(e2,e1)
+Comment:
+
+7828	"The <e1>mustard</e1> is made from brown or black mustard <e2>seed</e2> and has a smooth, not-too-acidic flavor ."
+Entity-Origin(e1,e2)
+Comment:
+
+7829	"The <e1>gavel</e1> helps the <e2>judge</e2> establish his or her rule over the court room ."
+Instrument-Agency(e1,e2)
+Comment:
+
+7830	"We actually did put <e1>tea</e1> in the <e2>food</e2> ."
+Entity-Destination(e1,e2)
+Comment:
+
+7831	"The <e1>catalogue</e1> contained <e2>books</e2> published in 1998 warning of the upcoming millennium bug and other similarly germane works, but neither of Brock's bestsellers ."
+Member-Collection(e2,e1)
+Comment: A catalog is a list/collection of things, while books stand for "listable" identifications of books.
+
+7832	"We even heard from descendants of Gustav Schoenike who was the <e1>violin</e1> <e2>maker</e2> ."
+Product-Producer(e1,e2)
+Comment:
+
+7833	"The <e1>kitchen</e1> contained a large <e2>stove</e2>, a sink, a small table with chairs, and an old sofa that had seen many children and grandchildren tear at its skin ."
+Component-Whole(e2,e1)
+Comment: A stove is a functional and integral part of the kitchen (of its typical equipment). If we assumed that it is not fixed (easily movable), it could be also treated as located in the kitchen room.
+
+7834	"In a little time the numbers increased from forty-five to eighty, and soon after to a greater number; which, with the majority of the clergy, and the whole of the national representatives, put the <e1>malcontents</e1> in a very <e2>diminutive condition</e2> ."
+Other
+Comment: None of the nine relations holds. (Maybe state.); cannot be Entity-Destination since E-D's c.3 does not allow states as destinations
+
+7835	"Paul the <e1>novelist</e1> has a <e2>computer</e2> but uses his old Smith Corona manual ."
+Other
+Comment:
+
+7836	"It was also felt necessary at this time to draw up a similar document, dealing not with the prevention of marine <e1>pollution</e1> by <e2>dumping</e2>, but instead with the prevention of marine pollution by discharges of dangerous substances from land-based sources, watercourses or pipelines ."
+Cause-Effect(e2,e1)
+Comment:
+
+7837	"Short-term disability and long-term <e1>disability</e1> <e2>benefits</e2> are available at no cost to USTelecom employees ."
+Cause-Effect(e1,e2)
+Comment:
+
+7838	"The <e1>chart</e1> above is from the commission's 2005 <e2>report</e2> and outlines the strategic areas which require action ."
+Entity-Origin(e1,e2)
+Comment:
+
+7839	"<e1>Equipment</e1> for making repairs en route was carried in a <e2>jockey box</e2> attached to one end or side of the wagon ."
+Entity-Destination(e1,e2)
+Comment: movement
+
+7840	"There are three set changes and two intervals which help the <e1>recovery</e1> from <e2>laughter</e2>, but the entertainment is maintained despite the well expected ending ."
+Other
+Comment:
+
+7841	"This proves that the <e1>generator</e1> actually produced the renewable <e2>energy</e2> purchased and acts as the operative instrument of the transaction ."
+Cause-Effect(e1,e2)
+Comment:
+
+7842	"He was a young <e1>refugee</e1> on the run from a <e2>nation</e2> at war ."
+Entity-Origin(e1,e2)
+Comment:
+
+7843	"Because it's a strong, lint-free synthetic material with tiny absorbent fibers, <e1>microfiber</e1> allows a <e2>mop</e2> to hold sufficient water without dripping ."
+Other
+Comment: Not Component-Whole because microfiber is a material not a part.
+
+7844	"The <e1>shroud</e1> is kept in the <e2>cathedral</e2> of St. John the Baptist in Turin, Italy ."
+Other
+Comment: Location
+
+7845	"The <e1>worms</e1> are in a <e2>box</e2> with bedding made from such materials as straw, grass clippings, or shredded paper ."
+Content-Container(e1,e2)
+Comment: A prototypical example.
+
+7846	"The said <e1>whistle</e1> produced the 2600 Hz <e2>tone</e2> necessary to authorize calls ."
+Cause-Effect(e1,e2)
+Comment:
+
+7847	"These are new sorts of sponsors for us, a shoe company and a <e1>furniture</e1> <e2>maker</e2> ."
+Product-Producer(e1,e2)
+Comment:
+
+7848	"In addition to serving as a <e1>fertilizer</e1> <e2>ingredient</e2>, ammonia can also be used directly as a fertilizer by forming a solution with irrigation water, without additional chemical processing ."
+Entity-Origin(e1,e2)
+Comment: Difficult boundary, Component-Whole would be an alternative but it is implied that the ingredient is turned into fertilizer through "chemical processing"; the modality is outside the relation.
+
+7849	"While that operation was a success, the <e1>contents</e1> of the satchel were a tiny <e2>loss</e2> for the traffickers ."
+Other
+Comment: None of the nine relation holds between "loss" and "satchel".
+
+7850	"Anesthesia is not necessary since the <e1>dentist</e1> uses the <e2>drill</e2> and sandpaper discs and polishing wheels to reshape the teeth ."
+Instrument-Agency(e2,e1)
+Comment:
+
+7851	"This teaches that the <e1>body</e1> is procreated by the <e2>parents</e2> and the soul and spirit are directly created by God and placed in the body ."
+Product-Producer(e1,e2)
+Comment:
+
+7852	"The cup's a bit small but who cares, the <e1>machine</e1> makes <e2>coffee</e2> quickly enough that it's no problem to just make a second cup ."
+Product-Producer(e2,e1)
+Comment: negation is outside
+
+7853	"There exists a widespread <e1>controversy</e1> over stem cell <e2>research</e2> that emanates from the techniques used in the creation and usage of stem cells ."
+Cause-Effect(e2,e1)
+Comment: The controversy is widespread and about the research, moreover the research causes the controversy. According to our guidelines Cause-Effect is however more informative.
+
+7854	"In the months leading up to trade negotiations, estimates of the economic <e1>gains</e1> from trade <e2>liberalization</e2> suddenly become newsworthy ."
+Cause-Effect(e2,e1)
+Comment:
+
+7855	"Further left a <e1>boy</e1> is fighting a peacock with a <e2>stick</e2>, and to the right a boy is killing an attacking goat with a spear ."
+Instrument-Agency(e2,e1)
+Comment:
+
+7856	"The resulting anti-social <e1>behaviour</e1> from alcohol <e2>consumption</e2> is an on-going matter that the town and the police continue to address, particularly in the summer months ."
+Cause-Effect(e2,e1)
+Comment:
+
+7857	"In addition to his reputation as a <e1>film</e1> <e2>maker</e2> Lehmuskallio is also known as an artist ."
+Product-Producer(e1,e2)
+Comment:
+
+7858	"The <e1>hostess</e1> made the following <e2>rules</e2>: no husband and wife could sit next to one another (to the right or to the left) and men had to alternate with women everywhere ."
+Product-Producer(e2,e1)
+Comment:
+
+7859	"The <e1>revolution</e1> brought forth impassioned <e2>pleas</e2> condemning the common law for not respecting the interests of the people and calling for law reform ."
+Cause-Effect(e2,e1)
+Comment:
+
+7860	"The <e1>glomeruli</e1> assist the <e2>kidneys</e2> in filtering urine from the blood ."
+Component-Whole(e1,e2)
+Comment:
+
+7861	"Today 75% of the <e1>county</e1> is intensively farmed for <e2>corn</e2>, soybeans, oats, and alfalfa with emphasis on dairy production ."
+Entity-Origin(e2,e1)
+Comment: Strictly speaking, Entity-Origin holds between the corn and 75% of the county, but not between the corn and the county. We could change the boundary.
+
+7862	"Not sure what brand of model it came from but the <e1>wings</e1> are from a trashed <e2>plane</e2> my buddy had ."
+Entity-Origin(e1,e2)
+Comment:
+
+7863	"And John was able to talk to some people in the U.S. government and verify that the substantive contents of the <e1>memo</e1> were a reasonably accurate <e2>transcription</e2> of what had transpired ."
+Other
+Comment: Mis-tagged again... It's a form of "equivalence", in that the memo is a transcription (not part of it); modality is outside
+
+7864	"He combines strawberries and <e1>powder</e1> <e2>sugar</e2> and mixes well ."
+Other
+Comment:
+
+7865	"The health <e1>benefits</e1> of alcoholic <e2>beverages</e2> are the subject of this investigation ."
+Cause-Effect(e2,e1)
+Comment:
+
+7866	"The <e1>fruit basket</e1> contained <e2>apples</e2>, oranges and bananas ."
+Content-Container(e2,e1)
+Comment: A prototypical example.
+
+7867	"A <e1>pulsar</e1> powers the supernova <e2>remnant</e2> by confirming the existence of the point-like source and discovering a cloud of high-energy electrons around the central object ."
+Instrument-Agency(e1,e2)
+Comment: power sources are acceptable Instruments.
+
+7868	"This is the same basic <e1>mechanism</e1> at work in a <e2>vacuum cleaner</e2>, though the execution is a bit more complicated ."
+Component-Whole(e2,e1)
+Comment:
+
+7869	"He learned how cartographic evidence refutes the authenticity of the Vinland Map and from where the <e1>map</e1>'s <e2>maker</e2> have drawn inspiration ."
+Product-Producer(e1,e2)
+Comment:
+
+7870	"And we do recommend excersise, as the <e1>kitchen</e1> holds <e2>culinary temptations</e2> in store for you that are bound to prolong your evening and lift your spirit ."
+Other
+Comment: None of the nine relations seems to hold; modality is outside
+
+7871	"I struggle for my dream of painless perfection but a <e1>snowdrift</e1> keeps the <e2>door</e2> from opening ."
+Other
+Comment:
+
+7872	"We conducted a usability test on the enterprise-wide navigation system for this <e1>heathcare</e1> <e2>company</e2>'s proposed intranet redesign ."
+Other
+Comment: Healthcare is not a concrete object nor is it an mental activity.
+
+7873	"<e1>Inhibition</e1> through synaptic <e2>depression</e2> is unlike the previous forms of inhibition in that it turns on more slowly and thus acts as delayed negative feedback ."
+Cause-Effect(e2,e1)
+Comment:
+
+7874	"Special construction and a <e1>rubberized trim</e1> helps the <e2>handset</e2> stand up to everyday wear-and-tear, and even occasional dropping ."
+Component-Whole(e1,e2)
+Comment:
+
+7875	"A <e1>coffin</e1> <e2>maker</e2> has increased productivity by 20% since securing a 180000 pounds finance package from business angels ."
+Product-Producer(e1,e2)
+Comment:
+
+7876	"The <e1>joy</e1> comes from Cather's <e2>writing</e2>: precise observation and wording, the lilting cadence of her phrasing, the beautiful and clear pictures she evokes of scenery and characters, and the unfamiliar, old fashioned words and expressions she uses ."
+Cause-Effect(e2,e1)
+Comment:
+
+7877	"The <e1>robber</e1> was inside the <e2>office</e2> when the manager decided to take action and escape out the side door ."
+Other
+Comment: People should not be contents, instead the robber was located in the office.
+
+7878	"<e1>Famine</e1> following <e2>drought</e2> has hit the West African savannahs, where there have been other bad droughts, notably the great one of 1972-74 ."
+Cause-Effect(e2,e1)
+Comment:
+
+7879	"The contents of the <e1>binder</e1> included <e2>handouts</e2> on lectures, lab. exercises, assignments, as well as production information of use to the participants ."
+Content-Container(e2,e1)
+Comment: A prototypical example.
+
+7880	"When you're an immigrant or <e1>refugee</e1> from any <e2>country</e2> then you have an experience with a botched translated name ."
+Entity-Origin(e1,e2)
+Comment:
+
+7881	"But for the family that shares the cooking and clean up duties, the <e1>kitchen</e1> holds a special <e2>nuturing role</e2> beyond supplying nutrition for the physical body ."
+Other
+Comment: This might be purpose.
+
+7882	"<e1>Stereograph</e1> produces the same <e2>output</e2> ."
+Product-Producer(e2,e1)
+Comment: Vague, but the output of a stereograph is an image so it's be ok.
+
+7883	"The small knife <e1>assemblies</e1> are widely used for cutting various <e2>strips</e2> of flexible materials ."
+Other
+Comment:
+
+7884	"<e1>People</e1> harvest the <e2>seeds</e2>, macerate them, and roll them into thick sticks of dry, hardened paste which can then be stored or exported from the region ."
+Other
+Comment: Harvesting is not creation
+
+7885	"The special <e1>ingredient</e1> in the lotion comes from a <e2>plant</e2> ."
+Entity-Origin(e1,e2)
+Comment:
+
+7886	"The total <e1>contents</e1> of the purse included a <e2>cell phone</e2> and wallet valued at $120 ."
+Content-Container(e2,e1)
+Comment: A prototypical example.
+
+7887	"In 1996, a major publishing company simultaneously launched in 13 countries a dinosaur <e1>cartoon strip</e1> carried in a weekly <e2>comic book</e2> ."
+Component-Whole(e1,e2)
+Comment: The cartoon strip is an integral part of the comic book.
+
+7888	"Grubs tend to cause significant <e1>damage</e1> from <e2>autumn</e2> to spring by which time the larvae are becoming fully grown ."
+Other
+Comment:
+
+7889	"It was originally assumed that the ingredients responsible for drug interactions were the flavonoids that give <e1>grapefruit</e1> <e2>juice</e2> its bitter taste ."
+Entity-Origin(e2,e1)
+Comment:
+
+7890	"The <e1>headmaster</e1> made the formal <e2>announcement</e2> ."
+Product-Producer(e2,e1)
+Comment:
+
+7891	"The <e1>kitchen</e1> contained a <e2>well</e2> at the northern end and a well and two holding areas for live fish on the southern end ."
+Component-Whole(e2,e1)
+Comment: The well is an integral and functional part of the kitchen's architectural features.
+
+7892	"The contents of the <e1>cyst</e1> included a foul smelling <e2>gas</e2> and white-green pus ."
+Component-Whole(e2,e1)
+Comment: gas is an integral part of a typical cyst.
+
+7893	"<e1>Adults</e1> with <e2>sleep deprivation</e2> who listened to soft classical music at bedtime reported a 35 percent improvement in their quality of sleep ."
+Other
+Comment:
+
+7894	"The <e1>kitchen</e1> holds a <e2>cooker</e2>, fridge, microwave oven, in short; everything you need if you want to prepare a light meal ."
+Component-Whole(e2,e1)
+Comment: A cooker is a functional and integral part of the kitchen (of its typical equipment). If we assumed that it is not fixed (easily movable), it could be also treated as located in the kitchen room; the modality is outside
+
+7895	"The <e1>building</e1> contained a large <e2>open central space</e2> with tables and chairs as well as a nursery and two tearooms ."
+Component-Whole(e2,e1)
+Comment: The open central space is an integral and functional part of the building.
+
+7896	"The <e1>knight</e1> raised his dragon <e2>battle axe</e2>, and dealt the creature a crushing blow ."
+Instrument-Agency(e2,e1)
+Comment:
+
+7897	"<e1>Grapefruit</e1> <e2>juice</e2> causes more of these drugs to enter the blood ."
+Entity-Origin(e2,e1)
+Comment:
+
+7898	"By the early '90s, Indian entrepreneurs bought a majority of the properties and flourished with the new <e1>immigrants</e1> from the <e2>subcontinent</e2> ."
+Entity-Origin(e1,e2)
+Comment:
+
+7899	"The <e1>colours</e1> were similarly derived from the <e2>stylesheet</e2> ."
+Entity-Origin(e1,e2)
+Comment:
+
+7900	"At that point the patient grabbed the arm of the <e1>dentist</e1> to forcibly pull the <e2>drill</e2> out of his mouth ."
+Instrument-Agency(e2,e1)
+Comment:
+
+7901	"It was this moist <e1>ground</e1> that during construction engulfed a <e2>crane</e2> which remains under the stadium today ."
+Other
+Comment:
+
+7902	"Tom plans to continue to live the <e1>country</e1> <e2>life</e2> as he grows older ."
+Other
+Comment:
+
+7903	"Near Adelaide the <e1>land</e1> is intensively farmed for <e2>dairying</e2>, fruit, and vegetables ."
+Other
+Comment: Dairying is an event, not an entity.
+
+7904	"Bevan opens a case on the other side of the room and pulls out a <e1>flask</e1> that contains <e2>ale</e2> of the best sort ."
+Content-Container(e2,e1)
+Comment: A prototypical example.
+
+7905	"Ride Metrorail and then pick up a car just <e1>steps</e1> from the <e2>train</e2> to run errands, shop or reach any other business or social event not easily accessible via transit ."
+Other
+Comment:
+
+7906	"Providence had sent the old <e1>man</e1> into the world with a <e2>chisel</e2> in his hand ."
+Other
+Comment: The man isn't using the chisel for anything.
+
+7907	"And, of course, everyone wants to prove the truth of their beliefs through experience, but the <e1>belief</e1> begets the <e2>experience</e2> ."
+Cause-Effect(e1,e2)
+Comment: Both elements are occurrences; modality is outside
+
+7908	"The mesopause separates the <e1>mesosphere</e1> from the <e2>thermosphere</e2> ."
+Other
+Comment:
+
+7909	"Unlike earlier machines, their <e1>typewriter</e1> permits the <e2>typist</e2> to see what is being typed and has other features that make it the first really practical typing machine ."
+Instrument-Agency(e1,e2)
+Comment:
+
+7910	"<e1>Avocado</e1> <e2>butter</e2> is a very rich, moisturizing treatment for the hair and skin, and it has some natural sunscreen properties ."
+Entity-Origin(e2,e1)
+Comment:
+
+7911	"The <e1>man</e1> radiated <e2>jolliness</e2> ."
+Cause-Effect(e1,e2)
+Comment:
+
+7912	"Earplugs relieve the <e1>discomfort</e1> from <e2>traveling</e2> with a cold allergy or sinus condition ."
+Cause-Effect(e2,e1)
+Comment:
+
+7913	"There is a rise in erratic <e1>behaviour</e1> from substance <e2>abuse</e2> and frustration caused by long waits for hospital treatment ."
+Cause-Effect(e2,e1)
+Comment:
+
+7914	"The sisters are teenage <e1>refugees</e1> from a violent <e2>home</e2>, living alone in a faded Victorian mansion where they survive by creating a closed world centered around each other and their new friends -- a rowdy makeshift family of castoffs, dealers, and drama queens on the periphery of the burgeoning drug game, some looking for a way out, some looking for a way deeper in ."
+Entity-Origin(e1,e2)
+Comment:
+
+7915	"In Europe the <e1>fuel</e1> is distilled from canola <e2>oil</e2> ."
+Entity-Origin(e1,e2)
+Comment:
+
+7916	"She prepared some <e1>beef</e1> <e2>bouillon</e2> and let it cool ."
+Entity-Origin(e2,e1)
+Comment:
+
+7917	"Surrounding each neuron there was a group of cells of the glial type (satellite cells), which together with the collagen <e1>fibres</e1> composed the <e2>glial capsule</e2> ."
+Component-Whole(e1,e2)
+Comment:The fibres are a functional part of the capsule.
+
+7918	"The residents and <e1>scientists</e1> learned from the Krakatau <e2>explosion</e2> ."
+Other
+Comment:
+
+7919	"This is an overview of the viewer from a <e1>developer</e1>'s <e2>perspective</e2> ."
+Other
+Comment:
+
+7920	"Months later, the <e1>birds</e1> composed the <e2>syllables</e2> into complete songs, whether the songs matched natural patterns or not ."
+Other
+Comment: The sentence describes the creation of songs from pre-existing syllables.
+
+7921	"The spring <e1>molt</e1> produces mottled brown <e2>feathers</e2>, making the female almost invisible as she sits on her nest ."
+Cause-Effect(e1,e2)
+Comment: The molt is the process or the cause, not the producer.
+
+7922	"The student <e1>committee</e1> developed the following <e2>guidelines</e2> ."
+Product-Producer(e2,e1)
+Comment: Guidelines are a information-bearing mental activity (restriction d).
+
+7923	"Beauty had scarcely uttered these words when the <e1>castle</e1> radiated with <e2>light</e2> ."
+Cause-Effect(e1,e2)
+Comment:
+
+7924	"Muscles, tendons, and ligaments surround the ankle providing the <e1>stability</e1> the <e2>ankle joint</e2> needs for walking and running ."
+Other
+Comment:
+
+7925	"The basement carpeting is made from recycled plastic pop bottles, and the <e1>underpad</e1> was once automobile <e2>tires</e2> ."
+Entity-Origin(e1,e2)
+Comment:
+
+7926	"After the cashier put the <e1>cash</e1> in a <e2>bag</e2>, the robber saw a bottle of scotch that he wanted behind the counter on the shelf ."
+Content-Container(e1,e2)
+Comment: the cash is already in the bag; modality is outside
+
+7927	"This durable short sleeve crew neck tee shirt is made of preshrunk cotton to minimize <e1>shrinkage</e1> after <e2>washing</e2> ."
+Cause-Effect(e2,e1)
+Comment:
+
+7928	"The <e1>institution</e1> provides a <e2>deposit</e2>, as set in the Commission dues and fees schedule, towards the fee when it submits its appeal document ."
+Other
+Comment:
+
+7929	"We take <e1>multivitamin</e1> that contains <e2>vitamins</e2> D, E, K, and beta-carotene ."
+Other
+Comment: vitamins are part of the multivitamin with no clear boundaries (stuff-object relation).
+
+7930	"The <e1>developer</e1> duly writes a test <e2>case</e2>, makes the necessary code changes, ensures the test passes, checks the code in and considers the job finished ."
+Product-Producer(e2,e1)
+Comment:
+
+7931	"Many <e1>students</e1> deviate from the ideal <e2>curricula</e2> presented in a later section of this bulletin ."
+Other
+Comment:
+
+7932	"The <e1>sound system</e1> is contained in a <e2>suitcase</e2> and controlled from within the steering wheel ."
+Component-Whole(e1,e2)
+Comment: Removing the sound system presumably changes the car or whatever is (the overall context, which isn't so easy to figure out, BTW).
+
+7933	"Givers gain moral strength and <e1>happiness</e1> from <e2>giving</e2> ."
+Cause-Effect(e2,e1)
+Comment:
+
+7934	"Effective <e1>canola</e1> <e2>production</e2> requires hands-on involvement with the crop ."
+Other
+Comment:
+
+7935	"The <e1>boy</e1> who made the <e2>threat</e2> was arrested, charged, and had items confiscated from his home ."
+Product-Producer(e2,e1)
+Comment:
+
+7936	"Auto EQ is a powerful sound tuning feature which uses a microphone to monitor and analyse the <e1>acoustics</e1> inside the <e2>car</e2> ."
+Other
+Comment: Acoustics is a property of the interior of the car.
+
+7937	"A very robust metal hydride discovery <e1>approach</e1> was made with a demonstrated HTS <e2>methodology</e2> ."
+Other
+Comment: Purpose-Tool
+
+7938	"The Norwalk <e1>juicer</e1> grinds and presses any <e2>fruit</e2> or vegetable ."
+Other
+Comment:
+
+7939	"Citing the <e1>conflict</e1> of interest created by the ethics <e2>charges</e2>, Nifong asked the state attorney general's office to take over the lacrosse case ."
+Cause-Effect(e2,e1)
+Comment:
+
+7940	"On this oval porthole, a lace <e1>drape</e1> keeps the <e2>bathroom</e2> private while showing off the shapely window and letting in light ."
+Component-Whole(e1,e2)
+Comment:
+
+7941	"The <e1>sub-catchment</e1> is farmed primarily for <e2>beef sucklers</e2> with a single dairy enterprise and a single poultry unit so the land use is entirely grassland ."
+Entity-Origin(e2,e1)
+Comment:
+
+7942	"The above <e1>advertisement</e1> is from the server <e2>provider</e2> not from me ."
+Product-Producer(e1,e2)
+Comment:
+
+7943	"Sometimes <e1>joy</e1> comes from unexpected <e2>places</e2> ."
+Other
+Comment:
+
+7944	"Located inside the <e1>cave</e1> was an old, broken-down army field <e2>telephone</e2> ."
+Other
+Comment: The "cave" is more a location than a container.
+
+7945	"Apartment residents in Delaware were awarded $1 million for health problems due to mold <e1>growth</e1> from unrepaired <e2>leaks</e2> ."
+Cause-Effect(e2,e1)
+Comment:
+
+7946	"The rap star was apprehended at John Wayne Airport late last month and his <e1>truncheon</e1> was confiscated by <e2>police</e2> ."
+Other
+Comment:
+
+7947	"The severe <e1>famine</e1> following the <e2>good years</e2> required a political and economic reorganization in the country ."
+Other
+Comment:
+
+7948	"A tokamak is a toroidal (doughnut shape) <e1>magnetic bottle</e1> that contains the <e2>fusion plasma</e2> ."
+Content-Container(e2,e1)
+Comment: Actually we can consider the magnetic bottle as a container.
+
+7949	"The <e1>image</e1> is from the <e2>poster</e2> 'Selling Counterfeit Products is Illegal' ."
+Entity-Origin(e1,e2)
+Comment:
+
+7950	"Retailers have done their bit to put <e1>wine</e1> in the <e2>hands</e2> of the masses, to make it more accessible to the wider UK public ."
+Other
+Comment: None of the nine relations holds. It's a metaphorical location, perhaps.
+
+7951	"The <e1>kitchen</e1> contained primarily <e2>drug paraphernalia</e2> ."
+Other
+Comment: drug paraphernalia were located in the kitchen.
+
+7952	"Also, very rarely, hypnotherapy leads to the development of 'false <e1>memories</e1>' fabricated by the unconscious <e2>mind</e2>; these are called confabulations ."
+Product-Producer(e1,e2)
+Comment:Memories are information-containing mental objects.
+
+7953	"A <e1>rower</e1> has one <e2>oar</e2> in sweep rowing, an oar in each hand in sculling ."
+Instrument-Agency(e2,e1)
+Comment:
+
+7954	"A lamp's lumen output expresses the total amount of <e1>light</e1> the <e2>lamp</e2> emits in all directions per unit time ."
+Cause-Effect(e2,e1)
+Comment:
+
+7955	"Now, I have a plastic <e1>bottle</e1> that contains <e2>alcohol</e2> in which I put my artificial eyelashes at night when I take them off, to clean them and keep them safe ."
+Content-Container(e2,e1)
+Comment: A prototypical example.
+
+7956	"The <e1>box</e1> holds all our <e2>empty promises</e2> to give back, to help others, to do something worthwhile - if only we weren't so busy ."
+Content-Container(e2,e1)
+Comment: Promises in their physical manifestation, maybe written down.
+
+7957	"The <e1>tutors</e1> provide a consistent, reliable <e2>intervention</e2> that allows students who are falling behind an opportunity to reach proficiency ."
+Other
+Comment:
+
+7958	"<e1>Brushing</e1> after <e2>meals</e2> became part of your daily schedule ."
+Other
+Comment:
+
+7959	"A <e1>bus</e1> <e2>company</e2> has pledged a week-long roadside survey after a group of workers complained about its Bradford to Morley service ."
+Other
+Comment: In this sentence the bus company does not produce the buses but it uses them.
+
+7960	"When deliberations began, the <e1>crowd</e1> of people jamming the hallways radiated <e2>optimism</e2> ."
+Cause-Effect(e1,e2)
+Comment:
+
+7961	"We have a bright and cheery yellow casement window over the <e1>sink</e1> in my <e2>kitchen</e2> ."
+Component-Whole(e1,e2)
+Comment: The sink is an integral and functional part of the kitchen (equipment).
+
+7962	"The snooker <e1>player</e1> played the game with a <e2>smile</e2> on his face ."
+Other
+Comment: The player isn't using his smile for anything. Could be Cause-Effect?
+
+7963	"Europeans have rejected <e1>wine</e1> produced from genetically modified <e2>grapevines</e2>, which has caused Californian wine-growers, who rely heavily on the European market, to worry ."
+Entity-Origin(e1,e2)
+Comment:
+
+7964	"Because the ice in the smoothie has to be crushed and blended with the other ingredients, a <e1>smoothie</e1> <e2>maker</e2> is usually the appliance of choice ."
+Product-Producer(e1,e2)
+Comment:
+
+7965	"The <e1>defamation</e1> comes from a <e2>bishop</e2> ."
+Product-Producer(e1,e2)
+Comment:
+
+7966	"The following <e1>advice</e1> is distilled from <e2>builders</e2> and first-hand experience ."
+Entity-Origin(e1,e2)
+Comment:
+
+7967	"The <e1>air</e1> in the <e2>jar</e2> started circulating to the rest of the room ."
+Content-Container(e1,e2)
+Comment: Works more or less, though air is shapeless and hard to get out.
+
+7968	"But Hong Kong was able to recover from that and is now experiencing strong economic <e1>growth</e1> from <e2>exports</e2> ."
+Cause-Effect(e2,e1)
+Comment:
+
+7969	"The <e1>legislature</e1> created the <e2>ombudsman</e2> to intervene when children or their parents are subjected to unauthorized or unreasonable agency decisions ."
+Product-Producer(e2,e1)
+Comment: The ombudsman is an organisational role.
+
+7970	"The <e1>sun</e1> emits <e2>light</e2> or radiation at a large range of energies or frequencies ."
+Cause-Effect(e1,e2)
+Comment:
+
+7971	"Then, while you relax, the <e1>chef</e1> prepares the <e2>meal</e2> and serves it, restaurant-style ."
+Product-Producer(e2,e1)
+Comment:
+
+7972	"However, the fact that the guinea pigs appeared to function in a normal physiological manner indicates that the <e1>diets</e1> contained the necessary <e2>energy density</e2> ."
+Other
+Comment: energy density seems to be a property of the diets.
+
+7973	"The <e1>student</e1> provided a written <e2>request</e2>, mailed to the Executive Director of the Pacific Division ."
+Product-Producer(e2,e1)
+Comment:
+
+7974	"In order for handwashing to be effective, vigorous friction, ample <e1>lather</e1> from <e2>soap</e2>, and thorough rinsing are needed to remove the germs from the hands ."
+Entity-Origin(e1,e2)
+Comment:
+
+7975	"Mr C notes <e1>worsening</e1> of seizures and cognition with sleep <e2>deprivation</e2> and stress ."
+Cause-Effect(e2,e1)
+Comment:
+
+7976	"Get a <e1>quesadilla</e1> <e2>maker</e2> from one of your local discount stores such as Target, Walmart, or Kmart ."
+Product-Producer(e1,e2)
+Comment:
+
+7977	"Bernie the <e1>barber</e1> downed his <e2>scissors</e2>, leaving the final triangle of hair uncut ."
+Instrument-Agency(e2,e1)
+Comment: The sentence actually describes the barber not using his scissors, but the implication is that he had used them.
+
+7978	"Not too long ago, the <e1>grass</e1> was farmed for <e2>hay</e2>; then, it was ditched for mosquito control ."
+Entity-Origin(e2,e1)
+Comment: Grass is the raw material from which hay is made.
+
+7979	"The punk <e1>explosion</e1> cultivated the underground/indie rock <e2>scene</e2> that would one day be called 'alternative music' ."
+Other
+Comment: modality is outside
+
+7980	"The <e1>carpet</e1> is made from recycled <e2>materials</e2> ."
+Other
+Comment:
+
+7981	"This is incorrect, and when a <e1>minicab</e1> <e2>company</e2> uses the word taxi on their livery it can lead to prosecution by the local government body ."
+Other
+Comment: In this sentence the mincab company does not produce the minicabs but it uses them.
+
+7982	"A goal is like a mountain outcropping to which a <e1>climber</e1> throws a <e2>grappling hook</e2> and pulls themselves up ."
+Instrument-Agency(e2,e1)
+Comment:
+
+7983	"A <e1>facilitator</e1> keeps the <e2>discussion</e2> focused and limited to the allotted time, while the recorder keeps a written record of the panel's recommendations ."
+Other
+Comment:
+
+7984	"Hand creams counteract <e1>dryness</e1> from <e2>exposure</e2> to wind, sun, and detergents ."
+Cause-Effect(e2,e1)
+Comment:
+
+7985	"Eye <e1>discomfort</e1> from this <e2>staring effect</e2> is exacerbated by low humidity ."
+Cause-Effect(e2,e1)
+Comment:
+
+7986	"The lower mark is the Vienna <e1>company</e1> that made the <e2>mug</e2> ."
+Product-Producer(e2,e1)
+Comment:
+
+7987	"The <e1>transmitter</e1> emits a constant radio <e2>signal</e2> to crea ."
+Cause-Effect(e1,e2)
+Comment:
+
+7988	"Parents also experience <e1>anxiety</e1> from <e2>fear</e2> of the suffering of their child and worry about an uncertain outcome ."
+Cause-Effect(e2,e1)
+Comment:
+
+7989	"It just so happened that the <e1>horse</e1> bucked the <e2>rider</e2> and threw him into a mud-puddle ."
+Instrument-Agency(e1,e2)
+Comment:
+
+7990	"In some Asian countries, including China, Malaysia and the Philippines, the <e1>turtles</e1> are farmed for <e2>food</e2> ."
+Entity-Origin(e2,e1)
+Comment: Food is a concrete substance.
+
+7991	"Using an e-prescription module in an electronic record system, the <e1>prescriber</e1> makes out a <e2>prescription</e2> and transfers it to the national e-prescription mailbox ."
+Product-Producer(e2,e1)
+Comment:
+
+7992	"State <e1>citizens</e1> created the <e2>states</e2> who created the federal government who created federal citizens ."
+Product-Producer(e2,e1)
+Comment: Organisational units can be Products
+
+7993	"In chemical lasers the <e1>inversion</e1> is produced by a chemical <e2>reaction</e2> ."
+Cause-Effect(e2,e1)
+Comment:
+
+7994	"The <e1>streaks</e1> are from a passing <e2>truck</e2> ."
+Product-Producer(e1,e2)
+Comment:
+
+7995	"A V8 <e1>engine</e1> mated with a manual transmission powers the convertible <e2>concept</e2> ."
+Other
+Comment: The engine is an integral and functional part of the concept (car). Agencies cannot use their parts as Intruments.
+
+7996	"When the <e1>notice</e1> is sent by <e2>fax</e2>, the notice is not deemed received until 3 days after faxing it ."
+Other
+Comment:
+
+7997	"The <e1>herbicide</e1> is derived from a natural <e2>antibiotic</e2>, which is produced by two strains of a soil bacterium ."
+Entity-Origin(e1,e2)
+Comment:
+
+7998	"To test this, we placed a kitchen <e1>match</e1> in the <e2>jar</e2> instead of the candle, lit the match, screwed on the lid and dropped the jar ."
+Entity-Destination(e1,e2)
+Comment:
+
+7999	"The farmers and city officials in the region have tried to get state money to move the <e1>farmers</e1> <e2>market</e2> into a first-class operation and tourist attraction ."
+Other
+Comment:
+
+8000	"The <e1>surgeon</e1> cuts a small <e2>hole</e2> in the skull and lifts the edge of the brain to expose the nerve ."
+Product-Producer(e2,e1)
+Comment:
+

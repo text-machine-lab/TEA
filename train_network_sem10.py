@@ -6,6 +6,8 @@ import sys
 import os
 from code.config import env_paths
 import time
+import numpy
+numpy.random.seed(1337)
 
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
@@ -15,6 +17,7 @@ import argparse
 import glob
 import cPickle
 from keras.models import model_from_json
+from keras.models import load_model
 
 from code.learning import network_sem10
 from code.notes.EntNote import EntNote
@@ -80,8 +83,10 @@ def main():
     # create a sinlge model, then save architecture and weights
     if args.single_pass:
         if args.load_model:
-            NNet = model_from_json(open(args.model_destination + '.arch.json').read())
-            NNet.load_weights(args.model_destination + '.weights.h5')
+            #NNet = model_from_json(open(args.model_destination + '.arch.json').read())
+            #NNet.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+            #NNet.load_weights(args.model_destination + '.weights.h5')
+            NNet = load_model(args.model_destination + '.model.h5')
         else:
             NNet = None
 
@@ -89,7 +94,7 @@ def main():
         architecture = NN.to_json()
         open(args.model_destination + '.arch.json', "wb").write(architecture)
         NN.save_weights(args.model_destination + '.weights.h5')
-
+        NN.save(args.model_destination + '.model.h5')
     # create a pair of models, one for detection, one for classification. Then save architecture and weights
     else:
         if args.load_model:
@@ -148,9 +153,9 @@ def trainNetwork(gold_files, newsreader_dir, model=None, two_pass=True):
 
     global ignore_order
     if ignore_order:
-        nb_class = 20 # in fact only 19
-    else:
         nb_class = 10
+    else:
+        nb_class = 20 # in fact only 19 are used
 
     if two_pass:
 
@@ -170,10 +175,11 @@ def trainNetwork(gold_files, newsreader_dir, model=None, two_pass=True):
 
     else:
 
-        data = network_sem10._get_training_input(notes)
+        # if set shuffle to false, we can have the same dev set each time
+        data = network_sem10._get_training_input(notes, shuffle=False)
 
         NNet = network_sem10.train_model(None, model=model, epochs=500, training_input=data, weight_classes=False, batch_size=256,
-        encoder_dropout=0, decoder_dropout=0, input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=nb_class)
+        encoder_dropout=0, decoder_dropout=0, input_dropout=0.1, reg_W=0.0001, reg_B=0, reg_act=0, LSTM_size=300, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=nb_class)
 
         return NNet
 
