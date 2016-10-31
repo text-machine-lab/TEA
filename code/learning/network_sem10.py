@@ -92,17 +92,20 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     # combine and classify entities as a single relation
     decoder = Sequential()
     decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
-    decoder.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='sigmoid'))
     if decoder_dropout != 0:
         decoder.add(Dropout(decoder_dropout))
+    decoder.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='sigmoid'))
+    # if decoder_dropout != 0:
+    #     decoder.add(Dropout(decoder_dropout))
     decoder.add(Dense(nb_classes, W_regularizer=None, b_regularizer=B_reg, activity_regularizer=act_reg, activation='softmax'))
 
     # compile the final model
     decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return decoder
 
-def train_model(notes, model=None, epochs=5, training_input=None, weight_classes=False, batch_size=256,
-    encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=19):
+def train_model(notes, model=None, epochs=5, training_input=None, test_input=None, weight_classes=False, batch_size=256,
+    encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=300, dense_size=100,
+    maxpooling=True, data_dim=300, max_len='auto', nb_classes=19, callbacks=[]):
     '''
     obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
     params:
@@ -121,9 +124,13 @@ def train_model(notes, model=None, epochs=5, training_input=None, weight_classes
     else:
         XL, XR, labels = training_input
 
+    if test_input:
+        test_XL, test_XR, test_labels = test_input
+
     # reformat labels so that they can be used by the NN
-    print "nb_classes", nb_classes
-    Y = to_categorical(labels,nb_classes)
+    Y = to_categorical(labels, nb_classes)
+    if test_input:
+        test_Y = to_categorical(test_labels, nb_classes)
     print "labels reformed..."
 
     # use weighting to assist with the imbalanced data set problem
@@ -140,6 +147,9 @@ def train_model(notes, model=None, epochs=5, training_input=None, weight_classes
         filler = np.ones((1,1,max_len))
         XL, _ = _pad_to_match_dimensions(XL, filler, 2, pad_left=True)
         XR, _ = _pad_to_match_dimensions(XR, filler, 2, pad_left=True)
+        if test_input:
+            test_XL, _ = _pad_to_match_dimensions(test_XL, filler, 2, pad_left=True)
+            test_XR, _ = _pad_to_match_dimensions(test_XR, filler, 2, pad_left=True)
 
     if model is None:
         model = get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
@@ -147,28 +157,30 @@ def train_model(notes, model=None, epochs=5, training_input=None, weight_classes
     #else:
     #    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-    # split off validation data with 20 80 split (this way we get the same validation data every time we use this data sample, and can test on it after to get a confusion matrix)
-    V_XL = XL[:(XL.shape[0]/5),:,:]
-    V_XR = XR[:(XR.shape[0]/5),:,:]
-    V_Y  = Y [:( Y.shape[0]/5),:]
-    V_labels = labels[:(Y.shape[0]/5)]
+    if test_input:
+        # Use test data for validation
+        V_XL = test_XL
+        V_XR = test_XR
+        V_Y = test_Y
+        V_labels = test_labels
 
-    XL = XL[(XL.shape[0]/5):,:,:]
-    XR = XR[(XR.shape[0]/5):,:,:]
-    Y  = Y [( Y.shape[0]/5):,:]
-    
-    # check if the data are consistent (useful if no shuffle) 
-    #print "labels in traing data:", Y[0:20]
-    #print "labels in validation data:", V_labels[0:20]
-    #print "They should not be the same. They should be consistent each time, if no shuffle is used."   
+    else:
+        # split off validation data with 20 80 split (this way we get the same validation data every time we use this data sample, and can test on it after to get a confusion matrix)
+        V_XL = XL[:(XL.shape[0]/5),:,:]
+        V_XR = XR[:(XR.shape[0]/5),:,:]
+        V_Y  = Y [:( Y.shape[0]/5),:]
+        V_labels = labels[:(Y.shape[0]/5)]
+
+        XL = XL[(XL.shape[0]/5):,:,:]
+        XR = XR[(XR.shape[0]/5):,:,:]
+        Y  = Y [( Y.shape[0]/5):,:]
 
     # train the network
     print 'Training network...'
-    training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.0, class_weight=class_weights, batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y))
+    training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.0, class_weight=class_weights, batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y), callbacks=callbacks)
     json.dump(training_history.history, open('training_history.json', 'w'))
     test = model.predict_classes([V_XL, V_XR])
 
-    print test
     class_confusion(test, V_labels, nb_classes)
 
     return model

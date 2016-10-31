@@ -18,6 +18,7 @@ import glob
 import cPickle
 from keras.models import model_from_json
 from keras.models import load_model
+from keras.callbacks import ModelCheckpoint, EarlyStopping
 
 from code.learning import network_sem10
 from code.notes.EntNote import EntNote
@@ -56,6 +57,11 @@ def main():
                         default=False,
                         help="Load saved model and resume training from there")
 
+    parser.add_argument("--test_dir",
+                        type=str,
+                        default='',
+                        help="Use test data for validation. All training data will be used for training.")
+
     args = parser.parse_args()
 
     global ignore_order
@@ -65,7 +71,6 @@ def main():
     newsreader_dir = args.newsreader_annotations
 
     print "training dir:", args.training_dir
-    print "newsreader_dir", newsreader_dir
     # validate file paths
     if os.path.isfile(args.training_dir) is False:
         gold_files = glob.glob(args.training_dir.rstrip('/')+'/*')
@@ -75,10 +80,22 @@ def main():
     else:
         gold_files = [args.training_dir]
 
+    if args.test_dir and os.path.isfile(args.test_dir) is False:
+        test_files = glob.glob(args.test_dir.rstrip('/')+'/*')
+        test_files.sort()
+    elif args.test_dir:
+        test_files = [args.test_dir]
+    else:
+        print "No test data provided. Will use 1/5 training data for validation."
+        test_files = None
+
     if os.path.isdir(os.path.dirname(args.model_destination)) is False:
         sys.exit("directory for model destination does not exist")
 
     start = time.time()
+
+    checkpoint = ModelCheckpoint(args.model_destination+'.model.h5', monitor='val_acc', save_best_only=True)
+    earlystopping = EarlyStopping(monitor='loss', patience=25, verbose=0, mode='auto')
 
     # create a sinlge model, then save architecture and weights
     if args.single_pass:
@@ -90,7 +107,7 @@ def main():
         else:
             NNet = None
 
-        NN = trainNetwork(gold_files, newsreader_dir, model=NNet, two_pass=False)
+        NN = trainNetwork(gold_files, newsreader_dir, test_files=test_files, model=NNet, two_pass=False, callbacks=[checkpoint, earlystopping])
         architecture = NN.to_json()
         open(args.model_destination + '.arch.json', "wb").write(architecture)
         NN.save_weights(args.model_destination + '.weights.h5')
@@ -122,7 +139,25 @@ def main():
     print "training finished. used %.2f sec" %(time.time()-start)
 
 
-def trainNetwork(gold_files, newsreader_dir, model=None, two_pass=True):
+def get_notes(files, newsreader_dir):
+
+    # filenames without directory and extension
+    basenames = [os.path.splitext(file)[0].split('/')[-1] for file in files]
+    note_files = sorted([os.path.join(newsreader_dir, basename + ".parsed.pickle") for basename in basenames])
+
+    # Read in notes
+    notes = []
+    for i, note_file in enumerate(note_files):
+        if os.path.isfile(note_file):
+            ent_note = cPickle.load(open(note_file, "rb"))
+        else:
+            ent_note = EntNote(files[i], overwrite=False)
+            cPickle.dump(ent_note, open(note_file, "wb"))
+
+        notes.append(ent_note)
+    return notes
+
+def trainNetwork(gold_files, newsreader_dir, test_files=None, model=None, two_pass=True, callbacks=[]):
     '''
     train::trainNetwork()
 
@@ -134,22 +169,11 @@ def trainNetwork(gold_files, newsreader_dir, model=None, two_pass=True):
 
     print "Called trainNetwork"
 
-    # filenames without directory and extension
-    basenames = [os.path.splitext(gold_file)[0].split('/')[-1] for gold_file in gold_files]
-    note_files = sorted([os.path.join(newsreader_dir, basename + ".parsed.pickle") for basename in basenames])
-    print "gold files:", gold_files
-    print "note_files:", note_files
-
-    # Read in notes
-    notes = []
-    for i, note_file in enumerate(note_files):
-        if os.path.isfile(note_file):
-            ent_note = cPickle.load(open(note_file, "rb"))
-        else:
-            ent_note = EntNote(gold_files[i], overwrite=False)
-            cPickle.dump(ent_note, open(note_file, "wb"))
-
-        notes.append(ent_note)
+    notes = get_notes(gold_files, newsreader_dir)
+    if test_files:
+        test_notes = get_notes(test_files, newsreader_dir)
+    else:
+        test_notes = None
 
     global ignore_order
     if ignore_order:
@@ -163,13 +187,13 @@ def trainNetwork(gold_files, newsreader_dir, model=None, two_pass=True):
         classify_data = network_sem10._get_training_input(notes, presence=False, no_none=True)
 
         detector = network_sem10.train_model(None, model=model[0], epochs=150, training_input=detect_data, weight_classes=False, batch_size=256,
-        encoder_dropout=0, decoder_dropout=0, input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=2)
+        encoder_dropout=0, decoder_dropout=0, input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=300, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=2)
 
         # use max input length from detector
         max_len = detector.input_shape[0][2]
 
         classifier = network_sem10.train_model(None, model=model[1], epochs=500, training_input=classify_data, weight_classes=False, batch_size=256,
-        encoder_dropout=0., decoder_dropout=0., input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len=max_len, nb_classes=nb_class)
+        encoder_dropout=0., decoder_dropout=0., input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=300, dense_size=100, maxpooling=True, data_dim=300, max_len=max_len, nb_classes=nb_class)
 
         return detector, classifier
 
@@ -177,9 +201,14 @@ def trainNetwork(gold_files, newsreader_dir, model=None, two_pass=True):
 
         # if set shuffle to false, we can have the same dev set each time
         data = network_sem10._get_training_input(notes, shuffle=False)
+        if test_notes:
+            test_data = network_sem10._get_training_input(test_notes, shuffle=False)
+        else:
+            test_data = None
 
-        NNet = network_sem10.train_model(None, model=model, epochs=500, training_input=data, weight_classes=False, batch_size=256,
-        encoder_dropout=0, decoder_dropout=0, input_dropout=0.1, reg_W=0.0001, reg_B=0, reg_act=0, LSTM_size=300, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=nb_class)
+        NNet = network_sem10.train_model(None, model=model, epochs=500, training_input=data, test_input=test_data, weight_classes=False, batch_size=256,
+        encoder_dropout=0, decoder_dropout=0.1, input_dropout=0.3, reg_W=0.00001, reg_B=0, reg_act=0, LSTM_size=300, dense_size=100, maxpooling=True,
+        data_dim=300, max_len='auto', nb_classes=nb_class, callbacks=callbacks)
 
         return NNet
 
