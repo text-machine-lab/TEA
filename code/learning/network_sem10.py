@@ -10,6 +10,8 @@ from keras.models import Sequential, Graph
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout
 from keras.regularizers import l2, activity_l2
 from sklearn.metrics import classification_report
+from keras.optimizers import Adam
+from keras.constraints import maxnorm
 
 from word2vec import load_word2vec_binary
 
@@ -53,10 +55,11 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     encoder_L = Sequential()
 
     encoder_L.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
+    print "Set encoder dropout ", encoder_dropout
 
     # with maxpooling
     if maxpooling:
-        encoder_L.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
+        encoder_L.add(LSTM(LSTM_size, return_sequences=True, inner_activation="hard_sigmoid"))
         if encoder_dropout != 0:
             encoder_L.add(TimeDistributed(Dropout(encoder_dropout)))
         encoder_L.add(MaxPooling1D(pool_length=LSTM_size))
@@ -65,7 +68,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     # without maxpooling
     else:
         encoder_L.add(Masking(mask_value=0.))
-        encoder_L.add(LSTM(LSTM_size, return_sequences=False, inner_activation="sigmoid"))
+        encoder_L.add(LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid"))
         if encoder_dropout != 0:
             encoder_L.add(Dropout(encoder_dropout))
 
@@ -76,7 +79,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
 
     # with maxpooling
     if maxpooling:
-        encoder_R.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
+        encoder_R.add(LSTM(LSTM_size, return_sequences=True, inner_activation="hard_sigmoid"))
         if encoder_dropout != 0:
             encoder_R.add(TimeDistributed(Dropout(encoder_dropout)))
         encoder_R.add(MaxPooling1D(pool_length=LSTM_size))
@@ -85,25 +88,26 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     else:
     # without maxpooling
         encoder_R.add(Masking(mask_value=0.))
-        encoder_R.add(LSTM(LSTM_size, return_sequences=False, inner_activation="sigmoid"))
+        encoder_R.add(LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid"))
         if encoder_dropout != 0:
             encoder_R.add(Dropout(encoder_dropout))
 
     # combine and classify entities as a single relation
     decoder = Sequential()
     decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
+
+    decoder.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='relu', W_constraint=maxnorm(4)))
     if decoder_dropout != 0:
         decoder.add(Dropout(decoder_dropout))
-    decoder.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='sigmoid'))
-    # if decoder_dropout != 0:
-    #     decoder.add(Dropout(decoder_dropout))
+        print "Set decoder dropout ", decoder_dropout
     decoder.add(Dense(nb_classes, W_regularizer=None, b_regularizer=B_reg, activity_regularizer=act_reg, activation='softmax'))
 
     # compile the final model
-    decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # learning rate 0.001 is the default value
+    decoder.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
     return decoder
 
-def train_model(notes, model=None, epochs=5, training_input=None, test_input=None, weight_classes=False, batch_size=256,
+def train_model(notes, model=None, epochs=5, training_input=None, test_input=None, weight_classes=False, batch_size=100,
     encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=300, dense_size=100,
     maxpooling=True, data_dim=300, max_len='auto', nb_classes=19, callbacks=[]):
     '''
@@ -396,35 +400,47 @@ def _get_test_input(notes, evaluation=False):
 
     return XL, XR, labels
 
-def _extract_path_representations(note, word_vectors, no_none=False):
+def _extract_path_words(note, no_none=False):
     '''
-    convert a note into a portion of the input matrix
+    convert a note into input words
     '''
 
     # retrieve the ids for the left and right halves of every SDP between tlinked entities
     left_ids, right_ids = _get_token_id_subpaths(note)
-    semlinklabels = _convert_str_labels_to_int(note.relations)
+    # semlinklabels = _convert_str_labels_to_int(note.relations)
 
     # left and right paths are used to store the actual tokens of the SDP paths
     left_paths = []
     right_paths = []
 
-    # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
-    del_list = []
-
     # get token text from ids in left sdp
     for i, id_list in enumerate(left_ids):
-        if semlinklabels[i] == 0 and no_none:
-           left_paths.append([])
-        else:
-            left_paths.append(note.get_tokens_from_ids(id_list)) # list of list of words
+        # if semlinklabels[i] == 0 and no_none:
+        #     left_paths.append([])
+        # else:
+        #     left_paths.append(note.get_tokens_from_ids(id_list)) # list of list of words
+        left_paths.append(note.get_tokens_from_ids(id_list))  # list of list of words
 
     # get token text from ids in right sdp
     for i, id_list in enumerate(right_ids):
-        if semlinklabels[i] == 0 and no_none:
-           right_paths.append([])
-        else:
-            right_paths.append(note.get_tokens_from_ids(id_list))
+        # if semlinklabels[i] == 0 and no_none:
+        #     right_paths.append([])
+        # else:
+        #     right_paths.append(note.get_tokens_from_ids(id_list))
+        right_paths.append(note.get_tokens_from_ids(id_list))
+
+    return left_paths, right_paths
+
+
+def _extract_path_representations(note, word_vectors, no_none=False):
+    '''
+    convert a note into a portion of the input matrix
+    '''
+
+    left_paths, right_paths = _extract_path_words(note, no_none=no_none)
+
+    # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
+    del_list = []
 
     # get the word vectors for every word in the left path
     left_vecs = None

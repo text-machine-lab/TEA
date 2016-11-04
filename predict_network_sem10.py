@@ -100,7 +100,12 @@ def main():
         #NNet = model_from_json(open(model_path + '.arch.json').read())
         #NNet.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         #NNet.load_weights(model_path + '.weights.h5')
-        NNet = load_model(model_path + '.model.h5')      
+        try:
+            NNet = load_model(model_path + 'model.h5')
+        except:
+            NNet = model_from_json(open(model_path + '.arch.json').read())
+            NNet.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+            NNet.load_weights(model_path + '.weights.h5')
 
         # run prediction cycle
         network_sem10.single_predict(notes, NNet, nb_class, evalu=args.evaluate)
