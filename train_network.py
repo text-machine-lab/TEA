@@ -173,8 +173,8 @@ def trainNetwork(tml_files, gold_files, newsreader_dir, two_pass=True):
 
         data = network._get_training_input(notes)
 
-        NNet = network.train_model(None, epochs=150, training_input=data, weight_classes=False, batch_size=256,
-        encoder_dropout=0, decoder_dropout=0, input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=6)
+        NNet = network.train_model(None, epochs=500, training_input=data, weight_classes=False, batch_size=100,
+        encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=6)
 
         return NNet
 

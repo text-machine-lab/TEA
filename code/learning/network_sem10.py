@@ -7,10 +7,10 @@ import numpy as np
 np.random.seed(1337)
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
-from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout
+from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout, Permute
 from keras.regularizers import l2, activity_l2
 from sklearn.metrics import classification_report
-from keras.optimizers import Adam
+from keras.optimizers import Adam, SGD
 from keras.constraints import maxnorm
 
 from word2vec import load_word2vec_binary
@@ -55,14 +55,16 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     encoder_L = Sequential()
 
     encoder_L.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
+    encoder_L.add(Permute((2, 1)))
     print "Set encoder dropout ", encoder_dropout
 
     # with maxpooling
     if maxpooling:
-        encoder_L.add(LSTM(LSTM_size, return_sequences=True, inner_activation="hard_sigmoid"))
+        encoder_L.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
         if encoder_dropout != 0:
             encoder_L.add(TimeDistributed(Dropout(encoder_dropout)))
-        encoder_L.add(MaxPooling1D(pool_length=LSTM_size))
+        #encoder_L.add(Permute((2, 1)))
+        encoder_L.add(MaxPooling1D(pool_length=max_len))
         encoder_L.add(Flatten())
 
     # without maxpooling
@@ -76,13 +78,15 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     encoder_R = Sequential()
 
     encoder_R.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
+    encoder_R.add(Permute((2, 1)))
 
     # with maxpooling
     if maxpooling:
-        encoder_R.add(LSTM(LSTM_size, return_sequences=True, inner_activation="hard_sigmoid"))
+        encoder_R.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
         if encoder_dropout != 0:
             encoder_R.add(TimeDistributed(Dropout(encoder_dropout)))
-        encoder_R.add(MaxPooling1D(pool_length=LSTM_size))
+        #encoder_R.add(Permute((2, 1)))
+        encoder_R.add(MaxPooling1D(pool_length=max_len))
         encoder_R.add(Flatten())
 
     else:
@@ -103,12 +107,14 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     decoder.add(Dense(nb_classes, W_regularizer=None, b_regularizer=B_reg, activity_regularizer=act_reg, activation='softmax'))
 
     # compile the final model
-    opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # learning rate 0.001 is the default value
+    # opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # learning rate 0.001 is the default value
+    opt = SGD(lr=0.01, momentum=0.9, decay=0.0, nesterov=False)
     decoder.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
     return decoder
 
+
 def train_model(notes, model=None, epochs=5, training_input=None, test_input=None, weight_classes=False, batch_size=100,
-    encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=300, dense_size=100,
+    encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100,
     maxpooling=True, data_dim=300, max_len='auto', nb_classes=19, callbacks=[]):
     '''
     obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
@@ -182,12 +188,12 @@ def train_model(notes, model=None, epochs=5, training_input=None, test_input=Non
     # train the network
     print 'Training network...'
     training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.0, class_weight=class_weights, batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y), callbacks=callbacks)
-    json.dump(training_history.history, open('training_history.json', 'w'))
+    # json.dump(training_history.history, open('training_history.json', 'w'))
     test = model.predict_classes([V_XL, V_XR])
 
     class_confusion(test, V_labels, nb_classes)
 
-    return model
+    return model, training_history.history
 
 
 def predict(notes, detector, classifier, evalu=True):
@@ -241,6 +247,7 @@ def predict(notes, detector, classifier, evalu=True):
 
     return _convert_int_labels_to_str(labels)
 
+
 def single_predict(notes, model, nb_classes, evalu=False):
     '''
     predict using a trained single pass model
@@ -267,6 +274,7 @@ def single_predict(notes, model, nb_classes, evalu=False):
         for i, index in enumerate(labels):
             label = d[str(index)]
             f.write(str(8001+i) + '\t' + label + '\n')
+
 
 def _get_training_input(notes, no_none=False, presence=False, shuffle=True):
 
@@ -340,6 +348,7 @@ def _get_training_input(notes, no_none=False, presence=False, shuffle=True):
 
     return XL, XR, labels
 
+
 def _get_test_input(notes, evaluation=False):
     '''
     get input tensors for prediction. If evaluation is true, gold labels are also extracted
@@ -399,6 +408,7 @@ def _get_test_input(notes, evaluation=False):
     labels = _convert_str_labels_to_int(semlinklabels)
 
     return XL, XR, labels
+
 
 def _extract_path_words(note, no_none=False):
     '''

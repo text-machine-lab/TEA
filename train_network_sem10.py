@@ -1,11 +1,12 @@
 '''
-Training interface for Neural network model to detect and classify TLINKS between entities.
+Training interface for Neural network model for SemEval 2010 task 8
 '''
 
 import sys
 import os
 from code.config import env_paths
 import time
+import json
 import numpy
 numpy.random.seed(1337)
 
@@ -19,7 +20,7 @@ import cPickle
 from keras.models import model_from_json
 from keras.models import load_model
 from keras.callbacks import ModelCheckpoint, EarlyStopping
-from keras.optimizers import Adam
+from keras.optimizers import Adam, SGD
 
 from code.learning import network_sem10
 from code.notes.EntNote import EntNote
@@ -96,7 +97,7 @@ def main():
     start = time.time()
 
     checkpoint = ModelCheckpoint(args.model_destination+'model.h5', monitor='val_acc', save_best_only=True)
-    earlystopping = EarlyStopping(monitor='loss', patience=200, verbose=0, mode='auto')
+    earlystopping = EarlyStopping(monitor='val_loss', patience=200, verbose=0, mode='auto')
 
     # create a sinlge model, then save architecture and weights
     if args.single_pass:
@@ -105,18 +106,21 @@ def main():
                 NNet = load_model(args.model_destination + 'model.h5')
             except:
                 NNet = model_from_json(open(args.model_destination + '.arch.json').read())
-                opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08,
-                           decay=0.0)  # learning rate 0.001 is the default value
+                #opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08,
+                #           decay=0.0)  # learning rate 0.001 is the default value
+                opt = SGD(lr=0.01, momentum=0.9, decay=0.0, nesterov=False)
                 NNet.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
                 NNet.load_weights(args.model_destination + '.weights.h5')
         else:
             NNet = None
 
-        NN = trainNetwork(gold_files, newsreader_dir, test_files=test_files, model=NNet, two_pass=False, callbacks=[checkpoint, earlystopping])
+        NN, history = trainNetwork(gold_files, newsreader_dir, test_files=test_files, model=NNet, two_pass=False, callbacks=[checkpoint, earlystopping])
         architecture = NN.to_json()
         open(args.model_destination + '.arch.json', "wb").write(architecture)
         NN.save_weights(args.model_destination + '.weights.h5')
         NN.save(args.model_destination + 'final_model.h5')
+        json.dump(history, open(args.model_destination + 'training_history.json', 'w'))
+
     # create a pair of models, one for detection, one for classification. Then save architecture and weights
     else:
         if args.load_model:
@@ -131,8 +135,8 @@ def main():
             NNet = (None, None)
 
         # train models
-        detector, classifier = trainNetwork(gold_files, newsreader_dir, model=NNet)
-
+        NN, history = trainNetwork(gold_files, newsreader_dir, model=NNet)
+        detector, classifier = NN
         # save models
         detect_arch = detector.to_json()
         class_arch = classifier.to_json()
@@ -211,11 +215,11 @@ def trainNetwork(gold_files, newsreader_dir, test_files=None, model=None, two_pa
         else:
             test_data = None
 
-        NNet = network_sem10.train_model(None, model=model, epochs=500, training_input=data, test_input=test_data, weight_classes=False, batch_size=100,
-        encoder_dropout=0, decoder_dropout=0.4, input_dropout=0.4, reg_W=0.00001, reg_B=0, reg_act=0, LSTM_size=300, dense_size=100, maxpooling=True,
+        NNet, history = network_sem10.train_model(None, model=model, epochs=500, training_input=data, test_input=test_data, weight_classes=False, batch_size=100,
+        encoder_dropout=0, decoder_dropout=0.4, input_dropout=0.3, reg_W=0.00001, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100, maxpooling=True,
         data_dim=300, max_len='auto', nb_classes=nb_class, callbacks=callbacks)
 
-        return NNet
+        return NNet, history
 
 
 

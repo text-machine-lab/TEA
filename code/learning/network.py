@@ -5,7 +5,7 @@ import copy
 import numpy as np
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Graph
-from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout
+from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout, Permute
 from keras.regularizers import l2, activity_l2
 
 from word2vec import load_word2vec_binary
@@ -46,13 +46,14 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     encoder_L = Sequential()
 
     encoder_L.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
+    encoder_L.add(Permute((2, 1)))
 
     # with maxpooling
     if maxpooling:
         encoder_L.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
         if encoder_dropout != 0:
             encoder_L.add(TimeDistributed(Dropout(encoder_dropout)))
-        encoder_L.add(MaxPooling1D(pool_length=LSTM_size))
+        encoder_L.add(MaxPooling1D(pool_length=max_len))
         encoder_L.add(Flatten())
 
     # without maxpooling
@@ -66,13 +67,14 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     encoder_R = Sequential()
 
     encoder_R.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
+    encoder_R.add(Permute((2, 1)))
 
     # with maxpooling
     if maxpooling:
         encoder_R.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
         if encoder_dropout != 0:
             encoder_R.add(TimeDistributed(Dropout(encoder_dropout)))
-        encoder_R.add(MaxPooling1D(pool_length=LSTM_size))
+        encoder_R.add(MaxPooling1D(pool_length=max_len))
         encoder_R.add(Flatten())
 
     else:
