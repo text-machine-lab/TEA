@@ -97,7 +97,7 @@ def main():
     start = time.time()
 
     checkpoint = ModelCheckpoint(args.model_destination+'model.h5', monitor='val_acc', save_best_only=True)
-    earlystopping = EarlyStopping(monitor='val_loss', patience=200, verbose=0, mode='auto')
+    earlystopping = EarlyStopping(monitor='val_loss', patience=100, verbose=0, mode='auto')
 
     # create a sinlge model, then save architecture and weights
     if args.single_pass:
@@ -215,8 +215,8 @@ def trainNetwork(gold_files, newsreader_dir, test_files=None, model=None, two_pa
         else:
             test_data = None
 
-        NNet, history = network_sem10.train_model(None, model=model, epochs=500, training_input=data, test_input=test_data, weight_classes=False, batch_size=100,
-        encoder_dropout=0, decoder_dropout=0.4, input_dropout=0.3, reg_W=0.00001, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100, maxpooling=True,
+        NNet, history = network_sem10.train_model(None, model=model, epochs=800, training_input=data, test_input=test_data, weight_classes=False, batch_size=100,
+        encoder_dropout=0, decoder_dropout=0.4, input_dropout=0.5, reg_W=0.00001, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100, maxpooling=True,
         data_dim=300, max_len='auto', nb_classes=nb_class, callbacks=callbacks)
 
         return NNet, history

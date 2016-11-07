@@ -6,8 +6,9 @@ import copy
 import numpy as np
 np.random.seed(1337)
 from keras.utils.np_utils import to_categorical
-from keras.models import Sequential, Graph
-from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout, Permute
+from keras.models import Sequential, Model
+from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, AveragePooling1D
+from keras.layers import Flatten, Masking, Input, Dropout, Permute, merge
 from keras.regularizers import l2, activity_l2
 from sklearn.metrics import classification_report
 from keras.optimizers import Adam, SGD
@@ -52,65 +53,79 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
         act_reg = None
 
     # encode the first entity
-    encoder_L = Sequential()
-
-    encoder_L.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
-    encoder_L.add(Permute((2, 1)))
-    print "Set encoder dropout ", encoder_dropout
+    # The model is not sequential, because it has forks
+    main_input_L = Input(shape=(data_dim, max_len), name='main_input_L')
+    dropout_L = Dropout(input_dropout)(Permute((2, 1))(main_input_L))
+    print "Set input dropout ", input_dropout
 
     # with maxpooling
     if maxpooling:
-        encoder_L.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
+        lstm_L = LSTM(LSTM_size, return_sequences=True, inner_activation="hard_sigmoid")(dropout_L)
         if encoder_dropout != 0:
-            encoder_L.add(TimeDistributed(Dropout(encoder_dropout)))
-        #encoder_L.add(Permute((2, 1)))
-        encoder_L.add(MaxPooling1D(pool_length=max_len))
-        encoder_L.add(Flatten())
+            lstm_L = TimeDistributed(Dropout(encoder_dropout)(lstm_L))
+            print "Set encoder dropout ", encoder_dropout
+
+        # pooling over time steps
+        t_pooling_L = MaxPooling1D(pool_length=max_len)(lstm_L)
+        flat_t_L = Flatten()(t_pooling_L)
+
+        # pooling over LSTM units
+        u_pooling_L = AveragePooling1D(pool_length=LSTM_size)(Permute((2, 1))(lstm_L))
+        flat_u_L = Flatten()(u_pooling_L)
+
+        encoder_L = merge([flat_t_L, flat_u_L], mode='concat')
 
     # without maxpooling
     else:
-        encoder_L.add(Masking(mask_value=0.))
-        encoder_L.add(LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid"))
+        dropout_L = Masking(mask_value=0.)(dropout_L)
+        lstm_L = LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid")(dropout_L)
         if encoder_dropout != 0:
-            encoder_L.add(Dropout(encoder_dropout))
+            encoder_L = Dropout(encoder_dropout)(lstm_L)
 
     # encode the second entity
-    encoder_R = Sequential()
-
-    encoder_R.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
-    encoder_R.add(Permute((2, 1)))
+    # The model is not sequential, because it has forks
+    main_input_R = Input(shape=(data_dim, max_len), name='main_input_R')
+    dropout_R = Dropout(input_dropout)(Permute((2, 1))(main_input_R))
 
     # with maxpooling
     if maxpooling:
-        encoder_R.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
+        lstm_R = LSTM(LSTM_size, return_sequences=True, inner_activation="hard_sigmoid")(dropout_R)
         if encoder_dropout != 0:
-            encoder_R.add(TimeDistributed(Dropout(encoder_dropout)))
-        #encoder_R.add(Permute((2, 1)))
-        encoder_R.add(MaxPooling1D(pool_length=max_len))
-        encoder_R.add(Flatten())
+            lstm_R = TimeDistributed(Dropout(encoder_dropout)(lstm_R))
 
-    else:
+        # pooling over time steps
+        t_pooling_R = MaxPooling1D(pool_length=max_len)(lstm_R)
+        flat_t_R = Flatten()(t_pooling_R)
+
+        # pooling over LSTM units
+        u_pooling_R = AveragePooling1D(pool_length=LSTM_size)(Permute((2, 1))(lstm_R))
+        flat_u_R = Flatten()(u_pooling_R)
+
+        encoder_R = merge([flat_t_R, flat_u_R], mode='concat')
+
     # without maxpooling
-        encoder_R.add(Masking(mask_value=0.))
-        encoder_R.add(LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid"))
+    else:
+        dropout_R = Masking(mask_value=0.)(dropout_R)
+        lstm_R = LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid")(dropout_R)
         if encoder_dropout != 0:
-            encoder_R.add(Dropout(encoder_dropout))
+            encoder_R = Dropout(encoder_dropout)(lstm_R)
 
     # combine and classify entities as a single relation
-    decoder = Sequential()
-    decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
+    encoder = merge([encoder_R, encoder_L], mode='concat')
 
-    decoder.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='relu', W_constraint=maxnorm(4)))
+    decoder = Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='relu', W_constraint=maxnorm(4))(encoder)
     if decoder_dropout != 0:
-        decoder.add(Dropout(decoder_dropout))
+        decoder = Dropout(decoder_dropout)(decoder)
         print "Set decoder dropout ", decoder_dropout
-    decoder.add(Dense(nb_classes, W_regularizer=None, b_regularizer=B_reg, activity_regularizer=act_reg, activation='softmax'))
+    predictions = Dense(nb_classes, W_regularizer=None, b_regularizer=B_reg, activity_regularizer=act_reg, activation='softmax')(decoder)
+
+    model = Model(input=[main_input_L, main_input_R], output=predictions)
 
     # compile the final model
     # opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # learning rate 0.001 is the default value
     opt = SGD(lr=0.01, momentum=0.9, decay=0.0, nesterov=False)
-    decoder.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-    return decoder
+    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+    return model
 
 
 def train_model(notes, model=None, epochs=5, training_input=None, test_input=None, weight_classes=False, batch_size=100,
