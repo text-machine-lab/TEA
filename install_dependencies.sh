@@ -11,7 +11,7 @@ fi
 tar -xvf NewsReader.tar
 
 # installing srl dependencies
-wget https://mate-tools.googlecode.com/files/srl-4.3.tgz
+wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mate-tools/srl-4.3.tgz
 
 tar -zxvf srl-4.3.tgz srl-20130917/lib/liblinear-1.51-with-deps.jar
 tar -zxvf srl-4.3.tgz srl-20130917/lib/seg.jar
