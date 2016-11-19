@@ -39,16 +39,16 @@ class NewsReader(object):
             srl = SRL()
 
         # newsreader pipeline objects
-        print "creating tokenizer..."
+#        print "creating tokenizer..."
         self.newsreader_tok = py4j_newsreader.tok.IXATokenizer()
 
-        print "creating pos tagger..."
+#        print "creating pos tagger..."
         self.newsreader_pos = py4j_newsreader.pos.IXAPosTagger()
 
-        print "creating parser..."
+#        print "creating parser..."
         self.newsreader_parse = py4j_newsreader.parse.IXAParser()
 
-        print "creating ner tagger..."
+#        print "creating ner tagger..."
         self.newsreader_ner = py4j_newsreader.ner.IXANerTagger()
         pass
 
@@ -95,7 +95,8 @@ def _coreference_tag(naf_constituency_parsed_text):
     if output == "":
         sys.exit("ERROR: corefgraph failed to produce output...")
     else:
-        print "COREF GRAPH: Tagg NAF document"
+        #print "COREF GRAPH: Tagg NAF document"
+        pass
 
     filtered_output = ""
 

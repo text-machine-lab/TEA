@@ -13,7 +13,7 @@ class GateWay {
 
     public static void main(String[] args) {
 
-        GatewayServer gatewayServer = new GatewayServer(new EntryPoint());
+        GatewayServer gatewayServer = new GatewayServer(new EntryPoint(), 5007);
         gatewayServer.start();
         System.out.println("Gateway Server Started");
 

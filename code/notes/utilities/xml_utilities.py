@@ -37,10 +37,13 @@ def get_raw_text(xml_tree_element):
 
 def write_root_to_file(xml_root, file_path):
 
-	tree = ET.ElementTree(xml_root)
+    print "called writer_root_to_file"
 
-	print file_path
-	tree.write(file_path, xml_declaration=True, encoding="us-ascii")
+    tree = ET.ElementTree(xml_root)
+
+    print "file path: ", file_path
+
+    tree.write(file_path, xml_declaration=True, encoding="us-ascii")
 
 if __name__ == "__main__":
     print "nothing to do here"

@@ -14,18 +14,21 @@ import sys
 
 from gateway import GateWayServer
 
+from py4j.java_gateway import GatewayParameters
+
+
 class IXATokenizer:
 
     def __init__(self):
 
-        print "calling constructor"
+#        print "calling constructor"
 
         #launches java gateway server.
         GateWayServer.launch_gateway()
 
-        print "attempting to connect to py4j gateway"
+#        print "attempting to connect to py4j gateway"
 
-        self.gateway = JavaGateway()
+        self.gateway = JavaGateway(gateway_parameters=GatewayParameters(port=5007))
 
         init_time = time.time()
 

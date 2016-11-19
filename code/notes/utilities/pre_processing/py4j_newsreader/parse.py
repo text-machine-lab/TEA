@@ -17,19 +17,22 @@ import tok
 import pos
 import ner as nerc
 
+from py4j.java_gateway import GatewayParameters
+
+
 class IXAParser:
 
     def __init__(self):
 
-        print "calling constructor"
+#        print "calling constructor"
 
         # launches java gateway server.
         GateWayServer.launch_gateway()
 
-        print "attempting to connect to py4j gateway"
+ #       print "attempting to connect to py4j gateway"
 #        time.sleep(30)
 
-        self.gateway = JavaGateway(eager_load=True)
+        self.gateway = JavaGateway(gateway_parameters=GatewayParameters(port=5007), eager_load=True)
 
         self.parser = self.gateway.entry_point.getIXAParser()
 
@@ -38,7 +41,7 @@ class IXAParser:
         if 'NAF' not in naf_tagged_doc:
             exit("text needs to be processed by ixa tokenizer first")
 
-        print "tagging..."
+  #      print "tagging..."
 
         return self.parser.parse(naf_tagged_doc)
 
