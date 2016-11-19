@@ -20,13 +20,11 @@ class EntryPoint {
 
     public EntryPoint() {
         try {
-
             tokenizer = new Tok();
             tagger    = new Pos();
             ner       = new Ner();
             parser    = new Parse();
             heideler  = new HeidelTime();
-
         }
         catch(Exception e){
             System.out.println(e.getMessage());

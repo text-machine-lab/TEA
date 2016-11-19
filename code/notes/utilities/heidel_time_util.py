@@ -26,7 +26,7 @@ from xml_utilities import write_root_to_file
 
 def get_iobs_heidel(note):
 
-    print "CALLED get_iobs_heidel"
+#    print "CALLED get_iobs_heidel"
 
     # don't want to modify original
     pre_processed_text = copy.deepcopy(note.pre_processed_text)

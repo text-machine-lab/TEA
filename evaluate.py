@@ -81,7 +81,7 @@ _TLINK_LABELS = {
                     'ENDS':11,
                     'BEGUN_BY':12,
                     'ENDED_BY':13,
-                    'NONE_TLINK':14, # not a TIMEML labeling. our own to indicate no tlink
+                    'NONE':14, # not a TIMEML labeling. our own to indicate no tlink
                 }
 
 
@@ -119,7 +119,7 @@ def main():
 
     # List of predictions
     pred_files = glob.glob( os.path.join(args.predicted, wildcard) )
-    pred_files_map =  {re.sub('TE3input\.', '', os.path.basename(f)):f for f in pred_files}
+    pred_files_map =  {re.sub('\.TE3input.tml', '', os.path.basename(f)):f for f in pred_files}
 
     # Grouping of text, predictions, gold
     files = []
@@ -130,25 +130,123 @@ def main():
         else:
             sys.exit("missing predicted file: {}".format(gold_basename))
 
-    _display_timex_confusion_matrix(files)
-    _display_event_confusion_matrix(files)
+#    _display_timex_confusion_matrix(files)
+#    _display_event_confusion_matrix(files)
 #    _display_pos_confusion_matrix(files)
 #    _display_pol_confusion_matrix(files)
 #    _display_TENSE_confusion_matrix(files)
 #    _display_ASPECT_confusion_matrix(files)
-    _display_TLINK_confusion_matrix(files)
+#    _display_TLINK_confusion_matrix(files)
 
-    for predicted, gold in files:
-        print
-        print "predicted file: ", predicted
-        print "gold file: ", gold
-        print
+    _precision_recall_f1(files, "EVENT")
+
+#    for predicted, gold in files:
+#        print
+#        print "predicted file: ", predicted
+#        print "gold file: ", gold
+#        print
 #        _display_timex_confusion_matrix([(predicted,gold)])
 #        _display_event_confusion_matrix([(predicted,gold)])
 #        _compare_file(predicted,gold, f="TIMEX")
-        _display_TLINK_confusion_matrix([(predicted,gold)])
+#        _display_TLINK_confusion_matrix([(predicted,gold)])
 
     return
+
+def _precision_recall_f1(files, metric="all"):
+    """
+        Displays over all precision, recall and f1 with no regards to class.
+        This metric is the same as used within:
+            SemEval-2013 Task 1: TempEval-3: Evaluating Time Expressions, Events and Temporal Relations
+    """
+
+    gold_events = []
+    gold_timex  = []
+
+    pred_events = []
+    pred_timex  = []
+
+    for predicted_file, gold_file in files:
+        predicted_entities, _ = extract_labeled_entities(predicted_file)
+        gold_entities, _ = extract_labeled_entities(gold_file)
+
+        _gold_events = set()
+        _gold_timex  = set()
+
+        _predicted_events = set()
+        _predicted_timex = set()
+
+        for offset in gold_entities:
+            gold_class_type = None
+            if gold_entities[offset]["xml_element"].tag == "EVENT":
+                gold_class_type = gold_entities[offset]["xml_element"].attrib["class"]
+                _gold_events.add((offset[0],offset[1],gold_class_type))
+            elif gold_entities[offset]["xml_element"].tag == "TIMEX3":
+                gold_class_type = gold_entities[offset]["xml_element"].attrib["type"]
+                _gold_timex.add((offset[0],offset[1],gold_class_type))
+            else:
+                pass
+
+        for offset in predicted_entities:
+            predicted_class_type = None
+            if predicted_entities[offset]["xml_element"].tag == "EVENT":
+                predicted_class_type = predicted_entities[offset]["xml_element"].attrib["class"]
+                _predicted_events.add((offset[0],offset[1],predicted_class_type))
+            elif predicted_entities[offset]["xml_element"].tag == "TIMEX3":
+                predicted_class_type = predicted_entities[offset]["xml_element"].attrib["type"]
+                _predicted_timex.add((offset[0],offset[1],predicted_class_type))
+            else:
+                pass
+
+        gold_events.append(_gold_events)
+        gold_timex.append(_gold_timex)
+
+        pred_events.append(_predicted_events)
+        pred_timex.append(_predicted_timex)
+
+    num_predicted_events = float(sum([len(pred) for pred in pred_events]))
+    num_gold_events = float(sum([len(gold) for gold in gold_events]))
+    num_event_intersections    = float(sum([len(gold.intersection(pred)) for gold, pred in zip(gold_events, pred_events)]))
+
+    num_predicted_timex = float(sum([len(pred) for pred in pred_timex]))
+    num_gold_timex = float(sum([len(gold) for gold in gold_timex]))
+    num_timex_intersections = float(sum([len(gold.intersection(pred)) for gold, pred in zip(gold_timex, pred_timex)]))
+
+    if metric == "all":
+        event_recall = num_event_intersections / num_gold_events
+        event_prec = num_event_intersections / num_predicted_events
+        event_f1 = 2 * ((event_prec * event_recall) / ((event_prec + event_recall)))
+
+        print "EVENT PRECISION: ", event_prec
+        print "EVENT RECALL: ", event_recall
+        print "EVENT F1: ", event_f1
+
+        timex_recall = num_timex_intersections / num_gold_timex
+        timex_prec = num_timex_intersections / num_predicted_timex
+        timex_f1 = 2 * ((timex_prec * timex_recall) / ((timex_prec + timex_recall)))
+
+        print "TIMEX PRECISION: ", timex_prec
+        print "TIMEX RECALL: ", timex_recall
+        print "TIMEX F1: ", timex_f1
+
+    elif metric == "EVENT":
+
+        event_recall = num_event_intersections / num_gold_events
+        event_prec = num_event_intersections / num_predicted_events
+        event_f1 = 2 * ((event_prec * event_recall) / ((event_prec + event_recall)))
+
+        print "EVENT PRECISION: ", event_prec
+        print "EVENT RECALL: ", event_recall
+        print "EVENT F1: ", event_f1
+    elif metric == "TIMEX":
+        timex_recall = num_timex_intersections / num_gold_timex
+        timex_prec = num_timex_intersections / num_predicted_timex
+        timex_f1 = 2 * ((timex_prec * timex_recall) / ((timex_prec + timex_recall)))
+
+        print "TIMEX PRECISION: ", timex_prec
+        print "TIMEX RECALL: ", timex_recall
+        print "TIMEX F1: ", timex_f1
+    else:
+        pass
 
 
 def _display_event_confusion_matrix(files):
@@ -226,10 +324,10 @@ def _display_TLINK_confusion_matrix(files):
                 confusion[_TLINK_LABELS[gold_tlinks[gold_pair]]][_TLINK_LABELS[predicted_tlinks[gold_pair]]] += 1
                 predicted_tlinks.pop(gold_pair)
             else:
-                confusion[_TLINK_LABELS[gold_tlinks[gold_pair]]][_TLINK_LABELS["NONE_TLINK"]] += 1
+                confusion[_TLINK_LABELS[gold_tlinks[gold_pair]]][_TLINK_LABELS["NONE"]] += 1
             label_counts[gold_tlinks[gold_pair]] += 1
         for predicted_pair in predicted_tlinks:
-            confusion[_TLINK_LABELS["NONE_TLINK"]][_TLINK_LABELS[predicted_tlinks[predicted_pair]]] += 1
+            confusion[_TLINK_LABELS["NONE"]][_TLINK_LABELS[predicted_tlinks[predicted_pair]]] += 1
 
             label_counts[predicted_tlinks[predicted_pair]] += 1
 
@@ -290,7 +388,7 @@ def _display_timex_confusion_matrix(files):
 
     name = "TIMEX"
 
-    display_confusion(name, confusion, _TIMEX_LABELS, label_counts)
+    display_confusion(name, confusion, _TIMEX_LABELS, label_counts,padding=2)
 
 def display_confusion(name, confusion, labels, label_counts, padding=5):
     """Display a confuson matrix for some given labels.
@@ -331,7 +429,7 @@ def display_confusion(name, confusion, labels, label_counts, padding=5):
     fn = 0
     tn = 0
 
-    print "\n\t{} Analysis\n".format(name)
+    print "\n\t{} Class Analysis\n".format(name)
     print '\t\t{}{}'.format(' '*col_width, ''.join([metric.ljust(col_width) for metric in ["Precision", "Recall", "F1"]]))
     print
 
@@ -663,7 +761,9 @@ def extract_tlinks(annotated_timeml):
         event_offset = id_to_offset[event_instance_id_to_event_id[attribs["eventInstanceID"]]]
         target_offset = id_to_offset[event_instance_id_to_event_id[attribs["relatedToEventInstance"]] if "relatedToEventInstance" in attribs else attribs["relatedToTime"]]
         if (event_offset, target_offset) in tlinks:
-            sys.exit("ERROR: duplicate TLINKs")
+            continue
+            #sys.exit("ERROR: duplicate TLINKs")
+
 
         tlinks[(event_offset, target_offset)] = attribs["relType"]
 

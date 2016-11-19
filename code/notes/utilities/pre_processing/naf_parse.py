@@ -9,8 +9,6 @@ from string import whitespace
 
 def parse(naf_tagged_doc):
 
-#    print naf_tagged_doc
-
     xml_root = ET.fromstring(naf_tagged_doc)
 
     tokens             = []
@@ -629,6 +627,10 @@ def get_coref_groups(coreferences_element):
 
         corefs[coref.attrib["id"]] = coreferent_spans
 
+    #print "COREFS: "
+    #print corefs
+    #print
+
     return corefs
 
 
@@ -788,6 +790,7 @@ class DependencyPath(object):
         """
         L_path = []
         R_path = []
+
 
         # there is no path between tokens if one of them is not in the tree
         # should only occur if tokens are from different sentences

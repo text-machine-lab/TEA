@@ -121,7 +121,7 @@ class TimeNote(Note):
         doctime_str = doctime_tag.attrib["value"]
         doctime_values = doctime_str.split('-')
 
-        print "doc time string: ", doctime_str
+#        print "doc time string: ", doctime_str
 
         self.doctime_hour   = None
         self.doctime_minute = None

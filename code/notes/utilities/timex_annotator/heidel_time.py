@@ -20,15 +20,15 @@ class Heideler:
 
     def __init__(self):
 
-        print "\t\tHEIDELER CONSTRUCTOR: Creating Heideler Object."
+#        print "\t\tHEIDELER CONSTRUCTOR: Creating Heideler Object."
 
         # launches java gateway server.
         GateWayServer.launch_gateway()
 
-        print "\t\tHEIDELER CONSTRUCTOR: attempting to connect to py4j gateway"
+#        print "\t\tHEIDELER CONSTRUCTOR: attempting to connect to py4j gateway"
 
-#        self.gateway = JavaGateway(gateway_parameters=GatewayParameters(port=5007))
-        self.gateway = JavaGateway()
+        self.gateway = JavaGateway(gateway_parameters=GatewayParameters(port=5007))
+#        self.gateway = JavaGateway()
 
         self.heideler = None
 
@@ -44,8 +44,6 @@ class Heideler:
                 break
 
             except Py4JNetworkError:
-#            except Exception as e:
-#                print "Exception: ", e
                 time.sleep(60)
                 continue
 

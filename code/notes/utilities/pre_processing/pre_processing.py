@@ -25,9 +25,11 @@ def pre_process(text, filename):
 
     naf_tagged_doc = pre_processor.pre_process(text)
 
+    """
     print "NAF TAGGED DOC: "
     print naf_tagged_doc
     print
+    """
 
     tokens,     tokens_to_offset,\
     pos_tags,   token_lemmas,\

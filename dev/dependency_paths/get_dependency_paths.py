@@ -120,10 +120,11 @@ def main():
         l_paths, r_paths, pairs = _get_token_id_subpaths(notes[note_id])
 
         for l_path, r_path, pair in zip(l_paths,r_paths,pairs):
-            dependency_output_file.write("\t\tsource token: {}\n".format(pair["source_token"]))
-            dependency_output_file.write("\t\ttarget token: {}\n".format(pair["target_token"]))
-            dependency_output_file.write("\t\tLeft path: {}\n".format(notes[note_id].get_tokens_from_ids(l_path)))
-            dependency_output_file.write("\t\tRight path: {}\n".format(notes[note_id].get_tokens_from_ids(r_path)))
+            dependency_output_file.write(' '*10 + "Relation type: {}\n".format(pair["rel_type"]))
+            dependency_output_file.write(' '*10 + "source token: {} ({})\n".format(pair["source_token"],pair["src_id"]))
+            dependency_output_file.write(' '*10 + "target token: {} ({})\n".format(pair["target_token"],pair["target_id"]))
+            dependency_output_file.write(' '*10 + "Left path: {}\n".format(notes[note_id].get_tokens_from_ids(l_path)))
+            dependency_output_file.write(' '*10 + "Right path: {}\n".format(notes[note_id].get_tokens_from_ids(r_path)))
             dependency_output_file.write('\n\n')
 
 
@@ -133,6 +134,7 @@ def _get_token_id_subpaths(note):
     """
     # TODO: for now we only look at the first token in a given entity. Eventually, we should get all tokens in the entity
 
+    iob_labels = note.get_labels()
     pairs = note.get_tlinked_entities()
 
     left_paths = []
@@ -159,7 +161,20 @@ def _get_token_id_subpaths(note):
         target_token = pair["target_entity"][0]["token"] if "token" in pair["target_entity"][0] else "DOC TIME"
         src_token    = pair["src_entity"][0]["token"] if "token" in pair["src_entity"][0] else "DOC TIME"
 
-        id_pairs.append({"target_token":target_token,"source_token":src_token})
+        target_entity_id = "t0"
+        src_entity_id = "t0"
+
+        if target_token != "DOC TIME":
+            target_entity_id = iob_labels[pair["target_entity"][0]["sentence_num"]-1][pair["target_entity"][0]["token_offset"]]["entity_id"]
+        if src_token != "DOC TIME":
+            src_entity_id = iob_labels[pair["src_entity"][0]["sentence_num"]-1][pair["src_entity"][0]["token_offset"]]["entity_id"]
+#        print pair["target_entity"]
+
+        id_pairs.append({"target_token":target_token,
+                         "target_id":target_entity_id,
+                         "source_token":src_token,
+                         "src_id":src_entity_id,
+                         "rel_type":pair["rel_type"]})
 
     return left_paths, right_paths, id_pairs
 

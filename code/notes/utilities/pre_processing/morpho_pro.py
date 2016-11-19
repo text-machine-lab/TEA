@@ -69,7 +69,7 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
         with open(dest_path,"wb") as f:
             f.write(morpho_output)
 
-    print morpho_output
+    #print morpho_output
 
     output = []
 
