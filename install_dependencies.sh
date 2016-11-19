@@ -27,7 +27,7 @@ tar -xvf NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl.tar -C NewsReader/ixa-pipes-1.1
 # JAVA 1.7 or higher worked fine. ensure maven is using right version.
 mvn clean install -f NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/pom.xml
 
-wget http://mate-tools.googlecode.com/files/CoNLL2009-ST-English-ALL.anna-3.3.parser.model --directory-prefix=NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/models/eng/
+wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mate-tools/CoNLL2009-ST-English-ALL.anna-3.3.parser.model --directory-prefix=NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/models/eng/
 wget http://fileadmin.cs.lth.se/nlp/models/srl/en/srl-20100906/srl-eng.model --directory-prefix=NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/models/eng/
 
 mkdir NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/PredicateMatrix
@@ -36,6 +36,7 @@ wget http://adimen.si.ehu.es/web/files/PredicateMatrix/PredicateMatrix.srl-modul
 tar -zxf PredicateMatrix.srl-module.tar.gz -C NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/PredicateMatrix/
 rm -f PredicateMatrix.srl-module.tar.gz
 
+rm -rf dependencies/NewsReader
 mv NewsReader dependencies/
 
 . $TEA_HOME/code/notes/utilities/pre_processing/py4j_newsreader/compile.sh

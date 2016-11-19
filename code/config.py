@@ -17,11 +17,11 @@ def env_paths():
 
         if line[0] == "PY4J_DIR_PATH":
             if path is not None and os.path.isdir(path) is False:
-                sys.exit("ERROR: PY4J_DIR_PATH directory is invalid")
+                sys.exit("ERROR: PY4J_DIR_PATH needs to be directory containing proper .jar file")
 
         if line[0] == "MORPHO_DIR_PATH":
             if path is not None and os.path.isdir(path) is False:
-                sys.exit("ERROR: MORPHO_DIR_PATH is invalid")
+                sys.exit("ERROR: MORPHO_DIR_PATH needs to be root directory of morphopro tool")
 
         env_paths[line[0]] = path
 
