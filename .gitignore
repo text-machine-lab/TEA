@@ -1,4 +1,7 @@
 *.morpho
 *.pickle
 *.pyc
-
+*.jar
+*.tml
+test_dir/
+test-tools-and-data/

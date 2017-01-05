@@ -7,14 +7,14 @@ import numpy as np
 np.random.seed(1337)
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, Model
-from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, AveragePooling1D
+from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, AveragePooling1D, Bidirectional
 from keras.layers import Flatten, Masking, Input, Dropout, Permute, merge
 from keras.regularizers import l2, activity_l2
 from sklearn.metrics import classification_report
 from keras.optimizers import Adam, SGD
 from keras.constraints import maxnorm
 
-from word2vec import load_word2vec_binary
+from word2vec import load_word2vec_binary, load_word2vec_dep
 
 def set_ignore_order(no_order):
     global ignore_order
@@ -70,7 +70,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
         flat_t_L = Flatten()(t_pooling_L)
 
         # pooling over LSTM units
-        u_pooling_L = AveragePooling1D(pool_length=LSTM_size)(Permute((2, 1))(lstm_L))
+        u_pooling_L = MaxPooling1D(pool_length=LSTM_size)(Permute((2, 1))(lstm_L))
         flat_u_L = Flatten()(u_pooling_L)
 
         encoder_L = merge([flat_t_L, flat_u_L], mode='concat')
@@ -78,9 +78,9 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     # without maxpooling
     else:
         dropout_L = Masking(mask_value=0.)(dropout_L)
-        lstm_L = LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid")(dropout_L)
+        encoder_L = LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid")(dropout_L)
         if encoder_dropout != 0:
-            encoder_L = Dropout(encoder_dropout)(lstm_L)
+            encoder_L = Dropout(encoder_dropout)(encoder_L)
 
     # encode the second entity
     # The model is not sequential, because it has forks
@@ -98,7 +98,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
         flat_t_R = Flatten()(t_pooling_R)
 
         # pooling over LSTM units
-        u_pooling_R = AveragePooling1D(pool_length=LSTM_size)(Permute((2, 1))(lstm_R))
+        u_pooling_R = MaxPooling1D(pool_length=LSTM_size)(Permute((2, 1))(lstm_R))
         flat_u_R = Flatten()(u_pooling_R)
 
         encoder_R = merge([flat_t_R, flat_u_R], mode='concat')
@@ -106,12 +106,13 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, r
     # without maxpooling
     else:
         dropout_R = Masking(mask_value=0.)(dropout_R)
-        lstm_R = LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid")(dropout_R)
+        encoder_R = LSTM(LSTM_size, return_sequences=False, inner_activation="hard_sigmoid")(dropout_R)
         if encoder_dropout != 0:
-            encoder_R = Dropout(encoder_dropout)(lstm_R)
+            encoder_R = Dropout(encoder_dropout)(encoder_R)
 
     # combine and classify entities as a single relation
-    encoder = merge([encoder_R, encoder_L], mode='concat')
+    #encoder = merge([encoder_R, encoder_L], mode='concat')
+    encoder = merge([flat_t_R, flat_t_L], mode='concat') #only use unit pooling
 
     decoder = Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='relu', W_constraint=maxnorm(4))(encoder)
     if decoder_dropout != 0:
@@ -204,7 +205,7 @@ def train_model(notes, model=None, epochs=5, training_input=None, test_input=Non
     print 'Training network...'
     training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.0, class_weight=class_weights, batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y), callbacks=callbacks)
     # json.dump(training_history.history, open('training_history.json', 'w'))
-    test = model.predict_classes([V_XL, V_XR])
+    test = np.argmax(model.predict([V_XL, V_XR]), axis=1)
 
     class_confusion(test, V_labels, nb_classes)
 
@@ -279,7 +280,8 @@ def single_predict(notes, model, nb_classes, evalu=False):
     XR, _ = _pad_to_match_dimensions(XR, filler, 2, pad_left=True)
 
     print 'Predicting...'
-    labels = model.predict_classes([XL, XR])
+    #labels = model.predict_classes([XL, XR])
+    labels = np.argmax(model.predict([XL, XR]), axis=1)
     print "predicted_labels: ", labels[0:20], '...'
 
     if evalu:
@@ -303,8 +305,8 @@ def _get_training_input(notes, no_none=False, presence=False, shuffle=True):
     XR = None
 
     print 'Loading word embeddings...'
-    word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
-    # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
+    #word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
+    word_vectors = load_word2vec_dep(os.environ["TEA_PATH"] + '/wordvector-deps.pkl')
 
     print 'Extracting dependency paths...'
     for i, note in enumerate(notes):
@@ -377,8 +379,8 @@ def _get_test_input(notes, evaluation=False):
     XR = None
 
     print 'Loading word embeddings...'
-    word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
-    # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
+    #word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
+    word_vectors = load_word2vec_dep(os.environ["TEA_PATH"] + '/wordvector-deps.pkl')
 
     print 'Extracting dependency paths...'
     for i, note in enumerate(notes):

@@ -5,6 +5,8 @@ Training interface for Neural network model to detect and classify TLINKS betwee
 import sys
 import os
 from code.config import env_paths
+import numpy
+numpy.random.seed(1337)
 
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
@@ -13,10 +15,17 @@ if env_paths()["PY4J_DIR_PATH"] is None:
 import argparse
 import glob
 import cPickle
+import json
 
-from code.learning import network
+from code.learning.network import Network
+
+from keras.models import model_from_json
+from keras.models import load_model
+from keras.callbacks import ModelCheckpoint, EarlyStopping
+from keras.optimizers import Adam, SGD
 
 timenote_imported = False
+N_CLASSES = 13
 
 def main():
     '''
@@ -51,6 +60,16 @@ def main():
                         default=False,
                         help="Train a single pass model that performs both detection and classification")
 
+    parser.add_argument("--load_model",
+                        action='store_true',
+                        default=False,
+                        help="Load saved model and resume training from there")
+
+    parser.add_argument("--no_val",
+                        action='store_true',
+                        default=False,
+                        help="No validation. Use all training data to train.")
+
     args = parser.parse_args()
 
     # validate file paths
@@ -77,6 +96,8 @@ def main():
     tml_files  = []
 
     for f in files:
+        if f.endswith('.pkl'):
+            continue
         if "E3input" in f:
             tml_files.append(f)
         else:
@@ -88,12 +109,33 @@ def main():
     # one-to-one pairing of annotated file and un-annotated
     assert len(gold_files) == len(tml_files)
 
+    checkpoint = ModelCheckpoint(args.model_destination+'model.h5', monitor='val_acc', save_best_only=True)
+    if args.no_val:
+        earlystopping = EarlyStopping(monitor='loss', patience=30, verbose=0, mode='auto')
+    else:
+        earlystopping = EarlyStopping(monitor='val_loss', patience=30, verbose=0, mode='auto')
+
     # create a sinlge model, then save architecture and weights
     if args.single_pass:
-        NN = trainNetwork(tml_files, gold_files, newsreader_dir, two_pass=False)
+        if args.load_model:
+            try:
+                NNet = load_model(args.model_destination + 'model.h5')
+            except:
+                NNet = model_from_json(open(args.model_destination + '.arch.json').read())
+                #opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08,
+                #           decay=0.0)  # learning rate 0.001 is the default value
+                opt = SGD(lr=0.003, momentum=0.9, decay=0.0, nesterov=False)
+                NNet.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+                NNet.load_weights(args.model_destination + '.weights.h5')
+        else:
+            NNet = None
+
+        NN, history = trainNetwork(tml_files, gold_files, newsreader_dir, no_val=args.no_val, two_pass=False, callbacks=[checkpoint, earlystopping], train_dir=args.train_dir[0].strip('*'))
         architecture = NN.to_json()
         open(args.model_destination + '.arch.json', "wb").write(architecture)
         NN.save_weights(args.model_destination + '.weights.h5')
+        NN.save(args.model_destination + 'final_model.h5')
+        json.dump(history, open(args.model_destination + 'training_history.json', 'w'))
 
     # create a pair of models, one for detection, one for classification. Then save architecture and weights
     else:
@@ -109,7 +151,7 @@ def main():
         classifier.save_weights(args.model_destination + '.class.weights.h5')
 
 
-def trainNetwork(tml_files, gold_files, newsreader_dir, two_pass=True):
+def trainNetwork(tml_files, gold_files, newsreader_dir, no_val=False, two_pass=True, callbacks=[], train_dir='./'):
     '''
     train::trainNetwork()
 
@@ -123,37 +165,41 @@ def trainNetwork(tml_files, gold_files, newsreader_dir, two_pass=True):
     print "Called trainNetwork"
 
     global timenote_imported
+    global N_CLASSES
 
-    # Read in notes
-    notes = []
+    if not os.path.isfile(train_dir+'training_data.pkl'):
+        # Read in notes
+        notes = []
 
-    basename = lambda x: os.path.basename(x[0:x.index(".tml")])
+        basename = lambda x: os.path.basename(x[0:x.index(".tml")])
 
-    pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
+        pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
 
-    tmp_note = None
+        tmp_note = None
 
-    for i, example in enumerate(zip(tml_files, gold_files)):
-        tml, gold = example
+        for i, example in enumerate(zip(tml_files, gold_files)):
+            tml, gold = example
 
-        assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
+            assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
 
 
-        print '\n\nprocessing file {}/{} {}'.format(i + 1,
-                                                    len(zip(tml_files, gold_files)),
-                                                    tml)
-        if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
-            tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
-        else:
-            if timenote_imported is False:
-                from code.notes.TimeNote import TimeNote
-                timenote_imported = True
-            tmp_note = TimeNote(tml, gold)
-            cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
+            print '\n\nprocessing file {}/{} {}'.format(i + 1,
+                                                        len(zip(tml_files, gold_files)),
+                                                        tml)
+            if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
+                tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
+            else:
+                if timenote_imported is False:
+                    from code.notes.TimeNote import TimeNote
+                    timenote_imported = True
+                tmp_note = TimeNote(tml, gold)
+                cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
 
-        notes.append(tmp_note)
+            notes.append(tmp_note)
 
+    network = Network()
     if two_pass:
+        return
 
         detect_data = network._get_training_input(notes, presence=True, no_none=False)
         classify_data = network._get_training_input(notes, presence=False, no_none=True)
@@ -171,12 +217,18 @@ def trainNetwork(tml_files, gold_files, newsreader_dir, two_pass=True):
 
     else:
 
-        data = network._get_training_input(notes)
+        if os.path.isfile(train_dir+'training_data.pkl'):
+            print "loading pkl file... this may take over 10 minutes"
+            data = cPickle.load(open(train_dir+'training_data.pkl'))
+        else:
+            data = network._get_training_input(notes, nolink_ratio=0, shuffle=True)
+            #cPickle.dump(data, open(train_dir+'training_data.pkl', 'w'))
 
-        NNet = network.train_model(None, epochs=500, training_input=data, weight_classes=False, batch_size=100,
-        encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=6)
+        NNet, history = network.train_model(None, epochs=150, training_input=data, no_val=no_val, weight_classes=False, batch_size=100,
+        encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256,
+        dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks)
 
-        return NNet
+        return NNet, history
 
 if __name__ == "__main__":
   main()

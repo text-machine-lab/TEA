@@ -1,6 +1,7 @@
 import sys
 import os
 import numpy as np
+import cPickle as pickle
 
 
 def load_word2vec_binary(fname='/data1/nlp-data/GoogleNews-vectors-negative300.bin', verbose=1, dev=False):
@@ -32,4 +33,9 @@ def load_word2vec_binary(fname='/data1/nlp-data/GoogleNews-vectors-negative300.b
                 if ch != '\n':
                     word.append(ch)
             word_vecs[word] = np.fromstring(f.read(binary_len), dtype='float32')
+    return word_vecs
+
+
+def load_word2vec_dep(fname):
+    word_vecs = pickle.load(open(fname))
     return word_vecs

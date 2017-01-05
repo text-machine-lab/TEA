@@ -101,7 +101,8 @@ def main():
 
         stashed_name = os.path.basename(tml)
         stashed_name = stashed_name.split('.')
-        stashed_name = stashed_name[0:stashed_name.index('tml')]
+        if 'tml' in stashed_name:        
+            stashed_name = stashed_name[0:stashed_name.index('tml')]
         stashed_name = '.'.join(stashed_name)
 
         if stashed_name + ".parsed.predict.pickle" in pickled_timeml_notes:

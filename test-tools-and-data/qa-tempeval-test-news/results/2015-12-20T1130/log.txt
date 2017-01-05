@@ -1,1 +1,0 @@
-Using ./ as path to find participations to evaluate.

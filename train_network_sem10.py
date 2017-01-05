@@ -108,7 +108,7 @@ def main():
                 NNet = model_from_json(open(args.model_destination + '.arch.json').read())
                 #opt = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08,
                 #           decay=0.0)  # learning rate 0.001 is the default value
-                opt = SGD(lr=0.01, momentum=0.9, decay=0.0, nesterov=False)
+                opt = SGD(lr=0.1, momentum=0.9, decay=0.0, nesterov=False) # default lr=0.01
                 NNet.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
                 NNet.load_weights(args.model_destination + '.weights.h5')
         else:
@@ -215,8 +215,8 @@ def trainNetwork(gold_files, newsreader_dir, test_files=None, model=None, two_pa
         else:
             test_data = None
 
-        NNet, history = network_sem10.train_model(None, model=model, epochs=800, training_input=data, test_input=test_data, weight_classes=False, batch_size=100,
-        encoder_dropout=0, decoder_dropout=0.4, input_dropout=0.5, reg_W=0.00001, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100, maxpooling=True,
+        NNet, history = network_sem10.train_model(None, model=model, epochs=500, training_input=data, test_input=test_data, weight_classes=False, batch_size=100,
+        encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.4, reg_W=0.00001, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100, maxpooling=True,
         data_dim=300, max_len='auto', nb_classes=nb_class, callbacks=callbacks)
 
         return NNet, history
