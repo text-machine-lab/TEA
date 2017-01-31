@@ -65,6 +65,9 @@ class TimeNote(Note):
         self.discourse_connectives = {}
 
         self.iob_labels = []
+        self.event_ids = set([])
+        self.timex_ids = set([])
+        self.id_to_labels = {} # map from id pairs to tlink labels. Negative not included.
 
         """
         print "\n\nself.original_text:\n\n"
@@ -85,6 +88,8 @@ class TimeNote(Note):
         """
 
         self.tlinks = []
+        self.get_id_word_map()
+        self.get_valid_pairs()
 
         if self.annotated_note_path is not None:
 
@@ -93,11 +98,8 @@ class TimeNote(Note):
             # will store labels in self.iob_labels
             self.get_labels()
             self.get_id_to_labels()
-            self.get_neg_data_indexes()
-
-        self.get_id_word_map()
-        self.get_valid_pairs()
-
+            #self.get_neg_data_indexes()
+            self.get_neg_pairs()
 
     def get_tlinks(self):
         print "get tlinks from:", self.annotated_note_path
@@ -423,6 +425,7 @@ class TimeNote(Note):
 
         doctime = get_doctime_timex(self.note_path) # doc creation time
         doctime_id = doctime.attrib["tid"]
+        self.doctime = doctime
 
         entity_pairs = []
 
@@ -494,19 +497,20 @@ class TimeNote(Note):
 
                 if label["entity_type"] == "EVENT":
 
-                    _chunk = [token]
-                    chunks.append(_chunk)
+                    if label["entity_id"] not in id_chunk_map:
+                        _chunk = [token]
+                        chunks.append(_chunk)
 
-                    event_ids.add(label["entity_id"])
+                        event_ids.add(label["entity_id"])
 
-                    id_chunks.append([label["entity_id"]])
+                        id_chunks.append([label["entity_id"]])
+                        id_chunk_map[label["entity_id"]] = _chunk
+                        sentence_chunks[sentence_num].append(("EVENT", label["entity_id"]))
+                    else:
+                        chunks[-1] = chunks[-1] + _chunk
+                        id_chunk_map[label["entity_id"]] = chunks[-1]
 
-                    # TODO: gonna drop multi span events...
-                    assert label["entity_id"] not in id_chunk_map
 
-                    id_chunk_map[label["entity_id"]] = _chunk
-
-                    sentence_chunks[sentence_num].append(("EVENT", label["entity_id"]))
 
                 # in timex chunk
                 if re.search('^I_', label["entity_label"]) and label["entity_type"] == 'TIMEX3':
@@ -514,10 +518,12 @@ class TimeNote(Note):
                     # Ideally it should be true, but it often causes trouble
                     #assert label["entity_id"] == start_entity_id, "{} != {}, B_seen is {}".format(label["entity_id"], start_entity_id, B_seen)
                     if 'B_' in previous_label or 'I_' in previous_label:
-                        assert label["entity_id"] == start_entity_id, "{} != {}, B_seen is {}".format(
-                            label["entity_id"], start_entity_id, B_seen)
-                        chunk.append(token)
-                        id_chunk.append(label["entity_id"])
+                        if label["entity_id"] == start_entity_id:
+                            chunk.append(token)
+                            id_chunk.append(label["entity_id"])
+                        else:
+                            print "{} != {}, B_seen is {}".format(label["entity_id"], start_entity_id, B_seen)
+                            label["entity_label"] = label["entity_label"].replace('I_', 'B_')
                     else:
                         label["entity_label"] = label["entity_label"].replace('I_', 'B_')
 
@@ -598,6 +604,8 @@ class TimeNote(Note):
         self.id_to_wordIDs = {} # str -> list
         self.id_to_sent = {} # str -> int
         id_chunk_map, event_ids, timex_ids, sentence_chunks = self.get_id_chunk_map()
+        self.event_ids = event_ids
+        self.timex_ids = timex_ids
         for etid in id_chunk_map: # id to chunk of events
             self.id_to_wordIDs[etid] = [x.get('id', None) for x in id_chunk_map[etid]]
             self.id_to_sent[etid] = id_chunk_map[etid][0].get('sentence_num', None)
@@ -606,17 +614,19 @@ class TimeNote(Note):
         self.intra_sentence_pairs = []
         self.cross_sentence_pairs = []
         self.dct_pairs = []
+        self.timex_pairs = []
         for src_etid in self.id_to_wordIDs: # eventID/timexID -> words
             for target_etid in self.id_to_wordIDs: # we allow both (e1, e2) and (e2, e1)
                 if src_etid == target_etid or src_etid == 't0':
                     continue
-                if target_etid == 't0':
+                if src_etid[0] == 't' and target_etid[0] == 't': # timex
+                    self.timex_pairs.append((src_etid, target_etid))
+                elif target_etid == 't0':    # (e, t0) pairs
                     self.dct_pairs.append((src_etid, 't0'))
-                elif abs(self.id_to_sent[src_etid]-self.id_to_sent[target_etid]) == 1:
+                elif abs(self.id_to_sent[src_etid]-self.id_to_sent[target_etid]) == 1: # pairs of consec sentences
                     self.cross_sentence_pairs.append((src_etid, target_etid))
-                elif self.id_to_sent[src_etid]-self.id_to_sent[target_etid] == 0:
+                elif self.id_to_sent[src_etid]-self.id_to_sent[target_etid] == 0:  # pairs in the same sentence
                     self.intra_sentence_pairs.append((src_etid, target_etid))
-
 
     def get_intra_sentence_subpaths(self):
         id_pair_to_path = {}
@@ -672,23 +682,33 @@ class TimeNote(Note):
 
         return id_pair_to_path
 
-
     def get_t0_subpaths(self):
         t0_path = {}
         for item in self.dct_pairs:
             # get the first word from the sentence
             entity_id = item[0]
             sent_num = self.id_to_sent[entity_id]
-            first_id = self.pre_processed_text[sent_num][0]['id']
+            # first_id = self.pre_processed_text[sent_num][0]['id']
+            #
+            # entity_wordID = self.id_to_wordIDs[entity_id][0]
+            #
+            # left_path, right_path = self.dependency_paths.get_left_right_subpaths('t'+first_id[1:], 't'+entity_wordID[1:])
+            # t0_path[entity_id] = right_path
 
             entity_wordID = self.id_to_wordIDs[entity_id][0]
+            root_wordID = self.find_root(entity_wordID)
 
-            left_path, right_path = self.dependency_paths.get_left_right_subpaths('t'+first_id[1:], 't'+entity_wordID[1:])
-            t0_path[entity_id] = right_path
+            # get path between the entity and sentence root
+            left, right = self.dependency_paths.get_left_right_subpaths(root_wordID, 't'+entity_wordID[1:])
+            if len(left) > len(right):
+                t0_path[entity_id] = left
+            else:
+                t0_path[entity_id] = right
 
         return t0_path
 
     def get_id_to_labels(self):
+        """Get map from id pairs to labels"""
         raw_tlinks = self.get_tlinks()
         self.id_to_labels = {}
         for item in raw_tlinks:
@@ -702,22 +722,19 @@ class TimeNote(Note):
                 target_id = item.attrib['relatedToTime']
             self.id_to_labels[(src_id, target_id)] = item.attrib.get('relType', 'None')
 
-        # get indexes of the pairs in intra_sentence_pairs
-        self.labeled_pairs_indexes = []
-
-        self.all_pairs = self.intra_sentence_pairs + self.cross_sentence_pairs + self.dct_pairs
-
-        for i, pair in enumerate(sorted(self.all_pairs)):
-            if pair in self.id_to_labels:
-                self.labeled_pairs_indexes.append(i)
-        self.labeled_pairs_indexes = np.array(self.labeled_pairs_indexes)
+        # self.labeled_pairs_indexes = []
+        #
+        # # self.all_pairs = sorted(self.intra_sentence_pairs + self.cross_sentence_pairs + self.dct_pairs)
+        #
+        # for i, pair in enumerate(self.all_pairs):
+        #     if pair in self.id_to_labels:
+        #         self.labeled_pairs_indexes.append(i) # indexes of all valid pairs with true labels
+        # self.labeled_pairs_indexes = np.array(self.labeled_pairs_indexes)
 
         return self.id_to_labels
 
-    def get_neg_data_indexes(self):
-        N = len(self.all_pairs)
-        neg_indexes = set(range(N)) - set(self.labeled_pairs_indexes)
-        self.neg_indexes = sorted(list(neg_indexes))
+    def get_neg_pairs(self):
+        pass
 
     def get_labels(self):
         """
@@ -802,7 +819,11 @@ class TimeNote(Note):
                         if tagged_element != None:
 
                             start = labeled_char_offset
-                            end   = labeled_char_offset+len(tagged_element.text) - 1
+                            try:
+                                span = len(tagged_element.text)
+                            except TypeError: # sometimes tagged_element.text is None
+                                span = 0
+                            end = labeled_char_offset + span - 1
 
                             # spans should be unique?
                             offsets[(start, end)] = {"tagged_xml_element":tagged_element, "text":tagged_element.text}
@@ -828,7 +849,21 @@ class TimeNote(Note):
 
                     labeled_index += 1
 
-            assert text1 == text2, "{} != {}".format(text1, text2)
+            try:
+                assert text1 == text2, "{} != {}".format(text1, text2)
+            except AssertionError:
+                print "lengths:", len(text1), len(text2)
+                if len(text2) > len(text1):
+                    print "last chars:", text1[-5:] + '<END>', text2[-5:] + '<END>'
+                for i,char in enumerate(text1):
+                    char2 = text2[i]
+                    if char != char2:
+                        print "found difference at position %s:" % i
+                        print "in text1:", char
+                        print "in text2:", char2
+                        sys.exit()
+                sys.exit()
+
             assert start_count == end_count, "{} != {}".format(start_count, end_count)
             assert raw_index == len(raw_text) and labeled_index == len(labeled_text)
             assert raw_char_offset == labeled_char_offset
@@ -849,7 +884,7 @@ class TimeNote(Note):
 
 
                     # set proper iob label to token
-                    iob_label, entity_type, entity_id = TimeNote.get_label(token, offsets)
+                    iob_label, entity_type, entity_id, entity_value = TimeNote.get_label(token, offsets)
 
                     if iob_label is not 'O':
                         assert entity_id is not None
@@ -870,7 +905,8 @@ class TimeNote(Note):
 
                     iobs_sentence.append({'entity_label':iob_label,
                                           'entity_type':entity_type,
-                                          'entity_id':entity_id})
+                                          'entity_id':entity_id,
+                                          'entity_value':entity_value})
 
                 iob_labels.append(iobs_sentence)
 
@@ -1008,6 +1044,7 @@ class TimeNote(Note):
                     # get the time norm value of the time expression
                     # timex_value = get_normalized_time_expressions(doc_time, [entity_tokens])
                     timex_value = ''
+
                     # if no value was returned, set the expression to an empty string
                     # TODO: check if TimeML has a specific default value we should use here
                     if len(timex_value) != 0:
@@ -1106,6 +1143,7 @@ class TimeNote(Note):
         label = 'O'
         entity_id = None
         entity_type = None
+        entity_value = None
 
         for span in offsets:
 
@@ -1117,16 +1155,21 @@ class TimeNote(Note):
                 labeled_entity = offsets[span]["tagged_xml_element"]
 
                 if 'class' in labeled_entity.attrib:
-                    label = 'B_' + labeled_entity.attrib["class"]
+                    label = 'B_' + labeled_entity.attrib["class"]  # e.g. B_OCCURRENCE
                 elif 'type' in labeled_entity.attrib:
-                    label = 'B_' + labeled_entity.attrib["type"]
+                    label = 'B_' + labeled_entity.attrib["type"]   # e.g. B_DATE
 
                 if 'eid' in labeled_entity.attrib:
                     entity_id = labeled_entity.attrib["eid"]
                 else:
                     entity_id = labeled_entity.attrib["tid"]
 
-                entity_type = labeled_entity.tag
+                if 'value' in labeled_entity.attrib:
+                    entity_value = labeled_entity.attrib["value"]
+
+                # TODO: There are other attributes, which may be useful in the future
+
+                entity_type = labeled_entity.tag # EVENT or TIMEX3
 
                 break
 
@@ -1143,26 +1186,19 @@ class TimeNote(Note):
                     entity_id = labeled_entity.attrib["eid"]
                 else:
                     entity_id = labeled_entity.attrib["tid"]
+                if 'value' in labeled_entity.attrib:
+                    entity_value = labeled_entity.attrib["value"]
 
                 entity_type = labeled_entity.tag
 
                 break
 
-       # if token["token"] == "expects":
-
-       #     print
-       #     print "Token span: ", tok_span
-       #     print "Label found: ", label
-       #     print
-
-       #     sys.exit("found it")
-
         if entity_type == "EVENT":
             # don't need iob tagging just what the type is.
             # multi token events are very rare.
-            label = label[2:]
+            label = label[2:]    # remove B_ I_
 
-        return label, entity_type, entity_id
+        return label, entity_type, entity_id, entity_value
 
     @staticmethod
     def same_start_offset(span1, span2):

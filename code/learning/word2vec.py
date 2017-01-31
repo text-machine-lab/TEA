@@ -39,3 +39,16 @@ def load_word2vec_binary(fname='/data1/nlp-data/GoogleNews-vectors-negative300.b
 def load_word2vec_dep(fname):
     word_vecs = pickle.load(open(fname))
     return word_vecs
+
+
+def load_glove(gloveFile):
+    print "Loading Glove Model"
+    f = open(gloveFile,'r')
+    model = {}
+    for line in f:
+        splitLine = line.split()
+        word = splitLine[0]
+        embedding = [float(val) for val in splitLine[1:]]
+        model[word] = embedding
+    print "Done.",len(model)," words loaded!"
+    return model

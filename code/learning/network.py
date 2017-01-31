@@ -1,6 +1,7 @@
 import os
 import pickle
 import copy
+#import sys
 
 import numpy as np
 from keras.utils.np_utils import to_categorical
@@ -14,7 +15,11 @@ from sklearn.metrics import classification_report
 
 class Network(object):
     def __init__(self):
-        self.id_to_path = {}
+        #self.id_to_path = {}
+        self.label_to_int = {}
+        self.int_to_label = {}
+        self.label_reverse_map = {} # map BEFORE to AFTER etc., in int label
+        self.word_vectors = None
 
     def get_untrained_model(self, encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=300, max_len=22, nb_classes=7):
         '''
@@ -102,9 +107,9 @@ class Network(object):
         decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         return decoder
 
-    def train_model(self, notes, epochs=5, training_input=None, no_val=False, weight_classes=False, batch_size=256,
+    def train_model(self, notes, epochs=5, training_input=None, val_input=None, no_val=False, weight_classes=False, batch_size=256,
         encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100,
-        maxpooling=True, data_dim=300, max_len='auto', nb_classes=13, callbacks=[]):
+        maxpooling=True, data_dim=300, max_len='auto', nb_classes=13, callbacks=[], ordered=False):
         '''
         obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
         params:
@@ -156,7 +161,10 @@ class Network(object):
 
         # train the network
         print 'Training network...'
-        if not no_val:
+        if no_val:
+            validation_split = 0.0
+            validation_data = None
+        elif val_input is None:
             # split off validation data with 20 80 split (this way we get the same validation data every time we use this data sample, and can test on it after to get a confusion matrix)
             V_XL = XL[:(XL.shape[0]/5),:,:]
             V_XR = XR[:(XR.shape[0]/5),:,:]
@@ -167,74 +175,89 @@ class Network(object):
             XR = XR[(XR.shape[0]/5):,:,:]
             Y  = Y [( Y.shape[0]/5):,:]
 
-            training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.2, class_weight=class_weights,
-                                         batch_size=batch_size, validation_data=([V_XL, V_XR], V_Y),
-                                         callbacks=callbacks)
-            Network.class_confusion(test, V_labels, nb_classes)
-
+            validation_split = 0.2
+            validation_data = ([V_XL, V_XR], V_Y)
         else:
-            training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=0.0, class_weight=class_weights,
-                                         batch_size=batch_size, callbacks=callbacks)
+            validation_split = 0 # will be overwritten by val data
+            V_XL, V_XR, V_labels, V_pair_index = val_input
+            V_Y = to_categorical(V_labels, nb_classes)
+            filler = np.ones((1, 1, max_len))
+            V_XL, _ = Network._pad_to_match_dimensions(V_XL, filler, 2, pad_left=True)
+            V_XR, _ = Network._pad_to_match_dimensions(V_XR, filler, 2, pad_left=True)
+            validation_data = ([V_XL, V_XR], V_Y)
+
+        training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=validation_split, class_weight=class_weights,
+                                         batch_size=batch_size, validation_data=validation_data, callbacks=callbacks)
+
+        test = model.predict_classes([V_XL, V_XR])
+        Network.class_confusion(test, V_labels, nb_classes)
+
+        if val_input is not None and not ordered:
+            print "Trying smart predict..."
+            probs = model.predict_proba([V_XL, V_XR])
+            smart_test, pair_index = self.smart_predict(test, probs, V_pair_index, type='int')
+            Network.class_confusion(smart_test, V_labels, nb_classes)
+
 
         return model, training_history.history
 
-    def predict(self, notes, detector, classifier, evalu=False):
-        '''
-        using the given detector and classifier, predict labels for all pairs in the given note set
-        '''
+    # def predict(self, notes, detector, classifier, evalu=False):
+    #     '''
+    #     using the given detector and classifier, predict labels for all pairs in the given note set
+    #     '''
+    #
+    #     XL, XR, del_lists, gold_labels = self._get_test_input(notes, evaluation=evalu)
+    #
+    #     # get expected length of model input
+    #     input_len = detector.input_shape[0][2]
+    #     filler = np.ones((1,1,input_len))
+    #
+    #     # pad input matrix to fit expected length
+    #     XL, _ = Network._pad_to_match_dimensions(XL, filler, 2, pad_left=True)
+    #     XR, _ = Network._pad_to_match_dimensions(XR, filler, 2, pad_left=True)
+    #
+    #     print 'Detecting...'
+    #     presense_labels = detector.predict_classes([XL, XR])
+    #
+    #     # get data tensors for classification
+    #     C_XL = XL[presense_labels[:]==1]
+    #     C_XR = XR[presense_labels[:]==1]
+    #
+    #     # if input is too long, cut off right side terms
+    #     # TODO: cut left terms instead
+    #     input_len = classifier.input_shape[0][2]
+    #
+    #     C_XL = Network._strip_to_length(C_XL, input_len, 2)
+    #     C_XR = Network._strip_to_length(C_XR, input_len, 2)
+    #
+    #     print C_XL.shape
+    #
+    #     print 'Classifying...'
+    #     classification_labels = classifier.predict_classes([C_XL, C_XR])
+    #
+    #     # combine classification into final label list
+    #     labels = []
+    #     class_index = 0
+    #     for label in presense_labels:
+    #         if label == 1:
+    #             labels.append(classification_labels[class_index])
+    #             class_index += 1
+    #         else:
+    #             labels.append(0)
+    #
+    #     assert len(labels) == len(presense_labels)
+    #
+    #     if evalu:
+    #         Network.class_confusion(labels, gold_labels)
+    #
+    #     return self._convert_int_labels_to_str(labels), del_lists
 
-        XL, XR, del_lists, gold_labels = self._get_test_input(notes, evaluation=evalu)
-
-        # get expected length of model input
-        input_len = detector.input_shape[0][2]
-        filler = np.ones((1,1,input_len))
-
-        # pad input matrix to fit expected length
-        XL, _ = Network._pad_to_match_dimensions(XL, filler, 2, pad_left=True)
-        XR, _ = Network._pad_to_match_dimensions(XR, filler, 2, pad_left=True)
-
-        print 'Detecting...'
-        presense_labels = detector.predict_classes([XL, XR])
-
-        # get data tensors for classification
-        C_XL = XL[presense_labels[:]==1]
-        C_XR = XR[presense_labels[:]==1]
-
-        # if input is too long, cut off right side terms
-        # TODO: cut left terms instead
-        input_len = classifier.input_shape[0][2]
-
-        C_XL = Network._strip_to_length(C_XL, input_len, 2)
-        C_XR = Network._strip_to_length(C_XR, input_len, 2)
-
-        print C_XL.shape
-
-        print 'Classifying...'
-        classification_labels = classifier.predict_classes([C_XL, C_XR])
-
-        # combine classification into final label list
-        labels = []
-        class_index = 0
-        for label in presense_labels:
-            if label == 1:
-                labels.append(classification_labels[class_index])
-                class_index += 1
-            else:
-                labels.append(0)
-
-        assert len(labels) == len(presense_labels)
-
-        if evalu:
-            Network.class_confusion(labels, gold_labels)
-
-        return self._convert_int_labels_to_str(labels), del_lists
-
-    def single_predict(self, notes, model, evalu=False, predict_prob=False):
+    def single_predict(self, notes, model, pair_type, evalu=False, predict_prob=False):
         '''
         predict using a trained single pass model
         '''
 
-        XL, XR = self._get_test_input(notes, evaluation=evalu)
+        XL, XR, _labels, pair_index = self._get_test_input(notes, pair_type)
 
         # get expected length of model input
         model_input_len = model.input_shape[0][2]
@@ -258,156 +281,127 @@ class Network(object):
         # if evalu:
         #     Network.class_confusion(labels, gold_labels, 13)
 
-        return self._convert_int_labels_to_str(labels), probs
+        #return self._convert_int_labels_to_str(labels), probs, pair_index
 
-    # def _get_training_input(self, notes, no_none=False, presence=False, shuffle=True):
-    #
-    #     # TODO: handle tlinks linking to the document creation time. at the moment, we simply skip them
-    #
-    #     # labels for each SDP pair
-    #     tlinklabels = []
-    #
-    #     # data tensor for left and right SDP subpaths
-    #     XL = None
-    #     XR = None
-    #
-    #     print 'Loading word embeddings...'
-    #     word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
-    #     # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
-    #
-    #     print 'Extracting dependency paths...'
-    #     for i, note in enumerate(notes):
-    #         # get tlink lables
-    #         note_tlinklabels = note.get_tlink_labels()
-    #
-    #         # get the representation for the event/timex pairs in the note
-    #         # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
-    #         # (with length equal to word embedding length), and axis 2 hold each word.
-    #         # del_list is a list of indices for which no SDP could be obtained
-    #         left_vecs, right_vecs, del_list = self._extract_path_representations(note, word_vectors)
-    #         #left_vecs, right_vecs, del_list, note_tlinklabels = self._get_context_representations(note, word_vectors)
-    #
-    #         # add the note's data to the combine data matrix
-    #         if XL == None:
-    #             XL = left_vecs
-    #         else:
-    #             XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
-    #
-    #         if XR == None:
-    #             XR = right_vecs
-    #         else:
-    #             XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
-    #
-    #         # remove duplicate indices
-    #         del_list = list(set(del_list))
-    #         # remove indices in descending order so that they continue to refer to the item we want to remove
-    #         del_list.sort()
-    #         del_list.reverse()
-    #         for index in del_list:
-    #             del note_tlinklabels[index]
-    #
-    #         # add remaining labels to complete list of labels
-    #         tlinklabels += note_tlinklabels
-    #
-    #     # pad XL and XR so that they have the same number of dimensions on the second axis
-    #     # any other dimension mis-matches are caused by actually errors and should not be padded away
-    #     XL, XR = Network._pad_to_match_dimensions(XL, XR, 2, pad_left=True)
-    #
-    #     # # extract longest input sequence in the training data, and ensure both matrices
-    #     # input_len = XL.shape[2]
-    #
-    #     labels = self._convert_str_labels_to_int(tlinklabels)
-    #
-    #     if presence:
-    #         for i, label in enumerate(labels):
-    #             if label != 0:
-    #                 labels[i] = 1
-    #
-    #     if shuffle:
-    #         rng_state = np.random.get_state()
-    #         np.random.shuffle(XL)
-    #         np.random.set_state(rng_state)
-    #         np.random.shuffle(XR)
-    #         np.random.set_state(rng_state)
-    #         np.random.shuffle(labels)
-    #     del notes
-    #     return XL, XR, labels
+        # format of pair_index: {(note_index, (e1, e2)) : index}
+        return labels, probs, pair_index # int labels
 
+    def smart_predict(self, labels, probs, pair_index, type='int'):
+        # int labels
+        #labels, probs, pair_index = self.single_predict(notes, model, predict_prob=True)
 
-    def _get_training_input(self, notes, nolink_ratio=0.0, presence=False, shuffle=True):
+        proccessed = {}
+        label_scores = [0.0 for i in labels]
+        for key, index in pair_index.iteritems():
+            if key in proccessed:
+                continue
+            note_index, pair = key
+            label = labels[index]
 
-        # TODO: handle tlinks linking to the document creation time. at the moment, we simply skip them
+            opposite_key = (note_index, (pair[1], pair[0]))
+            opposite_index = pair_index[opposite_key]
+            opposite_label = labels[opposite_index] # predicted label of the opposite pair
 
-        # labels for each SDP pair
-        tlinklabels = []
+            if label == 0: # set it to 0, so "no link" has the lowest priority
+                score = 0
+            else:
+                score = probs[index, label]
+            if opposite_label == 0:
+                opposite_score = 0
+            else:
+                opposite_score = probs[opposite_index, opposite_label]
+            # score = probs[index, label]
+            # opposite_score = probs[opposite_index, opposite_label]
+
+            if score > opposite_score:
+                labels[opposite_index] = self.reverse_labels([label])[0]
+                label_scores[index] = score
+                label_scores[opposite_index] = score
+            else:
+                labels[index] = self.reverse_labels([opposite_label])[0]
+                label_scores[index] = opposite_score
+                label_scores[opposite_index] = opposite_score
+
+            proccessed[key] = 1
+            proccessed[opposite_key] = 1
+        if type == 'int':
+            return labels, pair_index
+        return self._convert_int_labels_to_str(labels), pair_index, label_scores
+
+    def _get_training_input(self, notes, pair_type, nolink_ratio=None, presence=False, shuffle=True, ordered=False):
 
         # data tensor for left and right SDP subpaths
         XL = None
         XR = None
 
-        print 'Loading word embeddings...'
-        word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
-        # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
+        if self.word_vectors is None:
+            print 'Loading word embeddings...'
+            word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
+            # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
+            #word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.840B.300d.txt', verbose=0)
 
         print 'Extracting dependency paths...'
         labels = []
         for i, note in enumerate(notes):
-            # get tlink lables
-            # note_tlinklabels = note.get_tlink_labels()
 
             # get the representation for the event/timex pairs in the note
             # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
             # (with length equal to word embedding length), and axis 2 hold each word.
             # del_list is a list of indices for which no SDP could be obtained
-            left_vecs, right_vecs = self._extract_path_representations(note, word_vectors)
+            left_vecs, right_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type, ordered=ordered)
 
-            # Get indexes of labeled tlinks
-            if nolink_ratio > 0:
-                nolink_indexes = note.neg_indexes
-                np.random.shuffle(nolink_indexes)
-                n_samples = min(len(nolink_indexes), int(nolink_ratio * len(note.labeled_pairs_indexes)) )
-                nolink_indexes = nolink_indexes[0:n_samples]
-                training_indexes = np.concatenate([note.labeled_pairs_indexes, nolink_indexes])
+            # perform a random check, to make sure the data is correctly augmented
+            if not id_pairs:
+                print "No pair found:", note.annotated_note_path
+                continue
+            # check_label = self._convert_str_labels_to_int([note.id_to_labels.get(id_pairs[0], 'None')])
+            # opposite_check_label = self._convert_str_labels_to_int([note.id_to_labels.get((id_pairs[0][1], id_pairs[0][0]), 'None')])
+            # try:
+            #     assert opposite_check_label == self.reverse_labels(check_label)
+            # except AssertionError:
+            #     print "Training data is not properly augmented"
+            #     print id_pairs[0], note.id_to_labels.get(id_pairs[0], 'None'), check_label
+            #     print "reverse label:", note.id_to_labels.get((id_pairs[0][1], id_pairs[0][0]), 'None'), opposite_check_label
+            #     sys.exit()
+
+            pos_case_indexes = []
+            neg_case_indexes = []
+            note_labels = []
+            for index, pair in enumerate(id_pairs):
+                if pair in note.id_to_labels:
+                    pos_case_indexes.append(index)
+                else:
+                    neg_case_indexes.append(index)
+                note_labels.append(note.id_to_labels.get(pair, 'None'))
+            note_labels = np.array(note_labels)
+
+            if nolink_ratio is not None:
+                np.random.shuffle(neg_case_indexes)
+                n_samples = min(len(neg_case_indexes), int(nolink_ratio * len(pos_case_indexes)) )
+                neg_case_indexes = neg_case_indexes[0:n_samples]
+                if not neg_case_indexes:
+                    training_indexes = np.array(pos_case_indexes, dtype=np.int32)
+                else:
+                    training_indexes = np.concatenate([pos_case_indexes, neg_case_indexes])
+                left_vecs = left_vecs[training_indexes, :, :]
+                right_vecs = right_vecs[training_indexes, :, :]
+                note_labels = note_labels[training_indexes]
+
+            if labels == []:
+                labels = note_labels
             else:
-                nolink_indexes = []
-                training_indexes = note.labeled_pairs_indexes
-
-            left_vecs = left_vecs[training_indexes,:,:]
-            right_vecs = right_vecs[training_indexes,:,:]
-
-
+                labels = np.concatenate((labels, note_labels))
 
             # add the note's data to the combine data matrix
-            if XL == None:
+            if XL is None:
                 XL = left_vecs
             else:
                 XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
 
-            if XR == None:
+            if XR is None:
                 XR = right_vecs
             else:
                 XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
-
-            # # remove duplicate indices
-            # del_list = list(set(del_list))
-            # # remove indices in descending order so that they continue to refer to the item we want to remove
-            # del_list.sort()
-            # del_list.reverse()
-            # for index in del_list:
-            #     del note_tlinklabels[index]
-
-            # # add remaining labels to complete list of labels
-            # tlinklabels += note_tlinklabels
-            note_tlinklabels = []
-            for pair in sorted(note.all_pairs):
-                if pair in note.id_to_labels:
-                    note_tlinklabels.append(note.id_to_labels[pair])
-
-            labels += note_tlinklabels
-
-            nolink_labels = ['None' for x in nolink_indexes]
-            labels += nolink_labels
-
 
         # pad XL and XR so that they have the same number of dimensions on the second axis
         # any other dimension mis-matches are caused by actually errors and should not be padded away
@@ -430,267 +424,156 @@ class Network(object):
             np.random.shuffle(labels)
         del notes
         labels = self._convert_str_labels_to_int(labels)
+
         return XL, XR, labels
 
-
-    # def _get_test_input(self, notes, evaluation=False):
-    #     '''
-    #     get input tensors for prediction. If evaluation is true, gold labels are also extracted
-    #     '''
-    #
-    #     # data tensors for left and right SDP
-    #     XL = None
-    #     XR = None
-    #
-    #     # list of lists, where each list contains the indices to delete from a given note
-    #     # indices of the outer list corespond to indices of the notes list
-    #     del_lists = []
-    #
-    #     tlinklabels = []
-    #
-    #     print 'Loading word embeddings...'
-    #     word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
-    #     # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
-    #
-    #     print 'Extracting dependency paths...'
-    #     for i, note in enumerate(notes):
-    #         # get the representation for the event/timex pairs in the note
-    #         # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
-    #         # (with length equal to word embedding length), and axis 2 hold each word.
-    #         left_vecs, right_vecs, id_pair_to_vecs = self._extract_path_representations(note, word_vectors)
-    #         #left_vecs, right_vecs, del_list, note_tlinklabels = self._get_context_representations(note, word_vectors)
-    #
-    #         # add the note's data to the combine data matrix
-    #         if XL == None:
-    #             XL = left_vecs
-    #         else:
-    #             XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
-    #
-    #         if XR == None:
-    #             XR = right_vecs
-    #         else:
-    #             XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
-    #
-    #         # remove duplicate indices
-    #         del_list = list(set(del_list))
-    #         # remove indices in descending order so that they continue to refer to the item we want to remove
-    #         del_list.sort()
-    #         del_list.reverse()
-    #         del_lists.append(del_list)
-    #
-    #         if evaluation:
-    #             # get tlink lables
-    #             note_tlinklabels = note.get_tlink_labels()
-    #             for index in del_list:
-    #                 del note_tlinklabels[index]
-    #             tlinklabels += note_tlinklabels
-    #
-    #     # pad XL and XR so that they have the same number of dimensions on the second axis
-    #     # any other dimension mis-matches are caused by actually errors and should not be padded away
-    #     XL, XR = Network._pad_to_match_dimensions(XL, XR, 2, pad_left=True)
-    #
-    #     labels = []
-    #     if evaluation:
-    #         labels = self._convert_str_labels_to_int(tlinklabels)
-    #
-    #     return XL, XR, del_lists, labels
-
-
-    def _get_test_input(self, notes, evaluation=False):
-        '''
-        get input tensors for prediction. If evaluation is true, gold labels are also extracted
-        '''
-
-        # data tensors for left and right SDP
+    def _get_test_input(self, notes, pair_type, ordered=False):
+        # data tensor for left and right SDP subpaths
         XL = None
         XR = None
 
-        # list of lists, where each list contains the indices to delete from a given note
-        # indices of the outer list corespond to indices of the notes list
-        del_lists = []
-
-        tlinklabels = []
-
-        print 'Loading word embeddings...'
-        word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/GoogleNews-vectors-negative300.bin', verbose=0)
-        # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
+        if self.word_vectors is None:
+            print 'Loading word embeddings...'
+            self.word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
+            # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
 
         print 'Extracting dependency paths...'
+        labels = None
+        pair_index = {} # record note id and all the used entity pairs
+        index_offset = 0
         for i, note in enumerate(notes):
+
             # get the representation for the event/timex pairs in the note
             # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
             # (with length equal to word embedding length), and axis 2 hold each word.
-            left_vecs, right_vecs = self._extract_path_representations(note, word_vectors)
-            #left_vecs, right_vecs, del_list, note_tlinklabels = self._get_context_representations(note, word_vectors)
+            # del_list is a list of indices for which no SDP could be obtained
+            left_vecs, right_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type, ordered=ordered)
+
+            # only do the following for labeled data with tlinks
+            # tlinks from test data are used to do evaluation
+            if note.id_to_labels:
+                note_labels = []
+                index_to_reverse = []
+                for index, pair in enumerate(id_pairs): # id pairs that have tlinks
+                    #pair_index[(i, pair)] = index + index_offset
+
+                    label_from_file = note.id_to_labels.get(pair, 'None')
+                    opposite_from_file = note.id_to_labels.get((pair[1], pair[0]), 'None')
+                    if label_from_file == 'None' and opposite_from_file != 'None':
+                        # print note.annotated_note_path
+                        # print "id pair", pair, label_from_file
+                        # print "opposite", opposite_from_file
+                        index_to_reverse.append(index)
+                        note_labels.append(opposite_from_file) # save the opposite lable first, reverse later
+                    else:
+                        note_labels.append(label_from_file)
+
+                note_labels = self._convert_str_labels_to_int(note_labels)
+                labels_to_reverse = [note_labels[x] for x in index_to_reverse]
+                reversed = self.reverse_labels(labels_to_reverse)
+                print note.annotated_note_path
+                print "{} labels augmented".format(len(reversed))
+
+                note_labels = np.array(note_labels, dtype='int16')
+                index_to_reverse = np.array(index_to_reverse)
+                if index_to_reverse.any():
+                    note_labels[index_to_reverse] = reversed
+
+                if labels is None:
+                    labels = note_labels
+                else:
+                    labels =np.concatenate((labels, note_labels))
+
+            for index, pair in enumerate(id_pairs):
+                pair_index[(i, pair)] = index + index_offset
+
+            index_offset += len(id_pairs)
 
             # add the note's data to the combine data matrix
-            if XL == None:
+            if XL is None:
                 XL = left_vecs
             else:
                 XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
 
-            if XR == None:
+            if XR is None:
                 XR = right_vecs
             else:
                 XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
-
-            # # remove duplicate indices
-            # del_list = list(set(del_list))
-            # # remove indices in descending order so that they continue to refer to the item we want to remove
-            # del_list.sort()
-            # del_list.reverse()
-            # del_lists.append(del_list)
-            #
-            # if evaluation:
-            #     # get tlink lables
-            #     note_tlinklabels = note.get_tlink_labels()
-            #     for index in del_list:
-            #         del note_tlinklabels[index]
-            #     tlinklabels += note_tlinklabels
 
         # pad XL and XR so that they have the same number of dimensions on the second axis
         # any other dimension mis-matches are caused by actually errors and should not be padded away
         XL, XR = Network._pad_to_match_dimensions(XL, XR, 2, pad_left=True)
 
-        # labels = []
-        # if evaluation:
-        #     labels = self._convert_str_labels_to_int(tlinklabels)
+        return XL, XR, labels, pair_index
 
-        return XL, XR
-
-
-    # def _extract_path_words(self, note, no_none=False):
-    #     '''
-    #     convert a note into input words
-    #     '''
-    #
-    #     # retrieve the ids for the left and right halves of every SDP between tlinked entities
-    #     left_ids, right_ids = self._get_token_id_subpaths(note)
-    #     tlinklabels = note.get_tlink_labels() # including 'None'
-    #     tlinklabels = self._convert_str_labels_to_int(tlinklabels)
-    #
-    #     # left and right paths are used to store the actual tokens of the SDP paths
-    #     left_paths = []
-    #     right_paths = []
-    #
-    #     # get token text from ids in left sdp
-    #     for i, id_list in enumerate(left_ids):
-    #         if tlinklabels[i] == 0 and no_none:
-    #            left_paths.append([])
-    #         else:
-    #             left_paths.append(note.get_tokens_from_ids(id_list)) # list of list of words
-    #
-    #     # get token text from ids in right sdp
-    #     for i, id_list in enumerate(right_ids):
-    #         if tlinklabels[i] == 0 and no_none:
-    #            right_paths.append([])
-    #         else:
-    #             right_paths.append(note.get_tokens_from_ids(id_list))
-    #
-    #     return left_paths, right_paths
-
-    def _extract_path_words(self, note):
+    def _extract_path_words(self, note, pair_type, ordered=False):
         id_pair_to_path_words = {}
 
-        id_pair_to_path = note.get_intra_sentence_subpaths()
-        # extract paths of all intra_sentence pairs
-        for id_pair in id_pair_to_path:
-            left_path, right_path = id_pair_to_path[id_pair]
-            left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
-            right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
-            id_pair_to_path_words[id_pair] = (left_words, right_words)
+        assert pair_type in ('intra', 'cross', 'dct')
 
-        id_pair_to_path = note.get_cross_sentence_subpaths()
-        # extract paths of all intra_sentence pairs
-        for id_pair in id_pair_to_path:
-            left_path, right_path = id_pair_to_path[id_pair]
-            left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
-            right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
-            left_words.append('.') # add a separator, to differentiate from intra-sentence
-            id_pair_to_path_words[id_pair] = (left_words, right_words)
+        if pair_type == 'intra' or pair_type == 'both':
+            id_pair_to_path = note.get_intra_sentence_subpaths() #key: (src_id, target_id), value: [left_path, right_path]
+            if ordered: # pairs are in narrative order only
+                for key in id_pair_to_path.keys():
+                    if key[0][0] == key[1][0] and int(key[0][1:]) > int(key[1][1:]):
+                        id_pair_to_path.pop(key)
 
-        t0_to_path = note.get_t0_subpaths()
-        # extract paths of all pairs with t0
-        for entity_id in t0_to_path:
-            right_path = t0_to_path[entity_id]
-            left_words = ['now']
-            right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
-            id_pair_to_path_words[(entity_id, 't0')] = (left_words, right_words)
+            # extract paths of all intra_sentence pairs
+            # negative data (no relation) also included
+            for id_pair in id_pair_to_path:
+                if id_pair[0][0] == 't' and id_pair[1][0] == 't':
+                    # filter (t, t) pairs, we have a separate model
+                    # this will be redundant after all notes are updated
+                    continue
+                left_path, right_path = id_pair_to_path[id_pair]
+                left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
+                right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
+                id_pair_to_path_words[id_pair] = (left_words, right_words)
+
+        if pair_type == 'cross' or pair_type == 'both':
+            id_pair_to_path = note.get_cross_sentence_subpaths()
+            # extract paths of all intra_sentence pairs
+            # negative data (no relation) also included
+
+            if ordered: # pairs are in narrative order only
+                for key in id_pair_to_path.keys():
+                    if key[0][0] == key[1][0] and int(key[0][1:]) > int(key[1][1:]):
+                        id_pair_to_path.pop(key)
+
+            for id_pair in id_pair_to_path:
+                if id_pair[0][0] == 't' and id_pair[1][0] == 't':
+                    # filter (t, t) pairs, we have a separate model
+                    # this will be redundant after all notes are updated
+                    continue
+                left_path, right_path = id_pair_to_path[id_pair]
+                left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
+                right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
+                left_words.append('.') # add a separator, to differentiate from intra-sentence
+                id_pair_to_path_words[id_pair] = (left_words, right_words)
+
+        if pair_type == 'dct': # (event, t0) pairs
+            t0_to_path = note.get_t0_subpaths()
+            for entity_id in t0_to_path:
+                left_path = t0_to_path[entity_id]
+                left_words = [note.id_to_tok['w' + x[1:]]['token'] for x in left_path]
+                right_words = copy.copy(left_words)
+                right_words.reverse() # reverse order of the path
+                id_pair_to_path_words[(entity_id, 't0')] = (left_words, right_words)
+
+
+        # t0_to_path = note.get_t0_subpaths()
+        # # extract paths of all pairs with t0
+        # for entity_id in t0_to_path:
+        #     right_path = t0_to_path[entity_id]
+        #     left_words = ['now']
+        #     right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
+        #     id_pair_to_path_words[(entity_id, 't0')] = (left_words, right_words)
 
         return id_pair_to_path_words
 
-    # def _extract_path_representations(self, note, word_vectors, no_none=False):
-    #     '''
-    #     convert a note into a portion of the input matrix
-    #     '''
-    #
-    #     left_paths, right_paths = self._extract_path_words(note)
-    #
-    #     # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
-    #     del_list = []
-    #
-    #     # get the word vectors for every word in the left path
-    #     left_vecs = None
-    #     for j, path in enumerate(left_paths):
-    #         vecs_path = None
-    #         for word in path:
-    #             # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 1s.
-    #             try:
-    #                 embedding = word_vectors[word]
-    #             except KeyError:
-    #                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
-    #
-    #             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-    #             embedding = embedding[np.newaxis, :, np.newaxis]
-    #             if vecs_path == None:
-    #                 vecs_path = embedding
-    #             else:
-    #                 vecs_path = np.concatenate((vecs_path, embedding), axis=2)
-    #
-    #         # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-    #         # add index to list to indexes to remove and continue
-    #         if vecs_path == None:
-    #             del_list.append(j)
-    #             continue
-    #         if left_vecs == None:
-    #             left_vecs = vecs_path
-    #         else:
-    #             left_vecs = Network._pad_and_concatenate(left_vecs, vecs_path, axis=0, pad_left=[2])
-    #
-    #     # get the vectors for every word in the right path
-    #     right_vecs = None
-    #     for j, path in enumerate(right_paths):
-    #         vecs_path = None
-    #         for word in path:
-    #             # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 0s.
-    #             try:
-    #                 embedding = word_vectors[word]
-    #             except KeyError:
-    #                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
-    #
-    #             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-    #             embedding = embedding[np.newaxis, :, np.newaxis]
-    #             if vecs_path == None:
-    #                 vecs_path = embedding
-    #             else:
-    #                 vecs_path = np.concatenate((vecs_path, embedding), axis=2)
-    #
-    #         # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-    #         # remove label from list and continue to the next path
-    #         if vecs_path == None:
-    #             del_list.append(j)
-    #             continue
-    #         if right_vecs == None:
-    #             right_vecs = vecs_path
-    #         else:
-    #             right_vecs = Network._pad_and_concatenate(right_vecs, vecs_path, axis=0, pad_left=[2])
-    #     print "removed from list: ", len(del_list)
-    #
-    #     return left_vecs, right_vecs, del_list
+    def _extract_path_representations(self, note, word_vectors, pair_type, ordered=False):
 
-    def _extract_path_representations(self, note, word_vectors):
-
-        id_pair_to_path_words = self._extract_path_words(note)
+        id_pair_to_path_words = self._extract_path_words(note, pair_type, ordered=ordered)
 
         # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
         #del_list = []
@@ -712,7 +595,7 @@ class Network(object):
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
-                if left_vecs_path == None:
+                if left_vecs_path is None:
                     left_vecs_path = embedding
                 else:
                     left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=2)
@@ -722,10 +605,10 @@ class Network(object):
                 left_vecs_path = embedding[np.newaxis, :, np.newaxis]
             # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
             # add index to list to indexes to remove and continue
-            # if left_vecs_path == None:
+            # if left_vecs_path is None:
             #     del_list.append(id_pair)
             #     continue
-            if left_vecs == None:
+            if left_vecs is None:
                 left_vecs = left_vecs_path
             else:
                 left_vecs = Network._pad_and_concatenate(left_vecs, left_vecs_path, axis=0, pad_left=[2])
@@ -742,7 +625,7 @@ class Network(object):
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
-                if right_vecs_path == None:
+                if right_vecs_path is None:
                     right_vecs_path = embedding
                 else:
                     right_vecs_path = np.concatenate((right_vecs_path, embedding), axis=2)
@@ -752,10 +635,10 @@ class Network(object):
                 right_vecs_path = embedding[np.newaxis, :, np.newaxis]
             # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
             # # remove label from list and continue to the next path
-            # if right_vecs_path == None:
+            # if right_vecs_path is None:
             #     del_list.append(id_pair)
             #     continue
-            if right_vecs == None:
+            if right_vecs is None:
                 right_vecs = right_vecs_path
             else:
                 right_vecs = Network._pad_and_concatenate(right_vecs, right_vecs_path, axis=0, pad_left=[2])
@@ -763,7 +646,7 @@ class Network(object):
 
         # print "removed from list: ", len(del_list)
 
-        return left_vecs, right_vecs
+        return left_vecs, right_vecs, sorted(id_pair_to_path_words.keys())
 
 
     @staticmethod
@@ -772,10 +655,8 @@ class Network(object):
         given two tensors, pad with zeros so that all dimensions are equal except the axis to concatentate on, and the concatenate
         pad_left is a list of dimensions to pad the left side on. Other dimensions will recieve right sided padding
         '''
-        # if tensors have number of dimensions
-        if len(a.shape) != len(b.shape):
-            pass
-
+        if b is None:
+            return a
         # for each axis that is not to be concatenated on, pad the smaller of the two tensors with zeros so that both have equal sizes
         for i in range(len(a.shape)):
             if i == axis:
@@ -852,7 +733,6 @@ class Network(object):
 
         return left_paths, right_paths
 
-
     def _get_context_words(self, note):
 
         pairs = note.get_tlinked_entities() # entity pairs
@@ -915,17 +795,17 @@ class Network(object):
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
-                if vecs_context == None:
+                if vecs_context is None:
                     vecs_context = embedding
                 else:
                     vecs_context = np.concatenate((vecs_context, embedding), axis=2)
 
             # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
             # add index to list to indexes to remove and continue
-            if vecs_context == None:
+            if vecs_context is None:
                 del_list.append(j)
                 continue
-            if left_vecs == None:
+            if left_vecs is None:
                 left_vecs = vecs_context
             else:
                 left_vecs = Network._pad_and_concatenate(left_vecs, vecs_context, axis=0, pad_left=[2])
@@ -942,17 +822,17 @@ class Network(object):
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
-                if vecs_context == None:
+                if vecs_context is None:
                     vecs_context = embedding
                 else:
                     vecs_context = np.concatenate((vecs_context, embedding), axis=2)
 
             # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
             # add index to list to indexes to remove and continue
-            if vecs_context == None:
+            if vecs_context is None:
                 del_list.append(j)
                 continue
-            if right_vecs == None:
+            if right_vecs is None:
                 right_vecs = vecs_context
             else:
                 right_vecs = Network._pad_and_concatenate(right_vecs, vecs_context, axis=0, pad_left=[2])
@@ -986,10 +866,11 @@ class Network(object):
         '''
 
         processed_labels = []
+
         # for label in labels:
-        #     if label == "SIMULTANEOUS":
+        #     if label in ("SIMULTANEOUS", "IDENTITY", "DURING", "DURING_INV"):
         #         processed_labels.append(1)
-        #     elif label == "BEFORE":
+        #     elif label in ("BEFORE", "IBEFORE"):
         #         processed_labels.append(2)
         #     elif label == "IS_INCLUDED":
         #         processed_labels.append(3)
@@ -1003,6 +884,10 @@ class Network(object):
         #         processed_labels.append(0)
 
         for label in labels:
+            if label in self.label_to_int:
+                processed_labels.append(self.label_to_int[label])
+                continue
+
             if label in ("SIMULTANEOUS", "IDENTITY"):
                 processed_labels.append(1)
             elif label == "BEFORE":
@@ -1017,7 +902,7 @@ class Network(object):
                 processed_labels.append(6)
             elif label == "INCLUDES":
                 processed_labels.append(7)
-            elif label == "DURING":
+            elif label in ("DURING", "DURING_INV"):
                 processed_labels.append(8)
             elif label == "BEGINS":
                 processed_labels.append(9)
@@ -1029,6 +914,8 @@ class Network(object):
                 processed_labels.append(12)
             else:  # label for pairs which are not linked
                 processed_labels.append(0)
+
+            self.label_to_int[label] = processed_labels[-1]
 
         return processed_labels
 
@@ -1049,12 +936,14 @@ class Network(object):
         #         processed_labels.append("BEGUN_BY")
         #     elif label == 5:
         #         processed_labels.append("ENDED_BY")
-        #     elif label == 6:
-        #         processed_labels.append("AFTER")
         #     else:  # label for unlinked pairs (should have int 0)
         #         processed_labels.append("None")
 
         for label in labels:
+            if label in self.int_to_label:
+                processed_labels.append(self.int_to_label[label])
+                continue
+
             if label == 1:
                 processed_labels.append("SIMULTANEOUS")
             elif label == 2:
@@ -1082,6 +971,57 @@ class Network(object):
             else:  # label for unlinked pairs (should have int 0)
                 processed_labels.append('None')
 
+            self.int_to_label[label] = processed_labels[-1]
+
+        return processed_labels
+
+    def reverse_labels(self, labels):
+        processed_labels = []
+
+        # for label in labels:
+        #     if label in self.label_reverse_map:
+        #         processed_labels.append(self.label_reverse_map[label])
+        #         continue
+        #
+        #     if label == 1: # SIMULTANEOUS
+        #         processed_labels.append(1)
+        #     else:  # labels not included
+        #         processed_labels.append(0)
+
+        for label in labels:
+            if label in self.label_reverse_map:
+                processed_labels.append(self.label_reverse_map[label])
+                continue
+
+            if label == 1:
+                processed_labels.append(1)
+            elif label == 2:
+                processed_labels.append(3)
+            elif label == 3:
+                processed_labels.append(2)
+            elif label == 4:
+                processed_labels.append(5)
+            elif label == 5:
+                processed_labels.append(4)
+            elif label == 6:
+                processed_labels.append(7)
+            elif label == 7:
+                processed_labels.append(6)
+            elif label == 8:
+                processed_labels.append(8)
+            elif label == 9:
+                processed_labels.append(10)
+            elif label == 10:
+                processed_labels.append(9)
+            elif label == 11:
+                processed_labels.append(12)
+            elif label == 12:
+                processed_labels.append(11)
+            else:  # label for unlinked pairs (should have int 0)
+                processed_labels.append(0)
+
+            self.label_reverse_map[label] = processed_labels[-1]
+
         return processed_labels
 
     @staticmethod
@@ -1105,14 +1045,14 @@ class Network(object):
         print classification_report(actual, predicted, digits=3)
 
 if __name__ == "__main__":
-    test = NNModel()
+    #test = NNModel()
     with open("note.dump") as n:
         tmp_note = pickle.load(n)
 #    tmp_note = TimeNote("APW19980418.0210.tml.TE3input", "APW19980418.0210.tml")
     # print tmp_note.pre_processed_text[2][16]
 #    with open("note.dump", 'wb') as n:
 #        pickle.dump(tmp_note, n)
-    test.train([tmp_note])
+    #test.train([tmp_note])
 
     # labels = tmp_note.get_tlink_labels()
     # labels = _convert_str_labels_to_int(labels)

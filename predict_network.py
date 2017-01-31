@@ -21,7 +21,8 @@ from keras.models import model_from_json
 
 from code.learning.network import Network
 from code.notes.TimeNote import TimeNote
-from code.learning import model
+from code.learning.time_ref import predict_timex_rel
+from code.learning.break_cycle import modify_tlinks
 
 timenote_imported = False
 
@@ -44,8 +45,11 @@ def main():
                         nargs=1,
                         help="Directory containing test input")
 
-    parser.add_argument("model_destination",
-                        help="Where trained model is located")
+    parser.add_argument("intra_model_path",
+                        help="Where trained model for intra-sentence pairs is located")
+
+    parser.add_argument("cross_model_path",
+                        help="Where trained model for cross-sentence pairs is located")
 
     parser.add_argument("annotation_destination",
                          help="Where annotated files are written")
@@ -53,15 +57,15 @@ def main():
     parser.add_argument("newsreader_annotations",
                         help="Where newsreader pipeline parsed file objects go")
 
-    parser.add_argument("--use_gold",
-                        action='store_true',
-                        default=False,
-                        help="Use gold taggings for EVENT and TIMEX")
+    # parser.add_argument("--use_gold",
+    #                     action='store_true',
+    #                     default=False,
+    #                     help="Use gold taggings for EVENT and TIMEX")
 
-    parser.add_argument("--single_pass",
-                        action='store_true',
-                        default=False,
-                        help="Predict using a single pass model")
+    # parser.add_argument("--single_pass",
+    #                     action='store_true',
+    #                     default=False,
+    #                     help="Predict using a single pass model")
 
     parser.add_argument("--evaluate",
                         action='store_true',
@@ -83,159 +87,167 @@ def main():
     if os.path.isdir(predict_dir) is False:
         sys.exit("\n\nno output directory exists at set path")
 
-    model_path = args.model_destination
-
     notes = []
 
     pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
 
-    if args.use_gold:
-        if '/*' != args.predict_dir[0][-2:]:
-            predict_dir = predict_dir + '/*'
+    if '/*' != args.predict_dir[0][-2:]:
+        predict_dir = predict_dir + '/*'
 
-        # get files in directory
-        files = glob.glob(predict_dir)
+    # get files in directory
+    files = glob.glob(predict_dir)
 
-        gold_files = []
-        tml_files  = []
+    gold_files = []
+    tml_files  = []
 
-        for f in files:
-            if f.endswith(".TE3input"): #input file without tlinks
-                tml_files.append(f)
-            else:
-                gold_files.append(f)
+    for f in files:
+        if f.endswith(".TE3input"): #input file without tlinks
+            tml_files.append(f)
+        elif f.endswith(".tml"):
+            gold_files.append(f)
 
-        gold_files.sort()
-        tml_files.sort()
-        print "tml_files", tml_files
-        print "gold_files", gold_files
+    gold_files.sort()
+    tml_files.sort()
+    print "gold_files", gold_files
 
-        # one-to-one pairing of annotated file and un-annotated
-        assert len(gold_files) == len(tml_files)
+    # one-to-one pairing of annotated file and un-annotated
+    # assert len(gold_files) == len(tml_files)
 
-        tmp_note = None
+    for i, tml in enumerate(gold_files):
 
-        for i, example in enumerate(zip(tml_files, gold_files)):
-            tml, gold = example
+        print '\n\nprocessing file {}/{} {}'.format(i + 1,
+                                                    len(gold_files),
+                                                    tml)
+        if os.path.isfile(os.path.join(newsreader_dir, basename(tml) + ".parsed.pickle")):
+            tmp_note = cPickle.load(open(os.path.join(newsreader_dir, basename(tml) + ".parsed.pickle"), "rb"))
+        else:
+            tmp_note = TimeNote(tml, tml)
+            cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
 
-            assert basename(tml) == basename(gold), "mismatch\n\ttml: {}\n\tgold:{}".format(tml, gold)
+        notes.append(tmp_note)
 
-            print '\n\nprocessing file {}/{} {}'.format(i + 1,
-                                                        len(zip(tml_files, gold_files)),
-                                                        tml)
-            if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
-                tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
-            else:
-                if timenote_imported is False:
-                    timenote_imported = True
-                tmp_note = TimeNote(tml, gold)
-                cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
-
-            notes.append(tmp_note)
-
-    else: # not using gold
-        if '/*' != args.predict_dir[0][-2:]:
-            predict_dir = predict_dir + '/*'
-
-        # get files in directory
-        files = glob.glob(predict_dir)
-
-        tml_files  = []
-
-        for f in files:
-            if f.endswith(".TE3input"): #input file without tlinks
-                tml_files.append(f)
-
-        tml_files.sort()
-        print "tml_files", tml_files
-
-        tmp_note = None
-
-        for i, tml in enumerate(tml_files):
-            if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
-                tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
-            else:
-                if timenote_imported is False:
-                    timenote_imported = True
-                tmp_note = TimeNote(tml, None)
-                cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
-
-            notes.append(tmp_note)
+    # else: # not using gold
+    #     if '/*' != args.predict_dir[0][-2:]:
+    #         predict_dir = predict_dir + '/*'
+    #
+    #     # get files in directory
+    #     files = glob.glob(predict_dir)
+    #
+    #     tml_files  = []
+    #
+    #     for f in files:
+    #         if f.endswith(".TE3input"): #input file without tlinks
+    #             tml_files.append(f)
+    #
+    #     tml_files.sort()
+    #     print "tml_files", tml_files
+    #
+    #     tmp_note = None
+    #
+    #     for i, tml in enumerate(tml_files):
+    #         if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
+    #             tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
+    #         else:
+    #             if timenote_imported is False:
+    #                 timenote_imported = True
+    #             tmp_note = TimeNote(tml, None)
+    #             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
+    #
+    #         notes.append(tmp_note)
 
     network = Network()
 
-    if args.single_pass:
-        # load model
-        NNet = model_from_json(open(model_path + '.arch.json').read())
-        NNet.load_weights(model_path + '.weights.h5')
+    intra_model = model_from_json(open(os.path.join(args.intra_model_path, 'intra', '.arch.json')).read())
+    intra_model.load_weights(os.path.join(args.intra_model_path, 'intra', '.weights.h5'))
+    intra_labels, intra_probs, intra_pair_index = network.single_predict(notes, intra_model, 'intra', predict_prob=True)
+    intra_labels, intra_pair_index, intra_scores = network.smart_predict(intra_labels, intra_probs, intra_pair_index, type='str')
+    # print "intra labels", len(intra_labels), intra_labels
+    # print "intra_scores", len(intra_scores), intra_scores
 
-        # run prediction cycle
-        #labels, filter_lists, probs = network.single_predict(notes, NNet, evalu=args.evaluate, predict_prob=True)
-        labels, probs = network.single_predict(notes, NNet, evalu=args.evaluate, predict_prob=True)
-        print len(labels)
+    cross_model = model_from_json(open(os.path.join(args.cross_model_path, 'cross', '.arch.json')).read())
+    cross_model.load_weights(os.path.join(args.cross_model_path, 'cross', '.weights.h5'))
+    cross_labels, cross_probs, cross_pair_index = network.single_predict(notes, cross_model, 'cross', predict_prob=True)
+    #print "cross pairs:", cross_pair_index
+    cross_labels, cross_pair_index, cross_scores = network.smart_predict(cross_labels, cross_probs, cross_pair_index, type='str')
 
-    # else:
-    #     # load both passes
-    #     classifier = model_from_json(open(model_path + '.class.arch.json').read())
-    #     classifier.load_weights(model_path + '.class.weights.h5')
-    #
-    #     detector = model_from_json(open(model_path + '.detect.arch.json').read())
-    #     detector.load_weights(model_path + '.detect.weights.h5')
-    #
-    #     # run prediction cycle
-    #     labels, filter_lists = network.predict(notes, detector, classifier, evalu=args.evaluate)
+    timex_labels, timex_pair_index = predict_timex_rel(notes)
+    #print "timex pairs:", timex_pair_index
 
-    # labels are returned as a 1 dimensional numpy array, with labels for all objects.
-    # we track the current index to find labels for given notes
-    # label_index = 0
+    for i, note in enumerate(notes):
+        note_id_pairs = []
+        note_labels = []
+        note_scores = []
 
-    # # filter unused pairs and write each pair to the TimeML file
-    # for note, del_list in zip(notes, filter_lists):
-    #     print "processing ", note.note_path
-    #
-    #     event_timex_labels, note_labels, entities, offsets, tokens = process_note(note, labels, del_list, label_index, probs)
-    #     # event_timex_labels: [{'entity_id': 'e1', 'entity_label': 'ASPECTUAL', 'entity_type': 'EVENT'}...]
-    #     # note_labels: ['IS_INCLUDED', 'SIMULTANEOUS',...]
-    #     # entities: [('e1', 'e2'), ('e3', 'e1'),..] same length as above
-    #     # offsets: [(0, 3), (5, 7),...] same length as event_timex_labels
-    #     # tokens: same length as above
-    #
-    #     note.write(event_timex_labels, note_labels, entities, offsets, tokens, annotation_destination)
-    #
-    #     label_index += len(entities)
-
-    label_index = 0
-    for note in notes:
-        id_pairs = network._extract_path_words(note).keys()
-        id_pairs.sort()
-
-        n_pairs = len(id_pairs)
-        note_labels = labels[label_index:label_index+n_pairs]
-        note_label_nums = network._convert_str_labels_to_int(note_labels)
-        label_index += n_pairs
-
-        processed_entities = {}
-        used_indexes = []
-        # for the same entity pairs (regardless of order), only use the best scores
-        for i, note_label_num in enumerate(note_label_nums):
-            if max(probs[i]) < 0.1:
+        for key in intra_pair_index.keys(): #  {(note_id, (ei, ej)) : index}
+            # the dictionary is dynamically changing, so we need to check
+            if key not in intra_pair_index:
                 continue
-            if (id_pairs[i][1], id_pairs[i][0]) in processed_entities:
-                if probs[i][note_label_num] > processed_entities[(id_pairs[i][1], id_pairs[i][0])]:
-                    used_indexes.append(i)  # reverse order
-                else:
-                    used_indexes.append(i - 1)
-            else:
-                processed_entities[(id_pairs[i][0], id_pairs[i][1])] = probs[i][note_label_num]
+            if key[0] == i:
+                note_id_pairs.append(key[1])
+                note_labels.append(intra_labels[intra_pair_index[key]])
+                note_scores.append(intra_scores[intra_pair_index[key]])
+                intra_pair_index.pop(key)
+                opposite_key = (key[0], (key[1][1], key[1][0]))
+                intra_pair_index.pop(opposite_key)
 
-        note_labels = [note_labels[x] for x in used_indexes]
-        used_pairs = [id_pairs[x] for x in used_indexes]
+        for key in cross_pair_index.keys():  # {(note_id, (ei, ej)) : index}
+            # the dictionary is dynamically changing, so we need to check
+            if key not in cross_pair_index:
+                continue
+            if key[0] == i:
+                note_id_pairs.append(key[1])
+                note_labels.append(cross_labels[cross_pair_index[key]])
+                note_scores.append(cross_scores[cross_pair_index[key]])
+                cross_pair_index.pop(key)
+                opposite_key = (key[0], (key[1][1], key[1][0]))
+                cross_pair_index.pop(opposite_key)
 
-        save_predictions(note, used_pairs, note_labels, annotation_destination)
+        for key in timex_pair_index.keys():  # {(note_id, (ei, ej)) : index}
+            if key[0] == i:
+                note_id_pairs.append(key[1])
+                note_labels.append(timex_labels[timex_pair_index[key]])
+                note_scores.append(1.0) # trust timex tlinks
+                timex_pair_index.pop(key)
+        # check
+        # for index, item in enumerate(note_id_pairs):
+        #     print item, note_labels[index]
+
+        note_labels = modify_tlinks(note_id_pairs, note_labels, note_scores)
+        save_predictions(note, note_id_pairs, note_labels, annotation_destination)
+
+
+    # label_index = 0
+    # for note in notes:
+    #     #id_pairs = network._extract_path_words(note).keys()
+    #     #id_pairs.sort()
+    #
+    #     n_pairs = len(id_pairs)
+    #     note_labels = labels[label_index:label_index+n_pairs]
+    #     note_label_nums = network._convert_str_labels_to_int(note_labels)
+    #     label_index += n_pairs
+    #
+    #     processed_entities = {}
+    #     used_indexes = []
+    #     # for the same entity pairs (regardless of order), only use the best scores
+    #     for i, note_label_num in enumerate(note_label_nums):
+    #         if max(probs[i]) < 0.2:
+    #             continue
+    #         if (id_pairs[i][1], id_pairs[i][0]) in processed_entities:
+    #             if probs[i][note_label_num] > processed_entities[(id_pairs[i][1], id_pairs[i][0])]:
+    #                 used_indexes.append(i)  # reverse order
+    #             else:
+    #                 used_indexes.append(i - 1) # (e1, e2) and (e2, e1) are next to each other
+    #         else:
+    #             processed_entities[(id_pairs[i][0], id_pairs[i][1])] = probs[i][note_label_num]
+    #
+    #     note_labels = [note_labels[x] for x in used_indexes]
+    #     used_pairs = [id_pairs[x] for x in used_indexes]
+    #
+    #     save_predictions(note, used_pairs, note_labels, annotation_destination)
 
 
 def save_predictions(note, id_pairs, note_labels, annotation_destination):
-    note_path = os.path.join(annotation_destination, note.note_path.split('/')[-1] + ".tml")
+    note_path = os.path.join(annotation_destination, note.note_path.split('/')[-1])
     print "saving predictions in", note_path
     with open(note.annotated_note_path, 'r') as f:
         raw_text = []
@@ -296,7 +308,7 @@ def save_predictions(note, id_pairs, note_labels, annotation_destination):
     makeinstances = sorted(list(set(makeinstances)))
     for makeinstance in makeinstances:
         raw_text += '\n' + makeinstance
-    for tlink in tlinks:
+    for tlink in sorted(list(set(tlinks))):
         raw_text += '\n' + tlink
 
     raw_text += '\n</TimeML>'
