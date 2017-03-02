@@ -98,7 +98,7 @@ class Network(object):
         # combine and classify entities as a single relation
         decoder = Sequential()
         decoder.add(Merge([encoder_R, encoder_L], mode='concat'))
-        decoder.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='sigmoid'))
+        decoder.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='relu'))
         if decoder_dropout != 0:
             decoder.add(Dropout(decoder_dropout))
         decoder.add(Dense(nb_classes, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='softmax'))
@@ -193,11 +193,13 @@ class Network(object):
         Network.class_confusion(test, V_labels, nb_classes)
 
         if val_input is not None and not ordered:
-            print "Trying smart predict..."
-            probs = model.predict_proba([V_XL, V_XR])
-            smart_test, pair_index = self.smart_predict(test, probs, V_pair_index, type='int')
-            Network.class_confusion(smart_test, V_labels, nb_classes)
-
+            try:
+                print "Trying smart predict..."
+                probs = model.predict_proba([V_XL, V_XR])
+                smart_test, pair_index = self.smart_predict(test, probs, V_pair_index, type='int')
+                Network.class_confusion(smart_test, V_labels, nb_classes)
+            except KeyError:
+                print "cannot perform smart predicting"
 
         return model, training_history.history
 
@@ -521,10 +523,10 @@ class Network(object):
             # extract paths of all intra_sentence pairs
             # negative data (no relation) also included
             for id_pair in id_pair_to_path:
-                if id_pair[0][0] == 't' and id_pair[1][0] == 't':
-                    # filter (t, t) pairs, we have a separate model
-                    # this will be redundant after all notes are updated
-                    continue
+                # if id_pair[0][0] == 't' and id_pair[1][0] == 't':
+                #     # filter (t, t) pairs, we have a separate model
+                #     # this will be redundant after all notes are updated
+                #     continue
                 left_path, right_path = id_pair_to_path[id_pair]
                 left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
                 right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
@@ -541,10 +543,10 @@ class Network(object):
                         id_pair_to_path.pop(key)
 
             for id_pair in id_pair_to_path:
-                if id_pair[0][0] == 't' and id_pair[1][0] == 't':
-                    # filter (t, t) pairs, we have a separate model
-                    # this will be redundant after all notes are updated
-                    continue
+                # if id_pair[0][0] == 't' and id_pair[1][0] == 't':
+                #     # filter (t, t) pairs, we have a separate model
+                #     # this will be redundant after all notes are updated
+                #     continue
                 left_path, right_path = id_pair_to_path[id_pair]
                 left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
                 right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]

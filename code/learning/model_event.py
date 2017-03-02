@@ -122,6 +122,7 @@ class EventWriter(object):
 
         tagged_elements = event_elements + timex_elements
         tagged_elements.sort(key=lambda k: k['start_offset'], reverse=True)
+        print tagged_elements
 
         index = len(tagged_elements)
         previous_position = None

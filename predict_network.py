@@ -51,6 +51,9 @@ def main():
     parser.add_argument("cross_model_path",
                         help="Where trained model for cross-sentence pairs is located")
 
+    parser.add_argument("dct_model_path",
+                        help="Where trained model for events and document creation time is located")
+
     parser.add_argument("annotation_destination",
                          help="Where annotated files are written")
 
@@ -87,9 +90,7 @@ def main():
     if os.path.isdir(predict_dir) is False:
         sys.exit("\n\nno output directory exists at set path")
 
-    notes = []
-
-    pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
+    # pickled_timeml_notes = [os.path.basename(l) for l in glob.glob(newsreader_dir + "/*")]
 
     if '/*' != args.predict_dir[0][-2:]:
         predict_dir = predict_dir + '/*'
@@ -113,6 +114,15 @@ def main():
     # one-to-one pairing of annotated file and un-annotated
     # assert len(gold_files) == len(tml_files)
 
+    network = Network()
+
+    intra_model = model_from_json(open(os.path.join(args.intra_model_path, 'intra', '.arch.json')).read())
+    intra_model.load_weights(os.path.join(args.intra_model_path, 'intra', '.weights.h5'))
+    cross_model = model_from_json(open(os.path.join(args.cross_model_path, 'cross', '.arch.json')).read())
+    cross_model.load_weights(os.path.join(args.cross_model_path, 'cross', '.weights.h5'))
+    dct_model = model_from_json(open(os.path.join(args.dct_model_path, 'dct', '.arch.json')).read())
+    dct_model.load_weights(os.path.join(args.dct_model_path, 'dct', '.weights.h5'))
+
     for i, tml in enumerate(gold_files):
 
         print '\n\nprocessing file {}/{} {}'.format(i + 1,
@@ -124,7 +134,8 @@ def main():
             tmp_note = TimeNote(tml, tml)
             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
 
-        notes.append(tmp_note)
+        # notes.append(tmp_note)
+        notes = [tmp_note] # required to be a list
 
     # else: # not using gold
     #     if '/*' != args.predict_dir[0][-2:]:
@@ -155,65 +166,66 @@ def main():
     #
     #         notes.append(tmp_note)
 
-    network = Network()
+        intra_labels, intra_probs, intra_pair_index = network.single_predict(notes, intra_model, 'intra', predict_prob=True)
+        intra_labels, intra_pair_index, intra_scores = network.smart_predict(intra_labels, intra_probs, intra_pair_index, type='str')
 
-    intra_model = model_from_json(open(os.path.join(args.intra_model_path, 'intra', '.arch.json')).read())
-    intra_model.load_weights(os.path.join(args.intra_model_path, 'intra', '.weights.h5'))
-    intra_labels, intra_probs, intra_pair_index = network.single_predict(notes, intra_model, 'intra', predict_prob=True)
-    intra_labels, intra_pair_index, intra_scores = network.smart_predict(intra_labels, intra_probs, intra_pair_index, type='str')
-    # print "intra labels", len(intra_labels), intra_labels
-    # print "intra_scores", len(intra_scores), intra_scores
+        cross_labels, cross_probs, cross_pair_index = network.single_predict(notes, cross_model, 'cross', predict_prob=True)
+        cross_labels, cross_pair_index, cross_scores = network.smart_predict(cross_labels, cross_probs, cross_pair_index, type='str')
 
-    cross_model = model_from_json(open(os.path.join(args.cross_model_path, 'cross', '.arch.json')).read())
-    cross_model.load_weights(os.path.join(args.cross_model_path, 'cross', '.weights.h5'))
-    cross_labels, cross_probs, cross_pair_index = network.single_predict(notes, cross_model, 'cross', predict_prob=True)
-    #print "cross pairs:", cross_pair_index
-    cross_labels, cross_pair_index, cross_scores = network.smart_predict(cross_labels, cross_probs, cross_pair_index, type='str')
+        timex_labels, timex_pair_index = predict_timex_rel(notes)
 
-    timex_labels, timex_pair_index = predict_timex_rel(notes)
-    #print "timex pairs:", timex_pair_index
+        dct_labels, dct_probs, dct_pair_index = network.single_predict(notes, dct_model, 'dct', predict_prob=True)
+        dct_labels = network._convert_int_labels_to_str(dct_labels)
+        dct_scores = [max(probs) for probs in dct_probs]
+        assert len(dct_labels) == len(dct_scores)
 
-    for i, note in enumerate(notes):
-        note_id_pairs = []
-        note_labels = []
-        note_scores = []
+        for i, note in enumerate(notes):
+            note_id_pairs = []
+            note_labels = []
+            note_scores = []
 
-        for key in intra_pair_index.keys(): #  {(note_id, (ei, ej)) : index}
-            # the dictionary is dynamically changing, so we need to check
-            if key not in intra_pair_index:
-                continue
-            if key[0] == i:
-                note_id_pairs.append(key[1])
-                note_labels.append(intra_labels[intra_pair_index[key]])
-                note_scores.append(intra_scores[intra_pair_index[key]])
-                intra_pair_index.pop(key)
-                opposite_key = (key[0], (key[1][1], key[1][0]))
-                intra_pair_index.pop(opposite_key)
+            for key in intra_pair_index.keys(): #  {(note_id, (ei, ej)) : index}
+                # the dictionary is dynamically changing, so we need to check
+                if key not in intra_pair_index:
+                    continue
+                if key[0] == i:
+                    note_id_pairs.append(key[1])
+                    note_labels.append(intra_labels[intra_pair_index[key]])
+                    note_scores.append(intra_scores[intra_pair_index[key]])
+                    intra_pair_index.pop(key)
+                    opposite_key = (key[0], (key[1][1], key[1][0]))
+                    intra_pair_index.pop(opposite_key)
 
-        for key in cross_pair_index.keys():  # {(note_id, (ei, ej)) : index}
-            # the dictionary is dynamically changing, so we need to check
-            if key not in cross_pair_index:
-                continue
-            if key[0] == i:
-                note_id_pairs.append(key[1])
-                note_labels.append(cross_labels[cross_pair_index[key]])
-                note_scores.append(cross_scores[cross_pair_index[key]])
-                cross_pair_index.pop(key)
-                opposite_key = (key[0], (key[1][1], key[1][0]))
-                cross_pair_index.pop(opposite_key)
+            for key in cross_pair_index.keys():  # {(note_id, (ei, ej)) : index}
+                # the dictionary is dynamically changing, so we need to check
+                if key not in cross_pair_index:
+                    continue
+                if key[0] == i:
+                    note_id_pairs.append(key[1])
+                    note_labels.append(cross_labels[cross_pair_index[key]])
+                    note_scores.append(cross_scores[cross_pair_index[key]])
+                    cross_pair_index.pop(key)
+                    opposite_key = (key[0], (key[1][1], key[1][0]))
+                    cross_pair_index.pop(opposite_key)
 
-        for key in timex_pair_index.keys():  # {(note_id, (ei, ej)) : index}
-            if key[0] == i:
-                note_id_pairs.append(key[1])
-                note_labels.append(timex_labels[timex_pair_index[key]])
-                note_scores.append(1.0) # trust timex tlinks
-                timex_pair_index.pop(key)
-        # check
-        # for index, item in enumerate(note_id_pairs):
-        #     print item, note_labels[index]
+            for key in timex_pair_index.keys():  # {(note_id, (t, t)) : index}
+                if key[0] == i:
+                    note_id_pairs.append(key[1])
+                    note_labels.append(timex_labels[timex_pair_index[key]])
+                    note_scores.append(1.0) # trust timex tlinks
+                    timex_pair_index.pop(key)
 
-        note_labels = modify_tlinks(note_id_pairs, note_labels, note_scores)
-        save_predictions(note, note_id_pairs, note_labels, annotation_destination)
+            for key in dct_pair_index.keys():  # {(note_id, (ei, t0)) : index}
+                if key[0] == i:
+                    note_id_pairs.append(key[1])
+                    note_labels.append(dct_labels[dct_pair_index[key]])
+                    note_scores.append(max(dct_probs[dct_pair_index[key]]))
+                    #note_scores.append(0.0)
+                    dct_pair_index.pop(key)
+
+            note_labels, note_scores = resolve_coref(note, note_id_pairs, note_labels, note_scores)
+            note_labels = modify_tlinks(note_id_pairs, note_labels, note_scores)
+            save_predictions(note, note_id_pairs, note_labels, annotation_destination)
 
 
     # label_index = 0
@@ -244,6 +256,28 @@ def main():
     #     used_pairs = [id_pairs[x] for x in used_indexes]
     #
     #     save_predictions(note, used_pairs, note_labels, annotation_destination)
+
+def normalize_scores(scores):
+    scores = numpy.array(scores)
+    m = numpy.mean(scores)
+    s = numpy.std(scores)
+    norm = (scores - m) / s
+    print "mean and std of scores:", m, s
+    return norm
+
+
+def resolve_coref(note, note_id_pairs, note_labels, note_scores):
+    for i, id_pair in enumerate(note_id_pairs):
+        if 't0' in id_pair:
+            continue
+        src_eid, target_eid = id_pair
+        src_coref = note.id_to_tok[note.id_to_wordIDs[src_eid][0]].get("coref_chain", "no_coref1")
+        target_coref = note.id_to_tok[note.id_to_wordIDs[target_eid][0]].get("coref_chain", "no_coref2")
+        if src_coref == target_coref:
+            note_labels[i] = 'SIMULTANEOUS'
+            print "event coreference found:", src_eid, target_eid
+            note_scores[i] = 0.9
+    return note_labels, note_scores
 
 
 def save_predictions(note, id_pairs, note_labels, annotation_destination):

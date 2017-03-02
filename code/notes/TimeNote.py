@@ -36,14 +36,14 @@ class TimeNote(Note):
 
         _Note = Note.__init__(self, timeml_note_path, annotated_timeml_path)
 
-        # get body of document
-        data = get_text(timeml_note_path)
+        # # get body of document
+        # data = get_text(timeml_note_path)
 
         # original text body of timeml doc
-        self.original_text = data
+        self.original_text = get_text(timeml_note_path)
 
         # send body of document to NewsReader pipeline.
-        tokenized_text, token_to_offset, sentence_features, dependency_paths, id_to_tok = pre_processing.pre_process(data, timeml_note_path)
+        tokenized_text, token_to_offset, sentence_features, dependency_paths, id_to_tok = pre_processing.pre_process(self.original_text)
 
         # {sentence_num: [{token},...], ...}
         self.pre_processed_text = tokenized_text
@@ -1253,6 +1253,7 @@ def __unit_tests():
 #    print t.get_tlinked_entities()
 
 #    print t.get_tlink_labels()
+
 
 if __name__ == "__main__":
 

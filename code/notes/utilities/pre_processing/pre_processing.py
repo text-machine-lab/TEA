@@ -10,7 +10,7 @@ import morpho_pro
 
 pre_processor = None
 
-def pre_process(text, filename, overwrite=False):
+def pre_process(text):
     """ pre-process contents of a document
 
     Example:
@@ -23,14 +23,14 @@ def pre_process(text, filename, overwrite=False):
     if pre_processor is None:
         pre_processor = NewsReader()
 
-    naf_tagged_doc = pre_processor.pre_process(text)
+    naf_tagged_doc = pre_processor.pre_process(text) # output a string of xml doc
 
     tokens,     tokens_to_offset,\
     pos_tags,   token_lemmas,\
     ner_tags,   constituency_trees,\
     predicate_ids, tok_id_to_predicate_info, coreferent_lists = naf_parse.parse(naf_tagged_doc)
 
-    base_filename = os.path.basename(filename)
+    # base_filename = os.path.basename(filename)
 
     """
     print "\ntokens:\n"
@@ -243,6 +243,16 @@ def pre_process(text, filename, overwrite=False):
         assert( len(sentences) == len(constituency_trees))
 
     return sentences, tokens_to_offset, sentence_features, dependency_paths, id_to_tok
+
+
+def print_path(sentence, pos1, pos2):
+    tokenized_text, token_to_offset, sentence_features, dependency_paths, id_to_tok = pre_process(sentence)
+    left_path, right_path = dependency_paths.get_left_right_subpaths('t' + str(pos1), 't' + str(pos2))
+    left_words = [id_to_tok['w'+x[1:]]['token'] for x in left_path]
+    right_words = [id_to_tok['w' + x[1:]]['token'] for x in right_path]
+    print "left path:", left_words
+    print "right path:", right_words
+
 
 if __name__ == "__main__":
     pass

@@ -116,10 +116,10 @@ def main():
 
     if args.no_val:
         earlystopping = EarlyStopping(monitor='loss', patience=30, verbose=0, mode='auto')
-        checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='acc', save_best_only=True)
+        checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='loss', save_best_only=True)
     else:
         earlystopping = EarlyStopping(monitor='loss', patience=30, verbose=0, mode='auto')
-        checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='val_acc', save_best_only=True)
+        checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='loss', save_best_only=True)
 
     # create a sinlge model, then save architecture and weights
     if not args.two_pass:
@@ -232,7 +232,7 @@ def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False
             print "training data size:", training_data[0].shape, training_data[1].shape, len(training_data[2])
         else:
             # nolink_ration = # no tlink cases / # tlink cases
-            training_data = network._get_training_input(notes, pair_type=pair_type, nolink_ratio=0.1, shuffle=True, ordered=ordered)
+            training_data = network._get_training_input(notes, pair_type=pair_type, nolink_ratio=1.0, shuffle=True, ordered=ordered)
             print "training data size:", training_data[0].shape, training_data[1].shape, len(training_data[2])
 
             if not no_val and val_notes is not None:
@@ -244,7 +244,7 @@ def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False
             #cPickle.dump(data, open(train_dir+'training_data.pkl', 'w'))
 
         del network.word_vectors
-        NNet, history = network.train_model(None, epochs=300, training_input=training_data, val_input=val_data, no_val=no_val, weight_classes=False, batch_size=100,
+        NNet, history = network.train_model(None, epochs=200, training_input=training_data, val_input=val_data, no_val=no_val, weight_classes=False, batch_size=100,
         encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256,
         dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks, ordered=ordered)
 

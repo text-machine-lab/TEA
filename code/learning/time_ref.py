@@ -107,6 +107,8 @@ class TimeRefNetwork(object):
                     return year+0.5, year+0.75
                 elif numbers[1] == 'Q4':
                     return year+0.75, year+self.YEAR_END
+                elif numbers[1] == 'SP':
+                    return year+2.0/12, year+5.0/12 # beginning of March to end of May
                 elif numbers[1] == 'SU':
                     return year+5.0/12, year+8.0/12 # beginning of June to end of August
                 elif numbers[1] == 'FA':

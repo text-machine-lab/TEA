@@ -30,8 +30,8 @@ note=cPickle.load(open('newsreader_annotations/1-20/AP_20130322.parsed.pickle'))
 #tagged=writer.tag_predicates()
 
 #from code.notes.utilities.xml_utilities import write_root_to_file
-from code.learning.time_ref import TimeRefNetwork
-from code.learning.time_ref import predict_timex_rel
+#from code.learning.time_ref import TimeRefNetwork
+#from code.learning.time_ref import predict_timex_rel
 #tr=TimeRefNetwork(note)
 #tr1=TimeRefNetwork(note1)
 #tr2=TimeRefNetwork(note2)

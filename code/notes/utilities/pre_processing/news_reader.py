@@ -67,9 +67,10 @@ class NewsReader(object):
         constituency_parsed_text = self.newsreader_parse.parse(ner_tagged_text)
         srl_text = srl.parse_dependencies(constituency_parsed_text)
 
-        # naf_marked_up_text = _coreference_tag(srl_text)
+        naf_marked_up_text = _coreference_tag(srl_text)
 
-        return srl_text
+        #return srl_text
+        return naf_marked_up_text
 
 
 def _coreference_tag(naf_constituency_parsed_text):
@@ -90,7 +91,7 @@ def _coreference_tag(naf_constituency_parsed_text):
     output, output_error = tag.communicate(naf_constituency_parsed_text)
 
     # print "output: ", output
-    print "output error: ", output_error
+    # print "output error: ", output_error
 
     if output == "":
         # sys.exit("ERROR: corefgraph failed to produce output...")
