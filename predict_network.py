@@ -223,7 +223,7 @@ def main():
                     #note_scores.append(0.0)
                     dct_pair_index.pop(key)
 
-            note_labels, note_scores = resolve_coref(note, note_id_pairs, note_labels, note_scores)
+            # note_labels, note_scores = resolve_coref(note, note_id_pairs, note_labels, note_scores)
             note_labels = modify_tlinks(note_id_pairs, note_labels, note_scores)
             save_predictions(note, note_id_pairs, note_labels, annotation_destination)
 

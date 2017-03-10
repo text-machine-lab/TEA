@@ -52,7 +52,11 @@ def get_parents(G, u):
         if u in G[v][0]:
             parents.append(v)
             index = G[v][0].index(u)
-            scores.append(G[v][1][index])
+            try:
+                scores.append(G[v][1][index])
+            except IndexError:
+                print v, index, G[v]
+                sys.exit("IndexError: line 59")
     return parents, scores
 
 def build_graph(id_pairs, labels, scores):
@@ -146,7 +150,7 @@ def integrate_simul(id_pairs, labels, scores, graph):
             if pair[0] in graph:
                 children0, scores0 = graph[pair[0]]
                 if pair[1] not in graph:
-                    graph[pair[1]] = graph[pair[0]]
+                    graph[pair[1]] = copy.deepcopy(graph[pair[0]])
                     graph[pair[1]][1] = [score*x for x in graph[pair[1]][1]] # modify scores
                     continue
                 for index, child in enumerate(children0):
@@ -158,7 +162,7 @@ def integrate_simul(id_pairs, labels, scores, graph):
                 children1, scores1 = graph[pair[1]]
                 for index, child in enumerate(children1):
                     if pair[0] not in graph:
-                        graph[pair[0]] = graph[pair[1]]
+                        graph[pair[0]] = copy.deepcopy(graph[pair[1]])
                         graph[pair[0]][1] = [score*x for x in graph[pair[0]][1]] # modify scores
                         continue
                     if child not in graph[pair[0]][0]:
@@ -235,12 +239,7 @@ def prune_tlinks(G):
     entities = timex_nodes + event_nodes
     for eid in entities:
         candidate_edges = []
-
         pruned_graph[eid] = graph[eid]
-        # print pruned_graph, graph
-        # print '__________'
-        # if cycle_exists(simplify_graph(pruned_graph)):
-            # find all nodes pointing to the source node of the new edge
 
         for node in pruned_graph: # go through each node in pruned graph
             # print "pruned graph:", pruned_graph
@@ -272,30 +271,36 @@ def prune_tlinks(G):
             removed_edges = {}
             for permu, candidate_edges in enumerate(permutations):
                 temp_graphs[permu] = copy.deepcopy(pruned_graph)
-                print pruned_graph['e30']
-                print temp_graphs[permu]['e30']
                 sum_scores[permu] = 0
                 removed_edges[permu] = []
                 original_candiates = copy.copy(candidate_edges)
                 while cycle_exists(simplify_graph(temp_graphs[permu])) and candidate_edges:
-                    #print "temp graph", permu, temp_graphs[permu]
                     candidate = candidate_edges.pop(0)
                     sum_scores[permu] += candidate[1]
                     source = candidate[0][0]
                     target = candidate[0][1]
+
+                    ## There seems to be a weird bug here.
+                    ## sometimes an edge is found in the pruned graph, but it does not show up in temp_graps[permu]
                     try:
                         index = temp_graphs[permu][source][0].index(target)
                     except ValueError:
                         print temp_graphs[permu][source]
                         print source, target
-                        print pruned_graph[source]
                         print "candidate edges:", original_candiates
                         print "removed edges:", removed_edges[permu]
                         sys.exit("Value Error")
+
                     temp_graphs[permu][source][0].pop(index) # remove from id list
                     temp_graphs[permu][source][1].pop(index) # remove from score list
                     removed_edges[permu].append((source, target))
                     removed_edges[permu].append((target, source))
+                    # if temp_graphs[permu].get('t3', '') != pruned_graph.get('t3', ''):
+                    #     print "t3 changed!!!"
+                    #     print permu
+                    #     print candidate
+                    #     print temp_graphs[permu].get('t3', '')
+                    #     print pruned_graph.get('t3', '')
 
             # print "\nsum_scores", sum_scores
             min_permu = min(sum_scores, key=sum_scores.get)
