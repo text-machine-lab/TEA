@@ -140,8 +140,7 @@ def get_text(timeml_doc, preserve_quotes=False):
     """ gets raw text of document, xml tags removed """
 
     text_e = get_text_element(timeml_doc)
-
-    string =  ET.tostring(text_e)
+    # string =  ET.tostring(text_e)
 
     string = ET.tostring(text_e, encoding='utf8', method='text')
 

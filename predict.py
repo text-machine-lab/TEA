@@ -14,6 +14,11 @@ import argparse
 import glob
 
 from code.learning import model
+from code.learning.model_event import EventWriter
+from code.learning.model_event import tag_timex
+from keras.models import load_model
+
+from code.learning.word2vec import load_word2vec_binary
 
 timenote_imported = False
 
@@ -92,6 +97,10 @@ def main():
 
     model.load_models(model_path, predict_timex, predict_event, predict_tlink)
 
+    # event model
+    NNet = load_model('model_destination/event/' + 'model.h5')
+    word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
+
     #read in files as notes
     for i, tml in enumerate(files_to_annotate):
 
@@ -101,7 +110,8 @@ def main():
 
         stashed_name = os.path.basename(tml)
         stashed_name = stashed_name.split('.')
-        stashed_name = stashed_name[0:stashed_name.index('tml')]
+        if 'tml' in stashed_name:
+            stashed_name = stashed_name[0:stashed_name.index('tml')]
         stashed_name = '.'.join(stashed_name)
 
         if stashed_name + ".parsed.predict.pickle" in pickled_timeml_notes:
@@ -125,7 +135,14 @@ def main():
 
         assert len(OriginalOffsets) == len(offsets)
 
-        note.write(entityLabels, tlinkLabels, tlinkIdPairs, offsets, tokens, annotation_destination)
+        if predict_event:
+            note.write(entityLabels, tlinkLabels, tlinkIdPairs, offsets, tokens, annotation_destination)
+
+        else: # use external model
+            event_writer = EventWriter(note, word_vectors=word_vectors, NNet=NNet)
+            tml_root = event_writer.tag_text(entityLabels, tokens, note)
+            note_path = os.path.join(annotation_destination, note.note_path.split('/')[-1] + ".tml")
+            EventWriter.write_tags(tml_root, note_path)
 
 
 if __name__ == '__main__':

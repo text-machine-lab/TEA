@@ -664,8 +664,13 @@ def get_tense_aspect(token, verbose=False):
     tense = "NONE"
     aspect = "NONE"
 
+    if "chunked_morphologies_morpho" in token:
+    	n_args = len(token["chunked_morphologies_morpho"])
+    else:
+        #print token
+        #print "no chunked_morphologies_morpho"
+        return tense, aspect
 
-    n_args = len(token["chunked_morphologies_morpho"])
 
     if n_args in _NARG_TENSE_ASPECT:
         # TODO: might want to make this better?

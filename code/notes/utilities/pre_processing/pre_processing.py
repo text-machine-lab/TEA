@@ -10,7 +10,7 @@ import morpho_pro
 
 pre_processor = None
 
-def pre_process(text, filename):
+def pre_process(text):
     """ pre-process contents of a document
 
     Example:
@@ -23,14 +23,14 @@ def pre_process(text, filename):
     if pre_processor is None:
         pre_processor = NewsReader()
 
-    naf_tagged_doc = pre_processor.pre_process(text)
+    naf_tagged_doc = pre_processor.pre_process(text) # output a string of xml doc
 
     tokens,     tokens_to_offset,\
     pos_tags,   token_lemmas,\
     ner_tags,   constituency_trees,\
     predicate_ids, tok_id_to_predicate_info, coreferent_lists = naf_parse.parse(naf_tagged_doc)
 
-    base_filename = os.path.basename(filename)
+    # base_filename = os.path.basename(filename)
 
     """
     print "\ntokens:\n"
@@ -83,7 +83,12 @@ def pre_process(text, filename):
         char_start = tok["char_start_offset"]
         char_end   = tok["char_end_offset"]
 
-        assert text[char_start:char_end + 1] == tok["token"], "{} != {}".format(text[char_start:char_end+1], tok["token"])
+        try:
+            assert text[char_start:char_end + 1] == tok["token"], "{} != {}".format(text[char_start:char_end+1], tok["token"])
+        except AssertionError:
+            print text[char_start:char_end + 1], tok["token"]
+            print "Unexpected error:", sys.exc_info()[0]
+            # sys.exit()
         assert tok["id"] == pos_tag["id"]
         assert tok["id"] == lemma["id"]
 
@@ -182,59 +187,48 @@ def pre_process(text, filename):
 
                 id_to_tok[tok_id].update({"coref_chain":coref_id})
 
-    # print morpho_pro_input
-    morpho_pro_input = "\n".join(morpho_pro_input)
+    # # print morpho_pro_input
+    # morpho_pro_input = "\n".join(morpho_pro_input)
+    #
+    # # print morpho_pro_input
+    #
+    # morpho_output = morpho_pro.process(morpho_pro_input, base_filename, overwrite=overwrite)
 
-    """
-    print "morpho_pro input:\n"
-    print morpho_pro_input
-    print "\n"
-    """
-
-    morpho_output = morpho_pro.process(morpho_pro_input, base_filename)
-
-    """
-    print "morpho_pro output"
-    print morpho_output
-    print "\n"
-    """
-
-    # make sure all the other tokens have is_main_verb
-    for tok in tokens:
-        if "is_predicate" not in tok:
-            tok["is_predicate"] = False
-
-        if "is_main_verb" not in tok:
-            tok.update({"is_main_verb":False})
-
-        if "ne_id" not in tok:
-            tok.update({"ne_id":tok["char_start_offset"]})
-            tok.update({"ner_tag":'NONE'})
-            tok.update({"ne_chunk":"NULL"})
-
-        if "coref_chain" not in tok:
-            tok.update({"coref_chain":"None"})
-
-        if tok["id"] in tok_id_to_predicate_info:
-            semantic_roles = tok_id_to_predicate_info[tok["id"]]["semantic_role"]
-            tok.update({"semantic_roles":semantic_roles})
-        else:
-            tok.update({"semantic_roles":[]})
-
-        # verify that there is a 1-1 correspondence between morphopro tokenization and newsreader.
-        if tok["token_offset"] >= len(morpho_output[tok["sentence_num"]-1]):
-            remaining_toks = morpho_output[tok["sentence_num"]-1][tok["token_offset"]:]
-            print "remaining text: '{}'".format(' '.join(remaining_toks))
-            sys.exit("missing token from morphology processing")
-        elif tok["token"] != morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]:
-            # print "morpho token: ", morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]
-            # print "newsreader token: ", tok["token"]
-            # print "newsreader: ", [t for t in tokens if t["sentence_num"] == tok["sentence_num"]]
-            # print "morpho sentence: ", morpho_output[tok["sentence_num"]-1]
-            sys.exit("token mismatch between newsreader tokenization and morphorpo")
-        else:
-            # good to go
-            tok.update(morpho_output[tok["sentence_num"]-1][tok["token_offset"]])
+    #     if "is_predicate" not in tok:
+    #         tok["is_predicate"] = False
+    #
+    #     if "is_main_verb" not in tok:
+    #         tok.update({"is_main_verb":False})
+    #
+    #     if "ne_id" not in tok:
+    #         tok.update({"ne_id":tok["char_start_offset"]})
+    #         tok.update({"ner_tag":'NONE'})
+    #         tok.update({"ne_chunk":"NULL"})
+    #
+    #     if "coref_chain" not in tok:
+    #         tok.update({"coref_chain":"None"})
+    #
+    #     if tok["id"] in tok_id_to_predicate_info:
+    #         semantic_roles = tok_id_to_predicate_info[tok["id"]]["semantic_role"]
+    #         tok.update({"semantic_roles":semantic_roles})
+    #     else:
+    #         tok.update({"semantic_roles":[]})
+    #
+    #     # verify that there is a 1-1 correspondence between morphopro tokenization and newsreader.
+    #     if tok["token_offset"] >= len(morpho_output[tok["sentence_num"]-1]):
+    #         sys.exit("missing token from morphology processing")
+    #     elif tok["token"] != morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]:
+    #         if tok["token"] in ('"', ""''"", "``"):
+    #             tok.update(morpho_output[tok["sentence_num"] - 1][tok["token_offset"]])
+    #         else:
+    #             print "morpho token: ", morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]
+    #             print "newsreader token: ", tok["token"]
+    #         # print "newsreader: ", [t for t in tokens if t["sentence_num"] == tok["sentence_num"]]
+    #         # print "morpho sentence: ", morpho_output[tok["sentence_num"]-1]
+    #             sys.exit("token mismatch between newsreader tokenization and morphorpo")
+    #     else:
+    #         # good to go
+    #         tok.update(morpho_output[tok["sentence_num"]-1][tok["token_offset"]])
 
     dependency_paths = naf_parse.DependencyPath(naf_tagged_doc)
 
@@ -245,6 +239,16 @@ def pre_process(text, filename):
         assert( len(sentences) == len(constituency_trees))
 
     return sentences, tokens_to_offset, sentence_features, dependency_paths, id_to_tok
+
+
+def print_path(sentence, pos1, pos2):
+    tokenized_text, token_to_offset, sentence_features, dependency_paths, id_to_tok = pre_process(sentence)
+    left_path, right_path = dependency_paths.get_left_right_subpaths('t' + str(pos1), 't' + str(pos2))
+    left_words = [id_to_tok['w'+x[1:]]['token'] for x in left_path]
+    right_words = [id_to_tok['w' + x[1:]]['token'] for x in right_path]
+    print "left path:", left_words
+    print "right path:", right_words
+
 
 if __name__ == "__main__":
     pass

@@ -549,7 +549,7 @@ def is_ner(token):
     #print token["ner_tag"]
     #print token["ne_chunk"]
 
-    if token["ner_tag"] != 'NONE' and token["ne_chunk"] != 'NULL':
+    if token.get("ner_tag", "NONE") != 'NONE' and token.get("ne_chunk", 'NULL') != 'NULL':
         f = {("is_ner", None):1}
 
     #print f
@@ -561,7 +561,7 @@ def get_chunk(token):
 
     f = None
 
-    if token["ne_chunk"] != "NULL":
+    if token.get("ne_chunk", "NULL") != "NULL":
         f = {("chunk", token["ne_chunk"]):1}
     else:
         f = {("chunk", token["token"] if "token" in token else "DATE"):1}
@@ -571,7 +571,7 @@ def get_chunk(token):
 
 def get_ner_features(token):
 
-    f = None
+    f = {}
 
     if "ner_tag" in token:
         f = {("ner_tag", token["ner_tag"]):1,

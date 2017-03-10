@@ -90,6 +90,8 @@ def main():
     tml_files  = []
 
     for f in files:
+        if f.endswith('.pkl'):
+            continue
         if "E3input" in f:
             tml_files.append(f)
         else:
