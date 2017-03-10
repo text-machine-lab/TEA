@@ -185,11 +185,19 @@ def pre_process(text, filename):
     # print morpho_pro_input
     morpho_pro_input = "\n".join(morpho_pro_input)
 
-    # print morpho_pro_input
+    """
+    print "morpho_pro input:\n"
+    print morpho_pro_input
+    print "\n"
+    """
 
     morpho_output = morpho_pro.process(morpho_pro_input, base_filename)
 
-    # print morpho_output
+    """
+    print "morpho_pro output"
+    print morpho_output
+    print "\n"
+    """
 
     # make sure all the other tokens have is_main_verb
     for tok in tokens:
@@ -215,6 +223,8 @@ def pre_process(text, filename):
 
         # verify that there is a 1-1 correspondence between morphopro tokenization and newsreader.
         if tok["token_offset"] >= len(morpho_output[tok["sentence_num"]-1]):
+            remaining_toks = morpho_output[tok["sentence_num"]-1][tok["token_offset"]:]
+            print "remaining text: '{}'".format(' '.join(remaining_toks))
             sys.exit("missing token from morphology processing")
         elif tok["token"] != morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]:
             # print "morpho token: ", morpho_output[tok["sentence_num"]-1][tok["token_offset"]]["token_morpho"]

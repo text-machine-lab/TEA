@@ -1,19 +1,21 @@
 
 
-if [ "$TEA_PATH" == "" ]; then
-    echo "environment variable TEA_PATH not specified"
-    echo "it is the path to the folder <INSERT DIR>"
-    exit
-fi
+#if [ "$TEA_PATH" == "" ]; then
+#    echo "environment variable TEA_PATH not specified"
+#    echo "it is the path to the folder <INSERT DIR>"
+#    exit
+#fi
 
-if [ "$PY4J_DIR_PATH" == "" ]; then
-    echo "environment variable PY4J_DIR_PATH not specified"
-    echo "please put exact path example .../venv/share/py4j"
-    exit
-fi
+#if [ "$PY4J_DIR_PATH" == "" ]; then
+#    echo "environment variable PY4J_DIR_PATH not specified"
+#    echo "please put exact path example .../venv/share/py4j"
+#    exit
+#fi
 
 
-python train.py training_data tempeval_QA.model
+python train.py training_data models/tempeval_QA.model pre_processed_files
+
+exit
 
 python predict.py test_data tempeval_QA.model tempeval_output
 

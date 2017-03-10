@@ -30,6 +30,10 @@ def process(text, base_filename=None, overwrite=False, verbose=False):
        overwrite: overwrite existing base_filename. Set to false to load existing annotation, since morphopro takes a long time to load.
     """
 
+    if verbose:
+        print "len(text): {}".format(len(text))
+        print "base_filename: {}".format(base_filename)
+
     # TODO: make direct api calls and load morphopro into memory.
 
     _DEFAULT_OUTPUT_DIR = os.path.join(_TEA_HOME, "morpho_output")
