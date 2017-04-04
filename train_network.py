@@ -16,17 +16,22 @@ import argparse
 import glob
 import cPickle
 import json
+import threading
+import Queue
+import time
 
 from code.learning.network import Network
 from code.notes.TimeNote import TimeNote
-from code.learning.word2vec import load_word2vec_binary
+from code.learning.word2vec import load_word2vec_binary, load_glove
 
 from keras.models import model_from_json
 from keras.models import load_model
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.optimizers import Adam, SGD
 
+
 N_CLASSES = 13
+EMBEDDING_DIM = 300
 
 def main():
     '''
@@ -71,6 +76,11 @@ def main():
                         action='store_true',
                         default=False,
                         help="Only consider pairs in their narrative order (order in text)")
+
+    parser.add_argument("--nolink",
+                        default=1.0,
+                        type=float,
+                        help="no link downsampling ratio. e.g. 0.5 means # of nolinks are 50% of # positive tlinks")
 
     args = parser.parse_args()
 
@@ -119,7 +129,7 @@ def main():
         checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='loss', save_best_only=True)
     else:
         earlystopping = EarlyStopping(monitor='loss', patience=30, verbose=0, mode='auto')
-        checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='loss', save_best_only=True)
+        checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='val_loss', save_best_only=True)
 
     # create a sinlge model, then save architecture and weights
     if not args.two_pass:
@@ -136,8 +146,9 @@ def main():
         else:
             NNet = None
 
-        NN, history = trainNetwork(gold_files, val_files, args.newsreader_annotations, args.pair_type, ordered=args.pair_ordered,
-                                   no_val=args.no_val, two_pass=False, callbacks=[checkpoint, earlystopping], train_dir=args.train_dir)
+        NN, history = trainNetwork(gold_files, val_files, args.newsreader_annotations, args.pair_type,
+                                   ordered=args.pair_ordered, no_val=args.no_val, nolink_ratio=args.nolink,
+                                   callbacks=[checkpoint, earlystopping], train_dir=args.train_dir)
         architecture = NN.to_json()
         open(model_destination + '.arch.json', "wb").write(architecture)
         NN.save_weights(model_destination + '.weights.h5')
@@ -184,7 +195,79 @@ def get_notes(files, newsreader_dir):
         notes.append(tmp_note)
     return notes
 
-def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False, no_val=False, two_pass=False, callbacks=[], train_dir='./'):
+
+class dataThread (threading.Thread):
+    def __init__(self, threadID, inq, outq, word_vectors, pair_type, nolink_ratio, is_testdata=False):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.inq = inq
+        self.outq = outq
+        self.word_vectors = word_vectors
+        self.pair_type = pair_type
+        self.nolink_ratio = nolink_ratio
+        self.is_testdata = is_testdata
+
+    def run(self):
+        print "Starting thread %d" %self.threadID
+        network = Network()
+        network.word_vectors = self.word_vectors
+        while not self.inq.empty():
+            notes = self.inq.get()
+            if self.is_testdata:
+                data = network._get_test_input(notes, pair_type=self.pair_type)
+            else:
+                data = network._get_training_input(notes, pair_type=self.pair_type, nolink_ratio=self.nolink_ratio, shuffle=True)
+            self.outq.put(data)
+            # time.sleep(0.5)
+        print "Stopping thread %d" %self.threadID
+
+
+def enqueue_notes(q, notes):
+    n = 0
+    N_notes = len(notes)
+    while n < N_notes:
+        if len(notes) <= 5:
+            q.put(notes)
+            break
+        q.put(notes[0:5])
+        del notes[0:5]
+        n += 5
+
+
+def dequeue_notes(q, is_testdata=False):
+    Labels = []
+    if is_testdata:
+        counter = 0
+        index_offset = 0
+        while not q.empty():
+            data = q.get()
+            if not Labels:
+                XL, XR, Labels, Pair_Index = data
+            else:
+                xl, xr, labels, pair_index = data
+                XL = Network._pad_and_concatenate(XL, xl, axis=0, pad_left=[2])
+                XR = Network._pad_and_concatenate(XR, xr, axis=0, pad_left=[2])
+                Labels += labels
+                for key, value in pair_index.iteritems():
+                    note_id, pair = key
+                    Pair_Index[(note_id + 5*counter, pair)] = value + index_offset
+            counter += 1
+            index_offset = len(Pair_Index)
+        return XL, XR, Labels, Pair_Index
+    else:
+        while not q.empty():
+            data = q.get()
+            if not Labels:
+                XL, XR, Labels = data
+            else:
+                xl, xr, labels = data
+                XL = Network._pad_and_concatenate(XL, xl, axis=0, pad_left=[2])
+                XR = Network._pad_and_concatenate(XR, xr, axis=0, pad_left=[2])
+                Labels += labels
+        return XL, XR, Labels
+
+
+def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False, no_val=False, nolink_ratio=1.0, callbacks=[], train_dir='./'):
     '''
     train::trainNetwork()
 
@@ -204,51 +287,70 @@ def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False
     if not no_val:
         val_notes = get_notes(val_files, newsreader_dir)
 
-    network = Network()
     print "loading word vectors..."
-    network.word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
-    if two_pass:
-        return
+    word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
+    # network.word_vectors = load_glove(os.environ["TEA_PATH"] + '/glove.6B.200d.txt')
+    # network.word_vectors = load_glove(os.environ["TEA_PATH"] + '/glove.6B.300d.txt')
+    network = Network()
+    network.word_vectors = word_vectors
 
-        # detect_data = network._get_training_input(notes, presence=True, no_none=False)
-        # classify_data = network._get_training_input(notes, presence=False, no_none=True)
-        #
-        # detector = network.train_model(None, epochs=150, training_input=detect_data, weight_classes=False, batch_size=256,
-        # encoder_dropout=0, decoder_dropout=0, input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=2)
-        #
-        # # use max input length from detector
-        # max_len = detector.input_shape[2]
-        #
-        # classifier = network.train_model(None, epochs=500, training_input=classify_data, weight_classes=False, batch_size=256,
-        # encoder_dropout=0., decoder_dropout=0., input_dropout=0.5, reg_W=0, reg_B=0, reg_act=0, LSTM_size=64, dense_size=100, maxpooling=True, data_dim=300, max_len=max_len, nb_classes=6)
-        #
-        # return detector, classifier
+    inq = Queue.Queue()
+    outq = Queue.Queue()
+    enqueue_notes(inq, notes)
 
+    threads = []
+    n_threads = min(4, inq.qsize())
+    for t in range(n_threads):
+        data_thread = dataThread(t, inq, outq, word_vectors, pair_type, nolink_ratio)
+        data_thread.start()
+        threads.append(data_thread)
+
+    while not inq.empty():
+        n_notes = inq.qsize() * 5
+        sys.stdout.write("# notes in queue: %d \r" %n_notes)
+        sys.stdout.flush()
+        time.sleep(1)
+
+    for t in threads:
+        t.join()
+
+    training_data = dequeue_notes(outq)
+
+    print "training data size:", training_data[0].shape
+
+    if not no_val and val_notes is not None:
+        val_data = network._get_test_input(val_notes, pair_type=pair_type)
+        # enqueue_notes(inq, val_notes)
+        #
+        # threads = []
+        # n_threads = min(4, inq.qsize())
+        # for t in range(n_threads):
+        #     data_thread = dataThread(t, inq, outq, word_vectors, pair_type, None, is_testdata=True)
+        #     data_thread.start()
+        #     threads.append(data_thread)
+        #
+        # while not inq.empty():
+        #     n_notes = inq.qsize() * 5
+        #     sys.stdout.write("# notes in queue: %d \r" %n_notes)
+        #     sys.stdout.flush()
+        #     time.sleep(1)
+        #
+        # for t in threads:
+        #     t.join()
+        #
+        # val_data = dequeue_notes(outq, is_testdata=True)
+        print "validation data size:", val_data[0].shape
     else:
+        val_data = None
 
-        if os.path.isfile(train_dir+'training_data.pkl'):
-            print "loading pkl file... this may take over 10 minutes"
-            training_data = cPickle.load(open(train_dir+'training_data.pkl'))
-            print "training data size:", training_data[0].shape, training_data[1].shape, len(training_data[2])
-        else:
-            # nolink_ration = # no tlink cases / # tlink cases
-            training_data = network._get_training_input(notes, pair_type=pair_type, nolink_ratio=1.0, shuffle=True, ordered=ordered)
-            print "training data size:", training_data[0].shape, training_data[1].shape, len(training_data[2])
+    #cPickle.dump(data, open(train_dir+'training_data.pkl', 'w'))
 
-            if not no_val and val_notes is not None:
-                val_data = network._get_test_input(val_notes, pair_type=pair_type, ordered=ordered)
-                print "validation data size:", val_data[0].shape, val_data[1].shape, len(val_data[2])
-            else:
-                val_data = None
+    del network.word_vectors
+    NNet, history = network.train_model(None, epochs=200, training_input=training_data, val_input=val_data, no_val=no_val, weight_classes=False, batch_size=100,
+    encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256,
+    dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks, ordered=ordered)
 
-            #cPickle.dump(data, open(train_dir+'training_data.pkl', 'w'))
-
-        del network.word_vectors
-        NNet, history = network.train_model(None, epochs=200, training_input=training_data, val_input=val_data, no_val=no_val, weight_classes=False, batch_size=100,
-        encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256,
-        dense_size=100, maxpooling=True, data_dim=300, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks, ordered=ordered)
-
-        return NNet, history
+    return NNet, history
 
 if __name__ == "__main__":
   main()

@@ -1,17 +1,20 @@
 import os
 import pickle
 import copy
-#import sys
+import sys
 
 import numpy as np
+import tensorflow as tf
+tf.python.control_flow_ops = tf # to fix a problem in new tf version
 from keras.utils.np_utils import to_categorical
-from keras.models import Sequential, Graph
+from keras.models import Sequential
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout, Permute
 from keras.regularizers import l2, activity_l2
 
 from word2vec import load_word2vec_binary
 from sklearn.metrics import classification_report
 
+EMBEDDING_DIM = 300
 
 class Network(object):
     def __init__(self):
@@ -21,7 +24,7 @@ class Network(object):
         self.label_reverse_map = {} # map BEFORE to AFTER etc., in int label
         self.word_vectors = None
 
-    def get_untrained_model(self, encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=300, max_len=22, nb_classes=7):
+    def get_untrained_model(self, encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len=22, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
         params:
@@ -109,7 +112,7 @@ class Network(object):
 
     def train_model(self, notes, epochs=5, training_input=None, val_input=None, no_val=False, weight_classes=False, batch_size=256,
         encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100,
-        maxpooling=True, data_dim=300, max_len='auto', nb_classes=13, callbacks=[], ordered=False):
+        maxpooling=True, data_dim=200, max_len='auto', nb_classes=13, callbacks=[], ordered=False):
         '''
         obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
         params:
@@ -203,63 +206,15 @@ class Network(object):
 
         return model, training_history.history
 
-    # def predict(self, notes, detector, classifier, evalu=False):
-    #     '''
-    #     using the given detector and classifier, predict labels for all pairs in the given note set
-    #     '''
-    #
-    #     XL, XR, del_lists, gold_labels = self._get_test_input(notes, evaluation=evalu)
-    #
-    #     # get expected length of model input
-    #     input_len = detector.input_shape[0][2]
-    #     filler = np.ones((1,1,input_len))
-    #
-    #     # pad input matrix to fit expected length
-    #     XL, _ = Network._pad_to_match_dimensions(XL, filler, 2, pad_left=True)
-    #     XR, _ = Network._pad_to_match_dimensions(XR, filler, 2, pad_left=True)
-    #
-    #     print 'Detecting...'
-    #     presense_labels = detector.predict_classes([XL, XR])
-    #
-    #     # get data tensors for classification
-    #     C_XL = XL[presense_labels[:]==1]
-    #     C_XR = XR[presense_labels[:]==1]
-    #
-    #     # if input is too long, cut off right side terms
-    #     # TODO: cut left terms instead
-    #     input_len = classifier.input_shape[0][2]
-    #
-    #     C_XL = Network._strip_to_length(C_XL, input_len, 2)
-    #     C_XR = Network._strip_to_length(C_XR, input_len, 2)
-    #
-    #     print C_XL.shape
-    #
-    #     print 'Classifying...'
-    #     classification_labels = classifier.predict_classes([C_XL, C_XR])
-    #
-    #     # combine classification into final label list
-    #     labels = []
-    #     class_index = 0
-    #     for label in presense_labels:
-    #         if label == 1:
-    #             labels.append(classification_labels[class_index])
-    #             class_index += 1
-    #         else:
-    #             labels.append(0)
-    #
-    #     assert len(labels) == len(presense_labels)
-    #
-    #     if evalu:
-    #         Network.class_confusion(labels, gold_labels)
-    #
-    #     return self._convert_int_labels_to_str(labels), del_lists
-
-    def single_predict(self, notes, model, pair_type, evalu=False, predict_prob=False):
+    def single_predict(self, notes, model, pair_type, test_input=None, predict_prob=False):
         '''
         predict using a trained single pass model
         '''
 
-        XL, XR, _labels, pair_index = self._get_test_input(notes, pair_type)
+        if test_input is not None:
+            XL, XR, _labels, pair_index = test_input
+        else:
+            XL, XR, _labels, pair_index = self._get_test_input(notes, pair_type)
 
         # get expected length of model input
         model_input_len = model.input_shape[0][2]
@@ -341,8 +296,9 @@ class Network(object):
             word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
             # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
             #word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.840B.300d.txt', verbose=0)
+            # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.6B.200d.txt', verbose=0)
 
-        print 'Extracting dependency paths...'
+        # print 'Extracting dependency paths...'
         labels = []
         for i, note in enumerate(notes):
 
@@ -562,20 +518,33 @@ class Network(object):
                 right_words.reverse() # reverse order of the path
                 id_pair_to_path_words[(entity_id, 't0')] = (left_words, right_words)
 
-
-        # t0_to_path = note.get_t0_subpaths()
-        # # extract paths of all pairs with t0
-        # for entity_id in t0_to_path:
-        #     right_path = t0_to_path[entity_id]
-        #     left_words = ['now']
-        #     right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
-        #     id_pair_to_path_words[(entity_id, 't0')] = (left_words, right_words)
-
         return id_pair_to_path_words
+
+    def _extract_context_words(self, note, pair_type):
+        id_pair_to_context_words = {}
+
+        assert pair_type in ('intra', 'cross', 'dct')
+
+        if pair_type == 'intra':
+            id_pair_to_context_words = note.get_intra_sentence_context()  # key: (src_id, target_id), value: [left_context, right_context]
+
+        if pair_type == 'cross':
+            id_pair_to_context_words = note.get_cross_sentence_context()
+
+        if pair_type == 'dct':  # (event, t0) pairs
+            entity_to_context_words = note.get_t0_context()
+            for entity_id in entity_to_context_words:
+                words = entity_to_context_words[entity_id]
+                reversed = copy.copy(words)
+                reversed.reverse()
+                id_pair_to_context_words[(entity_id, 't0')] = (words, reversed)
+
+        return id_pair_to_context_words
 
     def _extract_path_representations(self, note, word_vectors, pair_type, ordered=False):
 
-        id_pair_to_path_words = self._extract_path_words(note, pair_type, ordered=ordered)
+        # id_pair_to_path_words = self._extract_path_words(note, pair_type, ordered=ordered)
+        id_pair_to_path_words = self._extract_context_words(note, pair_type) # use flat context
 
         # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
         #del_list = []
@@ -593,17 +562,22 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
                 if left_vecs_path is None:
                     left_vecs_path = embedding
                 else:
-                    left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=2)
+                    try:
+                        left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=2)
+                    except ValueError:
+                        print "ValueError line 559", word
+                        print left_vecs_path.shape
+                        print embedding.shape
 
             if left_vecs_path is None:
-                embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
+                embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
                 left_vecs_path = embedding[np.newaxis, :, np.newaxis]
             # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
             # add index to list to indexes to remove and continue
@@ -623,7 +597,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
@@ -633,7 +607,7 @@ class Network(object):
                     right_vecs_path = np.concatenate((right_vecs_path, embedding), axis=2)
 
             if right_vecs_path is None:
-                embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
+                embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
                 right_vecs_path = embedding[np.newaxis, :, np.newaxis]
             # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
             # # remove label from list and continue to the next path
@@ -793,7 +767,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
@@ -820,7 +794,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
@@ -1061,8 +1035,8 @@ if __name__ == "__main__":
     # _labels = to_categorical(labels,7)
     # print len(labels)
     # print labels
-    # input1 = np.random.random((len(labels),300, 16))
-    # input2 = np.random.random((len(labels),300, 16))
+    # input1 = np.random.random((len(labels),EMBEDDING_DIM, 16))
+    # input2 = np.random.random((len(labels),EMBEDDING_DIM, 16))
     # # labels = np.random.randint(7, size=(10000,1))
     # test.model.fit([input1,input2], _labels, nb_epoch=100)
     # print test.model.predict_classes([input1,input2])

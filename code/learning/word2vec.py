@@ -48,7 +48,7 @@ def load_glove(gloveFile):
     for line in f:
         splitLine = line.split()
         word = splitLine[0]
-        embedding = [float(val) for val in splitLine[1:]]
+        embedding = np.array([float(val) for val in splitLine[1:]])
         model[word] = embedding
     print "Done.",len(model)," words loaded!"
     return model

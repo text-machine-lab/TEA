@@ -16,6 +16,8 @@ import argparse
 import cPickle
 import glob
 import os
+import Queue
+import threading
 
 from keras.models import model_from_json
 
@@ -23,6 +25,8 @@ from code.learning.network import Network
 from code.notes.TimeNote import TimeNote
 from code.learning.time_ref import predict_timex_rel
 from code.learning.break_cycle import modify_tlinks
+from code.learning.word2vec import load_word2vec_binary, load_glove
+from train_network import dataThread
 
 timenote_imported = False
 
@@ -33,6 +37,34 @@ def basename(s):
     if 'TE3input' in s:
         s = os.path.basename(s[0:s.index(".TE3input")])
     return s
+
+
+class dataThread (threading.Thread):
+    def __init__(self, threadID, inq, outq, word_vectors):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.inq = inq
+        self.outq = outq
+        self.word_vectors = word_vectors
+        # self.intra_model = intra_model
+        # self.cross_model = cross_model
+        # self.dct_model = dct_model
+        # self.annotation_destination = annotation_destination
+
+    def run(self):
+        print "Starting thread %d" %self.threadID
+        network = Network()
+        network.word_vectors = self.word_vectors
+        while not self.inq.empty():
+            note = self.inq.get()
+            # predict_note([note], network, self.intra_model, self.cross_model, self.dct_model, self.annotation_destination)
+            test_intra = network._get_test_input([note], 'intra')
+            test_cross = network._get_test_input([note], 'cross')
+            test_dct = network._get_test_input([note], 'dct')
+            self.outq.put((note, (test_intra, test_cross, test_dct)))
+            print "%d notes processed" %self.outq.qsize()
+
+        print "Stopping thread %d" %self.threadID
 
 
 def main():
@@ -115,6 +147,7 @@ def main():
     # assert len(gold_files) == len(tml_files)
 
     network = Network()
+    word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
 
     intra_model = model_from_json(open(os.path.join(args.intra_model_path, 'intra', '.arch.json')).read())
     intra_model.load_weights(os.path.join(args.intra_model_path, 'intra', '.weights.h5'))
@@ -123,9 +156,11 @@ def main():
     dct_model = model_from_json(open(os.path.join(args.dct_model_path, 'dct', '.arch.json')).read())
     dct_model.load_weights(os.path.join(args.dct_model_path, 'dct', '.weights.h5'))
 
+    inqueue = Queue.Queue()
+    outqueue = Queue.Queue()
     for i, tml in enumerate(gold_files):
 
-        print '\n\nprocessing file {}/{} {}'.format(i + 1,
+        print '\nprocessing file {}/{} {}'.format(i + 1,
                                                     len(gold_files),
                                                     tml)
         if os.path.isfile(os.path.join(newsreader_dir, basename(tml) + ".parsed.pickle")):
@@ -134,128 +169,90 @@ def main():
             tmp_note = TimeNote(tml, tml)
             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
 
-        # notes.append(tmp_note)
-        notes = [tmp_note] # required to be a list
+        inqueue.put(tmp_note)
 
-    # else: # not using gold
-    #     if '/*' != args.predict_dir[0][-2:]:
-    #         predict_dir = predict_dir + '/*'
-    #
-    #     # get files in directory
-    #     files = glob.glob(predict_dir)
-    #
-    #     tml_files  = []
-    #
-    #     for f in files:
-    #         if f.endswith(".TE3input"): #input file without tlinks
-    #             tml_files.append(f)
-    #
-    #     tml_files.sort()
-    #     print "tml_files", tml_files
-    #
-    #     tmp_note = None
-    #
-    #     for i, tml in enumerate(tml_files):
-    #         if basename(tml) + ".parsed.pickle" in pickled_timeml_notes:
-    #             tmp_note = cPickle.load(open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "rb"))
-    #         else:
-    #             if timenote_imported is False:
-    #                 timenote_imported = True
-    #             tmp_note = TimeNote(tml, None)
-    #             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
-    #
-    #         notes.append(tmp_note)
+    threads = []
+    n_threads = min(4, inqueue.qsize())
+    for t in range(n_threads):
+        data_thread = dataThread(t, inqueue, outqueue, word_vectors)
+        data_thread.start()
+        threads.append(data_thread)
+    for t in threads:
+        t.join()
 
-        intra_labels, intra_probs, intra_pair_index = network.single_predict(notes, intra_model, 'intra', predict_prob=True)
-        intra_labels, intra_pair_index, intra_scores = network.smart_predict(intra_labels, intra_probs, intra_pair_index, type='str')
+    while not outqueue.empty():
+        note, test_input = outqueue.get()
+        # predict only one note each time, otherwise the indexes need to be changed
+        predict_note([note], test_input, network, intra_model, cross_model, dct_model, annotation_destination)
 
-        cross_labels, cross_probs, cross_pair_index = network.single_predict(notes, cross_model, 'cross', predict_prob=True)
-        cross_labels, cross_pair_index, cross_scores = network.smart_predict(cross_labels, cross_probs, cross_pair_index, type='str')
+    print "All predictions written to %s" %annotation_destination
 
-        timex_labels, timex_pair_index = predict_timex_rel(notes)
+def predict_note(notes, test_input, network, intra_model, cross_model, dct_model, annotation_destination):
+    intra_labels, intra_probs, intra_pair_index = network.single_predict(notes, intra_model, 'intra',
+                                                                         test_input=test_input[0], predict_prob=True)
+    intra_labels, intra_pair_index, intra_scores = network.smart_predict(intra_labels, intra_probs, intra_pair_index,
+                                                                         type='str')
 
-        dct_labels, dct_probs, dct_pair_index = network.single_predict(notes, dct_model, 'dct', predict_prob=True)
-        dct_labels = network._convert_int_labels_to_str(dct_labels)
-        dct_scores = [max(probs) for probs in dct_probs]
-        assert len(dct_labels) == len(dct_scores)
+    cross_labels, cross_probs, cross_pair_index = network.single_predict(notes, cross_model, 'cross',
+                                                                         test_input=test_input[1], predict_prob=True)
+    cross_labels, cross_pair_index, cross_scores = network.smart_predict(cross_labels, cross_probs, cross_pair_index,
+                                                                         type='str')
 
-        for i, note in enumerate(notes):
-            note_id_pairs = []
-            note_labels = []
-            note_scores = []
+    timex_labels, timex_pair_index = predict_timex_rel(notes)
 
-            for key in intra_pair_index.keys(): #  {(note_id, (ei, ej)) : index}
-                # the dictionary is dynamically changing, so we need to check
-                if key not in intra_pair_index:
-                    continue
-                if key[0] == i:
-                    note_id_pairs.append(key[1])
-                    note_labels.append(intra_labels[intra_pair_index[key]])
-                    note_scores.append(intra_scores[intra_pair_index[key]])
-                    intra_pair_index.pop(key)
-                    opposite_key = (key[0], (key[1][1], key[1][0]))
-                    intra_pair_index.pop(opposite_key)
+    dct_labels, dct_probs, dct_pair_index = network.single_predict(notes, dct_model, 'dct',
+                                                                   test_input=test_input[2], predict_prob=True)
+    dct_labels = network._convert_int_labels_to_str(dct_labels)
+    dct_scores = [max(probs) for probs in dct_probs]
+    assert len(dct_labels) == len(dct_scores)
 
-            for key in cross_pair_index.keys():  # {(note_id, (ei, ej)) : index}
-                # the dictionary is dynamically changing, so we need to check
-                if key not in cross_pair_index:
-                    continue
-                if key[0] == i:
-                    note_id_pairs.append(key[1])
-                    note_labels.append(cross_labels[cross_pair_index[key]])
-                    note_scores.append(cross_scores[cross_pair_index[key]])
-                    cross_pair_index.pop(key)
-                    opposite_key = (key[0], (key[1][1], key[1][0]))
-                    cross_pair_index.pop(opposite_key)
+    for i, note in enumerate(notes):
+        note_id_pairs = []
+        note_labels = []
+        note_scores = []
 
-            for key in timex_pair_index.keys():  # {(note_id, (t, t)) : index}
-                if key[0] == i:
-                    note_id_pairs.append(key[1])
-                    note_labels.append(timex_labels[timex_pair_index[key]])
-                    note_scores.append(1.0) # trust timex tlinks
-                    timex_pair_index.pop(key)
+        for key in intra_pair_index.keys():  # {(note_id, (ei, ej)) : index}
+            # the dictionary is dynamically changing, so we need to check
+            if key not in intra_pair_index:
+                continue
+            if key[0] == i:
+                note_id_pairs.append(key[1])
+                note_labels.append(intra_labels[intra_pair_index[key]])
+                note_scores.append(intra_scores[intra_pair_index[key]])
+                intra_pair_index.pop(key)
+                opposite_key = (key[0], (key[1][1], key[1][0]))
+                intra_pair_index.pop(opposite_key)
 
-            for key in dct_pair_index.keys():  # {(note_id, (ei, t0)) : index}
-                if key[0] == i:
-                    note_id_pairs.append(key[1])
-                    note_labels.append(dct_labels[dct_pair_index[key]])
-                    note_scores.append(max(dct_probs[dct_pair_index[key]]))
-                    #note_scores.append(0.0)
-                    dct_pair_index.pop(key)
+        for key in cross_pair_index.keys():  # {(note_id, (ei, ej)) : index}
+            # the dictionary is dynamically changing, so we need to check
+            if key not in cross_pair_index:
+                continue
+            if key[0] == i:
+                note_id_pairs.append(key[1])
+                note_labels.append(cross_labels[cross_pair_index[key]])
+                note_scores.append(cross_scores[cross_pair_index[key]])
+                cross_pair_index.pop(key)
+                opposite_key = (key[0], (key[1][1], key[1][0]))
+                cross_pair_index.pop(opposite_key)
 
-            # note_labels, note_scores = resolve_coref(note, note_id_pairs, note_labels, note_scores)
-            note_labels = modify_tlinks(note_id_pairs, note_labels, note_scores)
-            save_predictions(note, note_id_pairs, note_labels, annotation_destination)
+        for key in timex_pair_index.keys():  # {(note_id, (t, t)) : index}
+            if key[0] == i:
+                note_id_pairs.append(key[1])
+                note_labels.append(timex_labels[timex_pair_index[key]])
+                note_scores.append(1.0)  # trust timex tlinks
+                timex_pair_index.pop(key)
 
+        for key in dct_pair_index.keys():  # {(note_id, (ei, t0)) : index}
+            if key[0] == i:
+                note_id_pairs.append(key[1])
+                note_labels.append(dct_labels[dct_pair_index[key]])
+                note_scores.append(max(dct_probs[dct_pair_index[key]]))
+                # note_scores.append(0.0)
+                dct_pair_index.pop(key)
 
-    # label_index = 0
-    # for note in notes:
-    #     #id_pairs = network._extract_path_words(note).keys()
-    #     #id_pairs.sort()
-    #
-    #     n_pairs = len(id_pairs)
-    #     note_labels = labels[label_index:label_index+n_pairs]
-    #     note_label_nums = network._convert_str_labels_to_int(note_labels)
-    #     label_index += n_pairs
-    #
-    #     processed_entities = {}
-    #     used_indexes = []
-    #     # for the same entity pairs (regardless of order), only use the best scores
-    #     for i, note_label_num in enumerate(note_label_nums):
-    #         if max(probs[i]) < 0.2:
-    #             continue
-    #         if (id_pairs[i][1], id_pairs[i][0]) in processed_entities:
-    #             if probs[i][note_label_num] > processed_entities[(id_pairs[i][1], id_pairs[i][0])]:
-    #                 used_indexes.append(i)  # reverse order
-    #             else:
-    #                 used_indexes.append(i - 1) # (e1, e2) and (e2, e1) are next to each other
-    #         else:
-    #             processed_entities[(id_pairs[i][0], id_pairs[i][1])] = probs[i][note_label_num]
-    #
-    #     note_labels = [note_labels[x] for x in used_indexes]
-    #     used_pairs = [id_pairs[x] for x in used_indexes]
-    #
-    #     save_predictions(note, used_pairs, note_labels, annotation_destination)
+        # note_labels, note_scores = resolve_coref(note, note_id_pairs, note_labels, note_scores)
+        note_labels = modify_tlinks(note_id_pairs, note_labels, note_scores)
+        save_predictions(note, note_id_pairs, note_labels, annotation_destination)
 
 def normalize_scores(scores):
     scores = numpy.array(scores)

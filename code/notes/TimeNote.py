@@ -639,6 +639,47 @@ class TimeNote(Note):
 
         return id_pair_to_path
 
+    def get_intra_sentence_context(self):
+        id_pair_to_context = {}
+        for src_id, target_id in self.intra_sentence_pairs:
+            src_wordID = self.id_to_wordIDs[src_id][0]
+            target_wordID = self.id_to_wordIDs[target_id][0]
+            source = self.id_to_tok[src_wordID]
+            target = self.id_to_tok[target_wordID]
+
+            sentence_num = source['sentence_num']
+
+            if source['token_offset'] <= target['token_offset']:
+                left = source
+                right = target
+            else:
+                left = target
+                right = source
+            left_indexes, right_indexes = self._get_context(left['token_offset'], right['token_offset'],
+                                                            len(self.pre_processed_text[sentence_num]))
+            if source['token_offset'] <= target['token_offset']:
+                # source vector, left means "source" here
+                left_context = [token['token'] for token in
+                                self.pre_processed_text[sentence_num][left_indexes[0]:left_indexes[1]]]
+                # target vector, right means "target" here
+                right_context = [token['token'] for token in
+                                self.pre_processed_text[sentence_num][right_indexes[0]:right_indexes[1]]]
+            else:
+                right_context = [token['token'] for token in
+                                     self.pre_processed_text[sentence_num][left_indexes[0]:left_indexes[1]]]
+                left_context = [token['token'] for token in
+                                  self.pre_processed_text[sentence_num][right_indexes[0]:right_indexes[1]]]
+
+            id_pair_to_context[(src_id, target_id)] = (left_context, right_context)
+        return id_pair_to_context
+
+    def _get_context(self, left_offset, right_offset, max_len):
+        l_context_l_edge = max(0, left_offset - 5)
+        l_context_r_edge = min(right_offset+1, left_offset + 11) # cover the other entity too
+        r_context_l_edge = max(left_offset, right_offset - 10) # cover the other entity too
+        r_context_r_edge = min(right_offset + 6, max_len)
+        return (l_context_l_edge, l_context_r_edge), (r_context_l_edge, r_context_r_edge)
+
     def find_root(self, word_id):
         if word_id[0] == 'w':
             word_id = 't' +word_id[1:]
@@ -682,6 +723,39 @@ class TimeNote(Note):
 
         return id_pair_to_path
 
+    def get_cross_sentence_context(self):
+        id_pair_to_context = {}
+        left_context = []
+        right_context = []
+        for src_id, target_id in self.cross_sentence_pairs:
+            src_wordID = self.id_to_wordIDs[src_id][0]
+            target_wordID = self.id_to_wordIDs[target_id][0]
+            source = self.id_to_tok[src_wordID]
+            target = self.id_to_tok[target_wordID]
+
+            src_sentence_num = source['sentence_num']
+            target_sentence_num = target['sentence_num']
+
+            # if source['token_offset'] <= target['token_offset']:
+            #     left = source
+            #     right = target
+            # else:
+            #     left = target
+            #     right = source
+            src_left_indexes, src_right_indexes = self._get_context(source['token_offset'], source['token_offset'],
+                                                            len(self.pre_processed_text[src_sentence_num]))
+            target_left_indexes, target_right_indexes = self._get_context(target['token_offset'], target['token_offset'],
+                                                            len(self.pre_processed_text[target_sentence_num]))
+            # source vector, left means "source" here
+            left_context = [token['token'] for token in
+                            self.pre_processed_text[src_sentence_num][src_left_indexes[0]:src_right_indexes[1]]]
+            # target vector, right means "target" here
+            right_context = [token['token'] for token in
+                            self.pre_processed_text[target_sentence_num][target_left_indexes[0]:target_right_indexes[1]]]
+
+            id_pair_to_context[(src_id, target_id)] = (left_context, right_context)
+        return id_pair_to_context
+
     def get_t0_subpaths(self):
         t0_path = {}
         for item in self.dct_pairs:
@@ -704,6 +778,25 @@ class TimeNote(Note):
                 t0_path[entity_id] = left
             else:
                 t0_path[entity_id] = right
+
+        return t0_path
+
+    def get_t0_context(self):
+        t0_path = {}
+        context = []
+        for item in self.dct_pairs:
+            # get the first word from the sentence
+            entity_id = item[0]
+
+            entity_wordID = self.id_to_wordIDs[entity_id][0]
+            entity = self.id_to_tok[entity_wordID]
+            sentence_num = entity['sentence_num']
+
+            left_indexes, right_indexes = self._get_context(entity['token_offset'], entity['token_offset'],
+                                                                    len(self.pre_processed_text[sentence_num]))
+            context = [token['token'] for token in
+                            self.pre_processed_text[sentence_num][left_indexes[0]:right_indexes[1]]]
+            t0_path[entity_id] = context
 
         return t0_path
 
