@@ -54,14 +54,17 @@ class TimeRefNetwork(object):
                 timex_id_pairs.append((item, timex_ids[j]))
 
         predictions = []
+        failed_pairs = []
         for pair in timex_id_pairs:
             val1 = self.timex_elements[pair[0]].get('value', '')
             val2 = self.timex_elements[pair[1]].get('value', '')
             label = self.compare_timex_pair(val1, val2)
             if label is not None: # only collect classifiable cases
                 predictions.append((pair, label))
+            else:
+                failed_pairs.append(pair)
 
-        return predictions
+        return predictions, failed_pairs
 
     def transform_value(self, val):
         """transform timex value to tuple (start, end)
@@ -165,7 +168,8 @@ def predict_timex_rel(notes):
     index_offset = 0
     for i, note in enumerate(notes):
         time_ref = TimeRefNetwork(note)
-        note_predictions = time_ref.compare_timex_pairs()
+        note_predictions, failed_pairs = time_ref.compare_timex_pairs()
+        note.cross_sentence_pairs += failed_pairs # send them to cross-sentence model
 
         n = len(note_predictions)
         note_keys = [(i, pair) for pair, rel in note_predictions]

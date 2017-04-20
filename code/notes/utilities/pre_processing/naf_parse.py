@@ -814,6 +814,15 @@ class DependencyPath(object):
                 L_path = L_path[:end_L]
                 return L_path, R_path
 
+            if R_token in L_path:
+                # add one so that final token is included when using index to slice array
+                end_R = R_path.index(R_token) + 1
+                end_L = L_path.index(R_token) + 1
+                # slice both arrays incase L reached the common ancestor before R
+                R_path = R_path[:end_R]
+                L_path = L_path[:end_L]
+                return L_path, R_path
+
             # if no match is found and there is nowhere else to move up to, tokens have no connection path
             # in theory, this should never occur due to the way dependency parses are structured
             if self.tree[L_token].parent is None and self.tree[R_token].parent is None:

@@ -30,7 +30,7 @@ from utilities.pre_processing import pre_processing
 
 class TimeNote(Note):
 
-    def __init__(self, timeml_note_path, annotated_timeml_path=None, verbose=False):
+    def __init__(self, timeml_note_path, annotated_timeml_path=None, verbose=False, denselabels=None):
 
         if verbose: print "called TimeNote constructor"
 
@@ -90,6 +90,7 @@ class TimeNote(Note):
         self.tlinks = []
         self.get_id_word_map()
         self.get_valid_pairs()
+        self.denselables = denselabels
 
         if self.annotated_note_path is not None:
 
@@ -99,7 +100,9 @@ class TimeNote(Note):
             self.get_labels()
             self.get_id_to_labels()
             #self.get_neg_data_indexes()
-            self.get_neg_pairs()
+            # self.get_neg_pairs()
+        if self.denselables is not None:
+            self.get_id_to_denselabels()
 
     def get_tlinks(self):
         print "get tlinks from:", self.annotated_note_path
@@ -674,9 +677,10 @@ class TimeNote(Note):
         return id_pair_to_context
 
     def _get_context(self, left_offset, right_offset, max_len):
+        # The context windows are not symmetric
         l_context_l_edge = max(0, left_offset - 5)
-        l_context_r_edge = min(right_offset+1, left_offset + 11) # cover the other entity too
-        r_context_l_edge = max(left_offset, right_offset - 10) # cover the other entity too
+        l_context_r_edge = min(right_offset, left_offset + 11)
+        r_context_l_edge = max(left_offset+1, right_offset - 10)
         r_context_r_edge = min(right_offset + 6, max_len)
         return (l_context_l_edge, l_context_r_edge), (r_context_l_edge, r_context_r_edge)
 
@@ -783,7 +787,6 @@ class TimeNote(Note):
 
     def get_t0_context(self):
         t0_path = {}
-        context = []
         for item in self.dct_pairs:
             # get the first word from the sentence
             entity_id = item[0]
@@ -825,6 +828,16 @@ class TimeNote(Note):
         # self.labeled_pairs_indexes = np.array(self.labeled_pairs_indexes)
 
         return self.id_to_labels
+
+    def get_id_to_denselabels(self):
+        self.id_to_denselabels = {}
+        for key in self.denselables: # file names may have different extensions
+            if key in self.annotated_note_path:
+                self.id_to_denselabels = self.denselables[key]
+                print "dense labels for %s read in" % key
+                break
+        return self.id_to_denselabels
+
 
     def get_neg_pairs(self):
         pass
@@ -1026,60 +1039,60 @@ class TimeNote(Note):
 
         self.iob_labels = iob_labels
 
-    def get_tlink_ids(self):
-
-        tlink_ids = []
-
-        for tlink in self.tlinks:
-
-            tlink_ids.append(tlink["tlink_id"])
-
-        return tlink_ids
-
-    def get_tlink_labels(self):
-        """ return the labels of each tlink from annotated doc """
-
-        tlink_labels = []
-
-        for tlink in self.tlinks:
-
-            tlink_labels.append(tlink["rel_type"])
-
-        return tlink_labels
-
-    def get_tlink_id_pairs(self):
-
-        """ returns the id pairs of two entities joined together """
-
-        tlink_id_pairs = []
-
-        for tlink in self.tlinks:
-
-            tlink_id_pairs.append((tlink["src_id"], tlink["target_id"]))
-
-        return tlink_id_pairs
-
-    def get_token_char_offsets(self):
-
-        """ returns the char based offsets of token.
-
-        for each token within self.pre_processed_text iterate through list of dicts
-        and for each value mapped to the key 'start_offset' and 'end_offset' create a
-        list of 1-1 mappings
-
-        Returns:
-            A flat list of offsets of the token within self.pre_processed_text:
-
-                [(0,43),...]
-        """
-
-        offsets = []
-
-        for line_num in self.pre_processed_text:
-            for token in self.pre_processed_text[line_num]:
-                offsets.append((token["char_start_offset"], token["char_end_offset"]))
-
-        return offsets
+    # def get_tlink_ids(self):
+    #
+    #     tlink_ids = []
+    #
+    #     for tlink in self.tlinks:
+    #
+    #         tlink_ids.append(tlink["tlink_id"])
+    #
+    #     return tlink_ids
+    #
+    # def get_tlink_labels(self):
+    #     """ return the labels of each tlink from annotated doc """
+    #
+    #     tlink_labels = []
+    #
+    #     for tlink in self.tlinks:
+    #
+    #         tlink_labels.append(tlink["rel_type"])
+    #
+    #     return tlink_labels
+    #
+    # def get_tlink_id_pairs(self):
+    #
+    #     """ returns the id pairs of two entities joined together """
+    #
+    #     tlink_id_pairs = []
+    #
+    #     for tlink in self.tlinks:
+    #
+    #         tlink_id_pairs.append((tlink["src_id"], tlink["target_id"]))
+    #
+    #     return tlink_id_pairs
+    #
+    # def get_token_char_offsets(self):
+    #
+    #     """ returns the char based offsets of token.
+    #
+    #     for each token within self.pre_processed_text iterate through list of dicts
+    #     and for each value mapped to the key 'start_offset' and 'end_offset' create a
+    #     list of 1-1 mappings
+    #
+    #     Returns:
+    #         A flat list of offsets of the token within self.pre_processed_text:
+    #
+    #             [(0,43),...]
+    #     """
+    #
+    #     offsets = []
+    #
+    #     for line_num in self.pre_processed_text:
+    #         for token in self.pre_processed_text[line_num]:
+    #             offsets.append((token["char_start_offset"], token["char_end_offset"]))
+    #
+    #     return offsets
 
     def get_tokens_from_ids(self, ids):
         ''' returns the token associated with a specific id'''

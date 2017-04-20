@@ -6,7 +6,7 @@ import sys
 import os
 from code.config import env_paths
 import numpy
-#numpy.random.seed(1337)
+numpy.random.seed(1337)
 
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
@@ -32,6 +32,7 @@ from keras.optimizers import Adam, SGD
 
 N_CLASSES = 13
 EMBEDDING_DIM = 300
+from code.learning.network import DENSE_LABELS
 
 def main():
     '''
@@ -125,10 +126,10 @@ def main():
         os.makedirs(model_destination)
 
     if args.no_val:
-        earlystopping = EarlyStopping(monitor='loss', patience=30, verbose=0, mode='auto')
+        earlystopping = EarlyStopping(monitor='loss', patience=50, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='loss', save_best_only=True)
     else:
-        earlystopping = EarlyStopping(monitor='loss', patience=30, verbose=0, mode='auto')
+        earlystopping = EarlyStopping(monitor='loss_acc', patience=20, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='val_loss', save_best_only=True)
 
     # create a sinlge model, then save architecture and weights
@@ -182,6 +183,10 @@ def get_notes(files, newsreader_dir):
         return None
 
     notes = []
+    if DENSE_LABELS:
+        denselabels = cPickle.load(open(newsreader_dir+'dense-labels.pkl'))
+    else:
+        denselabels = None
 
     for i, tml in enumerate(files):
         if i % 10 == 0:
@@ -189,9 +194,12 @@ def get_notes(files, newsreader_dir):
         if os.path.isfile(os.path.join(newsreader_dir, basename(tml) + ".parsed.pickle")):
             tmp_note = cPickle.load(open(os.path.join(newsreader_dir, basename(tml) + ".parsed.pickle"), "rb"))
         else:
-            tmp_note = TimeNote(tml, tml)
+            tmp_note = TimeNote(tml, tml, denselabels=denselabels)
             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
 
+        if DENSE_LABELS and tmp_note.denselables is None: # handle old note files without dense labels
+            tmp_note.denselables = denselabels
+            tmp_note.get_id_to_denselabels()
         notes.append(tmp_note)
     return notes
 
@@ -266,6 +274,20 @@ def dequeue_notes(q, is_testdata=False):
                 Labels += labels
         return XL, XR, Labels
 
+# def dequeue_notes(q):
+#     Labels = []
+#     while not q.empty():
+#         data = q.get()
+#         if not Labels:
+#             XL, XR, X3, X4, Labels = data
+#         else:
+#             xl, xr, x3, x4, labels = data
+#             XL = Network._pad_and_concatenate(XL, xl, axis=0, pad_left=[2])
+#             XR = Network._pad_and_concatenate(XR, xr, axis=0, pad_left=[2])
+#             X3 = Network._pad_and_concatenate(X3, x3, axis=0, pad_left=[2])
+#             X4 = Network._pad_and_concatenate(X4, x4, axis=0, pad_left=[2])
+#             Labels += labels
+#     return XL, XR, X3, X4, Labels
 
 def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False, no_val=False, nolink_ratio=1.0, callbacks=[], train_dir='./'):
     '''
@@ -346,9 +368,14 @@ def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False
     #cPickle.dump(data, open(train_dir+'training_data.pkl', 'w'))
 
     del network.word_vectors
-    NNet, history = network.train_model(None, epochs=200, training_input=training_data, val_input=val_data, no_val=no_val, weight_classes=False, batch_size=100,
-    encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256,
-    dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks, ordered=ordered)
+    if DENSE_LABELS:
+        NNet, history = network.train_model(None, epochs=200, training_input=training_data, val_input=val_data, no_val=no_val, weight_classes=True, batch_size=32,
+        encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=128,
+        dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks, ordered=ordered)
+    else:
+        NNet, history = network.train_model(None, epochs=200, training_input=training_data, val_input=val_data, no_val=no_val, weight_classes=False, batch_size=64,
+        encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256,
+        dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks, ordered=ordered)
 
     return NNet, history
 

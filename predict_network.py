@@ -19,7 +19,8 @@ import os
 import Queue
 import threading
 
-from keras.models import model_from_json
+from keras.models import model_from_json, load_model
+from sklearn.metrics import classification_report
 
 from code.learning.network import Network
 from code.notes.TimeNote import TimeNote
@@ -29,6 +30,7 @@ from code.learning.word2vec import load_word2vec_binary, load_glove
 from train_network import dataThread
 
 timenote_imported = False
+from code.learning.network import DENSE_LABELS
 
 
 def basename(s):
@@ -149,15 +151,25 @@ def main():
     network = Network()
     word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
 
-    intra_model = model_from_json(open(os.path.join(args.intra_model_path, 'intra', '.arch.json')).read())
-    intra_model.load_weights(os.path.join(args.intra_model_path, 'intra', '.weights.h5'))
-    cross_model = model_from_json(open(os.path.join(args.cross_model_path, 'cross', '.arch.json')).read())
-    cross_model.load_weights(os.path.join(args.cross_model_path, 'cross', '.weights.h5'))
-    dct_model = model_from_json(open(os.path.join(args.dct_model_path, 'dct', '.arch.json')).read())
-    dct_model.load_weights(os.path.join(args.dct_model_path, 'dct', '.weights.h5'))
+    # intra_model = model_from_json(open(os.path.join(args.intra_model_path, 'intra', '.arch.json')).read())
+    # intra_model.load_weights(os.path.join(args.intra_model_path, 'intra', '.weights.h5'))
+    intra_model = load_model(os.path.join(args.intra_model_path, 'intra', 'model.h5'))
+    # cross_model = model_from_json(open(os.path.join(args.cross_model_path, 'cross', '.arch.json')).read())
+    # cross_model.load_weights(os.path.join(args.cross_model_path, 'cross', '.weights.h5'))
+    cross_model = load_model(os.path.join(args.cross_model_path, 'cross', 'model.h5'))
+    # dct_model = model_from_json(open(os.path.join(args.dct_model_path, 'dct', '.arch.json')).read())
+    # dct_model.load_weights(os.path.join(args.dct_model_path, 'dct', '.weights.h5'))
+    dct_model = load_model(os.path.join(args.dct_model_path, 'dct', 'model.h5'))
 
     inqueue = Queue.Queue()
     outqueue = Queue.Queue()
+
+    if DENSE_LABELS:
+        denselabels = cPickle.load(open(newsreader_dir+'dense-labels.pkl'))
+        pred_Y = []
+        true_Y = []
+    else:
+        denselabels = None
     for i, tml in enumerate(gold_files):
 
         print '\nprocessing file {}/{} {}'.format(i + 1,
@@ -166,7 +178,7 @@ def main():
         if os.path.isfile(os.path.join(newsreader_dir, basename(tml) + ".parsed.pickle")):
             tmp_note = cPickle.load(open(os.path.join(newsreader_dir, basename(tml) + ".parsed.pickle"), "rb"))
         else:
-            tmp_note = TimeNote(tml, tml)
+            tmp_note = TimeNote(tml, tml, denselabels=denselabels)
             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
 
         inqueue.put(tmp_note)
@@ -183,22 +195,37 @@ def main():
     while not outqueue.empty():
         note, test_input = outqueue.get()
         # predict only one note each time, otherwise the indexes need to be changed
-        predict_note([note], test_input, network, intra_model, cross_model, dct_model, annotation_destination)
+        pred_y, true_y = predict_note([note], test_input, network, intra_model, cross_model, dct_model, annotation_destination,
+                     denselabels=denselabels)
+        if DENSE_LABELS:
+            pred_Y += pred_y
+            true_Y += true_y
 
     print "All predictions written to %s" %annotation_destination
+    if DENSE_LABELS:
+        network.class_confusion(pred_Y, true_Y, 13)
+        print "my calculation:"
+        true_Y = numpy.array(true_Y)
+        pred_Y = numpy.array(pred_Y)
+        diff = numpy.count_nonzero(true_Y - pred_Y)
+        print "ACC = ", (len(pred_Y)-diff)*1.0/ len(pred_Y)
 
-def predict_note(notes, test_input, network, intra_model, cross_model, dct_model, annotation_destination):
+
+
+def predict_note(notes, test_input, network, intra_model, cross_model, dct_model, annotation_destination, denselabels=None):
+
+    timex_labels, timex_pair_index = predict_timex_rel(notes)
+
     intra_labels, intra_probs, intra_pair_index = network.single_predict(notes, intra_model, 'intra',
                                                                          test_input=test_input[0], predict_prob=True)
     intra_labels, intra_pair_index, intra_scores = network.smart_predict(intra_labels, intra_probs, intra_pair_index,
                                                                          type='str')
-
     cross_labels, cross_probs, cross_pair_index = network.single_predict(notes, cross_model, 'cross',
                                                                          test_input=test_input[1], predict_prob=True)
     cross_labels, cross_pair_index, cross_scores = network.smart_predict(cross_labels, cross_probs, cross_pair_index,
                                                                          type='str')
 
-    timex_labels, timex_pair_index = predict_timex_rel(notes)
+
 
     dct_labels, dct_probs, dct_pair_index = network.single_predict(notes, dct_model, 'dct',
                                                                    test_input=test_input[2], predict_prob=True)
@@ -210,30 +237,6 @@ def predict_note(notes, test_input, network, intra_model, cross_model, dct_model
         note_id_pairs = []
         note_labels = []
         note_scores = []
-
-        for key in intra_pair_index.keys():  # {(note_id, (ei, ej)) : index}
-            # the dictionary is dynamically changing, so we need to check
-            if key not in intra_pair_index:
-                continue
-            if key[0] == i:
-                note_id_pairs.append(key[1])
-                note_labels.append(intra_labels[intra_pair_index[key]])
-                note_scores.append(intra_scores[intra_pair_index[key]])
-                intra_pair_index.pop(key)
-                opposite_key = (key[0], (key[1][1], key[1][0]))
-                intra_pair_index.pop(opposite_key)
-
-        for key in cross_pair_index.keys():  # {(note_id, (ei, ej)) : index}
-            # the dictionary is dynamically changing, so we need to check
-            if key not in cross_pair_index:
-                continue
-            if key[0] == i:
-                note_id_pairs.append(key[1])
-                note_labels.append(cross_labels[cross_pair_index[key]])
-                note_scores.append(cross_scores[cross_pair_index[key]])
-                cross_pair_index.pop(key)
-                opposite_key = (key[0], (key[1][1], key[1][0]))
-                cross_pair_index.pop(opposite_key)
 
         for key in timex_pair_index.keys():  # {(note_id, (t, t)) : index}
             if key[0] == i:
@@ -249,10 +252,61 @@ def predict_note(notes, test_input, network, intra_model, cross_model, dct_model
                 note_scores.append(max(dct_probs[dct_pair_index[key]]))
                 # note_scores.append(0.0)
                 dct_pair_index.pop(key)
+        # print "modifying DCT tlinks..."
+        # note_labels = modify_tlinks(note_id_pairs, note_labels, note_scores)
+
+        for key in intra_pair_index.keys():  # {(note_id, (ei, ej)) : index}
+            # the dictionary is dynamically changing, so we need to check
+            if key not in intra_pair_index:
+                continue
+            if key[0] == i:
+                note_id_pairs.append(key[1])
+                note_labels.append(intra_labels[intra_pair_index[key]])
+                note_scores.append(intra_scores[intra_pair_index[key]])
+                intra_pair_index.pop(key)
+                opposite_key = (key[0], (key[1][1], key[1][0]))
+                intra_pair_index.pop(opposite_key)
+        # print "modifying intra-sentence tlinks..."
+        # note_labels = modify_tlinks(note_id_pairs, note_labels, note_scores)
+
+        for key in cross_pair_index.keys():  # {(note_id, (ei, ej)) : index}
+            # the dictionary is dynamically changing, so we need to check
+            if key not in cross_pair_index:
+                continue
+            if key[0] == i:
+                note_id_pairs.append(key[1])
+                note_labels.append(cross_labels[cross_pair_index[key]])
+                note_scores.append(cross_scores[cross_pair_index[key]])
+                cross_pair_index.pop(key)
+                opposite_key = (key[0], (key[1][1], key[1][0]))
+                cross_pair_index.pop(opposite_key)
 
         # note_labels, note_scores = resolve_coref(note, note_id_pairs, note_labels, note_scores)
+        print "modifying final tlinks..."
         note_labels = modify_tlinks(note_id_pairs, note_labels, note_scores)
         save_predictions(note, note_id_pairs, note_labels, annotation_destination)
+
+        pred_y = []
+        true_y = []
+        if denselabels is not None:
+            filename = basename(note.annotated_note_path)
+            note_denselabels = denselabels[filename]
+            for id_pair, label in zip(note_id_pairs, network._convert_str_labels_to_int(note_labels)):
+                if id_pair in note_denselabels:
+                    pred_y.append(label)
+                    true_y += network._convert_str_labels_to_int([note_denselabels[id_pair]])
+                elif (id_pair[1], id_pair[0]) in note_denselabels:
+                    pred_y += network.reverse_labels([label])
+                    true_y += network._convert_str_labels_to_int([note_denselabels[(id_pair[1], id_pair[0])]])
+                else:
+                    print "pair not found in dense labels:", id_pair, label
+
+            # examination
+            for pair in note_denselabels:
+                if pair not in note_id_pairs and (pair[1], pair[0]) not in note_id_pairs:
+                    print "dense pairs not found in predicted labels", pair, note_denselabels[pair]
+
+        return pred_y, true_y
 
 def normalize_scores(scores):
     scores = numpy.array(scores)
