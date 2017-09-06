@@ -1,22 +1,18 @@
 import os
 import pickle
 import copy
-import sys
 
 import numpy as np
-np.random.seed(1337)
-import tensorflow as tf
-tf.python.control_flow_ops = tf # to fix a problem in new tf version
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout, Permute
-from keras.regularizers import l2, activity_l2
+from keras.regularizers import l2
 
 from word2vec import load_word2vec_binary
 from sklearn.metrics import classification_report
 
-EMBEDDING_DIM = 300
-DENSE_LABELS = False
+LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
+          "DURING","BEGINS","BEGUN_BY","ENDS","ENDED_BY", "None"]
 
 class Network(object):
     def __init__(self):
@@ -26,19 +22,20 @@ class Network(object):
         self.label_reverse_map = {} # map BEFORE to AFTER etc., in int label
         self.word_vectors = None
 
-    def get_untrained_model(self, encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len=22, nb_classes=7):
+    def get_untrained_model(self, encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100, maxpooling=True, data_dim=300, max_len=22, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
-        params:
+        Arguments:
             encoder_dropout: dropout rate for LSTM encoders (NOT dropout for LSTM internal gates)
             decoder_dropout: dropout rate for decoder
             reg_W: lambda value for weight regularization
             reg_b: lambda value for bias regularization
             reg_act: lambda value for activation regularization
             LSTM_size: number of units in the LSTM layers
-            maxpooling: pool over LSTM output at each timestep, or just take the output from the final LSTM timestep
-            data_dim: dimension of the input data
-            max_len: maximum length of an input sequence (this should be found based on the training data)
+            maxpooling: if True, pool over LSTM output at each timestep,
+                        otherwise just take the output from the final LSTM timestep
+            data_dim: dimension of word embeddings
+            max_len: maximum length of an input sequence
             nb_classes: number of classes present in the training data
         '''
 
@@ -54,7 +51,7 @@ class Network(object):
             B_reg = None
 
         if reg_act != 0:
-            act_reg = activity_l2(reg_act)
+            act_reg = l2(reg_act)
         else:
             act_reg = None
 
@@ -112,181 +109,28 @@ class Network(object):
         decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         return decoder
 
-    # def get_untrained_model(self, encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0,
-    #                         LSTM_size=32, dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len=(22, 16),
-    #                         nb_classes=7):
-    #     '''
-    #     Creates a neural network with the specified conditions.
-    #     params:
-    #         encoder_dropout: dropout rate for LSTM encoders (NOT dropout for LSTM internal gates)
-    #         decoder_dropout: dropout rate for decoder
-    #         reg_W: lambda value for weight regularization
-    #         reg_b: lambda value for bias regularization
-    #         reg_act: lambda value for activation regularization
-    #         LSTM_size: number of units in the LSTM layers
-    #         maxpooling: pool over LSTM output at each timestep, or just take the output from the final LSTM timestep
-    #         data_dim: dimension of the input data
-    #         max_len: maximum length of an input sequence (this should be found based on the training data)
-    #         nb_classes: number of classes present in the training data
-    #     '''
-    #
-    #     # create regularization objects if needed
-    #     if reg_W != 0:
-    #         W_reg = l2(reg_W)
-    #     else:
-    #         W_reg = None
-    #
-    #     if reg_B != 0:
-    #         B_reg = l2(reg_B)
-    #     else:
-    #         B_reg = None
-    #
-    #     if reg_act != 0:
-    #         act_reg = activity_l2(reg_act)
-    #     else:
-    #         act_reg = None
-    #
-    #     #################### encode the first entity
-    #     encoder_L = Sequential()
-    #
-    #     encoder_L.add(Dropout(input_dropout, input_shape=(data_dim, max_len[0])))
-    #     encoder_L.add(Permute((2, 1)))
-    #
-    #     # with maxpooling
-    #     if maxpooling:
-    #         encoder_L.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
-    #         if encoder_dropout != 0:
-    #             encoder_L.add(TimeDistributed(Dropout(encoder_dropout)))
-    #         encoder_L.add(MaxPooling1D(pool_length=max_len[0]))
-    #         encoder_L.add(Flatten())
-    #
-    #     # without maxpooling
-    #     else:
-    #         encoder_L.add(Masking(mask_value=0.))
-    #         encoder_L.add(LSTM(LSTM_size, return_sequences=False, inner_activation="sigmoid"))
-    #         if encoder_dropout != 0:
-    #             encoder_L.add(Dropout(encoder_dropout))
-    #
-    #     ################## encode the second entity
-    #     encoder_R = Sequential()
-    #
-    #     encoder_R.add(Dropout(input_dropout, input_shape=(data_dim, max_len[0])))
-    #     encoder_R.add(Permute((2, 1)))
-    #
-    #     # with maxpooling
-    #     if maxpooling:
-    #         encoder_R.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
-    #         if encoder_dropout != 0:
-    #             encoder_R.add(TimeDistributed(Dropout(encoder_dropout)))
-    #         encoder_R.add(MaxPooling1D(pool_length=max_len[0]))
-    #         encoder_R.add(Flatten())
-    #
-    #     else:
-    #         # without maxpooling
-    #         encoder_R.add(Masking(mask_value=0.))
-    #         encoder_R.add(LSTM(LSTM_size, return_sequences=False, inner_activation="sigmoid"))
-    #         if encoder_dropout != 0:
-    #             encoder_R.add(Dropout(encoder_dropout))
-    #
-    #     ###################### encode the third entity
-    #     encoder_3 = Sequential()
-    #
-    #     encoder_3.add(Dropout(input_dropout, input_shape=(data_dim, max_len[1])))
-    #     encoder_3.add(Permute((2, 1)))
-    #
-    #     # with maxpooling
-    #     if maxpooling:
-    #         encoder_3.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
-    #         if encoder_dropout != 0:
-    #             encoder_3.add(TimeDistributed(Dropout(encoder_dropout)))
-    #         encoder_3.add(MaxPooling1D(pool_length=max_len[1]))
-    #         encoder_3.add(Flatten())
-    #
-    #     else:
-    #         # without maxpooling
-    #         encoder_3.add(Masking(mask_value=0.))
-    #         encoder_3.add(LSTM(LSTM_size, return_sequences=False, inner_activation="sigmoid"))
-    #         if encoder_dropout != 0:
-    #             encoder_3.add(Dropout(encoder_dropout))
-    #
-    #     ###################### encode the fourth entity
-    #     encoder_4 = Sequential()
-    #
-    #     encoder_4.add(Dropout(input_dropout, input_shape=(data_dim, max_len[1])))
-    #     encoder_4.add(Permute((2, 1)))
-    #
-    #     # with maxpooling
-    #     if maxpooling:
-    #         encoder_4.add(LSTM(LSTM_size, return_sequences=True, inner_activation="sigmoid"))
-    #         if encoder_dropout != 0:
-    #             encoder_3.add(TimeDistributed(Dropout(encoder_dropout)))
-    #         encoder_4.add(MaxPooling1D(pool_length=max_len[1]))
-    #         encoder_4.add(Flatten())
-    #
-    #     else:
-    #         # without maxpooling
-    #         encoder_4.add(Masking(mask_value=0.))
-    #         encoder_4.add(LSTM(LSTM_size, return_sequences=False, inner_activation="sigmoid"))
-    #         if encoder_dropout != 0:
-    #             encoder_4.add(Dropout(encoder_dropout))
-    #
-    #     # combine and classify entities as a single relation
-    #     decoder1 = Sequential()
-    #     decoder1.add(Merge([encoder_R, encoder_L], mode='concat'))
-    #     decoder1.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg,
-    #                       activation='relu'))
-    #     if decoder_dropout != 0:
-    #         decoder1.add(Dropout(decoder_dropout))
-    #
-    #     decoder2 = Sequential()
-    #     decoder2.add(Merge([encoder_3, encoder_4], mode='concat'))
-    #     decoder2.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg,
-    #                       activation='relu'))
-    #     if decoder_dropout != 0:
-    #         decoder2.add(Dropout(decoder_dropout))
-    #
-    #     decoder = Sequential()
-    #     decoder.add(Merge([decoder1, decoder2], mode='concat'))
-    #     # decoder.add(Merge([encoder_R, encoder_L, encoder_3, encoder_4], mode='concat'))
-    #     # decoder.add(Dense(dense_size, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg,
-    #     #                    activation='relu'))
-    #     decoder.add(Dense(nb_classes, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg,
-    #                        activation='softmax'))
-    #
-    #     # compile the final model
-    #     decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    #     return decoder
-
     def train_model(self, notes, epochs=5, training_input=None, val_input=None, no_val=False, weight_classes=False, batch_size=256,
         encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100,
-        maxpooling=True, data_dim=200, max_len='auto', nb_classes=13, callbacks=[], ordered=False):
+        maxpooling=True, data_dim=300, max_len='auto', nb_classes=13, callbacks=[], ordered=False):
         '''
         obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
-        params:
+        Arguments:
             notes: timeML files to train on
             epochs: number of training epochs to perform
-            training_input: provide processed training matrices directly, rather than rebuilding the matrix from notes every time. Useful for training multipul models with the same data.
-                Formatted as a tuple; (XL, XR, labels)
-            weight_classes: rather or not to use class weighting
+            training_input: provide processed training matrices directly,
+                            instead of rebuilding the matrix from notes every time.
+                            Useful for training multipul models with the same data.
+                            Formatted as a tuple; (XL, XR, labels)
+            weight_classes: whether use class weighting or not
             batch_size: size of training batches to use
-            max_len: either an integer specifying the maximum input sequence length, or 'auto', which infer maximum length from the training data
-        All other parameters feed directly into get_untrained_model(), and are described there.
+            max_len: either an integer specifying the maximum input sequence length, or 'auto',
+                    which infer maximum length from the training data
+            All other parameters feed directly into get_untrained_model(), and are described there.
         '''
         if training_input == None:
             XL, XR, labels = self._get_training_input(notes)
         else:
             XL, XR, labels = training_input
-
-        # # remove zero labels (there are too many of them)
-        # # TODO: maybe just remove some of them, not all
-        # print XL.shape
-        # labels = np.array(labels)
-        # pos_indexes = np.where(labels>0)[0]
-        # print len(labels)
-        # print max(pos_indexes)
-        # XL = XL[pos_indexes,:,:]
-        # XR = XR[pos_indexes,:,:]
-        # labels = labels[pos_indexes]
 
         # reformat labels so that they can be used by the NN
         Y = to_categorical(labels,nb_classes)
@@ -306,8 +150,10 @@ class Network(object):
             XL, _ = Network._pad_to_match_dimensions(XL, filler, 2, pad_left=True)
             XR, _ = Network._pad_to_match_dimensions(XR, filler, 2, pad_left=True)
 
-        model = self.get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
-            maxpooling=maxpooling, data_dim=data_dim, max_len=max_len, nb_classes=nb_classes)
+        model = self.get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout,
+                                         input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act,
+                                         LSTM_size=LSTM_size, dense_size=dense_size,
+                                         maxpooling=maxpooling, data_dim=data_dim, max_len=max_len, nb_classes=nb_classes)
 
         # train the network
         print 'Training network...'
@@ -315,7 +161,8 @@ class Network(object):
             validation_split = 0.0
             validation_data = None
         elif val_input is None:
-            # split off validation data with 20 80 split (this way we get the same validation data every time we use this data sample, and can test on it after to get a confusion matrix)
+            # split off validation data with 20 80 split
+            # this way we get the same validation data every time
             V_XL = XL[:(XL.shape[0]/5),:,:]
             V_XR = XR[:(XR.shape[0]/5),:,:]
             V_Y  = Y [:( Y.shape[0]/5),:]
@@ -353,135 +200,12 @@ class Network(object):
 
         return model, training_history.history
 
-    # def train_model(self, notes, epochs=5, training_input=None, val_input=None, no_val=False, weight_classes=False,
-    #                 batch_size=256,
-    #                 encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32,
-    #                 dense_size=100,
-    #                 maxpooling=True, data_dim=200, max_len='auto', nb_classes=13, callbacks=[], ordered=False):
-    #     '''
-    #     obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
-    #     params:
-    #         notes: timeML files to train on
-    #         epochs: number of training epochs to perform
-    #         training_input: provide processed training matrices directly, rather than rebuilding the matrix from notes every time. Useful for training multipul models with the same data.
-    #             Formatted as a tuple; (XL, XR, labels)
-    #         weight_classes: rather or not to use class weighting
-    #         batch_size: size of training batches to use
-    #         max_len: either an integer specifying the maximum input sequence length, or 'auto', which infer maximum length from the training data
-    #     All other parameters feed directly into get_untrained_model(), and are described there.
-    #     '''
-    #     if training_input == None:
-    #         XL, XR, X3, X4, labels = self._get_training_input(notes)
-    #     else:
-    #         XL, XR, X3, X4, labels = training_input
-    #
-    #     # # remove zero labels (there are too many of them)
-    #     # # TODO: maybe just remove some of them, not all
-    #     # print XL.shape
-    #     # labels = np.array(labels)
-    #     # pos_indexes = np.where(labels>0)[0]
-    #     # print len(labels)
-    #     # print max(pos_indexes)
-    #     # XL = XL[pos_indexes,:,:]
-    #     # XR = XR[pos_indexes,:,:]
-    #     # labels = labels[pos_indexes]
-    #
-    #     # reformat labels so that they can be used by the NN
-    #     Y = to_categorical(labels, nb_classes)
-    #
-    #     # use weighting to assist with the imbalanced data set problem
-    #     if weight_classes:
-    #         class_weights = self.get_uniform_class_weights(Y)
-    #     else:
-    #         class_weights = None
-    #
-    #     # infer maximum sequence length
-    #     if max_len == 'auto':
-    #         max_len = (XL.shape[2], X3.shape[2])
-    #     # pad input to reach max_len
-    #     else:
-    #         filler0 = np.ones((1, 1, max_len[0]))
-    #         filler1 = np.ones((1, 1, max_len[1]))
-    #         XL, _ = Network._pad_to_match_dimensions(XL, filler0, 2, pad_left=True)
-    #         XR, _ = Network._pad_to_match_dimensions(XR, filler0, 2, pad_left=True)
-    #         X3, _ = Network._pad_to_match_dimensions(X3, filler1, 2, pad_left=True)
-    #         X4, _ = Network._pad_to_match_dimensions(X4, filler1, 2, pad_left=True)
-    #
-    #     model = self.get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout,
-    #                                      input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act,
-    #                                      LSTM_size=LSTM_size, dense_size=dense_size,
-    #                                      maxpooling=maxpooling, data_dim=data_dim, max_len=max_len,
-    #                                      nb_classes=nb_classes)
-    #
-    #     # train the network
-    #     print 'Training network...'
-    #     if no_val:
-    #         validation_split = 0.0
-    #         validation_data = None
-    #     elif val_input is None:
-    #         # split off validation data with 20 80 split
-    #         # (this way we get the same validation data every time we use this data sample, and can test on it after to get a confusion matrix)
-    #         V_XL = XL[:(XL.shape[0] / 5), :, :]
-    #         V_XR = XR[:(XR.shape[0] / 5), :, :]
-    #         V_X3 = X3[:(X3.shape[0] / 5), :, :]
-    #         V_X4 = X4[:(X4.shape[0] / 5), :, :]
-    #         V_Y = Y[:(Y.shape[0] / 5), :]
-    #         V_labels = labels[:(Y.shape[0] / 5)]
-    #
-    #         XL = XL[(XL.shape[0] / 5):, :, :]
-    #         XR = XR[(XR.shape[0] / 5):, :, :]
-    #         X3 = X3[(X3.shape[0] / 5):, :, :]
-    #         X4 = X4[(X4.shape[0] / 5):, :, :]
-    #         Y = Y[(Y.shape[0] / 5):, :]
-    #
-    #         validation_split = 0.2
-    #         validation_data = ([V_XL, V_XR, V_X3, V_X4], V_Y)
-    #     else:
-    #         filler0 = np.ones((1, 1, max_len[0]))
-    #         filler1 = np.ones((1, 1, max_len[1]))
-    #         validation_split = 0  # will be overwritten by val data
-    #         V_XL, V_XR, V_X3, V_X4, V_labels, V_pair_index = val_input
-    #         V_Y = to_categorical(V_labels, nb_classes)
-    #         V_XL, _ = Network._pad_to_match_dimensions(V_XL, filler0, 2, pad_left=True)
-    #         V_XR, _ = Network._pad_to_match_dimensions(V_XR, filler0, 2, pad_left=True)
-    #         V_X3, _ = Network._pad_to_match_dimensions(V_X3, filler1, 2, pad_left=True)
-    #         V_X4, _ = Network._pad_to_match_dimensions(V_X4, filler1, 2, pad_left=True)
-    #         validation_data = ([V_XL, V_XR, V_X3, V_X4], V_Y)
-    #
-    #     print "input data sizes..."
-    #     print XL.shape, XR.shape, X3.shape, X4.shape
-    #     print "validation data sizes..."
-    #     print V_XL.shape, V_XR.shape, V_X3.shape, V_X4.shape
-    #     training_history = model.fit([XL, XR, X3, X4], Y, nb_epoch=epochs, validation_split=validation_split,
-    #                                  class_weight=class_weights,
-    #                                  batch_size=batch_size, validation_data=validation_data, callbacks=callbacks)
-    #
-    #     test = model.predict_classes([V_XL, V_XR, V_X3, V_X4])
-    #     Network.class_confusion(test, V_labels, nb_classes)
-    #
-    #     if val_input is not None and not ordered:
-    #         try:
-    #             print "Trying smart predict..."
-    #             probs = model.predict_proba([V_XL, V_XR, V_X3, V_X4])
-    #             smart_test, pair_index = self.smart_predict(test, probs, V_pair_index, type='int')
-    #             Network.class_confusion(smart_test, V_labels, nb_classes)
-    #         except KeyError:
-    #             print "cannot perform smart predicting"
-    #
-    #     return model, training_history.history
-
-    def single_predict(self, notes, model, pair_type, test_input=None, predict_prob=False):
+    def single_predict(self, notes, model, pair_type, evalu=False, predict_prob=False):
         '''
         predict using a trained single pass model
         '''
 
-        if test_input is not None:
-            XL, XR, _labels, pair_index = test_input
-        else:
-            XL, XR, _labels, pair_index = self._get_test_input(notes, pair_type)
-
-        if XL is None:
-            return [], [], {}
+        XL, XR, _labels, pair_index = self._get_test_input(notes, pair_type)
 
         # get expected length of model input
         model_input_len = model.input_shape[0][2]
@@ -502,59 +226,10 @@ class Network(object):
         else:
             probs = None
 
-        # if evalu:
-        #     Network.class_confusion(labels, gold_labels, 13)
-
-        #return self._convert_int_labels_to_str(labels), probs, pair_index
-
         # format of pair_index: {(note_index, (e1, e2)) : index}
         return labels, probs, pair_index # int labels
 
-    # def single_predict(self, notes, model, pair_type, test_input=None, predict_prob=False):
-    #     '''
-    #     predict using a trained single pass model
-    #     '''
-    #
-    #     if test_input is not None:
-    #         XL, XR, X3, X4, _labels, pair_index = test_input
-    #     else:
-    #         XL, XR, X3, X4, _labels, pair_index = self._get_test_input(notes, pair_type)
-    #
-    #     if XL is None:
-    #         return [], [], {}
-    #
-    #     # get expected length of model input
-    #     model_input_len = model.input_shape[0][2]
-    #
-    #     if model_input_len > XL.shape[2]:
-    #         # pad input matrix to fit expected length
-    #         filler = np.ones((1, 1, model_input_len))
-    #         XL, _ = Network._pad_to_match_dimensions(XL, filler, 2, pad_left=True)
-    #         XR, _ = Network._pad_to_match_dimensions(XR, filler, 2, pad_left=True)
-    #     else:
-    #         XL = Network._strip_to_length(XL, model_input_len, 2)
-    #         XR = Network._strip_to_length(XR, model_input_len, 2)
-    #     # X3, _ = Network._pad_to_match_dimensions(X3, np.ones((1, 1, 16)), 2, pad_left=True)
-    #     # X4, _ = Network._pad_to_match_dimensions(X4, np.ones((1, 1, 16)), 2, pad_left=True)
-    #
-    #     print 'Predicting...'
-    #     labels = model.predict_classes([XL, XR, X3, X4])
-    #     if predict_prob:
-    #         probs = model.predict_proba([XL, XR, X3, X4])
-    #     else:
-    #         probs = None
-    #
-    #     # if evalu:
-    #     #     Network.class_confusion(labels, gold_labels, 13)
-    #
-    #     # return self._convert_int_labels_to_str(labels), probs, pair_index
-    #
-    #     # format of pair_index: {(note_index, (e1, e2)) : index}
-    #     return labels, probs, pair_index  # int labels
-
     def smart_predict(self, labels, probs, pair_index, type='int'):
-        # int labels
-        #labels, probs, pair_index = self.single_predict(notes, model, predict_prob=True)
 
         proccessed = {}
         label_scores = [0.0 for i in labels]
@@ -568,18 +243,14 @@ class Network(object):
             opposite_index = pair_index[opposite_key]
             opposite_label = labels[opposite_index] # predicted label of the opposite pair
 
-            # # set "no link" with the lowest priority
-            # if label == 0:
-            #     score = 0
-            # else:
-            #     score = probs[index, label]
-            # if opposite_label == 0:
-            #     opposite_score = 0
-            # else:
-            #     opposite_score = probs[opposite_index, opposite_label]
-
-            score = probs[index, label]
-            opposite_score = probs[opposite_index, opposite_label]
+            if label == 0: # set it to 0, so "no link" has the lowest priority
+                score = 0
+            else:
+                score = probs[index, label]
+            if opposite_label == 0:
+                opposite_score = 0
+            else:
+                opposite_score = probs[opposite_index, opposite_label]
 
             if score > opposite_score:
                 labels[opposite_index] = self.reverse_labels([label])[0]
@@ -605,11 +276,8 @@ class Network(object):
         if self.word_vectors is None:
             print 'Loading word embeddings...'
             word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
-            # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
-            #word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.840B.300d.txt', verbose=0)
-            # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.6B.200d.txt', verbose=0)
 
-        # print 'Extracting dependency paths...'
+        print 'Extracting dependency paths...'
         labels = []
         for i, note in enumerate(notes):
 
@@ -627,18 +295,12 @@ class Network(object):
             pos_case_indexes = []
             neg_case_indexes = []
             note_labels = []
-
-            if DENSE_LABELS:
-                id_to_labels = note.get_id_to_denselabels() # use TimeBank-Dense labels
-            else:
-                id_to_labels = note.id_to_labels
-
             for index, pair in enumerate(id_pairs):
-                if pair in id_to_labels:
+                if pair in note.id_to_labels:
                     pos_case_indexes.append(index)
                 else:
                     neg_case_indexes.append(index)
-                note_labels.append(id_to_labels.get(pair, 'None'))
+                note_labels.append(note.id_to_labels.get(pair, 'None'))
             note_labels = np.array(note_labels)
 
             if nolink_ratio is not None:
@@ -693,126 +355,6 @@ class Network(object):
 
         return XL, XR, labels
 
-    # def _get_training_input(self, notes, pair_type, nolink_ratio=None, presence=False, shuffle=True, ordered=False):
-    #
-    #     # data tensor for left and right SDP subpaths
-    #     XL = None
-    #     XR = None
-    #     X3 = None
-    #     X4 = None
-    #
-    #     if self.word_vectors is None:
-    #         print 'Loading word embeddings...'
-    #         word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin',
-    #                                             verbose=0)
-    #         # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
-    #         # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.840B.300d.txt', verbose=0)
-    #         # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.6B.200d.txt', verbose=0)
-    #
-    #     # print 'Extracting dependency paths...'
-    #     labels = []
-    #     for i, note in enumerate(notes):
-    #
-    #         # get the representation for the event/timex pairs in the note
-    #         # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
-    #         # (with length equal to word embedding length), and axis 2 hold each word.
-    #         # del_list is a list of indices for which no SDP could be obtained
-    #         left_vecs, right_vecs, third_vecs, fourth_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type,
-    #                                                                              ordered=ordered)
-    #
-    #         # perform a random check, to make sure the data is correctly augmented
-    #         if not id_pairs:
-    #             print "No pair found:", note.annotated_note_path
-    #             continue
-    #
-    #         pos_case_indexes = []
-    #         neg_case_indexes = []
-    #         note_labels = []
-    #
-    #         if DENSE_LABELS:
-    #             id_to_labels = note.get_id_to_denselabels()  # use TimeBank-Dense labels
-    #         else:
-    #             id_to_labels = note.id_to_labels
-    #
-    #         for index, pair in enumerate(id_pairs):
-    #             if pair in id_to_labels:
-    #                 pos_case_indexes.append(index)
-    #             else:
-    #                 neg_case_indexes.append(index)
-    #             note_labels.append(id_to_labels.get(pair, 'None'))
-    #         note_labels = np.array(note_labels)
-    #
-    #         if nolink_ratio is not None:
-    #             np.random.shuffle(neg_case_indexes)
-    #             n_samples = min(len(neg_case_indexes), int(nolink_ratio * len(pos_case_indexes)))
-    #             neg_case_indexes = neg_case_indexes[0:n_samples]
-    #             if not neg_case_indexes:
-    #                 training_indexes = np.array(pos_case_indexes, dtype=np.int32)
-    #             else:
-    #                 training_indexes = np.concatenate([pos_case_indexes, neg_case_indexes])
-    #             left_vecs = left_vecs[training_indexes, :, :]
-    #             right_vecs = right_vecs[training_indexes, :, :]
-    #             third_vecs = third_vecs[training_indexes, :, :]
-    #             fourth_vecs = fourth_vecs[training_indexes, :, :]
-    #             note_labels = note_labels[training_indexes]
-    #
-    #         if labels == []:
-    #             labels = note_labels
-    #         else:
-    #             labels = np.concatenate((labels, note_labels))
-    #
-    #         # add the note's data to the combine data matrix
-    #         if XL is None:
-    #             XL = left_vecs
-    #         else:
-    #             XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
-    #
-    #         if XR is None:
-    #             XR = right_vecs
-    #         else:
-    #             XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
-    #
-    #         if X3 is None:
-    #             X3 = third_vecs
-    #         else:
-    #             X3 = Network._pad_and_concatenate(X3, third_vecs, axis=0, pad_left=[2])
-    #
-    #         if X4 is None:
-    #             X4 = fourth_vecs
-    #         else:
-    #             X4 = Network._pad_and_concatenate(X4, fourth_vecs, axis=0, pad_left=[2])
-    #
-    #     # pad XL and XR so that they have the same number of dimensions on the second axis
-    #     # any other dimension mis-matches are caused by actually errors and should not be padded away
-    #     XL, XR = Network._pad_to_match_dimensions(XL, XR, 2, pad_left=True)
-    #     X3, X4 = Network._pad_to_match_dimensions(X3, X4, 2, pad_left=True)
-    #
-    #     # # extract longest input sequence in the training data, and ensure both matrices
-    #     # input_len = XL.shape[2]
-    #
-    #     if presence:
-    #         for i, label in enumerate(labels):
-    #             if label != 0:
-    #                 labels[i] = 1
-    #
-    #     if shuffle:
-    #         rng_state = np.random.get_state()
-    #         np.random.shuffle(XL)
-    #         np.random.set_state(rng_state)
-    #         np.random.shuffle(XR)
-    #         np.random.set_state(rng_state)
-    #         np.random.shuffle(X3)
-    #         np.random.set_state(rng_state)
-    #         np.random.shuffle(X4)
-    #         np.random.set_state(rng_state)
-    #         np.random.shuffle(labels)
-    #     del notes
-    #     labels = self._convert_str_labels_to_int(labels)
-    #
-    #     # print "data sizes..."
-    #     # print XL.shape, XR.shape, X3.shape, X4.shape, len(labels)
-    #     return XL, XR, X3, X4, labels
-
     def _get_test_input(self, notes, pair_type, ordered=False):
         # data tensor for left and right SDP subpaths
         XL = None
@@ -835,19 +377,16 @@ class Network(object):
             # del_list is a list of indices for which no SDP could be obtained
             left_vecs, right_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type, ordered=ordered)
 
-            if DENSE_LABELS:
-                id_to_labels = note.id_to_denselabels # use TimeBank-Dense labels
-            else:
-                id_to_labels = note.id_to_labels
-
-            if id_to_labels:
+            # only do the following for labeled data with tlinks
+            # tlinks from test data are used to do evaluation
+            if note.id_to_labels:
                 note_labels = []
                 index_to_reverse = []
                 for index, pair in enumerate(id_pairs): # id pairs that have tlinks
                     #pair_index[(i, pair)] = index + index_offset
 
-                    label_from_file = id_to_labels.get(pair, 'None')
-                    opposite_from_file = id_to_labels.get((pair[1], pair[0]), 'None')
+                    label_from_file = note.id_to_labels.get(pair, 'None')
+                    opposite_from_file = note.id_to_labels.get((pair[1], pair[0]), 'None')
                     if label_from_file == 'None' and opposite_from_file != 'None':
                         # print note.annotated_note_path
                         # print "id pair", pair, label_from_file
@@ -891,106 +430,9 @@ class Network(object):
 
         # pad XL and XR so that they have the same number of dimensions on the second axis
         # any other dimension mis-matches are caused by actually errors and should not be padded away
-        if XL is not None:
-            XL, XR = Network._pad_to_match_dimensions(XL, XR, 2, pad_left=True)
+        XL, XR = Network._pad_to_match_dimensions(XL, XR, 2, pad_left=True)
 
         return XL, XR, labels, pair_index
-
-    # def _get_test_input(self, notes, pair_type, ordered=False):
-    #     # data tensor for left and right SDP subpaths
-    #     XL = None
-    #     XR = None
-    #     X3 = None
-    #     X4 = None
-    #
-    #     if self.word_vectors is None:
-    #         print 'Loading word embeddings...'
-    #         self.word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin',
-    #                                                  verbose=0)
-    #         # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
-    #
-    #     print 'Extracting dependency paths...'
-    #     labels = None
-    #     pair_index = {}  # record note id and all the used entity pairs
-    #     index_offset = 0
-    #     for i, note in enumerate(notes):
-    #
-    #         # get the representation for the event/timex pairs in the note
-    #         # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
-    #         # (with length equal to word embedding length), and axis 2 hold each word.
-    #         # del_list is a list of indices for which no SDP could be obtained
-    #         left_vecs, right_vecs, third_vecs, fourth_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type,
-    #                                                                              ordered=ordered)
-    #
-    #         # id_to_labels = note.id_to_labels
-    #         id_to_labels = note.id_to_denselabels  # use TimeBank-Dense labels
-    #
-    #         if id_to_labels:
-    #             note_labels = []
-    #             index_to_reverse = []
-    #             for index, pair in enumerate(id_pairs):  # id pairs that have tlinks
-    #                 # pair_index[(i, pair)] = index + index_offset
-    #
-    #                 label_from_file = id_to_labels.get(pair, 'None')
-    #                 opposite_from_file = id_to_labels.get((pair[1], pair[0]), 'None')
-    #                 if label_from_file == 'None' and opposite_from_file != 'None':
-    #                     # print note.annotated_note_path
-    #                     # print "id pair", pair, label_from_file
-    #                     # print "opposite", opposite_from_file
-    #                     index_to_reverse.append(index)
-    #                     note_labels.append(opposite_from_file)  # save the opposite lable first, reverse later
-    #                 else:
-    #                     note_labels.append(label_from_file)
-    #
-    #             note_labels = self._convert_str_labels_to_int(note_labels)
-    #             labels_to_reverse = [note_labels[x] for x in index_to_reverse]
-    #             reversed = self.reverse_labels(labels_to_reverse)
-    #             print note.annotated_note_path
-    #             print "{} labels augmented".format(len(reversed))
-    #
-    #             note_labels = np.array(note_labels, dtype='int16')
-    #             index_to_reverse = np.array(index_to_reverse)
-    #             if index_to_reverse.any():
-    #                 note_labels[index_to_reverse] = reversed
-    #
-    #             if labels is None:
-    #                 labels = note_labels
-    #             else:
-    #                 labels = np.concatenate((labels, note_labels))
-    #
-    #         for index, pair in enumerate(id_pairs):
-    #             pair_index[(i, pair)] = index + index_offset
-    #
-    #         index_offset += len(id_pairs)
-    #
-    #         # add the note's data to the combine data matrix
-    #         if XL is None:
-    #             XL = left_vecs
-    #         else:
-    #             XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
-    #
-    #         if XR is None:
-    #             XR = right_vecs
-    #         else:
-    #             XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
-    #
-    #         if X3 is None:
-    #             X3 = third_vecs
-    #         else:
-    #             X3 = Network._pad_and_concatenate(X3, third_vecs, axis=0, pad_left=[2])
-    #
-    #         if X4 is None:
-    #             X4 = fourth_vecs
-    #         else:
-    #             X4 = Network._pad_and_concatenate(X4, fourth_vecs, axis=0, pad_left=[2])
-    #
-    #     # pad XL and XR so that they have the same number of dimensions on the second axis
-    #     # any other dimension mis-matches are caused by actually errors and should not be padded away
-    #     if XL is not None:
-    #         XL, XR = Network._pad_to_match_dimensions(XL, XR, 2, pad_left=True)
-    #     if X3 is not None:
-    #         X3, X4 = Network._pad_to_match_dimensions(X3, X4, 2, pad_left=True)
-    #     return XL, XR, X3, X4, labels, pair_index
 
     def _extract_path_words(self, note, pair_type, ordered=False):
         id_pair_to_path_words = {}
@@ -1048,38 +490,9 @@ class Network(object):
 
         return id_pair_to_path_words
 
-    def _extract_context_words(self, note, pair_type):
-        id_pair_to_context_words = {}
-
-        assert pair_type in ('intra', 'cross', 'dct')
-
-        if pair_type == 'intra':
-            id_pair_to_context_words = note.get_intra_sentence_context()  # key: (src_id, target_id), value: [left_context, right_context]
-
-        if pair_type == 'cross':
-            id_pair_to_context_words = note.get_cross_sentence_context()
-
-        if pair_type == 'dct':  # (event, t0) pairs
-            entity_to_context_words = note.get_t0_context()
-            for entity_id in entity_to_context_words:
-                words = entity_to_context_words[entity_id]
-                reversed = copy.copy(words)
-                reversed.reverse()
-                id_pair_to_context_words[(entity_id, 't0')] = (words, reversed)
-
-        return id_pair_to_context_words
-
     def _extract_path_representations(self, note, word_vectors, pair_type, ordered=False):
 
-        # if pair_type == 'intra' or pair_type == 'dct':
-        #     id_pair_to_path_words = self._extract_path_words(note, pair_type, ordered=ordered)
-        # else:
-        #     id_pair_to_path_words = self._extract_context_words(note, pair_type) # use flat context
-
         id_pair_to_path_words = self._extract_path_words(note, pair_type, ordered=ordered)
-
-        # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
-        #del_list = []
 
         left_vecs = None
         right_vecs = None
@@ -1094,28 +507,19 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
                 if left_vecs_path is None:
                     left_vecs_path = embedding
                 else:
-                    try:
-                        left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=2)
-                    except ValueError:
-                        print "ValueError line 559", word
-                        print left_vecs_path.shape
-                        print embedding.shape
+                    left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=2)
 
             if left_vecs_path is None:
-                embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
                 left_vecs_path = embedding[np.newaxis, :, np.newaxis]
-            # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-            # add index to list to indexes to remove and continue
-            # if left_vecs_path is None:
-            #     del_list.append(id_pair)
-            #     continue
+
             if left_vecs is None:
                 left_vecs = left_vecs_path
             else:
@@ -1129,7 +533,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
@@ -1139,167 +543,16 @@ class Network(object):
                     right_vecs_path = np.concatenate((right_vecs_path, embedding), axis=2)
 
             if right_vecs_path is None:
-                embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
                 right_vecs_path = embedding[np.newaxis, :, np.newaxis]
-            # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-            # # remove label from list and continue to the next path
-            # if right_vecs_path is None:
-            #     del_list.append(id_pair)
-            #     continue
+
             if right_vecs is None:
                 right_vecs = right_vecs_path
             else:
                 right_vecs = Network._pad_and_concatenate(right_vecs, right_vecs_path, axis=0, pad_left=[2])
 
-
-        # print "removed from list: ", len(del_list)
-
         return left_vecs, right_vecs, sorted(id_pair_to_path_words.keys())
 
-    # def _extract_path_representations(self, note, word_vectors, pair_type, ordered=False):
-    #
-    #     id_pair_to_path_words = self._extract_path_words(note, pair_type, ordered=ordered)
-    #     id_pair_to_context_words = self._extract_context_words(note, pair_type)
-    #
-    #     # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
-    #     # del_list = []
-    #
-    #     left_vecs = None
-    #     right_vecs = None
-    #     third_vecs = None
-    #     fourth_vecs = None
-    #
-    #     # get the word vectors for every word in the left pathy
-    #     # must sort it to match the labels correctly
-    #     for id_pair in sorted(id_pair_to_path_words.keys()):
-    #         path = id_pair_to_path_words[id_pair][0]
-    #         left_vecs_path = None
-    #         for word in path:
-    #             # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 1s.
-    #             try:
-    #                 embedding = word_vectors[word]
-    #             except KeyError:
-    #                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-    #
-    #             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-    #             embedding = embedding[np.newaxis, :, np.newaxis]
-    #             if left_vecs_path is None:
-    #                 left_vecs_path = embedding
-    #             else:
-    #                 try:
-    #                     left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=2)
-    #                 except ValueError:
-    #                     print "ValueError line 559", word
-    #                     print left_vecs_path.shape
-    #                     print embedding.shape
-    #
-    #         if left_vecs_path is None:
-    #             embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-    #             left_vecs_path = embedding[np.newaxis, :, np.newaxis]
-    #         # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-    #         # add index to list to indexes to remove and continue
-    #         # if left_vecs_path is None:
-    #         #     del_list.append(id_pair)
-    #         #     continue
-    #         if left_vecs is None:
-    #             left_vecs = left_vecs_path
-    #         else:
-    #             left_vecs = Network._pad_and_concatenate(left_vecs, left_vecs_path, axis=0, pad_left=[2])
-    #
-    #             # get the vectors for every word in the right path
-    #         path = id_pair_to_path_words[id_pair][1]
-    #         right_vecs_path = None
-    #         for word in path:
-    #             # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 0s.
-    #             try:
-    #                 embedding = word_vectors[word]
-    #             except KeyError:
-    #                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-    #
-    #             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-    #             embedding = embedding[np.newaxis, :, np.newaxis]
-    #             if right_vecs_path is None:
-    #                 right_vecs_path = embedding
-    #             else:
-    #                 right_vecs_path = np.concatenate((right_vecs_path, embedding), axis=2)
-    #
-    #         if right_vecs_path is None:
-    #             embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-    #             right_vecs_path = embedding[np.newaxis, :, np.newaxis]
-    #         # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-    #         # # remove label from list and continue to the next path
-    #         # if right_vecs_path is None:
-    #         #     del_list.append(id_pair)
-    #         #     continue
-    #         if right_vecs is None:
-    #             right_vecs = right_vecs_path
-    #         else:
-    #             right_vecs = Network._pad_and_concatenate(right_vecs, right_vecs_path, axis=0, pad_left=[2])
-    #
-    #     #### flat context
-    #     for id_pair in sorted(id_pair_to_context_words.keys()):
-    #         path = id_pair_to_context_words[id_pair][0]
-    #         third_vecs_path = None
-    #         for word in path:
-    #             # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 1s.
-    #             try:
-    #                 embedding = word_vectors[word]
-    #             except KeyError:
-    #                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-    #
-    #             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-    #             embedding = embedding[np.newaxis, :, np.newaxis]
-    #             if third_vecs_path is None:
-    #                 third_vecs_path = embedding
-    #             else:
-    #                 third_vecs_path = np.concatenate((third_vecs_path, embedding), axis=2)
-    #
-    #         if third_vecs_path is None:
-    #             embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-    #             third_vecs_path = embedding[np.newaxis, :, np.newaxis]
-    #         # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-    #         # add index to list to indexes to remove and continue
-    #         # if left_vecs_path is None:
-    #         #     del_list.append(id_pair)
-    #         #     continue
-    #         if third_vecs is None:
-    #             third_vecs = third_vecs_path
-    #         else:
-    #             third_vecs = Network._pad_and_concatenate(third_vecs, third_vecs_path, axis=0, pad_left=[2])
-    #
-    #             # get the vectors for every word in the right path
-    #         path = id_pair_to_context_words[id_pair][1]
-    #         fourth_vecs_path = None
-    #         for word in path:
-    #             # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 0s.
-    #             try:
-    #                 embedding = word_vectors[word]
-    #             except KeyError:
-    #                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-    #
-    #             # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-    #             embedding = embedding[np.newaxis, :, np.newaxis]
-    #             if fourth_vecs_path is None:
-    #                 fourth_vecs_path = embedding
-    #             else:
-    #                 fourth_vecs_path = np.concatenate((fourth_vecs_path, embedding), axis=2)
-    #
-    #         if fourth_vecs_path is None:
-    #             embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-    #             fourth_vecs_path = embedding[np.newaxis, :, np.newaxis]
-    #         # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
-    #         # # remove label from list and continue to the next path
-    #         # if right_vecs_path is None:
-    #         #     del_list.append(id_pair)
-    #         #     continue
-    #         if fourth_vecs is None:
-    #             fourth_vecs = fourth_vecs_path
-    #         else:
-    #             fourth_vecs = Network._pad_and_concatenate(fourth_vecs, fourth_vecs_path, axis=0, pad_left=[2])
-    #
-    #     # print "removed from list: ", len(del_list)
-    #
-    #     return left_vecs, right_vecs, third_vecs, fourth_vecs, sorted(id_pair_to_path_words.keys())
 
     @staticmethod
     def _pad_and_concatenate(a, b, axis, pad_left=[]):
@@ -1443,7 +696,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
@@ -1470,7 +723,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
@@ -1517,128 +770,25 @@ class Network(object):
         convert tlink labels to integers so they can be processed by the network
         '''
 
-        processed_labels = []
+        for i, label in enumerate(labels):
+            if label == "IDENTITY":
+                labels[i] = "SIMULTANEOUS"
+            elif label not in LABELS:
+                labels[i] = "None"
 
-        # for label in labels:
-        #     if label in ("SIMULTANEOUS", "IDENTITY", "DURING", "DURING_INV"):
-        #         processed_labels.append(1)
-        #     elif label in ("BEFORE", "IBEFORE"):
-        #         processed_labels.append(2)
-        #     elif label == "IS_INCLUDED":
-        #         processed_labels.append(3)
-        #     elif label == "BEGUN_BY":
-        #         processed_labels.append(4)
-        #     elif label == "ENDED_BY":
-        #         processed_labels.append(5)
-        #     # elif label == "AFTER":
-        #     #     processed_labels.append(6)
-        #     else:  # label for pairs which are not linked
-        #         processed_labels.append(0)
-
-        for label in labels:
-            if label in self.label_to_int:
-                processed_labels.append(self.label_to_int[label])
-                continue
-
-            if label in ("SIMULTANEOUS", "IDENTITY"):
-                processed_labels.append(1)
-            elif label == "BEFORE":
-                processed_labels.append(2)
-            elif label == "AFTER":
-                processed_labels.append(3)
-            elif label == "IBEFORE":
-                processed_labels.append(4)
-            elif label == "IAFTER":
-                processed_labels.append(5)
-            elif label == "IS_INCLUDED":
-                processed_labels.append(6)
-            elif label == "INCLUDES":
-                processed_labels.append(7)
-            elif label in ("DURING", "DURING_INV"):
-                processed_labels.append(8)
-            elif label == "BEGINS":
-                processed_labels.append(9)
-            elif label == "BEGUN_BY":
-                processed_labels.append(10)
-            elif label == "ENDS":
-                processed_labels.append(11)
-            elif label == "ENDED_BY":
-                processed_labels.append(12)
-            else:  # label for pairs which are not linked
-                processed_labels.append(0)
-
-            self.label_to_int[label] = processed_labels[-1]
-
-        return processed_labels
+        return [LABELS.index(x) for x in labels]
 
     def _convert_int_labels_to_str(self, labels):
         '''
         convert ints to tlink labels so network output can be understood
         '''
 
-        processed_labels = []
-        # for label in labels:
-        #     if label == 1:
-        #         processed_labels.append("SIMULTANEOUS")
-        #     elif label == 2:
-        #         processed_labels.append("BEFORE")
-        #     elif label == 3:
-        #         processed_labels.append("IS_INCLUDED")
-        #     elif label == 4:
-        #         processed_labels.append("BEGUN_BY")
-        #     elif label == 5:
-        #         processed_labels.append("ENDED_BY")
-        #     else:  # label for unlinked pairs (should have int 0)
-        #         processed_labels.append("None")
-
-        for label in labels:
-            if label in self.int_to_label:
-                processed_labels.append(self.int_to_label[label])
-                continue
-
-            if label == 1:
-                processed_labels.append("SIMULTANEOUS")
-            elif label == 2:
-                processed_labels.append("BEFORE")
-            elif label == 3:
-                processed_labels.append("AFTER")
-            elif label == 4:
-                processed_labels.append("IBEFORE")
-            elif label == 5:
-                processed_labels.append("IAFTER")
-            elif label == 6:
-                processed_labels.append("IS_INCLUDED")
-            elif label == 7:
-                processed_labels.append("INCLUDES")
-            elif label == 8:
-                processed_labels.append("DURING")
-            elif label == 9:
-                processed_labels.append("BEGINS")
-            elif label == 10:
-                processed_labels.append("BEGUN_BY")
-            elif label == 11:
-                processed_labels.append("ENDS")
-            elif label == 12:
-                processed_labels.append("ENDED_BY")
-            else:  # label for unlinked pairs (should have int 0)
-                processed_labels.append('None')
-
-            self.int_to_label[label] = processed_labels[-1]
-
-        return processed_labels
+        return [LABELS[s] if s<12 else "None" for s in labels]
 
     def reverse_labels(self, labels):
-        processed_labels = []
+        """Get the opposite labels"""
 
-        # for label in labels:
-        #     if label in self.label_reverse_map:
-        #         processed_labels.append(self.label_reverse_map[label])
-        #         continue
-        #
-        #     if label == 1: # SIMULTANEOUS
-        #         processed_labels.append(1)
-        #     else:  # labels not included
-        #         processed_labels.append(0)
+        processed_labels = []
 
         for label in labels:
             if label in self.label_reverse_map:
@@ -1695,26 +845,3 @@ class Network(object):
             print i, ": ", row
 
         print classification_report(actual, predicted, digits=3)
-
-if __name__ == "__main__":
-    #test = NNModel()
-    with open("note.dump") as n:
-        tmp_note = pickle.load(n)
-#    tmp_note = TimeNote("APW19980418.0210.tml.TE3input", "APW19980418.0210.tml")
-    # print tmp_note.pre_processed_text[2][16]
-#    with open("note.dump", 'wb') as n:
-#        pickle.dump(tmp_note, n)
-    #test.train([tmp_note])
-
-    # labels = tmp_note.get_tlink_labels()
-    # labels = _convert_str_labels_to_int(labels)
-    # _labels = to_categorical(labels,7)
-    # print len(labels)
-    # print labels
-    # input1 = np.random.random((len(labels),EMBEDDING_DIM, 16))
-    # input2 = np.random.random((len(labels),EMBEDDING_DIM, 16))
-    # # labels = np.random.randint(7, size=(10000,1))
-    # test.model.fit([input1,input2], _labels, nb_epoch=100)
-    # print test.model.predict_classes([input1,input2])
-    # print labels
-    pass
