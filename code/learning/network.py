@@ -61,8 +61,7 @@ class Network(object):
         # encode the first entity
         encoder_L = Sequential()
 
-        encoder_L.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
-        encoder_L.add(Permute((2, 1)))
+        encoder_L.add(Dropout(input_dropout, input_shape=(max_len, data_dim)))
 
         # with maxpooling
         if maxpooling:
@@ -82,8 +81,7 @@ class Network(object):
         # encode the second entity
         encoder_R = Sequential()
 
-        encoder_R.add(Dropout(input_dropout, input_shape=(data_dim, max_len)))
-        encoder_R.add(Permute((2, 1)))
+        encoder_R.add(Dropout(input_dropout, input_shape=(max_len, data_dim)))
 
         # with maxpooling
         if maxpooling:
@@ -109,6 +107,7 @@ class Network(object):
         decoder.add(Dense(nb_classes, W_regularizer=W_reg, b_regularizer=B_reg, activity_regularizer=act_reg, activation='softmax'))
 
         # compile the final model
+        decoder.summary()
         decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         return decoder
 
@@ -154,12 +153,12 @@ class Network(object):
 
         # infer maximum sequence length
         if max_len == 'auto':
-            max_len = XL.shape[2]
+            max_len = XL.shape[-2]
         # pad input to reach max_len
         else:
-            filler = np.ones((1,1,max_len))
-            XL, _ = Network._pad_to_match_dimensions(XL, filler, 2, pad_left=True)
-            XR, _ = Network._pad_to_match_dimensions(XR, filler, 2, pad_left=True)
+            filler = np.zeros((1, max_len, 1))
+            XL, _ = Network._pad_to_match_dimensions(XL, filler, 1, pad_left=True)
+            XR, _ = Network._pad_to_match_dimensions(XR, filler, 1, pad_left=True)
 
         model = self.get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
             maxpooling=maxpooling, data_dim=data_dim, max_len=max_len, nb_classes=nb_classes)
@@ -186,9 +185,10 @@ class Network(object):
             validation_split = 0 # will be overwritten by val data
             V_XL, V_XR, V_labels, V_pair_index = val_input
             V_Y = to_categorical(V_labels, nb_classes)
-            filler = np.ones((1, 1, max_len))
-            V_XL, _ = Network._pad_to_match_dimensions(V_XL, filler, 2, pad_left=True)
-            V_XR, _ = Network._pad_to_match_dimensions(V_XR, filler, 2, pad_left=True)
+            filler = np.zeros((1, max_len, 1))
+            V_XL, _ = Network._pad_to_match_dimensions(V_XL, filler, 1, pad_left=True)
+            V_XR, _ = Network._pad_to_match_dimensions(V_XR, filler, 1, pad_left=True)
+            print "V_XL", V_XL.shape
             validation_data = ([V_XL, V_XR], V_Y)
 
         training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=validation_split, class_weight=class_weights,
@@ -222,16 +222,16 @@ class Network(object):
             return [], [], {}
 
         # get expected length of model input
-        model_input_len = model.input_shape[0][2]
+        model_input_len = model.input_shape[0][-2]
 
-        if model_input_len > XL.shape[2]:
+        if model_input_len > XL.shape[-2]:
             # pad input matrix to fit expected length
-            filler = np.ones((1, 1, model_input_len))
-            XL, _ = Network._pad_to_match_dimensions(XL, filler, 2, pad_left=True)
-            XR, _ = Network._pad_to_match_dimensions(XR, filler, 2, pad_left=True)
+            filler = np.zeros((1, model_input_len, 1))
+            XL, _ = Network._pad_to_match_dimensions(XL, filler, 1, pad_left=True)
+            XR, _ = Network._pad_to_match_dimensions(XR, filler, 1, pad_left=True)
         else:
-            XL = Network._strip_to_length(XL, model_input_len, 2)
-            XR = Network._strip_to_length(XR, model_input_len, 2)
+            XL = Network._strip_to_length(XL, model_input_len, 1)
+            XR = Network._strip_to_length(XR, model_input_len, 1)
 
         print 'Predicting...'
         labels = model.predict_classes([XL, XR])
@@ -293,6 +293,7 @@ class Network(object):
         return self._convert_int_labels_to_str(labels), pair_index, label_scores
 
     def _get_training_input(self, notes, pair_type, nolink_ratio=None, presence=False, shuffle=True, ordered=False):
+        """if ordered is True, training data will be in narrative order"""
 
         # data tensor for left and right SDP subpaths
         XL = None
@@ -358,16 +359,28 @@ class Network(object):
             if XL is None:
                 XL = left_vecs
             else:
-                XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
+                XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[1])
 
             if XR is None:
                 XR = right_vecs
             else:
-                XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
+                XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[1])
+
+            # if XL is None:
+            #     XL = left_vecs
+            #     XL = np.expand_dims(XL, axis=0) # (1, sentences, words, word_dim)
+            # else:
+            #     XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
+            #
+            # if XR is None:
+            #     XR = right_vecs
+            #     XR = np.expand_dims(XR, axis=0)  # (1, sentences, words, word_dim)
+            # else:
+            #     XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
 
         # pad XL and XR so that they have the same number of dimensions on the second axis
         # any other dimension mis-matches are caused by actually errors and should not be padded away
-        XL, XR = Network._pad_to_match_dimensions(XL, XR, 2, pad_left=True)
+        XL, XR = Network._pad_to_match_dimensions(XL, XR, 1, pad_left=True)
 
         # # extract longest input sequence in the training data, and ensure both matrices
         # input_len = XL.shape[2]
@@ -377,7 +390,7 @@ class Network(object):
                 if label != 0:
                     labels[i] = 1
 
-        if shuffle:
+        if shuffle and not ordered: # if ordered, never shuffle
             rng_state = np.random.get_state()
             np.random.shuffle(XL)
             np.random.set_state(rng_state)
@@ -458,17 +471,17 @@ class Network(object):
             if XL is None:
                 XL = left_vecs
             else:
-                XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[2])
+                XL = Network._pad_and_concatenate(XL, left_vecs, axis=0, pad_left=[1])
 
             if XR is None:
                 XR = right_vecs
             else:
-                XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[2])
+                XR = Network._pad_and_concatenate(XR, right_vecs, axis=0, pad_left=[1])
 
         # pad XL and XR so that they have the same number of dimensions on the second axis
         # any other dimension mis-matches are caused by actually errors and should not be padded away
         if XL is not None:
-            XL, XR = Network._pad_to_match_dimensions(XL, XR, 2, pad_left=True)
+            XL, XR = Network._pad_to_match_dimensions(XL, XR, 1, pad_left=True)
 
         return XL, XR, labels, pair_index
 
@@ -577,12 +590,12 @@ class Network(object):
                     embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-                embedding = embedding[np.newaxis, :, np.newaxis]
+                embedding = embedding[np.newaxis, np.newaxis, :]
                 if left_vecs_path is None:
                     left_vecs_path = embedding
                 else:
                     try:
-                        left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=2)
+                        left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=1)
                     except ValueError:
                         print "ValueError line 559", word
                         print left_vecs_path.shape
@@ -590,7 +603,7 @@ class Network(object):
 
             if left_vecs_path is None:
                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-                left_vecs_path = embedding[np.newaxis, :, np.newaxis]
+                left_vecs_path = embedding[np.newaxis, np.newaxis, :]
             # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
             # add index to list to indexes to remove and continue
             # if left_vecs_path is None:
@@ -599,7 +612,7 @@ class Network(object):
             if left_vecs is None:
                 left_vecs = left_vecs_path
             else:
-                left_vecs = Network._pad_and_concatenate(left_vecs, left_vecs_path, axis=0, pad_left=[2])
+                left_vecs = Network._pad_and_concatenate(left_vecs, left_vecs_path, axis=0, pad_left=[1])
 
         # get the vectors for every word in the right path
             path = id_pair_to_path_words[id_pair][1]
@@ -612,15 +625,15 @@ class Network(object):
                     embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
-                embedding = embedding[np.newaxis, :, np.newaxis]
+                embedding = embedding[np.newaxis, np.newaxis, :]
                 if right_vecs_path is None:
                     right_vecs_path = embedding
                 else:
-                    right_vecs_path = np.concatenate((right_vecs_path, embedding), axis=2)
+                    right_vecs_path = np.concatenate((right_vecs_path, embedding), axis=1)
 
             if right_vecs_path is None:
                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
-                right_vecs_path = embedding[np.newaxis, :, np.newaxis]
+                right_vecs_path = embedding[np.newaxis, np.newaxis, :]
             # if there were no vectors, the link involves the document creation time or is a cross sentence relation.
             # # remove label from list and continue to the next path
             # if right_vecs_path is None:
@@ -629,7 +642,7 @@ class Network(object):
             if right_vecs is None:
                 right_vecs = right_vecs_path
             else:
-                right_vecs = Network._pad_and_concatenate(right_vecs, right_vecs_path, axis=0, pad_left=[2])
+                right_vecs = Network._pad_and_concatenate(right_vecs, right_vecs_path, axis=0, pad_left=[1])
 
 
         # print "removed from list: ", len(del_list)
@@ -686,7 +699,8 @@ class Network(object):
 
         if a.shape[axis] > length:
             snip = a.shape[axis] - length
-            a = a[:,:,snip:]
+            if axis == 1:
+                a = a[:, snip:, :]
 
         return a
 

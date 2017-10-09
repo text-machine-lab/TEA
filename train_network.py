@@ -253,8 +253,8 @@ def dequeue_notes(q, is_testdata=False):
                 XL, XR, Labels, Pair_Index = data
             else:
                 xl, xr, labels, pair_index = data
-                XL = Network._pad_and_concatenate(XL, xl, axis=0, pad_left=[2])
-                XR = Network._pad_and_concatenate(XR, xr, axis=0, pad_left=[2])
+                XL = Network._pad_and_concatenate(XL, xl, axis=0, pad_left=[1])
+                XR = Network._pad_and_concatenate(XR, xr, axis=0, pad_left=[1])
                 Labels += labels
                 for key, value in pair_index.iteritems():
                     note_id, pair = key
@@ -269,8 +269,8 @@ def dequeue_notes(q, is_testdata=False):
                 XL, XR, Labels = data
             else:
                 xl, xr, labels = data
-                XL = Network._pad_and_concatenate(XL, xl, axis=0, pad_left=[2])
-                XR = Network._pad_and_concatenate(XR, xr, axis=0, pad_left=[2])
+                XL = Network._pad_and_concatenate(XL, xl, axis=0, pad_left=[1])
+                XR = Network._pad_and_concatenate(XR, xr, axis=0, pad_left=[1])
                 Labels += labels
         return XL, XR, Labels
 
