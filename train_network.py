@@ -79,7 +79,7 @@ def main():
                         help="Only consider pairs in their narrative order (order in text)")
 
     parser.add_argument("--nolink",
-                        default=1.0,
+                        default=None,
                         type=float,
                         help="no link downsampling ratio. e.g. 0.5 means # of nolinks are 50% of # positive tlinks")
 
@@ -129,7 +129,7 @@ def main():
         earlystopping = EarlyStopping(monitor='loss', patience=50, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='loss', save_best_only=True)
     else:
-        earlystopping = EarlyStopping(monitor='loss_acc', patience=20, verbose=0, mode='auto')
+        earlystopping = EarlyStopping(monitor='val_acc', patience=20, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='val_loss', save_best_only=True)
 
     # create a sinlge model, then save architecture and weights
@@ -197,8 +197,8 @@ def get_notes(files, newsreader_dir):
             tmp_note = TimeNote(tml, tml, denselabels=denselabels)
             cPickle.dump(tmp_note, open(newsreader_dir + "/" + basename(tml) + ".parsed.pickle", "wb"))
 
-        if DENSE_LABELS and tmp_note.denselables is None: # handle old note files without dense labels
-            tmp_note.denselables = denselabels
+        if DENSE_LABELS and tmp_note.denselabels is None: # handle old note files without dense labels
+            tmp_note.denselabels = denselabels
             tmp_note.get_id_to_denselabels()
         notes.append(tmp_note)
     return notes
@@ -339,6 +339,7 @@ def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False
     training_data = dequeue_notes(outq)
 
     print "training data size:", training_data[0].shape
+    print "training data labels", training_data[2][:100]
 
     if not no_val and val_notes is not None:
         val_data = network._get_test_input(val_notes, pair_type=pair_type)

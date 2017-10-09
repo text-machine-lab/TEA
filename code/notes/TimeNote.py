@@ -90,7 +90,7 @@ class TimeNote(Note):
         self.tlinks = []
         self.get_id_word_map()
         self.get_valid_pairs()
-        self.denselables = denselabels
+        self.denselabels = denselabels
 
         if self.annotated_note_path is not None:
 
@@ -101,7 +101,7 @@ class TimeNote(Note):
             self.get_id_to_labels()
             #self.get_neg_data_indexes()
             # self.get_neg_pairs()
-        if self.denselables is not None:
+        if self.denselabels is not None:
             self.get_id_to_denselabels()
 
     def get_tlinks(self):
@@ -831,9 +831,9 @@ class TimeNote(Note):
 
     def get_id_to_denselabels(self):
         self.id_to_denselabels = {}
-        for key in self.denselables: # file names may have different extensions
+        for key in self.denselabels: # file names may have different extensions
             if key in self.annotated_note_path:
-                self.id_to_denselabels = self.denselables[key]
+                self.id_to_denselabels = self.denselabels[key]
                 print "dense labels for %s read in" % key
                 break
         return self.id_to_denselabels
