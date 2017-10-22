@@ -12,6 +12,7 @@ from keras.regularizers import l2
 
 from word2vec import load_word2vec_binary
 from sklearn.metrics import classification_report
+from sklearn.metrics import precision_recall_fscore_support
 
 LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
           "DURING", "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
@@ -111,9 +112,9 @@ class Network(object):
         decoder.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         return decoder
 
-    def train_model(self, notes, epochs=5, training_input=None, val_input=None, no_val=False, weight_classes=False, batch_size=256,
+    def train_model(self, notes, model=None, epochs=5, training_input=None, val_input=None, no_val=False, weight_classes=False, batch_size=256,
         encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100,
-        maxpooling=True, data_dim=200, max_len='auto', nb_classes=13, callbacks=[], ordered=False):
+        maxpooling=True, data_dim=200, max_len='auto', nb_classes=13, callbacks=[]):
         '''
         obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
         params:
@@ -160,7 +161,8 @@ class Network(object):
             XL, _ = Network._pad_to_match_dimensions(XL, filler, 1, pad_left=True)
             XR, _ = Network._pad_to_match_dimensions(XR, filler, 1, pad_left=True)
 
-        model = self.get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
+        if model is None:
+            model = self.get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout, input_dropout=input_dropout, reg_W=reg_W, reg_B=reg_B, reg_act=reg_act, LSTM_size=LSTM_size, dense_size=dense_size,
             maxpooling=maxpooling, data_dim=data_dim, max_len=max_len, nb_classes=nb_classes)
 
         # train the network
@@ -197,7 +199,7 @@ class Network(object):
         test = model.predict_classes([V_XL, V_XR])
         Network.class_confusion(test, V_labels, nb_classes)
 
-        if val_input is not None and not ordered:
+        if val_input is not None:
             try:
                 print "Trying smart predict..."
                 probs = model.predict_proba([V_XL, V_XR])
@@ -258,9 +260,15 @@ class Network(object):
             if key in proccessed:
                 continue
             note_index, pair = key
-            label = labels[index]
+            try:
+                label = labels[index]
+            except IndexError:
+                print "IndexError: labels length %d, index %d" % (len(labels), index)
+                assert IndexError
 
             opposite_key = (note_index, (pair[1], pair[0]))
+            if opposite_key not in pair_index: # mainly for dct pairs
+                continue
             opposite_index = pair_index[opposite_key]
             opposite_label = labels[opposite_index] # predicted label of the opposite pair
 
@@ -292,8 +300,8 @@ class Network(object):
             return labels, pair_index
         return self._convert_int_labels_to_str(labels), pair_index, label_scores
 
-    def _get_training_input(self, notes, pair_type, nolink_ratio=None, presence=False, shuffle=True, ordered=False):
-        """if ordered is True, training data will be in narrative order"""
+    def _get_training_input(self, notes, pair_type, nolink_ratio=None, presence=False, shuffle=True):
+        """if shuffle=False, training data will be in narrative order"""
 
         # data tensor for left and right SDP subpaths
         XL = None
@@ -314,7 +322,7 @@ class Network(object):
             # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
             # (with length equal to word embedding length), and axis 2 hold each word.
             # del_list is a list of indices for which no SDP could be obtained
-            left_vecs, right_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type, ordered=ordered)
+            left_vecs, right_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type)
 
             # perform a random check, to make sure the data is correctly augmented
             if not id_pairs:
@@ -390,7 +398,7 @@ class Network(object):
                 if label != 0:
                     labels[i] = 1
 
-        if shuffle and not ordered: # if ordered, never shuffle
+        if shuffle:
             rng_state = np.random.get_state()
             np.random.shuffle(XL)
             np.random.set_state(rng_state)
@@ -402,7 +410,7 @@ class Network(object):
 
         return XL, XR, labels
 
-    def _get_test_input(self, notes, pair_type, ordered=False):
+    def _get_test_input(self, notes, pair_type):
         # data tensor for left and right SDP subpaths
         XL = None
         XR = None
@@ -422,7 +430,7 @@ class Network(object):
             # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
             # (with length equal to word embedding length), and axis 2 hold each word.
             # del_list is a list of indices for which no SDP could be obtained
-            left_vecs, right_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type, ordered=ordered)
+            left_vecs, right_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type)
 
             if DENSE_LABELS:
                 id_to_labels = note.id_to_denselabels # use TimeBank-Dense labels
@@ -485,17 +493,14 @@ class Network(object):
 
         return XL, XR, labels, pair_index
 
-    def _extract_path_words(self, note, pair_type, ordered=False):
+    def _extract_path_words(self, note, pair_type):
         id_pair_to_path_words = {}
 
-        assert pair_type in ('intra', 'cross', 'dct')
+        assert pair_type in ('intra', 'cross', 'dct', 'all')
 
-        if pair_type == 'intra' or pair_type == 'both':
+        if pair_type in ('intra', 'all'):
             id_pair_to_path = note.get_intra_sentence_subpaths() #key: (src_id, target_id), value: [left_path, right_path]
-            if ordered: # pairs are in narrative order only
-                for key in id_pair_to_path.keys():
-                    if key[0][0] == key[1][0] and int(key[0][1:]) > int(key[1][1:]):
-                        id_pair_to_path.pop(key)
+            marker = '_INTRA_'
 
             # extract paths of all intra_sentence pairs
             # negative data (no relation) also included
@@ -507,17 +512,19 @@ class Network(object):
                 left_path, right_path = id_pair_to_path[id_pair]
                 left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
                 right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
+                right_words.reverse()  # make right branch top to bottom
+
+                # left_words.insert(0, marker)
+                left_words.append(marker)
+                # right_words.append(marker)
                 id_pair_to_path_words[id_pair] = (left_words, right_words)
 
-        if pair_type == 'cross' or pair_type == 'both':
+        if pair_type in ('cross', 'all'):
             id_pair_to_path = note.get_cross_sentence_subpaths()
+            marker = '_CROSS_'
+
             # extract paths of all intra_sentence pairs
             # negative data (no relation) also included
-
-            if ordered: # pairs are in narrative order only
-                for key in id_pair_to_path.keys():
-                    if key[0][0] == key[1][0] and int(key[0][1:]) > int(key[1][1:]):
-                        id_pair_to_path.pop(key)
 
             for id_pair in id_pair_to_path:
                 # if id_pair[0][0] == 't' and id_pair[1][0] == 't':
@@ -527,16 +534,26 @@ class Network(object):
                 left_path, right_path = id_pair_to_path[id_pair]
                 left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
                 right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
-                left_words.append('.') # add a separator, to differentiate from intra-sentence
+                right_words.reverse()  # make right branch top to bottom
+
+                # left_words.insert(0, marker)
+                left_words.append(marker)
+                # right_words.append(marker)
                 id_pair_to_path_words[id_pair] = (left_words, right_words)
 
-        if pair_type == 'dct': # (event, t0) pairs
+        if pair_type in ('dct', 'all'): # (event, t0) pairs
             t0_to_path = note.get_t0_subpaths()
+            marker = '_DCT_'
+
             for entity_id in t0_to_path:
                 left_path = t0_to_path[entity_id]
                 left_words = [note.id_to_tok['w' + x[1:]]['token'] for x in left_path]
                 right_words = copy.copy(left_words)
-                right_words.reverse() # reverse order of the path
+                right_words.reverse() # reverse order of the path, to make two branches
+
+                # left_words.insert(0, marker)
+                left_words.append(marker)
+                # right_words.append(marker)
                 id_pair_to_path_words[(entity_id, 't0')] = (left_words, right_words)
 
         return id_pair_to_path_words
@@ -562,14 +579,18 @@ class Network(object):
 
         return id_pair_to_context_words
 
-    def _extract_path_representations(self, note, word_vectors, pair_type, ordered=False):
+    @staticmethod
+    def sort_id_pairs(note, id_pairs):
+        """Sort event and timex ids in narrative order"""
+        return sorted(id_pairs, key=lambda x: note.id_to_sent[x[0]]) # sorted by sentence number of the first id
 
-        # if pair_type == 'intra' or pair_type == 'dct':
-        #     id_pair_to_path_words = self._extract_path_words(note, pair_type, ordered=ordered)
-        # else:
-        #     id_pair_to_path_words = self._extract_context_words(note, pair_type) # use flat context
+    def _extract_path_representations(self, note, word_vectors, pair_type):
 
-        id_pair_to_path_words = self._extract_path_words(note, pair_type, ordered=ordered)
+        word_vectors['_INTRA_'] = np.zeros(EMBEDDING_DIM)
+        word_vectors['_CROSS_'] = np.ones(EMBEDDING_DIM)
+        word_vectors['_DCT_'] = - np.ones(EMBEDDING_DIM)
+
+        id_pair_to_path_words = self._extract_path_words(note, pair_type)
 
         # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
         #del_list = []
@@ -579,7 +600,8 @@ class Network(object):
 
         # get the word vectors for every word in the left pathy
         # must sort it to match the labels correctly
-        for id_pair in sorted(id_pair_to_path_words.keys()):
+        sorted_pairs = Network.sort_id_pairs(note, id_pair_to_path_words.keys())
+        for id_pair in sorted_pairs:
             path = id_pair_to_path_words[id_pair][0]
             left_vecs_path = None
             for word in path:
@@ -647,7 +669,7 @@ class Network(object):
 
         # print "removed from list: ", len(del_list)
 
-        return left_vecs, right_vecs, sorted(id_pair_to_path_words.keys())
+        return left_vecs, right_vecs, sorted_pairs
 
     @staticmethod
     def _pad_and_concatenate(a, b, axis, pad_left=[]):
@@ -941,6 +963,8 @@ class Network(object):
             print i, ": ", row
 
         print classification_report(actual, predicted, digits=3)
+        # print "micro scores:"
+        # print precision_recall_fscore_support(actual, predicted, average='micro')
 
 if __name__ == "__main__":
     #test = NNModel()

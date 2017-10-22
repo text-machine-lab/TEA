@@ -2,6 +2,7 @@ import os
 import sys
 
 TEA_HOME_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+# sys.path.append(os.path.join(TEA_HOME_DIR, '..', 'ntm_keras'))
 
 # inspired by cliner...
 def env_paths():
@@ -11,6 +12,7 @@ def env_paths():
     paths = [line.split() for line in paths.split('\n')]
 
     env_paths = {}
+    env_paths['ntm_dir'] = os.path.join(TEA_HOME_DIR, '..', 'ntm_keras')
 
     for line in paths:
         path = None if line[1] == 'None' else line[1]

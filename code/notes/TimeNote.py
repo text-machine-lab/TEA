@@ -691,9 +691,9 @@ class TimeNote(Note):
             try:
                 parent = self.dependency_paths.tree[word_id].parent
             except KeyError:
-                print self.annotated_note_path
-                print "KeyError"
-                print "word_id:", word_id
+                # print self.annotated_note_path
+                # print "KeyError"
+                # print "word_id:", word_id
                 return word_id
             if not parent:
                 return word_id
@@ -834,7 +834,6 @@ class TimeNote(Note):
         for key in self.denselabels: # file names may have different extensions
             if key in self.annotated_note_path:
                 self.id_to_denselabels = self.denselabels[key]
-                print "dense labels for %s read in" % key
                 break
         return self.id_to_denselabels
 

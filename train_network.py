@@ -73,11 +73,6 @@ def main():
                         default='both',
                         help="specify the entity type to train: intra, cross or both")
 
-    parser.add_argument("--pair_ordered",
-                        action='store_true',
-                        default=False,
-                        help="Only consider pairs in their narrative order (order in text)")
-
     parser.add_argument("--nolink",
                         default=None,
                         type=float,
@@ -148,7 +143,7 @@ def main():
             NNet = None
 
         NN, history = trainNetwork(gold_files, val_files, args.newsreader_annotations, args.pair_type,
-                                   ordered=args.pair_ordered, no_val=args.no_val, nolink_ratio=args.nolink,
+                                   no_val=args.no_val, nolink_ratio=args.nolink,
                                    callbacks=[checkpoint, earlystopping], train_dir=args.train_dir)
         architecture = NN.to_json()
         open(model_destination + '.arch.json', "wb").write(architecture)
@@ -274,22 +269,8 @@ def dequeue_notes(q, is_testdata=False):
                 Labels += labels
         return XL, XR, Labels
 
-# def dequeue_notes(q):
-#     Labels = []
-#     while not q.empty():
-#         data = q.get()
-#         if not Labels:
-#             XL, XR, X3, X4, Labels = data
-#         else:
-#             xl, xr, x3, x4, labels = data
-#             XL = Network._pad_and_concatenate(XL, xl, axis=0, pad_left=[2])
-#             XR = Network._pad_and_concatenate(XR, xr, axis=0, pad_left=[2])
-#             X3 = Network._pad_and_concatenate(X3, x3, axis=0, pad_left=[2])
-#             X4 = Network._pad_and_concatenate(X4, x4, axis=0, pad_left=[2])
-#             Labels += labels
-#     return XL, XR, X3, X4, Labels
 
-def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False, no_val=False, nolink_ratio=1.0, callbacks=[], train_dir='./'):
+def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, no_val=False, nolink_ratio=1.0, callbacks=[], train_dir='./'):
     '''
     train::trainNetwork()
 
@@ -343,25 +324,6 @@ def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False
 
     if not no_val and val_notes is not None:
         val_data = network._get_test_input(val_notes, pair_type=pair_type)
-        # enqueue_notes(inq, val_notes)
-        #
-        # threads = []
-        # n_threads = min(4, inq.qsize())
-        # for t in range(n_threads):
-        #     data_thread = dataThread(t, inq, outq, word_vectors, pair_type, None, is_testdata=True)
-        #     data_thread.start()
-        #     threads.append(data_thread)
-        #
-        # while not inq.empty():
-        #     n_notes = inq.qsize() * 5
-        #     sys.stdout.write("# notes in queue: %d \r" %n_notes)
-        #     sys.stdout.flush()
-        #     time.sleep(1)
-        #
-        # for t in threads:
-        #     t.join()
-        #
-        # val_data = dequeue_notes(outq, is_testdata=True)
         print "validation data size:", val_data[0].shape
     else:
         val_data = None
@@ -372,11 +334,11 @@ def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, ordered=False
     if DENSE_LABELS:
         NNet, history = network.train_model(None, epochs=200, training_input=training_data, val_input=val_data, no_val=no_val, weight_classes=True, batch_size=32,
         encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=128,
-        dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks, ordered=ordered)
+        dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks)
     else:
         NNet, history = network.train_model(None, epochs=200, training_input=training_data, val_input=val_data, no_val=no_val, weight_classes=False, batch_size=64,
         encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256,
-        dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks, ordered=ordered)
+        dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len='auto', nb_classes=N_CLASSES, callbacks=callbacks)
 
     return NNet, history
 
