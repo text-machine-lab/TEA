@@ -13,138 +13,12 @@ from word2vec import load_word2vec_binary
 from collections import deque
 
 from network import Network
-
-sys.path.append(os.path.join(os.environ["TEA_PATH"], '..', 'ntm_keras'))
-from ntm import NeuralTuringMachine as NTM
-from ntm import controller_input_output_shape as controller_shape
-
-LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
-          "DURING", "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
-EMBEDDING_DIM = 300
-DENSE_LABELS = True
-
-
-def get_lstm_controller(controller_output_dim, controller_input_dim, batch_size=1, max_steps=300):
-
-    controller = Sequential()
-    controller.name = 'LSTM'
-
-    controller.add(LSTM(units=controller_output_dim,  # 2x if using Bidrectional
-                        kernel_initializer='random_normal',
-                        bias_initializer='random_normal',
-                        activation='linear',
-                        stateful=True,  # must be true, because in controller every step is a batch?
-                        return_sequences=False,  # does not matter because for controller the sequence len is 1?
-                        implementation=2,  # best for gpu. other ones also might not work.
-                        batch_input_shape=(batch_size, max_steps, controller_input_dim)))
-    #
-    # controller.add(MaxPooling1D(pool_size=max_steps, padding='same'))
-    # controller.add(Flatten())  # (1, controller_output_dim)
-    # controller.add(Dropout(0.5))
-
-    controller.summary()
-    controller.compile(loss='binary_crossentropy', optimizer=Adam(lr=.0005, clipnorm=10.), metrics=['binary_accuracy'])
-
-    return controller
-
-def get_dense_controller(controller_output_dim, controller_input_dim, batch_size=1, max_steps=300):
-
-    controller = Sequential()
-    controller.name = 'Dense'
-
-    controller.add(Dense(units=controller_output_dim,
-                        activation='relu',
-                        bias_initializer='zeros',
-                        input_shape=(controller_input_dim,)))
-
-    controller.summary()
-    controller.compile(loss='binary_crossentropy', optimizer=Adam(lr=.0005, clipnorm=10.), metrics=['binary_accuracy'])
-
-    return controller
+from ntm_models import get_untrained_model, get_ntm_model, get_ntm_model2
+from ntm_models import LABELS, DENSE_LABELS, EMBEDDING_DIM, MAX_LEN
 
 class NetworkMem(Network):
     def __init__(self):
         super(NetworkMem, self).__init__()
-
-    def get_untrained_model(self, encoder_dropout=0, decoder_dropout=0, input_dropout=0, LSTM_size=32, dense_size=256,
-                            max_len=15, nb_classes=13):
-
-        raw_input_l = Input(shape=(max_len, EMBEDDING_DIM))  # (steps, EMBEDDING_DIM)
-        raw_input_r = Input(shape=(max_len, EMBEDDING_DIM))
-
-        input_l = Dropout(input_dropout)(raw_input_l)
-        input_r = Dropout(input_dropout)(raw_input_r)
-
-        ## option 1: two branches
-        # encoder_l = LSTM(LSTM_size, return_sequences=True)(input_l)
-        # # encoder_l = LSTM(LSTM_size, return_sequences=True)(encoder_l)
-        # encoder_l = MaxPooling1D(pool_size=max_len)(encoder_l)  # (1, LSTM_size)
-        # encoder_l = Flatten()(encoder_l)
-        # encoder_r = LSTM(LSTM_size, return_sequences=True)(input_r)
-        # # encoder_r = LSTM(LSTM_size, return_sequences=True)(encoder_r)
-        # encoder_r = MaxPooling1D(pool_size=max_len)(encoder_r)  # (1, LSTM_size)
-        # encoder_r = Flatten()(encoder_r)
-        # encoder = concatenate([encoder_l, encoder_r])  # (2*LSTM_size)
-
-        ## option 2: no branch
-        input = concatenate([input_l, input_r], axis=-2)
-        encoder = Bidirectional(LSTM(LSTM_size, return_sequences=True))(input)
-        encoder = Bidirectional(LSTM(LSTM_size, return_sequences=True), merge_mode='sum')(encoder)
-        encoder = MaxPooling1D(pool_size=max_len)(encoder)  # (1, 2*LSTM_size)
-        encoder = Flatten()(encoder)
-
-        hidden = Dense(dense_size, activation='relu')(encoder)
-        hidden = Dropout(decoder_dropout)(hidden)
-        softmax = Dense(nb_classes, activation='softmax')(hidden)
-
-        model = Model(inputs=[raw_input_l, raw_input_r], outputs=[softmax])
-
-        # compile the final model
-        model.summary()
-        model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-        return model
-
-    def get_ntm_model(self, batch_size=100, m_depth=256, n_slots=100, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=1, write_heads=1, nb_classes=13,
-                      input_dropout=0.5):
-
-        left_branch = Sequential()
-        left_branch.add(Dropout(input_dropout, batch_input_shape=(1, batch_size, max_len, EMBEDDING_DIM)))
-        left_branch.add(TimeDistributed(LSTM(128, return_sequences=True)))
-        left_branch.add(TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))) #(1, batch_size, 1, 128)
-        left_branch.add(Reshape((batch_size, -1))) #(1, batch_size, 128)
-
-        right_branch = Sequential()
-        right_branch.add(Dropout(input_dropout, batch_input_shape=(1, batch_size, max_len, EMBEDDING_DIM)))
-        right_branch.add(TimeDistributed(LSTM(128, return_sequences=True)))
-        right_branch.add(TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same')))
-        right_branch.add(Reshape((batch_size, -1)))  # (1, batch_size, 128)
-
-        model = Sequential()
-        model.add(Merge([left_branch, right_branch], mode='concat', concat_axis=-1))  # (1, batch_size, 256)
-        # model.add(Dropout(0.5, batch_input_shape=(batch_size, max_len, 2*EMBEDDING_DIM)))
-
-        controller_input_dim, controller_output_dim = controller_shape(256, ntm_output_dim, m_depth,
-                                                                       n_slots, shift_range, read_heads, write_heads)
-
-        # we feed in controller (# documents, # pairs, data_dim)
-        # so max_steps here is # pairs
-        controller = get_lstm_controller(controller_output_dim, controller_input_dim, batch_size=1, max_steps=batch_size)
-        # controller = get_dense_controller(controller_output_dim, controller_input_dim, batch_size=1, max_steps=batch_size)
-
-        model.name = "NTM_-_" + controller.name
-
-        ntm = NTM(ntm_output_dim, n_slots=n_slots, m_depth=m_depth, shift_range=shift_range,
-                  read_heads=read_heads, write_heads=write_heads, controller_model=controller,
-                  return_sequences=True, input_shape=(batch_size, 256),
-                  activation='sigmoid', batch_size=1)
-
-        model.add(ntm)
-        model.add(Dropout(0.5))
-        model.add(TimeDistributed(Dense(nb_classes, activation='softmax')))
-        model.summary()
-        model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-
-        return model
 
     def slice_data(self, generator, batch_size):
         """Slice data into equal batch sizes
@@ -183,7 +57,7 @@ class NetworkMem(Network):
                     yield [out_data[0], out_data[1]], out_data[2]
 
 
-    def generate_training_input(self, notes, pair_type, max_len=15, nolink_ratio=None, no_ntm=False):
+    def generate_training_input(self, notes, pair_type, max_len=15, multiple=1, nolink_ratio=None, no_ntm=False):
         """
         Input data generator. Each step generates all data from one note file.
         Training data will be in narrative order
@@ -249,10 +123,11 @@ class NetworkMem(Network):
                 data_q.append((XL, XR, labels))
 
         while True:
-            yield data_q[0]
+            for i in range(multiple):  # read the document multiple times
+                yield data_q[0]
             data_q.rotate(-1)
 
-    def generate_test_input(self, notes, pair_type, max_len=15, no_ntm=False):
+    def generate_test_input(self, notes, pair_type, max_len=15, multiple=1, no_ntm=False):
 
         if self.word_vectors is None:
             print('Loading word embeddings...')
@@ -304,14 +179,14 @@ class NetworkMem(Network):
                     continue
 
                 if no_ntm:
-                    data_q.append(([XL, XR], labels, pair_index))
+                    data_q.append(([XL, XR], labels, pair_index, note.annotated_note_path))
                 else:
                     data_q.append((XL, XR, labels, pair_index))
 
         while True:
-            yield data_q[0]
+            for i in range(multiple):
+                yield data_q[0]
             data_q.rotate(-1)
-
 
     def train_model(self, model=None, no_ntm=False, epochs=100, steps_per_epoch=10, validation_steps=10, input_generator=None,
                     val_generator=None, weight_classes=False,
@@ -324,12 +199,12 @@ class NetworkMem(Network):
 
         if model is None:
             if no_ntm:
-                model = self.get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout,
+                model = get_untrained_model(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout,
                                                  input_dropout=input_dropout, LSTM_size=LSTM_size, dense_size=dense_size,
                                                  max_len=max_len, nb_classes=len(LABELS))
 
             else:
-                model = self.get_ntm_model(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=1, write_heads=1, nb_classes=13)
+                model = get_ntm_model2(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=13)
         # train the network
         print('Training network...')
 
@@ -341,6 +216,8 @@ class NetworkMem(Network):
 
     def predict(self, model, data_generator, batch_size=300, evaluation=True, smart=True, no_ntm=False):
         predictions = []
+        scores = []
+        pair_indexes = {}
         true_labels = None
         probs_in_note = None
         labels_in_note = []
@@ -348,7 +225,8 @@ class NetworkMem(Network):
 
         while True:
             if no_ntm:
-                X, y, pair_index = data_generator.next()
+                X, y, pair_index, path_name = data_generator.next()
+                print("file name to predict", path_name)
                 marker = -1
             else:
                 X, y, pair_index, marker = data_generator.next()
@@ -356,6 +234,7 @@ class NetworkMem(Network):
             note_index = pair_index.keys()[0][0]
             if end_of_note and note_index == 0: # all data consumed
                 break
+            pair_indexes.update(pair_index)
 
             probs = model.predict(X, batch_size=batch_size) # keras functional API model predicts probs
             if not no_ntm:
@@ -379,6 +258,7 @@ class NetworkMem(Network):
                 if smart:
                     labels_in_note, pair_index = self.smart_predict(labels_in_note, probs_in_note, pair_index, type='int')
                 predictions += labels_in_note
+                scores.append(probs_in_note)
                 probs_in_note = None
                 labels_in_note = []
 
@@ -389,4 +269,8 @@ class NetworkMem(Network):
 
         if evaluation:
             Network.class_confusion(predictions, true_labels, len(LABELS))
-        return predictions
+        if len(scores) > 1:
+            scores = np.concatenate(scores, axis=0)
+        elif len(scores) == 1:
+            scores = scores[0]
+        return predictions, scores, pair_indexes

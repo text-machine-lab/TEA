@@ -169,7 +169,12 @@ def predict_timex_rel(notes):
     for i, note in enumerate(notes):
         time_ref = TimeRefNetwork(note)
         note_predictions, failed_pairs = time_ref.compare_timex_pairs()
-        note.cross_sentence_pairs += failed_pairs # send them to cross-sentence model
+        for pair in failed_pairs:
+            # if 't0' not in pair:
+            #     note.cross_sentence_pairs += failed_pairs  # send them to cross-sentence model
+            # else:
+            #     note_predictions.append((pair, None))
+            note_predictions.append((pair, None))
 
         n = len(note_predictions)
         note_keys = [(i, pair) for pair, rel in note_predictions]

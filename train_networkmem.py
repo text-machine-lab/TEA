@@ -29,10 +29,8 @@ from keras.models import load_model
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.optimizers import Adam, SGD
 
-from code.learning.network_mem import DENSE_LABELS
-from code.learning.network import LABELS
-EMBEDDING_DIM = 300
-MAX_LEN = 15 # max # of words on each branch of path
+from code.learning.ntm_models import LABELS, DENSE_LABELS, EMBEDDING_DIM, MAX_LEN
+
 
 def main():
     '''
@@ -120,10 +118,10 @@ def main():
         os.makedirs(model_destination)
 
     if args.no_val:
-        earlystopping = EarlyStopping(monitor='loss', patience=8, verbose=0, mode='auto')
+        earlystopping = EarlyStopping(monitor='loss', patience=15, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='loss', save_best_only=True)
     else:
-        earlystopping = EarlyStopping(monitor='val_acc', patience=8, verbose=0, mode='auto')
+        earlystopping = EarlyStopping(monitor='val_acc', patience=15, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='val_loss', save_best_only=True)
 
     # create a sinlge model, then save architecture and weights
@@ -140,7 +138,8 @@ def main():
     N_CLASSES = len(LABELS)
     notes = get_notes(gold_files, args.newsreader_annotations)
     n = len(notes)
-    splits = 5  # the number of chunks we divide a batch/document into
+    splits = 20  # the number of chunks we divide a batch/document into
+    rounds = 10  # number of epochs to use all training data, good for fast check
 
     # the steps_per_epoch is useful if a single document is divided into chunks
     # if we use a whole document as a patch, it will be just the number of documents
@@ -156,6 +155,8 @@ def main():
     else:
         batch_size = 50
         steps_per_epoch = n
+    steps_per_epoch /= rounds
+
     if not args.no_val:
         val_notes = get_notes(val_files, args.newsreader_annotations)
         m = len(val_notes)
@@ -197,7 +198,7 @@ def main():
     else:
         val_data_gen = None
 
-    print("model", model)
+    print("model to load", model)
     model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=100, steps_per_epoch=steps_per_epoch, validation_steps=validation_steps,
                                          input_generator=training_data_gen, val_generator=val_data_gen,
                                          weight_classes=True, encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6,
@@ -235,7 +236,8 @@ def get_notes(files, newsreader_dir):
 
     notes = []
     if DENSE_LABELS:
-        denselabels = cPickle.load(open(newsreader_dir+'dense-labels.pkl'))
+        # denselabels = cPickle.load(open(newsreader_dir+'dense-labels.pkl'))
+        denselabels = cPickle.load(open(newsreader_dir + 'dense-labels-single.pkl'))
     else:
         denselabels = None
 
