@@ -56,7 +56,7 @@ def get_dense_controller(controller_output_dim, controller_input_dim, batch_size
                         bias_initializer='zeros',
                         input_shape=(controller_input_dim,)))
 
-    controller.summary()
+    # controller.summary()
     controller.compile(loss='binary_crossentropy', optimizer=Adam(lr=.0005, clipnorm=10.), metrics=['binary_accuracy'])
 
     return controller
@@ -72,6 +72,9 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, L
     input_l = Dropout(input_dropout)(raw_input_l)
     input_r = Dropout(input_dropout)(raw_input_r)
 
+    type_input = Input(shape=(1,))
+    pair_type = Dense(2)(type_input)
+
     ## option 1: two branches
     encoder_l = Bidirectional(LSTM(LSTM_size, return_sequences=True), merge_mode='sum')(input_l)
     # encoder_l = LSTM(LSTM_size, return_sequences=True)(encoder_l)
@@ -81,7 +84,7 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, L
     # encoder_r = LSTM(LSTM_size, return_sequences=True)(encoder_r)
     encoder_r = MaxPooling1D(pool_size=max_len)(encoder_r)  # (1, LSTM_size)
     encoder_r = Flatten()(encoder_r)
-    encoder = concatenate([encoder_l, encoder_r])  # (2*LSTM_size)
+    encoder = concatenate([encoder_l, encoder_r, pair_type])  # (2*LSTM_size)
 
     ## option 2: no branch
     # input = concatenate([input_l, input_r], axis=-2)
@@ -93,10 +96,10 @@ def get_untrained_model(encoder_dropout=0, decoder_dropout=0, input_dropout=0, L
     hidden = Dropout(decoder_dropout)(hidden)
     softmax = Dense(nb_classes, activation='softmax')(hidden)
 
-    model = Model(inputs=[raw_input_l, raw_input_r], outputs=[softmax])
+    model = Model(inputs=[raw_input_l, raw_input_r, type_input], outputs=[softmax])
 
     # compile the final model
-    model.summary()
+    # model.summary()
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model
 
@@ -206,7 +209,11 @@ def get_ntm_model2(batch_size=100, m_depth=256, n_slots=100, ntm_output_dim=128,
         right_branch = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(right_branch)
         right_branch = Reshape((batch_size, -1))(right_branch)  # (1, batch_size, 128)
 
-        concat = concatenate([left_branch, right_branch])
+        type_input = Input(batch_shape=(1, batch_size, 1))
+        # type_input = Reshape((batch_size, 1))(type_input)
+        pair_type = TimeDistributed(Dense(2))(type_input)
+
+        concat = concatenate([left_branch, right_branch, pair_type])
         hidden_lstm = TimeDistributed(Dense(128, activation='relu'))(concat)
         hidden_lstm = Dropout(0.5)(hidden_lstm)
 
@@ -225,10 +232,10 @@ def get_ntm_model2(batch_size=100, m_depth=256, n_slots=100, ntm_output_dim=128,
 
         # model.name = "NTM_-_" + controller.name
 
-        ntm = NTM(ntm_output_dim, n_slots=n_slots, m_depth=m_depth, shift_range=shift_range,
+        ntm = Bidirectional(NTM(ntm_output_dim, n_slots=n_slots, m_depth=m_depth, shift_range=shift_range,
                   read_heads=read_heads, write_heads=write_heads, controller_model=controller,
                   return_sequences=True, input_shape=(batch_size, 256),
-                  activation='sigmoid', batch_size=1)
+                  activation='sigmoid', batch_size=1), merge_mode='sum')
 
         ntm_layer = ntm(encoder)
         ntm_layer = Dropout(0.5)(ntm_layer)
@@ -237,10 +244,54 @@ def get_ntm_model2(batch_size=100, m_depth=256, n_slots=100, ntm_output_dim=128,
         hidden = concatenate([hidden_lstm, hidden_ntm])
 
         out_layer = TimeDistributed(Dense(nb_classes, activation='softmax'))(hidden)
-        model = Model(inputs=[left_input, right_input], outputs=[out_layer])
+        model = Model(inputs=[left_input, right_input, type_input], outputs=[out_layer])
 
         # compile the final model
-        model.summary()
+        # model.summary()
+        model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+
+        return model
+
+
+def get_ntm_model3(batch_size=100, m_depth=256, n_slots=100, ntm_output_dim=128, shift_range=3, max_len=15,
+                           read_heads=1, write_heads=1, nb_classes=13,
+                           input_dropout=0.5):
+
+
+        left_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
+        left_branch = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True), merge_mode='sum'))(left_input)
+        left_branch = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(left_branch)
+        left_branch = Reshape((batch_size, -1))(left_branch)  # (1, batch_size, 128)
+
+        right_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
+        right_branch = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True), merge_mode='sum'))(right_input)
+        right_branch = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(right_branch)
+        right_branch = Reshape((batch_size, -1))(right_branch)  # (1, batch_size, 128)
+
+        type_input = Input(batch_shape=(1, batch_size, 1))
+        # type_input = Reshape((batch_size, 1))(type_input)
+        pair_type = TimeDistributed(Dense(2))(type_input)
+
+        concat = concatenate([left_branch, right_branch, pair_type])
+        hidden_lstm = TimeDistributed(Dense(128, activation='relu'))(concat)
+        hidden_lstm = Dropout(0.5)(hidden_lstm)
+
+        left_encoder = TimeDistributed(Dense(64, activation='relu'))(left_branch)
+        right_encoder = TimeDistributed(Dense(64, activation='relu'))(right_branch)
+
+        encoder = concatenate([left_encoder, hidden_lstm, right_encoder])
+
+        context_layer = LSTM(128, return_sequences=True)(encoder)
+        context_layer = Dropout(0.5)(context_layer)
+        hidden_context = TimeDistributed(Dense(64, activation='relu'))(context_layer)
+
+        hidden = concatenate([hidden_lstm, hidden_context])
+
+        out_layer = TimeDistributed(Dense(nb_classes, activation='softmax'))(hidden)
+        model = Model(inputs=[left_input, right_input, type_input], outputs=[out_layer])
+
+        # compile the final model
+        # model.summary()
         model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
         return model

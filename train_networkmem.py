@@ -76,6 +76,11 @@ def main():
                         default=False,
                         help="specify whether to use neural turing machine. default is to use ntm (no_ntm=false).")
 
+    parser.add_argument("--augment",
+                        action='store_true',
+                        default=False,
+                        help="specify whether to use augmented data (flip pairs).")
+
     args = parser.parse_args()
 
     assert args.pair_type in ('intra', 'cross', 'dct', 'all')
@@ -113,63 +118,77 @@ def main():
     # one-to-one pairing of annotated file and un-annotated
     # assert len(gold_files) == len(tml_files)
 
-    model_destination = os.path.join(args.model_destination, args.pair_type) + '/'
-    if not os.path.exists(model_destination):
-        os.makedirs(model_destination)
-
-    if args.no_val:
-        earlystopping = EarlyStopping(monitor='loss', patience=15, verbose=0, mode='auto')
-        checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='loss', save_best_only=True)
-    else:
-        earlystopping = EarlyStopping(monitor='val_acc', patience=15, verbose=0, mode='auto')
-        checkpoint = ModelCheckpoint(model_destination + 'model.h5', monitor='val_loss', save_best_only=True)
-
-    # create a sinlge model, then save architecture and weights
-    if args.load_model:
-        try:
-            model = load_model(model_destination + 'model.h5')
-        except:
-            model = model_from_json(open(model_destination + '.arch.json').read())
-            model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-            model.load_weights(model_destination + '.weights.h5')
-    else:
-        model = None
-
     N_CLASSES = len(LABELS)
-    notes = get_notes(gold_files, args.newsreader_annotations)
+    notes = get_notes(gold_files, args.newsreader_annotations, augment=args.augment)
     n = len(notes)
-    splits = 20  # the number of chunks we divide a batch/document into
-    rounds = 10  # number of epochs to use all training data, good for fast check
 
-    # the steps_per_epoch is useful if a single document is divided into chunks
-    # if we use a whole document as a patch, it will be just the number of documents
-    if args.pair_type == 'cross':
-        batch_size = 300 / splits
-        steps_per_epoch = 43000/batch_size + n/2  # 42758 entries, 169 notes
-    elif args.pair_type == 'intra':
-        batch_size = 200 / splits
-        steps_per_epoch = 24000/batch_size + n/2  # 24312 entries, 169 notes
-    elif args.pair_type == 'all':
-        batch_size = 500 / splits
-        steps_per_epoch = 68000/batch_size + n/2
-    else:
-        batch_size = 50
-        steps_per_epoch = n
-    steps_per_epoch /= rounds
+    if args.augment:
+        splits = 10  # the estimated number of chunks we divide a batch/document into
+        rounds = 5  # number of epochs to use all training data, good for fast check
 
-    if not args.no_val:
-        val_notes = get_notes(val_files, args.newsreader_annotations)
-        m = len(val_notes)
+        # the steps_per_epoch is useful if a single document is divided into chunks
+        # if we use a whole document as a patch, it will be just the number of documents
         if args.pair_type == 'cross':
-            validation_steps = 2400/batch_size + m/2  # 2368 entries, 9 notes, 2000/batch_size is reasonable
+            batch_size = 350 / splits
+            steps_per_epoch = 7200/batch_size + n/2  # 7188/2 entries, 22 notes
         elif args.pair_type == 'intra':
-            validation_steps = 1400/batch_size + m/2  # 1352 entries, 9 notes,
+            batch_size = 200 / splits
+            steps_per_epoch = 3900/batch_size + n/2  # 3880/2 entries, 22 notes
         elif args.pair_type == 'all':
-            validation_steps = 4000/batch_size + m/2
+            batch_size = 560 / splits
+            steps_per_epoch = 12000/batch_size + n/2
         else:
-            validation_steps = m
+            batch_size = 50
+            steps_per_epoch = 1000/batch_size + n/2 # 1046/2 entries, 22 notes
+        steps_per_epoch /= rounds
+
+        if not args.no_val:
+            val_notes = get_notes(val_files, args.newsreader_annotations, augment=args.augment)
+            m = len(val_notes)
+            if args.pair_type == 'cross':
+                validation_steps = 2400/batch_size + m/2  # 2368/2 entries, 9 notes, 2000/batch_size is reasonable
+            elif args.pair_type == 'intra':
+                validation_steps = 1400/batch_size + m/2  # 1352/2 entries, 9 notes,
+            elif args.pair_type == 'all':
+                validation_steps = 4000/batch_size + m/2
+            else:
+                validation_steps = 300/batch_size + m/2  # 331 entries, 9 notes,
+        else:
+            validation_steps = None
     else:
-        validation_steps = None
+        splits = 3  # the estimated number of chunks we divide a batch/document into
+        rounds = 2  # number of epochs to use all training data, good for fast check
+
+        # the steps_per_epoch is useful if a single document is divided into chunks
+        # if we use a whole document as a patch, it will be just the number of documents
+        if args.pair_type == 'cross':
+            batch_size = 160 / splits
+            steps_per_epoch = 3600 / batch_size + n / 2  # 7188/2 entries, 22 notes
+        elif args.pair_type == 'intra':
+            batch_size = 90 / splits
+            steps_per_epoch = 1900 / batch_size + n / 2  # 3880/2 entries, 22 notes
+        elif args.pair_type == 'all':
+            batch_size = 300 / splits
+            steps_per_epoch = 6500 / batch_size + n / 2
+        else:
+            batch_size = 50
+            steps_per_epoch = 1000 / batch_size + n / 2  # 1046 entries, 22 notes
+        steps_per_epoch /= rounds
+
+        if not args.no_val:
+            val_notes = get_notes(val_files, args.newsreader_annotations)
+            m = len(val_notes)
+            if args.pair_type == 'cross':
+                validation_steps = 1200 / batch_size + m / 2  # 2368/2 entries, 9 notes, 2000/batch_size is reasonable
+            elif args.pair_type == 'intra':
+                validation_steps = 680 / batch_size + m / 2  # 1352/2 entries, 9 notes,
+            elif args.pair_type == 'all':
+                validation_steps = 2200 / batch_size + m / 2
+            else:
+                validation_steps = 300 / batch_size + m / 2  # 331 entries, 9 notes,
+        else:
+            validation_steps = None
+
 
     print("use batch size", batch_size)
     print("steps_per_epoch", steps_per_epoch)
@@ -198,6 +217,32 @@ def main():
     else:
         val_data_gen = None
 
+    model_destination = os.path.join(args.model_destination, args.pair_type) + '/'
+    if not os.path.exists(model_destination):
+        os.makedirs(model_destination)
+
+    if args.no_val:
+        earlystopping = EarlyStopping(monitor='loss', patience=20, verbose=0, mode='auto')
+        checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='loss', save_best_only=True, save_weights_only=True)
+    else:
+        earlystopping = EarlyStopping(monitor='val_acc', patience=20, verbose=0, mode='auto')
+        checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='val_loss', save_best_only=True, save_weights_only=True)
+
+    # create a sinlge model, then save architecture and weights
+    if args.load_model:
+        try:
+            model = load_model(model_destination + 'model.h5')
+        except:
+            from code.learning.ntm_models import get_ntm_model2
+            # model = model_from_json(open(model_destination + '.arch.json').read())
+            # model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+
+            # for some unkonwn reason the model cannot be loaded properly. Have to use the method below
+            model = get_ntm_model2(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=13)
+            model.load_weights(model_destination + 'final_weights.h5')
+    else:
+        model = None
+
     print("model to load", model)
     model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=100, steps_per_epoch=steps_per_epoch, validation_steps=validation_steps,
                                          input_generator=training_data_gen, val_generator=val_data_gen,
@@ -216,7 +261,7 @@ def main():
 
     architecture = model.to_json()
     open(model_destination + '.arch.json', "wb").write(architecture)
-    model.save_weights(model_destination + '.weights.h5')
+    model.save_weights(model_destination + 'final_weights.h5')
     model.save(model_destination + 'final_model.h5')
     json.dump(history, open(model_destination + 'training_history.json', 'w'))
 
@@ -229,15 +274,17 @@ def basename(name):
     return name
 
 
-def get_notes(files, newsreader_dir):
+def get_notes(files, newsreader_dir, augment=False):
 
     if not files:
         return None
 
     notes = []
     if DENSE_LABELS:
-        # denselabels = cPickle.load(open(newsreader_dir+'dense-labels.pkl'))
-        denselabels = cPickle.load(open(newsreader_dir + 'dense-labels-single.pkl'))
+        if augment:
+            denselabels = cPickle.load(open(newsreader_dir+'dense-labels.pkl'))
+        else:
+            denselabels = cPickle.load(open(newsreader_dir + 'dense-labels-single.pkl'))
     else:
         denselabels = None
 

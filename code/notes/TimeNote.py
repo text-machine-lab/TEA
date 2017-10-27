@@ -68,6 +68,8 @@ class TimeNote(Note):
         self.event_ids = set([])
         self.timex_ids = set([])
         self.id_to_labels = {} # map from id pairs to tlink labels. Negative not included.
+        self.id_to_sent = {} # map event or timex id to sentence id
+        self.id_to_denselabels = {} # map id pairs to dense labels (TimeBank Dense data)
 
         """
         print "\n\nself.original_text:\n\n"
@@ -87,10 +89,13 @@ class TimeNote(Note):
         print "\n\n"
         """
 
-        self.tlinks = []
+        self.tlinks = [] # list of pair entities (Incl. reversed) in narrative order, every entity is a dictionary with some features
         self.get_id_word_map()
-        self.get_valid_pairs()
         self.denselabels = denselabels
+        if self.denselabels is not None:
+            self.get_id_to_denselabels()
+        self.get_valid_pairs()
+
 
         if self.annotated_note_path is not None:
 
@@ -101,8 +106,7 @@ class TimeNote(Note):
             self.get_id_to_labels()
             #self.get_neg_data_indexes()
             # self.get_neg_pairs()
-        if self.denselabels is not None:
-            self.get_id_to_denselabels()
+
 
     def get_tlinks(self):
         print "get tlinks from:", self.annotated_note_path
@@ -423,6 +427,8 @@ class TimeNote(Note):
         return self.tlinks
 
     def get_entity_pairs(self):
+        """Return entity pairs. Every pair will be followed by its reversed pair immediately
+        """
 
         id_chunk_map, event_ids, timex_ids, sentence_chunks = self.get_id_chunk_map()
 
@@ -620,6 +626,11 @@ class TimeNote(Note):
         self.timex_pairs = []
         for src_etid in self.id_to_wordIDs: # eventID/timexID -> words
             for target_etid in self.id_to_wordIDs: # we allow both (e1, e2) and (e2, e1)
+                # use dense labels only for TimeBank Dense data
+                # not a big deal if pairs are augmented
+                if self.id_to_denselabels and (src_etid, target_etid) not in self.id_to_denselabels:
+                    continue
+
                 if src_etid == target_etid or src_etid == 't0':
                     continue
                 if src_etid[0] == 't' and target_etid[0] == 't': # timex
@@ -830,7 +841,6 @@ class TimeNote(Note):
         return self.id_to_labels
 
     def get_id_to_denselabels(self):
-        self.id_to_denselabels = {}
         for key in self.denselabels: # file names may have different extensions
             if key in self.annotated_note_path:
                 self.id_to_denselabels = self.denselabels[key]

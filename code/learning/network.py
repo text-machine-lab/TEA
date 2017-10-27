@@ -190,7 +190,6 @@ class Network(object):
             filler = np.zeros((1, max_len, 1))
             V_XL, _ = Network._pad_to_match_dimensions(V_XL, filler, 1, pad_left=True)
             V_XR, _ = Network._pad_to_match_dimensions(V_XR, filler, 1, pad_left=True)
-            print "V_XL", V_XL.shape
             validation_data = ([V_XL, V_XR], V_Y)
 
         training_history = model.fit([XL, XR], Y, nb_epoch=epochs, validation_split=validation_split, class_weight=class_weights,
@@ -309,7 +308,7 @@ class Network(object):
 
         if self.word_vectors is None:
             print 'Loading word embeddings...'
-            word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
+            self.word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
             # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"]+'/wiki.dim-300.win-8.neg-15.skip.bin', verbose=0)
             #word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.840B.300d.txt', verbose=0)
             # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.6B.200d.txt', verbose=0)
@@ -322,7 +321,7 @@ class Network(object):
             # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
             # (with length equal to word embedding length), and axis 2 hold each word.
             # del_list is a list of indices for which no SDP could be obtained
-            left_vecs, right_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type)
+            left_vecs, right_vecs, id_pairs, type_markers = self._extract_path_representations(note, self.word_vectors, pair_type)
 
             # perform a random check, to make sure the data is correctly augmented
             if not id_pairs:
@@ -338,8 +337,11 @@ class Network(object):
             else:
                 id_to_labels = note.id_to_labels
 
+            if not id_to_labels:
+                continue
+
             for index, pair in enumerate(id_pairs):
-                if pair in id_to_labels:
+                if pair in id_to_labels and id_to_labels[pair] != 'None':
                     pos_case_indexes.append(index)
                 else:
                     neg_case_indexes.append(index)
@@ -430,7 +432,7 @@ class Network(object):
             # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
             # (with length equal to word embedding length), and axis 2 hold each word.
             # del_list is a list of indices for which no SDP could be obtained
-            left_vecs, right_vecs, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type)
+            left_vecs, right_vecs, id_pairs, type_markers = self._extract_path_representations(note, self.word_vectors, pair_type)
 
             if DENSE_LABELS:
                 id_to_labels = note.id_to_denselabels # use TimeBank-Dense labels
@@ -444,11 +446,12 @@ class Network(object):
                     #pair_index[(i, pair)] = index + index_offset
 
                     label_from_file = id_to_labels.get(pair, 'None')
+                    # the id pairs from notes are in both ways, however data file may not labeled in both ways
+                    # that is why we need to find the opposite
+                    # QA evaluation does not need this. Timebank dense does not need it either.
+                    # we may want to augment dev/test files so this may not be needed any more
                     opposite_from_file = id_to_labels.get((pair[1], pair[0]), 'None')
-                    if label_from_file == 'None' and opposite_from_file != 'None':
-                        # print note.annotated_note_path
-                        # print "id pair", pair, label_from_file
-                        # print "opposite", opposite_from_file
+                    if label_from_file == 'None' and opposite_from_file != 'None': # maybe the reversed pair is labeled
                         index_to_reverse.append(index)
                         note_labels.append(opposite_from_file) # save the opposite lable first, reverse later
                     else:
@@ -586,9 +589,9 @@ class Network(object):
 
     def _extract_path_representations(self, note, word_vectors, pair_type):
 
-        word_vectors['_INTRA_'] = np.zeros(EMBEDDING_DIM)
-        word_vectors['_CROSS_'] = np.ones(EMBEDDING_DIM)
-        word_vectors['_DCT_'] = - np.ones(EMBEDDING_DIM)
+        # word_vectors['_INTRA_'] = np.zeros(EMBEDDING_DIM)
+        # word_vectors['_CROSS_'] = np.ones(EMBEDDING_DIM)
+        # word_vectors['_DCT_'] = - np.ones(EMBEDDING_DIM)
 
         id_pair_to_path_words = self._extract_path_words(note, pair_type)
 
@@ -601,8 +604,14 @@ class Network(object):
         # get the word vectors for every word in the left pathy
         # must sort it to match the labels correctly
         sorted_pairs = Network.sort_id_pairs(note, id_pair_to_path_words.keys())
+        type_markers = []
         for id_pair in sorted_pairs:
             path = id_pair_to_path_words[id_pair][0]
+            type_marker = path[-1]
+            assert type_marker in ('_INTRA_', '_CROSS_', '_DCT_')
+            type_markers.append(path[-1])
+            path.pop(-1)
+
             left_vecs_path = None
             for word in path:
                 # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 1s.
@@ -616,12 +625,7 @@ class Network(object):
                 if left_vecs_path is None:
                     left_vecs_path = embedding
                 else:
-                    try:
-                        left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=1)
-                    except ValueError:
-                        print "ValueError line 559", word
-                        print left_vecs_path.shape
-                        print embedding.shape
+                    left_vecs_path = np.concatenate((left_vecs_path, embedding), axis=1)
 
             if left_vecs_path is None:
                 embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
@@ -669,7 +673,7 @@ class Network(object):
 
         # print "removed from list: ", len(del_list)
 
-        return left_vecs, right_vecs, sorted_pairs
+        return left_vecs, right_vecs, sorted_pairs, type_markers
 
     @staticmethod
     def _pad_and_concatenate(a, b, axis, pad_left=[]):

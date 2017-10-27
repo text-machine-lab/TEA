@@ -13,8 +13,9 @@ from word2vec import load_word2vec_binary
 from collections import deque
 
 from network import Network
-from ntm_models import get_untrained_model, get_ntm_model, get_ntm_model2
+from ntm_models import get_untrained_model, get_ntm_model, get_ntm_model2, get_ntm_model3
 from ntm_models import LABELS, DENSE_LABELS, EMBEDDING_DIM, MAX_LEN
+TYPE_MARKERS = {'_INTRA_': 0, '_CROSS_': 1, '_DCT_': -1}
 
 class NetworkMem(Network):
     def __init__(self):
@@ -25,22 +26,22 @@ class NetworkMem(Network):
         Left-over small chunks will be augmented with random samples
         """
         while True:
-            feed = generator.next() # x, y, <pair_index>
-            data = feed[:3]
+            feed = generator.next() # XL, XR, type_markers, y, <pair_index>
+            data = feed[:4]
             N = len(data[-1])
             i = 0
             while (i+1) * batch_size <= N:
-                if len(feed) == 4: # has pair_index, test data
+                if len(feed) == 5: # has pair_index, test data
                     if (i + 1) * batch_size == N:
                         marker = -1  # end of note
                     else:
                         marker = 0
                     # we need to add a dummy dimension to make the data 4D
                     out_data = [np.expand_dims(item[i*batch_size:(i+1)*batch_size], axis=0) for item in data]
-                    yield [out_data[0], out_data[1]], out_data[2], feed[-1], marker
+                    yield [out_data[0], out_data[1], out_data[2]], out_data[3], feed[-1], marker
                 else:
                     out_data = [np.expand_dims(item[i*batch_size:(i+1)*batch_size], axis=0) for item in data]
-                    yield [out_data[0], out_data[1]], out_data[2]
+                    yield [out_data[0], out_data[1], out_data[2]], out_data[3]
                 i += 1
 
             left_over = N % batch_size
@@ -48,13 +49,13 @@ class NetworkMem(Network):
                 to_add = batch_size - left_over
                 indexes_to_add = np.random.choice(N, to_add) # randomly sample more instances
                 indexes = np.concatenate((np.arange(i*batch_size, N), indexes_to_add))
-                if len(feed) == 4:
+                if len(feed) == 5:
                     marker = left_over
                     out_data = [np.expand_dims(item[indexes], axis=0) for item in data]
-                    yield [out_data[0], out_data[1]], out_data[2], feed[-1], marker
+                    yield [out_data[0], out_data[1], out_data[2]], out_data[3], feed[-1], marker
                 else:
                     out_data = [np.expand_dims(item[indexes], axis=0) for item in data]
-                    yield [out_data[0], out_data[1]], out_data[2]
+                    yield [out_data[0], out_data[1], out_data[2]], out_data[3]
 
 
     def generate_training_input(self, notes, pair_type, max_len=15, multiple=1, nolink_ratio=None, no_ntm=False):
@@ -72,9 +73,12 @@ class NetworkMem(Network):
             self.word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin',
                                                 verbose=0)
         data_q = deque()
+        count = 0
+        count_none = 0
         for note in notes:
 
-            XL, XR, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type)
+            XL, XR, id_pairs, type_markers = self._extract_path_representations(note, self.word_vectors, pair_type)
+            type_markers = np.expand_dims(np.array([TYPE_MARKERS[item] for item in type_markers]), axis=-1) # convert to 2D
 
             if not id_pairs:
                 print("No pair found:", note.annotated_note_path)
@@ -89,8 +93,11 @@ class NetworkMem(Network):
             else:
                 id_to_labels = note.id_to_labels
 
+            if not id_to_labels:
+                continue
+
             for index, pair in enumerate(id_pairs):
-                if pair in id_to_labels:
+                if pair in id_to_labels and id_to_labels[pair] != 'None': #TimeBank Dense could have None labels
                     pos_case_indexes.append(index)
                 else:
                     neg_case_indexes.append(index)
@@ -108,6 +115,7 @@ class NetworkMem(Network):
                 XL = XL[training_indexes, :, :]
                 XR = XR[training_indexes, :, :]
                 note_labels = note_labels[training_indexes]
+                type_markers = type_markers[training_indexes]
 
             if XL is not None and XL.shape[0] != 0:
                 XL = pad_sequences(XL, maxlen=max_len, dtype='float32', padding='pre', truncating='post', value=0.)
@@ -118,16 +126,27 @@ class NetworkMem(Network):
             labels = to_categorical(self._convert_str_labels_to_int(note_labels), len(LABELS))
 
             if no_ntm:
-                data_q.append(([XL, XR], labels))
+                data_q.append(([XL, XR, type_markers], labels))
             else:
-                data_q.append((XL, XR, labels))
+                data_q.append((XL, XR, type_markers, labels))
+
+            for label in labels:
+                if label[12] == 1:
+                    count_none += 1
+                else:
+                    count += 1
+
+        print("Positive instances:", count)
+        print("Negative instances:", count_none)
+        if nolink_ratio is not None:
+            assert count_none <= count * nolink_ratio
 
         while True:
             for i in range(multiple):  # read the document multiple times
                 yield data_q[0]
             data_q.rotate(-1)
 
-    def generate_test_input(self, notes, pair_type, max_len=15, multiple=1, no_ntm=False):
+    def generate_test_input(self, notes, pair_type, max_len=15, multiple=1, no_ntm=False, reverse_pairs=True):
 
         if self.word_vectors is None:
             print('Loading word embeddings...')
@@ -135,10 +154,13 @@ class NetworkMem(Network):
                                                      verbose=0)
 
         data_q = deque()
+        count_none = 0
+        count = 0
         for i, note in enumerate(notes):
             pair_index = {}  # record note id and all the used entity pairs
 
-            XL, XR, id_pairs = self._extract_path_representations(note, self.word_vectors, pair_type)
+            XL, XR, id_pairs, type_markers = self._extract_path_representations(note, self.word_vectors, pair_type)
+            type_markers = np.expand_dims(np.array([TYPE_MARKERS[item] for item in type_markers]), axis=-1)
 
             if DENSE_LABELS:
                 id_to_labels = note.id_to_denselabels  # use TimeBank-Dense labels
@@ -147,27 +169,11 @@ class NetworkMem(Network):
 
             if id_to_labels:
                 note_labels = []
-                index_to_reverse = []
                 for index, pair in enumerate(id_pairs):  # id pairs that have tlinks
-
                     label_from_file = id_to_labels.get(pair, 'None')
-                    opposite_from_file = id_to_labels.get((pair[1], pair[0]), 'None')
-                    if label_from_file == 'None' and opposite_from_file != 'None':
-                        index_to_reverse.append(index)
-                        note_labels.append(opposite_from_file)  # save the opposite lable first, reverse later
-                    else:
-                        note_labels.append(label_from_file)
+                    note_labels.append(label_from_file)
 
-                labels = self._convert_str_labels_to_int(note_labels)
-                labels_to_reverse = [labels[x] for x in index_to_reverse]
-                reversed = self.reverse_labels(labels_to_reverse)
-                print(note.annotated_note_path)
-                print("{} labels augmented".format(len(reversed)))
-
-                labels = np.array(labels, dtype='int16')
-                index_to_reverse = np.array(index_to_reverse)
-                if index_to_reverse.any():
-                    labels[index_to_reverse] = reversed
+                labels = np.array(self._convert_str_labels_to_int(note_labels), dtype='int16')
 
                 for index, pair in enumerate(id_pairs):
                     pair_index[(i, pair)] = index # map pairs to their index in data array, i is index for notes
@@ -179,9 +185,16 @@ class NetworkMem(Network):
                     continue
 
                 if no_ntm:
-                    data_q.append(([XL, XR], labels, pair_index, note.annotated_note_path))
+                    data_q.append(([XL, XR, type_markers], labels, pair_index, note.annotated_note_path))
                 else:
-                    data_q.append((XL, XR, labels, pair_index))
+                    data_q.append((XL, XR, type_markers, labels, pair_index))
+
+                for label in labels:
+                    if label == 12: count_none += 1
+                    else: count += 1
+
+        print("Positive instances:", count)
+        print("Negative instances:", count_none)
 
         while True:
             for i in range(multiple):
@@ -204,7 +217,7 @@ class NetworkMem(Network):
                                                  max_len=max_len, nb_classes=len(LABELS))
 
             else:
-                model = get_ntm_model2(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=13)
+                model = get_ntm_model3(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=13)
         # train the network
         print('Training network...')
 
@@ -222,6 +235,7 @@ class NetworkMem(Network):
         probs_in_note = None
         labels_in_note = []
         end_of_note = False
+        print("not using NTM", no_ntm)
 
         while True:
             if no_ntm:
