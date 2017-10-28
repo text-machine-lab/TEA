@@ -217,7 +217,7 @@ class NetworkMem(Network):
                                                  max_len=max_len, nb_classes=len(LABELS))
 
             else:
-                model = get_ntm_model3(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=13)
+                model = get_ntm_model2(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=13)
         # train the network
         print('Training network...')
 

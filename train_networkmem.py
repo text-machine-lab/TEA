@@ -123,7 +123,7 @@ def main():
     n = len(notes)
 
     if args.augment:
-        splits = 10  # the estimated number of chunks we divide a batch/document into
+        splits = 5  # the estimated number of chunks we divide a batch/document into
         rounds = 5  # number of epochs to use all training data, good for fast check
 
         # the steps_per_epoch is useful if a single document is divided into chunks
@@ -244,7 +244,7 @@ def main():
         model = None
 
     print("model to load", model)
-    model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=100, steps_per_epoch=steps_per_epoch, validation_steps=validation_steps,
+    model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=3, steps_per_epoch=steps_per_epoch, validation_steps=validation_steps,
                                          input_generator=training_data_gen, val_generator=val_data_gen,
                                          weight_classes=True, encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6,
                                          LSTM_size=128, dense_size=128, max_len=MAX_LEN, nb_classes=N_CLASSES, callbacks=[checkpoint, earlystopping],
