@@ -29,6 +29,7 @@ from keras.models import load_model
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.optimizers import Adam, SGD
 
+from code.learning.ntm import NeuralTuringMachine, StatefulController
 from code.learning.ntm_models import LABELS, DENSE_LABELS, EMBEDDING_DIM, MAX_LEN
 
 
@@ -120,11 +121,12 @@ def main():
 
     N_CLASSES = len(LABELS)
     notes = get_notes(gold_files, args.newsreader_annotations, augment=args.augment)
+    numpy.random.shuffle(notes)
     n = len(notes)
 
     if args.augment:
-        splits = 5  # the estimated number of chunks we divide a batch/document into
-        rounds = 5  # number of epochs to use all training data, good for fast check
+        splits = 28  # the estimated number of chunks we divide a batch/document into
+        rounds = 4  # number of epochs to use all training data, good for fast check
 
         # the steps_per_epoch is useful if a single document is divided into chunks
         # if we use a whole document as a patch, it will be just the number of documents
@@ -156,7 +158,7 @@ def main():
         else:
             validation_steps = None
     else:
-        splits = 3  # the estimated number of chunks we divide a batch/document into
+        splits = 50  # the estimated number of chunks we divide a batch/document into
         rounds = 2  # number of epochs to use all training data, good for fast check
 
         # the steps_per_epoch is useful if a single document is divided into chunks
@@ -197,23 +199,13 @@ def main():
     word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
     # network.word_vectors = load_glove(os.environ["TEA_PATH"] + '/glove.6B.200d.txt')
     # network.word_vectors = load_glove(os.environ["TEA_PATH"] + '/glove.6B.300d.txt')
-    network = NetworkMem()
+    network = NetworkMem(no_ntm=args.no_ntm, nb_training_files=len(notes))
     network.word_vectors = word_vectors
 
-
-    training_data = network.generate_training_input(notes, args.pair_type, max_len=MAX_LEN, nolink_ratio=args.nolink, no_ntm=args.no_ntm)
-    if args.no_ntm:
-        training_data_gen = training_data  # no sclicing
-    else:
-        training_data_gen = network.slice_data(training_data, batch_size)
+    training_data_gen = network.generate_training_input(notes, args.pair_type, max_len=MAX_LEN, nolink_ratio=args.nolink, no_ntm=args.no_ntm)
 
     if not args.no_val and val_notes is not None:
-        val_data = network.generate_training_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm)
-        if args.no_ntm:
-            val_data_gen = val_data
-        else:
-            val_data_gen = network.slice_data(val_data, batch_size)
-
+        val_data_gen = network.generate_test_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm)
     else:
         val_data_gen = None
 
@@ -225,8 +217,9 @@ def main():
         earlystopping = EarlyStopping(monitor='loss', patience=20, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='loss', save_best_only=True, save_weights_only=True)
     else:
-        earlystopping = EarlyStopping(monitor='val_acc', patience=20, verbose=0, mode='auto')
+        earlystopping = EarlyStopping(monitor='val_acc', patience=30, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='val_loss', save_best_only=True, save_weights_only=True)
+    callbacks = {'earlystopping': earlystopping, 'checkpoint': checkpoint}
 
     # create a sinlge model, then save architecture and weights
     if args.load_model:
@@ -238,34 +231,31 @@ def main():
             # model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
             # for some unkonwn reason the model cannot be loaded properly. Have to use the method below
-            model = get_ntm_model2(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=13)
+            model = get_ntm_model2(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=len(LABELS))
             model.load_weights(model_destination + 'final_weights.h5')
     else:
         model = None
 
     print("model to load", model)
-    model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=3, steps_per_epoch=steps_per_epoch, validation_steps=validation_steps,
+    model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=200, steps_per_epoch=steps_per_epoch, validation_steps=validation_steps,
                                          input_generator=training_data_gen, val_generator=val_data_gen,
                                          weight_classes=True, encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6,
-                                         LSTM_size=128, dense_size=128, max_len=MAX_LEN, nb_classes=N_CLASSES, callbacks=[checkpoint, earlystopping],
-                                         batch_size=batch_size)
+                                         LSTM_size=128, dense_size=128, max_len=MAX_LEN, nb_classes=N_CLASSES, callbacks=callbacks,
+                                         batch_size=batch_size, has_auxiliary=True)
 
     # evaluation
-    test_data = network.generate_test_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm)
-    if args.no_ntm:
-        test_data_gen = test_data
-    else:
-        test_data_gen = network.slice_data(test_data, batch_size)
+    test_data_gen = network.generate_test_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm)
 
-    network.predict(model, test_data_gen, batch_size=batch_size, evaluation=True, smart=True, no_ntm=args.no_ntm)
+    network.test_data_collection = []  # need to do with because we used it for val data
+    network.predict(model, test_data_gen, batch_size=batch_size, evaluation=True, smart=True, no_ntm=args.no_ntm, has_auxiliary=True)
 
-    architecture = model.to_json()
-    open(model_destination + '.arch.json', "wb").write(architecture)
+    # architecture = model.to_json(
+    #     custom_objects={'NeuralTuringMachine': NeuralTuringMachine, 'StatefulController': StatefulController})
+    # open(model_destination + '.arch.json', "wb").write(architecture)
+    json.dump(history, open(model_destination + 'training_history.json', 'w'))
     model.save_weights(model_destination + 'final_weights.h5')
     model.save(model_destination + 'final_model.h5')
-    json.dump(history, open(model_destination + 'training_history.json', 'w'))
 
-    return model, history
 
 def basename(name):
     name = os.path.basename(name)

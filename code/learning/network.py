@@ -14,8 +14,9 @@ from word2vec import load_word2vec_binary
 from sklearn.metrics import classification_report
 from sklearn.metrics import precision_recall_fscore_support
 
-LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
-          "DURING", "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
+# LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
+#           "DURING", "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
+LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IS_INCLUDED", "INCLUDES", "None"] # TimeBank Dense labels
 EMBEDDING_DIM = 300
 DENSE_LABELS = True
 
