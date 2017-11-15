@@ -129,7 +129,7 @@ def main():
     notes = get_notes(gold_files, newsreader_dir)
 
     network = NetworkMem()
-    network.word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
+    network.word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + 'embeddings/GoogleNews-vectors-negative300.bin', verbose=0)
 
     if DENSE_LABELS:
         pred_Y = []

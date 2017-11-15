@@ -40,7 +40,7 @@ class TimeRefNetwork(object):
                     value = item['entity_value']
                     type = item['entity_label'][2:]
                     elements[tid] = {'value': value, 'type': type}
-        self.timex_elements.update(elements)
+            self.timex_elements.update(elements)
 
     def compare_timex_pairs(self):
         timex_ids = sorted(list(self.timex_elements.keys()), key=lambda x: int(x[1:]))
@@ -48,17 +48,20 @@ class TimeRefNetwork(object):
             print "timex ids not found"
 
         N = len(timex_ids)
-        timex_id_pairs = []
-        for i, item in enumerate(timex_ids):
-            for j in range(i+1, N):
-                timex_id_pairs.append((item, timex_ids[j]))
+        # for i, item in enumerate(timex_ids):
+        #     for j in range(i+1, N):
+        #         timex_id_pairs.append((item, timex_ids[j]))
+        timex_id_pairs = self.note.timex_pairs
 
         predictions = []
         failed_pairs = []
         for pair in timex_id_pairs:
-            val1 = self.timex_elements[pair[0]].get('value', '')
-            val2 = self.timex_elements[pair[1]].get('value', '')
-            label = self.compare_timex_pair(val1, val2)
+            try:
+                val1 = self.timex_elements[pair[0]].get('value', '')
+                val2 = self.timex_elements[pair[1]].get('value', '')
+                label = self.compare_timex_pair(val1, val2)
+            except KeyError:  # we can only handle Date type timexes. Others will throw an exception
+                label = None
             if label is not None: # only collect classifiable cases
                 predictions.append((pair, label))
             else:
@@ -164,7 +167,7 @@ class TimeRefNetwork(object):
 
 def predict_timex_rel(notes):
     labels = []
-    pair_index = {}
+    pair_index = {}  # {(i, pair) : index}
     index_offset = 0
     for i, note in enumerate(notes):
         time_ref = TimeRefNetwork(note)

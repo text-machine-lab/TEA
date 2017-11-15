@@ -272,13 +272,13 @@ class Network(object):
             opposite_index = pair_index[opposite_key]
             opposite_label = labels[opposite_index] # predicted label of the opposite pair
 
-            # # set "no link" with the lowest priority
-            # if label == 0:
-            #     score = 0
+            # # set "no link" with lower priority, because "no link" tends to dominate
+            # if label == LABELS.index('None'):
+            #     score = 1.0/len(LABELS) # set it to random level
             # else:
             #     score = probs[index, label]
-            # if opposite_label == 0:
-            #     opposite_score = 0
+            # if opposite_label == LABELS.index('None'):
+            #     opposite_score = 1.0/len(LABELS) # set it to random level
             # else:
             #     opposite_score = probs[opposite_index, opposite_label]
 
@@ -516,12 +516,19 @@ class Network(object):
                 left_path, right_path = id_pair_to_path[id_pair]
                 left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
                 right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
-                right_words.reverse()  # make right branch top to bottom
 
-                # left_words.insert(0, marker)
-                left_words.append(marker)
-                # right_words.append(marker)
-                id_pair_to_path_words[id_pair] = (left_words, right_words)
+                # right_words.reverse()  # make right branch top to bottom
+
+                if id_pair[0][0] == 'e':
+                    left_words.insert(0, '_EVENT_')
+                else:
+                    left_words.insert(0, '_TIMEX_')
+                if id_pair[1][0] == 'e':
+                    right_words.insert(0, '_EVENT_')
+                else:
+                    left_words.insert(0, '_TIMEX_')
+
+                id_pair_to_path_words[id_pair] = (left_words, right_words, marker)
 
         if pair_type in ('cross', 'all'):
             id_pair_to_path = note.get_cross_sentence_subpaths()
@@ -538,12 +545,18 @@ class Network(object):
                 left_path, right_path = id_pair_to_path[id_pair]
                 left_words = [note.id_to_tok['w'+x[1:]]['token'] for x in left_path]
                 right_words = [note.id_to_tok['w'+x[1:]]['token'] for x in right_path]
-                right_words.reverse()  # make right branch top to bottom
+                # right_words.reverse()  # make right branch top to bottom
 
-                # left_words.insert(0, marker)
-                left_words.append(marker)
-                # right_words.append(marker)
-                id_pair_to_path_words[id_pair] = (left_words, right_words)
+                if id_pair[0][0] == 'e':
+                    left_words.insert(0, '_EVENT_')
+                else:
+                    left_words.insert(0, '_TIMEX_')
+                if id_pair[1][0] == 'e':
+                    right_words.insert(0, '_EVENT_')
+                else:
+                    left_words.insert(0, '_TIMEX_')
+
+                id_pair_to_path_words[id_pair] = (left_words, right_words, marker)
 
         if pair_type in ('dct', 'all'): # (event, t0) pairs
             t0_to_path = note.get_t0_subpaths()
@@ -552,34 +565,70 @@ class Network(object):
             for entity_id in t0_to_path:
                 left_path = t0_to_path[entity_id]
                 left_words = [note.id_to_tok['w' + x[1:]]['token'] for x in left_path]
-                right_words = copy.copy(left_words)
-                right_words.reverse() # reverse order of the path, to make two branches
 
-                # left_words.insert(0, marker)
-                left_words.append(marker)
-                # right_words.append(marker)
-                id_pair_to_path_words[(entity_id, 't0')] = (left_words, right_words)
+                if id_pair[0][0] == 'e':
+                    left_words.insert(0, '_EVENT_')
+                else:
+                    left_words.insert(0, '_TIMEX_')
+
+                right_words = copy.copy(left_words)
+                # right_words.reverse() # reverse order of the path, to make two branches
+                id_pair_to_path_words[(entity_id, 't0')] = (left_words, right_words, marker)
 
         return id_pair_to_path_words
 
     def _extract_context_words(self, note, pair_type):
+
+        def _insert_tag(context, eid):
+            word_id = note.id_to_wordIDs[eid][0]
+            word = note.id_to_tok[word_id]['token']
+            try:
+                loc = context.index(word)
+                if eid[0] == 'e':
+                    context.insert(loc, '_EVENT_')
+                else:
+                    context.insert(loc, '_TIMEX_')
+            except:
+                print "cound not find token %s in %s" % (eid, note.annotated_note_path)
+                print context
+                sys.exit(1)
+            return context
+
+        assert pair_type in ('intra', 'cross', 'dct', 'all')
         id_pair_to_context_words = {}
 
-        assert pair_type in ('intra', 'cross', 'dct')
+        if pair_type in ('intra', 'all'):
+            marker = '_INTRA_'
+            intra = note.get_intra_sentence_context()
+            for key in intra:
+                left_context = intra[key][0]
+                left_context = _insert_tag(left_context, key[0])
+                right_context = intra[key][1]
+                right_context = _insert_tag(right_context, key[1])
+                intra[key] = (left_context, right_context, marker)
 
-        if pair_type == 'intra':
-            id_pair_to_context_words = note.get_intra_sentence_context()  # key: (src_id, target_id), value: [left_context, right_context]
+            id_pair_to_context_words.update(intra)  # key: (src_id, target_id), value: (left_context, right_context, marker)
 
-        if pair_type == 'cross':
-            id_pair_to_context_words = note.get_cross_sentence_context()
+        if pair_type in ('cross', 'all'):
+            marker = '_CROSS_'
+            cross = note.get_cross_sentence_context()
+            for key in cross:
+                left_context = cross[key][0]
+                left_context = _insert_tag(left_context, key[0])
+                right_context = cross[key][1]
+                right_context = _insert_tag(right_context, key[1])
+                cross[key] = (left_context, right_context, marker)
+            id_pair_to_context_words.update(cross)
 
-        if pair_type == 'dct':  # (event, t0) pairs
+        if pair_type in ('dct', 'all'):  # (event, t0) pairs
+            marker = '_DCT_'
             entity_to_context_words = note.get_t0_context()
             for entity_id in entity_to_context_words:
                 words = entity_to_context_words[entity_id]
+                words = _insert_tag(words, entity_id)
                 reversed = copy.copy(words)
-                reversed.reverse()
-                id_pair_to_context_words[(entity_id, 't0')] = (words, reversed)
+                # reversed.reverse()
+                id_pair_to_context_words[(entity_id, 't0')] = [words, reversed, marker]
 
         return id_pair_to_context_words
 
@@ -588,13 +637,15 @@ class Network(object):
         """Sort event and timex ids in narrative order"""
         return sorted(id_pairs, key=lambda x: note.id_to_sent[x[0]]) # sorted by sentence number of the first id
 
-    def _extract_path_representations(self, note, word_vectors, pair_type):
+    def _extract_path_representations(self, note, word_vectors, pair_type, use_shortest=True):
 
-        # word_vectors['_INTRA_'] = np.zeros(EMBEDDING_DIM)
-        # word_vectors['_CROSS_'] = np.ones(EMBEDDING_DIM)
-        # word_vectors['_DCT_'] = - np.ones(EMBEDDING_DIM)
+        word_vectors['_EVENT_'] = np.ones(EMBEDDING_DIM)
+        word_vectors['_TIMEX_'] = - np.ones(EMBEDDING_DIM)
 
-        id_pair_to_path_words = self._extract_path_words(note, pair_type)
+        if use_shortest:
+            id_pair_to_path_words = self._extract_path_words(note, pair_type)
+        else:
+            id_pair_to_path_words = self._extract_context_words(note, pair_type)
 
         # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
         #del_list = []
@@ -607,12 +658,11 @@ class Network(object):
         sorted_pairs = Network.sort_id_pairs(note, id_pair_to_path_words.keys())
         type_markers = []
         for id_pair in sorted_pairs:
-            path = id_pair_to_path_words[id_pair][0]
-            type_marker = path[-1]
+            type_marker = id_pair_to_path_words[id_pair][-1]
             assert type_marker in ('_INTRA_', '_CROSS_', '_DCT_')
-            type_markers.append(path[-1])
-            path.pop(-1)
+            type_markers.append(type_marker)
 
+            path = id_pair_to_path_words[id_pair][0]
             left_vecs_path = None
             for word in path:
                 # try to get embedding for a given word. If the word is not in the vocabulary, use a vector of all 1s.

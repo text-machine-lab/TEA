@@ -22,7 +22,7 @@ import time
 
 from code.learning.network_mem import NetworkMem
 from code.notes.TimeNote import TimeNote
-from code.learning.word2vec import load_word2vec_binary, load_glove
+from code.learning.word2vec import load_word2vec_binary, build_vocab
 
 from keras.models import model_from_json
 from keras.models import load_model
@@ -31,6 +31,7 @@ from keras.optimizers import Adam, SGD
 
 from code.learning.ntm import NeuralTuringMachine, StatefulController
 from code.learning.ntm_models import LABELS, DENSE_LABELS, EMBEDDING_DIM, MAX_LEN
+from code.learning.time_ref import predict_timex_rel
 
 
 def main():
@@ -125,7 +126,7 @@ def main():
     n = len(notes)
 
     if args.augment:
-        splits = 28  # the estimated number of chunks we divide a batch/document into
+        splits = 56  # the estimated number of chunks we divide a batch/document into
         rounds = 4  # number of epochs to use all training data, good for fast check
 
         # the steps_per_epoch is useful if a single document is divided into chunks
@@ -157,6 +158,7 @@ def main():
                 validation_steps = 300/batch_size + m/2  # 331 entries, 9 notes,
         else:
             validation_steps = None
+
     else:
         splits = 50  # the estimated number of chunks we divide a batch/document into
         rounds = 2  # number of epochs to use all training data, good for fast check
@@ -191,21 +193,22 @@ def main():
         else:
             validation_steps = None
 
-
     print("use batch size", batch_size)
     print("steps_per_epoch", steps_per_epoch)
     print("validation_steps", validation_steps)
-    print("loading word vectors...")
-    word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
-    # network.word_vectors = load_glove(os.environ["TEA_PATH"] + '/glove.6B.200d.txt')
-    # network.word_vectors = load_glove(os.environ["TEA_PATH"] + '/glove.6B.300d.txt')
-    network = NetworkMem(no_ntm=args.no_ntm, nb_training_files=len(notes))
-    network.word_vectors = word_vectors
+    # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
 
-    training_data_gen = network.generate_training_input(notes, args.pair_type, max_len=MAX_LEN, nolink_ratio=args.nolink, no_ntm=args.no_ntm)
+    network = NetworkMem(no_ntm=args.no_ntm, nb_training_files=len(notes))
+    print("loading word vectors...")
+    sentences = [item.original_text for item in notes]
+    if val_notes is not None:
+        sentences += [item.original_text for item in val_notes]
+    network.word_vectors = build_vocab(sentences, os.environ["TEA_PATH"] + 'embeddings/glove.840B.300d.txt')
+
+    training_data_gen = network.generate_training_input(notes, args.pair_type, max_len=MAX_LEN, nolink_ratio=args.nolink, no_ntm=args.no_ntm, multiple=1)
 
     if not args.no_val and val_notes is not None:
-        val_data_gen = network.generate_test_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm)
+        val_data_gen = network.generate_test_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm, multiple=1)
     else:
         val_data_gen = None
 
@@ -217,7 +220,7 @@ def main():
         earlystopping = EarlyStopping(monitor='loss', patience=20, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='loss', save_best_only=True, save_weights_only=True)
     else:
-        earlystopping = EarlyStopping(monitor='val_acc', patience=30, verbose=0, mode='auto')
+        earlystopping = EarlyStopping(monitor='val_acc', patience=10, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='val_loss', save_best_only=True, save_weights_only=True)
     callbacks = {'earlystopping': earlystopping, 'checkpoint': checkpoint}
 
@@ -241,20 +244,71 @@ def main():
                                          input_generator=training_data_gen, val_generator=val_data_gen,
                                          weight_classes=True, encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6,
                                          LSTM_size=128, dense_size=128, max_len=MAX_LEN, nb_classes=N_CLASSES, callbacks=callbacks,
-                                         batch_size=batch_size, has_auxiliary=True)
+                                         batch_size=batch_size, has_auxiliary=False)
+
+    json.dump(history, open(model_destination + 'training_history.json', 'w'))
+    model.save_weights(model_destination + 'final_weights.h5')
 
     # evaluation
-    test_data_gen = network.generate_test_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm)
 
-    network.test_data_collection = []  # need to do with because we used it for val data
-    network.predict(model, test_data_gen, batch_size=batch_size, evaluation=True, smart=True, no_ntm=args.no_ntm, has_auxiliary=True)
+    print("Prediction results for one-pass reading...")
+    # network.test_data_collection = []
+    # test_data_gen = network.generate_test_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm,
+    #                                             multiple=1)
+    test_data_gen = val_data_gen
+    network.predict(model, test_data_gen, batch_size=batch_size, evaluation=True, smart=True, no_ntm=args.no_ntm,
+                    has_auxiliary=False, combine_timex=True)
+    # print("Prediction results for two-pass reading...")
+    # network.test_data_collection = []
+    # test_data_gen = network.generate_test_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm,
+    #                                             multiple=1)
+    # network.predict(model, test_data_gen, batch_size=batch_size, evaluation=True, smart=True, no_ntm=args.no_ntm,
+    #                 has_auxiliary=False, combine_timex=True)
 
     # architecture = model.to_json(
     #     custom_objects={'NeuralTuringMachine': NeuralTuringMachine, 'StatefulController': StatefulController})
     # open(model_destination + '.arch.json', "wb").write(architecture)
-    json.dump(history, open(model_destination + 'training_history.json', 'w'))
-    model.save_weights(model_destination + 'final_weights.h5')
-    model.save(model_destination + 'final_model.h5')
+
+    # model.save(model_destination + 'final_model.h5')
+
+    # if DENSE_LABELS:  # intrinsic evaluation for TimeBank-Dense
+    #     network.test_data_collection = []  # need to do it because we used it for val data
+    #     # do not use the internal evaluation function of predict() here
+    #     predictions, scores, true_labels = network.predict(model, test_data_gen, batch_size=batch_size, evaluation=False, smart=True, no_ntm=args.no_ntm, has_auxiliary=False)
+    #
+    #     timex_labels, timex_pair_index = predict_timex_rel(val_notes)
+    #     true_timex_labels = []
+    #     pred_timex_labels = []
+    #     timex_pairs = []
+    #     for i, note in enumerate(val_notes):
+    #
+    #         id_to_labels = note.id_to_denselabels  # If augmented, this is bidirectional, even for t0 pairs
+    #         processed = {}  # used to remove redundant pairs
+    #
+    #         # The id pairs in timex_pair_index are exactly the same as in note.timex_pairs
+    #         # For TimeBank-Dense data, only labeled pairs are included
+    #         for pair in note.timex_pairs:
+    #             if pair in processed: continue
+    #             if (i, pair) in timex_pair_index:
+    #                 timex_pairs.append((i, pair))
+    #                 pred_timex_labels.append(timex_labels[timex_pair_index[(i, pair)]])
+    #
+    #                 if pair in id_to_labels:
+    #                     true_timex_labels.append(id_to_labels[pair])
+    #                 else:
+    #                     true_timex_labels.append(LABELS.index("None"))
+    #                     print("Timex pair in %s not found in true labels:" % note.annotated_note_path, pair)
+    #             else:
+    #                 print("Timex pair in %s not found in timex_pair_index:" % note.annotated_note_path, pair)
+    #
+    #             processed[pair] = 1
+    #             processed[(pair[1], pair[0])] = 1
+    #     pred_timex_labels = network._convert_str_labels_to_int(pred_timex_labels)
+    #     true_timex_labels = network._convert_str_labels_to_int(true_timex_labels)
+    #
+    #     predictions += pred_timex_labels
+    #     true_labels = numpy.concatenate([true_labels, numpy.array(true_timex_labels)], axis=0)
+    #     NetworkMem.class_confusion(predictions, true_labels, len(LABELS))
 
 
 def basename(name):

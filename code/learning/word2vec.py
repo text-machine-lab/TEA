@@ -2,6 +2,7 @@ import sys
 import os
 import numpy as np
 import cPickle as pickle
+import nltk
 
 
 def load_word2vec_binary(fname='/data1/nlp-data/GoogleNews-vectors-negative300.bin', verbose=1, dev=False):
@@ -52,3 +53,37 @@ def load_glove(gloveFile):
         model[word] = embedding
     print "Done.",len(model)," words loaded!"
     return model
+
+# The folliwing functions are adapted from https://github.com/facebookresearch/InferSent/blob/master/data.py
+
+def get_word_dict(sentences):
+    # create vocab of words
+    word_dict = {}
+    for sent in sentences:
+        for word in nltk.word_tokenize(sent):  # original version uses split()
+            if word not in word_dict:
+                word_dict[word] = ''
+    word_dict['<s>'] = ''
+    word_dict['</s>'] = ''
+    word_dict['<p>'] = ''
+    return word_dict
+
+
+def get_glove(word_dict, glove_path):
+    # create word_vec with glove vectors
+    word_vec = {}
+    with open(glove_path) as f:
+        for line in f:
+            word, vec = line.split(' ', 1)
+            if word in word_dict:
+                word_vec[word] = np.array(list(map(float, vec.split())))
+    print('Found {0}(/{1}) words with glove vectors'.format(
+                len(word_vec), len(word_dict)))
+    return word_vec
+
+
+def build_vocab(sentences, glove_path):
+    word_dict = get_word_dict(sentences)
+    word_vec = get_glove(word_dict, glove_path)
+    print('Vocab size : {0}'.format(len(word_vec)))
+    return word_vec
