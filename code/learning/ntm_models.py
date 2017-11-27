@@ -12,8 +12,9 @@ from keras.optimizers import Adam, RMSprop
 from collections import deque
 import tensorflow as tf
 
-from ntm import NeuralTuringMachine as NTM, StatefulController
-from ntm import controller_input_output_shape as controller_shape
+# from ntm2 import NeuralTuringMachine as NTM
+# from ntm2 import SingleKeyNTM as NTM
+from ntm2 import SimpleNTM as NTM
 
 # LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
 #           "DURING", "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
@@ -271,7 +272,7 @@ def get_untrained_model4_2(encoder_dropout=0, decoder_dropout=0, input_dropout=0
     # compile the final model
     # model.summary()
     # model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'], loss_weights=[1., 2.])
-    model.compile(loss=my_weighted_loss, optimizer='rmsprop', metrics=['accuracy'])
+    model.compile(loss=my_weighted_loss, optimizer='rmsprop', metrics=['categorical_accuracy'])
     return model
 
 def get_simple_ntm(batch_size=100, m_depth=256, n_slots=100, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=1, write_heads=1, nb_classes=13,
@@ -486,25 +487,25 @@ def get_ntm_model4_1(batch_size=100, m_depth=256, n_slots=100, ntm_output_dim=12
 
     left_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
     left_branch = Dropout(input_dropout)(left_input)
-    left_branch = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='tanh'), merge_mode='sum'))(left_branch)
+    left_branch = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='linear'), merge_mode='sum'))(left_branch)
     left_branch = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(left_branch)
     left_branch = Reshape((batch_size, -1))(left_branch)  # (1, batch_size, 128)
 
     right_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
     right_branch = Dropout(input_dropout)(right_input)
-    right_branch = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='tanh'), merge_mode='sum'))(right_branch)
+    right_branch = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='linear'), merge_mode='sum'))(right_branch)
     right_branch = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(right_branch)
     right_branch = Reshape((batch_size, -1))(right_branch)  # (1, batch_size, 128)
 
     left_context_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
     left_context = Dropout(input_dropout)(left_context_input)
-    left_context = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='tanh'), merge_mode='sum'))(left_context)
+    left_context = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='linear'), merge_mode='sum'))(left_context)
     left_context = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(left_context)
     left_context = Reshape((batch_size, -1))(left_context)  # (1, batch_size, 128)
 
     right_context_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
     right_context = Dropout(input_dropout)(right_context_input)
-    right_context = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='tanh'), merge_mode='sum'))(right_context)
+    right_context = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='linear'), merge_mode='sum'))(right_context)
     right_context = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(right_context)
     right_context = Reshape((batch_size, -1))(right_context)  # (1, batch_size, 128)
 
@@ -513,59 +514,162 @@ def get_ntm_model4_1(batch_size=100, m_depth=256, n_slots=100, ntm_output_dim=12
     # pair_type = TimeDistributed(Dense(2))(type_input)
 
     concat = concatenate([left_branch, right_branch, type_input, left_context, right_context])
-    hidden_lstm = TimeDistributed(Dense(256, activation='tanh'))(concat)
-    hidden_lstm = Dropout(0.5)(hidden_lstm)
+    hidden_lstm = TimeDistributed(Dense(256, activation='relu'))(concat)
+    # hidden_lstm = Dropout(0.3)(hidden_lstm)
     hidden_lstm2 = TimeDistributed(Dense(128, activation='tanh'))(hidden_lstm)
 
     left_encoder = TimeDistributed(Dense(64, activation='tanh'))(left_branch)
     right_encoder = TimeDistributed(Dense(64, activation='tanh'))(right_branch)
 
     encoder = concatenate([left_encoder, right_encoder, hidden_lstm2])
-    encoder = Dropout(0.5)(encoder)
+    # encoder = concatenate([left_encoder, right_encoder, hidden_lstm])
+    # encoder = Dropout(0.3)(encoder)
     encoder = concatenate([encoder, type_input])
 
-    controller_input_dim, controller_output_dim = controller_shape(256+1, ntm_output_dim, m_depth,
-                                                                   n_slots, shift_range, read_heads, write_heads)
+    # controller_input_dim, controller_output_dim = controller_shape(256+1, ntm_output_dim, m_depth,
+    #                                                                n_slots, shift_range, read_heads, write_heads)
 
     # we feed in controller (# documents, # pairs, data_dim)
     # so max_steps here is # pairs
-    controller = get_lstm_controller(controller_output_dim, controller_input_dim, batch_size=1, max_steps=batch_size)
+    # controller = get_lstm_controller(controller_output_dim, controller_input_dim, batch_size=1, max_steps=batch_size)
 
     # model.name = "NTM_-_" + controller.name
 
+    # NTM_F = NTM(ntm_output_dim, n_slots=n_slots, m_depth=m_depth, shift_range=shift_range,
+    #             read_heads=read_heads, write_heads=write_heads, controller_model=controller,
+    #             return_sequences=True, batch_input_shape=(1, batch_size, 256+1), stateful=True,
+    #             activation='relu')
+    # NTM_B = NTM(ntm_output_dim, n_slots=n_slots, m_depth=m_depth, shift_range=shift_range,
+    #             read_heads=read_heads, write_heads=write_heads, controller_model=controller,
+    #             return_sequences=True, batch_input_shape=(1, batch_size, 256+1), stateful=True,
+    #             activation='relu', go_backwards=True)
+
+
     NTM_F = NTM(ntm_output_dim, n_slots=n_slots, m_depth=m_depth, shift_range=shift_range,
-                read_heads=read_heads, write_heads=write_heads, controller_model=controller,
-                return_sequences=True, batch_input_shape=(1, batch_size, 256+1), stateful=True,
-                activation='relu')
+                read_heads=read_heads, write_heads=write_heads, controller_stateful=False,
+                return_sequences=True, input_shape=(batch_size, 256 + 1), batch_size=1, stateful=False,
+                activation='linear')
     NTM_B = NTM(ntm_output_dim, n_slots=n_slots, m_depth=m_depth, shift_range=shift_range,
-                read_heads=read_heads, write_heads=write_heads, controller_model=controller,
-                return_sequences=True, batch_input_shape=(1, batch_size, 256+1), stateful=True,
-                activation='relu', go_backwards=True)
+                read_heads=read_heads, write_heads=write_heads, controller_stateful=False,
+                return_sequences=True, input_shape=(batch_size, 256 + 1), batch_size=1, stateful=False,
+                activation='linear', go_backwards=True)
 
     # ntm_layer = Bidirectional(ntm, merge_mode='ave')(encoder)
 
     ntm_forward = NTM_F(encoder)
     ntm_backward = NTM_B(encoder)
 
-    # make a layer to reverse output
-    Reverse = Lambda(lambda x: reverse(x, axes=-2), output_shape=(batch_size, ntm_output_dim))
-    ntm_backward = Reverse(ntm_backward)
+    # # make a layer to reverse output
+    # Reverse = Lambda(lambda x: reverse(x, axes=-2), output_shape=(batch_size, ntm_output_dim))
+    # ntm_backward = Reverse(ntm_backward)
 
     ntm_layer = average([ntm_forward, ntm_backward])
-    ntm_layer = Dropout(0.5)(ntm_layer)
+    # ntm_layer = Dropout(0.3)(ntm_layer)
 
-    hidden_ntm = TimeDistributed(Dense(128, activation='tanh'))(ntm_layer)
-    hidden_ntm = Dropout(0.5)(hidden_ntm)
+    hidden_ntm = TimeDistributed(Dense(128, activation='relu'))(ntm_layer)
+    hidden_ntm = Dropout(0.3)(hidden_ntm)
     hidden_ntm2 = TimeDistributed(Dense(64, activation='tanh'))(hidden_ntm)
+    # concat_decoder = concatenate([hidden_lstm2, hidden_ntm2, type_input])
+    concat_decoder = concatenate([hidden_ntm2, type_input])
+    # concat_decoder = concatenate([hidden_ntm, type_input])
 
-    # hidden = concatenate([hidden_lstm2, hidden_ntm, pair_type])
-    hidden2 = concatenate([hidden_ntm2, type_input])
+    outlayer = TimeDistributed(Dense(nb_classes, activation='softmax'), name='main_out')(concat_decoder)
 
-    outlayer = TimeDistributed(Dense(nb_classes, activation='softmax'), name='main_out')(hidden2)
+    if has_auxiliary:
+        auxiliary_outlayer = TimeDistributed(Dense(nb_classes, activation='softmax'), name='aux_out')(hidden_lstm)
+        model = Model(inputs=[left_input, right_input, type_input, left_context_input, right_context_input], outputs=[outlayer, auxiliary_outlayer])
+        # model.summary()
+        model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['categorical_accuracy'], loss_weights=[1.5, 1.])
+    else:
+        model = Model(inputs=[left_input, right_input, type_input, left_context_input, right_context_input], outputs=[outlayer])
+        # model.summary()
+        model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['categorical_accuracy'])
 
-    model = Model(inputs=[left_input, right_input, type_input, left_context_input, right_context_input], outputs=[outlayer])
+    return model
+
+
+def get_ntm_model5_1(batch_size=None, m_depth=256, n_slots=100, ntm_output_dim=128, shift_range=3, max_len=15,
+                   read_heads=1, write_heads=1, nb_classes=13, input_dropout=0.3, has_auxiliary=False):
+    """feed softmax to ntm"""
+    from keras.backend import reshape
+    ReshapeBranch = Lambda(lambda x: reshape(x, (1, -1, 128)))
+
+    left_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
+    left_branch = Dropout(input_dropout)(left_input)
+    left_branch = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='linear'), merge_mode='sum'))(left_branch)
+    left_branch = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(left_branch)
+    # left_branch = Reshape((-1, 128))(left_branch)  # (1, batch_size, 128)
+    left_branch = ReshapeBranch(left_branch)
+
+    right_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
+    right_branch = Dropout(input_dropout)(right_input)
+    right_branch = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='linear'), merge_mode='sum'))(right_branch)
+    right_branch = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(right_branch)
+    # right_branch = Reshape((-1, 128))(right_branch)  # (1, batch_size, 128)
+    right_branch = ReshapeBranch(right_branch)
+
+    left_context_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
+    left_context = Dropout(input_dropout)(left_context_input)
+    left_context = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='linear'), merge_mode='sum'))(left_context)
+    left_context = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(left_context)
+    # left_context = Reshape((-1, 128))(left_context)  # (1, batch_size, 128)
+    left_context = ReshapeBranch(left_context)
+
+    right_context_input = Input(batch_shape=(1, batch_size, max_len, EMBEDDING_DIM))
+    right_context = Dropout(input_dropout)(right_context_input)
+    right_context = TimeDistributed(Bidirectional(LSTM(128, return_sequences=True, activation='linear'), merge_mode='sum'))(right_context)
+    right_context = TimeDistributed(MaxPooling1D(pool_size=max_len, padding='same'))(right_context)
+    # right_context = Reshape((-1, 128))(right_context)  # (1, batch_size, 128)
+    right_context = ReshapeBranch(right_context)
+
+    type_input = Input(batch_shape=(1, batch_size, 1))
+    # type_input = Reshape((batch_size, 1))(type_input)
+    # pair_type = TimeDistributed(Dense(2))(type_input)
+
+    concat = concatenate([left_branch, right_branch, type_input, left_context, right_context])
+    hidden_lstm = TimeDistributed(Dense(256, activation='relu'))(concat)
+    hidden_lstm = Dropout(0.3)(hidden_lstm)
+    aux_softmax = TimeDistributed(Dense(nb_classes, activation='softmax'), name='aux_out')(hidden_lstm)
+
+    left_encoder = TimeDistributed(Dense(64, activation='tanh'))(left_branch)
+    right_encoder = TimeDistributed(Dense(64, activation='tanh'))(right_branch)
+
+    encoder = concatenate([left_encoder, right_encoder, aux_softmax])
+    # encoder = concatenate([left_encoder, right_encoder, hidden_lstm])
+    # encoder = Dropout(0.3)(encoder)
+    # encoder = concatenate([encoder, type_input])
+
+    NTM_F = NTM(ntm_output_dim, n_slots=n_slots, m_depth=m_depth, shift_range=shift_range,
+                read_heads=read_heads, write_heads=write_heads, controller_stateful=True,
+                return_sequences=True, input_shape=(batch_size, 128 + nb_classes), batch_size=1, stateful=False,
+                activation='linear')
+    NTM_B = NTM(ntm_output_dim, n_slots=n_slots, m_depth=m_depth, shift_range=shift_range,
+                read_heads=read_heads, write_heads=write_heads, controller_stateful=True,
+                return_sequences=True, input_shape=(batch_size, 128 + nb_classes), batch_size=1, stateful=False,
+                activation='linear', go_backwards=True)
+
+    # ntm_layer = Bidirectional(ntm, merge_mode='ave')(encoder)
+
+    ntm_forward = NTM_F(encoder)
+    ntm_backward = NTM_B(encoder)
+
+    # # make a layer to reverse output
+    # Reverse = Lambda(lambda x: reverse(x, axes=-2), output_shape=(batch_size, ntm_output_dim))
+    # ntm_backward = Reverse(ntm_backward)
+
+    ntm_layer = average([ntm_forward, ntm_backward])
+    # ntm_layer = Dropout(0.3)(ntm_layer)
+
+    hidden_ntm = TimeDistributed(Dense(128, activation='relu'))(ntm_layer)
+    hidden_ntm = Dropout(0.3)(hidden_ntm)
+    # concat_decoder = concatenate([hidden_ntm, hidden_lstm])
+    # decoder = TimeDistributed(Dense(128, activation='relu'))(concat_decoder)
+    # outlayer = TimeDistributed(Dense(nb_classes, activation='softmax'), name='main_out')(decoder)
+    outlayer = TimeDistributed(Dense(nb_classes, activation='softmax'), name='main_out')(hidden_ntm)
+
+    model = Model(inputs=[left_input, right_input, type_input, left_context_input, right_context_input], outputs=[outlayer, aux_softmax])
     # model.summary()
-    model.compile(loss='categorical_crossentropy', optimizer=RMSprop(lr=0.0002, clipnorm=0.1), metrics=['categorical_accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['categorical_accuracy'], loss_weights=[1., 0.5])
 
     return model
 

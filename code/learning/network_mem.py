@@ -8,6 +8,8 @@ np.random.seed(1337)
 import math
 
 from sklearn.metrics import precision_recall_fscore_support
+import keras
+import tensorflow as tf
 from keras.callbacks import LearningRateScheduler
 from network import Network
 from word2vec import load_word2vec_binary, build_vocab
@@ -63,10 +65,10 @@ class NetworkMem(Network):
                 else:
                     out_data = [np.expand_dims(item[i*batch_size:(i+1)*batch_size], axis=0) for item in data]
                     # randomize training data within a batch (micro-randomization)
-                    rng_state = np.random.get_state()
-                    for data_index in range(6):
-                        np.random.shuffle(out_data[data_index])
-                        np.random.set_state(rng_state)
+                    # rng_state = np.random.get_state()
+                    # for data_index in range(6):
+                    #     np.random.shuffle(out_data[data_index])
+                    #     np.random.set_state(rng_state)
 
                     yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4]], out_data[5]
                 i += 1
@@ -280,9 +282,9 @@ class NetworkMem(Network):
 
         # learning rate schedule
         def step_decay(epoch):
-            initial_lrate = 0.002
+            initial_lrate = 0.0005
             drop = 0.5
-            epochs_drop = 4
+            epochs_drop = 8  # get half in every epochs_drop steps
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
 
@@ -295,16 +297,20 @@ class NetworkMem(Network):
                 model = get_untrained_model4_2(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout,
                                             input_dropout=input_dropout, LSTM_size=LSTM_size, dense_size=dense_size,
                                             max_len=max_len, nb_classes=len(LABELS))
-
             else:
-                model = get_ntm_model4_1(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128,
+                model = get_ntm_model5_1(batch_size=None, m_depth=256, n_slots=64, ntm_output_dim=128,
                                        shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=len(LABELS), has_auxiliary=has_auxiliary)
+        if no_ntm:
+            fit_batch_size = batch_size
+        else:
+            fit_batch_size = 1
         # train the network
         print('Training network...')
         training_history = []
         best_result = None
         epochs_over_best = 0
-
+        # keras.backend.get_session().run(tf.global_variables_initializer())
+        batch_sizes = [batch_size/2, batch_size, batch_size*2]
         for epoch in range(epochs):
             lr = step_decay(epoch)
             print("set learning rate %f" %lr)
@@ -314,30 +320,33 @@ class NetworkMem(Network):
             start = time.time()
             for n in range(self.nb_training_files):
                 note_data = input_generator.next()
-                for sliced in self.slice_data(note_data, batch_size=batch_size, shift=0):
+                batch_size = np.random.choice(batch_sizes)
+                for sliced in self.slice_data(note_data, batch_size=batch_size, shift=batch_size + 7):
                     x = sliced[0]
                     y = sliced[1]
 
                     if has_auxiliary:
                         assert len(y.shape) in (2, 3)
-                        if len(y.shape) == 3:
-                            assert y.shape[0] == 1 # must be 3D with a dummy dimension
-                            y_aux = np.zeros((y.shape[0], y.shape[1], 2))
-                            for i, item in enumerate(y[0]):
-                                if item[-1] == 1:
-                                    y_aux[0, i, -1] = 1
-                                else:
-                                    y_aux[0, i, 0] = 1
-                        else:
-                            y_aux = np.zeros((y.shape[0], 2))
-                            for i, item in enumerate(y):
-                                if item[-1] == 1:
-                                    y_aux[i, -1] = 1
-                                else:
-                                    y_aux[i, 0] = 1
+                        # if len(y.shape) == 3:
+                        #     assert y.shape[0] == 1 # must be 3D with a dummy dimension
+                        #     y_aux = np.zeros((y.shape[0], y.shape[1], 2))
+                        #     for i, item in enumerate(y[0]):
+                        #         if item[-1] == 1:
+                        #             y_aux[0, i, -1] = 1
+                        #         else:
+                        #             y_aux[0, i, 0] = 1
+                        # else:
+                        #     y_aux = np.zeros((y.shape[0], 2))
+                        #     for i, item in enumerate(y):
+                        #         if item[-1] == 1:
+                        #             y_aux[i, -1] = 1
+                        #         else:
+                        #             y_aux[i, 0] = 1
+                        y_aux = y
+
                         y = [y, y_aux]
 
-                    history = model.fit(x, y, batch_size=1, epochs=1, verbose=0, validation_split=0.0,
+                    history = model.fit(x, y, batch_size=fit_batch_size, epochs=1, verbose=0, validation_split=0.0,
                               validation_data=None, shuffle=False, class_weight=None, sample_weight=None,
                               initial_epoch=0)
                     # print(history.history)
@@ -350,7 +359,7 @@ class NetworkMem(Network):
 
                 # reset states after a note file is processed
                 model.reset_states()
-                if 'main_out_acc' in history.history:
+                if 'main_out_categorical_accuracy' in history.history:
                     main_affix = 'main_out_'
                 else:
                     main_affix = ''
@@ -361,7 +370,7 @@ class NetworkMem(Network):
                 loss = np.mean([h[main_affix+'loss'][0] for h in epoch_history])
                     
                 if has_auxiliary:
-                    aux_acc = np.mean([h['aux_out_acc'][0] for h in epoch_history])
+                    aux_acc = np.mean([h['aux_out_categorical_accuracy'][0] for h in epoch_history])
                     # aux_loss = np.mean([h['aux_out_loss'][0] for h in epoch_history])
                     sys.stdout.write("epoch %d after training file %d/%d--- -%ds - main_loss : %.4f - main_acc : %.4f - aux_acc : %.4f\r" % (
                     epoch + 1, n, self.nb_training_files, int(time.time() - start), loss, acc, aux_acc))
@@ -442,7 +451,11 @@ class NetworkMem(Network):
                     break
                 # pair_indexes.update(pair_index)
 
-                probs = model.predict(X, batch_size=batch_size) # keras functional API model predicts probs
+                if no_ntm:
+                    probs = model.predict(X, batch_size=batch_size) # keras functional API model predicts probs
+                else:
+                    # probs = model.predict(X, batch_size=1)
+                    probs = model.predict_on_batch(X)
                 if has_auxiliary:
                     probs = probs[0]  # use main output only
                 if not no_ntm:

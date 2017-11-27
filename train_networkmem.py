@@ -29,7 +29,6 @@ from keras.models import load_model
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.optimizers import Adam, SGD
 
-from code.learning.ntm import NeuralTuringMachine, StatefulController
 from code.learning.ntm_models import LABELS, DENSE_LABELS, EMBEDDING_DIM, MAX_LEN
 from code.learning.time_ref import predict_timex_rel
 
@@ -126,7 +125,7 @@ def main():
     n = len(notes)
 
     if args.augment:
-        splits = 56  # the estimated number of chunks we divide a batch/document into
+        splits = 14  # the estimated number of chunks we divide a batch/document into
         rounds = 4  # number of epochs to use all training data, good for fast check
 
         # the steps_per_epoch is useful if a single document is divided into chunks
@@ -160,7 +159,7 @@ def main():
             validation_steps = None
 
     else:
-        splits = 50  # the estimated number of chunks we divide a batch/document into
+        splits = 10  # the estimated number of chunks we divide a batch/document into
         rounds = 2  # number of epochs to use all training data, good for fast check
 
         # the steps_per_epoch is useful if a single document is divided into chunks
@@ -229,13 +228,14 @@ def main():
         try:
             model = load_model(model_destination + 'model.h5')
         except:
-            from code.learning.ntm_models import get_ntm_model2
+            from code.learning.ntm_models import get_ntm_model4_1
             # model = model_from_json(open(model_destination + '.arch.json').read())
             # model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
             # for some unkonwn reason the model cannot be loaded properly. Have to use the method below
-            model = get_ntm_model2(batch_size=batch_size, m_depth=256, n_slots=128, ntm_output_dim=128, shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=len(LABELS))
-            model.load_weights(model_destination + 'final_weights.h5')
+            model = get_ntm_model4_1(batch_size=batch_size, m_depth=256, n_slots=32, ntm_output_dim=128,
+                                       shift_range=3, max_len=15, read_heads=2, write_heads=1, nb_classes=N_CLASSES, has_auxiliary=False)
+            model.load_weights(model_destination + 'best_weights.h5')
     else:
         model = None
 
@@ -244,7 +244,7 @@ def main():
                                          input_generator=training_data_gen, val_generator=val_data_gen,
                                          weight_classes=True, encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.6,
                                          LSTM_size=128, dense_size=128, max_len=MAX_LEN, nb_classes=N_CLASSES, callbacks=callbacks,
-                                         batch_size=batch_size, has_auxiliary=False)
+                                         batch_size=batch_size, has_auxiliary=True)
 
     json.dump(history, open(model_destination + 'training_history.json', 'w'))
     model.save_weights(model_destination + 'final_weights.h5')
@@ -257,7 +257,17 @@ def main():
     #                                             multiple=1)
     test_data_gen = val_data_gen
     network.predict(model, test_data_gen, batch_size=batch_size, evaluation=True, smart=True, no_ntm=args.no_ntm,
-                    has_auxiliary=False, combine_timex=True)
+                    has_auxiliary=True, combine_timex=True)
+
+    print("Prediction from best saved weights...")
+    model.load_weights(model_destination + 'best_weights.h5')
+    network.predict(model, test_data_gen, batch_size=batch_size, evaluation=True, smart=True, no_ntm=args.no_ntm,
+                    has_auxiliary=True, combine_timex=True)
+
+    print("Prediction from whole batches...")
+    network.predict(model, test_data_gen, batch_size=560, evaluation=True, smart=True, no_ntm=args.no_ntm,
+                    has_auxiliary=True, combine_timex=True)
+
     # print("Prediction results for two-pass reading...")
     # network.test_data_collection = []
     # test_data_gen = network.generate_test_input(val_notes, args.pair_type, max_len=MAX_LEN, no_ntm=args.no_ntm,
