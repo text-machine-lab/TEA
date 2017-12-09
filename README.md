@@ -1,9 +1,14 @@
 # Temporal Entity Annotator (TEA)
 ## Credentials
-We used the code in our EMNLP 2017 publication http://aclweb.org/anthology/D17-1093
-A (very simple) webpage of this project can be found here http://www.cs.uml.edu/~ymeng/projects/temporalIE/TEA.html
-Yuanliang Meng (ylmeng) wrote and tested most of the code at the end. Kevin Wacome (kwaco) and Connor Cooper (c-cooper) had early contributions, including the modules for preprocessing, and some preliminary network models. You may contact ylmeng for any issues.
 
+The code in this repository was used in the following publication:  Y. Meng, A. Rumshisky, A. Romanov.  Temporal Information Extraction for Question Answering Using Syntactic Dependencies in an LSTM-based Architecture. EMNLP 2017. http://aclweb.org/anthology/D17-1093
+
+A (very simple) webpage of this project can be found here http://www.cs.uml.edu/~ymeng/projects/temporalIE/TEA.html
+Yuanliang Meng (ylmeng) developed the code in collaboration with Anna Rumshisky and Alexey Romanov. Kevin Wacome (kwaco) and Connor Cooper (c-cooper) were early contributors, including the modules for preprocessing, and some preliminary network models. You may contact ylmeng for any issues.
+
+Copyright (c) 2017 UMass Lowell - All Rights Reserved
+
+You may use, distribute and modify this code under the terms of the Apache 2.0 license. See https://www.apache.org/licenses/LICENSE-2.0 for details
 
 ## How to install:
 
