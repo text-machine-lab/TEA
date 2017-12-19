@@ -623,19 +623,19 @@ class TimeNote(Note):
         self.intra_sentence_pairs = []
         self.cross_sentence_pairs = []
         self.dct_pairs = []
-        self.timex_pairs = []
+        self.timex_pairs = []  # both directions, unless t0 is involved
         for src_etid in self.id_to_wordIDs: # eventID/timexID -> words
             for target_etid in self.id_to_wordIDs: # we allow both (e1, e2) and (e2, e1)
                 # use dense labels only for TimeBank Dense data
                 # not a big deal if pairs are augmented
-                if self.id_to_denselabels and (src_etid, target_etid) not in self.id_to_denselabels:
+                if self.id_to_denselabels and (src_etid, target_etid) not in self.id_to_denselabels: # only care about labeled data
                     continue
 
                 if src_etid == target_etid or src_etid == 't0':
                     continue
                 if src_etid[0] == 't' and target_etid[0] == 't': # timex
                     self.timex_pairs.append((src_etid, target_etid))
-                elif target_etid == 't0':    # (e, t0) pairs
+                if target_etid == 't0':    # t0 pairs. Allow (t, t0)
                     self.dct_pairs.append((src_etid, 't0'))
                 elif abs(self.id_to_sent[src_etid]-self.id_to_sent[target_etid]) == 1: # pairs of consec sentences
                     self.cross_sentence_pairs.append((src_etid, target_etid))
@@ -647,8 +647,7 @@ class TimeNote(Note):
         for src_id, target_id in self.intra_sentence_pairs:
             src_wordID = self.id_to_wordIDs[src_id][0]
             target_wordID = self.id_to_wordIDs[target_id][0]
-            # left path is always the target entity path
-            left_path, right_path = self.dependency_paths.get_left_right_subpaths('t'+target_wordID[1:], 't'+src_wordID[1:])
+            left_path, right_path = self.dependency_paths.get_left_right_subpaths('t'+src_wordID[1:], 't'+target_wordID[1:])
             id_pair_to_path[(src_id, target_id)] = (left_path, right_path)
 
         return id_pair_to_path

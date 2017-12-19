@@ -626,9 +626,8 @@ class Network(object):
             for entity_id in entity_to_context_words:
                 words = entity_to_context_words[entity_id]
                 words = _insert_tag(words, entity_id)
-                reversed = copy.copy(words)
-                # reversed.reverse()
-                id_pair_to_context_words[(entity_id, 't0')] = [words, reversed, marker]
+                # reversed = copy.copy(words)
+                id_pair_to_context_words[(entity_id, 't0')] = [words, ['_TIMEX_', 'now'], marker]
 
         return id_pair_to_context_words
 
