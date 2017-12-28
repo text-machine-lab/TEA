@@ -1,22 +1,20 @@
 from __future__ import print_function
-import os
-import sys
 import time
 import copy
 import numpy as np
-# np.random.seed(1337)
+np.random.seed(1337)
 import math
 
+from keras.preprocessing.sequence import pad_sequences
+from keras.utils import to_categorical
 from sklearn.metrics import precision_recall_fscore_support
-import keras
-import tensorflow as tf
-from keras.callbacks import LearningRateScheduler
 from network import Network
 from word2vec import load_word2vec_binary, build_vocab
 from ntm_models import *
 from code.learning.time_ref import predict_timex_rel, TimeRefNetwork
 from code.learning.break_cycle import modify_tlinks
-import torch
+from collections import deque
+# import torch
 
 TYPE_MARKERS = {'_INTRA_': 0, '_CROSS_': 1, '_DCT_': -1}
 
@@ -47,72 +45,67 @@ class NetworkMem(Network):
         """Slice data into equal batch sizes
         Left-over small chunks will be augmented with random samples
         """
-        # while True:
-            # feed = generator.next() # XL, XR, type_markers, context_L, context_R, y, <pair_index>, only test data has pair_index
 
-        if self.no_ntm: # for no_ntm models, no need to slice
-            yield feed
+        data = feed[:7]
+
+        if batch_size == 0: # special case, no slicing but expand the dimensions
+            out_data = [np.expand_dims(item, axis=0) for item in data]
+            if len(feed) == 8:
+                marker = -1
+                yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6], feed[-1], marker
+            else:
+                yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6]
         else:
-            data = feed[:7]
 
-            if batch_size == 0: # special case, no slicing but expand the dimensions
-                out_data = [np.expand_dims(item, axis=0) for item in data]
+            # circshift training data, so each time it starts with a different batch
+            # if shift value is not a multiple of batch size, then the batches will be changing too
+            if shift > 0 and len(feed) == 7:  # for training data only
+                roll = shift * self.roll_counter / self.nb_training_files #  accumulate shift after each epoch
+                data = [np.roll(item, roll, axis=0) for item in data]
+                self.roll_counter += 1
+
+            N = len(data[-1])
+            i = 0
+            while (i+1) * batch_size <= N:
+                # we need to add a dummy dimension to make the data 4D
+                out_data = [np.expand_dims(item[i * batch_size:(i + 1) * batch_size], axis=0) for item in data]
+                if len(feed) == 8: # has pair_index, test data
+                    if (i + 1) * batch_size == N:
+                        marker = -1  # end of note
+                    else:
+                        marker = 0
+                    yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6], feed[-1], marker
+                else:
+                    # randomize training data within a batch (micro-randomization)
+                    # rng_state = np.random.get_state()
+                    # for data_index in range(6):
+                    #     np.random.shuffle(out_data[data_index])
+                    #     np.random.set_state(rng_state)
+
+                    yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6]
+                i += 1
+
+            left_over = N % batch_size
+
+            # if left_over != 0:
+            #     out_data = [np.expand_dims(item[i * batch_size:N], axis=0) for item in data]
+            #     if len(feed) == 8:
+            #         marker = left_over
+            #         yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6], feed[-1], marker
+            #     else:
+            #         yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6]
+
+            # for leftover, we add some random samples to make it a full batch
+            if left_over != 0:
+                to_add = batch_size - left_over
+                indexes_to_add = np.random.choice(N, to_add) # randomly sample more instances
+                indexes = np.concatenate((np.arange(i*batch_size, N), indexes_to_add))
+                out_data = [np.expand_dims(item[indexes], axis=0) for item in data]
                 if len(feed) == 8:
-                    marker = -1
+                    marker = left_over
                     yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6], feed[-1], marker
                 else:
                     yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6]
-            else:
-
-                # circshift training data, so each time it starts with a different batch
-                # if shift value is not a multiple of batch size, then the batches will be changing too
-                if shift > 0 and len(feed) == 7:  # for training data only
-                    roll = shift * self.roll_counter / self.nb_training_files #  accumulate shift after each epoch
-                    data = [np.roll(item, roll, axis=0) for item in data]
-                    self.roll_counter += 1
-
-                N = len(data[-1])
-                i = 0
-                while (i+1) * batch_size <= N:
-                    # we need to add a dummy dimension to make the data 4D
-                    out_data = [np.expand_dims(item[i * batch_size:(i + 1) * batch_size], axis=0) for item in data]
-                    if len(feed) == 8: # has pair_index, test data
-                        if (i + 1) * batch_size == N:
-                            marker = -1  # end of note
-                        else:
-                            marker = 0
-                        yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6], feed[-1], marker
-                    else:
-                        # randomize training data within a batch (micro-randomization)
-                        # rng_state = np.random.get_state()
-                        # for data_index in range(6):
-                        #     np.random.shuffle(out_data[data_index])
-                        #     np.random.set_state(rng_state)
-
-                        yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6]
-                    i += 1
-
-                left_over = N % batch_size
-
-                # if left_over != 0:
-                #     out_data = [np.expand_dims(item[i * batch_size:N], axis=0) for item in data]
-                #     if len(feed) == 8:
-                #         marker = left_over
-                #         yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6], feed[-1], marker
-                #     else:
-                #         yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6]
-
-                # for leftover, we add some random samples to make it a full batch
-                if left_over != 0:
-                    to_add = batch_size - left_over
-                    indexes_to_add = np.random.choice(N, to_add) # randomly sample more instances
-                    indexes = np.concatenate((np.arange(i*batch_size, N), indexes_to_add))
-                    out_data = [np.expand_dims(item[indexes], axis=0) for item in data]
-                    if len(feed) == 8:
-                        marker = left_over
-                        yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6], feed[-1], marker
-                    else:
-                        yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6]
 
 
     def generate_training_input(self, notes, pair_type, max_len=16, multiple=1, nolink_ratio=None, no_ntm=False):
@@ -198,10 +191,7 @@ class NetworkMem(Network):
 
             labels = to_categorical(self._convert_str_labels_to_int(note_labels), len(LABELS))
 
-            if no_ntm:
-                data_q.append([[XL, XR, type_markers, context_L, context_R, time_differences], labels])
-            else:
-                data_q.append([XL, XR, type_markers, context_L, context_R, time_differences, labels])
+            data_q.append([XL, XR, type_markers, context_L, context_R, time_differences, labels])
 
             for label in labels:
                 if label[LABELS.index('None')] == 1:
@@ -220,15 +210,9 @@ class NetworkMem(Network):
             for index in sequence:
                 data = copy.copy(data_q[index])
                 data_copy = copy.copy(data)
-                if no_ntm:
-                    for m in range(multiple-1):
-                        for i, item in enumerate(data_copy[0]):
-                            data[0][i] = np.concatenate([data[0][i], item], axis=0)
-                        data[1] = np.concatenate([data[1], data_copy[1]])
-                else:
-                    for m in range(multiple-1):
-                        for i, item in enumerate(data_copy):
-                            data[i] = np.concatenate([data[i], item], axis=0)
+                for m in range(multiple-1):
+                    for i, item in enumerate(data_copy):
+                        data[i] = np.concatenate([data[i], item], axis=0)
                 yield data
 
     def generate_test_input(self, notes, pair_type, max_len=16, multiple=1, no_ntm=False, reverse_pairs=True):
@@ -283,10 +267,7 @@ class NetworkMem(Network):
                 else:
                     continue
 
-                if no_ntm:
-                    data_q.append([[XL, XR, type_markers, context_L, context_R, time_differences], labels, pair_index, note.annotated_note_path])
-                else:
-                    data_q.append([XL, XR, type_markers, context_L, context_R, time_differences, labels, pair_index])
+                data_q.append([XL, XR, type_markers, context_L, context_R, time_differences, labels, pair_index])
 
                 for label in labels:
                     if label == LABELS.index('None'): count_none += 1
@@ -298,15 +279,9 @@ class NetworkMem(Network):
         while True:
             data = copy.copy(data_q[0])
             data_copy = copy.copy(data)
-            if no_ntm:
-                for m in range(multiple-1):
-                    for i, item in enumerate(data_copy[0]):
-                        data[0][i] = np.concatenate([data[0][i], item], axis=0)
-                    data[1] = np.concatenate([data[1], data_copy[1]])
-            else:
-                for m in range(multiple-1):
-                    for i, item in enumerate(data_copy[:7]):  # pair_index not changed. so it applies to one multiple only
-                        data[i] = np.concatenate([data[i], item], axis=0)
+            for m in range(multiple-1):
+                for i, item in enumerate(data_copy[:7]):  # pair_index not changed. so it applies to one multiple only
+                    data[i] = np.concatenate([data[i], item], axis=0)
             yield data
             data_q.rotate(-1)
 
@@ -344,56 +319,46 @@ class NetworkMem(Network):
         #
         # return np.array(timex_values_l), np.array(timex_values_r)
 
-    def train_model(self, model=None, no_ntm=False, epochs=100, steps_per_epoch=10, validation_steps=10,
-                    input_generator=None, val_generator=None, weight_classes=False,
-                    encoder_dropout=0.5, decoder_dropout=0.5, input_dropout=0.5, LSTM_size=128, dense_size=128,
-                    max_len='auto', nb_classes=13, callbacks={}, batch_size=300, has_auxiliary=False):
+    def load_raw_model(self, no_ntm, fit_batch_size=10):
+        if no_ntm:
+            model = get_pre_ntm_model(group_size=None, nb_classes=len(LABELS), input_dropout=0.3, max_len=MAX_LEN,
+                                      embedding_matrix=self.get_embedding_matrix())
+        else:
+            model = get_ntm_hiddenfeed(batch_size=fit_batch_size, group_size=None, m_depth=512, n_slots=128,
+                                     ntm_output_dim=512, shift_range=3, max_len=MAX_LEN, read_heads=1, write_heads=1,
+                                     nb_classes=len(LABELS), embedding_matrix=self.get_embedding_matrix())
+        return model
 
+    def train_model(self, model=None, no_ntm=False, epochs=100, steps_per_epoch=10, input_generator=None,
+                    val_generator=None, weight_classes=False, encoder_dropout=0.5, decoder_dropout=0.5,
+                    input_dropout=0.5, LSTM_size=128, dense_size=128, max_len='auto', nb_classes=13,
+                    callbacks={}, batch_size=300, has_auxiliary=False):
 
         # learning rate schedule
         def step_decay(epoch):
             # initial_lrate = 0.0002
-            initial_lrate = 0.002
+            initial_lrate = 0.0002
             drop = 0.5
             epochs_drop = 5  # get half in every epochs_drop steps
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
 
-        # infer maximum sequence length
-        if max_len == 'auto':
-            max_len = None
-
-        if no_ntm:
-            fit_batch_size = batch_size
-            has_auxiliary = False
-        else:
-            fit_batch_size = 10  # group batches
+        fit_batch_size = 10  # group batches
 
         if model is None:
-            if no_ntm:
-                model = get_untrained_model4_3(encoder_dropout=encoder_dropout, decoder_dropout=decoder_dropout,
-                                            input_dropout=input_dropout, LSTM_size=LSTM_size, dense_size=dense_size,
-                                            max_len=max_len, nb_classes=len(LABELS))
-            else:
-                has_auxiliary = False
-                model = get_pre_ntm_model(group_size=None, nb_classes=len(LABELS), input_dropout=0.3, max_len=MAX_LEN,
-                                          embedding_matrix=self.get_embedding_matrix())
+            model = self.load_raw_model(no_ntm, fit_batch_size)
 
-                # model = get_ntm_model6_3(batch_size=fit_batch_size, group_size=None, m_depth=512, n_slots=128, ntm_output_dim=512,
-                #                          shift_range=3, max_len=MAX_LEN, read_heads=1, write_heads=1, nb_classes=len(LABELS),
-                #                          embedding_matrix=self.get_embedding_matrix(), has_auxiliary=True)
-
-        # train the network
-        # keras.backend.get_session().run(tf.global_variables_initializer())
         print('Training network...')
         training_history = []
         best_result = None
         epochs_over_best = 0
         batch_sizes = [batch_size/2, batch_size*3/4, batch_size, batch_size*3/2, batch_size*2]
         for epoch in range(epochs):
+            #print("check weights", model.get_weights()[8][0:5])
             lr = step_decay(epoch)
             print("set learning rate %f" %lr)
             model.optimizer.lr.assign(lr)
+            #K.set_value(model.optimizer.lr, lr)
 
             epoch_history = []
             start = time.time()
@@ -460,7 +425,7 @@ class NetworkMem(Network):
 
             sys.stdout.write("\n")
             training_history.append({'categorical_accuracy': acc, 'loss': loss})
-            if epoch <= 10:
+            if epoch <= 8:
                 continue
             print("\n\nepoch finished... evaluating on val data...")
             if val_generator is not None:
@@ -505,10 +470,6 @@ class NetworkMem(Network):
         probs_in_note = None
         labels_in_note = []
         end_of_note = False
-        # print("not using NTM", no_ntm)
-        if no_ntm:
-            has_auxiliary = False
-
 
         if len(self.test_data_collection) > 0:
             feeder = self.test_data_collection
@@ -527,12 +488,8 @@ class NetworkMem(Network):
 
             model.reset_states()
             for sliced in self.slice_data(note_data, batch_size=batch_size, shift=0):
-                if no_ntm:
-                    X, y, pair_index, path_name = sliced
-                    marker = -1
-                else:
-                    X, y, pair_index, marker = sliced
-                    X = [np.repeat(item, fit_batch_size, axis=0) for item in X]  # have to do this because the batch size must be fixed
+                X, y, pair_index, marker = sliced
+                X = [np.repeat(item, fit_batch_size, axis=0) for item in X]  # have to do this because the batch size must be fixed
 
                 note_index = pair_index.keys()[0][0]
                 if end_of_note and note_index == 0: # all data consumed
@@ -540,16 +497,12 @@ class NetworkMem(Network):
                     break
                 # pair_indexes.update(pair_index)
 
-                if no_ntm:
-                    probs = model.predict(X) # keras functional API model predicts probs
-                else:
-                    # probs = model.predict(X, batch_size=1)
-                    probs = model.predict_on_batch(X)
+                # probs = model.predict(X, batch_size=1)
+                probs = model.predict_on_batch(X)
                 if has_auxiliary:
                     probs = probs[0]  # use main output only
-                if not no_ntm:
-                    y = y[0, :]  # remove the dummy dimension
-                    probs = probs[0, :]
+                y = y[0, :]  # remove the dummy dimension
+                probs = probs[0, :]
 
                 if self.test_passes > 1:
                     data_len = len(y)/self.test_passes
@@ -683,18 +636,18 @@ class NetworkMem(Network):
 
         return processed_labels
 
-    def get_sentence_embeddings(self, sentences):
-        if self.infersent is None:
-            assert self.word_vectors is not None
-            encoder_path = '/home/ymeng/projects/InferSent/encoder'
-            sys.path.append(encoder_path)
-            self.infersent = torch.load(os.path.join(encoder_path, 'infersent.allnli.pickle'), map_location=lambda storage, loc: storage)
-            self.infersent.set_glove_path(os.environ["TEA_PATH"] + 'embeddings/glove.840B.300d.txt')
-            self.infersent.build_vocab([''], tokenize=True) # must do this to get the infersent.word_vec object
-            self.infersent.word_vec = self.word_vectors
-
-        embeddings = self.infersent.encode(sentences, tokenize=True)
-        return embeddings
+    # def get_sentence_embeddings(self, sentences):
+    #     if self.infersent is None:
+    #         assert self.word_vectors is not None
+    #         encoder_path = '/home/ymeng/projects/InferSent/encoder'
+    #         sys.path.append(encoder_path)
+    #         self.infersent = torch.load(os.path.join(encoder_path, 'infersent.allnli.pickle'), map_location=lambda storage, loc: storage)
+    #         self.infersent.set_glove_path(os.environ["TEA_PATH"] + 'embeddings/glove.840B.300d.txt')
+    #         self.infersent.build_vocab([''], tokenize=True) # must do this to get the infersent.word_vec object
+    #         self.infersent.word_vec = self.word_vectors
+    #
+    #     embeddings = self.infersent.encode(sentences, tokenize=True)
+    #     return embeddings
 
     def extract_sentence_representations(self, note, id_pairs):
         sentences = []

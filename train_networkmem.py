@@ -16,8 +16,6 @@ import argparse
 import glob
 import cPickle
 import json
-import tensorflow as tf
-tf.logging.set_verbosity(tf.logging.WARN)
 
 from code.learning.network_mem import NetworkMem
 from code.notes.TimeNote import TimeNote
@@ -26,7 +24,6 @@ from code.learning.word2vec import load_word2vec_binary, build_vocab
 from keras.models import model_from_json
 from keras.models import load_model
 from keras.callbacks import ModelCheckpoint, EarlyStopping
-from keras.optimizers import Adam, SGD
 
 from code.learning.ntm_models import LABELS, DENSE_LABELS, EMBEDDING_DIM, MAX_LEN
 from code.learning.time_ref import predict_timex_rel
@@ -182,13 +179,13 @@ def main():
             val_notes = get_notes(val_files, args.newsreader_annotations)
             m = len(val_notes)
             if args.pair_type == 'cross':
-                validation_steps = 1200 / batch_size + m / 2  # 2368/2 entries, 9 notes, 2000/batch_size is reasonable
+                validation_steps = 1200 / batch_size + m / 2
             elif args.pair_type == 'intra':
-                validation_steps = 680 / batch_size + m / 2  # 1352/2 entries, 9 notes,
+                validation_steps = 680 / batch_size + m / 2
             elif args.pair_type == 'all':
                 validation_steps = 2200 / batch_size + m / 2
             else:
-                validation_steps = 300 / batch_size + m / 2  # 331 entries, 9 notes,
+                validation_steps = 300 / batch_size + m / 2
         else:
             validation_steps = None
 
@@ -228,52 +225,30 @@ def main():
     if args.load_model:
         try:
             model = load_model(model_destination + 'final_model.h5')
-            network.get_embedding_matrix()
+            # network.get_embedding_matrix()
         except:
-            from code.learning.ntm_models import get_ntm_model6
-            # model = get_ntm_model6(batch_size=10, group_size=None, m_depth=128, n_slots=128,
-            #                        ntm_output_dim=512,
-            #                        shift_range=3, max_len=MAX_LEN, read_heads=1, write_heads=1, nb_classes=len(LABELS),
-            #                        embedding_matrix=network.get_embedding_matrix(), has_auxiliary=True)
-            # there is some bug for load_weights. we have to do 'train' one epoch to work around
-            print("Start pseudo training...")
-            single_data_gen = network.generate_training_input(notes[:1], args.pair_type, max_len=MAX_LEN,
-                                                                nolink_ratio=args.nolink, no_ntm=args.no_ntm,
-                                                                multiple=1)
-            network.nb_training_files = 1
-            model, history = network.train_model(model=None, no_ntm=args.no_ntm, epochs=1,
-                                                 steps_per_epoch=steps_per_epoch, validation_steps=validation_steps,
-                                                 input_generator=single_data_gen, val_generator=None,
-                                                 weight_classes=True, encoder_dropout=0, decoder_dropout=0.5,
-                                                 input_dropout=0.4,
-                                                 LSTM_size=128, dense_size=128, max_len=MAX_LEN, nb_classes=N_CLASSES,
-                                                 callbacks={},
-                                                 batch_size=batch_size, has_auxiliary=HAS_AUX)
-            print("Finished pseudo training... loading saved weights now")
-            model.load_weights(model_destination + 'best_weights.h5')
-            network.nb_training_files = len(notes)
+            model = network.load_raw_model(args.no_ntm)
+            model.load_weights(model_destination + 'final_weights.h5')
     else:
         model = None
 
     print("model to load", model)
-    model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=40, steps_per_epoch=steps_per_epoch, validation_steps=validation_steps,
+    model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=10,
                                          input_generator=training_data_gen, val_generator=val_data_gen,
                                          weight_classes=True, encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.4,
                                          LSTM_size=128, dense_size=128, max_len=MAX_LEN, nb_classes=N_CLASSES, callbacks=callbacks,
                                          batch_size=batch_size, has_auxiliary=HAS_AUX)
 
-    json.dump(history, open(model_destination + 'training_history.json', 'w'))
-    try:
-        model.save(model_destination + 'final_model.h5')
-    except:
-        pass
+    # cannot use model.save() because some objeccts cannot be pickled
     model.save_weights(model_destination + 'final_weights.h5')
+    json.dump(history, open(model_destination + 'training_history.json', 'w'))
+
     # evaluation
 
     test_data_gen = val_data_gen
-    # print("Prediction results for one-pass reading in batches...")
-    # network.predict(model, test_data_gen, batch_size=batch_size, evaluation=True, smart=True, no_ntm=args.no_ntm,
-    #                 has_auxiliary=HAS_AUX, pruning=False)
+    print("Prediction results without double check ...")
+    network.predict(model, test_data_gen, batch_size=0, evaluation=True, smart=False, no_ntm=args.no_ntm,
+                    has_auxiliary=HAS_AUX, pruning=False)
 
     # print("Prediction from final model, with pruning and double check...")
     # # model.load_weights(model_destination + 'best_weights.h5')
@@ -281,13 +256,20 @@ def main():
     #                 has_auxiliary=HAS_AUX, pruning=True)
 
     print("Prediction with double check without pruning.")
-    network.predict(model, test_data_gen, batch_size=0, evaluation=True, smart=True, no_ntm=args.no_ntm,
-                    has_auxiliary=HAS_AUX, pruning=False)
-    results = network.predict(model, test_data_gen, batch_size=0, evaluation=False, smart=True, no_ntm=args.no_ntm,
+    # network.predict(model, test_data_gen, batch_size=0, evaluation=True, smart=True, no_ntm=args.no_ntm,
+    #                 has_auxiliary=HAS_AUX, pruning=False)
+    results = network.predict(model, test_data_gen, batch_size=0, evaluation=True, smart=True, no_ntm=args.no_ntm,
                     has_auxiliary=HAS_AUX, pruning=False)
 
-    with open(model_destination + 'results.json', 'w') as f:
-        json.dump(results, f)
+
+    with open(model_destination + 'results.pkl', 'w') as f:
+        cPickle.dump(results, f)
+
+    with open(model_destination + 'vocab.pkl', 'w') as f:
+        cPickle.dump(network.word_vectors, f)
+
+
+
     # print("Raw Prediction with batches...")
     # network.predict(model, test_data_gen, batch_size=batch_size, evaluation=True, smart=False, no_ntm=args.no_ntm,
     #                 has_auxiliary=HAS_AUX, pruning=False)
