@@ -18,7 +18,7 @@ You may use, distribute and modify this code under the terms of the Apache 2.0 l
 
     2. Also download the NewsReader.tar file from the release.
 
-    3. Uncompress NewsReader.tar
+    3. Uncompress source code.
 
         A folder called Temporal-Entity-Annotator-TEA-VERSION should be created
 
