@@ -27,6 +27,8 @@ You may use, distribute and modify this code under the terms of the Apache 2.0 l
     5. Change current working directory to be the extracted folder.
 
     6. Execute the bash script install_dependencies.sh
+    Make sure every line in install_dependencies.sh work through. You will need mvn and javac.
+    Set JAVA_HOME properly for javac to work.
 
 External Dependencies:
 
@@ -59,6 +61,8 @@ Environment Variables:
 
         - PY4J_DIR_PATH, should be set to the folder /share/py4j or /share/local/py4j, created when installing py4j.
             - It should contain the contain the file py4j0.8.2.1.jar
+          create config.txt in your TEA path. Add this line to the file (change the path to yours):
+           PY4J_DIR_PATH /share/local/py4j
 
 Tensorflow and Theano:
     
