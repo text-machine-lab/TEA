@@ -16,6 +16,7 @@ import argparse
 import cPickle
 import glob
 import os
+import copy
 
 from keras.models import model_from_json, load_model
 from sklearn.metrics import classification_report
@@ -26,7 +27,7 @@ from code.learning.break_cycle import modify_tlinks
 from train_networkmem import get_notes, MAX_LEN
 
 # timenote_imported = False
-from code.learning.network_mem import NetworkMem, DENSE_LABELS, LABELS
+from code.learning.network_mem import NetworkMem, DENSE_LABELS, LABELS, BATCH_SIZE
 from code.learning.network import Network
 HAS_AUX = False
 
@@ -107,16 +108,17 @@ def main():
     try:
         model = load_model(os.path.join(args.model_path, 'all/model.h5'))
     except:
-        model = network.load_raw_model(False)
+        model = network.load_raw_model(args.no_ntm, fit_batch_size=BATCH_SIZE)
         model.load_weights(os.path.join(args.model_path, 'all/final_weights.h5'))
 
 
     if DENSE_LABELS:
-        denselabels = cPickle.load(open(newsreader_dir + 'dense-labels.pkl'))
+        denselabels = cPickle.load(open(newsreader_dir + 'dense-labels-single.pkl'))
         # denselabels = cPickle.load(open(newsreader_dir + 'dense-labels-single.pkl'))
     else:
         denselabels = None
 
+    print("LABELS", LABELS)
     predict_note(notes, network, model, annotation_destination, denselabels=denselabels, no_ntm=args.no_ntm, eval=args.eval)
 
     # for note in notes:
@@ -141,10 +143,11 @@ def main():
 def predict_note(notes, network, model, annotation_destination, denselabels=None, no_ntm=False, eval=False):
 
     test_data_gen = network.generate_test_input(notes, 'all', max_len=MAX_LEN, no_ntm=no_ntm, multiple=1)
-    predictions, scores, true_labels, pair_indexes = network.predict(model, test_data_gen, batch_size=0,
+    predictions, scores, true_labels, pair_indexes = network.predict(model, test_data_gen, batch_size=160,
                                                                      evaluation=False, smart=True, no_ntm=no_ntm, pruning=False)
 
     if denselabels is not None:
+        new_pair_indexes = {}
         # map the results to original pairs
         # After double-check, some pairs may have been flipped. we flip them back for here.
         note_denselabels = []
@@ -157,12 +160,24 @@ def predict_note(notes, network, model, annotation_destination, denselabels=None
             if pair not in note_denselabels[note_id]:
                 if (pair[1], pair[0]) in note_denselabels[note_id]:
                     index = pair_indexes[(note_id, pair)]
-                    pair_indexes[(note_id, (pair[1], pair[0]))] = index
+                    new_pair_indexes[(note_id, (pair[1], pair[0]))] = index
                     predictions[index] = network.reverse_labels([predictions[index]])[0]
                     true_labels[index] = network.reverse_labels([true_labels[index]])[0]
-                    pair_indexes.pop((note_id, pair))
                 else:
                     print("pair not found in dense labels:", basename(notes[note_id].annotated_note_path), pair)
+            else:
+                new_pair_indexes[k] = pair_indexes[k]
+
+        pair_indexes = new_pair_indexes
+
+    # check if all pairs in denselabels are covered:
+    #     for note_id in range(len(notes)):
+    #         for pair in note_denselabels[note_id]:
+    #             if (note_id, pair) not in new_pair_indexes:
+    #                 print("pair in dense labels not covered:", basename(notes[note_id].annotated_note_path), pair)
+
+    # cPickle.dump(new_pair_indexes, open('pair_indexes.pkl', 'w'))
+    # cPickle.dump(true_labels, open('true_labels.pkl', 'w'))
 
     if eval:
         Network.class_confusion(predictions, true_labels, len(LABELS))

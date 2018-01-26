@@ -2,7 +2,7 @@ from __future__ import print_function
 import time
 import copy
 import numpy as np
-np.random.seed(1337)
+# np.random.seed(1337)
 import math
 
 from keras.preprocessing.sequence import pad_sequences
@@ -17,6 +17,7 @@ from collections import deque
 # import torch
 
 TYPE_MARKERS = {'_INTRA_': 0, '_CROSS_': 1, '_DCT_': -1}
+BATCH_SIZE = 5  # group batches
 
 class NetworkMem(Network):
     def __init__(self, no_ntm=False, nb_training_files=None):
@@ -173,6 +174,7 @@ class NetworkMem(Network):
                     training_indexes = np.array(pos_case_indexes, dtype=np.int32)
                 else:
                     training_indexes = np.concatenate([pos_case_indexes, neg_case_indexes])
+                training_indexes.sort()
                 XL = XL[training_indexes]
                 XR = XR[training_indexes]
                 note_labels = note_labels[training_indexes]
@@ -189,7 +191,8 @@ class NetworkMem(Network):
             else:
                 continue
 
-            labels = to_categorical(self._convert_str_labels_to_int(note_labels), len(LABELS))
+            # print(note.annotated_note_path, len(note_labels))
+            labels = to_categorical(NetworkMem.convert_str_labels_to_int(note_labels), len(LABELS))
 
             data_q.append([XL, XR, type_markers, context_L, context_R, time_differences, labels])
 
@@ -254,7 +257,7 @@ class NetworkMem(Network):
                     label_from_file = id_to_labels.get(pair, 'None')
                     note_labels.append(label_from_file)
 
-                labels = np.array(self._convert_str_labels_to_int(note_labels), dtype='int16')
+                labels = np.array(NetworkMem.convert_str_labels_to_int(note_labels), dtype='int16')
 
                 for index, pair in enumerate(id_pairs):
                     pair_index[(i, pair)] = index # map pairs to their index in data array (within a note), i is id for notes
@@ -330,23 +333,24 @@ class NetworkMem(Network):
         return model
 
     def train_model(self, model=None, no_ntm=False, epochs=100, steps_per_epoch=10, input_generator=None,
-                    val_generator=None, weight_classes=False, encoder_dropout=0.5, decoder_dropout=0.5,
-                    input_dropout=0.5, LSTM_size=128, dense_size=128, max_len='auto', nb_classes=13,
-                    callbacks={}, batch_size=300, has_auxiliary=False):
+                    val_generator=None, weight_classes=False, callbacks={}, batch_size=300, has_auxiliary=False):
 
+        from keras.optimizers import RMSprop
         # learning rate schedule
         def step_decay(epoch):
-            # initial_lrate = 0.0002
-            initial_lrate = 0.0002
+            initial_lrate = 0.002
             drop = 0.5
-            epochs_drop = 5  # get half in every epochs_drop steps
+            if no_ntm:
+                epochs_drop = 5
+            else:
+                epochs_drop = 5  # get half in every epochs_drop steps
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
 
-        fit_batch_size = 10  # group batches
+        fit_batch_size = BATCH_SIZE
 
         if model is None:
-            model = self.load_raw_model(no_ntm, fit_batch_size)
+            model = self.load_raw_model(no_ntm, fit_batch_size=fit_batch_size)
 
         print('Training network...')
         training_history = []
@@ -354,11 +358,10 @@ class NetworkMem(Network):
         epochs_over_best = 0
         batch_sizes = [batch_size/2, batch_size*3/4, batch_size, batch_size*3/2, batch_size*2]
         for epoch in range(epochs):
-            #print("check weights", model.get_weights()[8][0:5])
             lr = step_decay(epoch)
-            print("set learning rate %f" %lr)
-            model.optimizer.lr.assign(lr)
-            #K.set_value(model.optimizer.lr, lr)
+            # K.set_value(model.optimizer.lr, lr)
+            # model.optimizer.lr = lr
+            print("set learning rate %f" % lr)
 
             epoch_history = []
             start = time.time()
@@ -393,6 +396,7 @@ class NetworkMem(Network):
 
                         y_b = [y_b, y_aux]
 
+                    # print("size:", y_b.shape)
                     history = model.fit(X_b, y_b, batch_size=fit_batch_size, epochs=1, verbose=0, validation_split=0.0,
                               validation_data=None, shuffle=False, class_weight=None, sample_weight=None,
                               initial_epoch=0)
@@ -430,7 +434,7 @@ class NetworkMem(Network):
             print("\n\nepoch finished... evaluating on val data...")
             if val_generator is not None:
                 # evaluate after each epoch
-                evalu = self.predict(model, val_generator, batch_size=0, fit_batch_size=fit_batch_size, evaluation=True, smart=False, no_ntm=no_ntm, has_auxiliary=has_auxiliary)
+                evalu = self.predict(model, val_generator, batch_size=160, fit_batch_size=fit_batch_size, evaluation=True, smart=False, no_ntm=no_ntm, has_auxiliary=has_auxiliary)
 
             if 'earlystopping' in callbacks:
                 if callbacks['earlystopping'].monitor == 'loss':
@@ -461,7 +465,7 @@ class NetworkMem(Network):
         print("Fisnished training. Data rolled %d times" %self.roll_counter)
         return model, training_history
 
-    def predict(self, model, data_generator, batch_size=0, fit_batch_size=10, evaluation=True, smart=True, no_ntm=False, has_auxiliary=False, pruning=False):
+    def predict(self, model, data_generator, batch_size=0, fit_batch_size=5, evaluation=True, smart=True, no_ntm=False, has_auxiliary=False, pruning=False):
         predictions = []
         scores = []
         pair_indexes = {}
@@ -571,13 +575,17 @@ class NetworkMem(Network):
                         scores.append(probs_in_note)
                         true_labels.append(true_labels_in_note)
 
-                    pair_indexes.update(pair_index)
+                    offset = len(pair_indexes)
+                    new_pair_index = {}
+                    for k in pair_index:
+                        new_pair_index[k] = pair_index[k] + offset
+                    pair_indexes.update(new_pair_index)
                     probs_in_note = None
                     true_labels_in_note = None
                     labels_in_note = []
 
-            if not isinstance(feeder, list):
-                self.test_data_collection.append(note_data)  # store data for fast retrieval
+            # if not isinstance(feeder, list):
+            #     self.test_data_collection.append(note_data)  # store data for fast retrieval
 
         if not pruning:
             if len(scores) > 1:
@@ -609,32 +617,6 @@ class NetworkMem(Network):
 
         return new_labels, np.array(indexes), new_pair_index
 
-
-    def reverse_labels(self, labels):
-        # LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IS_INCLUDED", "INCLUDES", "None"] # TimeBank Dense labels
-        processed_labels = []
-
-        for label in labels:
-            if label in self.label_reverse_map:
-                processed_labels.append(self.label_reverse_map[label])
-                continue
-
-            if label == 0:
-                processed_labels.append(0)
-            elif label == 1:
-                processed_labels.append(2)
-            elif label == 2:
-                processed_labels.append(1)
-            elif label == 3:
-                processed_labels.append(4)
-            elif label == 4:
-                processed_labels.append(3)
-            else:  # label for unlinked pairs (should have int 0)
-                processed_labels.append(5)
-
-            self.label_reverse_map[label] = processed_labels[-1]
-
-        return processed_labels
 
     # def get_sentence_embeddings(self, sentences):
     #     if self.infersent is None:
@@ -677,21 +659,64 @@ class NetworkMem(Network):
 
     @staticmethod
     def convert_str_labels_to_int(labels):
-        for i, label in enumerate(labels):
-            if label == "IDENTITY":
-                labels[i] = "SIMULTANEOUS"
-            elif label not in LABELS:
-                labels[i] = "None"
 
-        return [LABELS.index(x) for x in labels]
+        int_labels = []
+        for label in labels:
+            if label in ("IDENTITY", "DURING", "DURING_INV"):
+                int_labels.append(LABELS.index('SIMULTANEOUS'))
+            elif label not in LABELS:
+                int_labels.append(LABELS.index('None'))
+            else:
+                int_labels.append(LABELS.index(label))
+
+        return int_labels
 
     @staticmethod
     def convert_int_labels_to_str(labels):
-        '''
-        convert ints to tlink labels so network output can be understood
-        '''
+        last_label = len(LABELS)
+        return [LABELS[s] if s < last_label else "None" for s in labels]
 
-        return [LABELS[s] if s < 12 else "None" for s in labels]
+    def reverse_labels(self, labels):
+        # if DENSE_LABELS:
+        #     LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IS_INCLUDED", "INCLUDES", "None"]  # TimeBank Dense labels
+        # else:
+        #     LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
+        #               "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
+        processed_labels = []
+
+        for label in labels:
+            if label in self.label_reverse_map:
+                processed_labels.append(self.label_reverse_map[label])
+                continue
+
+            if label == LABELS.index("SIMULTANEOUS"):
+                processed_labels.append(LABELS.index("SIMULTANEOUS"))
+            elif label == LABELS.index("BEFORE"):
+                processed_labels.append(LABELS.index("AFTER"))
+            elif label == LABELS.index("AFTER"):
+                processed_labels.append(LABELS.index("BEFORE"))
+            elif label == LABELS.index("IBEFORE"):
+                processed_labels.append(LABELS.index("IAFTER"))
+            elif label == LABELS.index("IAFTER"):
+                processed_labels.append(LABELS.index("IBEFORE"))
+            elif label == LABELS.index("IS_INCLUDED"):
+                processed_labels.append(LABELS.index("INCLUDES"))
+            elif label == LABELS.index("INCLUDES"):
+                processed_labels.append(LABELS.index("IS_INCLUDED"))
+            elif label == LABELS.index("BEGINS"):
+                processed_labels.append(LABELS.index("BEGUN_BY"))
+            elif label == LABELS.index("BEGUN_BY"):
+                processed_labels.append(LABELS.index("BEGINS"))
+            elif label == LABELS.index("ENDS"):
+                processed_labels.append(LABELS.index("ENDED_BY"))
+            elif label == LABELS.index("ENDED_BY"):
+                processed_labels.append(LABELS.index("ENDS"))
+            else:
+                processed_labels.append(LABELS.index("None"))
+
+            self.label_reverse_map[label] = processed_labels[-1]
+
+        return processed_labels
 
     def get_embedding_matrix(self, notes=None):
         if self.word_vectors is None:
@@ -750,7 +775,10 @@ def get_timex_predictions(notes):
     timex_pairs = []
     for i, note in enumerate(notes):
 
-        id_to_labels = note.id_to_denselabels  # If augmented, this is bidirectional, even for t0 pairs
+        if DENSE_LABELS:
+            id_to_labels = note.id_to_denselabels  # If augmented, this is bidirectional, even for t0 pairs
+        else:
+            id_to_labels = note.id_to_labels
         processed = {}  # used to remove redundant pairs
 
         # The id pairs in timex_pair_index are exactly the same as in note.timex_pairs
@@ -763,9 +791,9 @@ def get_timex_predictions(notes):
 
                 if pair in id_to_labels:
                     true_timex_labels.append(id_to_labels[pair])
-                else:
-                    true_timex_labels.append(LABELS.index("None"))
-                    print("Timex pair in %s not found in true labels:" % note.annotated_note_path, pair)
+                # else:
+                    # true_timex_labels.append(LABELS.index("None"))
+                    # print("Timex pair in %s not found in true labels:" % note.annotated_note_path, pair)
             else:
                 print("Timex pair in %s not found in timex_pair_index:" % note.annotated_note_path, pair)
 

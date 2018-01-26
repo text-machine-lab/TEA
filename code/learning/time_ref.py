@@ -141,10 +141,10 @@ class TimeRefNetwork(object):
                 return sign*float(year) + month/12 + day/365, sign*float(year) + month/12 + day/365
 
         except ValueError:
-            print "unrecognized DATE type:", val
+            # print "unrecognized DATE type:", val
             return None
 
-        print "unrecognized DATE type:", val
+        # print "unrecognized DATE type:", val
         return None
 
     def compare_timex_pair(self, val1, val2):

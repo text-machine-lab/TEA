@@ -213,11 +213,18 @@ def main():
     if not os.path.exists(model_destination):
         os.makedirs(model_destination)
 
+    if args.no_ntm:
+        epochs = 30
+        patience = 10
+    else:
+        epochs = 10
+        patience = 5
+
     if args.no_val:
-        earlystopping = EarlyStopping(monitor='loss', patience=15, verbose=0, mode='auto')
+        earlystopping = EarlyStopping(monitor='loss', patience=patience, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='loss', save_best_only=True, save_weights_only=True)
     else:
-        earlystopping = EarlyStopping(monitor='val_acc', patience=10, verbose=0, mode='auto')
+        earlystopping = EarlyStopping(monitor='val_acc', patience=patience, verbose=0, mode='auto')
         checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='val_loss', save_best_only=True, save_weights_only=True)
     callbacks = {'earlystopping': earlystopping, 'checkpoint': checkpoint}
 
@@ -233,21 +240,22 @@ def main():
         model = None
 
     print("model to load", model)
-    model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=10,
+    model, history = network.train_model(model=model, no_ntm=args.no_ntm, epochs=epochs,
                                          input_generator=training_data_gen, val_generator=val_data_gen,
-                                         weight_classes=True, encoder_dropout=0, decoder_dropout=0.5, input_dropout=0.4,
-                                         LSTM_size=128, dense_size=128, max_len=MAX_LEN, nb_classes=N_CLASSES, callbacks=callbacks,
+                                         weight_classes=True, callbacks=callbacks,
                                          batch_size=batch_size, has_auxiliary=HAS_AUX)
 
-    # cannot use model.save() because some objeccts cannot be pickled
-    model.save_weights(model_destination + 'final_weights.h5')
+    try:
+        model.save(model_destination + 'final_model.h5')
+    except:
+        model.save_weights(model_destination + 'final_weights.h5')
     json.dump(history, open(model_destination + 'training_history.json', 'w'))
 
     # evaluation
 
     test_data_gen = val_data_gen
     print("Prediction results without double check ...")
-    network.predict(model, test_data_gen, batch_size=0, evaluation=True, smart=False, no_ntm=args.no_ntm,
+    network.predict(model, test_data_gen, batch_size=160, evaluation=True, smart=False, no_ntm=args.no_ntm,
                     has_auxiliary=HAS_AUX, pruning=False)
 
     # print("Prediction from final model, with pruning and double check...")
@@ -258,7 +266,7 @@ def main():
     print("Prediction with double check without pruning.")
     # network.predict(model, test_data_gen, batch_size=0, evaluation=True, smart=True, no_ntm=args.no_ntm,
     #                 has_auxiliary=HAS_AUX, pruning=False)
-    results = network.predict(model, test_data_gen, batch_size=0, evaluation=True, smart=True, no_ntm=args.no_ntm,
+    results = network.predict(model, test_data_gen, batch_size=160, evaluation=True, smart=True, no_ntm=args.no_ntm,
                     has_auxiliary=HAS_AUX, pruning=False)
 
 

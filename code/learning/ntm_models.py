@@ -12,15 +12,17 @@ import tensorflow as tf
 # from ntm2 import NeuralTuringMachine as NTM
 # from ntm2 import SingleKeyNTM as NTM
 from ntm2 import SimpleNTM as NTM
+import keras.backend as K
 
-# LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
-#           "DURING", "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
-LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IS_INCLUDED", "INCLUDES", "None"] # TimeBank Dense labels
 EMBEDDING_DIM = 300
-DENSE_LABELS = True
+DENSE_LABELS = False
 MAX_LEN = 16  # max # of words on each branch of path
 
-import keras.backend as K
+if DENSE_LABELS:
+    LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IS_INCLUDED", "INCLUDES", "None"] # TimeBank Dense labels
+else:
+    LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
+              "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
 
 def my_weighted_loss(onehot_labels, logits):
     """scale loss based on class frequency"""
@@ -116,7 +118,8 @@ def get_pre_ntm_model(group_size=None, nb_classes=13, input_dropout=0.3, max_len
 def load_pretrained_model(trainable=False):
     """load the pre-trained model (independant pair classifier)"""
 
-    pre_ntm_model = load_model(os.path.join(os.environ["TEA_PATH"], 'model_destination/12-11-nontm/all/final_model.h5'))
+    # pre_ntm_model = load_model(os.path.join(os.environ["TEA_PATH"], 'model_destination/12-11-nontm/all/final_model.h5'))
+    pre_ntm_model = load_model(os.path.join(os.environ["TEA_PATH"], 'model_destination/1-8-nontm-tml/all/final_model.h5'))
     if not trainable:
         for layer in pre_ntm_model.layers:
             if hasattr(layer, 'layer'):  # layers embedded in wrappers

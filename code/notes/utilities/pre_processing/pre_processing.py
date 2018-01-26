@@ -6,7 +6,7 @@ import sys
 import naf_parse
 
 from news_reader import NewsReader
-import morpho_pro
+#import morpho_pro
 
 pre_processor = None
 

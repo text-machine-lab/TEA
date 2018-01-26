@@ -1,2 +1,1 @@
 PY4J_DIR_PATH /home/ymeng/anaconda2/share/py4j/
-MORPHO_DIR_PATH /home/ymeng/projects/TEA/TextPro/

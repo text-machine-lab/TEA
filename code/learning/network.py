@@ -14,11 +14,14 @@ from word2vec import load_word2vec_binary
 from sklearn.metrics import classification_report
 from sklearn.metrics import precision_recall_fscore_support
 
-# LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
-#           "DURING", "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
-LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IS_INCLUDED", "INCLUDES", "None"] # TimeBank Dense labels
 EMBEDDING_DIM = 300
-DENSE_LABELS = True
+DENSE_LABELS = False
+
+if DENSE_LABELS:
+    LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IS_INCLUDED", "INCLUDES", "None"] # TimeBank Dense labels
+else:
+    LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
+              "DURING", "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
 
 class Network(object):
     def __init__(self):
@@ -433,7 +436,7 @@ class Network(object):
             # will be 3D tensor with axis zero holding the each pair, axis 1 holding the word embeddings
             # (with length equal to word embedding length), and axis 2 hold each word.
             # del_list is a list of indices for which no SDP could be obtained
-            left_vecs, right_vecs, id_pairs, type_markers = self._extract_path_representations(note, self.word_vectors, pair_type)
+            left_vecs, right_vecs, id_pairs, type_markers = self.c(note, self.word_vectors, pair_type)
 
             if DENSE_LABELS:
                 id_to_labels = note.id_to_denselabels # use TimeBank-Dense labels
@@ -942,24 +945,30 @@ class Network(object):
         convert tlink labels to integers so they can be processed by the network
         '''
 
-        for i, label in enumerate(labels):
+        int_labels = []
+        for label in labels:
             if label == "IDENTITY":
-                labels[i] = "SIMULTANEOUS"
+                int_labels.append(LABELS.index('SIMULTANEOUS'))
             elif label not in LABELS:
-                labels[i] = "None"
+                int_labels.append(LABELS.index('None'))
+            else:
+                int_labels.append(LABELS.index(label))
 
-        return [LABELS.index(x) for x in labels]
+        return int_labels
 
     def _convert_int_labels_to_str(self, labels):
         '''
         convert ints to tlink labels so network output can be understood
         '''
-
-        return [LABELS[s] if s < 12 else "None" for s in labels]
+        last_label = len(LABELS)
+        return [LABELS[s] if s < last_label else "None" for s in labels]
 
     def reverse_labels(self, labels):
-        # LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
-        #  "DURING", "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
+        # if DENSE_LABELS:
+        #     LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IS_INCLUDED", "INCLUDES", "None"]  # TimeBank Dense labels
+        # else:
+        #     LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
+        #               "BEGINS", "BEGUN_BY", "ENDS", "ENDED_BY", "None"]
         processed_labels = []
 
         for label in labels:
@@ -967,32 +976,30 @@ class Network(object):
                 processed_labels.append(self.label_reverse_map[label])
                 continue
 
-            if label == 0:
-                processed_labels.append(0)
-            elif label == 1:
-                processed_labels.append(2)
-            elif label == 2:
-                processed_labels.append(1)
-            elif label == 3:
-                processed_labels.append(4)
-            elif label == 4:
-                processed_labels.append(3)
-            elif label == 5:
-                processed_labels.append(6)
-            elif label == 6:
-                processed_labels.append(5)
-            elif label == 7:
-                processed_labels.append(7)
-            elif label == 8:
-                processed_labels.append(9)
-            elif label == 9:
-                processed_labels.append(8)
-            elif label == 10:
-                processed_labels.append(11)
-            elif label == 11:
-                processed_labels.append(10)
-            else:  # label for unlinked pairs (should have int 0)
-                processed_labels.append(12)
+            if label == LABELS.index("SIMULTANEOUS"):
+                processed_labels.append(LABELS.index("SIMULTANEOUS"))
+            elif label == LABELS.index("BEFORE"):
+                processed_labels.append(LABELS.index("AFTER"))
+            elif label == LABELS.index("AFTER"):
+                processed_labels.append(LABELS.index("BEFORE"))
+            elif label == LABELS.index("IBEFORE"):
+                processed_labels.append(LABELS.index("IAFTER"))
+            elif label == LABELS.index("IAFTER"):
+                processed_labels.append(LABELS.index("IBEFORE"))
+            elif label == LABELS.index("IS_INCLUDED"):
+                processed_labels.append(LABELS.index("INCLUDES"))
+            elif label == LABELS.index("INCLUDES"):
+                processed_labels.append(LABELS.index("IS_INCLUDED"))
+            elif label == LABELS.index("BEGINS"):
+                processed_labels.append(LABELS.index("BEGUN_BY"))
+            elif label == LABELS.index("BEGUN_BY"):
+                processed_labels.append(LABELS.index("BEGINS"))
+            elif label == LABELS.index("ENDS"):
+                processed_labels.append(LABELS.index("ENDED_BY"))
+            elif label == LABELS.index("ENDED_BY"):
+                processed_labels.append(LABELS.index("ENDS"))
+            else:
+                processed_labels.append(LABELS.index("None"))
 
             self.label_reverse_map[label] = processed_labels[-1]
 
@@ -1009,6 +1016,7 @@ class Network(object):
         for true, pred in zip(actual, predicted):
             # build confusion matrix
             confusion[true, pred] += 1
+
         pickle.dump(confusion, open('evaluation.pkl', 'w'))
         # print confusion matrix
         print "confusion matrix"
