@@ -6,7 +6,7 @@ import sys
 import os
 from code.config import env_paths
 import numpy
-numpy.random.seed(1337)
+# numpy.random.seed(1337)
 
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
@@ -17,7 +17,7 @@ import glob
 import cPickle
 import json
 
-from code.learning.network_mem import NetworkMem
+from code.learning.network_mem import NetworkMem, BATCH_SIZE
 from code.notes.TimeNote import TimeNote
 from code.learning.word2vec import load_word2vec_binary, build_vocab
 
@@ -122,7 +122,7 @@ def main():
     n = len(notes)
 
     if args.augment:
-        splits = 7  # the estimated number of chunks we divide a batch/document into
+        splits = 14  # the estimated number of chunks we divide a batch/document into
         rounds = 4  # number of epochs to use all training data, good for fast check
 
         # the steps_per_epoch is useful if a single document is divided into chunks
@@ -214,11 +214,11 @@ def main():
         os.makedirs(model_destination)
 
     if args.no_ntm:
-        epochs = 30
+        epochs = 100
         patience = 10
     else:
-        epochs = 10
-        patience = 5
+        epochs = 5
+        patience = 8
 
     if args.no_val:
         earlystopping = EarlyStopping(monitor='loss', patience=patience, verbose=0, mode='auto')
@@ -230,12 +230,16 @@ def main():
 
     # create a sinlge model, then save architecture and weights
     if args.load_model:
-        try:
-            model = load_model(model_destination + 'final_model.h5')
-            # network.get_embedding_matrix()
-        except:
-            model = network.load_raw_model(args.no_ntm)
-            model.load_weights(model_destination + 'final_weights.h5')
+        # try:
+        #     model = load_model(model_destination + 'final_model.h5')
+        #     # network.get_embedding_matrix()
+        # except:
+        model = network.load_raw_model(args.no_ntm)
+        model, _ = network.train_model(model=model, no_ntm=args.no_ntm, epochs=1,
+                                             input_generator=training_data_gen, val_generator=val_data_gen,
+                                             weight_classes=True, callbacks=callbacks,
+                                             batch_size=batch_size, has_auxiliary=HAS_AUX)
+        model.load_weights(model_destination + 'final_weights.h5')
     else:
         model = None
 
@@ -253,21 +257,29 @@ def main():
 
     # evaluation
 
+    if DENSE_LABELS:
+        eval_batch = 0
+    else:
+        eval_batch = 160
     test_data_gen = val_data_gen
     print("Prediction results without double check ...")
-    network.predict(model, test_data_gen, batch_size=160, evaluation=True, smart=False, no_ntm=args.no_ntm,
-                    has_auxiliary=HAS_AUX, pruning=False)
+    results = network.predict(model, test_data_gen, batch_size=eval_batch, fit_batch_size=BATCH_SIZE,
+                              evaluation=True, smart=False, has_auxiliary=HAS_AUX, pruning=False)
 
     # print("Prediction from final model, with pruning and double check...")
     # # model.load_weights(model_destination + 'best_weights.h5')
     # network.predict(model, test_data_gen, batch_size=0, evaluation=True, smart=True, no_ntm=args.no_ntm,
     #                 has_auxiliary=HAS_AUX, pruning=True)
 
-    print("Prediction with double check without pruning.")
+    # print("Prediction with double check in batches.")
+    # results = network.predict(model, test_data_gen, batch_size=batch_size, fit_batch_size=BATCH_SIZE,
+    #                           evaluation=True, smart=True, has_auxiliary=HAS_AUX, pruning=False)
+
+    print("Prediction with double check in one batch.")
     # network.predict(model, test_data_gen, batch_size=0, evaluation=True, smart=True, no_ntm=args.no_ntm,
     #                 has_auxiliary=HAS_AUX, pruning=False)
-    results = network.predict(model, test_data_gen, batch_size=160, evaluation=True, smart=True, no_ntm=args.no_ntm,
-                    has_auxiliary=HAS_AUX, pruning=False)
+    results = network.predict(model, test_data_gen, batch_size=eval_batch, fit_batch_size=BATCH_SIZE,
+                              evaluation=True, smart=True, has_auxiliary=HAS_AUX, pruning=False)
 
 
     with open(model_destination + 'results.pkl', 'w') as f:

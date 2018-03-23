@@ -535,11 +535,11 @@ class SimpleNTM(NeuralTuringMachine):
         batch_size, input_length, self.input_dim = input_shape
         self.input_spec = [InputSpec(ndim=3)]
         self.input_spec[0] = InputSpec(shape=input_shape)
-        self.output_dim = self.input_dim
-        self.units = self.output_dim
-        print("output_dim overritten by input_dim!")
+        # self.output_dim = self.input_dim
+        # self.units = self.output_dim
+        # print("output_dim overritten by input_dim!")
         self.m_depth = self.output_dim
-        print("m_depth overritten by input_dim!")
+        print("m_depth overritten by controller output_dim!")
 
         if self.key_range is None:
             self.key_range = self.input_dim
@@ -548,8 +548,8 @@ class SimpleNTM(NeuralTuringMachine):
                            InputSpec(shape=(self.batch_size, self.n_slots * self.m_depth)),  # M
                            InputSpec(shape=(self.batch_size, self.n_slots * self.key_range))]  # Keys
 
-        # controller_input_dim = self.input_dim + self.m_depth  # support multiple heads
-        controller_input_dim = self.input_dim
+        controller_input_dim = self.input_dim + self.m_depth  # support multiple heads
+        # controller_input_dim = self.input_dim
 
         if self.controller_stateful:
             self.controller = get_lstm_controller(self.output_dim, controller_input_dim, activation=self.activation,
@@ -589,7 +589,7 @@ class SimpleNTM(NeuralTuringMachine):
         return [init_contoller_output, init_M, init_Keys]
 
     def _smart_similar(self, Keys, k):
-        # sim1 = _euclidean_similar(Keys, k)
+        sim1 = _euclidean_similar(Keys, k)
         sim1 = _cosine_similar(Keys, k)
         k_permute = K.concatenate([k[:, self.key_range/2:], k[:, :self.key_range/2]], axis=-1)
         # sim2 = _euclidean_similar(Keys, k_permute)
@@ -603,35 +603,28 @@ class SimpleNTM(NeuralTuringMachine):
         num = beta[:, None] * self._smart_similar(M, k)
         return K.softmax(num)
 
-    def _update_controller(self, inputs, read_vector):
-        """Give input and read memory to controller. Get the output of the controller.
-        """
-        # controller_input = K.concatenate([inputs - read_vector, inputs + read_vector])
-        controller_input = K.relu(inputs - read_vector)
-        with open('/home/ymeng/projects/TEA/log_nohup/read_vector.debug', 'a') as f:
-            t = tf.Print(read_vector, [read_vector], message="read_vector:", first_n=50)
-            try:
-                t.eval().__repre__()
-                f.write(t.eval().__repr__())
-            except ValueError:
-                f.write(t.__repr__())
-
-        if self.controller_stateful:  # use stateful lstm cell
-            # now shape changed to (batch, 1, input_size)) # pseudo time step 1
-            controller_input = controller_input[:, None, :]
-            controller_output_states = self.controller(controller_input,
-                                                       initial_state=self.controller_states)  # call with states
-            self.controller_states = controller_output_states[1:]
-            controller_output = controller_output_states[0]  # first output of controller (RNN)
-
-            if self.controller.output_shape == 3:
-                # first output of the list (should be one-element list anyway)
-                controller_output = controller_output[:, 0, :]
-
-        else: # use dense controller
-            controller_output = self.controller(controller_input)
-        # print("controller_output", controller_output)
-        return controller_output
+    # def _update_controller(self, inputs, read_vector):
+    #     """Give input and read memory to controller. Get the output of the controller.
+    #     """
+    #     # controller_input = K.concatenate([inputs - read_vector, inputs + read_vector])
+    #     controller_input = inputs - read_vector
+    #
+    #     if self.controller_stateful:  # use stateful lstm cell
+    #         # now shape changed to (batch, 1, input_size)) # pseudo time step 1
+    #         controller_input = controller_input[:, None, :]
+    #         controller_output_states = self.controller(controller_input,
+    #                                                    initial_state=self.controller_states)  # call with states
+    #         self.controller_states = controller_output_states[1:]
+    #         controller_output = controller_output_states[0]  # first output of controller (RNN)
+    #
+    #         if self.controller.output_shape == 3:
+    #             # first output of the list (should be one-element list anyway)
+    #             controller_output = controller_output[:, 0, :]
+    #
+    #     else: # use dense controller
+    #         controller_output = self.controller(controller_input)
+    #     # print("controller_output", controller_output)
+    #     return controller_output
 
     def step(self, x, states):
 
@@ -663,8 +656,8 @@ class SimpleNTM(NeuralTuringMachine):
         wc_write = self._get_content_w(beta_write, k_write, Keys_tm1)
         ww_t = self._get_ungated_location_w(s_write, self.C, gamma_write, wc_write)
 
-        # M_t = self._direct_write(ww_t, controller_output_t, M_tm1)
-        M_t = self._direct_write(ww_t, x, M_tm1)
+        M_t = self._direct_write(ww_t, controller_output_t, M_tm1)
+        # M_t = self._direct_write(ww_t, x, M_tm1)
         M_t = K.batch_flatten(M_t)
 
         Keys_t = self._direct_write(ww_t, k_write, Keys_tm1)

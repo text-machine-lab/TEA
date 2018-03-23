@@ -5,9 +5,9 @@ import glob
 import numpy as np
 #np.random.seed(1337)
 
-from keras.models import Sequential, Graph
+from keras.models import Sequential
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout, Permute
-from keras.regularizers import l2, activity_l2
+from keras.regularizers import l2
 from code.learning.word2vec import load_word2vec_binary
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 
@@ -97,7 +97,7 @@ class EventNetwork(object):
         """Given a list of words, return the embeddings"""
         if self.word_vectors is None:
             print 'Loading word embeddings...'
-            self.word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
+            self.word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + 'embeddings/GoogleNews-vectors-negative300.bin', verbose=0)
 
         vecs = None
         for word in word_list:
@@ -341,18 +341,18 @@ if __name__ == "__main__":
 
     training_dir = '../sandbox/training_set/'
     val_dir = '../sandbox/val_set'
-    newsreader_dir = './newsreader_annotations/12cls_half_neg/'
+    newsreader_dir = './newsreader_annotations/12-29/'
     model_dir = './model_destination/event/'
 
     network = EventNetwork()
     training_notes = network.get_notes(training_dir, newsreader_dir, save_notes=False)
-    # # downsample to get a quick check
-    # np.random.shuffle(training_notes)
-    # training_notes = training_notes[0:50]
+    #downsample to get a quick check
+    np.random.shuffle(training_notes)
+    training_notes = training_notes[0:50]
 
     val_notes = network.get_notes(val_dir, newsreader_dir, save_notes=False)
-    # downsample to get a quick check
-    #val_notes = val_notes[0:5]
+    #downsample to get a quick check
+    val_notes = val_notes[0:5]
     print "all notes loaded"
 
     training_data = network.get_input(training_notes)

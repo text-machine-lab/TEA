@@ -17,7 +17,7 @@ from collections import deque
 # import torch
 
 TYPE_MARKERS = {'_INTRA_': 0, '_CROSS_': 1, '_DCT_': -1}
-BATCH_SIZE = 5  # group batches
+BATCH_SIZE = 10  # group batches
 
 class NetworkMem(Network):
     def __init__(self, no_ntm=False, nb_training_files=None):
@@ -30,6 +30,7 @@ class NetworkMem(Network):
         self.infersent = None
         self.training_passes = 1
         self.test_passes = 1
+        self.positive_only = False
 
     def build_wordvectors(self, notes):
         print("Building word vectors from %d note files" % len(notes))
@@ -121,6 +122,7 @@ class NetworkMem(Network):
         self.nb_training_files = len(notes)
         self.no_ntm = no_ntm
         self.training_passes = multiple
+        self.positive_only = (nolink_ratio == 0)
 
         assert self.word_vectors
         # print('Loading word embeddings for training data...')
@@ -218,7 +220,7 @@ class NetworkMem(Network):
                         data[i] = np.concatenate([data[i], item], axis=0)
                 yield data
 
-    def generate_test_input(self, notes, pair_type, max_len=16, multiple=1, no_ntm=False, reverse_pairs=True):
+    def generate_test_input(self, notes, pair_type, max_len=16, multiple=1, no_ntm=False):
 
         print("\nGenerating test data...")
         self.nb_test_files = len(notes)
@@ -257,10 +259,12 @@ class NetworkMem(Network):
                     label_from_file = id_to_labels.get(pair, 'None')
                     note_labels.append(label_from_file)
 
-                labels = np.array(NetworkMem.convert_str_labels_to_int(note_labels), dtype='int16')
-
                 for index, pair in enumerate(id_pairs):
                     pair_index[(i, pair)] = index # map pairs to their index in data array (within a note), i is id for notes
+
+                note_labels = np.array(note_labels)
+
+                labels = np.array(NetworkMem.convert_str_labels_to_int(note_labels), dtype='int16')
 
                 if XL is not None and XL.shape[0] != 0:
                     XL = pad_sequences(XL, maxlen=max_len, dtype='float32', padding='pre', truncating='post', value=0.)
@@ -322,14 +326,19 @@ class NetworkMem(Network):
         #
         # return np.array(timex_values_l), np.array(timex_values_r)
 
-    def load_raw_model(self, no_ntm, fit_batch_size=10):
+    def load_raw_model(self, no_ntm, fit_batch_size=10, batch_size=80):
+        n_slots = max(1, batch_size / 2)
         if no_ntm:
-            model = get_pre_ntm_model(group_size=None, nb_classes=len(LABELS), input_dropout=0.3, max_len=MAX_LEN,
-                                      embedding_matrix=self.get_embedding_matrix())
+            # model = get_pre_ntm_model(group_size=None, nb_classes=len(LABELS), input_dropout=0.5, max_len=MAX_LEN,
+            #                           embedding_matrix=self.get_embedding_matrix())
+            model = get_combined_ntm_model(batch_size=fit_batch_size, group_size=None, m_depth=512, n_slots=n_slots,
+                                       ntm_output_dim=512, shift_range=3, max_len=MAX_LEN, read_heads=1, write_heads=1,
+                                       nb_classes=len(LABELS), embedding_matrix=self.get_embedding_matrix())
         else:
-            model = get_ntm_hiddenfeed(batch_size=fit_batch_size, group_size=None, m_depth=512, n_slots=128,
+            model = get_ntm_hiddenfeed(batch_size=fit_batch_size, input_dropout=0.5, group_size=None, m_depth=512, n_slots=n_slots,
                                      ntm_output_dim=512, shift_range=3, max_len=MAX_LEN, read_heads=1, write_heads=1,
                                      nb_classes=len(LABELS), embedding_matrix=self.get_embedding_matrix())
+
         return model
 
     def train_model(self, model=None, no_ntm=False, epochs=100, steps_per_epoch=10, input_generator=None,
@@ -338,19 +347,25 @@ class NetworkMem(Network):
         from keras.optimizers import RMSprop
         # learning rate schedule
         def step_decay(epoch):
-            initial_lrate = 0.002
             drop = 0.5
             if no_ntm:
-                epochs_drop = 5
+                initial_lrate = 0.0002
+                epochs_drop = 20
             else:
-                epochs_drop = 5  # get half in every epochs_drop steps
+                initial_lrate = 0.001
+                epochs_drop = 4  # get half in every epochs_drop steps
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
 
         fit_batch_size = BATCH_SIZE
 
         if model is None:
-            model = self.load_raw_model(no_ntm, fit_batch_size=fit_batch_size)
+            model = self.load_raw_model(no_ntm, fit_batch_size=fit_batch_size, batch_size=batch_size)
+
+        if DENSE_LABELS:
+            eval_batch = 0
+        else:
+            eval_batch = 160
 
         print('Training network...')
         training_history = []
@@ -359,9 +374,12 @@ class NetworkMem(Network):
         batch_sizes = [batch_size/2, batch_size*3/4, batch_size, batch_size*3/2, batch_size*2]
         for epoch in range(epochs):
             lr = step_decay(epoch)
-            # K.set_value(model.optimizer.lr, lr)
-            # model.optimizer.lr = lr
-            print("set learning rate %f" % lr)
+            # if no_ntm:
+            #     K.set_value(model.optimizer.lr, lr)
+            #     print("set learning rate %f" % K.get_value(model.optimizer.lr))
+            # else:
+            #     model.optimizer.lr = lr
+            #     print("set learning rate %f" % model.optimizer.lr)
 
             epoch_history = []
             start = time.time()
@@ -421,20 +439,25 @@ class NetworkMem(Network):
                     except KeyError:
                         aux_acc = np.mean([h['pre_ntm_categorical_accuracy'][0] for h in epoch_history])
                     sys.stdout.write("epoch %d after training file %d/%d--- -%ds - main_loss : %.4f - main_acc : %.4f - aux_acc : %.4f\r" % (
-                    epoch + 1, n, self.nb_training_files, int(time.time() - start), loss, acc, aux_acc))
+                    epoch + 1, n + 1, self.nb_training_files, int(time.time() - start), loss, acc, aux_acc))
                 else:
                     sys.stdout.write("epoch %d after training file %d/%d--- -%ds - loss : %.4f - acc : %.4f\r" % (
-                    epoch + 1, n, self.nb_training_files, int(time.time() - start), loss, acc))
+                    epoch + 1, n + 1, self.nb_training_files, int(time.time() - start), loss, acc))
                 sys.stdout.flush()
 
             sys.stdout.write("\n")
             training_history.append({'categorical_accuracy': acc, 'loss': loss})
-            if epoch <= 8:
+            K.set_value(model.optimizer.lr, lr)
+            print("set learning rate %f" % K.get_value(model.optimizer.lr))
+
+            if no_ntm and epoch <= 10:
+                continue
+            elif not no_ntm and epoch < 6:
                 continue
             print("\n\nepoch finished... evaluating on val data...")
             if val_generator is not None:
                 # evaluate after each epoch
-                evalu = self.predict(model, val_generator, batch_size=160, fit_batch_size=fit_batch_size, evaluation=True, smart=False, no_ntm=no_ntm, has_auxiliary=has_auxiliary)
+                evalu = self.predict(model, val_generator, batch_size=eval_batch, fit_batch_size=fit_batch_size, evaluation=True, smart=False, has_auxiliary=has_auxiliary)
 
             if 'earlystopping' in callbacks:
                 if callbacks['earlystopping'].monitor == 'loss':
@@ -465,7 +488,7 @@ class NetworkMem(Network):
         print("Fisnished training. Data rolled %d times" %self.roll_counter)
         return model, training_history
 
-    def predict(self, model, data_generator, batch_size=0, fit_batch_size=5, evaluation=True, smart=True, no_ntm=False, has_auxiliary=False, pruning=False):
+    def predict(self, model, data_generator, batch_size=0, fit_batch_size=5, evaluation=True, smart=True, has_auxiliary=False, pruning=False):
         predictions = []
         scores = []
         pair_indexes = {}
@@ -545,6 +568,11 @@ class NetworkMem(Network):
                         probs_in_note = probs_in_note[used_indexes]
                         true_labels_in_note = true_labels_in_note[used_indexes]
 
+                    if self.positive_only:
+                        pos_indexes = [ind for ind, label in enumerate(true_labels_in_note) if label != LABELS.index('None') ]
+                        true_labels_in_note = [true_labels_in_note[ind] for ind in pos_indexes]
+                        labels_in_note = [labels_in_note[ind] for ind in pos_indexes]
+
                     if pruning:
                         print("Pruning note #%d out of %d %s" %(i+1, len(self.test_notes), self.test_notes[i].annotated_note_path))
                         # pred_timex_labels, true_timex_labels, timex_pairs = get_timex_predictions([self.test_notes[i]])
@@ -584,8 +612,8 @@ class NetworkMem(Network):
                     true_labels_in_note = None
                     labels_in_note = []
 
-            # if not isinstance(feeder, list):
-            #     self.test_data_collection.append(note_data)  # store data for fast retrieval
+            if not isinstance(feeder, list):
+                self.test_data_collection.append(note_data)  # store data for fast retrieval
 
         if not pruning:
             if len(scores) > 1:
@@ -689,30 +717,44 @@ class NetworkMem(Network):
                 processed_labels.append(self.label_reverse_map[label])
                 continue
 
-            if label == LABELS.index("SIMULTANEOUS"):
-                processed_labels.append(LABELS.index("SIMULTANEOUS"))
-            elif label == LABELS.index("BEFORE"):
-                processed_labels.append(LABELS.index("AFTER"))
-            elif label == LABELS.index("AFTER"):
-                processed_labels.append(LABELS.index("BEFORE"))
-            elif label == LABELS.index("IBEFORE"):
-                processed_labels.append(LABELS.index("IAFTER"))
-            elif label == LABELS.index("IAFTER"):
-                processed_labels.append(LABELS.index("IBEFORE"))
-            elif label == LABELS.index("IS_INCLUDED"):
-                processed_labels.append(LABELS.index("INCLUDES"))
-            elif label == LABELS.index("INCLUDES"):
-                processed_labels.append(LABELS.index("IS_INCLUDED"))
-            elif label == LABELS.index("BEGINS"):
-                processed_labels.append(LABELS.index("BEGUN_BY"))
-            elif label == LABELS.index("BEGUN_BY"):
-                processed_labels.append(LABELS.index("BEGINS"))
-            elif label == LABELS.index("ENDS"):
-                processed_labels.append(LABELS.index("ENDED_BY"))
-            elif label == LABELS.index("ENDED_BY"):
-                processed_labels.append(LABELS.index("ENDS"))
+            if not DENSE_LABELS:
+                if label == LABELS.index("SIMULTANEOUS"):
+                    processed_labels.append(LABELS.index("SIMULTANEOUS"))
+                elif label == LABELS.index("BEFORE"):
+                    processed_labels.append(LABELS.index("AFTER"))
+                elif label == LABELS.index("AFTER"):
+                    processed_labels.append(LABELS.index("BEFORE"))
+                elif label == LABELS.index("IBEFORE"):
+                    processed_labels.append(LABELS.index("IAFTER"))
+                elif label == LABELS.index("IAFTER"):
+                    processed_labels.append(LABELS.index("IBEFORE"))
+                elif label == LABELS.index("IS_INCLUDED"):
+                    processed_labels.append(LABELS.index("INCLUDES"))
+                elif label == LABELS.index("INCLUDES"):
+                    processed_labels.append(LABELS.index("IS_INCLUDED"))
+                elif label == LABELS.index("BEGINS"):
+                    processed_labels.append(LABELS.index("BEGUN_BY"))
+                elif label == LABELS.index("BEGUN_BY"):
+                    processed_labels.append(LABELS.index("BEGINS"))
+                elif label == LABELS.index("ENDS"):
+                    processed_labels.append(LABELS.index("ENDED_BY"))
+                elif label == LABELS.index("ENDED_BY"):
+                    processed_labels.append(LABELS.index("ENDS"))
+                else:
+                    processed_labels.append(LABELS.index("None"))
             else:
-                processed_labels.append(LABELS.index("None"))
+                if label == LABELS.index("SIMULTANEOUS"):
+                    processed_labels.append(LABELS.index("SIMULTANEOUS"))
+                elif label == LABELS.index("BEFORE"):
+                    processed_labels.append(LABELS.index("AFTER"))
+                elif label == LABELS.index("AFTER"):
+                    processed_labels.append(LABELS.index("BEFORE"))
+                elif label == LABELS.index("IS_INCLUDED"):
+                    processed_labels.append(LABELS.index("INCLUDES"))
+                elif label == LABELS.index("INCLUDES"):
+                    processed_labels.append(LABELS.index("IS_INCLUDED"))
+                else:
+                    processed_labels.append(LABELS.index("None"))
 
             self.label_reverse_map[label] = processed_labels[-1]
 

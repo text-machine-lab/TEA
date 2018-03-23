@@ -106,7 +106,7 @@ def main():
     network = NetworkMem(no_ntm=args.no_ntm, nb_training_files=len(notes))
     network.word_vectors = cPickle.load(open(os.path.join(args.model_path, 'all/vocab.pkl')))
     try:
-        model = load_model(os.path.join(args.model_path, 'all/model.h5'))
+        model = load_model(os.path.join(args.model_path, 'all/final_model.h5'))
     except:
         model = network.load_raw_model(args.no_ntm, fit_batch_size=BATCH_SIZE)
         model.load_weights(os.path.join(args.model_path, 'all/final_weights.h5'))
