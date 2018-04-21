@@ -273,10 +273,8 @@ def dequeue_notes(q, is_testdata=False):
 def trainNetwork(gold_files, val_files, newsreader_dir, pair_type, no_val=False, nolink_ratio=1.0, callbacks=[], train_dir='./'):
     '''
     train::trainNetwork()
-
     Purpose: Train a neural network for classification of temporal realtions. Assumes events and timexes
         will be provided at prediction time
-
     @param tml_files: List of unlabled (no timex, etc) timeML documents
     @param gold_files: Fully labeled gold standard timeML documents
     '''

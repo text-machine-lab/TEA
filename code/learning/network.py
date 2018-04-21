@@ -1,10 +1,9 @@
 import os
 import pickle
 import copy
-import sys
 
 import numpy as np
-np.random.seed(1337)
+#np.random.seed(1337)
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential
 from keras.layers import Embedding, LSTM, Dense, Merge, MaxPooling1D, TimeDistributed, Flatten, Masking, Input, Dropout, Permute
@@ -14,8 +13,8 @@ from word2vec import load_word2vec_binary
 from sklearn.metrics import classification_report
 from sklearn.metrics import precision_recall_fscore_support
 
-EMBEDDING_DIM = 300
-DENSE_LABELS = False
+LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IBEFORE", "IAFTER", "IS_INCLUDED", "INCLUDES",
+          "DURING","BEGINS","BEGUN_BY","ENDS","ENDED_BY", "None"]
 
 if DENSE_LABELS:
     LABELS = ["SIMULTANEOUS", "BEFORE", "AFTER", "IS_INCLUDED", "INCLUDES", "None"] # TimeBank Dense labels
@@ -31,19 +30,20 @@ class Network(object):
         self.label_reverse_map = {} # map BEFORE to AFTER etc., in int label
         self.word_vectors = None
 
-    def get_untrained_model(self, encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=32, dense_size=100, maxpooling=True, data_dim=EMBEDDING_DIM, max_len=22, nb_classes=7):
+    def get_untrained_model(self, encoder_dropout=0, decoder_dropout=0, input_dropout=0, reg_W=0, reg_B=0, reg_act=0, LSTM_size=256, dense_size=100, maxpooling=True, data_dim=300, max_len=22, nb_classes=7):
         '''
         Creates a neural network with the specified conditions.
-        params:
+        Arguments:
             encoder_dropout: dropout rate for LSTM encoders (NOT dropout for LSTM internal gates)
             decoder_dropout: dropout rate for decoder
             reg_W: lambda value for weight regularization
             reg_b: lambda value for bias regularization
             reg_act: lambda value for activation regularization
             LSTM_size: number of units in the LSTM layers
-            maxpooling: pool over LSTM output at each timestep, or just take the output from the final LSTM timestep
-            data_dim: dimension of the input data
-            max_len: maximum length of an input sequence (this should be found based on the training data)
+            maxpooling: if True, pool over LSTM output at each timestep,
+                        otherwise just take the output from the final LSTM timestep
+            data_dim: dimension of word embeddings
+            max_len: maximum length of an input sequence
             nb_classes: number of classes present in the training data
         '''
 
@@ -121,31 +121,23 @@ class Network(object):
         maxpooling=True, data_dim=200, max_len='auto', nb_classes=13, callbacks=[]):
         '''
         obtains entity pairs and tlink labels from every note passed, and uses them to train the network.
-        params:
+        Arguments:
             notes: timeML files to train on
             epochs: number of training epochs to perform
-            training_input: provide processed training matrices directly, rather than rebuilding the matrix from notes every time. Useful for training multipul models with the same data.
-                Formatted as a tuple; (XL, XR, labels)
-            weight_classes: rather or not to use class weighting
+            training_input: provide processed training matrices directly,
+                            instead of rebuilding the matrix from notes every time.
+                            Useful for training multipul models with the same data.
+                            Formatted as a tuple; (XL, XR, labels)
+            weight_classes: whether use class weighting or not
             batch_size: size of training batches to use
-            max_len: either an integer specifying the maximum input sequence length, or 'auto', which infer maximum length from the training data
-        All other parameters feed directly into get_untrained_model(), and are described there.
+            max_len: either an integer specifying the maximum input sequence length, or 'auto',
+                    which infer maximum length from the training data
+            All other parameters feed directly into get_untrained_model(), and are described there.
         '''
         if training_input == None:
             XL, XR, labels = self._get_training_input(notes)
         else:
             XL, XR, labels = training_input
-
-        # # remove zero labels (there are too many of them)
-        # # TODO: maybe just remove some of them, not all
-        # print XL.shape
-        # labels = np.array(labels)
-        # pos_indexes = np.where(labels>0)[0]
-        # print len(labels)
-        # print max(pos_indexes)
-        # XL = XL[pos_indexes,:,:]
-        # XR = XR[pos_indexes,:,:]
-        # labels = labels[pos_indexes]
 
         # reformat labels so that they can be used by the NN
         Y = to_categorical(labels,nb_classes)
@@ -175,7 +167,8 @@ class Network(object):
             validation_split = 0.0
             validation_data = None
         elif val_input is None:
-            # split off validation data with 20 80 split (this way we get the same validation data every time we use this data sample, and can test on it after to get a confusion matrix)
+            # split off validation data with 20 80 split
+            # this way we get the same validation data every time
             V_XL = XL[:(XL.shape[0]/5),:,:]
             V_XR = XR[:(XR.shape[0]/5),:,:]
             V_Y  = Y [:( Y.shape[0]/5),:]
@@ -218,13 +211,7 @@ class Network(object):
         predict using a trained single pass model
         '''
 
-        if test_input is not None:
-            XL, XR, _labels, pair_index = test_input
-        else:
-            XL, XR, _labels, pair_index = self._get_test_input(notes, pair_type)
-
-        if XL is None:
-            return [], [], {}
+        XL, XR, _labels, pair_index = self._get_test_input(notes, pair_type)
 
         # get expected length of model input
         model_input_len = model.input_shape[0][-2]
@@ -245,17 +232,10 @@ class Network(object):
         else:
             probs = None
 
-        # if evalu:
-        #     Network.class_confusion(labels, gold_labels, 13)
-
-        #return self._convert_int_labels_to_str(labels), probs, pair_index
-
         # format of pair_index: {(note_index, (e1, e2)) : index}
         return labels, probs, pair_index # int labels
 
     def smart_predict(self, labels, probs, pair_index, type='int'):
-        # int labels
-        #labels, probs, pair_index = self.single_predict(notes, model, predict_prob=True)
 
         proccessed = {}
         label_scores = [0.0 for i in labels]
@@ -317,7 +297,7 @@ class Network(object):
             #word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.840B.300d.txt', verbose=0)
             # word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/glove.6B.200d.txt', verbose=0)
 
-        # print 'Extracting dependency paths...'
+        print 'Extracting dependency paths...'
         labels = []
         for i, note in enumerate(notes):
 
@@ -349,7 +329,7 @@ class Network(object):
                     pos_case_indexes.append(index)
                 else:
                     neg_case_indexes.append(index)
-                note_labels.append(id_to_labels.get(pair, 'None'))
+                note_labels.append(note.id_to_labels.get(pair, 'None'))
             note_labels = np.array(note_labels)
 
             if nolink_ratio is not None:
@@ -438,12 +418,9 @@ class Network(object):
             # del_list is a list of indices for which no SDP could be obtained
             left_vecs, right_vecs, id_pairs, type_markers = self.c(note, self.word_vectors, pair_type)
 
-            if DENSE_LABELS:
-                id_to_labels = note.id_to_denselabels # use TimeBank-Dense labels
-            else:
-                id_to_labels = note.id_to_labels
-
-            if id_to_labels:
+            # only do the following for labeled data with tlinks
+            # tlinks from test data are used to do evaluation
+            if note.id_to_labels:
                 note_labels = []
                 index_to_reverse = []
                 for index, pair in enumerate(id_pairs): # id pairs that have tlinks
@@ -649,9 +626,6 @@ class Network(object):
         else:
             id_pair_to_path_words = self._extract_context_words(note, pair_type)
 
-        # del list stores the indices of pairs which do not have a SDP so that they can be removed from the labels later
-        #del_list = []
-
         left_vecs = None
         right_vecs = None
 
@@ -671,7 +645,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, np.newaxis, :]
@@ -701,7 +675,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, np.newaxis, :]
@@ -871,7 +845,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
@@ -898,7 +872,7 @@ class Network(object):
                 try:
                     embedding = word_vectors[word]
                 except KeyError:
-                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(EMBEDDING_DIM))
+                    embedding = np.random.uniform(low=-0.5, high=0.5, size=(300))
 
                 # reshape to 3 dimensions so embeddings can be concatenated together to form the final input values
                 embedding = embedding[np.newaxis, :, np.newaxis]
