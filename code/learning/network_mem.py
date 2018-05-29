@@ -344,7 +344,7 @@ class NetworkMem(Network):
     def train_model(self, model=None, no_ntm=False, epochs=100, steps_per_epoch=10, input_generator=None,
                     val_generator=None, weight_classes=False, callbacks={}, batch_size=300, has_auxiliary=False):
 
-        from keras.optimizers import RMSprop
+        # from keras.optimizers import RMSprop
         # learning rate schedule
         def step_decay(epoch):
             drop = 0.5
@@ -361,6 +361,7 @@ class NetworkMem(Network):
 
         if model is None:
             model = self.load_raw_model(no_ntm, fit_batch_size=fit_batch_size, batch_size=batch_size)
+        print("loaded raw model")
 
         if DENSE_LABELS:
             eval_batch = 0
