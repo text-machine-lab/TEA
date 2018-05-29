@@ -785,9 +785,7 @@ class Network(object):
 
         return [LABELS[s] if s<12 else "None" for s in labels]
 
-    def reverse_labels(self, labels):
-        """Get the opposite labels"""
-
+   def reverse_labels(self, labels):
         processed_labels = []
 
         for label in labels:
@@ -795,32 +793,30 @@ class Network(object):
                 processed_labels.append(self.label_reverse_map[label])
                 continue
 
-            if label == 1:
-                processed_labels.append(1)
-            elif label == 2:
-                processed_labels.append(3)
-            elif label == 3:
-                processed_labels.append(2)
-            elif label == 4:
-                processed_labels.append(5)
-            elif label == 5:
-                processed_labels.append(4)
-            elif label == 6:
-                processed_labels.append(7)
-            elif label == 7:
-                processed_labels.append(6)
-            elif label == 8:
-                processed_labels.append(8)
-            elif label == 9:
-                processed_labels.append(10)
-            elif label == 10:
-                processed_labels.append(9)
-            elif label == 11:
-                processed_labels.append(12)
-            elif label == 12:
-                processed_labels.append(11)
-            else:  # label for unlinked pairs (should have int 0)
-                processed_labels.append(0)
+            if label == LABELS.index("SIMULTANEOUS"):
+                processed_labels.append(LABELS.index("SIMULTANEOUS"))
+            elif label == LABELS.index("BEFORE"):
+                processed_labels.append(LABELS.index("AFTER"))
+            elif label == LABELS.index("AFTER"):
+                processed_labels.append(LABELS.index("BEFORE"))
+            elif label == LABELS.index("IBEFORE"):
+                processed_labels.append(LABELS.index("IAFTER"))
+            elif label == LABELS.index("IAFTER"):
+                processed_labels.append(LABELS.index("IBEFORE"))
+            elif label == LABELS.index("IS_INCLUDED"):
+                processed_labels.append(LABELS.index("INCLUDES"))
+            elif label == LABELS.index("INCLUDES"):
+                processed_labels.append(LABELS.index("IS_INCLUDED"))
+            elif label == LABELS.index("BEGINS"):
+                processed_labels.append(LABELS.index("BEGUN_BY"))
+            elif label == LABELS.index("BEGUN_BY"):
+                processed_labels.append(LABELS.index("BEGINS"))
+            elif label == LABELS.index("ENDS"):
+                processed_labels.append(LABELS.index("ENDED_BY"))
+            elif label == LABELS.index("ENDED_BY"):
+                processed_labels.append(LABELS.index("ENDS"))
+            else:
+                processed_labels.append(LABELS.index("None"))
 
             self.label_reverse_map[label] = processed_labels[-1]
 
