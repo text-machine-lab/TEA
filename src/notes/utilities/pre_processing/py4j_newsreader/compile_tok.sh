@@ -1,0 +1,15 @@
+#!/bin/bash
+: <<'END'
+Compile newsreader TOK pipeline comment.
+END
+
+
+
+
+TOK_JAR_PATH=$TEA_PATH/dependencies/NewsReader/ixa-pipes-1.1.0/ixa-pipe-tok-1.8.2.jar
+COMPILE_DEST=$TEA_PATH/src/notes/utilities/pre_processing/py4j_newsreader/
+SRC_DIR=$TEA_PATH/src/notes/utilities/pre_processing/py4j_newsreader
+
+javac -cp ":$TOK_JAR_PATH" $SRC_DIR/TokCLI.java -d $COMPILE_DEST
+javac -cp "$COMPILE_DEST:$TOK_JAR_PATH" $SRC_DIR/Tok.java -d $COMPILE_DEST
+

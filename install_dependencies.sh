@@ -11,7 +11,7 @@ fi
 tar -xvf NewsReader.tar
 
 # installing srl dependencies
-wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mate-tools/srl-4.3.tgz
+wget https://storage.googleapis.com/google-code-archive-downloads/v2/src.google.com/mate-tools/srl-4.3.tgz
 
 tar -zxvf srl-4.3.tgz srl-20130917/lib/liblinear-1.51-with-deps.jar
 tar -zxvf srl-4.3.tgz srl-20130917/lib/seg.jar
@@ -27,7 +27,7 @@ tar -xvf NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl.tar -C NewsReader/ixa-pipes-1.1
 # JAVA 1.7 or higher worked fine. ensure maven is using right version.
 mvn clean install -f NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/pom.xml
 
-wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mate-tools/CoNLL2009-ST-English-ALL.anna-3.3.parser.model --directory-prefix=NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/models/eng/
+wget https://storage.googleapis.com/google-code-archive-downloads/v2/src.google.com/mate-tools/CoNLL2009-ST-English-ALL.anna-3.3.parser.model --directory-prefix=NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/models/eng/
 wget http://fileadmin.cs.lth.se/nlp/models/srl/en/srl-20100906/srl-eng.model --directory-prefix=NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/models/eng/
 
 mkdir NewsReader/ixa-pipes-1.1.0/ixa-pipe-srl/IXA-EHU-srl/target/PredicateMatrix

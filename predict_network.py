@@ -4,7 +4,7 @@ using a neural network model for TLINK annotations.
 """
 
 import sys
-from code.config import env_paths
+from src.config import env_paths
 import numpy
 numpy.random.seed(1337)
 
@@ -15,10 +15,10 @@ import os
 
 from keras.models import model_from_json
 
-from code.learning.network import Network
-from code.notes.TimeNote import TimeNote
-from code.learning.time_ref import predict_timex_rel
-from code.learning.break_cycle import modify_tlinks
+from src.learning.network import Network
+from src.notes.TimeNote import TimeNote
+from src.learning.time_ref import predict_timex_rel
+from src.learning.break_cycle import modify_tlinks
 
 timenote_imported = False
 if env_paths()["PY4J_DIR_PATH"] is None:
@@ -102,13 +102,27 @@ def main():
     # assert len(gold_files) == len(tml_files)
 
     network = Network()
+    word_vectors = load_word2vec_binary(os.environ["TEA_PATH"] + '/GoogleNews-vectors-negative300.bin', verbose=0)
 
     intra_model = model_from_json(open(os.path.join(args.intra_model_path, 'intra', '.arch.json')).read())
     intra_model.load_weights(os.path.join(args.intra_model_path, 'intra', '.weights.h5'))
+    # intra_model = load_model(os.path.join(args.intra_model_path, 'intra', 'model.h5'))
     cross_model = model_from_json(open(os.path.join(args.cross_model_path, 'cross', '.arch.json')).read())
     cross_model.load_weights(os.path.join(args.cross_model_path, 'cross', '.weights.h5'))
+    # cross_model = load_model(os.path.join(args.cross_model_path, 'cross', 'model.h5'))
     dct_model = model_from_json(open(os.path.join(args.dct_model_path, 'dct', '.arch.json')).read())
     dct_model.load_weights(os.path.join(args.dct_model_path, 'dct', '.weights.h5'))
+    # dct_model = load_model(os.path.join(args.dct_model_path, 'dct', 'model.h5'))
+
+    inqueue = Queue.Queue()
+    outqueue = Queue.Queue()
+
+    if DENSE_LABELS:
+        denselabels = cPickle.load(open(newsreader_dir+'dense-labels.pkl'))
+        pred_Y = []
+        true_Y = []
+    else:
+        denselabels = None
 
     for i, tml in enumerate(gold_files):
 
