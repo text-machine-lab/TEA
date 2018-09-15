@@ -31,4 +31,3 @@ def env_paths():
 if __name__ == "__main__":
 
     print(env_paths())
-

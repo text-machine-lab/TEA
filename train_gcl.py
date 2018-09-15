@@ -1,27 +1,20 @@
-"""Training and evaluation"""
+"""Training and evaluation on Timebank_Dense data"""
 
 from __future__ import print_function
 import sys
 import os
-from src.config import env_paths
 import numpy
-
-if env_paths()["PY4J_DIR_PATH"] is None:
-    sys.exit("PY4J_DIR_PATH environment variable not specified")
-
 import argparse
 import glob
 import pickle
 import json
 
-from train_networkmem import basename, get_notes
 from src.learning.network_mem import NetworkMem, BATCH_SIZE
-from src.notes.TimeNote import TimeNote
-from keras.callbacks import ModelCheckpoint, EarlyStopping
-from src.learning.ntm_models import LABELS, EMBEDDING_DIM, MAX_LEN
+from src.learning.ntm_models import MAX_LEN
 
 DENSE_LABELS = True
 HAS_AUX = False
+
 
 def main():
     '''
@@ -79,10 +72,10 @@ def main():
         val_files = glob.glob(os.path.join(args.val_dir, '*'))
         val_files.sort()
 
-    notes = get_notes(gold_files, args.newsreader_annotations, augment=True)
+    notes = get_notes(gold_files, args.newsreader_annotations)
     numpy.random.shuffle(notes)
 
-    val_notes = get_notes(val_files, args.newsreader_annotations, augment=True)
+    val_notes = get_notes(val_files, args.newsreader_annotations)
 
     network = NetworkMem(nb_training_files=len(notes), model_path=model_destination)
     print("loading word vectors...")
@@ -96,19 +89,9 @@ def main():
 
     network.get_embedding_matrix()
     val_data_gen = network.generate_test_input(val_notes, 'all', max_len=MAX_LEN, multiple=1)
-
-
-
-    # if args.no_val:
-    #     earlystopping = EarlyStopping(monitor='loss', patience=patience, verbose=0, mode='auto')
-    #     checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='loss', save_best_only=True, save_weights_only=True)
-    # else:
-    #     earlystopping = EarlyStopping(monitor='val_acc', patience=patience, verbose=0, mode='auto')
-    #     checkpoint = ModelCheckpoint(model_destination + 'best_weights.h5', monitor='val_loss', save_best_only=True, save_weights_only=True)
-    # callbacks = {'earlystopping': earlystopping, 'checkpoint': checkpoint}
     callbacks = None
 
-
+    print("Start training pairwise model...")
     # load pairwise model (without GCL)
     model, history = network.train_model(model=None, no_ntm=True, epochs=50,
                                          input_generator=training_data_gen, val_generator=val_data_gen,
@@ -117,6 +100,7 @@ def main():
 
     model.save(model_destination + 'pairwise_model.h5')
 
+    print("Start training GCL model...")
     # load memory model (with GCL)
     model, history = network.train_model(model=None, no_ntm=False, epochs=10,
                                          input_generator=training_data_gen, val_generator=val_data_gen,
@@ -127,8 +111,6 @@ def main():
     try:
         model.save(model_destination + 'final_model.h5')
     except:
-        # with open(model_destination + 'arch.json', "wb") as f:
-        #     f.write(model.to_json())
         model.save_weights(model_destination + 'final_weights.h5')
     json.dump(history, open(model_destination + 'training_history_final.json', 'w'))
 
@@ -147,6 +129,28 @@ def main():
     with open(model_destination + 'vocab.pkl', 'wb') as f:
         pickle.dump(network.word_vectors, f)
 
+
+def basename(name):
+    name = os.path.basename(name)
+    name = name.replace('.TE3input', '')
+    name = name.replace('.tml', '')
+    return name
+
+
+def get_notes(files, newsreader_dir):
+
+    if not files:
+        return None
+
+    notes = []
+
+    for i, tml in enumerate(files):
+        if i % 10 == 0:
+            print('processing file {}/{} {}'.format(i + 1, len(files), tml))
+        assert os.path.isfile(os.path.join(newsreader_dir, basename(tml) + ".parsed.pickle"))
+        tmp_note = pickle.load(open(os.path.join(newsreader_dir, basename(tml) + ".parsed.pickle"), "rb"))
+        notes.append(tmp_note)
+    return notes
 
 if __name__ == "__main__":
     main()
