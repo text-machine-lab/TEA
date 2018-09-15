@@ -116,15 +116,13 @@ def get_pre_ntm_model(group_size=None, nb_classes=13, input_dropout=0.3, max_len
     return model
 
 
-def load_pretrained_model(trainable=False):
+def load_pretrained_model(trainable=False, model_path=None):
     """load the pre-trained model (independant pair classifier)"""
 
-    if DENSE_LABELS:
-        pre_ntm_model = load_model(os.path.join(os.environ["TEA_PATH"], 'model_destination/7-5-nontm/all/final_model.h5'))
-        # pre_ntm_model = load_model(os.path.join(os.environ["TEA_PATH"], 'model_destination/t-test/nontm/4/all/final_model.h5'))
+    if model_path is None:
+        model_path = os.path.join(os.environ["TEA_PATH"], 'pairwise_model.h5')
+    pre_ntm_model = load_model(os.path.join(model_path, 'pairwise_model.h5'))
 
-    else:
-        pre_ntm_model = load_model(os.path.join(os.environ["TEA_PATH"], 'model_destination/1-8-nontm-tml/all/final_model.h5'))
     if not trainable:
         for layer in pre_ntm_model.layers:
             if hasattr(layer, 'layer'):  # layers embedded in wrappers
@@ -262,12 +260,7 @@ def get_ntm_hiddenfeed(batch_size=32, group_size=10, m_depth=256, n_slots=100, n
                    read_heads=1, write_heads=1, nb_classes=6, input_dropout=0.3, has_auxiliary=False, **kwargs):
     """feed hidden layer after lstm to ntm"""
 
-    # left_input = Input(shape=(group_size, max_len))
-    # right_input = Input(shape=(group_size, max_len))
-    # left_context_input = Input(shape=(group_size, max_len))
-    # right_context_input = Input(shape=(group_size, max_len))
-    # type_input = Input(shape=(group_size, 1))
-    # time_diff_input = Input(shape=(group_size, 3))
+    model_path = kwargs.get('model_path', None)
 
     left_input = Input(batch_shape=(batch_size, group_size, max_len))
     right_input = Input(batch_shape=(batch_size, group_size, max_len))
@@ -278,29 +271,16 @@ def get_ntm_hiddenfeed(batch_size=32, group_size=10, m_depth=256, n_slots=100, n
 
     input_list = [left_input, right_input, type_input, left_context_input, right_context_input, time_diff_input]
 
-    prentm_model = load_pretrained_model(trainable=False)
+    prentm_model = load_pretrained_model(trainable=False, model_path=model_path)
     prentm_model.name = 'pre_ntm'
-    # config = prentm_model.get_config()
-    # weights = prentm_model.get_weights()[:-3]
     prentm_model.layers = prentm_model.layers[:-3]
-    # need to change configuration for proper save/load operations
-    # config['layers'] = config['layers'][:-3]
-    # config['output_layers'] = [['hidden_lstm', 0, 0]]
-    # config['name'] = 'pre_ntm'
-    # prentm_model = prentm_model.from_config(config)
-    # prentm_model.set_weights(weights)
-    # for layer in prentm_model.layers:
-    #     if hasattr(layer, 'layer'):  # layers embedded in wrappers
-    #         layer.layer.trainable = False
-    #     layer.trainable = False
 
     prentm_model.trainable = False
     print("\nPre-NTM model hidden_lstm loaded successfully!\n")
 
     hidden_lstm = prentm_model(input_list)
-    # hidden_lstm = Dropout(0.5)(hidden_lstm)
 
-    encoder_model = load_pretrained_model(trainable=False)
+    encoder_model = load_pretrained_model(trainable=False, model_path=model_path)
     encoder_model.name = 'encoder'
     encoder_model.get_layer('left_context').outbound_nodes = []
     encoder_model.get_layer('right_context').outbound_nodes = []
@@ -323,7 +303,6 @@ def get_ntm_hiddenfeed(batch_size=32, group_size=10, m_depth=256, n_slots=100, n
     ntm_backward = NTM_B(encoder)
 
     ntm_layer = average([ntm_forward, ntm_backward])
-    # ntm_layer = Dropout(0.3)(ntm_layer)
 
     hidden_ntm = TimeDistributed(Dense(1024, activation='relu', kernel_constraint=max_norm(10.)))(ntm_layer)
     hidden_ntm = Dropout(0.5)(hidden_ntm)

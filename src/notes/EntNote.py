@@ -149,7 +149,7 @@ class EntNote(Note):
             = pre_processing.pre_process('\n'.join(self.raw_text), self.source_file+'.tagged', overwrite=self.overwrite)
 
         mismatch = 0
-        for sent_num, tokens in tokenized_text.iteritems(): #iterate over sentences
+        for sent_num, tokens in tokenized_text.items(): #iterate over sentences
             if verbose:
                 print sent_num, "last three tokens", ' '.join([x['token'] for x in tokens[-3:]])
 

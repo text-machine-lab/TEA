@@ -251,7 +251,7 @@ def dequeue_notes(q, is_testdata=False):
                 XL = Network._pad_and_concatenate(XL, xl, axis=0, pad_left=[1])
                 XR = Network._pad_and_concatenate(XR, xr, axis=0, pad_left=[1])
                 Labels += labels
-                for key, value in pair_index.iteritems():
+                for key, value in pair_index.items():
                     note_id, pair = key
                     Pair_Index[(note_id + 5*counter, pair)] = value + index_offset
             counter += 1

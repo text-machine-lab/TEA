@@ -260,7 +260,7 @@ class Network(object):
 
         proccessed = {}
         label_scores = [0.0 for i in labels]
-        for key, index in pair_index.iteritems():
+        for key, index in pair_index.items():
             if key in proccessed:
                 continue
             note_index, pair = key
@@ -1018,7 +1018,7 @@ class Network(object):
             # build confusion matrix
             confusion[true, pred] += 1
 
-        pickle.dump(confusion, open('evaluation.pkl', 'w'))
+        pickle.dump(confusion, open('evaluation.pkl', 'wb'))
         # print confusion matrix
         print("confusion matrix")
         print("rows: actual labels.  columns: predicted labels.")

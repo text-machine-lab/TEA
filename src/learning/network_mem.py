@@ -20,13 +20,14 @@ TYPE_MARKERS = {'_INTRA_': 0, '_CROSS_': 1, '_DCT_': -1}
 BATCH_SIZE = 10  # group batches
 
 class NetworkMem(Network):
-    def __init__(self, no_ntm=False, nb_training_files=None):
+    def __init__(self, no_ntm=False, nb_training_files=None, model_path=None):
         super(NetworkMem, self).__init__()
         self.roll_counter = 0
         self.nb_training_files = nb_training_files
         self.nb_test_files = None
         self.test_data_collection = []
         self.no_ntm = no_ntm
+        self.model_path = model_path
         self.infersent = None
         self.training_passes = 1
         self.test_passes = 1
@@ -344,9 +345,9 @@ class NetworkMem(Network):
             #                            ntm_output_dim=512, shift_range=3, max_len=MAX_LEN, read_heads=1, write_heads=1,
             #                            nb_classes=len(LABELS), embedding_matrix=self.get_embedding_matrix())
         else:
-            model = get_ntm_hiddenfeed(batch_size=fit_batch_size, input_dropout=0.5, group_size=None, m_depth=512, n_slots=n_slots,
-                                     ntm_output_dim=512, shift_range=3, max_len=MAX_LEN, read_heads=1, write_heads=1,
-                                     nb_classes=len(LABELS), embedding_matrix=self.get_embedding_matrix())
+            model = get_ntm_hiddenfeed(batch_size=fit_batch_size, input_dropout=0.1, group_size=None, m_depth=512, n_slots=n_slots,
+                                     ntm_output_dim=1024, shift_range=3, max_len=MAX_LEN, read_heads=1, write_heads=1,
+                                     nb_classes=len(LABELS), embedding_matrix=self.get_embedding_matrix(), model_path=self.model_path)
 
         return model
 
@@ -358,11 +359,11 @@ class NetworkMem(Network):
         def step_decay(epoch):
             drop = 0.5
             if no_ntm:
-                initial_lrate = 0.0002
+                initial_lrate = 0.001
                 epochs_drop = 20
             else:
-                initial_lrate = 0.001
-                epochs_drop = 4  # get half in every epochs_drop steps
+                initial_lrate = 0.002
+                epochs_drop = 10  # get half in every epochs_drop steps
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
 
@@ -373,7 +374,7 @@ class NetworkMem(Network):
         print("loaded raw model")
 
         if DENSE_LABELS:
-            eval_batch = 0
+            eval_batch = 40 #0
         else:
             eval_batch = 160
 
@@ -381,7 +382,8 @@ class NetworkMem(Network):
         training_history = []
         best_result = None
         epochs_over_best = 0
-        batch_sizes = [int(batch_size/2), int(batch_size*3/4), batch_size, int(batch_size*3/2), int(batch_size*2)]
+        # batch_sizes = [int(batch_size/2), int(batch_size*3/4), batch_size, int(batch_size*3/2), int(batch_size*2)]
+        batch_size *= 2
         for epoch in range(epochs):
             lr = step_decay(epoch)
             # if no_ntm:
@@ -395,7 +397,7 @@ class NetworkMem(Network):
             start = time.time()
             for n in range(self.nb_training_files):
                 note_data = next(input_generator)
-                batch_size = np.random.choice(batch_sizes)
+                # batch_size = np.random.choice(batch_sizes)
                 X = None
                 y = None
                 for sliced in self.slice_data(note_data, batch_size=batch_size, shift=batch_size + 7):
@@ -460,14 +462,14 @@ class NetworkMem(Network):
             K.set_value(model.optimizer.lr, lr)
             print("set learning rate %f" % K.get_value(model.optimizer.lr))
 
-            if no_ntm and epoch <= 15:
+            if no_ntm and epoch <= 50:
                 continue
-            elif not no_ntm and epoch < 6:
+            elif not no_ntm and epoch < 15:
                 continue
             print("\n\nepoch finished... evaluating on val data...")
             if val_generator is not None:
                 # evaluate after each epoch
-                evalu = self.predict(model, val_generator, batch_size=eval_batch, fit_batch_size=fit_batch_size, evaluation=True, smart=False, has_auxiliary=has_auxiliary)
+                evalu = self.predict(model, val_generator, batch_size=eval_batch, fit_batch_size=fit_batch_size, evaluation=True, smart=True, has_auxiliary=has_auxiliary)
 
             if 'earlystopping' in callbacks:
                 if callbacks['earlystopping'].monitor == 'loss':
@@ -528,7 +530,7 @@ class NetworkMem(Network):
                 X, y, pair_index, marker = sliced
                 X = [np.repeat(item, fit_batch_size, axis=0) for item in X]  # have to do this because the batch size must be fixed
 
-                note_index = pair_index.keys()[0][0]
+                note_index = list(pair_index.keys())[0][0]
                 if end_of_note and note_index == 0: # all data consumed
                     all_notes_consumed = True
                     break
@@ -647,7 +649,7 @@ class NetworkMem(Network):
             else:
                 new_pair_index[key] = pair_index[key]
 
-        indexes = sorted([v for k, v in new_pair_index.iteritems()])
+        indexes = sorted([v for k, v in new_pair_index.items()])
         new_labels = [labels[i] for i in indexes]
         old_indexes_to_new = dict(zip(indexes, range(len(indexes))))
         for key in new_pair_index:

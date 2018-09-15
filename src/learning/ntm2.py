@@ -12,7 +12,7 @@ from keras.engine.topology import InputSpec
 from keras.activations import get as get_activations
 from keras import initializers
 from keras.models import Model, Sequential
-
+from keras.constraints import max_norm
 from keras.activations import softmax, tanh, sigmoid, hard_sigmoid, relu
 
 def _circulant(leng, n_shifts):
@@ -40,6 +40,14 @@ def _circulant(leng, n_shifts):
     eye = np.eye(leng)
     shifts = range(n_shifts // 2, -n_shifts // 2, -1)
     C = np.asarray([np.roll(eye, s, axis=1) for s in shifts])
+    return K.variable(C.astype(K.floatx()))
+
+def _circulant_right(leng, n_shifts):
+    shifts = range(n_shifts // 2, -n_shifts // 2, -1)
+    C = np.asarray([np.zeros((leng, leng)) for s in shifts])
+    shift_right = np.roll(np.eye(leng), 1, axis=1)
+    center = len(C) // 2
+    C[center] = shift_right
     return K.variable(C.astype(K.floatx()))
 
 
@@ -91,9 +99,10 @@ def get_lstm_controller(controller_output_dim, controller_input_dim, activation=
 
 def get_dense_controller(controller_output_dim, controller_input_dim, activation='relu', batch_size=1):
     controller = Sequential()
-    controller.add(Dense(controller_output_dim, activation=activation, batch_input_shape=(batch_size, controller_input_dim)))
-    controller.add(Dropout(0.3))
-    controller.add(Dense(controller_output_dim, activation=activation))
+    controller.add(Dense(controller_output_dim, activation=activation, 
+                         batch_input_shape=(batch_size, controller_input_dim), kernel_constraint=max_norm(10.)))
+    controller.add(Dropout(0.1))
+    controller.add(Dense(controller_output_dim, activation=activation, kernel_constraint=max_norm(10.)))
     # controller.build(input_shape=(batch_size, controller_input_dim))
 
     return controller
@@ -199,7 +208,7 @@ class NeuralTuringMachine(Recurrent):
         # print("controller.trainable_weights", self.controller.trainable_weights)
         self.trainable_weights = self.controller.trainable_weights + [self.W_e, self.b_e, self.W_a, self.b_a] \
             + self.W_k_read + self.b_k_read + self.W_c_read + self.b_c_read +  self.W_s_read + self.b_s_read \
-            + self.W_k_write + self.b_k_write + self.W_c_write + self.b_c_write + self.W_s_write + self.b_s_write
+            + self.W_k_write + self.b_k_write + self.W_c_write + self.b_c_write #+ self.W_s_write + self.b_s_write
             #self.M,
             # self.init_h, self.init_wr, self.init_ww]
 
@@ -285,10 +294,11 @@ class NeuralTuringMachine(Recurrent):
         else:
             k = None
         c = _tensor_mean([K.bias_add(K.dot(inputs, W_c[i]), b_c[i]) for i in range(heads)])
-        beta = K.relu(c[:, 0]) + 10.0
+        beta = K.relu(c[:, 0]) + .5
         g = K.sigmoid(c[:, 1])
-        gamma = K.relu(c[:, 2]) + 20.0
+        gamma = K.relu(c[:, 2]) + 1.0
         s = _tensor_mean([K.softmax(K.bias_add(K.dot(inputs, W_s[i]), b_s[i])) for i in range(heads)])
+
         return k, beta, g, gamma, s
 
     @property
@@ -594,7 +604,7 @@ class SimpleNTM(NeuralTuringMachine):
     def _smart_similar(self, Keys, k):
         sim1 = _euclidean_similar(Keys, k)
         sim1 = _cosine_similar(Keys, k)
-        k_permute = K.concatenate([k[:, self.key_range/2:], k[:, :self.key_range/2]], axis=-1)
+        k_permute = K.concatenate([k[:, self.key_range//2:], k[:, :self.key_range//2]], axis=-1)
         # sim2 = _euclidean_similar(Keys, k_permute)
         sim2 = _cosine_similar(Keys, k_permute)
         stacked = K.stack([sim1, sim2], axis=0)
