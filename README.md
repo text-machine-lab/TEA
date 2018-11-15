@@ -19,6 +19,8 @@ You may use, distribute and modify this code under the terms of the Apache 2.0 l
     
     4. Uncompress "test.tar.gz". It will create a folder containing test files.
 
+Note: The training and test files do NOT contain the correct T-Links for Timebank-Dense. They only serve to provide text and event/timex tags. The correct tinlks are found in "dense-labels.pkl" after you extract the "newsreader_notes.tar.gz" file.
+
 Environment Variables:
 
     There are two environment variables that need to be defined for the system to work:
