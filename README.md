@@ -5,7 +5,7 @@ The code in this repository was used in the following publication:  Y. Meng and 
 
 You may contact ylmeng for any issues.
 
-Copyright (c) 2017 UMass Lowell - All Rights Reserved
+Copyright (c) 2018 UMass Lowell - All Rights Reserved
 
 You may use, distribute and modify this code under the terms of the Apache 2.0 license. See https://www.apache.org/licenses/LICENSE-2.0 for details
 
