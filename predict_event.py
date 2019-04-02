@@ -2,7 +2,7 @@
 """
 
 import sys
-from code.config import env_paths
+from src.config import env_paths
 
 # this needs to be set. exit now so user doesn't wait to know.
 if env_paths()["PY4J_DIR_PATH"] is None:
@@ -13,12 +13,12 @@ import cPickle
 import argparse
 import glob
 
-from code.learning import model
-from code.learning.model_event import EventWriter
-from code.learning.model_event import tag_timex
+from src.learning import model
+from src.learning.model_event import EventWriter
+from src.learning.model_event import tag_timex
 from keras.models import load_model
 
-from code.learning.word2vec import load_word2vec_binary
+from src.learning.word2vec import load_word2vec_binary
 
 timenote_imported = False
 
@@ -84,7 +84,7 @@ def main():
             note = cPickle.load(open(newsreader_dir + "/" + stashed_name + ".parsed.predict.pickle", "rb"))
         else:
             if timenote_imported is False:
-                from code.notes.TimeNote import TimeNote
+                from src.notes.TimeNote import TimeNote
                 timenote_imported = True
             note = TimeNote(tml, tml) # need the second argument to get timex tags
             cPickle.dump(note, open(newsreader_dir + "/" + stashed_name + ".parsed.predict.pickle", "wb"))
