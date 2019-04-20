@@ -5,18 +5,16 @@ import numpy as np
 # np.random.seed(1337)
 import math
 import sys
+import os
 import pickle
 import torch
 
-from keras.preprocessing.sequence import pad_sequences
-from keras.utils import to_categorical
 from sklearn.metrics import precision_recall_fscore_support
 from src.learning.network_mem import NetworkMem, get_timex_predictions
-from word2vec import load_word2vec_binary, build_vocab
 from src.learning.models_pytorch import PairRelation, EMBEDDING_DIM, DENSE_LABELS, MAX_LEN, LABELS
 from src.learning.time_ref import predict_timex_rel, TimeRefNetwork
 from src.learning.break_cycle import modify_tlinks
-from collections import deque
+from .models_pytorch import GCLRelation
 from sklearn.metrics import classification_report
 
 
@@ -48,15 +46,16 @@ class NetworkMemPT(NetworkMem):
         vocab_size = len(embedding_matrix)
         if no_ntm:
             model = PairRelation(vocab_size, nb_classes=6, input_dropout=0.5, word_embeddings=self.get_embedding_matrix()).to(self.device)
-        # else:
-        #     model = get_ntm_hiddenfeed(batch_size=fit_batch_size, input_dropout=0.1, group_size=None, m_depth=512, n_slots=n_slots,
-        #                              ntm_output_dim=1024, shift_range=3, max_len=MAX_LEN, read_heads=1, write_heads=1,
-        #                              nb_classes=len(LABELS), embedding_matrix=self.get_embedding_matrix(), model_path=self.model_path)
+        else:
+            pairwise_model = torch.load(os.path.join(self.model_path + 'pairwise_model.pt'))
+            print("Pre-trained pairwise model loaded...")
+            model = GCLRelation(pairwise_model.to(self.device), nb_classes=6, gcl_size=512, controller_size=512,
+                                    controller_layers=1, num_heads=1, num_slots=40, m_depth=512).to(self.device)
 
         return model
 
     def train_model(self, model=None, no_ntm=False, epochs=100, steps_per_epoch=10, input_generator=None,
-                    val_generator=None, weight_classes=False, callbacks={}, batch_size=300, has_auxiliary=False):
+                    val_generator=None, weight_classes=False, callbacks={}, batch_size=300, has_auxiliary=False, model_destination='./'):
 
         # from keras.optimizers import RMSprop
         # learning rate schedule
@@ -66,7 +65,7 @@ class NetworkMemPT(NetworkMem):
                 initial_lrate = 0.001
                 epochs_drop = 20
             else:
-                initial_lrate = 0.002
+                initial_lrate = 0.0001 #0.0001
                 epochs_drop = 10  # get half in every epochs_drop steps
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
@@ -78,7 +77,7 @@ class NetworkMemPT(NetworkMem):
         print("loaded raw model")
 
         if DENSE_LABELS:
-            eval_batch = 40 #0
+            eval_batch = 100 #0
         else:
             eval_batch = 160
 
@@ -100,7 +99,7 @@ class NetworkMemPT(NetworkMem):
                 # batch_size = np.random.choice(batch_sizes)
                 X = None
                 y = None
-                for sliced in self.slice_data(note_data, batch_size=batch_size, shift=batch_size + 7):
+                for sliced in self.slice_data(note_data, batch_size=batch_size, shift=batch_size + 7, padding=True):
                     if X is None:
                         X = sliced[0]
                         y = sliced[1]
@@ -140,19 +139,25 @@ class NetworkMemPT(NetworkMem):
             sys.stdout.write("\n")
             training_history.append({'categorical_accuracy': acc, 'loss': loss})
 
-            if no_ntm and epoch <= 20:
+            if no_ntm and epoch <= 15:
                 continue
-            elif not no_ntm and epoch < 15:
+            elif not no_ntm and epoch < 4:
                 continue
             print("\n\nepoch finished... evaluating on val data...")
             if val_generator is not None:
                 # evaluate after each epoch
-                evalu = self.predict(model, val_generator, batch_size=eval_batch, fit_batch_size=fit_batch_size, evaluation=True, smart=False, has_auxiliary=has_auxiliary)
+                evalu = self.predict(model, val_generator, batch_size=eval_batch, fit_batch_size=fit_batch_size, evaluation=True, smart=True, has_auxiliary=has_auxiliary)
+
+            if no_ntm:
+                torch.save(model, model_destination + 'pairwise_model.pt')
+            else:
+                torch.save(model, model_destination + 'gcl_model.pt')
 
         print("Fisnished training. Data rolled %d times" %self.roll_counter)
         return model, training_history
 
-    def predict(self, model, data_generator, batch_size=0, fit_batch_size=5, evaluation=True, smart=True, has_auxiliary=False, pruning=False):
+    def predict(self, model, data_generator, batch_size=0, fit_batch_size=5, evaluation=True,
+                smart=True, has_auxiliary=False, pruning=False, save_attn=False):
         predictions = []
         scores = []
         pair_indexes = {}
@@ -179,7 +184,7 @@ class NetworkMemPT(NetworkMem):
                 break
 
             # model.reset_states()
-            for sliced in self.slice_data(note_data, batch_size=batch_size, shift=0):
+            for sliced in self.slice_data(note_data, batch_size=batch_size, shift=0, padding=False):
                 X, y, pair_index, marker = sliced
                 # X = [np.repeat(item, fit_batch_size, axis=0) for item in X]  # have to do this because the batch size must be fixed
                 X = [torch.from_numpy(item).long().to(self.device) for item in X]
@@ -192,7 +197,7 @@ class NetworkMemPT(NetworkMem):
                 # pair_indexes.update(pair_index)
 
                 # probs = model.predict(X, batch_size=1)
-                probs = model.predict(X)
+                probs = model.predict(X, save_attn=save_attn)
                 y = y[0, :]  # remove the dummy dimension
                 # probs = probs[0, :]
 
@@ -289,7 +294,7 @@ class NetworkMemPT(NetworkMem):
                 true_labels = true_labels[0]
         if evaluation:
             class_confusion(predictions, true_labels, len(LABELS))
-            return precision_recall_fscore_support(true_labels, predictions, average='micro')
+            precision_recall_fscore_support(true_labels, predictions, average='micro')
 
         return predictions, scores, true_labels, pair_indexes
 

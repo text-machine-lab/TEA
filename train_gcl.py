@@ -52,6 +52,10 @@ def main():
                         action='store_true', default=False,
                         help="use gcl model")
 
+    parser.add_argument("--save_attn",
+                        action='store_true', default=False,
+                        help="save read and write attention vectors")
+
     args = parser.parse_args()
 
     device = torch.device('cuda')
@@ -116,30 +120,29 @@ def main():
     val_data_gen = network.generate_test_input(val_notes, 'all', max_len=MAX_LEN, multiple=1)
     callbacks = None
 
+    if args.load_model is not None:
+        model = torch.load(args.load_model)
+    else:
+        model = None
+
     if not args.gcl:
         print("Start training pairwise model...")
         # load pairwise model (without GCL)
-        if args.load_model is not None:
-            model = torch.load(args.load_model)
-        else:
-            model = None
+
         model, history = network.train_model(model=model, no_ntm=True, epochs=args.epochs,
                                              input_generator=training_data_gen, val_generator=val_data_gen,
                                              callbacks=callbacks,
-                                             batch_size=40, has_auxiliary=HAS_AUX)
-
-        torch.save(model, model_destination + 'pairwise_model.pt')
+                                             batch_size=40, has_auxiliary=HAS_AUX, model_destination=model_destination)
+        # torch.save(model, model_destination + 'pairwise_model.pt')
 
     else:
-        pairwise_model = torch.load(model_destination + 'pairwise_model.pt')
-        gcl_model = GCLRelation(pairwise_model, nb_classes=6, gcl_size=512, controller_size=512,
-                 controller_layers=1, num_heads=1, num_slots=40, m_depth=512)
-
-        model, history = network.train_model(model=gcl_model, no_ntm=False, epochs=args.epochs,
+        print("Start training gcl model...")
+        model, history = network.train_model(model=model, no_ntm=False, epochs=args.epochs,
                                              input_generator=training_data_gen, val_generator=val_data_gen,
                                              callbacks=callbacks,
-                                             batch_size=40, has_auxiliary=HAS_AUX)
-        torch.save(model, model_destination + 'gcl_model.pt')
+                                             batch_size=40, has_auxiliary=HAS_AUX, model_destination=model_destination)
+        # torch.save(model, model_destination + 'gcl_model.pt')
+
     # print("Start training GCL model...")
     # # load memory model (with GCL)
     # model, history = network.train_model(model=None, no_ntm=False, epochs=10,
@@ -159,13 +162,19 @@ def main():
 
 
     print("Prediction with double check in one batch.")
-    results = network.predict(model, test_data_gen, batch_size=0, fit_batch_size=BATCH_SIZE,
-                              evaluation=True, smart=True, has_auxiliary=HAS_AUX, pruning=False)
+    results = network.predict(model, test_data_gen, batch_size=40, fit_batch_size=BATCH_SIZE,
+                              evaluation=True, smart=not args.save_attn, has_auxiliary=HAS_AUX, pruning=False, save_attn=args.save_attn)
 
 
     with open(model_destination + 'results.pkl', 'wb') as f:
         pickle.dump(results, f)
 
+    if args.save_attn:
+        for i, head in enumerate(model.gcl.gcl.heads):
+            if head.is_read_head():
+                head.save_attn_vectors(model_destination +'read_attn{}'.format(i))
+            else:
+                head.save_attn_vectors(model_destination + 'write_attn{}'.format(i))
 
 def basename(name):
     name = os.path.basename(name)

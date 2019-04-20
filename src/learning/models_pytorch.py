@@ -54,7 +54,7 @@ class PairRelation(nn.Module):
 
         self.optimizer = optim.RMSprop(self.parameters(), lr=0.001, weight_decay=0)
 
-    def forward(self, X, truncate=False):
+    def forward(self, X, truncate=False, **kwargs):
         left_input, right_input, type_markers, left_context_input, right_context_input, time_differences, *_ = X
 
         # print(left_input.shape)
@@ -69,11 +69,15 @@ class PairRelation(nn.Module):
 
         left_input_emb = self.emb_dropout(self.embedding(left_input))
         right_input_emb = self.emb_dropout(self.embedding(right_input))
+        self.lstm_left.flatten_parameters()
+        self.lstm_right.flatten_parameters()
         left_branch = max_pool_time(self.lstm_left(left_input_emb)[0])
         right_branch = max_pool_time(self.lstm_right(right_input_emb)[0])
 
         left_context_emb = self.emb_dropout(self.embedding(left_context_input))
         right_context_emb = self.emb_dropout(self.embedding(right_context_input))
+        self.lstm_left_context.flatten_parameters()
+        self.lstm_right_context.flatten_parameters()
         left_context = max_pool_time(self.lstm_left_context(left_context_emb)[0])
         right_context = max_pool_time(self.lstm_right_context(right_context_emb)[0])
 
@@ -82,10 +86,10 @@ class PairRelation(nn.Module):
                                   left_context, right_context, time_differences), -1)
         hidden1 = self.hidden_dropout1(self.hidden1(hidden_input))
         hidden1 = F.relu(hidden1)
-        hidden1 = torch.cat((hidden1, type_markers, time_differences), -1)
         if truncate:
             return hidden1, left_context, right_context
 
+        hidden1 = torch.cat((hidden1, type_markers, time_differences), -1)
         hidden2 = self.hidden_dropout2(self.hidden2(hidden1))
         hidden2 = F.relu(hidden2)
 
@@ -112,7 +116,7 @@ class PairRelation(nn.Module):
 
         return loss.data.item(), acc.data.item()
 
-    def predict(self, X, return_probs=True):
+    def predict(self, X, return_probs=True, **kwargs):
         self.eval()
         pred = self.forward(X)
         if return_probs:
@@ -127,33 +131,46 @@ class GCLRelation(nn.Module):
         super().__init__()
         self.pairwise_model = pairwise_model
 
-        gcl_input_size = self.pairwise_model.hidden1.weight.shape[-1] + 1 + 3
-        key_size = self.left_context.hidden_size * 2
+        # freeze pre-trained model
+        # for p in self.pairwise_model.parameters():
+        #     p.requires_grad = False
+
+        gcl_input_size = self.pairwise_model.hidden1.out_features + 1 + 3
+        key_size = self.pairwise_model.lstm_left_context.hidden_size * 2
+        print("GCL input size {}, key size {}".format(gcl_input_size, key_size))
 
         # (num_inputs, num_outputs, controller_size, controller_layers, num_heads, N, M, K)
         self.gcl = EncapsulatedGCL(gcl_input_size, gcl_size, controller_size,
                                    controller_layers, num_heads, num_slots, m_depth, key_size)
 
-        self.hidden1 = nn.Linear(gcl_size, 1024)
+        self.hidden1 = nn.Linear(2 * gcl_size, 1024)
         self.drop1 = nn.Dropout(p=0.5)
         self.hidden2 = nn.Linear(1024, 512)
         self.drop2 = nn.Dropout(p=0.5)
-        self.out = nn.Linear(512, nb_classes)
+        self.out = nn.Linear(512 + 4, nb_classes)
 
-        self.optimizer = optim.RMSprop(self.parameters(), lr=0.0002, weight_decay=0)
+        self.optimizer = optim.RMSprop(self.parameters(), lr=0.001, weight_decay=0)
 
-    def forward(self, X):
+    def forward(self, X, save_attn=False):
         left_input, right_input, type_markers, left_context_input, right_context_input, time_differences, *_ = X
+        type_markers = type_markers.float()
+        time_differences = time_differences.float()
 
-        batch_size = left_input.shape[0]
+        batch_size, chunk_size, _ = X[0].shape
+
         self.gcl.init_sequence(batch_size)
-
         pairwise_feed, left_context, right_context = self.pairwise_model(X, truncate=True)
-        key = torch.cat([left_context, right_context], -1)
-        gcl_output = self.gcl(key, pairwise_feed)
+        pairwise_feed = pairwise_feed.view(batch_size, chunk_size, -1)
 
-        hidden1 = self.drop1(self.hidden1(gcl_output))
-        hidden2 = self.drop2(self.hidden2(hidden1))
+        pairwise_feed = torch.cat([pairwise_feed, type_markers, time_differences], -1)
+        # print(pairwise_feed.shape, left_context.shape)
+
+        key = torch.cat([left_context, right_context], -1).view(batch_size, chunk_size, -1)
+        gcl_output = self.gcl(key, pairwise_feed, bidirectional=True, save_attn=save_attn)
+        hidden1 = F.relu(self.drop1(self.hidden1(gcl_output)))
+        hidden2 = F.relu(self.drop2(self.hidden2(hidden1)))
+        hidden2 = torch.cat([hidden2, type_markers, time_differences], -1)
+
         output = self.out(hidden2)
 
         return output
@@ -164,6 +181,8 @@ class GCLRelation(nn.Module):
 
         for epoch in range(epochs):
             pred = self.forward(X)
+            pred = pred.view(-1, pred.shape[-1])
+            # print("pred", pred.shape)
             loss = criterion(pred, y)
 
             # update weights
@@ -177,9 +196,10 @@ class GCLRelation(nn.Module):
 
         return loss.data.item(), acc.data.item()
 
-    def predict(self, X, return_probs=True):
+    def predict(self, X, return_probs=True, save_attn=False):
         self.eval()
-        pred = self.forward(X)
+        pred = self.forward(X, save_attn=save_attn)
+        pred = pred.view(-1, pred.shape[-1])
         if return_probs:
             return pred.cpu().detach().numpy()
 

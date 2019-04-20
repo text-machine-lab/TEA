@@ -4,6 +4,7 @@ import copy
 import numpy as np
 # np.random.seed(1337)
 import math
+import sys
 
 from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
@@ -47,7 +48,7 @@ class NetworkMem(Network):
             self.word_vectors['_TIMEX_'] = - np.ones(EMBEDDING_DIM)
             self.word_vectors['UKN'] = np.random.uniform(-0.5, 0.5, EMBEDDING_DIM)
 
-    def slice_data(self, feed, batch_size, shift=0):
+    def slice_data(self, feed, batch_size, shift=0, padding=True):
         """Slice data into equal batch sizes
         Left-over small chunks will be augmented with random samples
         """
@@ -98,19 +99,13 @@ class NetworkMem(Network):
 
             left_over = N % batch_size
 
-            # if left_over != 0:
-            #     out_data = [np.expand_dims(item[i * batch_size:N], axis=0) for item in data]
-            #     if len(feed) == 8:
-            #         marker = left_over
-            #         yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6], feed[-1], marker
-            #     else:
-            #         yield [out_data[0], out_data[1], out_data[2], out_data[3], out_data[4], out_data[5]], out_data[6]
-
-            # for leftover, we add some random samples to make it a full batch
             if left_over != 0:
-                to_add = batch_size - left_over
-                indexes_to_add = np.random.choice(N, to_add) # randomly sample more instances
-                indexes = np.concatenate((np.arange(i*batch_size, N), indexes_to_add))
+                if padding:  # if padding, we add some random samples to make it a full-size batch
+                    to_add = batch_size - left_over
+                    indexes_to_add = np.random.choice(N, to_add) # randomly sample more instances
+                    indexes = np.concatenate((np.arange(i*batch_size, N), indexes_to_add))
+                else:
+                    indexes = np.arange(i*batch_size, N)
                 out_data = [np.expand_dims(item[indexes], axis=0) for item in data]
                 if len(feed) == 8:
                     marker = left_over
